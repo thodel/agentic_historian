@@ -1,10 +1,11 @@
 """
-agent_a/dual_pipeline.py — Two-pronged HTR/OCR entry point.
+agent_a/dual_pipeline.py — Multi-pathway HTR/OCR entry point.
 
 Combines:
   Path 1 (VLM):  InternVL3 via GPUStack, prompt enriched with Agent B description
   Path 2 (kraken): Baseline segmentation + kraken OCR models
-  Path 2 (HF):   HuggingFace OCR models (e.g. LightOnOCR)
+  Path 3 (Party): PARY HTR via kraken (zenodo:20642057)
+  Path 4 (HF):   HuggingFace OCR models (e.g. LightOnOCR)
   Comparison:    LLM-based reconciliation of all available outputs
 
 Usage:
@@ -12,8 +13,8 @@ Usage:
   result = transcribe_dual("path/to/image.jpg", lang="la", source_description=description_md)
 """
 
-import logging
-from dataclasses import dataclass, field
+import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
@@ -23,7 +24,13 @@ import config
 from utils import gpustack_client as gs
 from agent_a import models
 from agent_a.kraken_ocr import kraken_transcribe, _kraken_available
-from agent_a.reconcile import reconcile, ReconciliationResult
+from agent_a.pary_ocr import party_transcribe, _party_available
+from agent_a.reconcile import (
+    reconcile,
+    ReconciliationResult,
+    RECONCILE_SYSTEM,
+)
+
 
 SYSTEM_HTR = (
     "Du bist ein Experte fuer historische Handschriftenerkennung (HTR). "
@@ -36,29 +43,32 @@ SYSTEM_HTR = (
 
 @dataclass
 class DualTranscriptionResult:
-    """Result of the dual-pathway HTR pipeline."""
+    """Result of the multi-pathway HTR pipeline."""
     doc_id: str
     vlm_transcription: str = ""
     kraken_transcription: str = ""
+    party_transcription: str = ""
     hf_transcription: str = ""
     reconciliation: Optional[ReconciliationResult] = None
     vlm_score: float = 0.0
     kraken_available: bool = False
+    party_available: bool = False
     hf_available: bool = False
     error_vlm: str = ""
     error_kraken: str = ""
+    error_party: str = ""
     error_hf: str = ""
-    method_used: str = "dual"
+    method_used: str = "multi"
 
     def best_transcription(self) -> str:
         """Returns the best available transcription."""
         if self.reconciliation:
             return self.reconciliation.reconciled
-        if self.vlm_transcription.strip():
-            return self.vlm_transcription
-        if self.kraken_transcription.strip():
-            return self.kraken_transcription
-        return self.hf_transcription
+        for txt in (self.vlm_transcription, self.kraken_transcription,
+                    self.party_transcription, self.hf_transcription):
+            if txt.strip():
+                return txt
+        return ""
 
     def to_dict(self) -> dict:
         return {
@@ -66,6 +76,7 @@ class DualTranscriptionResult:
             "best_transcription": self.best_transcription(),
             "vlm_transcription": self.vlm_transcription,
             "kraken_transcription": self.kraken_transcription,
+            "party_transcription": self.party_transcription,
             "hf_transcription": self.hf_transcription,
             "vlm_score": self.vlm_score,
             "agreement_score": (
@@ -77,16 +88,19 @@ class DualTranscriptionResult:
                 if self.reconciliation else None
             ),
             "kraken_available": self.kraken_available,
+            "party_available": self.party_available,
             "hf_available": self.hf_available,
             "error_vlm": self.error_vlm,
             "error_kraken": self.error_kraken,
+            "error_party": self.error_party,
             "error_hf": self.error_hf,
             "method_used": self.method_used,
         }
 
 
+# ── Internal helpers ──────────────────────────────────────────────────────────
+
 def _build_vlm_prompt(source_description: Optional[str] = None) -> str:
-    """Build HTR prompt, optionally enriched with source description."""
     base = (
         "Transkribiere den Handschrifttext EXAKT. "
         "Erhalte Abkuerzungen, Nasalstriche, Kuerzel. "
@@ -95,7 +109,7 @@ def _build_vlm_prompt(source_description: Optional[str] = None) -> str:
     if source_description:
         base += (
             f"\n\nKontext zur Quelle (von Agent B):\n{source_description[:1000]}\n\n"
-            "Nutze diesen Kontext, um Unsicherheiten in der Transkription besser zu entschärfen."
+            "Nutze diesen Kontext, um Unsicherheiten besser zu entschaerfen."
         )
     return base
 
@@ -105,7 +119,7 @@ def _run_vlm(
     source_description: Optional[str] = None,
     model: Optional[models.VLMModel] = None,
 ) -> tuple[str, float]:
-    """Run VLM (InternVL3) transcription with optional QA score."""
+    """Run VLM (InternVL3) transcription with QA score."""
     if model is None:
         model = models.get_primary_vlm()
 
@@ -117,7 +131,6 @@ def _run_vlm(
             temperature=1.0,
             max_tokens=32768,
         ).strip()
-        # QA score
         qa_raw = gs.chat_vision(
             prompt=(
                 f"Begutachte diese Transkription:\n\n{transcription}\n\n"
@@ -128,7 +141,6 @@ def _run_vlm(
             temperature=0.3,
             max_tokens=50,
         )
-        import re
         match = re.search(r"0\.\d+", qa_raw)
         score = float(match.group()) if match else 0.5
         return transcription, score
@@ -147,7 +159,6 @@ def _run_kraken(
 
     model = models.kraken_model_for_lang(lang)
     if model is None:
-        # Try to find any German/Latin model
         for m in models.KRAKEN_MODELS.values():
             model = m
             break
@@ -157,6 +168,18 @@ def _run_kraken(
     try:
         transcription, _ = kraken_transcribe(image_path, model.model_id)
         return transcription, model.model_id
+    except Exception as e:
+        return "", str(e)
+
+
+def _run_party(image_path: Path) -> tuple[str, str]:
+    """Run Party/PARY HTR. Returns (transcription, error_or_model_id)."""
+    if not _party_available():
+        return "", "party model not available (run: kraken get 10.5281/zenodo.20642057)"
+
+    try:
+        transcription, _ = party_transcribe(image_path)
+        return transcription, models.PARTY_MODEL.model_id
     except Exception as e:
         return "", str(e)
 
@@ -171,7 +194,6 @@ def _run_hf_ocr(
         return "", f"No HF model configured for lang={lang}"
 
     try:
-        # Lazy-import to avoid hard dependency when not used
         import torch
         from transformers import AutoProcessor, AutoModelForCTC
         from PIL import Image as PILImage
@@ -188,7 +210,6 @@ def _run_hf_ocr(
         image = PILImage.open(image_path).convert("RGB")
 
         if model.requires_line_images:
-            # TODO: wire kraken segmentation first to get line crops
             return "", "line-image mode requires kraken pre-segmentation (not yet wired)"
         else:
             inputs = processor(images=image, return_tensors="pt").to(device)
@@ -203,6 +224,51 @@ def _run_hf_ocr(
         return "", str(e)
 
 
+def _reconcile_merge(all_text: str, use_llm: bool = True) -> ReconciliationResult:
+    """Merge 3+ transcriptions via LLM."""
+    if not use_llm:
+        # Simple first-available fallback
+        lines = [ln.strip() for ln in all_text.splitlines() if ln.strip()]
+        return ReconciliationResult(
+            reconciled="\n".join(lines[:100]),
+            vlm_only_lines=[],
+            kraken_only_lines=[],
+            agreement_score=0.0,
+            diff_lines=0,
+            method="merge_fallback",
+        )
+
+    prompt = (
+        f"{RECONCILE_SYSTEM}\n\n"
+        f"Fasse die folgenden Transkriptionen zu einer einzigen, "
+        f"moeglichst vollstaendigen und korrekten Fassung zusammen. "
+        f"Markiere abweichende Stellen mit der Quellbezeichnung.\n\n"
+        f"{all_text}\n\n=== REKONCILIERTE FASSUNG ==="
+    )
+    try:
+        reconciled = gs.chat_text(prompt, system=None, max_tokens=16384, temperature=0.3).strip()
+        return ReconciliationResult(
+            reconciled=reconciled,
+            vlm_only_lines=[],
+            kraken_only_lines=[],
+            agreement_score=0.5,
+            diff_lines=0,
+            method="llm_merge",
+        )
+    except Exception as e:
+        logger.warning(f"[reconcile] LLM merge failed: {e}")
+        return ReconciliationResult(
+            reconciled=all_text,
+            vlm_only_lines=[],
+            kraken_only_lines=[],
+            agreement_score=0.0,
+            diff_lines=0,
+            method="merge_error",
+        )
+
+
+# ── Public API ───────────────────────────────────────────────────────────────
+
 def transcribe_dual(
     image_path: str | Path,
     *,
@@ -210,20 +276,28 @@ def transcribe_dual(
     lang: str = "de",
     run_vlm: bool = True,
     run_kraken: bool = True,
+    run_party: bool = True,
     run_hf: bool = False,
     use_llm_reconcile: bool = True,
 ) -> DualTranscriptionResult:
     """
-    Two-pronged HTR/OCR pipeline.
+    Multi-pathway HTR/OCR pipeline (3+ paths).
+
+    Paths:
+      1. VLM (InternVL3 via GPUStack) — enriched with Agent B description
+      2. kraken  — baseline segmentation + community OCR models
+      3. Party/PARY — kraken-format medieval HTR model (zenodo:20642057)
+      4. HuggingFace OCR (optional)
 
     Args:
-        image_path:        Path to the manuscript image
-        source_description: Optional Agent B description for prompt enrichment
-        lang:              Language/script code (de, la, fr, etc.)
-        run_vlm:           Enable VLM path
-        run_kraken:        Enable kraken path
-        run_hf:            Enable HuggingFace OCR path
-        use_llm_reconcile: Use LLM for reconciliation (if False, diff-based)
+        image_path:         Path to the manuscript image
+        source_description: Optional Agent B description for VLM prompt enrichment
+        lang:               Language/script code (de, la, fr, etc.)
+        run_vlm:            Enable VLM path
+        run_kraken:         Enable kraken community model path
+        run_party:          Enable Party/PARY HTR path
+        run_hf:             Enable HuggingFace OCR path
+        use_llm_reconcile:  Use LLM for reconciliation (if False, diff-based)
 
     Returns:
         DualTranscriptionResult with all transcriptions and reconciliation
@@ -234,6 +308,7 @@ def transcribe_dual(
 
     result = DualTranscriptionResult(doc_id=doc_id)
     result.kraken_available = _kraken_available()
+    result.party_available = _party_available()
 
     # ── Path 1: VLM ──────────────────────────────────────────────────────────
     if run_vlm:
@@ -243,39 +318,60 @@ def transcribe_dual(
         if not result.vlm_transcription:
             result.error_vlm = "No output from VLM"
 
-    # ── Path 2a: kraken ──────────────────────────────────────────────────────
+    # ── Path 2: kraken ───────────────────────────────────────────────────────
     if run_kraken:
         kraken_text, kraken_model = _run_kraken(image_path, lang)
         if kraken_text:
             result.kraken_transcription = kraken_text
         else:
-            result.error_kraken = kraken_model  # contains error message
+            result.error_kraken = kraken_model
 
-    # ── Path 2b: HuggingFace ──────────────────────────────────────────────────
+    # ── Path 3: Party / PARY HTR ──────────────────────────────────────────────
+    if run_party:
+        party_text, party_msg = _run_party(image_path)
+        if party_text:
+            result.party_transcription = party_text
+        else:
+            result.error_party = party_msg
+
+    # ── Path 4: HuggingFace OCR ──────────────────────────────────────────────
     if run_hf:
         hf_text, hf_model_id = _run_hf_ocr(image_path, lang)
         if hf_text:
             result.hf_transcription = hf_text
         else:
-            result.error_hf = hf_model_id  # contains error message
+            result.error_hf = hf_model_id
         result.hf_available = bool(hf_text)
 
     # ── Reconciliation ────────────────────────────────────────────────────────
     available = [
         (result.vlm_transcription, "vlm"),
         (result.kraken_transcription, "kraken"),
+        (result.party_transcription, "party"),
         (result.hf_transcription, "hf"),
     ]
     texts = {src: txt for txt, src in available if txt.strip()}
 
     if len(texts) >= 2:
-        # Reconcile first two (VLM vs kraken as primary comparison)
-        vlm_txt  = texts.get("vlm", "")
-        kraken_txt = texts.get("kraken", texts.get("hf", ""))
-        result.reconciliation = reconcile(vlm_txt, kraken_txt, use_llm=use_llm_reconcile)
-        result.method_used = f"dual_reconcile_{result.reconciliation.method}"
+        primary   = texts.get("vlm", "")
+        secondary = (
+            texts.get("kraken")
+            or texts.get("party")
+            or texts.get("hf", "")
+        )
+        if primary and secondary:
+            result.reconciliation = reconcile(
+                primary, secondary, use_llm=use_llm_reconcile
+            )
+            result.method_used = f"multi_reconcile_{result.reconciliation.method}"
+        else:
+            all_text = "\n\n".join(
+                f"=== [{src.upper()}] ===\n{txt}" for src, txt in texts.items()
+            )
+            result.reconciliation = _reconcile_merge(all_text, use_llm=use_llm_reconcile)
+            result.method_used = "multi_merge"
         logger.info(
-            f"[dual_pipeline] Reconciled ({result.reconciliation.method}): "
+            f"[dual_pipeline] Reconciled ({result.method_used}): "
             f"agreement={result.reconciliation.agreement_score:.2f}"
         )
     elif len(texts) == 1:

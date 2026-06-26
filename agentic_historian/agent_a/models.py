@@ -1,15 +1,16 @@
 """
 agent_a/models.py — Model registry for HTR/OCR.
 
-Two pathways:
+Three pathways:
   1. VLM path — General vision-language models (InternVL, etc.) via GPUStack
-  2. Kraken + HuggingFace path — Segmentation (kraken) + transcription (kraken/HF models)
+  2. Kraken path — Baseline segmentation + OCR with community kraken models
+  3. Party/PARY   — kraken-format HTR model for medieval documents
 
 This registry holds available models per pathway.
-Tobias will provide the actual model list for each category.
+Tobias will provide the actual kraken model list for each category.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 
@@ -63,7 +64,7 @@ VLM_MODELS: dict[str, VLMModel] = {
     # "qwen2.5-vl": VLMModel(...),
 }
 
-# ── Kraken models (Path 2a — baseline detection + OCR) ───────────────────────
+# ── Kraken models (Path 2 — baseline detection + OCR) ────────────────────────
 # List will be provided by Tobias. Populated from `kraken list` output.
 
 KRAKEN_MODELS: dict[str, KrakenModel] = {
@@ -76,6 +77,19 @@ KRAKEN_MODELS: dict[str, KrakenModel] = {
     #     notes="Trained on Caroline minuscule manuscripts.",
     # ),
 }
+
+# ── Party / PARY HTR model (Path 3) ─────────────────────────────────────────
+# https://zenodo.org/records/20642057
+# Download: kraken get 10.5281/zenodo.20642057
+
+PARTY_MODEL = KrakenModel(
+    model_id="10.5281/zenodo.20642057",
+    name="Party / PARY HTR",
+    lang="mul",
+    script="Medieval",
+    notes="Kraken HTR model for medieval/historical documents (Swiss context).",
+    pretrained_on="Swiss medieval manuscripts, 14th–16th c.",
+)
 
 # ── HuggingFace OCR models (Path 2b — end-to-end or line-level) ───────────────
 # Populated from HuggingFace model listings.
