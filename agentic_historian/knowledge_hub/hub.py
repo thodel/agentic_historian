@@ -20,9 +20,13 @@ hls, role, region, coordinates, notes.
 
 import copy
 import json
+import re
 import threading
 from pathlib import Path
 from typing import Optional
+
+import requests
+from loguru import logger
 
 import config
 
@@ -255,3 +259,37 @@ def add_document_type(dtype: str) -> None:
 
 def summary() -> str:
     return _hub.summary()
+
+
+# ── HLS-DHS live search (Historisches Lexikon der Schweiz) ──────────────────
+
+HLS_SEARCH_URL = "https://www.hls-dhs-dss.ch/hits4.php"
+
+
+def hls_search_person(name: str) -> list[dict]:
+    return _hls_search(name, kind="personen")
+
+
+def hls_search_place(name: str) -> list[dict]:
+    return _hls_search(name, kind="ortschaften")
+
+
+def _hls_search(name: str, kind: str = "personen") -> list[dict]:
+    """
+    Search HLS-DHS (historisches-lexikon.ch) by name.
+    Parses article IDs from the results page.
+    Returns list of {hls_id, name} dicts.
+    """
+    try:
+        params = {"q": name, "Search": "1", "show": kind}
+        resp = requests.get(HLS_SEARCH_URL, params=params, timeout=10)
+        resp.raise_for_status()
+        # e.g. <a href="/de/X013299">Müller, Hans</a>
+        hits = re.findall(r'href="/de/([A-Z0-9]+)">(.*?)</a>', resp.text)
+        return [
+            {"hls_id": hid.strip(), "name": title.strip()}
+            for hid, title in hits
+        ]
+    except Exception as e:
+        logger.warning(f"[Hub] HLS search failed for '{name}': {e}")
+        return []
