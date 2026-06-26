@@ -27,7 +27,7 @@ from loguru import logger
 # System prompt used for the LLM reconciliation step
 from utils import gpustack_client as gs
 
-
+# Exported so dual_pipeline can reuse it for multi-way merges
 RECONCILE_SYSTEM = (
     "Du bist ein TCK-Redaktor (Text Critical Kernel). "
     "Deine Aufgabe: die bestmoegliche Transkription aus zwei konkurrierenden "
