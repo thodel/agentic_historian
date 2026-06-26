@@ -1,6 +1,7 @@
 """
 agents/source_description.py — Agent B: Wissenschaftliche Quellenerschliessung
-Klassifikation, Keywords, Care-Flag, Inhaltsbeschreibung.
+Refactored to use source_heuristic.py (Ad Fontes UZH codicological framework).
+Provides full 16-element codicological description + Care-Flag.
 """
 
 import json
@@ -11,112 +12,62 @@ from loguru import logger
 
 import config
 from utils import gpustack_client as gs
-
-SYSTEM = (
-    "Du bist ein historisch geschulter Wissenschaftler, spezialisiert auf "
-    "spätmittelalterliche Verwaltungsquellen (Schweiz, 14.–16. Jh.). "
-    "Deine Aufgabe: vollständige Quellenerschliessung nach archiwissenschaftlichen "
-    "Standards. Sei präzise, nutze kontrolliertes Vokabular."
+from agents.source_heuristic import (
+    MANUSCRIPT_SYSTEM,
+    full_codicological,
+    for_transcription,
 )
 
 
 def describe(doc_id: str, transcription: str, image_path: Optional[str] = None) -> dict:
     """
-    Erstellt eine vollständige Quellenbeschreibung.
+    Erstellt eine vollstaendige Quellenbeschreibung nach dem Ad Fontes 16-Element-Schema.
     Nutzt Agent A's Transkription + optional das Originalbild.
     """
     logger.info(f"[Agent B] Verarbeite: {doc_id}")
 
-    # 1) Klassifikation
-    klassifikation = _klassifikation(transcription)
+    # Build prompt using the heuristic framework
+    if image_path:
+        prompt_obj = full_codicological()
+    else:
+        prompt_obj = for_transcription()
 
-    # 2) Inhaltliche Beschreibung
-    inhalt = _inhalt(transcription)
+    user_prompt = prompt_obj.build_user_prompt(image_available=(image_path is not None))
 
-    # 3) Visuelle Beschreibung (nur mit Bild)
-    visuell = _visuell(image_path, transcription) if image_path else "—"
+    # Combine with transcription for context
+    full_prompt = (
+        f"{MANUSCRIPT_SYSTEM}\n\n"
+        f"Transkription des Dokuments (von Agent A):\n\n"
+        f"{transcription[:4000]}\n\n"
+        f"---\n\n"
+        f"Anweisungen fuer die Beschreibung:\n{user_prompt}"
+    )
 
-    # 4) Formale Analyse
-    formal = _formal(transcription)
+    try:
+        description_md = gs.chat_text(full_prompt, system=None, max_tokens=2000)
+    except Exception as e:
+        logger.warning(f"[Agent B] VLM-Beschreibung fehlgeschlagen: {e}")
+        description_md = "Fehler bei der Beschreibung."
 
-    # 5) Care-Flag
+    # Care-Flag analysis
     care = _care_flag(transcription)
 
     result = {
         "doc_id": doc_id,
-        "klassifikation": klassifikation,
-        "inhalt": inhalt,
-        "visuell": visuell,
-        "formal": formal,
+        "source_description": description_md,
         "care_flag": care,
+        "image_path": image_path or "none",
     }
 
-    # Speichern
     _save(doc_id, result)
     logger.info(f"[Agent B] Fertig: {doc_id}")
     return result
 
 
-def _klassifikation(transcription: str) -> dict:
-    prompt = (
-        SYSTEM + "\n\n" +
-        "Klassifiziere dieses Dokument:\n\n" + transcription[:3000] + "\n\n" +
-        "Antworte als JSON mit: {type, sprache, schrift_periode, bemerkungen}"
-    )
-    try:
-        raw = gs.chat_text(prompt, system=None, max_tokens=500)
-        return json.loads(raw)
-    except Exception as e:
-        logger.warning(f"[Agent B] Klassifikation fehlgeschlagen: {e}")
-        return {"type": "unbekannt", "sprache": "unbekannt", "schrift_periode": "unbekannt", "bemerkungen": ""}
-
-
-def _inhalt(transcription: str) -> dict:
-    prompt = (
-        SYSTEM + "\n\n" +
-        "Beschreibe den Inhalt dieses Dokuments:\n\n" + transcription[:3000] + "\n\n" +
-        "Antworte als JSON mit: {zusammenfassung, personen, orte, daten, "
-        "verwaltungshandlungen, keywords}"
-    )
-    try:
-        raw = gs.chat_text(prompt, system=None, max_tokens=1000)
-        return json.loads(raw)
-    except Exception as e:
-        logger.warning(f"[Agent B] Inhalt fehlgeschlagen: {e}")
-        return {"zusammenfassung": "", "personen": [], "orte": [], "daten": [], "verwaltungshandlungen": [], "keywords": []}
-
-
-def _visuell(image_path: str, transcription: str = "") -> str:
-    prompt = (
-        "Beschreibe das äussere Erscheinungsbild des Dokuments: "
-        "Schrifttyp, Layout, Tintenqualität, Siegel, Wasserzeichen, Beschädigungen. "
-        "Antworte auf Deutsch."
-    )
-    try:
-        return gs.chat_vision(prompt=prompt, image_source=image_path, max_tokens=500)
-    except Exception as e:
-        logger.warning(f"[Agent B] Visuell fehlgeschlagen: {e}")
-        return "—"
-
-
-def _formal(transcription: str) -> dict:
-    prompt = (
-        SYSTEM + "\n\n" +
-        "Formale Analyse:\n\n" + transcription[:3000] + "\n\n" +
-        "Antworte als JSON mit: {dialektraum, formularphraseologie, bemerkenswortes_vokabular}"
-    )
-    try:
-        raw = gs.chat_text(prompt, system=None, max_tokens=800)
-        return json.loads(raw)
-    except Exception as e:
-        logger.warning(f"[Agent B] Formal fehlgeschlagen: {e}")
-        return {"dialektraum": "", "formularphraseologie": "", "bemerkenswertes_vokabular": []}
-
-
 def _care_flag(transcription: str) -> dict:
     prompt = (
-        SYSTEM + "\n\n" +
-        "Prüfe ob dieses Dokument Care-relevante Inhalte hat.\n\n" +
+        MANUSCRIPT_SYSTEM + "\n\n" +
+        "Pruefe ob dieses Dokument Care-relevante Inhalte hat.\n\n" +
         transcription[:3000] + "\n\n" +
         "Antworte als JSON: {is_care_related: bool, care_context: str, "
         "care_types: [string], beteiligte: [string]}"
@@ -130,29 +81,23 @@ def _care_flag(transcription: str) -> dict:
 
 
 def _save(doc_id: str, result: dict):
-    """Speichert Quellenbeschreibung als Markdown."""
+    """Speichert Quellenbeschreibung als Markdown (Ad Fontes 16-element format)."""
     out_path = config.DESCRIPTIONS_DIR / f"{doc_id}.md"
     r = result
 
+    care = r.get("care_flag", {})
     md = (
         f"# Quellenbeschreibung: {doc_id}\n\n"
-        f"## Klassifikation\n\n"
-        f"- **Typ:** {r['klassifikation'].get('type', '—')}\n"
-        f"- **Sprache:** {r['klassifikation'].get('sprache', '—')}\n"
-        f"- **Schriftperiode:** {r['klassifikation'].get('schrift_periode', '—')}\n"
-        f"- **Bemerkungen:** {r['klassifikation'].get('bemerkungen', '—')}\n\n"
-        f"## Inhalt\n\n"
-        f"**Zusammenfassung:** {r['inhalt'].get('zusammenfassung', '—')}\n\n"
-        f"**Personen:** {', '.join(r['inhalt'].get('personen', []) or ['—'])}\n"
-        f"**Orte:** {', '.join(r['inhalt'].get('orte', []) or ['—'])}\n"
-        f"**Daten:** {', '.join(r['inhalt'].get('daten', []) or ['—'])}\n"
-        f"**Verwaltungshandlungen:** {', '.join(r['inhalt'].get('verwaltungshandlungen', []) or ['—'])}\n\n"
+        f"_Erstellt mit Agentic Historian — Ad Fontes codicological framework (UZH)_\n\n"
+        f"---\n\n"
+        f"{r.get('source_description', '—')}\n\n"
+        f"---\n\n"
         f"## Care-Flag\n\n"
-        f"- **Care-relevant:** {'Ja' if r['care_flag'].get('is_care_related') else 'Nein'}\n"
-        f"- **Kontext:** {r['care_flag'].get('care_context', '—')}\n\n"
-        f"## Formale Analyse\n\n"
-        f"- **Dialektraum:** {r['formal'].get('dialektraum', '—')}\n"
-        f"- **Bemerkenswertes Vokabular:** {', '.join(r['formal'].get('bemerkenswertes_vokabular', []) or ['—'])}\n"
+        f"- **Care-relevant:** {'Ja' if care.get('is_care_related') else 'Nein'}\n"
+        f"- **Kontext:** {care.get('care_context', '—')}\n"
+        f"- **Care-Typen:** {', '.join(care.get('care_types', []) or ['—'])}\n"
+        f"- **Beteiligte:** {', '.join(care.get('beteiligte', []) or ['—'])}\n\n"
+        f"_Bildgrundlage: {r.get('image_path', 'none')}_\n"
     )
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
