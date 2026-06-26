@@ -12,7 +12,7 @@ _Last updated: 2026-06-26T07:19:00+00:00_
   "phase_5": {"status": "completed", "notes": "Entity extraction (agent_c/entity_extraction.py) — LLM NER with NER4all persona prompting."},
   "phase_6": {"status": "pending", "notes": "Corpus analysis — pending."},
   "phase_7": {"status": "pending", "notes": "Meta agent — pending."},
-  "phase_8": {"status": "pending", "notes": "Hot folder integration — pending."},
+  "phase_8": {"status": "in_progress", "notes": "Hot folder — watchdog watcher + error handling in progress."},
   "phase_9": {"status": "pending", "notes": "Testing and tuning — pending."},
   "last_commit": null,
   "last_activity": "2026-06-26T07:19:00+00:00"
