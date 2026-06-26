@@ -223,8 +223,10 @@ def run_full_pipeline(
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 3: kraken-Re-Run mit Agent-B-gestuerter Modellwahl
+    # Nur wenn das kraken/dual-HTR-Paket verfügbar ist (sonst ist
+    # select_best_kraken_model nicht importiert → NameError).
     # ════════════════════════════════════════════════════════════════════════
-    if ctx.transcription and ctx.description:
+    if DUAL_AVAILABLE and ctx.transcription and ctx.description:
         try:
             source_desc_text = ctx.description.get("source_description", "")
             if source_desc_text:
