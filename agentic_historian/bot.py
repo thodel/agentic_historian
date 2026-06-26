@@ -4,6 +4,7 @@ Provides slash commands to trigger and monitor the A→B→C pipeline
 directly from this Discord channel.
 """
 
+import asyncio
 import logging
 from pathlib import Path
 
@@ -37,6 +38,34 @@ def _job_status(phase: str) -> str:
     return f"[{info.get('status','?')}] {info.get('notes','')}"
 
 
+# ── Concurrency guard (#15) ──────────────────────────────────────────────────
+# The orchestrator/agents are synchronous and can run for minutes. Calling them
+# directly inside an async command handler blocks the Discord event loop (the bot
+# stops answering heartbeats and other commands). We instead run blocking work in
+# a worker thread via asyncio.to_thread, and allow only one job per user at a time.
+
+_active_runs: set[int] = set()
+
+
+async def _run_blocking(ctx, func, *args, **kwargs):
+    """Run a blocking orchestrator call off the event loop, one job per user.
+
+    Returns the function result, or None if the user already has a job running
+    (in which case a rejection message has been sent).
+    """
+    uid = ctx.author.id
+    if uid in _active_runs:
+        await ctx.followup.send(
+            "⏳ Du hast bereits einen laufenden Job. Bitte warte, bis er fertig ist."
+        )
+        return None
+    _active_runs.add(uid)
+    try:
+        return await asyncio.to_thread(func, *args, **kwargs)
+    finally:
+        _active_runs.discard(uid)
+
+
 # ── Commands ─────────────────────────────────────────────────────────────────
 
 @bot.slash_command(name="status", description="Overall pipeline status")
@@ -58,7 +87,9 @@ async def run_pipeline(
         await ctx.followup.send(f"❌ File not found: {filename}")
         return
     try:
-        result = run_full_pipeline(fp)
+        result = await _run_blocking(ctx, run_full_pipeline, fp)
+        if result is None:
+            return
         msg = (
             f"✅ Pipeline fertig für `{filename}`\n"
             f"QA-Score: {result.get('transcription_qa', '?')}\n"
@@ -82,7 +113,9 @@ async def run_agent_a_cmd(
         await ctx.followup.send(f"❌ File not found: {filename}")
         return
     try:
-        result = run_agent_a(fp)
+        result = await _run_blocking(ctx, run_agent_a, fp)
+        if result is None:
+            return
         await ctx.followup.send(
             f"✅ Agent A fertig\n"
             f"QA: {result.get('qa_score', 0):.2f} \n"
@@ -96,7 +129,9 @@ async def run_agent_a_cmd(
 async def hotfolder(ctx):
     await ctx.defer()
     try:
-        results = run_hot_folder()
+        results = await _run_blocking(ctx, run_hot_folder)
+        if results is None:
+            return
         ok = [r for r in results if "error" not in r]
         errs = [r for r in results if "error" in r]
         msg = f"✅ Verarbeitet: {len(ok)} Dateien"
@@ -114,7 +149,9 @@ async def agent_d_cmd(
 ):
     await ctx.defer()
     try:
-        result = run_agent_d(corpus_name)
+        result = await _run_blocking(ctx, run_agent_d, corpus_name)
+        if result is None:
+            return
         msg = (
             f"✅ Agent D fertig (`{corpus_name}`)\n"
             f"Dokumente: {result.get('doc_count', 0)}\n"
@@ -131,7 +168,9 @@ async def agent_d_cmd(
 async def agent_e_cmd(ctx):
     await ctx.defer()
     try:
-        result = run_agent_e()
+        result = await _run_blocking(ctx, run_agent_e)
+        if result is None:
+            return
         msg = (
             f"✅ Agent E fertig\n"
             f"Dateien: {result.get('token_usage',{}).get('total_files',0)}\n"
