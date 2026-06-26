@@ -57,6 +57,10 @@ GPUSTACK_MODEL_ORCHESTRATOR = _get("GPUSTACK_MODEL_ORCHESTRATOR", "minimax-m2.7"
 GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-0.6b")
 GPUSTACK_MODEL_RERANKER = _get("GPUSTACK_MODEL_RERANKER", "jina-reranker-v2-base-multilingual")
 
+# HLS-DHS live linking. The legacy hits4.php endpoint is dead (redirects to 404);
+# disabled by default until the current HLS search/LOD API is wired (see issue).
+ENABLE_HLS_LOOKUP = _get("ENABLE_HLS_LOOKUP", "false").lower() == "true"
+
 # gpt-oss-120b is a REASONING model: it spends tokens on reasoning_content before
 # emitting content. Give text calls a generous budget or content comes back null.
 GPUSTACK_TEXT_MAX_TOKENS = int(_get("GPUSTACK_TEXT_MAX_TOKENS", "4096"))
