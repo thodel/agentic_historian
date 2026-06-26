@@ -202,7 +202,7 @@ def main() -> None:
     missing = config.check_config()
     if missing:
         print(f"Missing config keys: {missing}")
-    bot.run(config.DISCORD_BOT_TOKEN, log_handler=None)
+    bot.run(config.DISCORD_BOT_TOKEN)
 
 
 if __name__ == "__main__":
