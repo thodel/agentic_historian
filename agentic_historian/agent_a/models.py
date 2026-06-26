@@ -10,7 +10,7 @@ This registry holds available models per pathway.
 Tobias will provide the actual kraken model list for each category.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 

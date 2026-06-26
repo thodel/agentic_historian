@@ -1,5 +1,15 @@
 """
 orchestrator.py — Orchestriert die fünf Agenten und koordiniert die Pipeline.
+
+Pipeline-Logik (A → B → Kraken-Re-Run → C → D):
+  Phase 1  Agent A (VLM only) → liefert erste Transkription
+  Phase 2  Agent B → Quellenbeschreibung + Modellvorschlag
+  Phase 3  Kraken-Re-Run mit Agent-B-gesteurter Modellwahl
+  Phase 4  Agent C → Entities
+  Phase 5  Agent D (optional)
+
+Die Kraken-Pfade (Path 2 + Path 3) werden also NACH Agent B
+neu ausgefuehrt, mit dem besten Modell gemaess model_selector.
 """
 
 import json
@@ -21,6 +31,8 @@ from knowledge_hub import hub
 # Optional two-pronged HTR (requires agent_a package)
 try:
     from agent_a import transcribe_dual, DualTranscriptionResult
+    from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
+    from agent_a.model_selector import select_best_kraken_model
     DUAL_AVAILABLE = True
 except ImportError:
     DUAL_AVAILABLE = False
@@ -39,6 +51,8 @@ class PipelineContext:
         self.description: dict = {}
         self.entities: dict = {}
         self.errors: list = []
+        self.a_meta: dict = {}
+        self.dual_result: Optional[DualTranscriptionResult] = None
 
     def to_json(self) -> dict:
         base = {
@@ -48,9 +62,82 @@ class PipelineContext:
             "entities": self.entities,
             "errors": self.errors,
         }
-        if hasattr(self, "a_meta"):
+        if self.a_meta:
             base["a_meta"] = self.a_meta
         return base
+
+
+# ── Phase 3: kraken re-run with Agent B model selection ──────────────────────
+
+def _rerun_kraken_with_model_selection(
+    image_path: Path,
+    source_description: str,
+    lang: str = "de",
+) -> dict:
+    """
+    Phase-3-Step: Bild + Agent-B-Beschreibung → kraken-Modellauswahl → Remote OCR.
+
+    Returns a dict with kraken_transcription, party_transcription,
+    kraken_model, party_model, and any errors.
+    """
+    logger.info("[Orchestrator] Phase 3: kraken re-run with Agent B model selection")
+
+    result = {
+        "kraken_transcription": "",
+        "party_transcription": "",
+        "kraken_model": None,
+        "party_model": None,
+        "error_kraken": "",
+        "error_party": "",
+    }
+
+    # Select best kraken model using Agent B description
+    best_matches = select_best_kraken_model(source_description, top_k=3)
+    if best_matches:
+        top = best_matches[0]
+        kraken_model = top.model
+        logger.info(
+            f"[Phase 3] Best kraken model: {kraken_model.name} "
+            f"(score={top.score:.2f}) — matched: {', '.join(top.matched_fields)}"
+        )
+        result["kraken_model"] = kraken_model
+    else:
+        logger.warning("[Phase 3] No model match from Agent B description, using lang fallback")
+        from agent_a import models as kraken_models
+        kraken_model = kraken_models.kraken_model_for_lang(lang)
+
+    # Run kraken via remote service
+    if kraken_model:
+        try:
+            with KrakenHTTPClient() as client:
+                ocr_result = client.transcribe(
+                    image=image_path,
+                    model=kraken_model.model_id,
+                    seg_mode="baseline",
+                )
+            result["kraken_transcription"] = ocr_result.text
+            logger.info(
+                f"[Phase 3] kraken OCR done: {len(ocr_result.text)} chars, "
+                f"conf={ocr_result.confidence:.2f}"
+            )
+        except KrakenClientError as e:
+            result["error_kraken"] = str(e)
+            logger.warning(f"[Phase 3] kraken service error: {e}")
+        except Exception as e:
+            result["error_kraken"] = str(e)
+            logger.warning(f"[Phase 3] kraken error: {e}")
+
+    # Also re-run Party/PARY if available (it is model-selected already)
+    try:
+        from agent_a.pary_ocr import party_transcribe, _party_available
+        if _party_available():
+            party_text, _ = party_transcribe(image_path)
+            result["party_transcription"] = party_text
+    except Exception as e:
+        result["error_party"] = str(e)
+        logger.warning(f"[Phase 3] Party/PARY error: {e}")
+
+    return result
 
 
 def run_full_pipeline(
@@ -62,73 +149,129 @@ def run_full_pipeline(
     lang: str = "de",
 ) -> PipelineResult:
     """
-    Führt A → B → C (→ D) Pipeline aus.
-    Optional: Agent D (Corpus) anschliessend.
+    Führt A → B → Kraken-Re-Run → C (→ D) Pipeline aus.
+
+    Zwei-Phasen-Agent-A-Logik:
+      1. VLM-only erste Transkription ( fuer Agent B )
+      2. Kraken-Re-Run nach Agent B mit modellbasierter Auswahl
 
     Args:
-        use_dual_htr: If True and agent_a is available, run the two-pronged
-                      HTR pipeline (VLM + kraken + reconciliation).
-        source_description: Agent B description to enrich VLM prompt.
-        lang: Language code passed to kraken/HF models.
+        file_path:           Pfad zum Dokument (Bild oder PDF)
+        image_path:          Expliziter Bildpfad (optional)
+        run_agent_d:         Agent D (Corpus) anschliessend
+        use_dual_htr:        Wenn True: VLM + Kraken in Phase 1
+        source_description:  Optionaler Agent-B-Description-String
+        lang:                Sprache/Skriftskode (de, la, fr, ...)
     """
     fp = Path(file_path)
     doc_id = fp.stem
+    img = Path(image_path) if image_path else fp
     ctx = PipelineContext(doc_id)
 
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
 
-    # ── Agent A: Text Recognition (single or dual) ─────────────────────────
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 1: Agent A — VLM-only erste Transkription ( fuer Agent B )
+    # ════════════════════════════════════════════════════════════════════════
     try:
         if use_dual_htr and DUAL_AVAILABLE:
-            logger.info("[Orchestrator] Using dual HTR pipeline")
-            dual_result = transcribe_dual(
-                image_path or fp,
+            # Phase 1: nur VLM-Pfad (ohne kraken — das kommt in Phase 3)
+            logger.info("[Orchestrator] Phase 1: VLM-only HTR (preliminary for Agent B)")
+            from agent_a.dual_pipeline import transcribe_dual
+            dual = transcribe_dual(
+                img,
                 source_description=source_description,
                 lang=lang,
+                run_vlm=True,
+                run_kraken=False,   # ← Phase 3!
+                run_party=False,    # ← Phase 3!
+                run_hf=False,
             )
-            ctx.transcription = dual_result.best_transcription()
-            ctx.a_meta = dual_result.to_dict()  # store full metadata
+            ctx.dual_result = dual
+            ctx.transcription = dual.vlm_transcription
+            ctx.a_meta = dual.to_dict()
             logger.info(
-                f"[Orchestrator] Agent A (dual) fertig — "
-                f"method={dual_result.method_used}, "
-                f"agreement={dual_result.reconciliation.agreement_score if dual_result.reconciliation else 'N/A'}"
+                f"[Orchestrator] Phase 1 (VLM) fertig — "
+                f"{len(ctx.transcription)} chars, score={dual.vlm_score:.2f}"
             )
         else:
-            a_result = agent_a.process_file(image_path or fp)
+            a_result = agent_a.process_file(img)
             ctx.transcription = a_result.get("transcription", "")
             ctx.a_meta = a_result
-            logger.info(f"[Orchestrator] Agent A fertig (QA: {a_result.get('qa_score', 0):.2f})")
+            logger.info(
+                f"[Orchestrator] Agent A fertig "
+                f"(QA: {a_result.get('qa_score', 0):.2f})"
+            )
     except Exception as e:
-        logger.error(f"[Orchestrator] Agent A fehlgeschlagen: {e}")
-        ctx.errors.append({"agent": "A", "error": str(e)})
+        logger.error(f"[Orchestrator] Phase 1 (Agent A) fehlgeschlagen: {e}")
+        ctx.errors.append({"agent": "A", "phase": 1, "error": str(e)})
 
-    # ── Agent B: Source Description ────────────────────────────────────────
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 2: Agent B — Quellenbeschreibung + Modellvorschlag
+    # ════════════════════════════════════════════════════════════════════════
     if ctx.transcription:
         try:
             ctx.description = agent_b.describe(
                 doc_id=doc_id,
                 transcription=ctx.transcription,
-                image_path=str(image_path) if image_path else None,
+                image_path=str(img) if img != fp else None,
             )
-            logger.info("[Orchestrator] Agent B fertig")
+            logger.info("[Orchestrator] Phase 2 (Agent B) fertig")
         except Exception as e:
-            logger.error(f"[Orchestrator] Agent B fehlgeschlagen: {e}")
+            logger.error(f"[Orchestrator] Phase 2 (Agent B) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
 
-    # ── Agent C: Entity Extraction ─────────────────────────────────────────
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 3: kraken-Re-Run mit Agent-B-gestuerter Modellwahl
+    # ════════════════════════════════════════════════════════════════════════
+    if ctx.transcription and ctx.description:
+        try:
+            source_desc_text = ctx.description.get("source_description", "")
+            if source_desc_text:
+                kraken_results = _rerun_kraken_with_model_selection(
+                    image_path=img,
+                    source_description=source_desc_text,
+                    lang=lang,
+                )
+                # Update ctx.transcription if kraken gave a result
+                if kraken_results["kraken_transcription"]:
+                    ctx.transcription = kraken_results["kraken_transcription"]
+                    logger.info(
+                        f"[Orchestrator] Phase 3: kraken transcription updated "
+                        f"({len(ctx.transcription)} chars)"
+                    )
+                # Store kraken metadata in a_meta
+                ctx.a_meta["kraken_transcription"] = kraken_results["kraken_transcription"]
+                ctx.a_meta["party_transcription"] = kraken_results["party_transcription"]
+                ctx.a_meta["kraken_model"] = (
+                    kraken_results["kraken_model"].model_id
+                    if kraken_results["kraken_model"] else None
+                )
+                ctx.a_meta["error_kraken"] = kraken_results["error_kraken"]
+                ctx.a_meta["error_party"] = kraken_results["error_party"]
+                logger.info("[Orchestrator] Phase 3 (kraken re-run) fertig")
+        except Exception as e:
+            logger.error(f"[Orchestrator] Phase 3 (kraken re-run) fehlgeschlagen: {e}")
+            ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
+
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 4: Agent C — Entity Extraction
+    # ════════════════════════════════════════════════════════════════════════
     if ctx.transcription:
         try:
             ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
-            logger.info("[Orchestrator] Agent C fertig")
+            logger.info("[Orchestrator] Phase 4 (Agent C) fertig")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "C", "error": str(e)})
 
-    # ── Agent D: Optional Corpus ───────────────────────────────────────────
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 5: Agent D (optional)
+    # ════════════════════════════════════════════════════════════════════════
     if run_agent_d:
         try:
             agent_d.analyse_corpus(corpus_name="default")
-            logger.info("[Orchestrator] Agent D fertig")
+            logger.info("[Orchestrator] Phase 5 (Agent D) fertig")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent D fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "D", "error": str(e)})
