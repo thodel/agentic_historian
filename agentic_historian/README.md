@@ -53,6 +53,35 @@ python bot.py
 | `GPUSTACK_API_KEY` | GPUStack API key |
 | `VLM_MODEL` | VLM model name (default: internvl3-8b-instruct) |
 
+## Contributing — PR & issue rules
+
+This repo has multiple contributors (human and agents) working in parallel. These
+rules exist because we have hit each of these failure modes — follow them.
+
+### Pull requests
+- **One focused change per PR.** Small and additive; don't refactor unrelated code.
+- **Branch from the latest `main`** (`git fetch && git rebase origin/main`), and rebase again before opening if `main` moved.
+- **Don't modify another epic's files** without coordinating — `agent_a/` (HTR) and the orchestrator are actively worked on.
+- **Verify before opening:** the code imports/compiles, the relevant test passes, and every import is declared in `requirements.txt`. Exercise runtime/bot changes (LLM calls need the VPN).
+- **Title:** imperative summary. **Body:** what changed, why, and how you verified it.
+- **Link the issue with `Closes #N`** so it closes automatically on merge.
+- **Never commit secrets.** `.env.gpustack` is gitignored; only `gpustack.env.example` (placeholders) is tracked.
+
+### Solving / closing issues
+- **An issue is "done" only when its fix is merged to `origin/main`** — not when a commit exists in a local branch, worktree, or sandbox.
+- **Close issues through the PR** (`Closes #N`). Do **not** hand-close as "completed" before merge.
+- **If you cite a commit, it must be reachable on `origin`.** Verify with `git cat-file -t <sha>` and `git branch -a --contains <sha>`; a SHA that doesn't resolve on origin does not count as a fix. _(This is exactly how #18 was wrongly closed — a cited commit that was never pushed.)_
+- **Search before opening** to avoid duplicates; reference the backlog task ID (`AH-NN`) and link related issues.
+- **Don't close another contributor's/agent's issue** as done without confirming the artifact is on `main`.
+
+### Models & infrastructure
+- **GPUStack only** (`gpustack.unibe.ch`) — no Claude/Gemini. Routing is role-based in `config.py`: vision `qwen3-vl-30b-a3b-instruct`, text `gpt-oss-120b`, orchestration `minimax-m2.7`.
+- **`gpt-oss-120b` is a reasoning model** — it spends tokens on reasoning before emitting `content`; give text calls a generous `max_tokens` (the client enforces a floor + retry).
+- **The endpoint is VPN-gated** — live LLM calls need the unibe VPN (off-VPN returns `403`).
+
+### Tests
+- Add an **offline test** (mock `gpustack_client`) for new agent logic so the suite runs without the VPN. Run from the package dir: `python tests/<test>.py` or `pytest`.
+
 ## Phases
 
 - Phase 0 — GitHub setup & exec approvals ✅
