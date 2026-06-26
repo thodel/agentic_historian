@@ -18,7 +18,7 @@ from utils import gpustack_client as gs
 
 # Kraken may not be available (DUAL_AVAILABLE check lives in the caller)
 try:
-    from agent_a.dual_pipeline import run_kraken_ocr
+    from agent_a.dual_pipeline import _run_kraken
     HAS_KRAKEN = True
 except Exception:
     HAS_KRAKEN = False
@@ -100,8 +100,9 @@ def _try_kraken(image_path: Path) -> tuple[str, str]:
         return "", "kraken_unavailable"
 
     try:
-        result = run_kraken_ocr(image_path)
-        text = result.get("text", "").strip() if result else ""
+        # _run_kraken returns (text, model_or_error); empty text on failure.
+        text, _info = _run_kraken(image_path)
+        text = (text or "").strip()
         if text:
             logger.info(f"[Agent A] kraken OK for {image_path.stem} ({len(text)} chars)")
             return text, "kraken"
