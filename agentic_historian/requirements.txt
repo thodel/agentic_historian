@@ -1,13 +1,24 @@
 discord.py>=2.3.2
 python-dotenv>=1.0.0
-torch>=2.0.0
-transformers>=4.35.0
 opencv-python>=4.8.0.76
 requests>=2.31.0
 PyYAML>=6.0
 watchdog>=3.0.0
 Pillow>=10.0.0
 numpy>=1.24.0
-kraken>=4.0.0
-loguru>=0.7.0
 
+# HTR / OCR — kraken
+kraken>=4.0.0
+
+# Kraken remote service (FastAPI server + client)
+httpx>=0.27.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+ujson>=5.10.0
+
+# HuggingFace OCR (Path 4 — optional)
+huggingface_hub>=0.24.0
+transformers>=4.44.0
+torch>=2.0.0
+
+loguru>=0.7.0

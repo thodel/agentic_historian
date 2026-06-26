@@ -36,6 +36,9 @@ GPUSTACK_API_KEY = _get("GPUSTACK_API_KEY")
 HTR_QUALITY_THRESHOLD = float(_get("HTR_QUALITY_THRESHOLD", "0.75"))
 MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
 
+# ── Kraken remote service (Path 2/3 — runs on a dedicated server) ────────────
+KRAKEN_SERVICE_URL = _get("KRAKEN_SERVICE_URL", "http://localhost:8765")
+
 # ── Hot Folder ───────────────────────────────────────────────────────────────
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"
 HOT_FOLDER = BASE_DIR / _get("HOT_FOLDER", "data/hot_folder")
@@ -81,5 +84,5 @@ def check_config() -> list[str]:
         missing.append("DISCORD_BOT_TOKEN")
     if not GPUSTACK_API_KEY:
         missing.append("GPUSTACK_API_KEY")
-    # GITHUB_TOKEN und HF_TOKEN sind optional
+    # KRAKEN_SERVICE_URL is optional — kraken falls back to local CLI if not set
     return missing

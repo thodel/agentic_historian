@@ -23,13 +23,15 @@ from loguru import logger
 import config
 from utils import gpustack_client as gs
 from agent_a import models
-from agent_a.kraken_ocr import kraken_transcribe, _kraken_available
+from agent_a.model_selector import select_best_kraken_model
+from agent_a.kraken_ocr import _kraken_available
 from agent_a.pary_ocr import party_transcribe, _party_available
 from agent_a.reconcile import (
     reconcile,
     ReconciliationResult,
     RECONCILE_SYSTEM,
 )
+from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
 
 
 SYSTEM_HTR = (
@@ -151,23 +153,65 @@ def _run_vlm(
 
 def _run_kraken(
     image_path: Path,
+    source_description: Optional[str] = None,
     lang: str = "de",
 ) -> tuple[str, str]:
-    """Run kraken OCR pipeline. Returns (transcription, model_used_or_error)."""
-    if not _kraken_available():
-        return "", "kraken CLI not installed"
+    """
+    Run kraken OCR via the remote HTTP service.
 
-    model = models.kraken_model_for_lang(lang)
-    if model is None:
-        for m in models.KRAKEN_MODELS.values():
-            model = m
-            break
-        if model is None:
-            return "", f"No kraken model configured for lang={lang}"
+    Model selection is driven by Agent B's source description:
+      → model_selector.select_best_kraken_model(source_description)
 
+    Falls back to ``lang``‑only lookup if no description is provided.
+
+    Returns (transcription, model_id_or_error).
+    """
+    # 1. Pick the best model using Agent B metadata
+    if source_description:
+        best = select_best_kraken_model(source_description, top_k=1)
+        if best:
+            kraken_model = best[0].model
+            logger.info(
+                f"[kraken] Model selected via Agent B description: "
+                f"{kraken_model.name} (score={best[0].score:.2f})"
+            )
+        else:
+            kraken_model = models.kraken_model_for_lang(lang)
+            logger.warning(
+                f"[kraken] No model matched '{source_description[:80]}...', "
+                f"falling back to lang={lang}"
+            )
+    else:
+        kraken_model = models.kraken_model_for_lang(lang)
+
+    if kraken_model is None:
+        return "", f"No kraken model found for lang={lang}"
+
+    # 2. Call the remote kraken service
     try:
+        with KrakenHTTPClient() as client:
+            result = client.transcribe(
+                image=image_path,
+                model=kraken_model.model_id,
+                seg_mode="baseline",
+            )
+        return result.text, kraken_model.model_id
+    except KrakenClientError as e:
+        logger.warning(f"[kraken] Service error, falling back to local CLI: {e}")
+        # Graceful degradation: try local kraken CLI if service is down
+        return _run_kraken_local(image_path, kraken_model)
+    except Exception as e:
+        return "", str(e)
+
+
+def _run_kraken_local(image_path: Path, model: models.KrakenModel) -> tuple[str, str]:
+    """Fallback: run kraken locally via CLI if the service is unavailable."""
+    if not _kraken_available():
+        return "", "kraken unavailable (CLI not installed, service unreachable)"
+    try:
+        from agent_a.kraken_ocr import kraken_transcribe
         transcription, _ = kraken_transcribe(image_path, model.model_id)
-        return transcription, model.model_id
+        return transcription, f"{model.model_id} (local fallback)"
     except Exception as e:
         return "", str(e)
 
@@ -318,9 +362,11 @@ def transcribe_dual(
         if not result.vlm_transcription:
             result.error_vlm = "No output from VLM"
 
-    # ── Path 2: kraken ───────────────────────────────────────────────────────
+    # ── Path 2: kraken (remote service + Agent B model selection) ──────────
     if run_kraken:
-        kraken_text, kraken_model = _run_kraken(image_path, lang)
+        kraken_text, kraken_model = _run_kraken(
+            image_path, source_description=source_description, lang=lang
+        )
         if kraken_text:
             result.kraken_transcription = kraken_text
         else:
