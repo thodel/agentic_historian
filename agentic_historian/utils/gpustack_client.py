@@ -166,6 +166,46 @@ def chat_vision(prompt: str, image_source: str, system: Optional[str] = None, **
     )
 
 
+# ── Embedding + Reranker (Agent C semantic entity linking) ───────────────────
+
+def embed(texts: str | list[str], model: Optional[str] = None) -> list[list[float]]:
+    """
+    Embed one or many texts. Returns list of embedding vectors.
+    Uses GPUSTACK_MODEL_EMBEDDING (qwen3-embedding-0.6b).
+    """
+    model = model or config.GPUSTACK_MODEL_EMBEDDING
+    client = get_client()
+    if isinstance(texts, str):
+        texts = [texts]
+    response = client.embeddings.create(model=model, input=texts)
+    return [item.embedding for item in response.data]
+
+
+def rerank(
+    query: str,
+    documents: list[str],
+    model: Optional[str] = None,
+    top_n: int = 3,
+) -> list[dict]:
+    """
+    Rerank documents for a query. Returns top_n results sorted by relevance.
+    Uses GPUSTACK_MODEL_RERANKER (jina-reranker-v2-base-multilingual).
+    Gracefully degrades to score=0.0 on failure.
+    """
+    model = model or config.GPUSTACK_MODEL_RERANKER
+    client = get_client()
+    try:
+        response = client.rerank(model=model, query=query, documents=documents, top_n=top_n)
+        return [
+            {"index": r.index, "document": documents[r.index], "score": r.relevance_score}
+            for r in response.results
+        ]
+    except Exception as e:
+        logger.warning(f"[gpustack] rerank failed: {e}")
+        return [{"index": i, "document": d, "score": 0.0}
+                for i, d in enumerate(documents[:top_n])]
+
+
 # ── Async interface (target for the async agent port) ────────────────────────
 
 async def ask(
