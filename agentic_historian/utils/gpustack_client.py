@@ -4,13 +4,30 @@ GPUStack API-Client (OpenAI-kompatibel) für alle Agenten.
 """
 
 import base64
-import os
+import threading
 from pathlib import Path
 from typing import Optional
 
 from openai import OpenAI
 
 import config
+from utils import metrics
+
+# Thread-local agent label — set by callers so metrics knows who's calling
+_CURRENT_AGENT: Optional[str] = None
+_agent_lock = threading.local()
+
+
+def set_agent(agent_name: str):
+    """Set the current agent name for token tracking."""
+    global _CURRENT_AGENT
+    _CURRENT_AGENT = agent_name
+
+
+def clear_agent():
+    """Clear the current agent name."""
+    global _CURRENT_AGENT
+    _CURRENT_AGENT = None
 
 
 # Singleton-Client
@@ -99,7 +116,19 @@ def chat(
         frequency_penalty=0,
         presence_penalty=0,
     )
-    return response.choices[0].message.content
+    # Track token usage for Agent E
+    if response.usage:
+        metrics.record_run(
+            agent=_CURRENT_AGENT or "unknown",
+            wall_clock_ms=0,
+            prompt_tokens=response.usage.prompt_tokens or 0,
+            completion_tokens=response.usage.completion_tokens or 0,
+        )
+    content = response.choices[0].message.content
+    # gpt-oss-120b returns null content while reasoning
+    if content is None:
+        return ""
+    return content
 
 
 def chat_text(prompt: str, system: Optional[str] = None, **kwargs) -> str:

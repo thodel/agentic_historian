@@ -11,6 +11,7 @@ from loguru import logger
 
 import config
 from utils import gpustack_client as gs
+from utils.metrics import get_metrics
 
 SYSTEM = (
     "Du bist ein Systemadministrator und Optimierungsexperte für eine "
@@ -50,9 +51,26 @@ def generate_report() -> dict:
 
 
 def _estimate_token_usage() -> dict:
-    """Schätzt Token-Verbrauch anhand der Ausgabedateien."""
-    total_chars = 0
+    """
+    Token + GPU-time tracking based on per-run metrics.
+    No USD — local GPUStack has no per-token cost.
+    """
+    m = get_metrics()
+    runs = m.runs
+
+    # Wall-clock time per agent
+    agent_times = {}
+    for r in runs:
+        agent_times[r.agent] = agent_times.get(r.agent, 0) + r.wall_clock_ms
+
+    # Token totals
+    total_prompt = m.total_prompt_tokens()
+    total_completion = m.total_completion_tokens()
+    total_tokens = total_prompt + total_completion
+
+    # File count from output dirs (for context)
     file_count = 0
+    total_chars = 0
     for d in [config.TRANSCRIPTIONS_DIR, config.DESCRIPTIONS_DIR, config.OUTPUTS_DIR]:
         if d.exists():
             for f in d.rglob("*"):
@@ -60,16 +78,17 @@ def _estimate_token_usage() -> dict:
                     total_chars += f.stat().st_size
                     file_count += 1
 
-    # Grobe Schätzung: 1 Token ≈ 4 Zeichen
-    estimated_tokens = total_chars // 4
-    # Kosten schätzen: ~$0.001/1K token (GPUStack — sehr grob)
-    estimated_cost_usd = estimated_tokens / 1_000_000
-
     return {
-        "total_files": file_count,
-        "total_chars": total_chars,
-        "estimated_tokens": estimated_tokens,
-        "estimated_cost_usd": round(estimated_cost_usd, 4),
+        "session_id": m.session_id,
+        "total_files_in_outputs": file_count,
+        "total_chars_in_outputs": total_chars,
+        "total_runs": len(runs),
+        "total_prompt_tokens": total_prompt,
+        "total_completion_tokens": total_completion,
+        "total_tokens": total_tokens,
+        "total_wall_clock_ms": m.total_wall_clock_ms(),
+        "per_agent_wall_clock_ms": agent_times,
+        "note": "GPUStack is local — no per-token cost. Track wall-clock and tokens for resource monitoring.",
     }
 
 
@@ -120,22 +139,40 @@ def _improvements(token_usage: dict, storage: dict, errors: list) -> str:
 
 def _save(result: dict):
     """Speichert Meta-Report und Log."""
-    # Markdown
     r = result
+    tu = r.get('token_usage', {})
+
     md = (
         f"# Meta-Report — {r['generated_at']}\n\n"
-        f"## Token-Nutzung\n\n"
-        f"- Dateien: {r['token_usage']['total_files']}\n"
-        f"- Geschätzte Tokens: {r['token_usage']['estimated_tokens']:,}\n"
-        f"- Geschätzte Kosten: ${r['token_usage']['estimated_cost_usd']}\n\n"
-        f"## Storage\n\n"
-        f"- Gesamt: {r['storage']['total_mb']} MB\n"
+        f"## GPU-Stack Tracking (kein USD — lokaler Stack)\n\n"
+        f"Session: {tu.get('session_id', 'unbekannt')}\n"
+        f"Runs: {tu.get('total_runs', 0)}\n"
+        f"Prompt Tokens: {tu.get('total_prompt_tokens', 0):,}\n"
+        f"Completion Tokens: {tu.get('total_completion_tokens', 0):,}\n"
+        f"Total Tokens: {tu.get('total_tokens', 0):,}\n"
+        f"Wall-Clock Time: {tu.get('total_wall_clock_ms', 0):,} ms\n"
     )
-    for name, size in r['storage']['breakdown'].items():
+
+    # Per-agent wall-clock
+    per_agent = tu.get('per_agent_wall_clock_ms', {})
+    if per_agent:
+        md += "\n### Per-Agent Wall-Clock\n"
+        for agent, ms in per_agent.items():
+            md += f"- {agent}: {ms:,} ms\n"
+
+    # Storage
+    storage = r.get('storage', {})
+    md += (
+        f"\n## Storage\n\n"
+        f"Dateien in Outputs: {tu.get('total_files_in_outputs', 0)}\n"
+        f"Total: {storage.get('total_mb', 0)} MB\n"
+    )
+    for name, size in storage.get('breakdown', {}).items():
         md += f"  - {name}: {size} MB\n"
 
-    md += f"\n## Verbesserungsvorschläge\n\n{r['improvements']}\n"
+    md += f"\n## Verbesserungsvorschläge\n\n{r.get('improvements', '—')}\n"
 
     config.META_REPORT_PATH.write_text(md, encoding="utf-8")
+    # Reset metrics log after reporting
     config.META_LOG_PATH.write_text("[]", encoding="utf-8")
     logger.info(f"[Agent E] Report gespeichert: {config.META_REPORT_PATH}")

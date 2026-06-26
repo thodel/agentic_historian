@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: ruff check .
+
+  smoke:
+    name: Import smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python -c "
+import bot, config, orchestrator
+from agents import (
+    text_recognition,
+    source_description,
+    entity_agent,
+    corpus_analysis,
+    meta_agent,
+)
+from utils import gpustack_client
+from knowledge_hub import hub
+print('All imports OK')
+"
+
+  test:
+    name: Test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt pytest pytest-asyncio
+      - run: pip install -e .
+      - run: pytest tests/ -v --tb=short
+        if: always()
