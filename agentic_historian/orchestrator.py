@@ -18,6 +18,14 @@ from agents import (
 )
 from knowledge_hub import hub
 
+# Optional two-pronged HTR (requires agent_a package)
+try:
+    from agent_a import transcribe_dual, DualTranscriptionResult
+    DUAL_AVAILABLE = True
+except ImportError:
+    DUAL_AVAILABLE = False
+    DualTranscriptionResult = None
+
 # Result-Pipeline
 PipelineResult = dict
 
@@ -33,23 +41,35 @@ class PipelineContext:
         self.errors: list = []
 
     def to_json(self) -> dict:
-        return {
+        base = {
             "doc_id": self.doc_id,
             "transcription": self.transcription,
             "description": self.description,
             "entities": self.entities,
             "errors": self.errors,
         }
+        if hasattr(self, "a_meta"):
+            base["a_meta"] = self.a_meta
+        return base
 
 
 def run_full_pipeline(
     file_path: str | Path,
     image_path: Optional[str | Path] = None,
     run_agent_d: bool = False,
+    use_dual_htr: bool = False,
+    source_description: Optional[str] = None,
+    lang: str = "de",
 ) -> PipelineResult:
     """
     Führt A → B → C (→ D) Pipeline aus.
     Optional: Agent D (Corpus) anschliessend.
+
+    Args:
+        use_dual_htr: If True and agent_a is available, run the two-pronged
+                      HTR pipeline (VLM + kraken + reconciliation).
+        source_description: Agent B description to enrich VLM prompt.
+        lang: Language code passed to kraken/HF models.
     """
     fp = Path(file_path)
     doc_id = fp.stem
@@ -57,11 +77,27 @@ def run_full_pipeline(
 
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
 
-    # ── Agent A: Text Recognition ──────────────────────────────────────────
+    # ── Agent A: Text Recognition (single or dual) ─────────────────────────
     try:
-        a_result = agent_a.process_file(image_path or fp)
-        ctx.transcription = a_result.get("transcription", "")
-        logger.info(f"[Orchestrator] Agent A fertig (QA: {a_result.get('qa_score', 0):.2f})")
+        if use_dual_htr and DUAL_AVAILABLE:
+            logger.info("[Orchestrator] Using dual HTR pipeline")
+            dual_result = transcribe_dual(
+                image_path or fp,
+                source_description=source_description,
+                lang=lang,
+            )
+            ctx.transcription = dual_result.best_transcription()
+            ctx.a_meta = dual_result.to_dict()  # store full metadata
+            logger.info(
+                f"[Orchestrator] Agent A (dual) fertig — "
+                f"method={dual_result.method_used}, "
+                f"agreement={dual_result.reconciliation.agreement_score if dual_result.reconciliation else 'N/A'}"
+            )
+        else:
+            a_result = agent_a.process_file(image_path or fp)
+            ctx.transcription = a_result.get("transcription", "")
+            ctx.a_meta = a_result
+            logger.info(f"[Orchestrator] Agent A fertig (QA: {a_result.get('qa_score', 0):.2f})")
     except Exception as e:
         logger.error(f"[Orchestrator] Agent A fehlgeschlagen: {e}")
         ctx.errors.append({"agent": "A", "error": str(e)})
