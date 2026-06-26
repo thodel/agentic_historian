@@ -168,6 +168,27 @@ class KnowledgeHub:
             self._data["controlled_vocabulary"].append(term)
             self._save()
 
+    def match_vocabulary(self, term: str) -> Optional[str]:
+        """Return the controlled-vocabulary entry matching `term` (the taxonomy
+        link for SOCIAL_GROUP / CARE_ACTION / CARE_ACTOR / ROLE), else None.
+
+        Matches case-insensitively: exact, or a vocab term of length >= 4 that is
+        a substring of the mention (or vice versa). The length floor avoids tiny
+        tokens (rat, gut, hut) producing false positives.
+        """
+        t = (term or "").strip().lower()
+        if not t:
+            return None
+        vocab = self._data["controlled_vocabulary"]
+        for v in vocab:
+            if t == v.lower():
+                return v
+        for v in vocab:
+            vl = v.lower()
+            if len(vl) >= 4 and (vl in t or t in vl):
+                return v
+        return None
+
     def get_document_types(self) -> list[str]:
         return self._data["document_types"]
 
@@ -210,6 +231,10 @@ def find_person(name: str) -> Optional[dict]:
 
 def find_place(name: str) -> Optional[dict]:
     return _hub.find_place(name)
+
+
+def match_vocabulary(term: str) -> Optional[str]:
+    return _hub.match_vocabulary(term)
 
 
 def add_person(person: dict) -> None:
