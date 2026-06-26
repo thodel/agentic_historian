@@ -21,6 +21,7 @@ Async API (for the async port): ask() / ask_structured()
 
 import asyncio
 import base64
+import requests
 from pathlib import Path
 from typing import Optional
 
@@ -193,17 +194,33 @@ def rerank(
     Gracefully degrades to score=0.0 on failure.
     """
     model = model or config.GPUSTACK_MODEL_RERANKER
-    client = get_client()
+    # Reranking is not an OpenAI-SDK method; GPUStack exposes it at POST /v1/rerank
+    # (jina/cohere-style). Call it directly.
     try:
-        response = client.rerank(model=model, query=query, documents=documents, top_n=top_n)
-        return [
-            {"index": r.index, "document": documents[r.index], "score": r.relevance_score}
-            for r in response.results
-        ]
+        resp = requests.post(
+            f"{config.GPUSTACK_BASE_URL.rstrip('/')}/rerank",
+            headers={
+                "Authorization": f"Bearer {config.GPUSTACK_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={"model": model, "query": query, "documents": documents, "top_n": top_n},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        results = resp.json().get("results", [])
+        out = []
+        for r in results:
+            idx = r.get("index")
+            if idx is None or not (0 <= idx < len(documents)):
+                continue
+            score = r.get("relevance_score", r.get("score", 0.0))
+            out.append({"index": idx, "document": documents[idx], "score": score})
+        if out:
+            return out
     except Exception as e:
         logger.warning(f"[gpustack] rerank failed: {e}")
-        return [{"index": i, "document": d, "score": 0.0}
-                for i, d in enumerate(documents[:top_n])]
+    return [{"index": i, "document": d, "score": 0.0}
+            for i, d in enumerate(documents[:top_n])]
 
 
 # ── Async interface (target for the async agent port) ────────────────────────

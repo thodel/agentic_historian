@@ -279,10 +279,19 @@ def _hls_search(name: str, kind: str = "personen") -> list[dict]:
     Search HLS-DHS (historisches-lexikon.ch) by name.
     Parses article IDs from the results page.
     Returns list of {hls_id, name} dicts.
+
+    Disabled by default (config.ENABLE_HLS_LOOKUP): the legacy hits4.php endpoint
+    is dead, so this would 403/404 once per entity. Re-enable once the current
+    HLS search/LOD endpoint is wired in.
     """
+    if not config.ENABLE_HLS_LOOKUP:
+        return []
     try:
         params = {"q": name, "Search": "1", "show": kind}
-        resp = requests.get(HLS_SEARCH_URL, params=params, timeout=10)
+        resp = requests.get(
+            HLS_SEARCH_URL, params=params, timeout=10,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; AgenticHistorian/1.0)"},
+        )
         resp.raise_for_status()
         # e.g. <a href="/de/X013299">Müller, Hans</a>
         hits = re.findall(r'href="/de/([A-Z0-9]+)">(.*?)</a>', resp.text)
