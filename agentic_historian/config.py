@@ -30,6 +30,8 @@ GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 GPUSTACK_BASE_URL = _get("GPUSTACK_BASE_URL", "https://gpustack.unibe.ch/v1")
 GPUSTACK_MODEL_TEXT = _get("GPUSTACK_MODEL_TEXT", "minimax-m2.7")
 GPUSTACK_MODEL_VISION = _get("GPUSTACK_MODEL_VISION", "internvl3-8b-instruct")
+GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-0.6b")
+GPUSTACK_MODEL_RERANKER = _get("GPUSTACK_MODEL_RERANKER", "jina-reranker-v2-base-multilingual")
 GPUSTACK_API_KEY = _get("GPUSTACK_API_KEY")
 
 # ── HTR / OCR ────────────────────────────────────────────────────────────────

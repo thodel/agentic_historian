@@ -6,7 +6,7 @@ GPUStack API-Client (OpenAI-kompatibel) für alle Agenten.
 import base64
 import threading
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Sequence
 
 from openai import OpenAI
 
@@ -150,3 +150,63 @@ def chat_vision(
         image_source=image_source,
         **kwargs,
     )
+
+
+# ── Embedding + Reranker (for Agent C entity linking) ────────────────────────
+
+def embed(texts: str | list[str], model: Optional[str] = None) -> list[list[float]]:
+    """
+    Embed one or many texts using the GPUStack embedding model.
+    Returns list of embedding vectors (each a list of floats).
+
+    Uses config.GPUSTACK_MODEL_EMBEDDING ("qwen3-embedding-0.6b").
+    """
+    model = model or config.GPUSTACK_MODEL_EMBEDDING
+    client = get_client()
+
+    if isinstance(texts, str):
+        texts = [texts]
+
+    response = client.embeddings.create(
+        model=model,
+        input=texts,
+    )
+    return [item.embedding for item in response.data]
+
+
+def rerank(
+    query: str,
+    documents: list[str],
+    model: Optional[str] = None,
+    top_n: int = 3,
+) -> list[dict]:
+    """
+    Rerank documents for a query using the GPUStack reranker.
+    Returns top_n results with scores, sorted by relevance descending.
+
+    Uses config.GPUSTACK_MODEL_RERANKER ("jina-reranker-v2-base-multilingual").
+    """
+    model = model or config.GPUSTACK_MODEL_RERANKER
+    client = get_client()
+
+    try:
+        response = client.rerank(
+            model=model,
+            query=query,
+            documents=documents,
+            top_n=top_n,
+        )
+        return [
+            {
+                "index": r.index,
+                "document": documents[r.index],
+                "score": r.relevance_score,
+            }
+            for r in response.results
+        ]
+    except Exception as e:
+        # Graceful degradation: return first top_n documents with score 0
+        from loguru import logger
+        logger.warning(f"[gpustack] rerank failed: {e}")
+        return [{"index": i, "document": d, "score": 0.0}
+                for i, d in enumerate(documents[:top_n])]
