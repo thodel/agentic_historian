@@ -8,6 +8,7 @@ Uses pure Python — no external dependencies.
 """
 
 import re
+import string
 from typing import Sequence
 
 
@@ -16,13 +17,11 @@ def normalise(text: str) -> str:
     Normalise historical German text for comparison.
     - Lowercase
     - Collapse whitespace
-    - Remove punctuation (optional)
-    - Expand common medieval abbreviations (optional)
+    - Strip leading/trailing punctuation from each token (so "Welt!!" == "Welt")
     """
     text = text.lower()
-    text = re.sub(r"\s+", " ", text)
-    text = text.strip()
-    return text
+    text = re.sub(r"\s+", " ", text).strip()
+    return " ".join(tok.strip(string.punctuation) for tok in text.split())
 
 
 def cer(reference: str, hypothesis: str) -> float:
