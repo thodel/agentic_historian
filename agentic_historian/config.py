@@ -60,6 +60,15 @@ GPUSTACK_MODEL_RERANKER = _get("GPUSTACK_MODEL_RERANKER", "jina-reranker-v2-base
 # HLS-DHS live linking. The legacy hits4.php endpoint is dead (redirects to 404);
 # disabled by default until the current HLS search/LOD API is wired (see issue).
 ENABLE_HLS_LOOKUP = _get("ENABLE_HLS_LOOKUP", "false").lower() == "true"
+# Local HLS dump used for offline linking (no web calls). JSON: see knowledge_hub/hub.py.
+HLS_DATA_PATH = BASE_DIR / _get("HLS_DATA_PATH", "knowledge_hub/data/hls.json")
+
+# ── SwitchDrive (WebDAV ingestion) ───────────────────────────────────────────
+# App password: drive.switch.ch → Settings → Security → create app password.
+SWITCHDRIVE_URL = _get("SWITCHDRIVE_URL", "https://drive.switch.ch/remote.php/dav/files")
+SWITCHDRIVE_USER = _get("SWITCHDRIVE_USER", "")
+SWITCHDRIVE_PASS = _get("SWITCHDRIVE_PASS", "")
+SWITCHDRIVE_REMOTE_DIR = _get("SWITCHDRIVE_REMOTE_DIR", "agentic_historian_hotfolder")
 
 # gpt-oss-120b is a REASONING model: it spends tokens on reasoning_content before
 # emitting content. Give text calls a generous budget or content comes back null.

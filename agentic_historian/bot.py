@@ -142,6 +142,43 @@ async def hotfolder(ctx):
         await ctx.followup.send(f"❌ Error: {e}")
 
 
+@bot.slash_command(name="pull", description="Pull a SwitchDrive folder into the hot folder and process it")
+async def pull_cmd(
+    ctx,
+    folder: Option(str, "SwitchDrive folder (relative to your SwitchDrive root)", required=False, default=None),
+    recursive: Option(bool, "Descend into subfolders", required=False, default=False),
+):
+    await ctx.defer()
+    from utils import switchdrive
+    if not switchdrive.is_configured():
+        await ctx.followup.send(
+            "❌ SwitchDrive not configured — set SWITCHDRIVE_USER / SWITCHDRIVE_PASS "
+            "(app password) in .env.gpustack."
+        )
+        return
+    remote = folder or config.SWITCHDRIVE_REMOTE_DIR
+    try:
+        files = await _run_blocking(ctx, switchdrive.pull_folder, remote, config.HOT_FOLDER, recursive)
+        if files is None:
+            return
+        if not files:
+            await ctx.followup.send(f"📂 No images/PDFs found in SwitchDrive `{remote}`.")
+            return
+        await ctx.followup.send(f"⬇️ Pulled {len(files)} file(s) from `{remote}` — processing…")
+        results = await _run_blocking(ctx, run_hot_folder)
+        if results is None:
+            return
+        ok = [r for r in results if "error" not in r]
+        errs = [r for r in results if "error" in r]
+        msg = f"✅ Verarbeitet: {len(ok)} Dateien"
+        if errs:
+            msg += f"\n❌ Fehler: {len(errs)}"
+        await ctx.followup.send(msg)
+    except Exception as e:
+        logger.exception("pull error")
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
 @bot.slash_command(name="agent_d", description="Run Agent D corpus analysis")
 async def agent_d_cmd(
     ctx,
