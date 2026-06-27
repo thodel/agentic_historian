@@ -261,9 +261,45 @@ def summary() -> str:
     return _hub.summary()
 
 
-# ── HLS-DHS live search (Historisches Lexikon der Schweiz) ──────────────────
+# ── HLS-DHS lookup against a local data dump (offline; no web calls) ─────────
+#
+# The live hits4.php endpoint is dead, so HLS linking uses an internal dump at
+# config.HLS_DATA_PATH (default knowledge_hub/data/hls.json). Accepted formats:
+#
+#   1. a flat list:   [{"hls_id": "012345", "name": "Müller, Hans",
+#                       "variants": ["Hans Müller"], "type": "person"|"place"}, ...]
+#   2. split dict:    {"persons": [ {hls_id,name,variants}, ... ],
+#                      "places":  [ {hls_id,name,variants}, ... ]}
+#
+# Set ENABLE_HLS_LOOKUP=true once the file is in place.
 
-HLS_SEARCH_URL = "https://www.hls-dhs-dss.ch/hits4.php"
+_hls_index: Optional[list[dict]] = None
+
+
+def _load_hls() -> list[dict]:
+    """Lazy-load + cache the HLS dump as a flat list of typed entries."""
+    global _hls_index
+    if _hls_index is not None:
+        return _hls_index
+    _hls_index = []
+    path = config.HLS_DATA_PATH
+    if not Path(path).exists():
+        logger.warning(f"[Hub] HLS data file not found: {path} (HLS linking disabled)")
+        return _hls_index
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        if isinstance(data, dict):
+            entries = (
+                [{**e, "type": "person"} for e in data.get("persons", [])]
+                + [{**e, "type": "place"} for e in data.get("places", [])]
+            )
+        else:
+            entries = list(data)
+        _hls_index = [e for e in entries if e.get("hls_id") or e.get("id")]
+        logger.info(f"[Hub] Loaded {len(_hls_index)} HLS entries from {path}")
+    except Exception as e:
+        logger.warning(f"[Hub] Failed to load HLS data {path}: {e}")
+    return _hls_index
 
 
 def hls_search_person(name: str) -> list[dict]:
@@ -275,30 +311,24 @@ def hls_search_place(name: str) -> list[dict]:
 
 
 def _hls_search(name: str, kind: str = "personen") -> list[dict]:
-    """
-    Search HLS-DHS (historisches-lexikon.ch) by name.
-    Parses article IDs from the results page.
-    Returns list of {hls_id, name} dicts.
-
-    Disabled by default (config.ENABLE_HLS_LOOKUP): the legacy hits4.php endpoint
-    is dead, so this would 403/404 once per entity. Re-enable once the current
-    HLS search/LOD endpoint is wired in.
-    """
+    """Match `name` against the local HLS dump. Returns list of {hls_id, name}."""
     if not config.ENABLE_HLS_LOOKUP:
         return []
-    try:
-        params = {"q": name, "Search": "1", "show": kind}
-        resp = requests.get(
-            HLS_SEARCH_URL, params=params, timeout=10,
-            headers={"User-Agent": "Mozilla/5.0 (compatible; AgenticHistorian/1.0)"},
-        )
-        resp.raise_for_status()
-        # e.g. <a href="/de/X013299">Müller, Hans</a>
-        hits = re.findall(r'href="/de/([A-Z0-9]+)">(.*?)</a>', resp.text)
-        return [
-            {"hls_id": hid.strip(), "name": title.strip()}
-            for hid, title in hits
-        ]
-    except Exception as e:
-        logger.warning(f"[Hub] HLS search failed for '{name}': {e}")
+    want = "place" if kind == "ortschaften" else "person"
+    q = (name or "").strip().lower()
+    if not q:
         return []
+    out = []
+    for e in _load_hls():
+        etype = e.get("type")
+        if etype and etype != want:
+            continue
+        names = [e.get("name", "")] + list(e.get("variants", []))
+        for n in names:
+            nl = (n or "").lower()
+            if nl and (q == nl or (len(nl) >= 4 and (nl in q or q in nl))):
+                out.append({"hls_id": e.get("hls_id") or e.get("id"), "name": e.get("name", "")})
+                break
+        if len(out) >= 5:
+            break
+    return out
