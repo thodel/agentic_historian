@@ -65,7 +65,8 @@ HLS_DATA_PATH = BASE_DIR / _get("HLS_DATA_PATH", "knowledge_hub/data/hls.json")
 
 # ── SwitchDrive (WebDAV ingestion) ───────────────────────────────────────────
 # App password: drive.switch.ch → Settings → Security → create app password.
-SWITCHDRIVE_URL = _get("SWITCHDRIVE_URL", "https://drive.switch.ch/remote.php/dav/files")
+# Official SWITCHdrive WebDAV root (fixed path, no username) per help.switch.ch.
+SWITCHDRIVE_URL = _get("SWITCHDRIVE_URL", "https://drive.switch.ch/remote.php/webdav")
 SWITCHDRIVE_USER = _get("SWITCHDRIVE_USER", "")
 SWITCHDRIVE_PASS = _get("SWITCHDRIVE_PASS", "")
 SWITCHDRIVE_REMOTE_DIR = _get("SWITCHDRIVE_REMOTE_DIR", "agentic_historian_hotfolder")

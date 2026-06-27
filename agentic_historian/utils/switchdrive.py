@@ -25,10 +25,14 @@ def is_configured() -> bool:
 
 
 def _client():
-    """Build a webdav4 client rooted at the user's SwitchDrive files endpoint."""
+    """Build a webdav4 client rooted at the SwitchDrive WebDAV endpoint.
+
+    SWITCHDRIVE_URL is the fixed endpoint https://drive.switch.ch/remote.php/webdav/
+    (per help.switch.ch) — the username is NOT part of the path; it goes in auth.
+    """
     from webdav4.client import Client  # lazy import; optional dependency
 
-    base = f"{config.SWITCHDRIVE_URL.rstrip('/')}/{config.SWITCHDRIVE_USER}/"
+    base = config.SWITCHDRIVE_URL.rstrip("/") + "/"
     return Client(base, auth=(config.SWITCHDRIVE_USER, config.SWITCHDRIVE_PASS))
 
 
