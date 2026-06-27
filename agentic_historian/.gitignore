@@ -11,6 +11,14 @@ __pycache__/
 build/
 dist/
 
+# Virtualenvs — never commit these (a venv was once committed by accident)
+.venv/
+venv/
+env/
+
+# Hot-folder inputs / local source images
+data/hot_folder/
+
 # OpenClaw / Logs
 *.log
 openclaw-workspace-state.json
