@@ -38,7 +38,7 @@ from typing import Optional
 import httpx
 
 # Local imports
-from config import config
+import config
 
 
 class KrakenHTTPClient:
@@ -49,7 +49,7 @@ class KrakenHTTPClient:
         base_url: Optional[str] = None,
         timeout: float = 120.0,
     ) -> None:
-        self.base_url = (base_url or config.kraken_service_url or "").rstrip("/")
+        self.base_url = (base_url or config.KRAKEN_SERVICE_URL or "").rstrip("/")
         self.timeout = timeout
         self._client: Optional[httpx.Client] = None
 
@@ -206,6 +206,6 @@ def kraken_transcribe(
         result = kraken_transcribe(Path("page.tif"), "10.5281/zenodo.7516057")
         print(result.text, result.confidence)
     """
-    url = service_url or config.kraken_service_url
+    url = service_url or config.KRAKEN_SERVICE_URL
     with KrakenHTTPClient(base_url=url) as client:
         return client.transcribe(image, model=model, seg_mode=seg_mode)
