@@ -81,6 +81,7 @@ MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
 
 # ── Kraken remote service (Path 2/3 — runs on a dedicated server) ────────────
 KRAKEN_SERVICE_URL = _get("KRAKEN_SERVICE_URL", "http://localhost:8765")
+ATR_API_KEY = _get("ATR_API_KEY", "")
 
 # ── Hot Folder ───────────────────────────────────────────────────────────────
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"
@@ -97,7 +98,7 @@ OUTPUTS_DIR = DATA_DIR / "outputs"
 HF_TOKEN = _get("HF_TOKEN", "")
 
 # ── Voyant (optional) ────────────────────────────────────────────────────────
-VOYANT_API_URL = _get("Voyant_API_URL", "https://voyant-tools.org/voyant/api")
+VOYANT_API_URL = _get("VOYANT_API_URL", "https://tei.dh.unibe.ch/voyant/api")
 
 # ── Agent E: Meta Agent ──────────────────────────────────────────────────────
 META_REPORT_PATH = OUTPUTS_DIR / "meta_report.md"

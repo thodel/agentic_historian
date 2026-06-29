@@ -145,14 +145,15 @@ class KrakenHTTPClient:
         image.seek(0)
         return {"image": ("image", image.read(), "application/octet-stream")}
 
+    def _auth_headers(self) -> dict[str, str]:
+        return {"X-API-Key": config.ATR_API_KEY}
+
     def _get(self, path: str) -> httpx.Response:
         assert self._client is not None
-        try:
+        # /health is unauthenticated; everything else requires the API key
+        if path == "/health":
             return self._client.get(path)
-        except httpx.RequestError as exc:
-            raise KrakenClientError(
-                f"Kraken service unreachable at {self.base_url}{path}: {exc}"
-            ) from exc
+        return self._client.get(path, headers=self._auth_headers())
 
     def _post(
         self,
@@ -161,7 +162,7 @@ class KrakenHTTPClient:
     ) -> httpx.Response:
         assert self._client is not None
         try:
-            return self._client.post(path, files=files)
+            return self._client.post(path, files=files, headers=self._auth_headers())
         except httpx.RequestError as exc:
             raise KrakenClientError(
                 f"Kraken service error at {self.base_url}{path}: {exc}"

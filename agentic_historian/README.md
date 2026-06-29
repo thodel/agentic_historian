@@ -82,6 +82,135 @@ rules exist because we have hit each of these failure modes — follow them.
 ### Tests
 - Add an **offline test** (mock `gpustack_client`) for new agent logic so the suite runs without the VPN. Run from the package dir: `python tests/<test>.py` or `pytest`.
 
+## Voyant Tools — Integration
+
+Voyant Tools is available at **https://tei.dh.unibe.ch/voyant/**.
+
+### Infrastructure
+
+- **Server:** Voyant runs on `tei.dh.unibe.ch` via Jetty (`jetty-runner.jar`)
+  - Port 8888: Jetty 9.4 (VoyantServer 2.6.21) — **production**
+  - Port 8080: Jetty (VoyantServer 2.4-M45) — legacy/backup
+- **nginx proxy chain:** `/:8889` → `localhost:8888` (Jetty); `/voyant/` → `localhost:8889` (nginx → Jetty)
+- **Systemd:** managed by `/etc/systemd/system/voyant.service`
+- **Restart:** `sudo systemctl restart voyant`
+- **Log:** `/home/dh/voyant/voyant-2.6.log`
+- **Voyant 2.6 app root:** `/opt/voyant/voyant-2.6/VoyantServer2_6_21/`
+- **Legacy (2.4):** `/home/dh/voyant/VoyantServer2_4-M45/`
+
+### How Voyant Receives Text
+
+Voyant accepts plain-text documents and produces interactive analysis views (word frequency, KWIC, trends, etc.).
+
+#### 1. Direct text via URL parameter
+
+```
+https://tei.dh.unibe.ch/voyant/?text=your+plain+text+here
+```
+
+For longer texts, POST the content as form data:
+
+```bash
+curl -X POST 'https://tei.dh.unibe.ch/voyant/?text=' \
+  -d 'text=Erstes Beispiel. Zweites Beispiel. Drittes Beispiel.'
+```
+
+#### 2. Upload a plain-text file via multipart form
+
+```bash
+curl -X POST 'https://tei.dh.unibe.ch/voyant/?upload=1' \
+  -F 'file=@/path/to/document.txt'
+```
+
+Or via the web UI at **https://tei.dh.unibe.ch/voyant/?upload=1**.
+
+#### 3. Load text from a URL
+
+```
+https://tei.dh.unibe.ch/voyant/?input=https://example.com/document.txt
+```
+
+#### 4. Programmatic access via Spyral.js API
+
+For embedding Voyant tools in notebooks or automated pipelines:
+
+```javascript
+// Load a text or corpus
+const corpus = new Spyral.Load('https://tei.dh.unibe.ch/voyant/?text=your text here');
+
+// Get word frequencies
+const counts = corpus.getTermCounts({ limit: 100 });
+
+// Create a KWIC view
+new Spyral.KWIC().corpus(corpus).window(5).show();
+```
+
+Full API: **https://tei.dh.unibe.ch/voyant/docs/** (navigate to *Spyral* module docs).
+
+#### 5. Corpus by ID
+
+If a corpus already exists on the server:
+
+```
+https://tei.dh.unibe.ch/voyant/?corpus=<corpusId>
+```
+
+### nginx reverse proxy
+
+The proxy chain (`/voyant/` → nginx:8889 → Jetty:8888) requires several nginx settings to work correctly:
+
+**Key nginx settings** (in `/etc/nginx/sites-available/tei.dh.unibe.ch`, location `/voyant/`):
+
+```nginx
+proxy_http_version 1.1;
+proxy_buffering off;
+proxy_set_header Accept-Encoding "";        # Disable gzip so sub_filter can rewrite
+proxy_redirect / /voyant/;                  # Rewrite Location: / → /voyant/ in 301 responses
+proxy_pass http://127.0.0.1:8889/;
+
+sub_filter_once off;
+sub_filter_types application/javascript;     # text/html is default; just add js here
+sub_filter 'href="/' 'href="/voyant/';
+sub_filter 'src="/' 'src="/voyant/';
+sub_filter 'url('/" 'url('/voyant/';
+sub_filter 'url("/' 'url("/voyant/';
+sub_filter 'window.location.replace("/' 'window.location.replace("/voyant/';
+```
+
+**Key insight:** When `sub_filter_types` is explicitly set, nginx overrides the default (`text/html` only) with the listed types — must include both `text/html` and `application/javascript` explicitly, or just omit `text/html` since it's the default.
+
+**`/resources/` must be proxied separately** — requests for `/resources/...` don't go through `/voyant/` so they need their own location block:
+
+```nginx
+location /resources/ {
+    proxy_pass http://127.0.0.1:8889/resources/;
+    proxy_set_header Accept-Encoding "";
+}
+```
+
+This means all navigation links, script tags, and stylesheet references work under the sub-directory — no changes to Voyant's internal `uri_path` setting are needed.
+
+### Adding Voyant analysis to agent_d
+
+agent_d can integrate Voyant by passing transcriptions to the server. Example flow:
+
+```python
+import requests
+
+def analyse_with_voyant(text: str, endpoint: str = "https://tei.dh.unibe.ch/voyant/"):
+    """Upload text to Voyant and return the session URL."""
+    resp = requests.post(
+        endpoint,
+        params={"text": text},
+        headers={"Accept": "application/json"},
+        timeout=30
+    )
+    # Voyant redirects to /?corpus=<id> on success
+    return resp.url
+```
+
+**Important:** The Voyant endpoint is internal-only (`localhost:8888` proxy) — always route through `https://tei.dh.unibe.ch/voyant/`.
+
 ## Phases
 
 - Phase 0 — GitHub setup & exec approvals ✅
