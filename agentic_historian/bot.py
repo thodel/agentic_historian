@@ -180,10 +180,10 @@ async def pull_cmd(
 
 
 @bot.slash_command(
-    name="pull_orders",
-    description="Process each SwitchDrive subfolder as ONE multi-page document (order)",
+    name="pull_folder",
+    description="Process each SwitchDrive subfolder as ONE multi-page document",
 )
-async def pull_orders_cmd(
+async def pull_folder_cmd(
     ctx,
     folder: Option(str, "Parent folder on SwitchDrive (default: hot folder)", required=False, default=None),
     reprocess: Option(bool, "Reprocess orders already done", required=False, default=False),
@@ -222,7 +222,7 @@ async def pull_orders_cmd(
                 switchdrive.mark_processed(order_id)
                 res["done"].append(f"{doc_id} ({len(files)}p)")
             except Exception as e:
-                logger.exception(f"pull_orders error for {order_id}")
+                logger.exception(f"pull_folder error for {order_id}")
                 res["errors"].append(f"{order_id}: {e}")
             finally:
                 shutil.rmtree(staging, ignore_errors=True)
@@ -246,7 +246,7 @@ async def pull_orders_cmd(
             msg += "\n⚠️ " + "; ".join(res["errors"][:5])
         await ctx.followup.send(msg)
     except Exception as e:
-        logger.exception("pull_orders error")
+        logger.exception("pull_folder error")
         await ctx.followup.send(f"❌ Error: {e}")
 
 
