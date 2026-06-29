@@ -284,6 +284,69 @@ def run_full_pipeline(
     return ctx.to_json()
 
 
+def run_full_pipeline_group(
+    doc_id: str,
+    image_paths: list,
+    run_agent_d: bool = False,
+) -> PipelineResult:
+    """Process a set of images as ONE multi-page document (a WebDAV "order"/folder).
+
+    Agent A transcribes each page; the pages are combined into a single
+    transcription (one .txt named after the order), then Agent B (one source
+    description) and Agent C (entities over the whole order) run on it.
+    """
+    pages = sorted((Path(p) for p in image_paths), key=lambda p: p.name)
+    ctx = PipelineContext(doc_id)
+    logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
+
+    # PHASE 1: Agent A per page → combined transcription
+    parts, scores = [], []
+    for img in pages:
+        try:
+            r = agent_a.transcribe_image(img)
+            parts.append(f"--- {img.name} ---\n{r.get('transcription', '')}")
+            scores.append(r.get("qa_score", 0.0))
+        except Exception as e:
+            logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
+            ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
+    ctx.transcription = "\n\n".join(parts).strip()
+    avg_qa = round(sum(scores) / len(scores), 2) if scores else 0.0
+    ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa, "source": "grouped"}
+    if ctx.transcription:
+        agent_a.save_transcription(doc_id, ctx.transcription, avg_qa, "grouped")
+
+    # PHASE 2: Agent B — one source description for the whole order
+    if ctx.transcription:
+        try:
+            ctx.description = agent_b.describe(
+                doc_id=doc_id,
+                transcription=ctx.transcription,
+                image_path=str(pages[0]) if pages else None,
+            )
+        except Exception as e:
+            logger.error(f"[Orchestrator] Agent B fehlgeschlagen: {e}")
+            ctx.errors.append({"agent": "B", "error": str(e)})
+
+    # PHASE 4: Agent C — entities across the order
+    if ctx.transcription:
+        try:
+            ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
+        except Exception as e:
+            logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
+            ctx.errors.append({"agent": "C", "error": str(e)})
+
+    # PHASE 5: optional corpus analysis over just this order
+    if run_agent_d:
+        try:
+            agent_d.analyse_corpus(corpus_name=doc_id, doc_ids=[doc_id])
+        except Exception as e:
+            ctx.errors.append({"agent": "D", "error": str(e)})
+
+    _save_pipeline_result(doc_id, ctx)
+    logger.info(f"[Orchestrator] Order fertig: {doc_id} (QA {avg_qa:.2f}, {len(pages)} Seiten)")
+    return ctx.to_json()
+
+
 def run_agent_a(file_path: str | Path) -> dict:
     """Nur Agent A (HTR)."""
     return agent_a.process_file(file_path)

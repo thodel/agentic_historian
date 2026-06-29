@@ -10,12 +10,16 @@ Used by the bot's /pull command to bring a whole folder of source images into th
 local hot folder for processing.
 """
 
+import json
 from pathlib import Path
 from typing import Optional
 
 from loguru import logger
 
 import config
+
+# Tracks which orders (subfolders) have already been processed, so re-runs skip them.
+_PROCESSED_FILE = config.DATA_DIR / "processed_orders.json"
 
 INGEST_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".pdf"}
 
@@ -75,7 +79,12 @@ def pull_folder(
                     _walk(name)
                 continue
             if Path(name).suffix.lower() in INGEST_EXTS:
-                dest = local_dir / Path(name).name
+                # Collision-safe: encode the path relative to the pulled root into
+                # the filename (saa-0428/001r.jpg → saa-0428__001r.jpg) so files in
+                # different subfolders never overwrite each other.
+                rel = name[len(remote_dir):].lstrip("/") if name.startswith(remote_dir) else Path(name).name
+                safe = rel.replace("/", "__") or Path(name).name
+                dest = local_dir / safe
                 client.download_file(name, str(dest))
                 downloaded.append(dest)
                 logger.info(f"[SwitchDrive] pulled {name} → {dest}")
@@ -84,3 +93,37 @@ def pull_folder(
     _walk(remote_dir)
     logger.info(f"[SwitchDrive] {len(downloaded)} file(s) downloaded")
     return downloaded
+
+
+def list_subdirs(remote_dir: Optional[str] = None) -> list[str]:
+    """Immediate subfolders ('orders') under remote_dir (paths relative to base)."""
+    if not is_configured():
+        raise RuntimeError(
+            "SwitchDrive not configured — set SWITCHDRIVE_USER and SWITCHDRIVE_PASS."
+        )
+    remote_dir = (remote_dir or config.SWITCHDRIVE_REMOTE_DIR).strip("/")
+    client = _client()
+    subs = []
+    for entry in client.ls(remote_dir, detail=True):
+        name = (entry.get("name") or entry.get("href") or "").rstrip("/")
+        if entry.get("type") == "directory" and name and name != remote_dir:
+            subs.append(name)
+    return sorted(subs)
+
+
+def load_processed() -> set:
+    """Set of already-processed order ids."""
+    try:
+        return set(json.loads(_PROCESSED_FILE.read_text(encoding="utf-8")))
+    except Exception:
+        return set()
+
+
+def mark_processed(order_id: str) -> None:
+    """Record an order id as processed."""
+    done = load_processed()
+    done.add(order_id)
+    _PROCESSED_FILE.parent.mkdir(parents=True, exist_ok=True)
+    _PROCESSED_FILE.write_text(
+        json.dumps(sorted(done), ensure_ascii=False, indent=2), encoding="utf-8"
+    )
