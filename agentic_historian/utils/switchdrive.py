@@ -40,6 +40,20 @@ def _client():
     return Client(base, auth=(config.SWITCHDRIVE_USER, config.SWITCHDRIVE_PASS))
 
 
+def _resolve_remote(remote_dir: str) -> str:
+    """
+    Resolve a remote path:
+    - if it already contains SWITCHDRIVE_REMOTE_DIR, return as-is
+    - otherwise prepend SWITCHDRIVE_REMOTE_DIR
+    (handles 'test' → 'agentic_historian_hotfolder/test')
+    """
+    remote_dir = remote_dir.strip("/")
+    base = config.SWITCHDRIVE_REMOTE_DIR.strip("/")
+    if base in remote_dir:
+        return remote_dir
+    return f"{base}/{remote_dir}"
+
+
 def pull_folder(
     remote_dir: Optional[str] = None,
     local_dir: Optional[Path] = None,
@@ -51,6 +65,8 @@ def pull_folder(
     Args:
         remote_dir: folder relative to your SwitchDrive root
                     (defaults to config.SWITCHDRIVE_REMOTE_DIR).
+                    Can be a short name like 'test' (resolved to
+                    SWITCHDRIVE_REMOTE_DIR/test) or a full sub-path.
         local_dir:  destination (defaults to config.HOT_FOLDER).
         recursive:  also descend into subfolders.
 
@@ -61,7 +77,7 @@ def pull_folder(
             "SwitchDrive not configured — set SWITCHDRIVE_USER and SWITCHDRIVE_PASS "
             "(app password) in .env.gpustack."
         )
-    remote_dir = (remote_dir or config.SWITCHDRIVE_REMOTE_DIR).strip("/")
+    remote_dir = _resolve_remote(remote_dir or config.SWITCHDRIVE_REMOTE_DIR)
     local_dir = Path(local_dir or config.HOT_FOLDER)
     local_dir.mkdir(parents=True, exist_ok=True)
 
@@ -101,14 +117,16 @@ def list_subdirs(remote_dir: Optional[str] = None) -> list[str]:
         raise RuntimeError(
             "SwitchDrive not configured — set SWITCHDRIVE_USER and SWITCHDRIVE_PASS."
         )
-    remote_dir = (remote_dir or config.SWITCHDRIVE_REMOTE_DIR).strip("/")
+    remote_dir = _resolve_remote(remote_dir or config.SWITCHDRIVE_REMOTE_DIR)
     client = _client()
     subs = []
     for entry in client.ls(remote_dir, detail=True):
         name = (entry.get("name") or entry.get("href") or "").rstrip("/")
         if entry.get("type") == "directory" and name and name != remote_dir:
             subs.append(name)
-    return sorted(subs)
+    # If no subdirs, return [remote_dir] so the caller can treat the folder
+    # itself as a single order (e.g. /pull test on a flat folder of images).
+    return sorted(subs) if subs else [remote_dir]
 
 
 def load_processed() -> set:
