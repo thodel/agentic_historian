@@ -9,7 +9,7 @@ import logging
 from pathlib import Path
 
 import config
-from orchestrator import run_full_pipeline, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
+from orchestrator import run_full_pipeline, run_full_pipeline_group, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
 from discord import Intents, Option
 from discord.ext import commands
 
@@ -176,6 +176,77 @@ async def pull_cmd(
         await ctx.followup.send(msg)
     except Exception as e:
         logger.exception("pull error")
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
+@bot.slash_command(
+    name="pull_orders",
+    description="Process each SwitchDrive subfolder as ONE multi-page document (order)",
+)
+async def pull_orders_cmd(
+    ctx,
+    folder: Option(str, "Parent folder on SwitchDrive (default: hot folder)", required=False, default=None),
+    reprocess: Option(bool, "Reprocess orders already done", required=False, default=False),
+):
+    await ctx.defer()
+    from utils import switchdrive
+    import shutil
+
+    if not switchdrive.is_configured():
+        await ctx.followup.send(
+            "❌ SwitchDrive not configured — set SWITCHDRIVE_USER / SWITCHDRIVE_PASS in .env.gpustack."
+        )
+        return
+
+    parent = folder or config.SWITCHDRIVE_REMOTE_DIR
+
+    def _work():
+        # Each immediate subfolder = one order. If there are none, treat the parent
+        # itself as a single order (loose images directly in it).
+        orders = switchdrive.list_subdirs(parent) or [parent]
+        already = set() if reprocess else switchdrive.load_processed()
+        res = {"done": [], "skipped": [], "empty": [], "errors": []}
+        for order in orders:
+            order_id = order.strip("/").replace("/", "__")
+            if order_id in already:
+                res["skipped"].append(order_id)
+                continue
+            staging = config.HOT_FOLDER / "_orders" / order_id
+            try:
+                files = switchdrive.pull_folder(order, staging, recursive=True)
+                if not files:
+                    res["empty"].append(order_id)
+                    continue
+                doc_id = Path(order.rstrip("/")).name or order_id
+                run_full_pipeline_group(doc_id, files)
+                switchdrive.mark_processed(order_id)
+                res["done"].append(f"{doc_id} ({len(files)}p)")
+            except Exception as e:
+                logger.exception(f"pull_orders error for {order_id}")
+                res["errors"].append(f"{order_id}: {e}")
+            finally:
+                shutil.rmtree(staging, ignore_errors=True)
+        return res
+
+    try:
+        res = await _run_blocking(ctx, _work)
+        if res is None:
+            return
+        msg = (
+            f"✅ Orders verarbeitet: {len(res['done'])}\n"
+            f"⏭️ Übersprungen (bereits erledigt): {len(res['skipped'])}\n"
+        )
+        if res["empty"]:
+            msg += f"📂 Leer (keine Bilder): {len(res['empty'])}\n"
+        if res["errors"]:
+            msg += f"❌ Fehler: {len(res['errors'])}\n"
+        if res["done"]:
+            msg += "\n• " + "\n• ".join(res["done"][:10])
+        if res["errors"]:
+            msg += "\n⚠️ " + "; ".join(res["errors"][:5])
+        await ctx.followup.send(msg)
+    except Exception as e:
+        logger.exception("pull_orders error")
         await ctx.followup.send(f"❌ Error: {e}")
 
 

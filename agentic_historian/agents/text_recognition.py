@@ -50,6 +50,30 @@ def process_image(image_path: str | Path) -> dict:
     doc_id = image_path.stem
     logger.info(f"[Agent A] Verarbeite: {doc_id}")
 
+    r = transcribe_image(image_path)
+    path = _save(doc_id, r["transcription"], r["qa_score"], r["source"])
+    logger.info(f"[Agent A] Fertig: {doc_id} (source={r['source']}, QA: {r['qa_score']:.2f})")
+
+    return {
+        "doc_id": doc_id,
+        "transcription": r["transcription"],
+        "qa_score": r["qa_score"],
+        "source": r["source"],
+        "path": str(path),
+        "success": bool(r["transcription"]),
+    }
+
+
+def transcribe_image(image_path: str | Path) -> dict:
+    """HTR + QA for one image, WITHOUT saving.
+
+    Used both by process_image (which then saves a per-image .txt) and by the
+    grouped/order pipeline (which combines pages into one document before saving).
+    Returns {transcription, qa_score, source}.
+    """
+    image_path = Path(image_path)
+    doc_id = image_path.stem
+
     # Try kraken first (the right tool for historical handwriting)
     transcription, source = _try_kraken(image_path)
 
@@ -58,9 +82,8 @@ def process_image(image_path: str | Path) -> dict:
         transcription = _htr_vlm(image_path)
         source = "vlm"
 
-    # Simple length-based QA (not self-referential — independent of who produced it)
+    # Independent length-based QA (not self-referential)
     qa_score = _quality_score(transcription)
-
     if qa_score < config.HTR_QUALITY_THRESHOLD:
         logger.warning(
             f"[Agent A] QA-Score {qa_score:.2f} < {config.HTR_QUALITY_THRESHOLD}, "
@@ -70,23 +93,18 @@ def process_image(image_path: str | Path) -> dict:
         source = "vlm_retry"
         qa_score = _quality_score(transcription)
 
-    logger.info(f"[Agent A] Fertig: {doc_id} (source={source}, QA: {qa_score:.2f})")
-
-    path = _save(doc_id, transcription, qa_score, source)
-
-    return {
-        "doc_id": doc_id,
-        "transcription": transcription,
-        "qa_score": qa_score,
-        "source": source,
-        "path": str(path),
-        "success": bool(transcription),
-    }
+    return {"transcription": transcription, "qa_score": qa_score, "source": source}
 
 
 def process_file(image_path: str | Path) -> dict:
     """Alias for process_image — kept for orchestrator compatibility."""
     return process_image(image_path)
+
+
+def save_transcription(doc_id: str, transcription: str, qa_score: float = 0.0,
+                       source: str = "grouped") -> Path:
+    """Public save helper used by the grouped/order pipeline."""
+    return _save(doc_id, transcription, qa_score, source)
 
 
 # ── Internal HTR methods ──────────────────────────────────────────────────────
