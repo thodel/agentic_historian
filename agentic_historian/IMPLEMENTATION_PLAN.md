@@ -4,7 +4,20 @@
 
 ## Overview
 
-The Agentic Historian is an autonomous pipeline for transcribing, describing, and analysing historical handwritten documents (14th–16th century, Swiss/German administrative sources). The next phase extends it with **parallel multi-source entity search** across four independent data sources via MCP.
+The Agentic Historian is an autonomous pipeline for transcribing, describing, and analysing historical handwritten documents (14th–16th century, Swiss/German administrative sources). The next phase extends it with **parallel multi-source entity search** across independent data sources via MCP.
+
+---
+
+## Knowledge Hub Architecture — MCP-federated (core principle)
+
+**Every authority/register source in the Knowledge Hub is provided over MCP — not loaded into a local store.** Persons, places, organisations and cross-references (HLS, HBLS, SSRQ, KF, EOS) and external authorities (GND, Wikidata) are each an **MCP server** that the pipeline queries at request time. The local `knowledge_hub/hub.py` holds only the **controlled vocabulary** (Taxonomien / care terms) and an optional thin cache — it is **not** the source of authority data.
+
+Consequences:
+- **Agent C entity linking** resolves persons/places by querying the MCP federation in parallel — not a local JSON/SQLite dump.
+- The previous **AH-80 epic (#58–#68: local HLS-KNEX / HBLS loaders + SQLite store)** is **superseded**. Each of those sources becomes (or is fronted by) an MCP server; re-scope those issues to "build/point at the `<source>` MCP" rather than "load into a local hub."
+- The offline HLS dump (`ENABLE_HLS_LOOKUP` / `hls.json`) survives only as an **offline fallback**; the primary path is the HLS/SSRQ MCP.
+- Adding new authority data = stand up an MCP server + register it. **No app-side schema migration.**
+- One shared client (`utils/mcp_client.py`) + a common `PersonResult`/`PersonRecord` contract (below) normalises every source.
 
 ---
 
@@ -16,8 +29,10 @@ The Agentic Historian is an autonomous pipeline for transcribing, describing, an
 | **KF** | Königsfelden register; persons, places, entries | 8001 | ✅ Running |
 | **SSRQ** | 23,674 persons, 7,047 orgs, 138k name variants; Swiss legal history | 8002 | ✅ Running |
 | **HBLS** | 137,038 merged person records; Historical Language Services | TBD | ⬜ Needs building |
+| **HLS** | Historisches Lexikon der Schweiz — person/place authority | TBD | ⬜ MCP (replaces the local `hls.json` dump) |
+| **GND / Wikidata** | External authority reconciliation | (existing MCP) | ✅ Available (`wikidata` MCP) |
 
-**SSRQ MCP** (`https://tei.dh.unibe.ch/mcp/ssrq/`) is the newest addition (2026-07-01).
+**SSRQ MCP** (`https://tei.dh.unibe.ch/mcp/ssrq/`) is the newest addition (2026-07-01). All hub sources — including HLS and GND/Wikidata — are consumed the same way: as MCP servers behind the common `PersonResult` contract.
 
 ---
 
@@ -197,9 +212,9 @@ curl https://tei.dh.unibe.ch/mcp/hbls/health
 4. Progress reports to #allgemein
 
 ### Milestone 5 — Corpus integration
-1. Entity resolution on extracted persons (Phase 5 output)
-2. Linking to KF register, SSRQ authority, HBLS records
-3. GND/Wikidata reconciliation
+1. Entity resolution on extracted persons (Phase 5 / Agent C output)
+2. **Agent C links via the same MCP federation** (KF register, SSRQ authority, HLS, HBLS) — one shared client + resolver as `/search`, no local authority store
+3. GND/Wikidata reconciliation via the `wikidata` MCP
 
 ---
 
@@ -224,9 +239,10 @@ curl https://tei.dh.unibe.ch/mcp/hbls/health
 | `agent_a/` | HTR pipeline |
 | `agent_b/` | Source description |
 | `agent_c/` | Entity extraction (NER) |
-| `knowledge_hub/hub.py` | In-memory person/place/vocabulary store |
-| `serving-atr-inference/config/models.yaml` | ATR model registry |
-| `serving-atr-inference/` | Inference server (VLM, TrOCR, kraken, party) |
+| `knowledge_hub/hub.py` | Controlled vocabulary + thin cache — **authority data now via MCP federation**, not stored here |
+| `utils/mcp_client.py` | (to build) shared async client for all knowledge-hub MCP servers |
+| `serving-atr-inference/config/models.yaml` | ATR model registry (kraken/VLM/TrOCR/party) |
+| `serving-atr-inference/` | Inference server the bot's `KRAKEN_SERVICE_URL` points at |
 
 ---
 
