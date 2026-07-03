@@ -23,16 +23,26 @@ Consequences:
 
 ## Data Sources & MCP Servers
 
-| Source | Content | MCP Port | Status |
-|---|---|---|---|
-| **EOS** | 75,447 documents, 893,303 spans; HGB Basel | 8000 | ✅ Running |
-| **KF** | Königsfelden register; persons, places, entries | 8001 | ✅ Running |
-| **SSRQ** | 23,674 persons, 7,047 orgs, 138k name variants; Swiss legal history | 8002 | ✅ Running |
-| **HBLS** | 137,038 merged person records; Historical Language Services | TBD | ⬜ Needs building |
-| **HLS** | Historisches Lexikon der Schweiz — person/place authority | TBD | ⬜ MCP (replaces the local `hls.json` dump) |
-| **GND / Wikidata** | External authority reconciliation | (existing MCP) | ✅ Available (`wikidata` MCP) |
+**The Knowledge Hub is complete** as a federation of live MCP servers. The
+declarative source registry is [`knowledge_hub/mcp_registry.py`](knowledge_hub/mcp_registry.py);
+adding a source is a data change per [`docs/knowledge_hub.md`](docs/knowledge_hub.md).
 
-**SSRQ MCP** (`https://tei.dh.unibe.ch/mcp/ssrq/`) is the newest addition (2026-07-01). All hub sources — including HLS and GND/Wikidata — are consumed the same way: as MCP servers behind the common `PersonResult` contract.
+| Source | MCP URL | Content | Status |
+|---|---|---|---|
+| **EOS** | `…/mcp/eos` | 75,447 documents, 893,303 spans; HGB Basel | ✅ Live |
+| **KF** | `…/mcp/kf` | Königsfelden register; persons, places, entries | ✅ Live |
+| **HBLS** | `…/mcp/hbls` | ~137k merged person records | ✅ Live |
+| **HLS** | `…/mcp/hls` | Historisches Lexikon der Schweiz — person/place authority (replaces the local `hls.json` dump) | ✅ Live |
+| **GND / Wikidata** | gateway `wikidata` MCP | External authority reconciliation | ✅ Live |
+
+`…` = `config.MCP_BASE_URL` (default `https://tei.dh.unibe.ch/mcp`, VPN-gated).
+All sources are consumed the same way — as MCP servers behind the common
+`PersonResult` contract. **To add a new hub, see the methodology in
+[`docs/knowledge_hub.md`](docs/knowledge_hub.md).**
+
+> Note: the earlier **SSRQ** MCP (port 8002, 2026-07-01) is **not** in the current
+> deployment set and has been dropped from the registry — re-add it via the
+> methodology if/when it is redeployed.
 
 ---
 
@@ -175,24 +185,25 @@ curl https://tei.dh.unibe.ch/mcp/hbls/health
 
 ## Milestones
 
-### Milestone 1 — Parallel search (KF + SSRQ + EOS) ✅
-**Status:** Ready to implement.
+### Milestone 0 — Knowledge Hub (MCP federation) ✅ DONE
+The hub is realised as live MCP servers (EOS, KF, HBLS, HLS + external Wikidata),
+a declarative registry (`knowledge_hub/mcp_registry.py`), and a documented
+extension methodology (`docs/knowledge_hub.md`). Adding a source is a data change.
 
-1. Extend `knowledge_hub/hub.py` or create `agents/search_agent.py`
-2. Use `sessions_spawn` with `runtime=subagent` for parallel MCP calls
-3. Implement entity resolver (ID match → high confidence; name+date → medium)
-4. Return unified results with source attribution
+### Milestone 1 — Federated search agent (consumer) ⬜
+**Status:** not started. Builds *on top of* the completed hub.
 
-**Verify:** Query *"Johann"* across all three sources; confirm deduplicated results.
+1. `utils/mcp_client.py` — shared async client that reads the registry and calls
+   each source's `search_*` tools (respecting `MCP_TIMEOUT`, partial-failure flags).
+   Decide runtime: plain `asyncio.gather` over the MCP client is sufficient — this
+   does **not** depend on OpenClaw `sessions_spawn`.
+2. Entity resolver/merger (ID match → high; name+overlapping dates → medium).
+3. `agents/search_agent.py` returning unified, source-attributed results.
 
-### Milestone 2 — HBLS MCP 🏗️
-1. Clone `github.com/thodel/eos_persons`
-2. Analyse data format and schema
-3. Build FastAPI MCP server (HTTP/SSE)
-4. Deploy on tei (port TBD, check 8003+)
-5. Register with OpenClaw MCP
+**Verify:** query *"Johann"* across all live sources; confirm deduplicated results.
 
-**Verify:** `curl https://tei.dh.unibe.ch/mcp/hbls/health`
+### Milestone 2 — HBLS MCP ✅ DONE
+The HBLS MCP is live at `…/mcp/hbls` and registered in `mcp_registry.py`.
 
 ### Milestone 3 — Four-source merge
 1. Add HBLS subagent to parallel search
@@ -239,8 +250,9 @@ curl https://tei.dh.unibe.ch/mcp/hbls/health
 | `agent_a/` | HTR pipeline |
 | `agent_b/` | Source description |
 | `agent_c/` | Entity extraction (NER) |
+| `knowledge_hub/mcp_registry.py` | **Declarative registry of hub MCP sources** — edit here to add a source (`docs/knowledge_hub.md`) |
 | `knowledge_hub/hub.py` | Controlled vocabulary + thin cache — **authority data now via MCP federation**, not stored here |
-| `utils/mcp_client.py` | (to build) shared async client for all knowledge-hub MCP servers |
+| `utils/mcp_client.py` | (to build, Milestone 1) shared async client that queries the registered MCP sources |
 | `serving-atr-inference/config/models.yaml` | ATR model registry (kraken/VLM/TrOCR/party) |
 | `serving-atr-inference/` | Inference server the bot's `KRAKEN_SERVICE_URL` points at |
 
@@ -248,15 +260,23 @@ curl https://tei.dh.unibe.ch/mcp/hbls/health
 
 ## Phases (updated)
 
+Legend: ✅ done · 🔨 exists but has known correctness bugs (see remediation) · 🔄 in progress · ⬜ not started
+
 - Phase 0 — GitHub setup & exec approvals ✅
 - Phase 1 — Scaffold & Discord bot ✅
-- Phase 2 — Knowledge hub ✅
-- Phase 3 — OCR (HTR) pipeline ✅
-- Phase 4 — Source description ✅
-- Phase 5 — Entity extraction (NER) ✅
-- Phase 6 — Corpus analysis ✅
-- Phase 7 — Meta agent ✅
-- Phase 8 — Hot folder integration 🔄
-- **Phase 9 — Multi-source federated search** 🔄 *(was Phase 9: Testing & tuning)*
-- Phase 10 — HBLS MCP integration ⬜
+- Phase 2 — **Knowledge Hub (MCP federation)** ✅ *(registry + methodology; see `docs/knowledge_hub.md`)*
+- Phase 3 — OCR (HTR) pipeline 🔨 *(kraken activation pending: #12/#110; VLM path #107/#108)*
+- Phase 4 — Source description 🔨 *(#98 invalid-JSON prompt + garbage tokens)*
+- Phase 5 — Entity extraction (NER) 🔨 *(works locally; MCP linking is Milestone 1)*
+- Phase 6 — Corpus analysis 🔨
+- Phase 7 — Meta agent 🔨
+- Phase 8 — Hot folder integration 🔄 *(#97 success reporting)*
+- **Phase 9 — Multi-source federated search** ⬜ *(Milestone 1 above — consumes the completed hub)*
+- Phase 10 — HBLS MCP integration ✅ *(live)*
 - Phase 11 — Unified entity resolution & API ⬜
+
+> **Cross-cutting prerequisite — code-review remediation (#95).** The A→B→C
+> pipeline (Phases 3–7) has known correctness bugs from the 2026-07 review
+> (#96–#100, #106–#110). Federated-search / entity-resolution output is only
+> trustworthy once these land, so treat #95 as a parallel prerequisite track,
+> not optional polish.
