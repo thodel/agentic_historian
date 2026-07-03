@@ -375,7 +375,7 @@ def run_agent_b(doc_id: str) -> dict:
     transcription = txt_path.read_text(encoding="utf-8")
     # Strip header
     if transcription.startswith("#"):
-        transcription = transcription.split("\n\n", 2)[-1]
+        transcription = transcription.split("\n\n", 1)[-1]
     return agent_b.describe(doc_id, transcription)
 
 
@@ -386,7 +386,7 @@ def run_agent_c(doc_id: str) -> dict:
         raise FileNotFoundError(f"Transkription nicht gefunden: {doc_id}")
     transcription = txt_path.read_text(encoding="utf-8")
     if transcription.startswith("#"):
-        transcription = transcription.split("\n\n", 2)[-1]
+        transcription = transcription.split("\n\n", 1)[-1]
     return agent_c.extract_entities(doc_id, transcription)
 
 
