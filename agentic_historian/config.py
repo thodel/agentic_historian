@@ -28,6 +28,9 @@ def _get(key: str, default: str = "") -> str:
 
 # ── Discord ──────────────────────────────────────────────────────────────────
 DISCORD_BOT_TOKEN = _get("DISCORD_BOT_TOKEN")
+# Numeric role ID that is allowed to run sensitive commands (/run, /pull, etc.).
+# Set to 0 or empty to disable role-gating (NOT recommended for shared servers).
+REQUIRED_DISCORD_ROLE_ID: int | None = int(_get("REQUIRED_DISCORD_ROLE_ID", "0")) or None
 
 # ── GitHub ───────────────────────────────────────────────────────────────────
 GITHUB_TOKEN = _get("GITHUB_TOKEN")
