@@ -11,15 +11,22 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = BASE_DIR.parent
 
-# Env-Dateien laden. Die dedizierten GPUStack-Secrets (.env.gpustack) liegen im
-# Repo-Root und müssen explizit geladen werden; spätere Dateien überschreiben.
+# Env-Dateien laden. WICHTIG: echte Prozess-Umgebungsvariablen (systemd
+# `Environment=`/`EnvironmentFile=`, exportierte Secrets) haben IMMER Vorrang und
+# werden NIE von einer .env-Datei überschrieben (override=False). Andernfalls
+# würden (u.U. veraltete, eingecheckte) .env-Werte die echte Server-Umgebung
+# stompen (#106).
+#
+# Reihenfolge = Priorität UNTER den Dateien: bei override=False gewinnt die
+# zuerst geladene Datei. Die dedizierten GPUStack-Secrets (.env.gpustack) haben
+# daher Vorrang vor generischen .env-Dateien und werden zuerst geladen.
 for _env_file in (
-    BASE_DIR / ".env",
-    REPO_ROOT / ".env",
     REPO_ROOT / ".env.gpustack",
+    REPO_ROOT / ".env",
+    BASE_DIR / ".env",
 ):
     if _env_file.exists():
-        load_dotenv(_env_file, override=True)
+        load_dotenv(_env_file, override=False)
 
 
 def _get(key: str, default: str = "") -> str:
