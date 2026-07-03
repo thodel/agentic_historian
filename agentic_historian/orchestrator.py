@@ -13,6 +13,7 @@ neu ausgefuehrt, mit dem besten Modell gemaess model_selector.
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -295,7 +296,10 @@ def run_full_pipeline_group(
     transcription (one .txt named after the order), then Agent B (one source
     description) and Agent C (entities over the whole order) run on it.
     """
-    pages = sorted((Path(p) for p in image_paths), key=lambda p: p.name)
+    # Natural sort: page_2, page_10 (not page_10, page_2)
+    def _natural_key(name: str):
+        return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
+    pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
     ctx = PipelineContext(doc_id)
     logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
 
