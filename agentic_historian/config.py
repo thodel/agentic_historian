@@ -82,8 +82,13 @@ GPUSTACK_TEXT_MAX_TOKENS = int(_get("GPUSTACK_TEXT_MAX_TOKENS", "4096"))
 HTR_QUALITY_THRESHOLD = float(_get("HTR_QUALITY_THRESHOLD", "0.75"))
 MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
 
-# ── Kraken remote service (Path 2/3 — runs on a dedicated server) ────────────
-KRAKEN_SERVICE_URL = _get("KRAKEN_SERVICE_URL", "http://localhost:8765")
+# ── ATR serving gateway (asterAIx) ───────────────────────────────────────────
+# The recognition stack (kraken / TrOCR / vLLM) runs on asterAIx as
+# serving-atr-inference; KRAKEN_SERVICE_URL points at its gateway (the name is
+# kept for backward compatibility with KrakenHTTPClient). ATR_API_KEY is the
+# shared secret sent as the X-API-Key header — set the SAME value on both hosts.
+KRAKEN_SERVICE_URL = _get("KRAKEN_SERVICE_URL", "http://130.92.59.240:8200")
+ATR_API_KEY = _get("ATR_API_KEY")
 
 # ── Hot Folder ───────────────────────────────────────────────────────────────
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"

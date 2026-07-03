@@ -56,10 +56,16 @@ class KrakenHTTPClient:
     # ── context manager ──────────────────────────────────────────────────────
 
     def __enter__(self) -> "KrakenHTTPClient":
+        # The ATR gateway authenticates via a static shared X-API-Key header
+        # (config.ATR_API_KEY). /health is public; /models, /ocr, /segment are not.
+        headers = {}
+        if getattr(config, "ATR_API_KEY", ""):
+            headers["X-API-Key"] = config.ATR_API_KEY
         self._client = httpx.Client(
             base_url=self.base_url,
             timeout=self.timeout,
             follow_redirects=True,
+            headers=headers,
         )
         return self
 
