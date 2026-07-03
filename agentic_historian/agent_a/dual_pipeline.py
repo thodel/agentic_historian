@@ -168,12 +168,11 @@ def _run_kraken(
     """
     # 1. Pick the best model using Agent B metadata
     if source_description:
-        best = select_best_kraken_model(source_description, top_k=1)
-        if best:
-            kraken_model = best[0].model
+        kraken_model = select_best_kraken_model(source_description)
+        if kraken_model:
             logger.info(
                 f"[kraken] Model selected via Agent B description: "
-                f"{kraken_model.name} (score={best[0].score:.2f})"
+                f"{kraken_model.name} ({kraken_model.model_id})"
             )
         else:
             kraken_model = models.kraken_model_for_lang(lang)

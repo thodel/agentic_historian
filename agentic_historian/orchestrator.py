@@ -92,19 +92,18 @@ def _rerun_kraken_with_model_selection(
     }
 
     # Select best kraken model using Agent B description
-    best_matches = select_best_kraken_model(source_description, top_k=3)
-    if best_matches:
-        top = best_matches[0]
-        kraken_model = top.model
+    kraken_model = select_best_kraken_model(source_description)
+    if kraken_model:
         logger.info(
-            f"[Phase 3] Best kraken model: {kraken_model.name} "
-            f"(score={top.score:.2f}) — matched: {', '.join(top.matched_fields)}"
+            f"[Phase 3] Kraken model selected: {kraken_model.name} ({kraken_model.model_id})"
         )
         result["kraken_model"] = kraken_model
     else:
         logger.warning("[Phase 3] No model match from Agent B description, using lang fallback")
         from agent_a import models as kraken_models
         kraken_model = kraken_models.kraken_model_for_lang(lang)
+        if kraken_model is None:
+            logger.error("[Phase 3] No kraken model available for lang fallback")
 
     # Run kraken via remote service
     if kraken_model:
