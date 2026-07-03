@@ -130,7 +130,7 @@ def _run_vlm(
         transcription = gs.chat_vision(
             prompt=prompt,
             image_source=str(image_path),
-            temperature=1.0,
+            temperature=0.2,
             max_tokens=32768,
         ).strip()
         qa_raw = gs.chat_vision(

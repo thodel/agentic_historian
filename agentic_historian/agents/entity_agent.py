@@ -68,24 +68,61 @@ def extract_entities(doc_id: str, transcription: str) -> dict:
     return enriched
 
 
+def _chunk_text(text: str, chunk_size: int = 25_000, overlap: int = 2000) -> list[str]:
+    """
+    Split text into overlapping chunks of chunk_size chars.
+    Overlap ensures entities at boundaries are not lost.
+    """
+    if len(text) <= chunk_size:
+        return [text]
+    chunks = []
+    start = 0
+    while start < len(text):
+        chunk = text[start:start + chunk_size]
+        chunks.append(chunk)
+        start += chunk_size - overlap
+    return chunks
+
+
 def _extract_llm(transcription: str) -> dict:
-    # Chunk if very large (preserve full corpus for Agent C too)
-    text = transcription[:30_000] if len(transcription) > 30_000 else transcription
-    prompt = (
-        SYSTEM + "\n\n"
-        "Extrahiere alle Entitäten aus diesem Text:\n\n" + text + "\n\n"
-        "Antworte als JSON: {\"entities\": ["
-        "{\"text\": str, \"type\": str, \"normalised\": str, \"context\": str}"
-        "]}. "
-        "Sei grosszügig — extrahiere auch unsichere Kandidaten."
-    )
-    try:
-        raw = gs.chat_text(prompt, system=None, max_tokens=2500)
-        cleaned = raw.strip().strip("```json").strip("```").strip()
-        return json.loads(cleaned)
-    except (json.JSONDecodeError, Exception) as e:
-        logger.error(f"[Agent C] Extraktion fehlgeschlagen: {e}")
-        return {"entities": []}
+    """
+    Extract entities from the full transcription (all chunks), not a truncated
+    prefix.  Each chunk is processed separately and entities are merged.
+    """
+    all_entities = []
+    chunks = _chunk_text(transcription)
+    total = len(chunks)
+    for i, chunk in enumerate(chunks):
+        offset_info = (
+            f"[Hinweis: Teil {i+1}/{total}]\n\n"
+            if total > 1 else ""
+        )
+        prompt = (
+            SYSTEM + "\n\n" +
+            offset_info +
+            "Extrahiere alle Entitäten aus diesem Text:\n\n" + chunk + "\n\n"
+            "Antworte als JSON: {\"entities\": ["
+            "{\"text\": str, \"type\": str, \"normalised\": str, \"context\": str}"
+            "]}. "
+            "Sei grosszügig — extrahiere auch unsichere Kandidaten."
+        )
+        try:
+            raw = gs.chat_text(prompt, system=None, max_tokens=8000)
+            cleaned = raw.strip().strip("```json").strip("```").strip()
+            data = json.loads(cleaned)
+            all_entities.extend(data.get("entities", []))
+        except (json.JSONDecodeError, Exception) as e:
+            logger.warning(f"[Agent C] Extraktion fehlgeschlagen (chunk {i+1}): {e}")
+
+    # Deduplicate by (text, type) — last occurrence wins for duplicates
+    seen: dict[tuple, dict] = {}
+    for ent in all_entities:
+        key = (ent.get("text", ""), ent.get("type", ""))
+        if key not in seen or ent.get("context"):
+            seen[key] = ent
+
+    return {"entities": list(seen.values())}
+
 
 
 def _enrich(extracted: dict) -> dict:

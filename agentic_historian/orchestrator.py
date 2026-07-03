@@ -13,6 +13,7 @@ neu ausgefuehrt, mit dem besten Modell gemaess model_selector.
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -33,6 +34,7 @@ try:
     from agent_a import transcribe_dual, DualTranscriptionResult
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
     from agent_a.model_selector import select_best_kraken_model
+    from agent_a.reconcile import reconcile
     DUAL_AVAILABLE = True
 except ImportError:
     DUAL_AVAILABLE = False
@@ -235,12 +237,18 @@ def run_full_pipeline(
                     source_description=source_desc_text,
                     lang=lang,
                 )
-                # Update ctx.transcription if kraken gave a result
+                # Reconcile VLM (Phase 1) with kraken (Phase 3) instead of
+                # blindly preferring kraken.  Both transcriptions are kept;
+                # the better one (per the reconcile() diff/LLM logic) is used.
                 if kraken_results["kraken_transcription"]:
-                    ctx.transcription = kraken_results["kraken_transcription"]
+                    vlm_text = ctx.transcription
+                    kraken_text = kraken_results["kraken_transcription"]
+                    rec_result = reconcile(vlm_text, kraken_text)
+                    ctx.transcription = rec_result.reconciled
                     logger.info(
-                        f"[Orchestrator] Phase 3: kraken transcription updated "
-                        f"({len(ctx.transcription)} chars)"
+                        f"[Orchestrator] Phase 3: reconciled ({rec_result.method}), "
+                        f"agreement={rec_result.agreement_score:.2f}, "
+                        f"{len(ctx.transcription)} chars"
                     )
                 # Store kraken metadata in a_meta
                 ctx.a_meta["kraken_transcription"] = kraken_results["kraken_transcription"]
@@ -295,7 +303,10 @@ def run_full_pipeline_group(
     transcription (one .txt named after the order), then Agent B (one source
     description) and Agent C (entities over the whole order) run on it.
     """
-    pages = sorted((Path(p) for p in image_paths), key=lambda p: p.name)
+    # Natural sort: page_2, page_10 (not page_10, page_2)
+    def _natural_key(name: str):
+        return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
+    pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
     ctx = PipelineContext(doc_id)
     logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
 
@@ -403,8 +414,41 @@ def run_hot_folder() -> list[PipelineResult]:
     return results
 
 
+def _append_errors_to_log(doc_id: str, errors: list) -> None:
+    """Append ctx.errors to the persistent meta error log (META_LOG_PATH).
+
+    The log is a JSON list of entries, one per pipeline run.
+    Each entry is a dict with 'doc_id', 'timestamp', and 'errors'.
+    Duplicate runs for the same doc_id append a new entry (not a merge).
+    """
+    log_path = config.META_LOG_PATH
+    try:
+        if log_path.exists():
+            try:
+                entries = json.loads(log_path.read_text(encoding="utf-8"))
+            except Exception:
+                entries = []
+        else:
+            entries = []
+    except Exception:
+        entries = []
+
+    from datetime import datetime, timezone
+    entries.append({
+        "doc_id": doc_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "errors": errors,
+    })
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text(json.dumps(entries, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info(f"[Orchestrator] {len(errors)} error(s) written to {log_path}")
+
+
 def _save_pipeline_result(doc_id: str, ctx: PipelineContext):
     out = config.OUTPUTS_DIR / f"{doc_id}_pipeline.json"
     with open(out, "w", encoding="utf-8") as f:
         json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
     logger.info(f"[Orchestrator] Pipeline-Resultat: {out}")
+
+    # Persist errors to the persistent meta error log
+    _append_errors_to_log(doc_id, ctx.errors)
