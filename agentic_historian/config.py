@@ -37,6 +37,16 @@ GITHUB_TOKEN = _get("GITHUB_TOKEN")
 GITHUB_REPO = _get("GITHUB_REPO", "thodel/agentic_historian")
 GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 
+# ── Knowledge Hub (MCP-federated) ────────────────────────────────────────────
+# The Knowledge Hub is realised as a federation of MCP servers (one per
+# authority source), not a local store. The declarative source registry lives
+# in knowledge_hub/mcp_registry.py; adding a source = adding a registry entry.
+# Only the host base is configurable here, so the whole federation can be
+# repointed (staging/prod) with one env var. See docs/knowledge_hub.md.
+MCP_BASE_URL = _get("MCP_BASE_URL", "https://tei.dh.unibe.ch/mcp").rstrip("/")
+# Per-request timeout (seconds) when querying an MCP source.
+MCP_TIMEOUT = float(_get("MCP_TIMEOUT", "15"))
+
 # ── GPUStack (unibe) ─────────────────────────────────────────────────────────
 # Verified served models (GET /v1/models, 2026-06-26):
 #   VLMs : qwen3-vl-30b-a3b-instruct (64K), qwen3-vl-8b-instruct (31K),
