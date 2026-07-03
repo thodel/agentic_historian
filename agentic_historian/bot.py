@@ -92,7 +92,7 @@ async def run_pipeline(
             return
         msg = (
             f"✅ Pipeline fertig für `{filename}`\n"
-            f"QA-Score: {result.get('transcription_qa', '?')}\n"
+            f"QA-Score: {result.get('a_meta', {}).get('qa_score', '?')}\n"
             f"Entitäten: {len(result.get('entities', {}).get('entities', []))}\n"
             f"Errors: {len(result.get('errors', []))}"
         )

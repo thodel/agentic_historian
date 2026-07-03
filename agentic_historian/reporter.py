@@ -10,7 +10,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
-PROGRESS_FILE = Path(__file__).parent.parent / "PROGRESS.md"
+PROGRESS_FILE = Path(__file__).parent / "PROGRESS.md"
 
 DEFAULT_PROGRESS = {
     "phase_0": {"status": "pending", "notes": "GitHub push and exec approvals"},
