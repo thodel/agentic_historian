@@ -82,9 +82,10 @@ def transcribe_image(image_path: str | Path) -> dict:
         transcription = _htr_vlm(image_path)
         source = "vlm"
 
-    # Independent length-based QA (not self-referential)
+    # Independent quality check — NOT self-referential.
+    # Only retry VLM (not kraken — kraken-first is the policy).
     qa_score = _quality_score(transcription)
-    if qa_score < config.HTR_QUALITY_THRESHOLD:
+    if source == "vlm" and qa_score < config.HTR_QUALITY_THRESHOLD:
         logger.warning(
             f"[Agent A] QA-Score {qa_score:.2f} < {config.HTR_QUALITY_THRESHOLD}, "
             f"VLM-Retry für {doc_id}"
@@ -151,7 +152,7 @@ def _htr_vlm(image_path: Path, retry: int = 0) -> str:
         result = gs.chat_vision(
             prompt=prompt,
             image_source=str(image_path),
-            temperature=1.0,
+            temperature=0.2,
             max_tokens=32768,
         )
         return result.strip()
@@ -162,30 +163,31 @@ def _htr_vlm(image_path: Path, retry: int = 0) -> str:
 
 def _quality_score(transcription: str) -> float:
     """
-    Independent quality check — does NOT use the same VLM that produced the text.
-    
-    Simple heuristic scoring:
-    - Empty → 0.0
-    - Too short relative to image (rough) → penalty
-    - Contains only whitespace/punctuation → low score
-    - Normalised: 0.0–1.0
+    Independent heuristic quality check for HTR output.
+
+    Does NOT use the same VLM that produced the text (not self-referential).
+    Does NOT use length as a quality proxy — short is not the same as bad.
+
+    Scoring:
+      - Empty or whitespace-only → 0.0
+      - Mostly punctuation (alpha_ratio < 0.1) → 0.2
+      - Short (under 20 chars) → 0.3  (genuinely too little to evaluate)
+      - Otherwise → 0.8  (heuristic: non-empty, readable text is usable)
+                         (kraken/VLM output quality is evaluated via CER
+                          against ground-truth fixtures, not this heuristic)
     """
     if not transcription.strip():
         return 0.0
 
     text = transcription.strip()
 
-    # Penalise: mostly punctuation or very short
     alpha_ratio = sum(c.isalpha() for c in text) / max(len(text), 1)
     if alpha_ratio < 0.1:
         return 0.2
     if len(text) < 20:
         return 0.3
 
-    # Length-based confidence (rough proxy; no self-rating)
-    # Very long transcriptions of a single page are likely over-confident
-    score = min(0.9, 0.5 + 0.1 * (len(text) / 500))
-    return round(score, 2)
+    return 0.8
 
 
 # ── Persistence ───────────────────────────────────────────────────────────────

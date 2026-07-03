@@ -33,6 +33,7 @@ try:
     from agent_a import transcribe_dual, DualTranscriptionResult
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
     from agent_a.model_selector import select_best_kraken_model
+    from agent_a.reconcile import reconcile
     DUAL_AVAILABLE = True
 except ImportError:
     DUAL_AVAILABLE = False
@@ -235,12 +236,18 @@ def run_full_pipeline(
                     source_description=source_desc_text,
                     lang=lang,
                 )
-                # Update ctx.transcription if kraken gave a result
+                # Reconcile VLM (Phase 1) with kraken (Phase 3) instead of
+                # blindly preferring kraken.  Both transcriptions are kept;
+                # the better one (per the reconcile() diff/LLM logic) is used.
                 if kraken_results["kraken_transcription"]:
-                    ctx.transcription = kraken_results["kraken_transcription"]
+                    vlm_text = ctx.transcription
+                    kraken_text = kraken_results["kraken_transcription"]
+                    rec_result = reconcile(vlm_text, kraken_text)
+                    ctx.transcription = rec_result.reconciled
                     logger.info(
-                        f"[Orchestrator] Phase 3: kraken transcription updated "
-                        f"({len(ctx.transcription)} chars)"
+                        f"[Orchestrator] Phase 3: reconciled ({rec_result.method}), "
+                        f"agreement={rec_result.agreement_score:.2f}, "
+                        f"{len(ctx.transcription)} chars"
                     )
                 # Store kraken metadata in a_meta
                 ctx.a_meta["kraken_transcription"] = kraken_results["kraken_transcription"]
