@@ -412,6 +412,7 @@ def run_hot_folder() -> list[PipelineResult]:
                 processed = config.PROCESSED_FOLDER / fp.name
                 fp.rename(processed)
                 result["moved_to"] = str(processed)
+                results.append(result)   # #97: successes were never recorded
             except Exception as e:
                 logger.error(f"[Orchestrator] Hot-folder Fehler bei {fp.name}: {e}")
                 results.append({"doc_id": fp.stem, "error": str(e)})
