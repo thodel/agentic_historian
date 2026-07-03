@@ -261,7 +261,7 @@ class SourceCriteria:
     script: Optional[str] = None        # e.g. "Caroline minuscule"
     lang: Optional[str] = None          # ISO code, e.g. "de", "la"
     century: Optional[int] = None       # integer 10–20
-    date自由: Optional[str] = None       # raw date string (e.g. "14. Jh.")
+    date_raw: Optional[str] = None       # raw date string (e.g. "14. Jh.")
     document_type: Optional[str] = None # e.g. "charter", "ledger", "chronicle"
     region: Optional[str] = None        # e.g. "Bavaria", "Swiss", "Saxon
     notes: str = ""                     # full raw text of Agent B description
@@ -335,7 +335,7 @@ class SourceCriteria:
             script=script,
             lang=lang,
             century=century,
-            date自由=description,
+            date_raw=description,
             document_type=doc_type,
             notes=description,
         )
