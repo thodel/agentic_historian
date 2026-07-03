@@ -27,7 +27,14 @@ def normalise(text: str) -> str:
 def cer(reference: str, hypothesis: str) -> float:
     """
     Character Error Rate = Levenshtein distance / reference length.
-    Returns value between 0.0 (perfect) and 1.0 (completely wrong).
+
+    Returns a value that can exceed 1.0 when the hypothesis contains many
+    insertions relative to the reference length (e.g. hallucinated text).
+    The 0-1 range is a convenient fiction for the perfect-to-worst case on
+    same-length strings; it is NOT a clamped probability.
+
+    To compare across documents of very different lengths, consider
+    weighting by reference length or using WER alongside CER.
     """
     ref = normalise(reference)
     hyp = normalise(hypothesis)
@@ -57,7 +64,10 @@ def cer(reference: str, hypothesis: str) -> float:
 def wer(reference: str, hypothesis: str) -> float:
     """
     Word Error Rate = Levenshtein distance on words / reference word count.
-    Returns value between 0.0 (perfect) and 1.0 (completely wrong).
+
+    Returns a value that can exceed 1.0 when the hypothesis contains many
+    word-level insertions (hallucinated content).  See cer() docstring for
+    the same caveat about the 0-1 "range".
     """
     ref_words = normalise(reference).split()
     hyp_words = normalise(hypothesis).split()
