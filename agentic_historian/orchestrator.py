@@ -33,7 +33,7 @@ from knowledge_hub import hub
 try:
     from agent_a import transcribe_dual, DualTranscriptionResult
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
-    from agent_a.model_selector import select_best_kraken_model
+    from agent_a.model_selector import select_kraken_model, SourceCriteria
     from agent_a.reconcile import reconcile
     DUAL_AVAILABLE = True
 except ImportError:
@@ -93,14 +93,18 @@ def _rerun_kraken_with_model_selection(
         "error_party": "",
     }
 
-    # Select best kraken model using Agent B description
-    best_matches = select_best_kraken_model(source_description, top_k=3)
+    # Select best kraken model using Agent B description.
+    # NOTE: select_kraken_model returns a list[ModelMatch] (each has .model,
+    # .score, .matched_on). The old code called select_best_kraken_model (which
+    # returns a single KrakenModel|None) and indexed it as a list → TypeError.
+    criteria = SourceCriteria.from_agent_b(source_description)
+    best_matches = select_kraken_model(criteria, top_k=3)
     if best_matches:
         top = best_matches[0]
         kraken_model = top.model
         logger.info(
             f"[Phase 3] Best kraken model: {kraken_model.name} "
-            f"(score={top.score:.2f}) — matched: {', '.join(top.matched_fields)}"
+            f"(score={top.score:.2f}) — matched: {', '.join(top.matched_on)}"
         )
         result["kraken_model"] = kraken_model
     else:

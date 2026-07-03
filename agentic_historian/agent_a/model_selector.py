@@ -199,10 +199,6 @@ def score_model(
             score += 0.2
             matched.append("script~")
             reasons.append(f"script fuzzy: {model.script}")
-        elif any(ns in ms or ms in ns for ms in [norm_model_script]):
-            score += 0.1
-            matched.append("script?")
-            reasons.append(f"script partial: {model.script}")
 
     # Language match
     if norm_lang and model.lang:
