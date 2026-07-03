@@ -1,10 +1,29 @@
 # Agentic Historian — Implementation Plan
 
-**Status:** draft · **Updated:** 2026-07-01 · **Companion repos:** `serving-atr-inference`
+**Status:** draft · **Updated:** 2026-07-03 · **Companion repos:** `serving-atr-inference`
 
 ## Overview
 
 The Agentic Historian is an autonomous pipeline for transcribing, describing, and analysing historical handwritten documents (14th–16th century, Swiss/German administrative sources). The next phase extends it with **parallel multi-source entity search** across independent data sources via MCP.
+
+---
+
+## Current operational baseline & sequencing (2026-07-03)
+
+Two facts shape the plan and override the older "kraken-first, 5-phase" framing:
+
+- **The VLM deployment works.** `A(VLM) → B → C` runs end-to-end on GPUStack **today**. This **VLM-only mode is the current operational baseline** — the VLM path (Agent A fallback HTR, Agent B source description, Agent C NER on gpt-oss) is the *active* pipeline. **kraken is an enhancement track**, not a prerequisite: it improves gothic-cursive HTR but Phase 3 (kraken re-run) is currently both broken (#96) and optional. Consequently the VLM-path bugs (#98 Agent B prompt, #107 self-QA, #19 care-flag budget) are the active-path priority.
+- **The server is a live, iterating deployment** (`tei.dh.unibe.ch`, systemd `agentic-historian.service`). The **deployed baseline** is: the VLM pipeline + SwitchDrive/hot-folder ingestion + the Discord bot. This promotes two items from housekeeping to must-do: **#106** (committed dotenvs stomping real systemd/exported secrets — deployment-correctness) and **CI #104** (frequent deploys need a gate).
+
+### Sequencing (project-wide)
+
+1. **Deployment correctness** — #106 (env stomping), CI #104/PR #122 (needs `gh` `workflow` scope).
+2. **Pipeline hardening** — #96 · #97 · #98 · #99 · #100 + VLM-path #107 · #19 → makes `A→B→C` output *trustworthy* (prerequisite for federated linking). Tracked under the code-review epic **#95**.
+3. **kraken enhancement** — #110 (align serving-atr-inference registry) → #108/#13 (HF/TrOCR strategy) → #96 (Phase 3) → #17 (reconciliation).
+4. **Federated search / Agent C → authority linking** — epic **#129**, once Agent C is hardened.
+5. **Parallel / later** — Voyant #29, NL/Scholar-in-the-Loop orchestrator #32/#41/#33, packaging #109 (from the parked server stash).
+
+The Knowledge Hub (MCP federation) is **done** — see [`docs/knowledge_hub.md`](docs/knowledge_hub.md).
 
 ---
 
@@ -265,7 +284,7 @@ Legend: ✅ done · 🔨 exists but has known correctness bugs (see remediation)
 - Phase 0 — GitHub setup & exec approvals ✅
 - Phase 1 — Scaffold & Discord bot ✅
 - Phase 2 — **Knowledge Hub (MCP federation)** ✅ *(registry + methodology; see `docs/knowledge_hub.md`)*
-- Phase 3 — OCR (HTR) pipeline 🔨 *(kraken activation pending: #12/#110; VLM path #107/#108)*
+- Phase 3 — OCR (HTR): **VLM path operational** ✅ · **kraken enhancement track** 🔨 *(activation: #110 → #108/#13 → #96; VLM-path fix #107)*
 - Phase 4 — Source description 🔨 *(#98 invalid-JSON prompt + garbage tokens)*
 - Phase 5 — Entity extraction (NER) 🔨 *(works locally; MCP linking is Milestone 1)*
 - Phase 6 — Corpus analysis 🔨
