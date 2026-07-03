@@ -47,14 +47,14 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None) 
         f"Anweisungen fuer die Beschreibung:\n{user_prompt}\n\n"
         "Wichtige Anforderung: Antworte ZUERST mit einem JSON-Objekt (siehe Schema unten),\n"
         "DANN im Anschluss mit einem vollstaendigen Fliesstext in Markdown.\n\n"
-        "JSON-Schema (16 Elemente, المفتاحية = Pflichtfelder):\n"
+        "JSON-Schema (16 Elemente, Pflichtfelder):\n"
         + json.dumps(SIXTEEN_ELEMENT_SCHEMA, indent=2, ensure_ascii=False)
         + "\n\n"
         "Regeln:\n"
         "- Verwende KEINE Markdown-Codefences um das JSON.\n"
         "- Gib das JSON als Erstes aus, direkt gefolgt vom Markdown.\n"
-        "- Fehlende oder nicht beobachtbare Felder mit null oder空String [] je nach Typ.\n"
-        "- Unsichere Angaben als Kommentar: /* unsicher */\n"
+        "- Fehlende oder nicht beobachtbare Felder mit null oder [] je nach Typ.\n"
+        "- Unsichere Angaben: im betreffenden Element unsicher: true setzen (kein Kommentar).\n"
     )
 
     try:
