@@ -227,8 +227,10 @@ def _semantic_link(text: str, ent_type: str) -> dict | None:
                 "wikidata": obj.get("wikidata", ""),
                 "gnd": obj.get("gnd", ""),
                 "hls": obj.get("hls", ""),
-                "hub_confidence": round(best["score"], 3),
-            "confidence_label": "medium",
+                # hub_confidence is a qualitative label everywhere (high/medium/
+                # low/unverified); keep the raw reranker score separately.
+                "hub_confidence": "medium",
+                "semantic_score": round(best["score"], 3),
             }
     except Exception as e:
         logger.warning(f"[Agent C] Semantic link failed for '{text}': {e}")
@@ -266,6 +268,8 @@ def _save(doc_id: str, result: dict, transcription: str) -> None:
 
     for etype, ents in by_type.items():
         lines.append(f"## {etype}\n")
+        # Most-confident links first (high → unverified)
+        ents = sorted(ents, key=lambda e: _conf_rank(e.get("hub_confidence")), reverse=True)
         for e in ents:
             wiki = (f" [Wikidata](https://www.wikidata.org/entity/{e.get('wikidata','')})"
                     if e.get("wikidata") else "")

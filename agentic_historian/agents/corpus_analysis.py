@@ -90,7 +90,7 @@ def _stats(text: str) -> dict:
         # Prepositions
         "in", "von", "mit", "zu", "für", "auf", "aus", "nach", "bei",
         "an", "unter", "über", "durch", "vor", "hinter", "zwischen",
-        "ohne", "um", "gegen", "seit", "bis", "除了",
+        "ohne", "um", "gegen", "seit", "bis",
         # Pronouns (personal + demonstrative)
         "ich", "du", "er", "sie", "es", "wir", "ihr", "mich", "dich",
         "sich", "uns", "euch", "mir", "dir", "ihm", "ihn", "ihr",
