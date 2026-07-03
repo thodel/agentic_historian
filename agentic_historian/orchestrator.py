@@ -13,6 +13,7 @@ neu ausgefuehrt, mit dem besten Modell gemaess model_selector.
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -33,6 +34,7 @@ try:
     from agent_a import transcribe_dual, DualTranscriptionResult
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
     from agent_a.model_selector import select_best_kraken_model
+    from agent_a.reconcile import reconcile
     DUAL_AVAILABLE = True
 except ImportError:
     DUAL_AVAILABLE = False
@@ -235,12 +237,18 @@ def run_full_pipeline(
                     source_description=source_desc_text,
                     lang=lang,
                 )
-                # Update ctx.transcription if kraken gave a result
+                # Reconcile VLM (Phase 1) with kraken (Phase 3) instead of
+                # blindly preferring kraken.  Both transcriptions are kept;
+                # the better one (per the reconcile() diff/LLM logic) is used.
                 if kraken_results["kraken_transcription"]:
-                    ctx.transcription = kraken_results["kraken_transcription"]
+                    vlm_text = ctx.transcription
+                    kraken_text = kraken_results["kraken_transcription"]
+                    rec_result = reconcile(vlm_text, kraken_text)
+                    ctx.transcription = rec_result.reconciled
                     logger.info(
-                        f"[Orchestrator] Phase 3: kraken transcription updated "
-                        f"({len(ctx.transcription)} chars)"
+                        f"[Orchestrator] Phase 3: reconciled ({rec_result.method}), "
+                        f"agreement={rec_result.agreement_score:.2f}, "
+                        f"{len(ctx.transcription)} chars"
                     )
                 # Store kraken metadata in a_meta
                 ctx.a_meta["kraken_transcription"] = kraken_results["kraken_transcription"]
@@ -295,7 +303,10 @@ def run_full_pipeline_group(
     transcription (one .txt named after the order), then Agent B (one source
     description) and Agent C (entities over the whole order) run on it.
     """
-    pages = sorted((Path(p) for p in image_paths), key=lambda p: p.name)
+    # Natural sort: page_2, page_10 (not page_10, page_2)
+    def _natural_key(name: str):
+        return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
+    pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
     ctx = PipelineContext(doc_id)
     logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
 
