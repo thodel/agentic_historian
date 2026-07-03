@@ -9,16 +9,23 @@ This Discord server (#allgemein, channel `1519707390956798034`) is the live proo
 ## Architecture
 
 ```
-agent_a/          — HTR pipeline (VLM OCR + QA scoring)
-agent_b/          — Source description (Ad Fontes UZH 16-element schema)
-agent_c/          — Entity extraction (LLM NER + Wikidata/GND linking)
-agent_d/          — Corpus analysis (stats, topics, Voyant Tools)
-agent_e/          — Meta agent (resource tracking, error log, suggestions)
-knowledge_hub/    — In-memory store for persons, places, vocabulary
-orchestrator.py   — A→B→C pipeline wiring
-bot.py            — Discord bot (slash commands)
-reporter.py       — Progress tracking + report generation
+agents/
+  text_recognition.py   — Agent A: HTR (VLM, per-page + grouped)
+  source_description.py — Agent B: source description (Ad Fontes 16-element; JSON+MD)
+  entity_agent.py       — Agent C: entity extraction (NER) + hub/embedding/reranker linking
+  corpus_analysis.py    — Agent D: corpus stats, topics, taxonomy, care, Voyant
+  meta_agent.py         — Agent E: resource tracking / report
+agent_a/          — two-pronged HTR (VLM + kraken via serving-atr-inference)
+knowledge_hub/    — controlled vocabulary + thin cache (authority data via MCP federation)
+utils/
+  gpustack_client.py    — single GPUStack (OpenAI-compatible) client
+  switchdrive.py        — WebDAV ingestion from SwitchDrive
+orchestrator.py   — A→B→C(→D) pipeline wiring (single doc + grouped "order")
+bot.py            — Discord bot (py-cord slash commands)
+config.py         — central config + role-based GPUStack routing
 ```
+
+All models run on the **unibe GPUStack** (`gpustack.unibe.ch`, OpenAI-compatible): vision `qwen3-vl-30b-a3b-instruct` (A/B), text `gpt-oss-120b` (C/D/E), `minimax-m2.7` reserved for orchestration. HTR's kraken path is served by the companion `serving-atr-inference` service (`KRAKEN_SERVICE_URL`). Knowledge-hub authority data (persons/places, HLS/HBLS/SSRQ/KF/EOS, GND/Wikidata) is federated over **MCP** — see `IMPLEMENTATION_PLAN.md`.
 
 ## Prompt Framework
 
@@ -26,32 +33,43 @@ reporter.py       — Progress tracking + report generation
 
 ## Quick Start
 
+Requires Python 3.11+, on the unibe VPN (GPUStack is IP-gated).
+
 ```bash
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # then fill in your values
+cp ../gpustack.env.example ../.env.gpustack   # then fill in the rotated key + Discord token
 python bot.py
 ```
+`config.py` loads `.env.gpustack` from the **repo root**. In production the bot runs under systemd (`agentic-historian.service`).
 
 ## Discord Commands
 
 | Command | Description |
 |---|---|
-| `/status` | Overall pipeline status |
-| `/run ` | Run full A→B→C pipeline |
-| `/run_agent_a ` | Run HTR only |
-| `/hotfolder` | Process all files in hot folder |
-| `/agent_d [corpus]` | Run corpus analysis |
-| `/agent_e` | Run meta agent |
-| `/progress` | Show phase progress |
+| `/run <file>` | Full A→B→C pipeline on a file in the hot folder |
+| `/run_agent_a <file>` | HTR only |
+| `/hotfolder` | Process all files in the hot folder |
+| `/pull [folder] [recursive]` | Pull images from a SwitchDrive folder and process each |
+| `/pull_folder [folder] [reprocess]` | Process each SwitchDrive subfolder as one multi-page document |
+| `/agent_d [corpus]` | Corpus analysis |
+| `/agent_e` | Meta report |
+| `/status`, `/progress` | Status |
 
-## Environment Variables
+## Environment Variables (`.env.gpustack`, repo root)
 
 | Variable | Description |
 |---|---|
 | `DISCORD_BOT_TOKEN` | Discord bot token |
-| `GPUSTACK_URL` | GPUStack endpoint |
-| `GPUSTACK_API_KEY` | GPUStack API key |
-| `VLM_MODEL` | VLM model name (default: internvl3-8b-instruct) |
+| `GPUSTACK_API_KEY` | GPUStack API key (rotate if leaked; gitignored) |
+| `GPUSTACK_BASE_URL` | GPUStack endpoint (default `https://gpustack.unibe.ch/v1`) |
+| `GPUSTACK_MODEL_VISION` / `_TEXT` / `_ORCHESTRATOR` | Role-based model routing |
+| `GPUSTACK_MODEL_EMBEDDING` / `_RERANKER` | Retrieval models for Agent C linking |
+| `KRAKEN_SERVICE_URL` | serving-atr-inference endpoint for kraken HTR |
+| `SWITCHDRIVE_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
+| `ENABLE_HLS_LOOKUP` / `HLS_DATA_PATH` | Offline HLS fallback (primary path is the HLS MCP) |
+
+See `gpustack.env.example` for the full template.
 
 ## Contributing — PR & issue rules
 
@@ -210,6 +228,33 @@ def analyse_with_voyant(text: str, endpoint: str = "https://tei.dh.unibe.ch/voya
 ```
 
 **Important:** The Voyant endpoint is internal-only (`localhost:8888` proxy) — always route through `https://tei.dh.unibe.ch/voyant/`.
+
+## Models
+
+Model registry lives in the sibling repo **serving-atr-inference**:
+
+**`serving-atr-inference/config/models.yaml`** — authoritative ATR model registry.
+
+The `agent_a/models.py` file is a client-side mirror of the same entries, used by
+`model_selector.py` for language/script/century → model routing.
+
+### TrOCR line-level models (currently deployed)
+
+| Model ID | HF repo | Languages | Centuries |
+|---|---|---|---|
+| `trocr-medieval-escriptmask` | `dh-unibe/trocr-medieval-escriptmask` | de, fr, la, nl | 13–16 |
+| `trocr-kurrent-xvi-xvii` | `dh-unibe/trozco-kurrent-XVI-XVII` | de | 16–17 |
+| `trocr-essoins-middle-latin` | `dh-unibe/trozco-essoins-middle-latin` | la | 13–15 |
+
+All three are **vision-encoder-decoder seq2seq** models served by the trocr engine
+(GPU1, port :8202). They require pre-segmented **line images** — page-level input must
+be segmented first (e.g. via kraken `blla`).
+
+### Other engines
+
+- **VLM (vLLM)** — GPU0/1, e.g. InternVL3-8B, Qwen3-VL — page-level, no prior seg needed
+- **Kraken** — GPU1, various Zenodo models — page-level (segments internally)
+- **Party/PARY** — GPU1, Zenodo `10.5281/zenodo.20642057` — page-level HTR
 
 ## Phases
 

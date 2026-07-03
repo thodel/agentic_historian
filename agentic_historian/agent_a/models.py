@@ -445,15 +445,31 @@ PARTY_MODEL = KrakenModel(
 # Populated from HuggingFace model listings.
 
 HF_MODELS: dict[str, HFModel] = {
-    # Placeholder — to be replaced with actual model list:
-    # "lightonocr_caroline": HFModel(
-    #     model_id="wjbmattingly/LightOnOCR-2-1B-catmus-caroline",
-    #     name="LightOnOCR-2-1B (CatMuS Caroline)",
-    #     lang="la",
-    #     task="line-ocr",
-    #     requires_line_images=True,
-    #     notes="1B params. Line-level input. CER 13.71% on CatMuS test set.",
-    # ),
+    # TrOCR line-level models (served by trocr engine on asterAIx :8202)
+    "trocr_medieval_escriptmask": HFModel(
+        model_id="dh-unibe/trocr-medieval-escriptmask",
+        name="TrOCR Medieval EscriptMask",
+        lang="mul",  # de, fr, la, nl
+        task="line-ocr",
+        requires_line_images=True,
+        notes="Vision-encoder-decoder seq2seq. Medieval manuscript lines (Carolingian/Textura). Serviced by trocr engine.",
+    ),
+    "trocr_kurrent_xvi_xvii": HFModel(
+        model_id="dh-unibe/trocr-kurrent-XVI-XVII",
+        name="TrOCR Kurrent XVI–XVII",
+        lang="de",
+        task="line-ocr",
+        requires_line_images=True,
+        notes="Vision-encoder-decoder seq2seq. Early modern German Kurrent, 16th–17th c. Serviced by trocr engine.",
+    ),
+    "trocr_essoins_middle_latin": HFModel(
+        model_id="dh-unibe/trozco-essoins-middle-latin",
+        name="TrOCR Essoins Middle Latin",
+        lang="la",
+        task="line-ocr",
+        requires_line_images=True,
+        notes="Vision-encoder-decoder seq2seq. Middle Latin (legal documents, Essoins). 13th–15th c. Serviced by trocr engine.",
+    ),
 }
 
 
