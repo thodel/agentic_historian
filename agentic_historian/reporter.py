@@ -1,7 +1,7 @@
 """Progress reporter for Agentic Historian.
 
 This module tracks implementation progress and can generate status reports.
-It reads from a PROGRESS.md file in the project root.
+It reads from a PROGRESS.md file in the package directory (next to this module).
 """
 
 import json
@@ -10,7 +10,9 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
-PROGRESS_FILE = Path(__file__).parent.parent / "PROGRESS.md"
+# PROGRESS.md lives in the package dir (agentic_historian/PROGRESS.md), i.e.
+# next to this module. The previous `.parent.parent` overshot to the repo root.
+PROGRESS_FILE = Path(__file__).parent / "PROGRESS.md"
 
 DEFAULT_PROGRESS = {
     "phase_0": {"status": "pending", "notes": "GitHub push and exec approvals"},
