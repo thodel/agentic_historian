@@ -54,7 +54,7 @@ def get_client() -> OpenAI:
     if _client is None:
         if not config.GPUSTACK_API_KEY:
             raise RuntimeError(
-                "GPUSTACK_API_KEY is not set. Copy gpustack.env.example to "
+                "GPUSTACK_API_KEY is not set. Copy workspace/gpustack.env.example to "
                 ".env.gpustack at the repo root and fill in a valid key."
             )
         _client = OpenAI(
