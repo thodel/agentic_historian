@@ -95,8 +95,8 @@ async def status(ctx):
     await ctx.followup.send(report)
 
 
-@require_role
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
+@require_role
 async def run_pipeline(
     ctx,
     filename: Option(str, "Filename in data/hot_folder/", required=True),
@@ -125,8 +125,8 @@ async def run_pipeline(
         await ctx.followup.send(f"❌ Error: {e}")
 
 
-@require_role
 @bot.slash_command(name="run_agent_a", description="Run Agent A (HTR) only")
+@require_role
 async def run_agent_a_cmd(
     ctx,
     filename: Option(str, "Filename in data/hot_folder/", required=True),
@@ -169,8 +169,8 @@ async def hotfolder(ctx):
         await ctx.followup.send(f"❌ Error: {e}")
 
 
-@require_role
 @bot.slash_command(name="pull", description="Pull a SwitchDrive folder into the hot folder and process it")
+@require_role
 async def pull_cmd(
     ctx,
     folder: Option(str, "SwitchDrive folder (relative to your SwitchDrive root)", required=False, default=None),
@@ -207,11 +207,11 @@ async def pull_cmd(
         await ctx.followup.send(f"❌ Error: {e}")
 
 
-@require_role
 @bot.slash_command(
     name="pull_folder",
     description="Process each SwitchDrive subfolder as ONE multi-page document",
 )
+@require_role
 async def pull_folder_cmd(
     ctx,
     folder: Option(str, "Parent folder on SwitchDrive (default: hot folder)", required=False, default=None),

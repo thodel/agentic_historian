@@ -29,24 +29,29 @@ def test_require_role_decorator_exists():
 
 
 def test_require_role_applied_to_sensitive_commands():
-    """@require_role must be applied to the four sensitive commands:
-    /run, /run_agent_a, /pull, /pull_folder."""
+    """@require_role must decorate the four sensitive commands
+    (/run, /run_agent_a, /pull, /pull_folder) — and, critically, it must sit
+    BELOW @bot.slash_command (between the command decorator and `async def`).
+    If it sits above, py-cord registers the un-gated callback (dead code).
+    """
     src = read(BOT_PATH)
 
-    # Find positions of @require_role and the commands
     run_pos = src.find('@bot.slash_command(name="run"')
     agent_a_pos = src.find('@bot.slash_command(name="run_agent_a"')
     pull_pos = src.find('@bot.slash_command(name="pull"')
-    pull_folder_pos = src.find('name="pull_folder"', src.find('@bot.slash_command('))
-    require_role_positions = [m.start() for m in re.finditer(r'@require_role\n', src)]
+    pull_folder_pos = src.find('@bot.slash_command(', src.find('name="pull_folder"') - 200)
 
     for cmd_pos, name in [(run_pos, "/run"), (agent_a_pos, "/run_agent_a"),
                            (pull_pos, "/pull"), (pull_folder_pos, "/pull_folder")]:
         assert cmd_pos != -1, f"{name} command not found"
-        # At least one @require_role must appear between the previous content
-        # and this command (i.e. immediately above it)
-        nearby = src[max(0, cmd_pos - 100):cmd_pos]
-        assert "@require_role" in nearby, f"@require_role must decorate {name}"
+        def_pos = src.find("async def", cmd_pos)
+        assert def_pos != -1, f"{name}: no async def after command decorator"
+        # @require_role must appear between the slash_command decorator and def
+        between = src[cmd_pos:def_pos]
+        assert "@require_role" in between, (
+            f"@require_role must decorate {name} BELOW @bot.slash_command "
+            f"(so the gated wrapper is the registered callback)"
+        )
 
 
 def test_config_role_id_option():
@@ -57,6 +62,40 @@ def test_config_role_id_option():
     )
     assert "_get(\"REQUIRED_DISCORD_ROLE_ID\"" in src, (
         "REQUIRED_DISCORD_ROLE_ID must be loaded from env var"
+    )
+
+
+# ── Part 1b: Functional — the gate is actually the registered callback ───────
+
+def test_sensitive_commands_are_functionally_gated():
+    """Regression for the decorator-ORDER bug: string checks alone pass even
+    when @require_role sits ABOVE @bot.slash_command, in which case py-cord
+    registers the UN-gated callback and the role check becomes dead code.
+
+    py-cord's slash_command decorator must be the OUTER one so it registers the
+    require_role wrapper.  We assert the actually-registered callback is the
+    functools.wraps wrapper (has __wrapped__) and that Options survived.
+    """
+    import bot as bot_module
+
+    sensitive = {"run", "run_agent_a", "pull", "pull_folder"}
+    registered = {
+        c.name: c
+        for c in bot_module.bot.pending_application_commands
+        if getattr(c, "name", None) in sensitive
+    }
+    assert sensitive.issubset(registered), (
+        f"missing sensitive commands: {sensitive - set(registered)}"
+    )
+    for name, cmd in registered.items():
+        cb = cmd.callback
+        assert hasattr(cb, "__wrapped__"), (
+            f"/{name} registered callback is NOT the require_role wrapper — "
+            f"@require_role must be applied BELOW @bot.slash_command"
+        )
+    # Options must survive the wrapper (py-cord follows __wrapped__ for signature)
+    assert [o.name for o in registered["run"].options] == ["filename"], (
+        "the require_role wrapper dropped the /run 'filename' option"
     )
 
 
