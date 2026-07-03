@@ -414,8 +414,41 @@ def run_hot_folder() -> list[PipelineResult]:
     return results
 
 
+def _append_errors_to_log(doc_id: str, errors: list) -> None:
+    """Append ctx.errors to the persistent meta error log (META_LOG_PATH).
+
+    The log is a JSON list of entries, one per pipeline run.
+    Each entry is a dict with 'doc_id', 'timestamp', and 'errors'.
+    Duplicate runs for the same doc_id append a new entry (not a merge).
+    """
+    log_path = config.META_LOG_PATH
+    try:
+        if log_path.exists():
+            try:
+                entries = json.loads(log_path.read_text(encoding="utf-8"))
+            except Exception:
+                entries = []
+        else:
+            entries = []
+    except Exception:
+        entries = []
+
+    from datetime import datetime, timezone
+    entries.append({
+        "doc_id": doc_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "errors": errors,
+    })
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text(json.dumps(entries, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info(f"[Orchestrator] {len(errors)} error(s) written to {log_path}")
+
+
 def _save_pipeline_result(doc_id: str, ctx: PipelineContext):
     out = config.OUTPUTS_DIR / f"{doc_id}_pipeline.json"
     with open(out, "w", encoding="utf-8") as f:
         json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
     logger.info(f"[Orchestrator] Pipeline-Resultat: {out}")
+
+    # Persist errors to the persistent meta error log
+    _append_errors_to_log(doc_id, ctx.errors)

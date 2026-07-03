@@ -137,5 +137,7 @@ def _save(result: dict):
     md += f"\n## Verbesserungsvorschläge\n\n{r['improvements']}\n"
 
     config.META_REPORT_PATH.write_text(md, encoding="utf-8")
-    config.META_LOG_PATH.write_text("[]", encoding="utf-8")
+    # NOTE: META_LOG_PATH is no longer reset here.
+    # Errors are appended by _append_errors_to_log() in orchestrator.py
+    # after every pipeline run.  Resetting it would lose the error history.
     logger.info(f"[Agent E] Report gespeichert: {config.META_REPORT_PATH}")
