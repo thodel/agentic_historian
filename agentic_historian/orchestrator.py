@@ -35,10 +35,13 @@ try:
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
     from agent_a.model_selector import select_kraken_model, SourceCriteria
     from agent_a.reconcile import reconcile
+    from agent_a.models import refresh_kraken_registry, KRAKEN_MODELS_LIVE
     DUAL_AVAILABLE = True
 except ImportError:
     DUAL_AVAILABLE = False
     DualTranscriptionResult = None
+    refresh_kraken_registry = None
+    KRAKEN_MODELS_LIVE = None
 
 # Result-Pipeline
 PipelineResult = dict
@@ -175,6 +178,22 @@ def run_full_pipeline(
     ctx = PipelineContext(doc_id)
 
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
+
+    # ── Populate live kraken registry from ATR gateway ───────────────────────
+    # Single source of truth: gateway's GET /models.  Local KRAKEN_MODELS
+    # table is the offline fallback.  Errors here are non-fatal — the static
+    # table keeps the pipeline running even if the gateway is unreachable.
+    if DUAL_AVAILABLE and refresh_kraken_registry:
+        try:
+            with KrakenHTTPClient() as client:
+                refresh_kraken_registry(client)
+            logger.info(
+                f"[Phase 0] Live kraken registry populated: "
+                f"{len(KRAKEN_MODELS_LIVE)} models from gateway"
+            )
+        except KrakenClientError as e:
+            logger.warning(f"[Phase 0] Could not reach ATR gateway for live "
+                           f"registry — using static table: {e}")
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 1: Agent A — VLM-only erste Transkription ( fuer Agent B )

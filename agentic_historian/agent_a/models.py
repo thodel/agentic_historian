@@ -36,6 +36,8 @@ class KrakenModel:
     notes: str = ""
     pretrained_on: str = ""
     centuries: list[int] = field(default_factory=list)  # training centuries, e.g. [14,15]
+    scripts: list[str] = field(default_factory=list)   # scripts supported (from gateway, e.g. ["Caroline minuscule", "Textura"])
+    languages: list[str] = field(default_factory=list)  # languages supported (from gateway, e.g. ["la", "de"])
 
 
 @dataclass
@@ -492,3 +494,66 @@ def hf_model_for_lang(lang: str, require_line: bool = False) -> Optional[HFModel
         if m.lang == lang.lower() and (not require_line or m.requires_line_images == require_line):
             return m
     return None
+
+
+# ── Live registry overlay ─────────────────────────────────────────────────────
+# Populated at startup (or on-demand) by refresh_kraken_registry() from the
+# ATR gateway's GET /models endpoint.  The local KRAKEN_MODELS table remains
+# the authoritative fallback when the gateway is unreachable.
+
+KRAKEN_MODELS_LIVE: dict[str, KrakenModel] = {}
+
+
+def refresh_kraken_registry(
+    client: "KrakenHTTPClient",
+) -> dict[str, KrakenModel]:
+    """
+    Fetch the live model registry from the ATR gateway and return a
+    KrakenModel dict overlay.
+
+    The gateway's ``GET /models`` returns ``ModelInfo`` dicts with fields
+    ``id, engine, scripts, centuries, languages, level, description``.
+    ``KrakenHTTPClient.list_models()`` returns ``list[dict]``.
+
+    Returns a dict keyed by model id (same shape as ``KRAKEN_MODELS``),
+    and also updates the module-level ``KRAKEN_MODELS_LIVE`` in place.
+    Raises ``KrakenClientError`` on network failure (callers handle gracefully).
+
+    Pitfalls from the failed first attempt (fix/ah-110-kraken-registry-drift):
+      - Class is ``KrakenHTTPClient``, NOT ``KrakenClient``
+      - ``list_models()`` returns ``list[dict]`` (ModelInfo dicts), NOT ``list[str]``
+      - Must be called INSIDE the ``with KrakenHTTPClient() as client:`` block
+      - Dict key is ``scripts`` (not ``script``) and ``languages`` (not ``lang``)
+    """
+    live_models: dict[str, KrakenModel] = {}
+    raw_models = client.list_models()
+
+    for m in raw_models:
+        if not isinstance(m, dict) or "id" not in m:
+            continue
+
+        model_id = m["id"]
+        centuries: list[int] = []
+        raw_centuries = m.get("centuries", [])
+        if isinstance(raw_centuries, list):
+            for c in raw_centuries:
+                try:
+                    centuries.append(int(c))
+                except (ValueError, TypeError):
+                    pass
+
+        live_models[model_id] = KrakenModel(
+            model_id=model_id,
+            name=m.get("description", model_id),
+            lang=m.get("languages", ["mul"])[0] if m.get("languages") else "mul",
+            script=", ".join(m.get("scripts", [])) or "Latin",
+            notes=f"[live] {m.get('description', '')}",
+            pretrained_on=m.get("description", ""),
+            centuries=centuries,
+            scripts=m.get("scripts", []),
+            languages=m.get("languages", []),
+        )
+
+    KRAKEN_MODELS_LIVE.clear()
+    KRAKEN_MODELS_LIVE.update(live_models)
+    return live_models
