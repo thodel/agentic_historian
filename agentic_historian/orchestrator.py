@@ -43,6 +43,8 @@ except ImportError:
     refresh_kraken_registry = None
     KRAKEN_MODELS_LIVE = None
 
+from run_state import RunState, StageStatus
+
 # Result-Pipeline
 PipelineResult = dict
 
@@ -149,6 +151,12 @@ def _rerun_kraken_with_model_selection(
     return result
 
 
+def _stage_needs_run(rs: RunState, stage: str) -> bool:
+    """Return True if the stage is PENDING or DIRTY (needs execution)."""
+    status = rs.stage_status(stage)
+    return status in (StageStatus.PENDING, StageStatus.DIRTY)
+
+
 def run_full_pipeline(
     file_path: str | Path,
     image_path: Optional[str | Path] = None,
@@ -177,6 +185,17 @@ def run_full_pipeline(
     img = Path(image_path) if image_path else fp
     ctx = PipelineContext(doc_id)
 
+    # ── RunState: restore or create ─────────────────────────────────────────
+    # RunState tracks PENDING/DONE/DIRTY for each stage.  DIRTY stages are
+    # re-run after a human override; DONE stages are preserved (not re-run).
+    rs = RunState.load(doc_id)
+    if rs is None:
+        rs = RunState.create(doc_id=doc_id)
+        logger.info(f"[RunState] Created new state for {doc_id}")
+    else:
+        dirty = rs.dirty_stages()
+        logger.info(f"[RunState] Resumed {doc_id} — dirty stages: {dirty}")
+
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
 
     # ── Populate live kraken registry from ATR gateway ───────────────────────
@@ -197,44 +216,53 @@ def run_full_pipeline(
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 1: Agent A — VLM-only erste Transkription ( fuer Agent B )
+    # Stage: model_select + kraken (VLM initial transcription)
     # ════════════════════════════════════════════════════════════════════════
-    try:
-        if use_dual_htr and DUAL_AVAILABLE:
-            # Phase 1: nur VLM-Pfad (ohne kraken — das kommt in Phase 3)
-            logger.info("[Orchestrator] Phase 1: VLM-only HTR (preliminary for Agent B)")
-            from agent_a.dual_pipeline import transcribe_dual
-            dual = transcribe_dual(
-                img,
-                source_description=source_description,
-                lang=lang,
-                run_vlm=True,
-                run_kraken=False,   # ← Phase 3!
-                run_party=False,    # ← Phase 3!
-                run_hf=False,
-            )
-            ctx.dual_result = dual
-            ctx.transcription = dual.vlm_transcription
-            ctx.a_meta = dual.to_dict()
-            logger.info(
-                f"[Orchestrator] Phase 1 (VLM) fertig — "
-                f"{len(ctx.transcription)} chars, score={dual.vlm_score:.2f}"
-            )
-        else:
-            a_result = agent_a.process_file(img)
-            ctx.transcription = a_result.get("transcription", "")
-            ctx.a_meta = a_result
-            logger.info(
-                f"[Orchestrator] Agent A fertig "
-                f"(QA: {a_result.get('qa_score', 0):.2f})"
-            )
-    except Exception as e:
-        logger.error(f"[Orchestrator] Phase 1 (Agent A) fehlgeschlagen: {e}")
-        ctx.errors.append({"agent": "A", "phase": 1, "error": str(e)})
+    if _stage_needs_run(rs, "model_select") or _stage_needs_run(rs, "kraken"):
+        try:
+            if use_dual_htr and DUAL_AVAILABLE:
+                # Phase 1: nur VLM-Pfad (ohne kraken — das kommt in Phase 3)
+                logger.info("[Orchestrator] Phase 1: VLM-only HTR (preliminary for Agent B)")
+                from agent_a.dual_pipeline import transcribe_dual
+                dual = transcribe_dual(
+                    img,
+                    source_description=source_description,
+                    lang=lang,
+                    run_vlm=True,
+                    run_kraken=False,   # ← Phase 3!
+                    run_party=False,    # ← Phase 3!
+                    run_hf=False,
+                )
+                ctx.dual_result = dual
+                ctx.transcription = dual.vlm_transcription
+                ctx.a_meta = dual.to_dict()
+                logger.info(
+                    f"[Orchestrator] Phase 1 (VLM) fertig — "
+                    f"{len(ctx.transcription)} chars, score={dual.vlm_score:.2f}"
+                )
+            else:
+                a_result = agent_a.process_file(img)
+                ctx.transcription = a_result.get("transcription", "")
+                ctx.a_meta = a_result
+                logger.info(
+                    f"[Orchestrator] Agent A fertig "
+                    f"(QA: {a_result.get('qa_score', 0):.2f})"
+                )
+            rs.mark_done("model_select")
+            rs.mark_done("kraken")
+        except Exception as e:
+            logger.error(f"[Orchestrator] Phase 1 (Agent A) fehlgeschlagen: {e}")
+            ctx.errors.append({"agent": "A", "phase": 1, "error": str(e)})
+            rs.mark_failed("model_select")
+            rs.mark_failed("kraken")
+    else:
+        logger.info("[Orchestrator] Phase 1 skipped (model_select + kraken already DONE)")
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 2: Agent B — Quellenbeschreibung + Modellvorschlag
+    # Stage: agent_b
     # ════════════════════════════════════════════════════════════════════════
-    if ctx.transcription:
+    if _stage_needs_run(rs, "agent_b") and ctx.transcription:
         try:
             ctx.description = agent_b.describe(
                 doc_id=doc_id,
@@ -242,16 +270,21 @@ def run_full_pipeline(
                 image_path=str(img) if img != fp else None,
             )
             logger.info("[Orchestrator] Phase 2 (Agent B) fertig")
+            rs.mark_done("agent_b")
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 2 (Agent B) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
+            rs.mark_failed("agent_b")
+    else:
+        if ctx.transcription and not _stage_needs_run(rs, "agent_b"):
+            logger.info("[Orchestrator] Phase 2 (Agent B) skipped (already DONE)")
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 3: kraken-Re-Run mit Agent-B-gestuerter Modellwahl
-    # Nur wenn das kraken/dual-HTR-Paket verfügbar ist (sonst ist
-    # select_best_kraken_model nicht importiert → NameError).
+    # Stage: reconcile (reconciles VLM + kraken results)
+    # Only runs when DUAL_AVAILABLE — reconciler is the downstream consumer.
     # ════════════════════════════════════════════════════════════════════════
-    if DUAL_AVAILABLE and ctx.transcription and ctx.description:
+    if _stage_needs_run(rs, "reconcile") and DUAL_AVAILABLE and ctx.transcription and ctx.description:
         try:
             source_desc_text = ctx.description.get("source_description", "")
             if source_desc_text:
@@ -283,101 +316,69 @@ def run_full_pipeline(
                 ctx.a_meta["error_kraken"] = kraken_results["error_kraken"]
                 ctx.a_meta["error_party"] = kraken_results["error_party"]
                 logger.info("[Orchestrator] Phase 3 (kraken re-run) fertig")
+            rs.mark_done("reconcile")
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 3 (kraken re-run) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
+            rs.mark_failed("reconcile")
+    else:
+        if not DUAL_AVAILABLE:
+            logger.info("[Orchestrator] Phase 3 skipped (DUAL_AVAILABLE=False)")
+        elif not ctx.transcription:
+            logger.info("[Orchestrator] Phase 3 skipped (no transcription)")
+        elif not ctx.description:
+            logger.info("[Orchestrator] Phase 3 skipped (no description)")
+        elif not _stage_needs_run(rs, "reconcile"):
+            logger.info("[Orchestrator] Phase 3 (reconcile) skipped (already DONE)")
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 4: Agent C — Entity Extraction
+    # Stage: agent_c
     # ════════════════════════════════════════════════════════════════════════
-    if ctx.transcription:
+    if _stage_needs_run(rs, "agent_c") and ctx.transcription:
         try:
-            ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
-            logger.info("[Orchestrator] Phase 4 (Agent C) fertig")
-        except Exception as e:
-            logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
-            ctx.errors.append({"agent": "C", "error": str(e)})
-
-    # ════════════════════════════════════════════════════════════════════════
-    # PHASE 5: Agent D (optional)
-    # ════════════════════════════════════════════════════════════════════════
-    if run_agent_d:
-        try:
-            agent_d.analyse_corpus(corpus_name="default")
-            logger.info("[Orchestrator] Phase 5 (Agent D) fertig")
-        except Exception as e:
-            logger.error(f"[Orchestrator] Agent D fehlgeschlagen: {e}")
-            ctx.errors.append({"agent": "D", "error": str(e)})
-
-    # Pipeline-Resultat speichern
-    _save_pipeline_result(doc_id, ctx)
-
-    return ctx.to_json()
-
-
-def run_full_pipeline_group(
-    doc_id: str,
-    image_paths: list,
-    run_agent_d: bool = False,
-) -> PipelineResult:
-    """Process a set of images as ONE multi-page document (a WebDAV "order"/folder).
-
-    Agent A transcribes each page; the pages are combined into a single
-    transcription (one .txt named after the order), then Agent B (one source
-    description) and Agent C (entities over the whole order) run on it.
-    """
-    # Natural sort: page_2, page_10 (not page_10, page_2)
-    def _natural_key(name: str):
-        return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
-    pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
-    ctx = PipelineContext(doc_id)
-    logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
-
-    # PHASE 1: Agent A per page → combined transcription
-    parts, scores = [], []
-    for img in pages:
-        try:
-            r = agent_a.transcribe_image(img)
-            parts.append(f"--- {img.name} ---\n{r.get('transcription', '')}")
-            scores.append(r.get("qa_score", 0.0))
-        except Exception as e:
-            logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
-            ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
-    ctx.transcription = "\n\n".join(parts).strip()
-    avg_qa = round(sum(scores) / len(scores), 2) if scores else 0.0
-    ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa, "source": "grouped"}
-    if ctx.transcription:
-        agent_a.save_transcription(doc_id, ctx.transcription, avg_qa, "grouped")
-
-    # PHASE 2: Agent B — one source description for the whole order
-    if ctx.transcription:
-        try:
-            ctx.description = agent_b.describe(
+            ctx.entities = agent_c.extract_entities(
                 doc_id=doc_id,
                 transcription=ctx.transcription,
-                image_path=str(pages[0]) if pages else None,
             )
+            logger.info("[Orchestrator] Phase 4 (Agent C) fertig")
+            rs.mark_done("agent_c")
         except Exception as e:
-            logger.error(f"[Orchestrator] Agent B fehlgeschlagen: {e}")
-            ctx.errors.append({"agent": "B", "error": str(e)})
-
-    # PHASE 4: Agent C — entities across the order
-    if ctx.transcription:
-        try:
-            ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
-        except Exception as e:
-            logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
+            logger.error(f"[Orchestrator] Phase 4 (Agent C) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "C", "error": str(e)})
+            rs.mark_failed("agent_c")
+    else:
+        if ctx.transcription and not _stage_needs_run(rs, "agent_c"):
+            logger.info("[Orchestrator] Phase 4 (Agent C) skipped (already DONE)")
 
-    # PHASE 5: optional corpus analysis over just this order
-    if run_agent_d:
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 5: Agent D — optional corpus analysis
+    # Stage: agent_d
+    # ════════════════════════════════════════════════════════════════════════
+    if _stage_needs_run(rs, "agent_d") and run_agent_d:
         try:
             agent_d.analyse_corpus(corpus_name=doc_id, doc_ids=[doc_id])
+            logger.info("[Orchestrator] Phase 5 (Agent D) fertig")
+            rs.mark_done("agent_d")
         except Exception as e:
+            logger.error(f"[Orchestrator] Phase 5 (Agent D) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "D", "error": str(e)})
+            rs.mark_failed("agent_d")
+    else:
+        if not run_agent_d:
+            logger.info("[Orchestrator] Phase 5 (Agent D) skipped (run_agent_d=False)")
+        elif not _stage_needs_run(rs, "agent_d"):
+            logger.info("[Orchestrator] Phase 5 (Agent D) skipped (already DONE)")
 
+    # ── Persist RunState ─────────────────────────────────────────────────────
+    rs.save()
+    logger.info(f"[RunState] Saved state for {doc_id}")
+
+    # ── Save pipeline result ──────────────────────────────────────────────────
     _save_pipeline_result(doc_id, ctx)
-    logger.info(f"[Orchestrator] Order fertig: {doc_id} (QA {avg_qa:.2f}, {len(pages)} Seiten)")
+    _append_errors_to_log(doc_id, ctx.errors)
+
+    logger.info(f"[Orchestrator] Pipeline abgeschlossen: {doc_id}")
     return ctx.to_json()
 
 
@@ -473,6 +474,3 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext):
     with open(out, "w", encoding="utf-8") as f:
         json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
     logger.info(f"[Orchestrator] Pipeline-Resultat: {out}")
-
-    # Persist errors to the persistent meta error log
-    _append_errors_to_log(doc_id, ctx.errors)

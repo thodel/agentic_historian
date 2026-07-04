@@ -128,6 +128,7 @@ DATA_DIR = BASE_DIR / "data"
 TRANSCRIPTIONS_DIR = DATA_DIR / "transcriptions"
 DESCRIPTIONS_DIR = DATA_DIR / "descriptions"
 OUTPUTS_DIR = DATA_DIR / "outputs"
+RUNS_DIR   = DATA_DIR / "runs"      # RunState JSON files (issue #145)
 
 # ── HuggingFace (optional) ───────────────────────────────────────────────────
 HF_TOKEN = _get("HF_TOKEN", "")
@@ -153,6 +154,7 @@ def ensure_dirs():
         TRANSCRIPTIONS_DIR,
         DESCRIPTIONS_DIR,
         OUTPUTS_DIR,
+        RUNS_DIR,
         KH_DIR,
     ]:
         d.mkdir(parents=True, exist_ok=True)
