@@ -1,9 +1,12 @@
 """
-kraken HTTP client — calls the remote kraken OCR service instead of
-running kraken CLI locally.
+ATR gateway HTTP client — calls the serving-atr-inference gateway (kraken +
+TrOCR + party + vllm) instead of running kraken CLI locally.
 
-The service endpoint is configured via KRAKEN_SERVICE_URL in the
-application config (see config.py / .env.example).
+Endpoint + auth are configured in config.py:
+    ATR_GATEWAY_URL   base URL of the gateway (falls back to the legacy
+                      KRAKEN_SERVICE_URL for backward compatibility)
+    ATR_API_KEY       static secret sent as the `X-API-Key` header on every
+                      request (empty = no auth header, dev/local only)
 
 API design
 ──────────
@@ -48,18 +51,23 @@ class KrakenHTTPClient:
         self,
         base_url: Optional[str] = None,
         timeout: float = 120.0,
+        api_key: Optional[str] = None,
     ) -> None:
-        self.base_url = (base_url or config.KRAKEN_SERVICE_URL or "").rstrip("/")
+        self.base_url = (base_url or config.ATR_GATEWAY_URL or "").rstrip("/")
         self.timeout = timeout
+        # X-API-Key for the gateway. Default from config; "" = no auth header.
+        self.api_key = config.ATR_API_KEY if api_key is None else api_key
         self._client: Optional[httpx.Client] = None
 
     # ── context manager ──────────────────────────────────────────────────────
 
     def __enter__(self) -> "KrakenHTTPClient":
+        headers = {"X-API-Key": self.api_key} if self.api_key else {}
         self._client = httpx.Client(
             base_url=self.base_url,
             timeout=self.timeout,
             follow_redirects=True,
+            headers=headers,
         )
         return self
 
@@ -118,13 +126,25 @@ class KrakenHTTPClient:
             service_version=data.get("version", "?"),
         )
 
-    def list_models(self) -> list[str]:
-        """Return the list of model identifiers loaded in the service."""
+    def list_models(self) -> list[dict]:
+        """Return the gateway model registry.
+
+        The gateway responds with ModelsResponse ``{"models": [ModelInfo, ...]}``
+        where each ModelInfo carries id/engine/scripts/centuries/languages/level
+        — the selection metadata #110 consumes. Returns the list of ModelInfo
+        dicts (empty list if the payload is malformed).
+        """
         resp = self._get("/models")
-        return resp.json().get("models", [])
+        models = resp.json().get("models", [])
+        return models if isinstance(models, list) else []
+
+    def list_model_ids(self) -> list[str]:
+        """Convenience: just the model ids from the gateway registry."""
+        return [m["id"] for m in self.list_models() if isinstance(m, dict) and "id" in m]
 
     def health_check(self) -> dict:
-        """Return service health + loaded model list."""
+        """Return gateway health (HealthResponse: status, version, model_count,
+        resident_models, engines)."""
         resp = self._get("/health")
         return resp.json()
 
@@ -206,6 +226,6 @@ def kraken_transcribe(
         result = kraken_transcribe(Path("page.tif"), "10.5281/zenodo.7516057")
         print(result.text, result.confidence)
     """
-    url = service_url or config.KRAKEN_SERVICE_URL
+    url = service_url or config.ATR_GATEWAY_URL
     with KrakenHTTPClient(base_url=url) as client:
         return client.transcribe(image, model=model, seg_mode=seg_mode)

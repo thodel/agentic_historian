@@ -105,8 +105,18 @@ GPUSTACK_TEXT_MAX_TOKENS = int(_get("GPUSTACK_TEXT_MAX_TOKENS", "4096"))
 HTR_QUALITY_THRESHOLD = float(_get("HTR_QUALITY_THRESHOLD", "0.75"))
 MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
 
-# ── Kraken remote service (Path 2/3 — runs on a dedicated server) ────────────
+# ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
+# Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway
+# (verified contract: GET /health, GET /models, POST /segment, /recognize, /ocr).
+# Reachable only from tei on port 8200, gated by a static X-API-Key.
+#
+# ATR_GATEWAY_URL supersedes the legacy KRAKEN_SERVICE_URL; the latter is kept
+# as a backward-compatible fallback so existing .env files keep working.
 KRAKEN_SERVICE_URL = _get("KRAKEN_SERVICE_URL", "http://localhost:8765")
+ATR_GATEWAY_URL = (_get("ATR_GATEWAY_URL") or KRAKEN_SERVICE_URL).rstrip("/")
+# Static shared secret sent as the `X-API-Key` header. Empty = unauthenticated
+# (only works against a local/dev gateway that has auth disabled).
+ATR_API_KEY = _get("ATR_API_KEY")
 
 # ── Hot Folder ───────────────────────────────────────────────────────────────
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"
