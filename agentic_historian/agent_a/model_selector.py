@@ -101,7 +101,7 @@ SCRIPT_ALIASES: dict[str, list[str]] = {
     "caroline": ["caroline minuscule", "carolingische minuscule", "caroline"],
     "textura": ["textura", "gotische textura", "textualis"],
     "schwabacher": ["schwabacher", "schwabacher type"],
-    "kursive": ["kursive", "cursive", " kursiv", "秘书体"],
+    "kursive": ["kursive", "cursive", "kursiv"],
     "fraktur": ["fraktur", "blackletter"],
     "humanistisch": ["humanistische kursive", "humanistic cursive", "italic"],
     "rotunda": ["rotunda", "gotische rundschrift"],
@@ -131,11 +131,11 @@ LANG_ALIASES: dict[str, str] = {
     "hebraeisch": "he", "hebrew": "he",
     "griechisch": "el", "greek": "el",
     "zyprisch": "el",      # Greek script, Cypriot content
-    " syrisch": "syr", "syriac": "syr",
+    "syrisch": "syr", "syriac": "syr",
     "koptisch": "cop", "coptic": "cop",
     "urdu": "ur", "urdū": "ur",
-    "hindi": "hi", "hindi": "hi",
-    "sanskrit": "sa", "sanskrit": "sa",
+    "hindi": "hi",
+    "sanskrit": "sa",
     "mittel": "de",         # Mittellatein → Latin
 }
 
@@ -257,7 +257,7 @@ class SourceCriteria:
     script: Optional[str] = None        # e.g. "Caroline minuscule"
     lang: Optional[str] = None          # ISO code, e.g. "de", "la"
     century: Optional[int] = None       # integer 10–20
-    date自由: Optional[str] = None       # raw date string (e.g. "14. Jh.")
+    date_raw: Optional[str] = None       # raw date string (e.g. "14. Jh.")
     document_type: Optional[str] = None # e.g. "charter", "ledger", "chronicle"
     region: Optional[str] = None        # e.g. "Bavaria", "Swiss", "Saxon
     notes: str = ""                     # full raw text of Agent B description
@@ -331,7 +331,7 @@ class SourceCriteria:
             script=script,
             lang=lang,
             century=century,
-            date自由=description,
+            date_raw=description,
             document_type=doc_type,
             notes=description,
         )
