@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke:
+    name: "Smoke: install + import + pytest"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Install ALL dependencies (loguru, py-cord/discord, pytest, etc.)
+      # so import smoke and pytest both pass.
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      # Smoke: import the top-level modules.  All modules live under
+      # agentic_historian/ so we cd into it first.
+      - name: Import smoke test
+        run: |
+          cd agentic_historian
+          python -c "import bot, config, reporter, orchestrator; from agents import source_description, entity_agent; print('All imports OK')"
+
+      # Run ALL offline tests — existing ones plus the new test_ah_*.py
+      # regression tests that ship with the fix PRs (#96-#103).
+      - name: Run pytest
+        run: |
+          pytest agentic_historian/tests/ \
+                  -v --tb=short
