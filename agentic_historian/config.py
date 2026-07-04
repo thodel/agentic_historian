@@ -7,9 +7,15 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# BASE_DIR = Python-Package-Wurzel; REPO_ROOT = Git-Repo-Wurzel (eine Ebene höher)
+# BASE_DIR = Python-Package-Wurzel; REPO_ROOT = project root (git repo or working dir)
 BASE_DIR = Path(__file__).parent.resolve()
-REPO_ROOT = BASE_DIR.parent
+# When installed as a package, BASE_DIR is site-packages; use CWD as REPO_ROOT fallback.
+# Set AGENTIC_HISTORIAN_ROOT env var to override for non-standard layouts.
+_REPO_ROOT_candidate = Path(os.environ.get(
+    "AGENTIC_HISTORIAN_ROOT",
+    str(BASE_DIR.parent if (BASE_DIR / "../.git").exists() else Path.cwd()),
+)).resolve()
+REPO_ROOT = _REPO_ROOT_candidate
 
 # Env-Dateien laden. WICHTIG: echte Prozess-Umgebungsvariablen (systemd
 # `Environment=`/`EnvironmentFile=`, exportierte Secrets) haben IMMER Vorrang und
