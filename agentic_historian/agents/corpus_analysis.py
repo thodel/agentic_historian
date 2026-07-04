@@ -196,15 +196,23 @@ def _care_analysis(text: str) -> dict:
 # ── Voyant + Persistence ─────────────────────────────────────────────────────
 
 def _voyant_url(text: str, corpus_name: str) -> str:
+    """Upload the corpus text to Voyant and return the session URL.
+
+    Uses the documented flow of the self-hosted instance (README): POST the
+    content as form data to <voyant>/?text= — Voyant answers by redirecting to
+    /?corpus=<id>, so the final response URL is the shareable link. The old
+    /Corpus endpoint does not exist on Voyant servers.
+    """
     try:
-        corpus_id = corpus_name.lower().replace(" ", "_")
+        endpoint = config.VOYANT_API_URL.rstrip("/") + "/"
         resp = requests.post(
-            config.VOYANT_API_URL + "/Corpus",
-            data={"content": text[:50_000], "contentId": corpus_id},
+            endpoint,
+            params={"text": ""},
+            data={"text": text[:50_000]},
             timeout=30,
         )
-        if resp.status_code == 200:
-            return resp.json().get("url", "")
+        if resp.ok and "corpus=" in resp.url:
+            return resp.url
     except Exception as e:
         logger.warning(f"[Agent D] Voyant-Link fehlgeschlagen: {e}")
     return ""

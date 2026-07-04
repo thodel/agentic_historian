@@ -252,14 +252,16 @@ def _run_hf_ocr(
 
     try:
         import torch
-        from transformers import AutoProcessor, AutoModelForCTC
+        from transformers import AutoProcessor, AutoModelForVision2Seq
         from PIL import Image as PILImage
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
         dtype  = torch.bfloat16 if device == "cuda" else torch.float32
 
+        # The deployed registry models (TrOCR family, LightOnOCR) are seq2seq
+        # vision-encoder-decoder models — decode via generate(), not CTC logits.
         processor = AutoProcessor.from_pretrained(model.model_id)
-        model_hf  = AutoModelForCTC.from_pretrained(
+        model_hf  = AutoModelForVision2Seq.from_pretrained(
             model.model_id,
             torch_dtype=dtype,
         ).to(device)
@@ -271,8 +273,8 @@ def _run_hf_ocr(
         else:
             inputs = processor(images=image, return_tensors="pt").to(device)
             with torch.no_grad():
-                logits = model_hf(inputs.pixel_values).logits
-            pred = processor.batch_decode(torch.argmax(logits, dim=-1))[0]
+                generated = model_hf.generate(**inputs, max_new_tokens=1024)
+            pred = processor.batch_decode(generated, skip_special_tokens=True)[0]
             return pred, model.model_id
 
     except ImportError as e:
