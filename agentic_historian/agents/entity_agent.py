@@ -31,6 +31,8 @@ Fixes AH-43: semantic entity linking via embedding + reranker.
 """
 
 import json
+import re
+
 from loguru import logger
 
 import config
@@ -84,6 +86,18 @@ def _chunk_text(text: str, chunk_size: int = 25_000, overlap: int = 2000) -> lis
     return chunks
 
 
+def _strip_code_fences(raw: str) -> str:
+    """Remove leading/trailing ``` / ```json fences without eating payload.
+
+    str.strip("```json") treats its argument as a CHARACTER SET, so it also
+    swallows legitimate leading/trailing j/s/o/n characters of the payload.
+    """
+    cleaned = raw.strip()
+    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+    cleaned = re.sub(r"\s*```$", "", cleaned)
+    return cleaned.strip()
+
+
 def _extract_llm(transcription: str) -> dict:
     """
     Extract entities from the full transcription (all chunks), not a truncated
@@ -108,7 +122,7 @@ def _extract_llm(transcription: str) -> dict:
         )
         try:
             raw = gs.chat_text(prompt, system=None, max_tokens=8000)
-            cleaned = raw.strip().strip("```json").strip("```").strip()
+            cleaned = _strip_code_fences(raw)
             data = json.loads(cleaned)
             all_entities.extend(data.get("entities", []))
         except (json.JSONDecodeError, Exception) as e:
