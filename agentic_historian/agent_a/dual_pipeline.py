@@ -369,15 +369,7 @@ def transcribe_dual(
     result.kraken_available = _kraken_available()
     result.party_available = _party_available()
 
-    # ── Path 1: VLM ──────────────────────────────────────────────────────────
-    if run_vlm:
-        result.vlm_transcription, result.vlm_score = _run_vlm(
-            image_path, source_description
-        )
-        if not result.vlm_transcription:
-            result.error_vlm = "No output from VLM"
-
-    # ── Path 2: kraken (remote service + Agent B model selection) ──────────
+    # ── Path 1: kraken (primary HTR — kraken-first policy) ───────────────
     if run_kraken:
         kraken_text, kraken_model = _run_kraken(
             image_path, source_description=source_description, lang=lang
@@ -386,6 +378,14 @@ def transcribe_dual(
             result.kraken_transcription = kraken_text
         else:
             result.error_kraken = kraken_model
+
+    # ── Path 2: VLM (fallback when kraken unavailable/fails) ───────────────
+    if run_vlm:
+        result.vlm_transcription, result.vlm_score = _run_vlm(
+            image_path, source_description
+        )
+        if not result.vlm_transcription:
+            result.error_vlm = "No output from VLM"
 
     # ── Path 3: Party / PARY HTR ──────────────────────────────────────────────
     if run_party:
@@ -414,11 +414,12 @@ def transcribe_dual(
     texts = {src: txt for txt, src in available if txt.strip()}
 
     if len(texts) >= 2:
-        primary   = texts.get("vlm", "")
+        # Kraken-first: kraken is primary, VLM is secondary (kraken-first policy)
+        primary   = texts.get("kraken") or texts.get("vlm", "")
         secondary = (
-            texts.get("kraken")
-            or texts.get("party")
-            or texts.get("hf", "")
+            texts.get("vlm")
+            if primary == texts.get("kraken")
+            else (texts.get("party") or texts.get("hf", ""))
         )
         if primary and secondary:
             result.reconciliation = reconcile(
