@@ -130,17 +130,28 @@ class TestRepoRootFallback:
             assert str(module.REPO_ROOT) == "/custom/root"
 
     def test_repo_root_defaults_to_cwd_when_no_env_and_no_git(self, tmp_path, monkeypatch):
-        """When AGENTIC_HISTORIAN_ROOT is unset and BASE_DIR has no .git parent."""
+        """When AGENTIC_HISTORIAN_ROOT is unset and BASE_DIR has no .git parent,
+        REPO_ROOT falls back to CWD.
+
+        The real config.py lives inside a git checkout, so we copy it into a
+        git-less temp package and load THAT — otherwise BASE_DIR/../.git exists
+        and the fallback branch is never taken (the test could not pass in CI).
+        """
+        import shutil
+        pkg = tmp_path / "pkg"
+        pkg.mkdir()
+        shutil.copy(REPO_ROOT / "config.py", pkg / "config.py")  # no ../.git here
+        cwd = tmp_path / "elsewhere"
+        cwd.mkdir()
         with monkeypatch.context() as m:
             m.delenv("AGENTIC_HISTORIAN_ROOT", raising=False)
-            m.chdir(tmp_path)
+            m.chdir(cwd)  # distinct from BASE_DIR.parent, so the cwd branch is provable
             spec = importlib.util.spec_from_file_location(
-                "config_cwd_root", REPO_ROOT / "config.py"
+                "config_cwd_root", pkg / "config.py"
             )
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            # Should fall back to CWD (the tmp_path)
-            assert module.REPO_ROOT == tmp_path.resolve()
+            assert module.REPO_ROOT == cwd.resolve()
 
 
 class TestInstallability:
