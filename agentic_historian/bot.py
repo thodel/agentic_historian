@@ -15,9 +15,6 @@ from discord.ext import commands
 
 from loguru import logger
 
-# Load configuration (discords token from .env)
-config.ensure_dirs()
-
 logging.basicConfig(level=logging.INFO)
 logger.configure(extra={"extra": {}})
 
@@ -336,6 +333,10 @@ async def on_ready():
 
 
 def main() -> None:
+    # Ensure all data directories exist before starting.
+    # Called once here (single entry point) rather than at module import
+    # so the package is importable without side-effects.
+    config.ensure_dirs()
     missing = config.check_config()
     if missing:
         print(f"Missing config keys: {missing}")
