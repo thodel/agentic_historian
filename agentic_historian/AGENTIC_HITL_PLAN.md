@@ -1,6 +1,7 @@
 # Agentic HITL Plan — Clickable Checkpoints, Metadata-Driven Re-Runs
 
-**Status:** proposal · **Updated:** 2026-07-04 · **Companion docs:** `IMPLEMENTATION_PLAN.md` (MCP hub), `README.md`
+**Status:** accepted — issues filed (Epic #142, sub-issues #145–#156) ·
+**Updated:** 2026-07-04 · **Companion docs:** `IMPLEMENTATION_PLAN.md` (MCP hub), `README.md`
 
 ## Why
 
@@ -140,22 +141,39 @@ default action fires and is recorded as `decided_by: "auto"`.
   JSON validated against the same invalidation matrix. Rule-based remains the
   fallback.
 
-## Phasing & acceptance
+## Issue breakdown (Epic #142)
 
-- **HITL-1 — RunState + Gate 1 (routing card).**
-  _Accept:_ `/run` posts the card; selecting "15. Jh." + 🔁 visibly switches
-  the kraken model and refreshes B/C outputs; pinned Datierung survives into
-  `descriptions/<id>.json`; suite offline-testable (gate logic mocked, no
-  Discord needed).
-- **HITL-2 — Gate 2 compare + persistent views + worker queue.**
-  _Accept:_ path choice reruns B/C; buttons still work after bot restart;
-  two parallel `/run`s don't block the event loop.
-- **HITL-3 — Gate 3 entity review + hub write-back.**
-  _Accept:_ clicking a candidate adds the variant to `hub.json`; reprocessing
-  the same document links it as `hub_exact`.
-- **HITL-4 — uncertainty gating + feedback priors (+ optional LLM router).**
-  _Accept:_ confident documents pass with zero interrupts; Agent E reports
-  override rates; `score_model()` consumes the prior behind a feature flag.
+Filed 2026-07-04. Suggested build order: top to bottom; #146 is the first
+user-visible milestone. #151 is blocked on #92 (KH-6, MCP entity linking).
+
+| ID | Issue | Prio | Scope | Acceptance (short) |
+|---|---|---|---|---|
+| HITL-1a | #145 | P0 | RunState + stage-invalidation state machine | `invalidate("century")` dirties exactly {model_select, kraken, reconcile, B-pin, C}; `resume()` re-runs only dirty stages |
+| HITL-1b | #146 | P0 | Gate 1 routing card (selects → kraken re-run) | "15. Jh." + 🔁 switches the model on the card and refreshes B/C; card edits in place |
+| HITL-1c | #147 | P1 | Pinned fields authoritative downstream | pinned Datierung survives into `descriptions/<id>.json` with `quelle: historiker` |
+| HITL-2a | #148 | P1 | Worker queue replaces `_active_runs` | two parallel `/run`s stay responsive; clicks queued, not raced |
+| HITL-2b | #149 | P1 | Gate 2 path comparison (measured CER) | choosing kraken re-runs B/C; no interrupt when paths agree |
+| HITL-2c | #150 | P1 | Persistent views | clicks survive bot restart (custom_id `ah:<doc>:<gate>:<field>`) |
+| HITL-3a | #151 | P1 | Gate 3 entity-link review (MCP candidates) | only unverified/low entities gate; blocked on #92 |
+| HITL-3b | #152 | P1 | Hub variant write-back on click | reprocessing same spelling links `hub_exact` with zero interaction |
+| HITL-4a | #153 | P2 | Uncertainty gating + timeouts | confident docs: zero blocking interrupts; timeout → `decided_by: auto` |
+| HITL-4b | #154 | P2 | Feedback log + Agent E reporting | one JSONL line per decision; override rates in `/agent_e` |
+| HITL-4c | #155 | P2 | Routing prior in `score_model()` (flag) | flag off = byte-identical scores; prior capped below a full criteria match |
+| HITL-4d | #156 | P2 | Optional LLM router on `minimax-m2.7` (flag) | invalid decisions fall back rule-based; first concrete scope for #32 |
+
+## Relation to other epics
+
+- **#139 (verbatim PhaseEvents)** — the substrate. The routing card is an
+  *interactive renderer* over the same per-phase events; build VF-1 first or
+  together with #146, so gates and verbatim feedback share one event stream.
+- **#33 (thin bot shell)** — gates emit UI-agnostic `PendingInput` records;
+  `bot.py` only renders them.
+- **#129 / #92 (KH consumer track)** — Gate 3 candidate lists come from the
+  MCP federation; #151 depends on #92.
+- **#32 (SitL/NL orchestrator)** — #156 is its first narrow, schema-validated,
+  fallback-protected application; conversational control stays out of scope.
+- **#24 (GT eval / AH-10)** — Gate 2 shows *measured* inter-path CER from
+  `eval/metrics.py`; no pseudo-confidence anywhere in the UI.
 
 ## Out of scope
 
