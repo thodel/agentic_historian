@@ -47,6 +47,25 @@ def _job_status(phase: str) -> str:
 _active_runs: set[int] = set()
 
 
+# ── Role-based access control (#105) ────────────────────────────────────────
+def require_role(func):
+    """Decorator: reject non-guild users and users without the configured role."""
+    async def wrapper(ctx, *args, **kwargs):
+        if not ctx.guild:
+            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
+            return
+        allowed_role_id = getattr(config, "REQUIRED_DISCORD_ROLE_ID", None)
+        if allowed_role_id:
+            author_role_ids = {role.id for role in ctx.author.roles}
+            if allowed_role_id not in author_role_ids:
+                await ctx.respond("⛔ Du hast nicht die erforderliche Rolle für diesen Befehl.", ephemeral=True)
+                return
+        return await func(ctx, *args, **kwargs)
+    # Preserve command metadata so py-cord registers it correctly
+    import functools
+    return functools.wraps(func)(wrapper)
+
+
 async def _run_blocking(ctx, func, *args, **kwargs):
     """Run a blocking orchestrator call off the event loop, one job per user.
 
@@ -77,12 +96,16 @@ async def status(ctx):
 
 
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
+@require_role
 async def run_pipeline(
     ctx,
     filename: Option(str, "Filename in data/hot_folder/", required=True),
 ):
     await ctx.defer()
-    fp = config.HOT_FOLDER / filename
+    fp = (config.HOT_FOLDER / filename).resolve()
+    if not fp.is_relative_to(config.HOT_FOLDER.resolve()):
+        await ctx.followup.send(f"❌ Ungültiger Pfad: {filename} — Zugriff ausserhalb des erlaubten Ordners.")
+        return
     if not fp.exists():
         await ctx.followup.send(f"❌ File not found: {filename}")
         return
@@ -92,7 +115,7 @@ async def run_pipeline(
             return
         msg = (
             f"✅ Pipeline fertig für `{filename}`\n"
-            f"QA-Score: {result.get('transcription_qa', '?')}\n"
+            f"QA-Score: {result.get('a_meta', {}).get('qa_score', '?')}\n"
             f"Entitäten: {len(result.get('entities', {}).get('entities', []))}\n"
             f"Errors: {len(result.get('errors', []))}"
         )
@@ -103,12 +126,16 @@ async def run_pipeline(
 
 
 @bot.slash_command(name="run_agent_a", description="Run Agent A (HTR) only")
+@require_role
 async def run_agent_a_cmd(
     ctx,
     filename: Option(str, "Filename in data/hot_folder/", required=True),
 ):
     await ctx.defer()
-    fp = config.HOT_FOLDER / filename
+    fp = (config.HOT_FOLDER / filename).resolve()
+    if not fp.is_relative_to(config.HOT_FOLDER.resolve()):
+        await ctx.followup.send(f"❌ Ungültiger Pfad: {filename} — Zugriff ausserhalb des erlaubten Ordners.")
+        return
     if not fp.exists():
         await ctx.followup.send(f"❌ File not found: {filename}")
         return
@@ -143,6 +170,7 @@ async def hotfolder(ctx):
 
 
 @bot.slash_command(name="pull", description="Pull a SwitchDrive folder into the hot folder and process it")
+@require_role
 async def pull_cmd(
     ctx,
     folder: Option(str, "SwitchDrive folder (relative to your SwitchDrive root)", required=False, default=None),
@@ -183,6 +211,7 @@ async def pull_cmd(
     name="pull_folder",
     description="Process each SwitchDrive subfolder as ONE multi-page document",
 )
+@require_role
 async def pull_folder_cmd(
     ctx,
     folder: Option(str, "Parent folder on SwitchDrive (default: hot folder)", required=False, default=None),

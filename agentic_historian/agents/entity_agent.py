@@ -6,12 +6,24 @@ CARE_ACTION, ROLE, DATE) and links them with the local Knowledge Hub,
 HLS-DHS (Historisches Lexikon der Schweiz), and Wikidata.
 
 Entity linking priority (PERSON / PLACE):
-  1. Hub exact match (confidence 0.9)
-  2. Semantic search via embedding + reranker (confidence 0.7) — AH-43
-  3. HLS-DHS live lookup (confidence 0.8)
-  4. No link (confidence 0.0)
+  1. Hub exact match — label="high"
+     Person/place name found verbatim in the hub (HBLS person database).
+     hub_exact is a bidirectional substring match: the entity name must
+     appear in the hub canonical name OR any registered variant, and the
+     hub name must appear in the entity's text.  NOT a calibrated score.
+  2. Semantic search via embedding + reranker — label="medium" — AH-43
+  3. HLS-DHS live lookup — label="low"
+     Live API call to hls-dhs-dss.ch; returns an HLS ID if the name
+     matches.  Low confidence because HLS contains many similar names
+     with no disambiguation.
+  4. No link — label="unverified"
 
-SOCIAL_GROUP / CARE_ACTION / CARE_ACTOR / ROLE → controlled vocabulary (conf 0.8).
+SOCIAL_GROUP / CARE_ACTION / CARE_ACTOR / ROLE → controlled vocabulary
+(label="medium").
+
+Note: confidence labels (high/medium/low/unverified) are qualitative
+heuristics, not calibrated probabilities.  Do NOT treat them as
+p < 0.9 or similar numeric thresholds.
 
 Fixes AH-37: all 8 entity types fully supported.
 Fixes AH-39: HLS-DHS linking for PERSON + PLACE.
@@ -56,24 +68,61 @@ def extract_entities(doc_id: str, transcription: str) -> dict:
     return enriched
 
 
+def _chunk_text(text: str, chunk_size: int = 25_000, overlap: int = 2000) -> list[str]:
+    """
+    Split text into overlapping chunks of chunk_size chars.
+    Overlap ensures entities at boundaries are not lost.
+    """
+    if len(text) <= chunk_size:
+        return [text]
+    chunks = []
+    start = 0
+    while start < len(text):
+        chunk = text[start:start + chunk_size]
+        chunks.append(chunk)
+        start += chunk_size - overlap
+    return chunks
+
+
 def _extract_llm(transcription: str) -> dict:
-    # Chunk if very large (preserve full corpus for Agent C too)
-    text = transcription[:30_000] if len(transcription) > 30_000 else transcription
-    prompt = (
-        SYSTEM + "\n\n"
-        "Extrahiere alle Entitäten aus diesem Text:\n\n" + text + "\n\n"
-        "Antworte als JSON: {\"entities\": ["
-        "{\"text\": str, \"type\": str, \"normalised\": str, \"context\": str}"
-        "]}. "
-        "Sei grosszügig — extrahiere auch unsichere Kandidaten."
-    )
-    try:
-        raw = gs.chat_text(prompt, system=None, max_tokens=2500)
-        cleaned = raw.strip().strip("```json").strip("```").strip()
-        return json.loads(cleaned)
-    except (json.JSONDecodeError, Exception) as e:
-        logger.error(f"[Agent C] Extraktion fehlgeschlagen: {e}")
-        return {"entities": []}
+    """
+    Extract entities from the full transcription (all chunks), not a truncated
+    prefix.  Each chunk is processed separately and entities are merged.
+    """
+    all_entities = []
+    chunks = _chunk_text(transcription)
+    total = len(chunks)
+    for i, chunk in enumerate(chunks):
+        offset_info = (
+            f"[Hinweis: Teil {i+1}/{total}]\n\n"
+            if total > 1 else ""
+        )
+        prompt = (
+            SYSTEM + "\n\n" +
+            offset_info +
+            "Extrahiere alle Entitäten aus diesem Text:\n\n" + chunk + "\n\n"
+            "Antworte als JSON: {\"entities\": ["
+            "{\"text\": str, \"type\": str, \"normalised\": str, \"context\": str}"
+            "]}. "
+            "Sei grosszügig — extrahiere auch unsichere Kandidaten."
+        )
+        try:
+            raw = gs.chat_text(prompt, system=None, max_tokens=8000)
+            cleaned = raw.strip().strip("```json").strip("```").strip()
+            data = json.loads(cleaned)
+            all_entities.extend(data.get("entities", []))
+        except (json.JSONDecodeError, Exception) as e:
+            logger.warning(f"[Agent C] Extraktion fehlgeschlagen (chunk {i+1}): {e}")
+
+    # Deduplicate by (text, type) — last occurrence wins for duplicates
+    seen: dict[tuple, dict] = {}
+    for ent in all_entities:
+        key = (ent.get("text", ""), ent.get("type", ""))
+        if key not in seen or ent.get("context"):
+            seen[key] = ent
+
+    return {"entities": list(seen.values())}
+
 
 
 def _enrich(extracted: dict) -> dict:
@@ -91,10 +140,15 @@ def _enrich(extracted: dict) -> dict:
             term = hub.match_vocabulary(text)
             if term:
                 ent["controlled_vocab"] = term
-                ent["hub_confidence"] = 0.8
+                ent["hub_confidence"] = "medium"
                 ent["link_method"] = "controlled_vocab"
 
     return extracted
+
+
+def _conf_rank(conf) -> int:
+    """Map confidence label to sort rank (higher = better)."""
+    return {"high": 4, "medium": 3, "low": 2, "unverified": 1}.get(conf, 0)
 
 
 def _link_entity(ent: dict, text: str, ent_type: str) -> None:
@@ -112,7 +166,7 @@ def _link_entity(ent: dict, text: str, ent_type: str) -> None:
         ent["wikidata"] = match.get("wikidata", "")
         ent["gnd"] = match.get("gnd", "")
         ent["hls"] = match.get("hls", "")
-        ent["hub_confidence"] = 0.9
+        ent["hub_confidence"] = "high"
         ent["link_method"] = "hub_exact"
         return
 
@@ -129,11 +183,11 @@ def _link_entity(ent: dict, text: str, ent_type: str) -> None:
         ent["hls"] = hls["hls_id"]
         ent["hls_name"] = hls.get("name", "")
         ent["hls_url"] = f"https://www.hls-dhs-dss.ch/de/{hls['hls_id']}"
-        ent["hub_confidence"] = 0.8
+        ent["hub_confidence"] = "low"
         ent["link_method"] = "hls_dhs"
         return
 
-    ent["hub_confidence"] = 0.0
+    ent["hub_confidence"] = "unverified"
     ent["link_method"] = "none"
 
 
@@ -173,7 +227,10 @@ def _semantic_link(text: str, ent_type: str) -> dict | None:
                 "wikidata": obj.get("wikidata", ""),
                 "gnd": obj.get("gnd", ""),
                 "hls": obj.get("hls", ""),
-                "hub_confidence": round(best["score"], 3),
+                # hub_confidence is a qualitative label everywhere (high/medium/
+                # low/unverified); keep the raw reranker score separately.
+                "hub_confidence": "medium",
+                "semantic_score": round(best["score"], 3),
             }
     except Exception as e:
         logger.warning(f"[Agent C] Semantic link failed for '{text}': {e}")
@@ -211,6 +268,8 @@ def _save(doc_id: str, result: dict, transcription: str) -> None:
 
     for etype, ents in by_type.items():
         lines.append(f"## {etype}\n")
+        # Most-confident links first (high → unverified)
+        ents = sorted(ents, key=lambda e: _conf_rank(e.get("hub_confidence")), reverse=True)
         for e in ents:
             wiki = (f" [Wikidata](https://www.wikidata.org/entity/{e.get('wikidata','')})"
                     if e.get("wikidata") else "")
@@ -219,11 +278,11 @@ def _save(doc_id: str, result: dict, transcription: str) -> None:
             hls = (f" [HLS]({e.get('hls_url','')})"
                    if e.get("hls_url") else "")
             method = e.get("link_method", "?")
-            conf = e.get("hub_confidence", 0)
+            conf = e.get("hub_confidence", "unverified")
             lines.append(
                 f"- **{e.get('text','')}** ({e.get('normalised','')}) — "
                 f"{e.get('context','')}{wiki}{gnd}{hls}"
-                f" _(conf={conf:.2f}, {method})_"
+                f" _(conf={conf}, {method})_"
             )
         lines.append("")
 

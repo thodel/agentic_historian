@@ -11,15 +11,22 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = BASE_DIR.parent
 
-# Env-Dateien laden. Die dedizierten GPUStack-Secrets (.env.gpustack) liegen im
-# Repo-Root und müssen explizit geladen werden; spätere Dateien überschreiben.
+# Env-Dateien laden. WICHTIG: echte Prozess-Umgebungsvariablen (systemd
+# `Environment=`/`EnvironmentFile=`, exportierte Secrets) haben IMMER Vorrang und
+# werden NIE von einer .env-Datei überschrieben (override=False). Andernfalls
+# würden (u.U. veraltete, eingecheckte) .env-Werte die echte Server-Umgebung
+# stompen (#106).
+#
+# Reihenfolge = Priorität UNTER den Dateien: bei override=False gewinnt die
+# zuerst geladene Datei. Die dedizierten GPUStack-Secrets (.env.gpustack) haben
+# daher Vorrang vor generischen .env-Dateien und werden zuerst geladen.
 for _env_file in (
-    BASE_DIR / ".env",
-    REPO_ROOT / ".env",
     REPO_ROOT / ".env.gpustack",
+    REPO_ROOT / ".env",
+    BASE_DIR / ".env",
 ):
     if _env_file.exists():
-        load_dotenv(_env_file, override=True)
+        load_dotenv(_env_file, override=False)
 
 
 def _get(key: str, default: str = "") -> str:
@@ -28,11 +35,24 @@ def _get(key: str, default: str = "") -> str:
 
 # ── Discord ──────────────────────────────────────────────────────────────────
 DISCORD_BOT_TOKEN = _get("DISCORD_BOT_TOKEN")
+# Numeric role ID that is allowed to run sensitive commands (/run, /pull, etc.).
+# Set to 0 or empty to disable role-gating (NOT recommended for shared servers).
+REQUIRED_DISCORD_ROLE_ID: int | None = int(_get("REQUIRED_DISCORD_ROLE_ID", "0")) or None
 
 # ── GitHub ───────────────────────────────────────────────────────────────────
 GITHUB_TOKEN = _get("GITHUB_TOKEN")
 GITHUB_REPO = _get("GITHUB_REPO", "thodel/agentic_historian")
 GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
+
+# ── Knowledge Hub (MCP-federated) ────────────────────────────────────────────
+# The Knowledge Hub is realised as a federation of MCP servers (one per
+# authority source), not a local store. The declarative source registry lives
+# in knowledge_hub/mcp_registry.py; adding a source = adding a registry entry.
+# Only the host base is configurable here, so the whole federation can be
+# repointed (staging/prod) with one env var. See docs/knowledge_hub.md.
+MCP_BASE_URL = _get("MCP_BASE_URL", "https://tei.dh.unibe.ch/mcp").rstrip("/")
+# Per-request timeout (seconds) when querying an MCP source.
+MCP_TIMEOUT = float(_get("MCP_TIMEOUT", "15"))
 
 # ── GPUStack (unibe) ─────────────────────────────────────────────────────────
 # Verified served models (GET /v1/models, 2026-06-26):

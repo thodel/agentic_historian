@@ -39,10 +39,24 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None) 
 
     user_prompt = prompt_obj.build_user_prompt(image_available=(image_path is not None))
 
+    # Chunking: take first + last part of the transcription so the
+    # description is not silently truncated to only page 1 of a multi-page order.
+    _chunk_size = 3000
+    if len(transcription) > 2 * _chunk_size:
+        transcription_snippet = (
+            f"[Dokumentanfang — erste {_chunk_size} Zeichen]\n"
+            f"{transcription[:_chunk_size]}\n\n"
+            f"[... — {len(transcription) - 2*_chunk_size} Zeichen in der Mitte verworfen ...]\n\n"
+            f"[Dokumentende — letzte {_chunk_size} Zeichen]\n"
+            f"{transcription[-_chunk_size:]}"
+        )
+    else:
+        transcription_snippet = transcription[:2 * _chunk_size]
+
     full_prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
         f"Transkription des Dokuments (von Agent A):\n\n"
-        f"{transcription[:4000]}\n\n"
+        f"{transcription_snippet}\n\n"
         f"---\n\n"
         f"Anweisungen fuer die Beschreibung:\n{user_prompt}\n\n"
         "Wichtige Anforderung: Antworte ZUERST mit einem JSON-Objekt (siehe Schema unten),\n"
@@ -147,10 +161,16 @@ def _extract_balanced_json(text: str) -> str:
 
 
 def _care_flag(transcription: str) -> dict:
+    # First + last chunk (same strategy as describe())
+    _chunk = 2000
+    snippet = (
+        transcription[:_chunk] + "\n\n[...]\n\n" + transcription[-_chunk:]
+        if len(transcription) > 2 * _chunk else transcription
+    )
     prompt = (
         MANUSCRIPT_SYSTEM + "\n\n" +
         "Pruefe ob dieses Dokument Care-relevante Inhalte hat.\n\n" +
-        transcription[:3000] + "\n\n" +
+        snippet + "\n\n" +
         "Antworte als JSON: {is_care_related: bool, care_context: str, "
         "care_types: [string], beteiligte: [string]}"
     )

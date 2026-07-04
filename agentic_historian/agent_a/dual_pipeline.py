@@ -23,7 +23,7 @@ from loguru import logger
 import config
 from utils import gpustack_client as gs
 from agent_a import models
-from agent_a.model_selector import select_best_kraken_model
+from agent_a.model_selector import select_kraken_model, SourceCriteria
 from agent_a.kraken_ocr import _kraken_available
 from agent_a.pary_ocr import party_transcribe, _party_available
 from agent_a.reconcile import (
@@ -130,7 +130,7 @@ def _run_vlm(
         transcription = gs.chat_vision(
             prompt=prompt,
             image_source=str(image_path),
-            temperature=1.0,
+            temperature=0.2,
             max_tokens=32768,
         ).strip()
         qa_raw = gs.chat_vision(
@@ -166,9 +166,10 @@ def _run_kraken(
 
     Returns (transcription, model_id_or_error).
     """
-    # 1. Pick the best model using Agent B metadata
+    # 1. Pick the best model using Agent B metadata.
+    # select_kraken_model returns list[ModelMatch] (.model, .score, .matched_on).
     if source_description:
-        best = select_best_kraken_model(source_description, top_k=1)
+        best = select_kraken_model(SourceCriteria.from_agent_b(source_description), top_k=1)
         if best:
             kraken_model = best[0].model
             logger.info(
