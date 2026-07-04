@@ -42,7 +42,7 @@ from typing import Optional
 
 from loguru import logger
 
-from agent_a.models import KRAKEN_MODELS, KrakenModel
+from agent_a.models import KRAKEN_MODELS, KRAKEN_MODELS_LIVE, KrakenModel
 
 
 # ── Century utilities ─────────────────────────────────────────────────────────
@@ -354,12 +354,19 @@ def select_kraken_model(
     Returns:
         Sorted list of ModelMatch (best first). Empty if no models match.
     """
-    if not KRAKEN_MODELS:
-        logger.warning("[model_selector] KRAKEN_MODELS is empty — no models configured")
+    # Build union: live registry (populated from gateway at startup) overlays
+    # the static table.  Live entries win on key collision so the gateway's
+    # authoritative metadata (scripts, languages, centuries) is used in
+    # preference to the hand-maintained fallback values.
+    registry: dict[str, KrakenModel] = dict(KRAKEN_MODELS)
+    registry.update(KRAKEN_MODELS_LIVE)
+
+    if not registry:
+        logger.warning("[model_selector] KRAKEN_MODELS and KRAKEN_MODELS_LIVE are both empty")
         return []
 
     scored = []
-    for m in KRAKEN_MODELS.values():
+    for m in registry.values():
         match = score_model(
             m,
             script=criteria.script,
