@@ -30,14 +30,7 @@ jobs:
       - name: Import smoke test
         run: |
           cd agentic_historian
-          python -c "
-            import bot
-            import config
-            import reporter
-            import orchestrator
-            from agents import source_description, entity_agent
-            print('All imports OK')
-          "
+          python -c "import bot, config, reporter, orchestrator; from agents import source_description, entity_agent; print('All imports OK')"
 
       # Run ALL offline tests — existing ones plus the new test_ah_*.py
       # regression tests that ship with the fix PRs (#96-#103).
