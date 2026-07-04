@@ -165,8 +165,51 @@ def _conf_rank(conf) -> int:
     return {"high": 4, "medium": 3, "low": 2, "unverified": 1}.get(conf, 0)
 
 
+def _mcp_link(text: str) -> dict | None:
+    """Link a PERSON via the MCP federation (KH-6, #92) — the primary authority.
+
+    Queries all Knowledge-Hub sources, resolves cross-source matches, and links
+    to the top entity when its name genuinely matches (guarding against a
+    spurious top hit). Network/federation failures degrade to None so the local
+    hub chain still runs. Offline (tests): mock ``search_agent.search_sync``.
+    """
+    if not getattr(config, "ENABLE_MCP_LINKING", True):
+        return None
+    try:
+        from agents import search_agent
+        from utils import entity_resolver
+        resp = search_agent.search_sync(text, limit=10)
+    except Exception as e:
+        logger.warning(f"[Agent C] MCP link failed for '{text}': {e}")
+        return None
+    if not resp.entities:
+        return None
+    top = resp.entities[0]
+    # Guard: require a real name match (query tokens ⊆ hit tokens or vice versa).
+    q = set(entity_resolver._norm_name(text).split())
+    n = set(entity_resolver._norm_name(top.name).split())
+    if not q or not (q <= n or n <= q):
+        return None
+    return {
+        "hub_id": top.gnd_id or (str(top.hls_id) if top.hls_id else top.name),
+        "gnd": top.gnd_id or "",
+        "hls": top.hls_id or "",
+        "wikidata": top.wikidata_id or "",
+        "hub_confidence": top.confidence,      # high | medium | low
+        "link_method": "mcp_federation",
+        "mcp_sources": top.sources,
+    }
+
+
 def _link_entity(ent: dict, text: str, ent_type: str) -> None:
-    """Link PERSON or PLACE entity: hub exact → embedding+rerank → HLS-DHS."""
+    """Link PERSON/PLACE: MCP federation → hub exact → embedding+rerank → HLS-DHS."""
+    # 0. MCP federation (primary authority for PERSON — KH-6/#92)
+    if ent_type == "PERSON":
+        fed = _mcp_link(text)
+        if fed:
+            ent.update(fed)
+            return
+
     # 1. Hub exact match
     if ent_type == "PERSON":
         match = hub.find_person(text)
