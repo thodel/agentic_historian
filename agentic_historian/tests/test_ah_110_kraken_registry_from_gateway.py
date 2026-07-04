@@ -98,7 +98,9 @@ class TestRefreshKrakenRegistry:
         mock_client = MagicMock()
         mock_client.list_models.return_value = MOCK_GATEWAY_MODELS
 
-        result = refresh_kraken_registry(mock_client)
+        # clear=True so this test does not leak live entries into other tests
+        with patch.dict(KRAKEN_MODELS_LIVE, clear=True):
+            result = refresh_kraken_registry(mock_client)
 
         # Each entry must be a dict with 'id' key (not a bare string)
         assert all(isinstance(m, dict) for m in MOCK_GATEWAY_MODELS)
@@ -133,7 +135,9 @@ class TestRefreshKrakenRegistry:
         mock_client = MagicMock()
         mock_client.list_models.return_value = MOCK_GATEWAY_MODELS
 
-        # Pre-populate with stale data
+        # Pre-populate with stale data. Assert INSIDE the patch.dict block —
+        # once it exits, patch.dict restores KRAKEN_MODELS_LIVE and the checks
+        # would run against the wrong (restored) state.
         with patch.dict(KRAKEN_MODELS_LIVE, clear=True):
             KRAKEN_MODELS_LIVE["stale-model"] = KrakenModel(
                 model_id="stale-model",
@@ -142,8 +146,8 @@ class TestRefreshKrakenRegistry:
             )
             refresh_kraken_registry(mock_client)
 
-        assert "stale-model" not in KRAKEN_MODELS_LIVE
-        assert "10.5281/zenodo.7516057" in KRAKEN_MODELS_LIVE
+            assert "stale-model" not in KRAKEN_MODELS_LIVE
+            assert "10.5281/zenodo.7516057" in KRAKEN_MODELS_LIVE
 
     def test_skips_malformed_entries(self):
         """Entries missing 'id' key or with non-list centuries are skipped."""
@@ -202,7 +206,7 @@ class TestLiveRegistryOverlayInSelect:
             ),
         }
 
-        with patch.dict(KRAKEN_MODELS_LIVE, live_table):
+        with patch.dict(KRAKEN_MODELS_LIVE, live_table, clear=True):
             with patch("agent_a.model_selector.KRAKEN_MODELS", static_table):
                 # select_kraken_model should find the model and prefer live name
                 from agent_a.model_selector import SourceCriteria
@@ -229,7 +233,7 @@ class TestLiveRegistryOverlayInSelect:
             ),
         }
 
-        with patch.dict(KRAKEN_MODELS_LIVE, live_table):
+        with patch.dict(KRAKEN_MODELS_LIVE, live_table, clear=True):
             with patch("agent_a.model_selector.KRAKEN_MODELS", static_table):
                 from agent_a.model_selector import SourceCriteria
                 criteria = SourceCriteria(script="Kurrent", lang="de", century=16)
