@@ -175,12 +175,26 @@ def _care_flag(transcription: str) -> dict:
         "Antworte als JSON: {is_care_related: bool, care_context: str, "
         "care_types: [string], beteiligte: [string]}"
     )
+    default = {"is_care_related": False, "care_context": "", "care_types": [], "beteiligte": []}
     try:
-        raw = gs.chat_text(prompt, system=None, max_tokens=800)
-        return json.loads(raw)
+        # gpt-oss is a reasoning model — it spends tokens on reasoning_content
+        # before the JSON, so 800 truncated the answer to null. Give it room.
+        raw = gs.chat_text(prompt, system=None, max_tokens=2500)
+        # Parse defensively: the JSON may be wrapped in reasoning text / fences.
+        json_text = _extract_balanced_json(raw or "")
+        if not json_text:
+            raise ValueError("no JSON object found in care-flag response")
+        parsed = json.loads(json_text)
     except Exception as e:
         logger.warning(f"[Agent B] Care-Flag fehlgeschlagen: {e}")
-        return {"is_care_related": False, "care_context": "", "care_types": [], "beteiligte": []}
+        return dict(default)
+    # Normalise: always return the expected keys with the expected types.
+    return {
+        "is_care_related": bool(parsed.get("is_care_related", False)),
+        "care_context": parsed.get("care_context") or "",
+        "care_types": parsed.get("care_types") or [],
+        "beteiligte": parsed.get("beteiligte") or [],
+    }
 
 
 def _save(doc_id: str, result: dict):
