@@ -33,12 +33,14 @@ def test_vlm_temperature_is_low_for_diplomatic_transcription():
     )
     assert "temperature=0.2" in tr, "_htr_vlm must use temperature=0.2"
 
-    # _run_vlm (dual_pipeline)
+    # _run_vlm (dual_pipeline) — low temperature for diplomatic transcription.
+    # 0.0 (fully deterministic/verbatim) or 0.2 both satisfy "<= 0.2" (#107
+    # lowered it to 0.0 when removing the self-QA loop).
     assert "temperature=1.0" not in dp, (
         "dual_pipeline._run_vlm still uses temperature=1.0"
     )
-    assert "temperature=0.2" in dp, (
-        "dual_pipeline._run_vlm must use temperature=0.2"
+    assert ("temperature=0.0" in dp or "temperature=0.2" in dp), (
+        "dual_pipeline._run_vlm must use a low temperature (<= 0.2)"
     )
 
 

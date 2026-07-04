@@ -13,7 +13,6 @@ Usage:
   result = transcribe_dual("path/to/image.jpg", lang="la", source_description=description_md)
 """
 
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -116,12 +115,37 @@ def _build_vlm_prompt(source_description: Optional[str] = None) -> str:
     return base
 
 
+def _quality_score(transcription: str) -> float:
+    """Independent HTR quality heuristic — NOT self-referential (#107).
+
+    Deliberately does not ask the producing VLM to grade its own output (that
+    signal is worthless and burns tokens). Mirrors
+    agents.text_recognition._quality_score; kept as a separate copy because
+    text_recognition imports from this module (importing it back would be a
+    circular import).
+    """
+    if not transcription.strip():
+        return 0.0
+    text = transcription.strip()
+    alpha_ratio = sum(c.isalpha() for c in text) / max(len(text), 1)
+    if alpha_ratio < 0.1:      # mostly punctuation/noise
+        return 0.2
+    if len(text) < 20:         # too little to evaluate
+        return 0.3
+    return 0.8                 # non-empty, readable text is usable
+
+
 def _run_vlm(
     image_path: Path,
     source_description: Optional[str] = None,
     model: Optional[models.VLMModel] = None,
 ) -> tuple[str, float]:
-    """Run VLM (InternVL3) transcription with QA score."""
+    """Run VLM transcription and score it with an INDEPENDENT heuristic.
+
+    QA is no longer the same VLM grading itself (#107): we transcribe at
+    temperature 0.0 (diplomatic/verbatim transcription is deterministic, not
+    creative) and score the result with _quality_score.
+    """
     if model is None:
         model = models.get_primary_vlm()
 
@@ -130,22 +154,10 @@ def _run_vlm(
         transcription = gs.chat_vision(
             prompt=prompt,
             image_source=str(image_path),
-            temperature=0.2,
+            temperature=0.0,
             max_tokens=32768,
         ).strip()
-        qa_raw = gs.chat_vision(
-            prompt=(
-                f"Begutachte diese Transkription:\n\n{transcription}\n\n"
-                "Vergib einen QC-Score von 0.0 bis 1.0. "
-                "Antworte NUR mit einer Zahl."
-            ),
-            image_source=str(image_path),
-            temperature=0.3,
-            max_tokens=50,
-        )
-        match = re.search(r"0\.\d+", qa_raw)
-        score = float(match.group()) if match else 0.5
-        return transcription, score
+        return transcription, _quality_score(transcription)
     except Exception as e:
         logger.warning(f"[VLM path] Transcription failed: {e}")
         return "", 0.0
