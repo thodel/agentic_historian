@@ -22,6 +22,7 @@ import copy
 import json
 import re
 import threading
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
@@ -29,6 +30,35 @@ import requests
 from loguru import logger
 
 import config
+
+
+# ── Dataclass adapters for RDF export compatibility (origin/master compat) ───
+@dataclass
+class Person:
+    """Dataclass adapter for RDF export. Wraps a person dict."""
+    name: str
+    wikidata_id: Optional[str] = None
+    gnd_id: Optional[str] = None
+    notes: str = ""
+
+
+@dataclass
+class Place:
+    """Dataclass adapter for RDF export. Wraps a place dict."""
+    name: str
+    wikidata_id: Optional[str] = None
+    gnd_id: Optional[str] = None
+    coordinates: Optional[tuple[float, float]] = None
+    notes: str = ""
+
+
+@dataclass
+class Vocabulary:
+    """Dataclass adapter for vocabulary terms (RDF export)."""
+    term: str
+    canonical_form: str = ""
+    category: str = ""
+    notes: str = ""
 
 HUB_PATH = config.KH_DIR / "hub.json"
 
@@ -142,6 +172,45 @@ class KnowledgeHub:
         persons.append(person)
         self._save()
 
+    def all_persons(self) -> list[Person]:
+        """Return all persons as dataclass instances (for RDF export)."""
+        return [
+            Person(
+                name=p.get("name", ""),
+                wikidata_id=p.get("wikidata"),
+                gnd_id=p.get("gnd"),
+                notes=p.get("notes", ""),
+            )
+            for p in self._data["persons"]
+        ]
+
+    def all_places(self) -> list[Place]:
+        """Return all places as dataclass instances (for RDF export)."""
+        result = []
+        for p in self._data["places"]:
+            coords = p.get("coordinates")
+            if isinstance(coords, (list, tuple)) and len(coords) == 2:
+                coords = tuple(float(c) for c in coords)
+            elif coords is None:
+                coords = None
+            else:
+                coords = None
+            result.append(Place(
+                name=p.get("name", ""),
+                wikidata_id=p.get("wikidata"),
+                gnd_id=p.get("gnd"),
+                coordinates=coords,
+                notes=p.get("notes", ""),
+            ))
+        return result
+
+    def all_vocabulary(self) -> list[Vocabulary]:
+        """Return controlled-vocabulary terms as Vocabulary dataclasses."""
+        return [
+            Vocabulary(term=t, canonical_form=t, category="")
+            for t in self._data["controlled_vocabulary"]
+        ]
+
     # ── places ──────────────────────────────────────────────────────────────
     def get_places(self) -> list[dict]:
         return self._data["places"]
@@ -247,6 +316,18 @@ def add_person(person: dict) -> None:
 
 def add_place(place: dict) -> None:
     _hub.add_place(place)
+
+
+def all_persons() -> list[Person]:
+    return _hub.all_persons()
+
+
+def all_places() -> list[Place]:
+    return _hub.all_places()
+
+
+def all_vocabulary() -> list[Vocabulary]:
+    return _hub.all_vocabulary()
 
 
 def add_keyword(term: str) -> None:
