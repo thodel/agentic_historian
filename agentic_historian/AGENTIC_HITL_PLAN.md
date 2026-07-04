@@ -1,6 +1,6 @@
 # Agentic HITL Plan — Clickable Checkpoints, Metadata-Driven Re-Runs
 
-**Status:** accepted — issues filed (Epic #142, sub-issues #145–#156) ·
+**Status:** accepted — issues filed (Epic #142, sub-issues #145–#156); #139 (verbatim feedback) subsumed ·
 **Updated:** 2026-07-04 · **Companion docs:** `IMPLEMENTATION_PLAN.md` (MCP hub), `README.md`
 
 ## Why
@@ -163,9 +163,23 @@ user-visible milestone. #151 is blocked on #92 (KH-6, MCP entity linking).
 
 ## Relation to other epics
 
-- **#139 (verbatim PhaseEvents)** — the substrate. The routing card is an
-  *interactive renderer* over the same per-phase events; build VF-1 first or
-  together with #146, so gates and verbatim feedback share one event stream.
+- **#139 (verbatim agent feedback) — SUBSUMED into this epic (reconciled 2026-07-04).**
+  #139 and this plan are two layers of one feature: #139 is the *observe/verbatim*
+  layer (a structured per-phase event stream), this epic is the *interact/correct*
+  layer (a self-updating card that renders those events and adds click-to-correct +
+  targeted re-runs). Rather than run two plans, #139 is folded in — one card, one
+  event stream. Mapping of the #139 VF-items to their home here:
+
+  | #139 item | Home | Note |
+  |---|---|---|
+  | VF-1 `PhaseEvent` emitter | **#145** (RunState + state machine) | RunState *is* the per-stage event/decision store; the orchestrator emits stage events as it fills it — build one, not two |
+  | VF-2 incremental `/run` rendering | **#146** (Gate-1 routing card) | the card is the verbatim renderer *and* the interactive control — one self-updating message |
+  | VF-3 verbatim errors (real messages, not counts) | **#146** acceptance | the card shows the actual `{agent, phase}: message`, never `Errors: <n>` |
+  | VF-4 `/inspect <doc>` full-content dump | **kept as a small standalone read-only command** | card = summary + controls; `/inspect` dumps the full RunState/pipeline.json (transcription, description, entities) on demand |
+  | VF-5 excerpt/verbosity config | **#146/#153** config | `MAX_FEEDBACK_EXCERPT`; storage stays fully verbatim (#98/#100/#121), only the *display* excerpt is bounded |
+
+  Net: **build VF-1 as the shared foundation of #145**, so gates and verbatim
+  feedback share one event stream; #139 is closed as subsumed.
 - **#33 (thin bot shell)** — gates emit UI-agnostic `PendingInput` records;
   `bot.py` only renders them.
 - **#129 / #92 (KH consumer track)** — Gate 3 candidate lists come from the
