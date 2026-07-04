@@ -59,6 +59,9 @@ GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 MCP_BASE_URL = _get("MCP_BASE_URL", "https://tei.dh.unibe.ch/mcp").rstrip("/")
 # Per-request timeout (seconds) when querying an MCP source.
 MCP_TIMEOUT = float(_get("MCP_TIMEOUT", "15"))
+# Agent C links PERSON entities via the MCP federation (#92). When the
+# federation is unreachable it degrades gracefully to the local hub chain.
+ENABLE_MCP_LINKING = _get("ENABLE_MCP_LINKING", "true").lower() == "true"
 
 # ── GPUStack (unibe) ─────────────────────────────────────────────────────────
 # Verified served models (GET /v1/models, 2026-06-26):
