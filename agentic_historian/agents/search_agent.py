@@ -59,3 +59,45 @@ async def search(query: str, limit: int = 20) -> SearchResponse:
 def search_sync(query: str, limit: int = 20) -> SearchResponse:
     """Blocking wrapper for sync callers (CLI, tests)."""
     return asyncio.run(search(query, limit=limit))
+
+
+def _authority_links(e: ResolvedEntity) -> str:
+    links = []
+    if e.gnd_id:
+        links.append(f"[GND](https://d-nb.info/gnd/{e.gnd_id})")
+    if e.hls_id:
+        links.append(f"[HLS](https://www.hls-dhs-dss.ch/de/{e.hls_id})")
+    if e.wikidata_id:
+        links.append(f"[WD](https://www.wikidata.org/entity/{e.wikidata_id})")
+    return " · ".join(links)
+
+
+def format_response(resp: SearchResponse, top: int = 10, max_chars: int = 1900) -> str:
+    """Render a SearchResponse as a Discord message (pure; presentation only)."""
+    if not resp.entities:
+        msg = f"🔎 **«{resp.query}»** — keine Treffer"
+        if resp.failed_sources:
+            msg += f"\n⚠️ Quellen nicht erreichbar: {', '.join(resp.failed_sources)}"
+        return msg
+
+    header = (f"🔎 **«{resp.query}»** — {resp.resolved_count} Treffer aus "
+              f"{len({s for e in resp.entities for s in e.sources})} Quelle(n) "
+              f"({resp.raw_count} Roh-Datensätze)")
+    lines = [header, ""]
+    for e in resp.entities[:top]:
+        dates = f" ({e.life_dates})" if e.life_dates else ""
+        line = f"**{e.name}**{dates} · _{e.confidence}_ · {', '.join(e.sources)}"
+        if e.needs_review:
+            line += " ⚠️"
+        links = _authority_links(e)
+        if links:
+            line += f"\n   {links}"
+        lines.append(line)
+
+    if resp.resolved_count > top:
+        lines.append(f"\n… und {resp.resolved_count - top} weitere")
+    if resp.failed_sources:
+        lines.append(f"\n⚠️ Quellen nicht erreichbar: {', '.join(resp.failed_sources)}")
+
+    out = "\n".join(lines)
+    return out if len(out) <= max_chars else out[:max_chars - 1] + "…"

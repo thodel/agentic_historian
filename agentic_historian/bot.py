@@ -92,6 +92,21 @@ async def status(ctx):
     await ctx.followup.send(report)
 
 
+@bot.slash_command(
+    name="search",
+    description="Federated person search across the Knowledge Hub (HLS/HBLS/KF/EOS)",
+)
+async def search_cmd(ctx, query: Option(str, "Name/Person to search", required=True)):
+    # Read-only federated query; the MCP calls are async I/O so we await directly.
+    await ctx.defer()
+    try:
+        from agents import search_agent
+        resp = await search_agent.search(query, limit=20)
+        await ctx.followup.send(search_agent.format_response(resp))
+    except Exception as e:
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
 @require_role
 async def run_pipeline(
