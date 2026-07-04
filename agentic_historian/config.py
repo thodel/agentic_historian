@@ -133,7 +133,9 @@ OUTPUTS_DIR = DATA_DIR / "outputs"
 HF_TOKEN = _get("HF_TOKEN", "")
 
 # ── Voyant (optional) ────────────────────────────────────────────────────────
-VOYANT_API_URL = _get("Voyant_API_URL", "https://voyant-tools.org/voyant/api")
+# Self-hosted Voyant instance (see README "Voyant Tools — Integration").
+# Reads VOYANT_API_URL; the legacy misspelled name is kept as a fallback.
+VOYANT_API_URL = _get("VOYANT_API_URL", _get("Voyant_API_URL", "https://tei.dh.unibe.ch/voyant"))
 
 # ── Agent E: Meta Agent ──────────────────────────────────────────────────────
 META_REPORT_PATH = OUTPUTS_DIR / "meta_report.md"
