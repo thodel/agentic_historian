@@ -10,22 +10,34 @@ This Discord server (#allgemein, channel `1519707390956798034`) is the live proo
 
 ```
 agents/
-  text_recognition.py   — Agent A: HTR (VLM, per-page + grouped)
-  source_description.py — Agent B: source description (Ad Fontes 16-element; JSON+MD)
-  entity_agent.py       — Agent C: entity extraction (NER) + hub/embedding/reranker linking
+  text_recognition.py   — Agent A: HTR (kraken-first when available, VLM fallback)
+  source_description.py — Agent B: source description (Ad Fontes 16-element; JSON+MD; human pins)
+  entity_agent.py       — Agent C: entity extraction (NER) + MCP-federation / hub linking
   corpus_analysis.py    — Agent D: corpus stats, topics, taxonomy, care, Voyant
   meta_agent.py         — Agent E: resource tracking / report
-agent_a/          — two-pronged HTR (VLM + kraken via serving-atr-inference)
-knowledge_hub/    — controlled vocabulary + thin cache (authority data via MCP federation)
+  search_agent.py       — federated person search (parallel MCP query + resolve + rank)
+  source_heuristic.py   — Ad Fontes (UZH) codicological prompt framework (16 elements)
+agent_a/          — two-pronged HTR (VLM + kraken/TrOCR via the serving-atr-inference gateway)
+knowledge_hub/
+  mcp_registry.py       — declarative registry of the KH MCP sources (see docs/knowledge_hub.md)
+  hub.py                — controlled vocabulary + thin cache (authority data via MCP federation)
+  rdf_export.py         — CIDOC-CRM RDF/Turtle export (toward the QLEVER triple-store, WP4)
 utils/
   gpustack_client.py    — single GPUStack (OpenAI-compatible) client
+  mcp_client.py         — async client over the KH MCP federation (PersonResult contract)
+  entity_resolver.py    — cross-source entity resolver/merger
   switchdrive.py        — WebDAV ingestion from SwitchDrive
-orchestrator.py   — A→B→C(→D) pipeline wiring (single doc + grouped "order")
+  metrics.py            — per-run telemetry (Agent E)
+orchestrator.py   — A→B→(kraken re-run)→C(→D) pipeline wiring (single doc + grouped "order")
+runstate.py       — per-document run state + stage-invalidation state machine (HITL)
+routing_card.py   — HITL Gate-1 routing card (metadata selects → re-route HTR)
+path_compare.py   — HITL Gate-2 path-comparison card (measured CER)
 bot.py            — Discord bot (py-cord slash commands)
 config.py         — central config + role-based GPUStack routing
+docs/knowledge_hub.md — MCP-federation methodology + how to add a source
 ```
 
-All models run on the **unibe GPUStack** (`gpustack.unibe.ch`, OpenAI-compatible): vision `qwen3-vl-30b-a3b-instruct` (A/B), text `gpt-oss-120b` (C/D/E), `minimax-m2.7` reserved for orchestration. HTR's kraken path is served by the companion `serving-atr-inference` service (`KRAKEN_SERVICE_URL`). Knowledge-hub authority data (persons/places, HLS/HBLS/SSRQ/KF/EOS, GND/Wikidata) is federated over **MCP** — see `IMPLEMENTATION_PLAN.md`.
+All models run on the **unibe GPUStack** (`gpustack.unibe.ch`, OpenAI-compatible): vision `qwen3-vl-30b-a3b-instruct` (A/B), text `gpt-oss-120b` (C/D/E), `minimax-m2.7` reserved for orchestration. HTR's kraken/TrOCR path is served by the companion **serving-atr-inference** gateway (`ATR_GATEWAY_URL`, `X-API-Key`). Knowledge-hub authority data (persons/places — HLS, HBLS, KF, EOS, plus GND/Wikidata) is federated over **MCP**; the registry lives in `knowledge_hub/mcp_registry.py` and the methodology in `docs/knowledge_hub.md`. See `IMPLEMENTATION_PLAN.md` and `AGENTIC_HITL_PLAN.md`.
 
 ## Prompt Framework
 
@@ -38,10 +50,10 @@ Requires Python 3.11+, on the unibe VPN (GPUStack is IP-gated).
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp ../gpustack.env.example ../.env.gpustack   # then fill in the rotated key + Discord token
-python bot.py
+cp ../workspace/gpustack.env.example ../.env.gpustack   # then fill in the rotated key + Discord token
+python bot.py            # or: python -m agentic_historian  (entry point, see pyproject.toml)
 ```
-`config.py` loads `.env.gpustack` from the **repo root**. In production the bot runs under systemd (`agentic-historian.service`).
+`config.py` loads `.env.gpustack` from the **repo root** (real process env always wins; dotenv never overrides it). In production the bot runs under systemd (`agentic-historian.service`).
 
 ## Discord Commands
 
@@ -54,22 +66,32 @@ python bot.py
 | `/pull_folder [folder] [reprocess]` | Process each SwitchDrive subfolder as one multi-page document |
 | `/agent_d [corpus]` | Corpus analysis |
 | `/agent_e` | Meta report |
+| `/search <name>` | Federated person search across the KH MCP sources (HLS/HBLS/KF/EOS) |
+| `/route <doc_id>` | HITL Gate-1 routing card — correct inferred metadata, re-route HTR |
 | `/status`, `/progress` | Status |
+
+Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races).
 
 ## Environment Variables (`.env.gpustack`, repo root)
 
 | Variable | Description |
 |---|---|
 | `DISCORD_BOT_TOKEN` | Discord bot token |
+| `REQUIRED_DISCORD_ROLE_ID` | Numeric role id allowed to run sensitive commands (empty = open) |
 | `GPUSTACK_API_KEY` | GPUStack API key (rotate if leaked; gitignored) |
 | `GPUSTACK_BASE_URL` | GPUStack endpoint (default `https://gpustack.unibe.ch/v1`) |
 | `GPUSTACK_MODEL_VISION` / `_TEXT` / `_ORCHESTRATOR` | Role-based model routing |
 | `GPUSTACK_MODEL_EMBEDDING` / `_RERANKER` | Retrieval models for Agent C linking |
-| `KRAKEN_SERVICE_URL` | serving-atr-inference endpoint for kraken HTR |
-| `SWITCHDRIVE_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
+| `GPUSTACK_TEXT_MAX_TOKENS` | Token budget floor for the gpt-oss reasoning model |
+| `ATR_GATEWAY_URL` | serving-atr-inference gateway (kraken/TrOCR); falls back to legacy `KRAKEN_SERVICE_URL` |
+| `ATR_API_KEY` | `X-API-Key` for the ATR gateway |
+| `MCP_BASE_URL` / `MCP_TIMEOUT` | Knowledge-hub MCP federation base + per-request timeout |
+| `ENABLE_MCP_LINKING` | Agent C links persons via the MCP federation (falls back to the local hub) |
+| `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
+| `VOYANT_API_URL` | Self-hosted Voyant instance (Agent D) |
 | `ENABLE_HLS_LOOKUP` / `HLS_DATA_PATH` | Offline HLS fallback (primary path is the HLS MCP) |
 
-See `gpustack.env.example` for the full template.
+See `workspace/gpustack.env.example` for the full template.
 
 ## Contributing — PR & issue rules
 
@@ -98,7 +120,7 @@ rules exist because we have hit each of these failure modes — follow them.
 - **The endpoint is VPN-gated** — live LLM calls need the unibe VPN (off-VPN returns `403`).
 
 ### Tests
-- Add an **offline test** (mock `gpustack_client`) for new agent logic so the suite runs without the VPN. Run from the package dir: `python tests/<test>.py` or `pytest`.
+- Add an **offline test** (mock `gpustack_client`, the kraken client, or the MCP transport) for new logic so the suite runs without the VPN. Run **from the repo root**: `pytest agentic_historian/tests/`. GitHub Actions runs the import smoke + full suite on every PR — **CI must be green before merge**.
 
 ## Voyant Tools — Integration
 
@@ -233,10 +255,11 @@ def analyse_with_voyant(text: str, endpoint: str = "https://tei.dh.unibe.ch/voya
 
 Model registry lives in the sibling repo **serving-atr-inference**:
 
-**`serving-atr-inference/config/models.yaml`** — authoritative ATR model registry.
+**`serving-atr-inference/config/models.yaml`** — authoritative ATR model registry, exposed by the gateway at `GET /models`.
 
-The `agent_a/models.py` file is a client-side mirror of the same entries, used by
-`model_selector.py` for language/script/century → model routing.
+`agent_a/models.py` holds a static fallback table; at startup `refresh_kraken_registry()`
+fetches the live registry from the gateway (`GET /models`) so `model_selector.py`
+routes language/script/century → model against what's actually served (no drift).
 
 ### TrOCR line-level models (currently deployed)
 
@@ -256,15 +279,17 @@ be segmented first (e.g. via kraken `blla`).
 - **Kraken** — GPU1, various Zenodo models — page-level (segments internally)
 - **Party/PARY** — GPU1, Zenodo `10.5281/zenodo.20642057` — page-level HTR
 
-## Phases
+## Status
 
-- Phase 0 — GitHub setup & exec approvals ✅
-- Phase 1 — Scaffold & Discord bot ✅
-- Phase 2 — Knowledge hub ✅
-- Phase 3 — OCR (HTR) pipeline ✅
-- Phase 4 — Source description ✅
-- Phase 5 — Entity extraction (NER) ✅
-- Phase 6 — Corpus analysis ✅
-- Phase 7 — Meta agent ✅
-- Phase 8 — Hot folder integration 🔄
-- Phase 9 — Testing & tuning ⬜
+The core pipeline is operational (VLM-first) with CI on every PR. See
+`IMPLEMENTATION_PLAN.md` for the detailed roadmap and `AGENTIC_HITL_PLAN.md`
+for the interactive-feedback work.
+
+- Scaffold + Discord bot, Agents A–E, hot-folder/SwitchDrive ingestion ✅
+- **Knowledge Hub — MCP federation ✅** (registry + methodology; client, resolver, federated `/search`, Agent C linking)
+- Code-review remediation ✅ (external review 2026-07; last item: reconciliation tuning #17)
+- **serving-atr-inference gateway** 🔄 (auth + live registry done; TrOCR-via-gateway + reconciliation remaining)
+- **Agentic HITL — clickable routing cards + metadata-driven re-runs** 🔄 (Gate 1/2 + RunState done; Gate 3, persistence, gating remaining)
+- kraken activation, Voyant, NL/Scholar-in-the-Loop orchestrator ⬜
+
+VLM-first is the current operational baseline; kraken/TrOCR is the enhancement track.

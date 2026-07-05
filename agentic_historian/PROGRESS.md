@@ -1,21 +1,23 @@
 # Agentic Historian — Progress
 
-_Last updated: 2026-06-26T13:15:00+00:00_
+_Last updated: 2026-07-05T00:00:00+00:00_
 
 ```json
 {
   "phase_0": {"status": "completed", "notes": "GitHub repo, .gitignore, .env.gpustack untracked."},
   "phase_1": {"status": "completed", "notes": "Scaffold, bot.py, requirements.txt, config.py, dirs."},
-  "phase_2": {"status": "completed", "notes": "Knowledge hub (knowledge_hub/hub.py) — done."},
-  "phase_3": {"status": "completed", "notes": "Two-pronged HTR: (1) VLM path via GPUStack + (2) kraken baseline/OCR + HuggingFace models. LLM reconciliation of both outputs. Model registry in agent_a/models.py."},
-  "phase_4": {"status": "completed", "notes": "Source description (agents/source_description.py) — Ad Fontes UZH 16-element schema."},
-  "phase_5": {"status": "completed", "notes": "Entity extraction (agents/entity_agent.py) — LLM NER with NER4all persona."},
-  "phase_6": {"status": "completed", "notes": "Corpus analysis (agents/corpus_analysis.py) — done."},
-  "phase_7": {"status": "completed", "notes": "Meta agent (agents/meta_agent.py) — done."},
-  "phase_8": {"status": "completed", "notes": "Hot folder via /hotfolder command. Files in data/hot_folder/ processed via run_hot_folder(). Move-to-processed after success."},
-  "phase_9": {"status": "pending", "notes": "Testing & tuning with real documents — pending."},
-  "last_commit": "ba3af12",
-  "last_activity": "2026-06-26T13:15:00+00:00"
+  "phase_2": {"status": "completed", "notes": "Knowledge hub — MCP-federated (mcp_registry.py + docs/knowledge_hub.md)."},
+  "phase_3": {"status": "completed", "notes": "HTR: VLM-first (operational) + kraken/TrOCR via serving-atr-inference gateway (enhancement). Registry synced from gateway /models."},
+  "phase_4": {"status": "completed", "notes": "Source description (Ad Fontes 16-element) + human pins authoritative (quelle=historiker)."},
+  "phase_5": {"status": "completed", "notes": "Entity extraction (NER) + MCP-federation linking (Agent C)."},
+  "phase_6": {"status": "completed", "notes": "Corpus analysis + Voyant."},
+  "phase_7": {"status": "completed", "notes": "Meta agent + per-run telemetry (utils/metrics.py)."},
+  "phase_8": {"status": "completed", "notes": "Hot folder + SwitchDrive ingestion; success reporting fixed (#97)."},
+  "phase_9": {"status": "completed", "notes": "Federated search (epic #129): mcp_client, resolver, /search, Agent C linking. CI on every PR."},
+  "phase_10": {"status": "in_progress", "notes": "Agentic HITL (epic #142): RunState + Gate 1/2 cards done (#145-149); Gate 3, persistence, gating remaining."},
+  "phase_11": {"status": "in_progress", "notes": "serving-atr-inference gateway (epic #143): auth + live registry done; TrOCR-via-gateway + reconciliation remaining."},
+  "last_commit": "cf24e14",
+  "last_activity": "2026-07-05T00:00:00+00:00"
 }
 ```
 

@@ -1,6 +1,6 @@
 # Agentic HITL Plan — Clickable Checkpoints, Metadata-Driven Re-Runs
 
-**Status:** accepted — issues filed (Epic #142, sub-issues #145–#156); #139 (verbatim feedback) subsumed ·
+**Status:** in progress — HITL-1a…2b merged (#145–#149); #150→ remaining. #139 (verbatim feedback) subsumed ·
 **Updated:** 2026-07-04 · **Companion docs:** `IMPLEMENTATION_PLAN.md` (MCP hub), `README.md`
 
 ## Why
@@ -146,20 +146,20 @@ default action fires and is recorded as `decided_by: "auto"`.
 Filed 2026-07-04. Suggested build order: top to bottom; #146 is the first
 user-visible milestone. #151 is blocked on #92 (KH-6, MCP entity linking).
 
-| ID | Issue | Prio | Scope | Acceptance (short) |
-|---|---|---|---|---|
-| HITL-1a | #145 | P0 | RunState + stage-invalidation state machine | `invalidate("century")` dirties exactly {model_select, kraken, reconcile, B-pin, C}; `resume()` re-runs only dirty stages |
-| HITL-1b | #146 | P0 | Gate 1 routing card (selects → kraken re-run) | "15. Jh." + 🔁 switches the model on the card and refreshes B/C; card edits in place |
-| HITL-1c | #147 | P1 | Pinned fields authoritative downstream | pinned Datierung survives into `descriptions/<id>.json` with `quelle: historiker` |
-| HITL-2a | #148 | P1 | Worker queue replaces `_active_runs` | two parallel `/run`s stay responsive; clicks queued, not raced |
-| HITL-2b | #149 | P1 | Gate 2 path comparison (measured CER) | choosing kraken re-runs B/C; no interrupt when paths agree |
-| HITL-2c | #150 | P1 | Persistent views | clicks survive bot restart (custom_id `ah:<doc>:<gate>:<field>`) |
-| HITL-3a | #151 | P1 | Gate 3 entity-link review (MCP candidates) | only unverified/low entities gate; blocked on #92 |
-| HITL-3b | #152 | P1 | Hub variant write-back on click | reprocessing same spelling links `hub_exact` with zero interaction |
-| HITL-4a | #153 | P2 | Uncertainty gating + timeouts | confident docs: zero blocking interrupts; timeout → `decided_by: auto` |
-| HITL-4b | #154 | P2 | Feedback log + Agent E reporting | one JSONL line per decision; override rates in `/agent_e` |
-| HITL-4c | #155 | P2 | Routing prior in `score_model()` (flag) | flag off = byte-identical scores; prior capped below a full criteria match |
-| HITL-4d | #156 | P2 | Optional LLM router on `minimax-m2.7` (flag) | invalid decisions fall back rule-based; first concrete scope for #32 |
+| ✓ | ID | Issue | Prio | Scope | Acceptance (short) |
+|---|---|---|---|---|---|
+| ✅ | HITL-1a | #145 | P0 | RunState + stage-invalidation state machine | `invalidate("century")` dirties exactly {model_select, kraken, reconcile, B-pin, C}; `resume()` re-runs only dirty stages |
+| ✅ | HITL-1b | #146 | P0 | Gate 1 routing card (selects → kraken re-run) | "15. Jh." + 🔁 switches the model on the card and refreshes B/C; card edits in place |
+| ✅ | HITL-1c | #147 | P1 | Pinned fields authoritative downstream | pinned Datierung survives into `descriptions/<id>.json` with `quelle: historiker` |
+| ✅ | HITL-2a | #148 | P1 | Worker queue replaces `_active_runs` | two parallel `/run`s stay responsive; clicks queued, not raced |
+| ✅ | HITL-2b | #149 | P1 | Gate 2 path comparison (measured CER) | choosing kraken re-runs B/C; no interrupt when paths agree |
+|  | HITL-2c | #150 | P1 | Persistent views | clicks survive bot restart (custom_id `ah:<doc>:<gate>:<field>`) |
+|  | HITL-3a | #151 | P1 | Gate 3 entity-link review (MCP candidates) | only unverified/low entities gate; #92 (MCP linking) now done |
+|  | HITL-3b | #152 | P1 | Hub variant write-back on click | reprocessing same spelling links `hub_exact` with zero interaction |
+|  | HITL-4a | #153 | P2 | Uncertainty gating + timeouts | confident docs: zero blocking interrupts; timeout → `decided_by: auto` |
+|  | HITL-4b | #154 | P2 | Feedback log + Agent E reporting | one JSONL line per decision; override rates in `/agent_e` |
+|  | HITL-4c | #155 | P2 | Routing prior in `score_model()` (flag) | flag off = byte-identical scores; prior capped below a full criteria match |
+|  | HITL-4d | #156 | P2 | Optional LLM router on `minimax-m2.7` (flag) | invalid decisions fall back rule-based; first concrete scope for #32 |
 
 ## Relation to other epics
 
