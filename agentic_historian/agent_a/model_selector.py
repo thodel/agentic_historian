@@ -42,6 +42,7 @@ from typing import Optional
 
 from loguru import logger
 
+import config
 from agent_a.models import KRAKEN_MODELS, KRAKEN_MODELS_LIVE, KrakenModel
 
 
@@ -376,6 +377,19 @@ def select_kraken_model(
         )
         if match.score >= require_score_above:
             scored.append(match)
+
+    # Additive routing prior from historian feedback (#155). Flag-gated so the
+    # default is byte-identical scoring; the prior is itself capped below a full
+    # script match (0.4) inside get_prior, so it can only break near-ties.
+    if getattr(config, "ENABLE_ROUTING_PRIOR", False) and scored:
+        from agent_a.routing_prior import get_prior
+        priors = get_prior(criteria.script, criteria.century, criteria.lang,
+                           [mm.model.model_id for mm in scored])
+        for mm in scored:
+            bonus = priors.get(mm.model.model_id, 0.0)
+            if bonus:
+                mm.score += bonus
+                mm.matched_on.append("prior")
 
     scored.sort(key=lambda x: x.score, reverse=True)
 
