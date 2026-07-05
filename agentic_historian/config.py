@@ -144,6 +144,10 @@ VOYANT_API_URL = _get("VOYANT_API_URL", _get("Voyant_API_URL", "https://tei.dh.u
 META_REPORT_PATH = OUTPUTS_DIR / "meta_report.md"
 META_LOG_PATH = OUTPUTS_DIR / "meta_agent_log.json"
 
+# ── HITL Feedback Logging (#154) ─────────────────────────────────────────────
+FEEDBACK_DIR = DATA_DIR / "feedback"
+ROUTING_LOG_PATH = FEEDBACK_DIR / "routing.jsonl"
+
 # ── Knowledge Hub ────────────────────────────────────────────────────────────
 KH_DIR = BASE_DIR / "knowledge_hub" / "data"
 
@@ -156,6 +160,7 @@ def ensure_dirs():
         TRANSCRIPTIONS_DIR,
         DESCRIPTIONS_DIR,
         OUTPUTS_DIR,
+        FEEDBACK_DIR,
         KH_DIR,
     ]:
         d.mkdir(parents=True, exist_ok=True)

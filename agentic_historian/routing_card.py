@@ -18,6 +18,8 @@ from typing import Optional
 
 from loguru import logger
 
+from feedback_logger import log_routing_feedback
+
 from agent_a.model_selector import (
     LANG_ALIASES, SCRIPT_ALIASES, ModelMatch, SourceCriteria, select_kraken_model,
 )
@@ -78,13 +80,22 @@ def select_model(state: RunState) -> Optional[ModelMatch]:
     return matches[0] if matches else None
 
 
-def apply_criteria_change(state: RunState, field: str, value) -> Optional[ModelMatch]:
+def apply_criteria_change(
+    state: RunState,
+    field: str,
+    value,
+    *,
+    decided_by: str = "human",
+) -> Optional[ModelMatch]:
     """A historian pinned ``field=value``: invalidate + re-select the model.
 
     Updates the RunState (pins the criterion, marks the kraken path dirty via
     the invalidation matrix) and records the new model choice as a gate
     decision. Returns the new top ModelMatch. Caller resumes the dirty stages.
+
+    Also logs the routing feedback event (HITL-4b, #154).
     """
+    inferred_value = state.criteria.get(field)
     state.invalidate(field, value=value, user=state.gate_decisions.get("user"))
     match = select_model(state)
     state.gate_decisions["model"] = (
@@ -94,10 +105,15 @@ def apply_criteria_change(state: RunState, field: str, value) -> Optional[ModelM
     )
     logger.info(f"[card] {state.doc_id}: {field}={value} → "
                 f"{match.model.name if match else 'no model'}")
+    # Log routing feedback (#154)
+    log_routing_feedback(
+        state=state,
+        field=field,
+        inferred_value=inferred_value,
+        chosen_value=value,
+        decided_by=decided_by,
+    )
     return match
-
-
-# ── Card rendering (pure) ────────────────────────────────────────────────────
 
 def _pinned_fields(state: RunState) -> set[str]:
     return {o["field"] for o in state.human_overrides}

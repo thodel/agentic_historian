@@ -380,6 +380,10 @@ async def agent_e_cmd(ctx):
             f"Geschätzte Tokens: {result.get('token_usage',{}).get('estimated_tokens',0):,}"
         )
         await ctx.followup.send(msg)
+        # Also send routing stats if available (HITL-4b, #154)
+        embed = routing_stats_embed()
+        if embed is not None:
+            await ctx.followup.send(embed=embed)
     except Exception as e:
         await ctx.followup.send(f"❌ Error: {e}")
 
