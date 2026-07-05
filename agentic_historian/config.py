@@ -107,6 +107,10 @@ GPUSTACK_TEXT_MAX_TOKENS = int(_get("GPUSTACK_TEXT_MAX_TOKENS", "4096"))
 # ── HTR / OCR ────────────────────────────────────────────────────────────────
 HTR_QUALITY_THRESHOLD = float(_get("HTR_QUALITY_THRESHOLD", "0.75"))
 MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
+# Add a small additive routing prior from historian feedback to kraken model
+# scores (#155). OFF by default → byte-identical scoring; the prior is capped
+# below a full script match so it only breaks near-ties.
+ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 
 # ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
 # Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway
