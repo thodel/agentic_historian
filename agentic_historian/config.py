@@ -81,6 +81,7 @@ GPUSTACK_API_KEY = _get("GPUSTACK_API_KEY")
 GPUSTACK_MODEL_VISION = _get("GPUSTACK_MODEL_VISION", "qwen3-vl-30b-a3b-instruct")
 GPUSTACK_MODEL_TEXT = _get("GPUSTACK_MODEL_TEXT", "gpt-oss-120b")
 GPUSTACK_MODEL_ORCHESTRATOR = _get("GPUSTACK_MODEL_ORCHESTRATOR", "minimax-m2.7")
+ORCHESTRATOR_LLM_ENABLED = _get("ORCHESTRATOR_LLM_ENABLED", "false").lower() == "true"
 
 # Retrieval models (planned: hub linking + corpus semantic analysis)
 GPUSTACK_MODEL_EMBEDDING = _get("GPUSTACK_MODEL_EMBEDDING", "qwen3-embedding-0.6b")
