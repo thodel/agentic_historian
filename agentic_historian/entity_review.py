@@ -19,6 +19,7 @@ from typing import Optional
 
 from loguru import logger
 
+from knowledge_hub import hub
 from runstate import RunState
 from utils.entity_resolver import ResolvedEntity
 
@@ -59,8 +60,46 @@ def build_review_items(entities: list[dict]) -> list[dict]:
     return items
 
 
+def _write_variant(find, add, candidate: ResolvedEntity, observed: str) -> None:
+    """Load the existing hub record (or start a new one), append the observed
+    spelling as a variant, refresh authority ids, and persist."""
+    existing = find(candidate.name) or find(observed)
+    record = dict(existing) if existing else {}
+    record["id"] = record.get("id") or candidate.gnd_id or (
+        f"hls:{candidate.hls_id}" if candidate.hls_id else candidate.name)
+    record["name"] = record.get("name") or candidate.name
+    variants = list(record.get("variants", []))
+    if observed and observed != record["name"] and observed not in variants:
+        variants.append(observed)
+    record["variants"] = variants
+    if candidate.gnd_id:
+        record["gnd"] = candidate.gnd_id
+    if candidate.hls_id:
+        record["hls"] = candidate.hls_id
+    if candidate.wikidata_id:
+        record["wikidata"] = candidate.wikidata_id
+    add(record)
+
+
+def write_variant(ent: dict, candidate: Optional[ResolvedEntity]) -> None:
+    """HITL-3b (#152): after a confirmed link, record the document's observed
+    spelling as a hub variant of the linked record — so the NEXT document with
+    the same spelling links ``hub_exact`` with zero interaction (compounding loop).
+    """
+    if candidate is None:
+        return
+    observed = (ent.get("text") or "").strip()
+    if not observed:
+        return
+    if ent.get("type") == "PERSON":
+        _write_variant(hub.find_person, hub.add_person, candidate, observed)
+    elif ent.get("type") == "PLACE":
+        _write_variant(hub.find_place, hub.add_place, candidate, observed)
+
+
 def apply_entity_link(ent: dict, candidate: Optional[ResolvedEntity]) -> None:
-    """Set (or clear) the authority link on an entity from a human choice."""
+    """Set (or clear) the authority link on an entity from a human choice, and —
+    on a confirmed link — write the observed spelling back to the hub (#152)."""
     if candidate is None:                       # "kein Link"
         ent["link_method"] = "human_none"
         ent["hub_confidence"] = "unverified"
@@ -73,6 +112,7 @@ def apply_entity_link(ent: dict, candidate: Optional[ResolvedEntity]) -> None:
     ent["hub_confidence"] = "high"
     ent["link_method"] = "human_confirmed"
     ent["mcp_sources"] = candidate.sources
+    write_variant(ent, candidate)               # compounding loop (#152)
 
 
 def _cand_label(c: ResolvedEntity) -> str:
