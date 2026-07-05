@@ -38,10 +38,13 @@ def _job_status(phase: str) -> str:
 # ── Concurrency guard (#15) ──────────────────────────────────────────────────
 # The orchestrator/agents are synchronous and can run for minutes. Calling them
 # directly inside an async command handler blocks the Discord event loop (the bot
-# stops answering heartbeats and other commands). We instead run blocking work in
-# a worker thread via asyncio.to_thread, and allow only one job per user at a time.
+# stops answering heartbeats and other commands). We instead push blocking work
+# onto a single FIFO queue drained by one worker that runs each job in a thread
+# via asyncio.to_thread (#148). Commands/gate clicks enqueue and await a future,
+# so they never race and the event loop stays responsive.
 
-_active_runs: set[int] = set()
+_job_queue: "asyncio.Queue" = asyncio.Queue()
+_worker_task = None
 
 
 # ── Role-based access control (#105) ────────────────────────────────────────
@@ -63,23 +66,54 @@ def require_role(func):
     return functools.wraps(func)(wrapper)
 
 
-async def _run_blocking(ctx, func, *args, **kwargs):
-    """Run a blocking orchestrator call off the event loop, one job per user.
+async def _worker() -> None:
+    """Single consumer: run queued blocking jobs serially, one thread at a time.
 
-    Returns the function result, or None if the user already has a job running
-    (in which case a rejection message has been sent).
+    A failing job resolves its caller's future with the exception and the worker
+    keeps going (one bad job never stalls the queue).
     """
-    uid = ctx.author.id
-    if uid in _active_runs:
-        await ctx.followup.send(
-            "⏳ Du hast bereits einen laufenden Job. Bitte warte, bis er fertig ist."
-        )
-        return None
-    _active_runs.add(uid)
-    try:
-        return await asyncio.to_thread(func, *args, **kwargs)
-    finally:
-        _active_runs.discard(uid)
+    while True:
+        func, args, kwargs, fut = await _job_queue.get()
+        try:
+            result = await asyncio.to_thread(func, *args, **kwargs)
+            if not fut.done():
+                fut.set_result(result)
+        except Exception as e:  # noqa: BLE001 — surfaced to the caller's future
+            if not fut.done():
+                fut.set_exception(e)
+        finally:
+            _job_queue.task_done()
+
+
+def _ensure_worker() -> None:
+    """Start the single worker on the running loop (idempotent, lazy).
+
+    Also (re)starts it if the previous task is done or bound to a different
+    (e.g. closed) loop.
+    """
+    global _worker_task
+    loop = asyncio.get_running_loop()
+    if (_worker_task is None or _worker_task.done()
+            or _worker_task.get_loop() is not loop):
+        _worker_task = loop.create_task(_worker())
+
+
+async def _run_blocking(ctx, func, *args, **kwargs):
+    """Enqueue a blocking job and await its result.
+
+    Jobs are serialised through one worker (no per-user race, nothing dropped);
+    the event loop stays responsive because the blocking call runs in a thread.
+    """
+    _ensure_worker()
+    fut = asyncio.get_running_loop().create_future()
+    await _job_queue.put((func, args, kwargs, fut))
+    ahead = _job_queue.qsize()
+    if ahead > 1 and ctx is not None:
+        try:
+            await ctx.followup.send(f"⏳ In Warteschlange (Position {ahead})…")
+        except Exception:
+            pass
+    return await fut
 
 
 # ── Commands ─────────────────────────────────────────────────────────────────
@@ -103,6 +137,22 @@ async def search_cmd(ctx, query: Option(str, "Name/Person to search", required=T
         from agents import search_agent
         resp = await search_agent.search(query, limit=20)
         await ctx.followup.send(search_agent.format_response(resp))
+    except Exception as e:
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
+@bot.slash_command(
+    name="route",
+    description="Show the Gate-1 routing card for a document (correct metadata, re-route HTR)",
+)
+async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
+    await ctx.defer()
+    try:
+        import routing_card
+        from runstate import RunState
+        state = RunState.load_or_new(doc_id)
+        view = routing_card.build_view(state)
+        await ctx.followup.send(routing_card.render_card(state), view=view)
     except Exception as e:
         await ctx.followup.send(f"❌ Error: {e}")
 

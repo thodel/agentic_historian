@@ -22,15 +22,64 @@ from agents.source_heuristic import (
 )
 
 
-def describe(doc_id: str, transcription: str, image_path: Optional[str] = None) -> dict:
+# Human-pinned SourceCriteria field → Ad-Fontes element (+ value formatter).
+# When a historian pins a field (HITL Gate 1), Agent B must ADOPT it, not
+# re-infer, and the element is stamped quelle="historiker" (#147).
+_PIN_TO_ELEMENT = {
+    "century": ("Datierung", lambda v: f"{v}. Jahrhundert"),
+    "lang":    ("Sprache",   lambda v: str(v)),
+    "script":  ("Schrift",   lambda v: str(v)),
+}
+
+
+def pins_from_runstate(state) -> dict:
+    """Extract the historian-pinned criteria (last-wins) from a RunState."""
+    pins: dict = {}
+    for o in state.human_overrides:
+        if o.get("field") in _PIN_TO_ELEMENT and o.get("value") is not None:
+            pins[o["field"]] = o["value"]
+    return pins
+
+
+def _pin_constraint(pins: dict) -> str:
+    lines = [f"- {elem} = {fmt(pins[f])}"
+             for f, (elem, fmt) in _PIN_TO_ELEMENT.items() if pins.get(f) is not None]
+    if not lines:
+        return ""
+    return ("GESICHERT durch Historiker:in — ÜBERNIMM diese Werte wörtlich und "
+            "leite sie NICHT neu ab:\n" + "\n".join(lines) + "\n\n")
+
+
+def _apply_pins(source_json: dict, pins: dict) -> dict:
+    """Overwrite the mapped Ad-Fontes elements with the pinned values."""
+    if not isinstance(source_json, dict) or not pins:
+        return source_json
+    for field, (element, fmt) in _PIN_TO_ELEMENT.items():
+        if pins.get(field) is None:
+            continue
+        el = source_json.get(element)
+        el = el if isinstance(el, dict) else {}
+        el["wert"] = fmt(pins[field])
+        el["quelle"] = "historiker"
+        source_json[element] = el
+    return source_json
+
+
+def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
+             pins: Optional[dict] = None) -> dict:
     """
     Erstellt eine vollstaendige Quellenbeschreibung nach dem Ad Fontes 16-Element-Schema.
     Nutzt Agent A's Transkription + optional das Originalbild.
+
+    ``pins`` are historian-confirmed criteria (century/lang/script) that Agent B
+    must adopt: they are injected as constraints and their Ad-Fontes elements are
+    overwritten with quelle="historiker" (#147).
 
     Returns a dict with both 'source_description' (markdown str) AND 'source_json'
     (dict keyed by the 16 Ad Fontes element names).
     """
     logger.info(f"[Agent B] Verarbeite: {doc_id}")
+    pins = pins or {}
 
     if image_path:
         prompt_obj = full_codicological()
@@ -55,6 +104,7 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None) 
 
     full_prompt = (
         f"{MANUSCRIPT_SYSTEM}\n\n"
+        f"{_pin_constraint(pins)}"
         f"Transkription des Dokuments (von Agent A):\n\n"
         f"{transcription_snippet}\n\n"
         f"---\n\n"
@@ -80,6 +130,9 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None) 
 
     # ── Parse Markdown + JSON from response ────────────────────────────────────
     source_json, description_md = _parse_response(raw)
+
+    # Human pins are authoritative — overwrite the mapped elements (#147).
+    source_json = _apply_pins(source_json, pins)
 
     # Care-Flag analysis
     care = _care_flag(transcription)
