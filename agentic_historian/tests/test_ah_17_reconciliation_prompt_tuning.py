@@ -93,8 +93,10 @@ class TestGPUSTACKModelSelection:
     """LLM reconciliation must use GPUSTACK_MODEL_TEXT, not a default."""
 
     @patch("agent_a.reconcile.gs.chat_text")
-    def test_reconcile_calls_gpustack_model_text(self, mock_chat):
-        """reconcile() calls chat_text with model=config.GPUSTACK_MODEL_TEXT."""
+    def test_reconcile_calls_chat_text_without_model_kwarg(self, mock_chat):
+        """reconcile() routes to the text model via chat_text and must NOT pass
+        model= itself (chat_text injects GPUSTACK_MODEL_TEXT; a second model kwarg
+        collides -> TypeError). See TestNoDoubleModelKwarg for the real-path proof."""
         mock_chat.return_value = "reconciled output"
 
         # Use clearly different transcriptions so agreement < 0.95 → LLM is invoked
@@ -103,8 +105,30 @@ class TestGPUSTACKModelSelection:
         reconcile(vlm, kraken, use_llm=True)
 
         mock_chat.assert_called_once()
-        call_kwargs = mock_chat.call_args.kwargs
-        assert call_kwargs.get("model") == config.GPUSTACK_MODEL_TEXT
+        assert "model" not in mock_chat.call_args.kwargs
+
+
+class TestNoDoubleModelKwarg:
+    """Regression: reconcile must NOT pass model= to gs.chat_text (chat_text
+    already injects GPUSTACK_MODEL_TEXT -> passing it again = TypeError).
+    Mocking chat_text hides it, so we patch the underlying gs.chat and drive the
+    REAL chat_text."""
+
+    def test_reconcile_routes_via_real_chat_text(self, monkeypatch):
+        from agent_a import reconcile as rc
+        from utils import gpustack_client as gs
+
+        seen = []
+
+        def fake_chat(prompt, model=None, system=None, **kwargs):
+            seen.append(model)
+            return "reconciled zeile eins\nreconciled zeile zwei"
+
+        monkeypatch.setattr(gs, "chat", fake_chat)   # keep REAL chat_text
+        result = rc.reconcile("vlm zeile eins\nvlm zeile zwei",
+                              "kraken voellig andere zeilen xyz 123")
+        assert result is not None and result.reconciled
+        assert seen and seen[0] == config.GPUSTACK_MODEL_TEXT
 
     @patch("agent_a.reconcile.gs.chat_text")
     def test_reconcile_default_max_tokens_from_config(self, mock_chat):

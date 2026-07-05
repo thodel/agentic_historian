@@ -186,9 +186,10 @@ def reconcile(
             f"=== RECONCILIERTE FASSUNG ==="
         )
         try:
+            # chat_text already routes to GPUSTACK_MODEL_TEXT — do NOT pass model=
+            # (a second model kwarg collides in chat() -> TypeError).
             reconciled = gs.chat_text(
                 prompt,
-                model=config.GPUSTACK_MODEL_TEXT,  # explicit reasoning model
                 system=None,
                 max_tokens=max_tokens,
                 temperature=0.3,
