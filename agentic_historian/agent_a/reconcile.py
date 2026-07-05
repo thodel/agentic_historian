@@ -26,23 +26,35 @@ from loguru import logger
 
 # System prompt used for the LLM reconciliation step
 from utils import gpustack_client as gs
+import config
 
 # Exported so dual_pipeline can reuse it for multi-way merges
 RECONCILE_SYSTEM = (
-    "Du bist ein TCK-Redaktor (Text Critical Kernel). "
-    "Deine Aufgabe: die bestmoegliche Transkription aus zwei konkurrierenden "
-    "Fassungen zu erstellen. "
-    "Beide Fassungen stammen von HTR/OCR-Modellen fuer historische "
-    "Handschrift (14.-16. Jh.). "
-    "Regeln:\n"
-    "1. Vergleiche beide Fassungen Zeile fuer Zeile.\n"
-    "2. Waehle die lesbarere, vollstaendigere Fassung.\n"
-    "3. Bei Divergenzen: bevorzuge die Fassung, die paleografisch "
-    "plausibler ist (Abkuerzungen korrekt aufgeloest, Ligaturen erhalten).\n"
-    "4. Ergaenze fehlende Zeilen aus der jeweils anderen Fassung "
-    "(markiere sie mit [VLM] oder [KRkn]).\n"
-    "5. Antworte NUR mit der reconcilierten Transkription, keine Kommentare."
+    "Du bist ein TCK-Redaktor (Text Critical Kernel) — ein hochqualifizierter "
+    "Paläografie-Experte für Handschriften des 14.–16. Jahrhunderts. "
+    "Deine Aufgabe: erstelle die bestmögliche Transkription aus zwei "
+    "konkurrierenden Fassungen verschiedener HTR/OCR-Modelle.\n\n"
+    "Arbeite als Reasoning-Modell mit ausreichendem Budget — denke laut nach "
+    "(Chain-of-Thought), bevor du die endgültige Fassung ausgibst.\n\n"
+    "REGELN:\n"
+    "1. Vergleiche beide Fassungen Zeile für Zeile und Wort für Wort.\n"
+    "2. Wähle die Fassung, die paleografisch plausibler ist: "
+    "Abkürzungen korrekt aufgelöst, Ligaturen erhalten, keine modernen "
+    "Ergänzungen.\n"
+    "3. Bei Divergenzen: bevorzuge die Version, die der historischen "
+    "Schrifttradition entspricht (Karolingische Minuskel, Textura, Kurrent).\n"
+    "4. Erganze fehlende Zeilen aus der jeweils anderen Fassung. "
+    "Markiere zugesetzte Zeilen mit [VLM] oder [KRkn] am Zeilenende.\n"
+    "5. Bei unterschiedlicher Zeilenreihenfolge: folge der Struktur der "
+    "paleografisch plausibleren Fassung.\n"
+    "6. Antworte NUR mit der reconcilierten Transkription — keine Kommentare, "
+    "keine Erklärungen, keine Markup-Tags ausser den Markern [VLM]/[KRkn].\n"
+    "7. Wenn beide Fassungen unlesbar sind, nimm die kürzere und setze "
+    "ein [?UNCLEAR] an die betroffene Stelle."
 )
+
+# Default max_tokens for reconciliation — uses the configured GPUSTACK budget
+RECONCILE_DEFAULT_MAX_TOKENS = config.GPUSTACK_TEXT_MAX_TOKENS
 
 
 @dataclass
@@ -81,20 +93,47 @@ def _build_diff_report(vlm_lines: list[str], kraken_lines: list[str]) -> dict:
     return {"diff_opcodes": diffs, "vlm_total": len(vlm_lines), "kraken_total": len(kraken_lines)}
 
 
+def _line_disagreement_ratio(vlm_lines: list[str], kraken_lines: list[str]) -> float:
+    """
+    Compute a line-level disagreement ratio 0.0–1.0.
+
+    Unlike _token_diff (character-level similarity), this measures how many
+    lines are substantively different between the two transcriptions, weighted
+    by their position.  A score of 0.0 means identical; 1.0 means completely
+    disjoint line sets.
+    """
+    matcher = difflib.SequenceMatcher(None, vlm_lines, kraken_lines)
+    equal_lines = sum(
+        len(vlm_lines[i1:i2])
+        for tag, i1, i2, _, _ in matcher.get_opcodes()
+        if tag == "equal"
+    )
+    total = max(len(vlm_lines), 1)
+    return 1.0 - (equal_lines / total)
+
+
 def reconcile(
     vlm_transcription: str,
     kraken_transcription: str,
     *,
     use_llm: bool = True,
-    max_tokens: int = 8192,
+    max_tokens: int = 0,
 ) -> ReconciliationResult:
     """
     Reconcile two transcriptions (VLM vs kraken).
 
     Returns ReconciliationResult with the merged text and metadata.
+
+    max_tokens: tokens to pass to the LLM.  If 0 (default), uses
+    RECONCILE_DEFAULT_MAX_TOKENS from config (GPUSTACK_TEXT_MAX_TOKENS).
+    The reconciliation prompt is evaluated by GPUSTACK_MODEL_TEXT (the
+    configured reasoning model).
     """
-    vlm_lines   = _split_lines(vlm_transcription)
+    vlm_lines    = _split_lines(vlm_transcription)
     kraken_lines = _split_lines(kraken_transcription)
+
+    if max_tokens <= 0:
+        max_tokens = RECONCILE_DEFAULT_MAX_TOKENS
 
     if not vlm_transcription.strip():
         return ReconciliationResult(
@@ -103,7 +142,7 @@ def reconcile(
             kraken_only_lines=kraken_lines,
             agreement_score=0.0,
             diff_lines=len(kraken_lines),
-            method="vlm_preferred",
+            method="kraken_preferred",
         )
 
     if not kraken_transcription.strip():
@@ -113,17 +152,18 @@ def reconcile(
             kraken_only_lines=[],
             agreement_score=0.0,
             diff_lines=len(vlm_lines),
-            method="kraken_preferred",
+            method="vlm_preferred",
         )
 
-    # Quick diff-based agreement score
-    agreement = _token_diff(vlm_transcription, kraken_transcription)
+    # Line-level disagreement score (primary metric — more stable than raw token diff)
+    disagreement = _line_disagreement_ratio(vlm_lines, kraken_lines)
+    agreement = 1.0 - disagreement
     diff_report = _build_diff_report(vlm_lines, kraken_lines)
     n_diff = len(diff_report["diff_opcodes"])
 
     logger.info(
         f"[reconcile] VLM vs kraken — agreement: {agreement:.2f}, "
-        f"diff_blocks: {n_diff}"
+        f"disagreement: {disagreement:.2f}, diff_blocks: {n_diff}"
     )
 
     # Short-circuit: high agreement → take VLM version
@@ -137,7 +177,7 @@ def reconcile(
             method="vlm_preferred",
         )
 
-    # Low agreement + LLM available → use LLM to pick/reconcile
+    # Low agreement + LLM available → use GPUSTACK_MODEL_TEXT reasoning model
     if use_llm and n_diff > 0:
         prompt = (
             f"{RECONCILE_SYSTEM}\n\n"
@@ -148,6 +188,7 @@ def reconcile(
         try:
             reconciled = gs.chat_text(
                 prompt,
+                model=config.GPUSTACK_MODEL_TEXT,  # explicit reasoning model
                 system=None,
                 max_tokens=max_tokens,
                 temperature=0.3,
