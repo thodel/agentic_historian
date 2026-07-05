@@ -29,8 +29,10 @@ from agent_a.reconcile import (
     reconcile,
     ReconciliationResult,
     RECONCILE_SYSTEM,
+    RECONCILE_DEFAULT_MAX_TOKENS,
 )
 from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
+import config
 
 
 SYSTEM_HTR = (
@@ -305,7 +307,13 @@ def _reconcile_merge(all_text: str, use_llm: bool = True) -> ReconciliationResul
         f"{all_text}\n\n=== REKONCILIERTE FASSUNG ==="
     )
     try:
-        reconciled = gs.chat_text(prompt, system=None, max_tokens=16384, temperature=0.3).strip()
+        reconciled = gs.chat_text(
+            prompt,
+            model=config.GPUSTACK_MODEL_TEXT,
+            system=None,
+            max_tokens=RECONCILE_DEFAULT_MAX_TOKENS,
+            temperature=0.3,
+        ).strip()
         return ReconciliationResult(
             reconciled=reconciled,
             vlm_only_lines=[],

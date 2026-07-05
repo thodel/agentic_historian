@@ -557,3 +557,5 @@ def refresh_kraken_registry(
     KRAKEN_MODELS_LIVE.clear()
     KRAKEN_MODELS_LIVE.update(live_models)
     return live_models
+# Re-export from reconcile so agent_a.models is the stable public interface
+from agent_a.reconcile import RECONCILE_SYSTEM, RECONCILE_DEFAULT_MAX_TOKENS
