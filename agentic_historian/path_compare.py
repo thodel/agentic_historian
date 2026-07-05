@@ -19,6 +19,7 @@ from __future__ import annotations
 from typing import Optional
 
 from loguru import logger
+from feedback_logger import log_routing_feedback
 
 from eval.metrics import cer
 from runstate import RunState
@@ -65,19 +66,38 @@ def render_compare_card(state: RunState, paths: dict[str, str], snippet: int = 3
     return "\n".join(lines)
 
 
-def apply_path_choice(state: RunState, choice: str, paths: dict[str, str]) -> str:
+def apply_path_choice(
+    state: RunState,
+    choice: str,
+    paths: dict[str, str],
+    *,
+    decided_by: str = "human",
+) -> str:
     """The historian picked ``choice``: make it the working transcription and
-    dirty reconcile/B/C so they re-run on it. Returns the chosen text."""
+    dirty reconcile/B/C so they re-run on it. Returns the chosen text.
+
+    Also logs the routing feedback event (HITL-4b, #154).
+    """
     if choice not in PATHS:
         raise ValueError(f"unknown path {choice!r}; valid: {PATHS}")
     text = paths.get(choice, "") or ""
+    # Infer path_preference from the artifacts before overriding
+    inferred_value = state.gate_decisions.get("path")
     state.invalidate("path_preference", value=choice, user=state.gate_decisions.get("user"))
     # the chosen transcription becomes the reconcile artifact B/C read from
     state.artifacts["reconcile"] = text
     state.gate_decisions["path"] = choice
     logger.info(f"[gate2] {state.doc_id}: path={choice} ({len(text)} chars)")
+    # Log routing feedback (#154)
+    log_routing_feedback(
+        state=state,
+        field="path_preference",
+        inferred_value=inferred_value,
+        chosen_value=choice,
+        path=choice,
+        decided_by=decided_by,
+    )
     return text
-
 
 def build_view(state: RunState, paths: dict[str, str], runners: Optional[dict] = None):
     """Construct the RoutingComparisonView (3 buttons). py-cord imported lazily."""
