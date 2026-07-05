@@ -7,6 +7,9 @@ schema migration and no changes to the agents**.
 
 - Registry (single source of truth): [`knowledge_hub/mcp_registry.py`](../knowledge_hub/mcp_registry.py)
 - Host base + timeout: `config.MCP_BASE_URL`, `config.MCP_TIMEOUT` (env-overridable)
+- **Consumers (built, epic #129):** `utils/mcp_client.py` (async client + `PersonResult`),
+  `utils/entity_resolver.py` (cross-source merge), `agents/search_agent.py` (`/search`),
+  and Agent C linking (`ENABLE_MCP_LINKING`). Adding a source auto-includes it in all of them.
 - The retired local approach (KNEX/HBLS loaders + SQLite) is superseded — see the
   closed AH-80 epic (#58–#68).
 
