@@ -307,9 +307,9 @@ def _reconcile_merge(all_text: str, use_llm: bool = True) -> ReconciliationResul
         f"{all_text}\n\n=== REKONCILIERTE FASSUNG ==="
     )
     try:
+        # chat_text already routes to GPUSTACK_MODEL_TEXT (do not pass model=).
         reconciled = gs.chat_text(
             prompt,
-            model=config.GPUSTACK_MODEL_TEXT,
             system=None,
             max_tokens=RECONCILE_DEFAULT_MAX_TOKENS,
             temperature=0.3,
