@@ -107,6 +107,22 @@ async def search_cmd(ctx, query: Option(str, "Name/Person to search", required=T
         await ctx.followup.send(f"❌ Error: {e}")
 
 
+@bot.slash_command(
+    name="route",
+    description="Show the Gate-1 routing card for a document (correct metadata, re-route HTR)",
+)
+async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
+    await ctx.defer()
+    try:
+        import routing_card
+        from runstate import RunState
+        state = RunState.load_or_new(doc_id)
+        view = routing_card.build_view(state)
+        await ctx.followup.send(routing_card.render_card(state), view=view)
+    except Exception as e:
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
 @require_role
 async def run_pipeline(
