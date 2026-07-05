@@ -149,10 +149,14 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     await ctx.defer()
     try:
         import routing_card
+        import persistent_views
         from runstate import RunState
         state = RunState.load_or_new(doc_id)
         view = routing_card.build_view(state)
-        await ctx.followup.send(routing_card.render_card(state), view=view)
+        msg = await ctx.followup.send(routing_card.render_card(state), view=view)
+        # Persist the message id so the view survives a bot restart (#150).
+        if msg is not None:
+            persistent_views.store_message_id(state, "gate1", msg.id)
     except Exception as e:
         await ctx.followup.send(f"❌ Error: {e}")
 
@@ -395,6 +399,12 @@ async def progress(ctx):
 async def on_ready():
     logger.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
     print(f"Bot ready as {bot.user}")
+    # Re-bind HITL gate views so clicks on pre-restart messages still work (#150).
+    try:
+        import persistent_views
+        persistent_views.register_persistent_views(bot)
+    except Exception as e:
+        logger.warning(f"[persist] view registration failed: {e}")
 
 
 def main() -> None:
