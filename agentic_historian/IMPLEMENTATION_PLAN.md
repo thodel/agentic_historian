@@ -209,15 +209,14 @@ The hub is realised as live MCP servers (EOS, KF, HBLS, HLS + external Wikidata)
 a declarative registry (`knowledge_hub/mcp_registry.py`), and a documented
 extension methodology (`docs/knowledge_hub.md`). Adding a source is a data change.
 
-### Milestone 1 — Federated search agent (consumer) ⬜
-**Status:** not started. Builds *on top of* the completed hub.
+### Milestone 1 — Federated search agent (consumer) ✅ DONE (epic #129)
 
-1. `utils/mcp_client.py` — shared async client that reads the registry and calls
-   each source's `search_*` tools (respecting `MCP_TIMEOUT`, partial-failure flags).
-   Decide runtime: plain `asyncio.gather` over the MCP client is sufficient — this
-   does **not** depend on OpenClaw `sessions_spawn`.
-2. Entity resolver/merger (ID match → high; name+overlapping dates → medium).
-3. `agents/search_agent.py` returning unified, source-attributed results.
+1. `utils/mcp_client.py` — shared async client over the registry (`asyncio.gather`,
+   `MCP_TIMEOUT`, partial-failure flags; `PersonResult` contract). ✅ (#87)
+2. `utils/entity_resolver.py` — cross-source resolver/merger (ID → high;
+   name+overlapping dates → medium). ✅ (#88)
+3. `agents/search_agent.py` — unified, source-attributed, ranked results. ✅ (#90)
+4. `/search` Discord command ✅ (#91); Agent C links via the federation ✅ (#92).
 
 **Verify:** query *"Johann"* across all live sources; confirm deduplicated results.
 
@@ -271,7 +270,9 @@ The HBLS MCP is live at `…/mcp/hbls` and registered in `mcp_registry.py`.
 | `agent_c/` | Entity extraction (NER) |
 | `knowledge_hub/mcp_registry.py` | **Declarative registry of hub MCP sources** — edit here to add a source (`docs/knowledge_hub.md`) |
 | `knowledge_hub/hub.py` | Controlled vocabulary + thin cache — **authority data now via MCP federation**, not stored here |
-| `utils/mcp_client.py` | (to build, Milestone 1) shared async client that queries the registered MCP sources |
+| `utils/mcp_client.py` | shared async client over the KH MCP federation (`PersonResult` contract) ✅ |
+| `utils/entity_resolver.py` · `agents/search_agent.py` | cross-source resolver + federated search agent ✅ |
+| `runstate.py` · `routing_card.py` · `path_compare.py` | HITL state machine + Gate 1/2 cards |
 | `serving-atr-inference/config/models.yaml` | ATR model registry (kraken/VLM/TrOCR/party) |
 | `serving-atr-inference/` | Inference server the bot's `KRAKEN_SERVICE_URL` points at |
 
@@ -286,11 +287,11 @@ Legend: ✅ done · 🔨 exists but has known correctness bugs (see remediation)
 - Phase 2 — **Knowledge Hub (MCP federation)** ✅ *(registry + methodology; see `docs/knowledge_hub.md`)*
 - Phase 3 — OCR (HTR): **VLM path operational** ✅ · **kraken enhancement track** 🔨 *(activation: #110 → #108/#13 → #96; VLM-path fix #107)*
 - Phase 4 — Source description 🔨 *(#98 invalid-JSON prompt + garbage tokens)*
-- Phase 5 — Entity extraction (NER) 🔨 *(works locally; MCP linking is Milestone 1)*
+- Phase 5 — Entity extraction (NER) 🔨 *(hardened; MCP-federation linking ✅ #92)*
 - Phase 6 — Corpus analysis 🔨
 - Phase 7 — Meta agent 🔨
 - Phase 8 — Hot folder integration 🔄 *(#97 success reporting)*
-- **Phase 9 — Multi-source federated search** ⬜ *(Milestone 1 above — consumes the completed hub)*
+- **Phase 9 — Multi-source federated search** ✅ *(epic #129 — client, resolver, `/search`, Agent C linking)*
 - Phase 10 — HBLS MCP integration ✅ *(live)*
 - Phase 11 — Unified entity resolution & API ⬜
 
