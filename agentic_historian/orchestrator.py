@@ -78,6 +78,7 @@ def _rerun_kraken_with_model_selection(
     image_path: Path,
     source_description: str,
     lang: str = "de",
+    source_json: Optional[dict] = None,
 ) -> dict:
     """
     Phase-3-Step: Bild + Agent-B-Beschreibung → kraken-Modellauswahl → Remote OCR.
@@ -100,7 +101,7 @@ def _rerun_kraken_with_model_selection(
     # NOTE: select_kraken_model returns a list[ModelMatch] (each has .model,
     # .score, .matched_on). The old code called select_best_kraken_model (which
     # returns a single KrakenModel|None) and indexed it as a list → TypeError.
-    criteria = SourceCriteria.from_agent_b(source_description)
+    criteria = SourceCriteria.from_agent_b_and_json(source_description, source_json)
     best_matches = select_kraken_model(criteria, top_k=3)
     if best_matches:
         top = best_matches[0]
@@ -254,11 +255,13 @@ def run_full_pipeline(
     if DUAL_AVAILABLE and ctx.transcription and ctx.description:
         try:
             source_desc_text = ctx.description.get("source_description", "")
-            if source_desc_text:
+            src_json = ctx.description.get("source_json")
+            if source_desc_text or src_json:
                 kraken_results = _rerun_kraken_with_model_selection(
                     image_path=img,
                     source_description=source_desc_text,
                     lang=lang,
+                    source_json=src_json,
                 )
                 # Reconcile VLM (Phase 1) with kraken (Phase 3) instead of
                 # blindly preferring kraken.  Both transcriptions are kept;
@@ -319,8 +322,9 @@ def run_full_pipeline(
         from agent_a.model_selector import SourceCriteria
         state = RunState.load_or_new(doc_id)
         desc_text = (ctx.description or {}).get("source_description", "")
-        if desc_text:
-            crit = SourceCriteria.from_agent_b(desc_text)
+        src_json = (ctx.description or {}).get("source_json")
+        if desc_text or src_json:
+            crit = SourceCriteria.from_agent_b_and_json(desc_text, src_json)
             for k, v in {
                 "script": crit.script,
                 "lang": crit.lang or lang,
