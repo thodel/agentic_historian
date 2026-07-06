@@ -57,6 +57,7 @@ class PipelineContext:
         self.entities: dict = {}
         self.errors: list = []
         self.a_meta: dict = {}
+        self.source_url: Optional[str] = None   # link back to the source (#208)
         self.dual_result: Optional[DualTranscriptionResult] = None
 
     def to_json(self) -> dict:
@@ -69,7 +70,18 @@ class PipelineContext:
         }
         if self.a_meta:
             base["a_meta"] = self.a_meta
+        if self.source_url:
+            base["source_url"] = self.source_url
         return base
+
+
+def _derive_source_url(fp: Path, explicit: Optional[str] = None) -> Optional[str]:
+    """Source-image URL for a doc (#208): an explicit override, else derived from
+    ``config.SOURCE_URL_BASE`` + filename. None when no base is configured."""
+    if explicit:
+        return explicit
+    base = getattr(config, "SOURCE_URL_BASE", "")
+    return f"{base}/{fp.name}" if base else None
 
 
 # ── Phase 3: kraken re-run with Agent B model selection ──────────────────────
@@ -157,6 +169,7 @@ def run_full_pipeline(
     use_dual_htr: bool = False,
     source_description: Optional[str] = None,
     lang: str = "de",
+    source_url: Optional[str] = None,
 ) -> PipelineResult:
     """
     Führt A → B → Kraken-Re-Run → C (→ D) Pipeline aus.
@@ -172,11 +185,14 @@ def run_full_pipeline(
         use_dual_htr:        Wenn True: VLM + Kraken in Phase 1
         source_description:  Optionaler Agent-B-Description-String
         lang:                Sprache/Skriftskode (de, la, fr, ...)
+        source_url:          Link back to the source image (#208); else derived
+                             from config.SOURCE_URL_BASE.
     """
     fp = Path(file_path)
     doc_id = fp.stem
     img = Path(image_path) if image_path else fp
     ctx = PipelineContext(doc_id)
+    ctx.source_url = _derive_source_url(fp, source_url)
 
     logger.info(f"[Orchestrator] Starte Pipeline: {doc_id}")
 
@@ -340,13 +356,14 @@ def run_full_pipeline(
 
     # Pipeline-Resultat speichern
     _save_pipeline_result(doc_id, ctx)
-    _publish_outputs(doc_id)
+    _publish_outputs(doc_id, ctx.source_url)
 
     return ctx.to_json()
 
 
-def _publish_outputs(doc_id: str) -> None:
-    """Publish this doc's outputs to the GitHub output repo (#200).
+def _publish_outputs(doc_id: str, source_url: Optional[str] = None) -> None:
+    """Publish this doc's outputs to the GitHub output repo (#200), linking back
+    to ``source_url`` (#208).
 
     Opt-in (ENABLE_GITHUB_PUBLISH) and non-fatal — any failure is swallowed so
     publishing never breaks the pipeline.
@@ -354,7 +371,7 @@ def _publish_outputs(doc_id: str) -> None:
     try:
         from utils import publish_github
         if publish_github.is_enabled():
-            publish_github.publish_doc(doc_id)
+            publish_github.publish_doc(doc_id, source_url=source_url)
     except Exception as e:
         logger.warning(f"[Orchestrator] GitHub publish skipped ({doc_id}): {e}")
 
@@ -375,6 +392,9 @@ def run_full_pipeline_group(
         return [int(c) if c.isdigit() else c.lower() for c in re.split(r"(\d+)", name)]
     pages = sorted((Path(p) for p in image_paths), key=lambda p: _natural_key(p.name))
     ctx = PipelineContext(doc_id)
+    # Link the order back to its source folder (first page's parent), if a base is set.
+    if pages and getattr(config, "SOURCE_URL_BASE", ""):
+        ctx.source_url = f"{config.SOURCE_URL_BASE}/{pages[0].parent.name}"
     logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
 
     # PHASE 1: Agent A per page → combined transcription
@@ -421,7 +441,7 @@ def run_full_pipeline_group(
             ctx.errors.append({"agent": "D", "error": str(e)})
 
     _save_pipeline_result(doc_id, ctx)
-    _publish_outputs(doc_id)
+    _publish_outputs(doc_id, ctx.source_url)
     logger.info(f"[Orchestrator] Order fertig: {doc_id} (QA {avg_qa:.2f}, {len(pages)} Seiten)")
     return ctx.to_json()
 
