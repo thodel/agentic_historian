@@ -174,8 +174,11 @@ async def _http_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
     if source.external:
         raise MCPError(f"{source.name}: external MCP not reachable via this client")
 
-    # Trailing slash avoids FastMCP's /mcp → /mcp/ redirect losing the POST body.
-    url = source.url + "/"
+    # POST the bare source URL (no trailing slash). A trailing slash makes the
+    # backend 307-redirect to /mcp, which — because nginx has stripped the
+    # /mcp/<src> prefix — escapes the proxy scope; so redirects are disabled and
+    # the canonical no-slash endpoint (verified 200 + Mcp-Session-Id) is used.
+    url = source.url
     headers = {"Content-Type": "application/json",
                "Accept": "application/json, text/event-stream"}
     init_req = {"jsonrpc": "2.0", "id": 1, "method": "initialize",
@@ -183,7 +186,7 @@ async def _http_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
                            "capabilities": {},
                            "clientInfo": {"name": "agentic-historian", "version": "0.1"}}}
     timeout = httpx.Timeout(config.MCP_TIMEOUT, read=config.MCP_TIMEOUT)
-    async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=False) as client:
         r = await client.post(url, json=init_req, headers=headers)
         r.raise_for_status()
         sid = r.headers.get("mcp-session-id")
