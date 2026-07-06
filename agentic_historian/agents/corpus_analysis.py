@@ -218,6 +218,28 @@ def _voyant_url(text: str, corpus_name: str) -> str:
     return ""
 
 
+def verify_voyant(sample_text: str = "Dis ist ein kurzer Beispieltext für Voyant.") -> dict:
+    """Live smoke check for the Voyant export (#29).
+
+    POSTs a sample corpus to the configured Voyant instance and confirms a working
+    shareable ``?corpus=`` link comes back. Run on-host to verify the endpoint:
+
+        python -c "from agents.corpus_analysis import verify_voyant as v; print(v())"
+
+    Returns ``{ok, url, endpoint, reason}`` (never raises).
+    """
+    endpoint = config.VOYANT_API_URL.rstrip("/") + "/"
+    url = _voyant_url(sample_text, "verify")
+    ok = bool(url) and "corpus=" in url
+    return {
+        "ok": ok,
+        "url": url,
+        "endpoint": endpoint,
+        "reason": "corpus link returned" if ok
+                  else "no ?corpus= link — endpoint unreachable or contract changed",
+    }
+
+
 def _save(corpus_name: str, result: dict):
     safe = corpus_name.replace(" ", "_")
     out = config.OUTPUTS_DIR / f"corpus_{safe}"
