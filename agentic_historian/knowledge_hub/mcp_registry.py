@@ -41,6 +41,13 @@ class MCPSource:
     external if True, the MCP is registered outside the tei base (e.g. the
              shared `wikidata` MCP) and `full_url` (or the MCP gateway) applies
     full_url overrides the derived tei URL (for external sources)
+    transport MCP wire transport this source speaks: "sse" (legacy SSE: GET
+             <url>/sse event stream + POST <url>/messages) or "http" (streamable
+             -HTTP: JSON-RPC POSTed to <url> with an Mcp-Session-Id header).
+    tool_map maps the client's LOGICAL operation ("search_persons" / "get_person"
+             / "search_fulltext") to this server's ACTUAL tool name when they
+             differ (e.g. hls prefixes everything `hls_`). Unmapped operations
+             fall through to the logical name.
     adapter  optional callable mapping the source's native record -> PersonResult;
              None = already conforms
     notes    free-text provenance / caveats
@@ -54,8 +61,14 @@ class MCPSource:
     authority: bool = False
     external: bool = False
     full_url: Optional[str] = None
+    transport: str = "sse"
+    tool_map: dict = field(default_factory=dict)
     adapter: Optional[Callable] = None
     notes: str = ""
+
+    def tool(self, logical: str) -> str:
+        """Resolve a logical operation to this source's actual tool name."""
+        return self.tool_map.get(logical, logical)
 
     @property
     def url(self) -> str:
@@ -79,6 +92,9 @@ SOURCES: tuple[MCPSource, ...] = (
         kinds=("person", "place", "org", "fulltext"),
         path="eos",
         authority=False,
+        # eos exposes search_persons but names full-text search `search_text`
+        # (verified via tools/list 2026-07-06); no get_person.
+        tool_map={"search_fulltext": "search_text"},
         notes="75,447 documents, 893,303 spans. Full-text + mention search.",
     ),
     MCPSource(
@@ -95,6 +111,10 @@ SOURCES: tuple[MCPSource, ...] = (
         kinds=("person", "place", "org"),
         path="hls",
         authority=True,
+        # hls prefixes every tool `hls_` (verified via tools/list 2026-07-06).
+        tool_map={"search_persons": "hls_search_persons",
+                  "get_person": "hls_get_person",
+                  "search_fulltext": "hls_search_fulltext"},
         notes="Person/place authority. Replaces the retired local hls.json dump.",
     ),
     MCPSource(
@@ -103,6 +123,7 @@ SOURCES: tuple[MCPSource, ...] = (
         kinds=("person", "place"),
         path="kf",
         authority=False,
+        transport="http",   # streamable-HTTP server (nginx rewrites /mcp/kf → /mcp)
         notes="Königsfelden persons, places, register entries.",
     ),
     MCPSource(

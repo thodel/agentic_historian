@@ -78,6 +78,17 @@ CallTool = Callable[[reg.MCPSource, str, dict], Awaitable[Any]]
 _PROTOCOL_VERSION = "2024-11-05"
 
 
+def _toggle_messages_slash(url: str) -> str:
+    """Flip the trailing slash on a `/messages` path, preserving the query.
+
+    ``…/messages/?session_id=x`` ↔ ``…/messages?session_id=x``. Used to retry a
+    405 against servers that route POST at only one of the two forms.
+    """
+    head, sep, query = url.partition("?")
+    head = head[:-1] if head.endswith("/") else head + "/"
+    return head + sep + query
+
+
 async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
     """Run one JSON-RPC call over the MCP **SSE transport** and return ``result``.
 
@@ -119,8 +130,18 @@ async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
             data: list[str] = []
 
             async def _post(payload: dict) -> None:
-                r = await client.post(messages_url, json=payload,
-                                      headers={"Content-Type": "application/json"})
+                nonlocal messages_url
+                hdr = {"Content-Type": "application/json"}
+                r = await client.post(messages_url, json=payload, headers=hdr)
+                # Some SSE servers advertise `/messages/` but only route POST at
+                # `/messages` (no slash), or vice-versa → 405. Retry once with the
+                # slash toggled and stick with whichever variant the server accepts.
+                if r.status_code == 405:
+                    alt = _toggle_messages_slash(messages_url)
+                    if alt != messages_url:
+                        r_alt = await client.post(alt, json=payload, headers=hdr)
+                        if r_alt.status_code != 405:
+                            messages_url, r = alt, r_alt
                 r.raise_for_status()
 
             async for raw in stream.aiter_lines():
@@ -152,6 +173,65 @@ async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
     raise MCPError(f"{source.name}: SSE stream closed before a result arrived")
 
 
+def _decode_jsonrpc_body(resp: httpx.Response) -> dict:
+    """Decode a streamable-HTTP response body (JSON or a single SSE message)."""
+    ctype = resp.headers.get("content-type", "")
+    if "text/event-stream" in ctype:
+        for line in resp.text.splitlines():
+            if line.startswith("data:"):
+                return json.loads(line[5:].lstrip())
+        raise MCPError("empty event-stream response body")
+    return resp.json()
+
+
+async def _http_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
+    """Run one JSON-RPC call over the MCP **streamable-HTTP transport**.
+
+    Unlike SSE, everything is POSTed to a single endpoint (``source.url``, which
+    nginx rewrites to the backend's ``/mcp``). The server returns an
+    ``Mcp-Session-Id`` header on ``initialize`` that must be echoed on every
+    subsequent request; responses come back inline (JSON or a single SSE frame).
+    """
+    if source.external:
+        raise MCPError(f"{source.name}: external MCP not reachable via this client")
+
+    # POST the bare source URL (no trailing slash). A trailing slash makes the
+    # backend 307-redirect to /mcp, which — because nginx has stripped the
+    # /mcp/<src> prefix — escapes the proxy scope; so redirects are disabled and
+    # the canonical no-slash endpoint (verified 200 + Mcp-Session-Id) is used.
+    url = source.url
+    headers = {"Content-Type": "application/json",
+               "Accept": "application/json, text/event-stream"}
+    init_req = {"jsonrpc": "2.0", "id": 1, "method": "initialize",
+                "params": {"protocolVersion": _PROTOCOL_VERSION,
+                           "capabilities": {},
+                           "clientInfo": {"name": "agentic-historian", "version": "0.1"}}}
+    timeout = httpx.Timeout(config.MCP_TIMEOUT, read=config.MCP_TIMEOUT)
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=False) as client:
+        r = await client.post(url, json=init_req, headers=headers)
+        r.raise_for_status()
+        sid = r.headers.get("mcp-session-id")
+        if sid:
+            headers["Mcp-Session-Id"] = sid
+        await client.post(url, json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+                          headers=headers)
+        r2 = await client.post(
+            url, headers=headers,
+            json={"jsonrpc": "2.0", "id": 2, "method": method, "params": params})
+        r2.raise_for_status()
+        msg = _decode_jsonrpc_body(r2)
+        if msg.get("error"):
+            raise MCPError(f"{source.name}: {msg['error']}")
+        return msg.get("result")
+
+
+async def _rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
+    """Dispatch a JSON-RPC call over whichever transport the source speaks."""
+    if getattr(source, "transport", "sse") == "http":
+        return await _http_rpc(source, method, params)
+    return await _sse_rpc(source, method, params)
+
+
 def _unwrap_tool_result(result: Any) -> Any:
     """Extract a tool's return value from an MCP ``tools/call`` result envelope.
 
@@ -175,7 +255,7 @@ def _unwrap_tool_result(result: Any) -> Any:
 
 async def _call_tool(source: reg.MCPSource, tool: str, arguments: dict) -> Any:
     """Call one MCP tool on one source and return its unwrapped result payload."""
-    result = await _sse_rpc(source, "tools/call", {"name": tool, "arguments": arguments})
+    result = await _rpc(source, "tools/call", {"name": tool, "arguments": arguments})
     return _unwrap_tool_result(result)
 
 
@@ -195,7 +275,7 @@ def _items(raw: Any) -> list[dict]:
 
 async def list_tools(source: reg.MCPSource) -> list[dict]:
     """Return the ``tools/list`` descriptors a live source advertises."""
-    result = await _sse_rpc(source, "tools/list", {})
+    result = await _rpc(source, "tools/list", {})
     tools = result.get("tools") if isinstance(result, dict) else result
     return tools if isinstance(tools, list) else []
 
@@ -255,7 +335,7 @@ async def search_persons(
 
     async def _one(s: reg.MCPSource):
         try:
-            raw = await ct(s, "search_persons", {"query": query, "limit": limit})
+            raw = await ct(s, s.tool("search_persons"), {"query": query, "limit": limit})
             return s.name, [_to_person_result(s, r) for r in _items(raw)], None
         except Exception as e:  # timeout, HTTP, JSON-RPC, adapter — all non-fatal
             return s.name, [], str(e)
@@ -278,7 +358,7 @@ async def get_person(
     ct = call_tool or _call_tool
     s = reg.get_source(source)
     try:
-        raw = await ct(s, "get_person", {"pid": pid})
+        raw = await ct(s, s.tool("get_person"), {"pid": pid})
     except Exception:
         return None
     if not isinstance(raw, dict) or not raw:
@@ -301,7 +381,7 @@ async def search_fulltext(
 
     async def _one(s: reg.MCPSource):
         try:
-            raw = await ct(s, "search_fulltext", {"query": query, "limit": limit})
+            raw = await ct(s, s.tool("search_fulltext"), {"query": query, "limit": limit})
             return [
                 TextHit(source=s.name,
                         doc_id=str(r.get("doc_id") or r.get("id") or ""),
