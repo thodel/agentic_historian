@@ -41,6 +41,9 @@ class MCPSource:
     external if True, the MCP is registered outside the tei base (e.g. the
              shared `wikidata` MCP) and `full_url` (or the MCP gateway) applies
     full_url overrides the derived tei URL (for external sources)
+    transport MCP wire transport this source speaks: "sse" (legacy SSE: GET
+             <url>/sse event stream + POST <url>/messages) or "http" (streamable
+             -HTTP: JSON-RPC POSTed to <url> with an Mcp-Session-Id header).
     adapter  optional callable mapping the source's native record -> PersonResult;
              None = already conforms
     notes    free-text provenance / caveats
@@ -54,6 +57,7 @@ class MCPSource:
     authority: bool = False
     external: bool = False
     full_url: Optional[str] = None
+    transport: str = "sse"
     adapter: Optional[Callable] = None
     notes: str = ""
 
@@ -103,6 +107,7 @@ SOURCES: tuple[MCPSource, ...] = (
         kinds=("person", "place"),
         path="kf",
         authority=False,
+        transport="http",   # streamable-HTTP server (nginx rewrites /mcp/kf → /mcp)
         notes="Königsfelden persons, places, register entries.",
     ),
     MCPSource(

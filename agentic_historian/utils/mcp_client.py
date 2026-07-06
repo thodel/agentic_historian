@@ -152,6 +152,62 @@ async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
     raise MCPError(f"{source.name}: SSE stream closed before a result arrived")
 
 
+def _decode_jsonrpc_body(resp: httpx.Response) -> dict:
+    """Decode a streamable-HTTP response body (JSON or a single SSE message)."""
+    ctype = resp.headers.get("content-type", "")
+    if "text/event-stream" in ctype:
+        for line in resp.text.splitlines():
+            if line.startswith("data:"):
+                return json.loads(line[5:].lstrip())
+        raise MCPError("empty event-stream response body")
+    return resp.json()
+
+
+async def _http_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
+    """Run one JSON-RPC call over the MCP **streamable-HTTP transport**.
+
+    Unlike SSE, everything is POSTed to a single endpoint (``source.url``, which
+    nginx rewrites to the backend's ``/mcp``). The server returns an
+    ``Mcp-Session-Id`` header on ``initialize`` that must be echoed on every
+    subsequent request; responses come back inline (JSON or a single SSE frame).
+    """
+    if source.external:
+        raise MCPError(f"{source.name}: external MCP not reachable via this client")
+
+    # Trailing slash avoids FastMCP's /mcp → /mcp/ redirect losing the POST body.
+    url = source.url + "/"
+    headers = {"Content-Type": "application/json",
+               "Accept": "application/json, text/event-stream"}
+    init_req = {"jsonrpc": "2.0", "id": 1, "method": "initialize",
+                "params": {"protocolVersion": _PROTOCOL_VERSION,
+                           "capabilities": {},
+                           "clientInfo": {"name": "agentic-historian", "version": "0.1"}}}
+    timeout = httpx.Timeout(config.MCP_TIMEOUT, read=config.MCP_TIMEOUT)
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+        r = await client.post(url, json=init_req, headers=headers)
+        r.raise_for_status()
+        sid = r.headers.get("mcp-session-id")
+        if sid:
+            headers["Mcp-Session-Id"] = sid
+        await client.post(url, json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+                          headers=headers)
+        r2 = await client.post(
+            url, headers=headers,
+            json={"jsonrpc": "2.0", "id": 2, "method": method, "params": params})
+        r2.raise_for_status()
+        msg = _decode_jsonrpc_body(r2)
+        if msg.get("error"):
+            raise MCPError(f"{source.name}: {msg['error']}")
+        return msg.get("result")
+
+
+async def _rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
+    """Dispatch a JSON-RPC call over whichever transport the source speaks."""
+    if getattr(source, "transport", "sse") == "http":
+        return await _http_rpc(source, method, params)
+    return await _sse_rpc(source, method, params)
+
+
 def _unwrap_tool_result(result: Any) -> Any:
     """Extract a tool's return value from an MCP ``tools/call`` result envelope.
 
@@ -175,7 +231,7 @@ def _unwrap_tool_result(result: Any) -> Any:
 
 async def _call_tool(source: reg.MCPSource, tool: str, arguments: dict) -> Any:
     """Call one MCP tool on one source and return its unwrapped result payload."""
-    result = await _sse_rpc(source, "tools/call", {"name": tool, "arguments": arguments})
+    result = await _rpc(source, "tools/call", {"name": tool, "arguments": arguments})
     return _unwrap_tool_result(result)
 
 
@@ -195,7 +251,7 @@ def _items(raw: Any) -> list[dict]:
 
 async def list_tools(source: reg.MCPSource) -> list[dict]:
     """Return the ``tools/list`` descriptors a live source advertises."""
-    result = await _sse_rpc(source, "tools/list", {})
+    result = await _rpc(source, "tools/list", {})
     tools = result.get("tools") if isinstance(result, dict) else result
     return tools if isinstance(tools, list) else []
 
