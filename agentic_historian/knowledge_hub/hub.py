@@ -30,6 +30,7 @@ import requests
 from loguru import logger
 
 import config
+from knowledge_hub.store import HubStore
 
 
 # ── Dataclass adapters for RDF export compatibility (origin/master compat) ───
@@ -283,63 +284,77 @@ class KnowledgeHub:
 
 
 # Singleton + module-level convenience API (Agent C calls hub.search_person(...)).
+# All access goes through get_store() so the backend is swappable (#26).
 _hub = KnowledgeHub()
 
 
-def get_hub() -> KnowledgeHub:
-    return _hub
+def get_store() -> "HubStore":
+    """Return the active Knowledge-Hub backend (``config.KH_BACKEND``; default
+    JSON). Swap seam (#26): a QLEVER triple-store backend (WP4) implements
+    ``HubStore`` and is selected here — agents and the ``hub.*`` helpers below
+    are unchanged."""
+    backend = getattr(config, "KH_BACKEND", "json")
+    if backend == "json":
+        return _hub
+    raise ValueError(f"unknown KH_BACKEND {backend!r} (known: 'json')")
+
+
+def get_hub() -> "HubStore":
+    """The active store. Kept as the historical name; routes through get_store()
+    so existing ``hub.get_hub()`` callers follow the configured backend too."""
+    return get_store()
 
 
 def search_person(name: str) -> list[dict]:
-    return _hub.search_person(name)
+    return get_store().search_person(name)
 
 
 def search_place(name: str) -> list[dict]:
-    return _hub.search_place(name)
+    return get_store().search_place(name)
 
 
 def find_person(name: str) -> Optional[dict]:
-    return _hub.find_person(name)
+    return get_store().find_person(name)
 
 
 def find_place(name: str) -> Optional[dict]:
-    return _hub.find_place(name)
+    return get_store().find_place(name)
 
 
 def match_vocabulary(term: str) -> Optional[str]:
-    return _hub.match_vocabulary(term)
+    return get_store().match_vocabulary(term)
 
 
 def add_person(person: dict) -> None:
-    _hub.add_person(person)
+    get_store().add_person(person)
 
 
 def add_place(place: dict) -> None:
-    _hub.add_place(place)
+    get_store().add_place(place)
 
 
 def all_persons() -> list[Person]:
-    return _hub.all_persons()
+    return get_store().all_persons()
 
 
 def all_places() -> list[Place]:
-    return _hub.all_places()
+    return get_store().all_places()
 
 
 def all_vocabulary() -> list[Vocabulary]:
-    return _hub.all_vocabulary()
+    return get_store().all_vocabulary()
 
 
 def add_keyword(term: str) -> None:
-    _hub.add_keyword(term)
+    get_store().add_keyword(term)
 
 
 def add_document_type(dtype: str) -> None:
-    _hub.add_document_type(dtype)
+    get_store().add_document_type(dtype)
 
 
 def summary() -> str:
-    return _hub.summary()
+    return get_store().summary()
 
 
 # ── HLS-DHS lookup against a local data dump (offline; no web calls) ─────────
