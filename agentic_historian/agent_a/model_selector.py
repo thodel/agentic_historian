@@ -355,12 +355,16 @@ def select_kraken_model(
     Returns:
         Sorted list of ModelMatch (best first). Empty if no models match.
     """
-    # Build union: live registry (populated from gateway at startup) overlays
-    # the static table.  Live entries win on key collision so the gateway's
-    # authoritative metadata (scripts, languages, centuries) is used in
-    # preference to the hand-maintained fallback values.
-    registry: dict[str, KrakenModel] = dict(KRAKEN_MODELS)
-    registry.update(KRAKEN_MODELS_LIVE)
+    # When the gateway registry is populated it is AUTHORITATIVE: select only
+    # from models the gateway actually serves, so the chosen model_id is always
+    # runnable via /ocr. The static table is the offline fallback used only when
+    # the gateway is unreachable (live registry empty). Selecting from a union of
+    # the two previously let a static-only entry win — e.g. a Zenodo id the
+    # gateway doesn't serve — and /ocr then returned 0 chars (#191).
+    if KRAKEN_MODELS_LIVE:
+        registry: dict[str, KrakenModel] = dict(KRAKEN_MODELS_LIVE)
+    else:
+        registry = dict(KRAKEN_MODELS)
 
     if not registry:
         logger.warning("[model_selector] KRAKEN_MODELS and KRAKEN_MODELS_LIVE are both empty")
