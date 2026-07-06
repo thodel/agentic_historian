@@ -544,7 +544,9 @@ def refresh_kraken_registry(
 
         live_models[model_id] = KrakenModel(
             model_id=model_id,
-            name=m.get("description", model_id),
+            # gateway may return description=null → fall back to the id so the
+            # selection log shows a real name, not "None".
+            name=m.get("description") or model_id,
             lang=m.get("languages", ["mul"])[0] if m.get("languages") else "mul",
             script=", ".join(m.get("scripts", [])) or "Latin",
             notes=f"[live] {m.get('description', '')}",
