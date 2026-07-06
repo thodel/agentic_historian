@@ -254,6 +254,15 @@ async def pull_cmd(
         )
         return
     remote = folder or config.SWITCHDRIVE_REMOTE_DIR
+    # Skip already-processed folders (unless re-processing is explicitly requested via
+    # /pull_folder). This matches pull_folder_cmd dedup behaviour.
+    already = switchdrive.load_processed()
+    if remote in already:
+        await ctx.followup.send(
+            f"⏭️ `{remote}` already processed — use /pull_folder with `reprocess:=true` "
+            "to re-pull it."
+        )
+        return
     try:
         files = await _run_blocking(ctx, switchdrive.pull_folder, remote, config.HOT_FOLDER, recursive)
         if files is None:
@@ -271,6 +280,8 @@ async def pull_cmd(
         if errs:
             msg += f"\n❌ Fehler: {len(errs)}"
         await ctx.followup.send(msg)
+        # Mark as processed so subsequent /pull calls skip this folder (dedup).
+        switchdrive.mark_processed(remote)
     except Exception as e:
         logger.exception("pull error")
         await ctx.followup.send(f"❌ Error: {e}")
