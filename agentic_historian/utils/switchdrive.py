@@ -25,7 +25,12 @@ INGEST_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".pdf"}
 
 
 def is_configured() -> bool:
-    return bool(config.SWITCHDRIVE_USER and config.SWITCHDRIVE_PASS)
+    """Check that all required SwitchDrive credentials are present."""
+    return bool(
+        config.SWITCHDRIVE_URL
+        and config.SWITCHDRIVE_USER
+        and config.SWITCHDRIVE_PASS
+    )
 
 
 def _client():
