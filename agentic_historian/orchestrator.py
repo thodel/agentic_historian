@@ -309,6 +309,31 @@ def run_full_pipeline(
             logger.error(f"[Orchestrator] Agent D fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "D", "error": str(e)})
 
+    # ── Persist a RunState so /route can render a populated Gate-1 card ───────
+    # The core pipeline does not itself gate; it records the criteria Agent B
+    # inferred (script/lang/century/type) so the routing card + uncertainty
+    # gating have real values to work with. Human-pinned criteria (from a prior
+    # correction) are preserved — we only fill fields not already set.
+    try:
+        from runstate import RunState
+        from agent_a.model_selector import SourceCriteria
+        state = RunState.load_or_new(doc_id)
+        desc_text = (ctx.description or {}).get("source_description", "")
+        if desc_text:
+            crit = SourceCriteria.from_agent_b(desc_text)
+            for k, v in {
+                "script": crit.script,
+                "lang": crit.lang or lang,
+                "century": crit.century,
+                "document_type": crit.document_type,
+            }.items():
+                if v is not None and k not in state.criteria:
+                    state.criteria[k] = v
+        state.artifacts["transcription"] = ctx.transcription
+        state.save()
+    except Exception as e:
+        logger.warning(f"[Orchestrator] RunState persist skipped ({doc_id}): {e}")
+
     # Pipeline-Resultat speichern
     _save_pipeline_result(doc_id, ctx)
 
