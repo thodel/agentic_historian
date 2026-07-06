@@ -58,6 +58,10 @@ GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 GITHUB_OUTPUT_REPO = _get("GITHUB_OUTPUT_REPO", "thodel/agentic-historian-outputs")
 GITHUB_OUTPUT_BRANCH = _get("GITHUB_OUTPUT_BRANCH", "main")
 ENABLE_GITHUB_PUBLISH = _get("ENABLE_GITHUB_PUBLISH", "false").lower() == "true"
+# Base URL for the source image of a published doc (#208). If set, each doc's
+# page links back to "<SOURCE_URL_BASE>/<filename>" — point it at a SwitchDrive
+# share, a IIIF image server, or any public mirror. Empty = no source link.
+SOURCE_URL_BASE = _get("SOURCE_URL_BASE", "").rstrip("/")
 
 # ── Knowledge Hub (MCP-federated) ────────────────────────────────────────────
 # The Knowledge Hub is realised as a federation of MCP servers (one per
