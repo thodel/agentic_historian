@@ -51,8 +51,10 @@ def test_search_persons_fans_out_and_tags_source():
     queried = {c[0] for c in calls}
     person_sources = {s.name for s in reg.sources_for_kind("person") if not s.external}
     assert queried == person_sources
-    assert all(t == "search_persons" and a == {"query": "Johann", "limit": 5}
-               for _, t, a in calls)
+    # each source is called with ITS resolved tool name (hls prefixes `hls_`).
+    assert all(t == reg.get_source(name).tool("search_persons")
+               and a == {"query": "Johann", "limit": 5}
+               for name, t, a in calls)
     assert {p.source for p in fr.persons} == person_sources
     assert not fr.failed_sources
 
@@ -81,7 +83,7 @@ def test_external_sources_excluded_from_fanout():
 
 def test_get_person_returns_record_or_none():
     async def fake_call(source, tool, args):
-        assert tool == "get_person" and args == {"pid": "42"}
+        assert tool == source.tool("get_person") and args == {"pid": "42"}
         return {"id": "42", "name": "Hans", "relationships": [{"rel": "father"}],
                 "geo": [46.9, 7.4]}
 

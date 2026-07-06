@@ -335,7 +335,7 @@ async def search_persons(
 
     async def _one(s: reg.MCPSource):
         try:
-            raw = await ct(s, "search_persons", {"query": query, "limit": limit})
+            raw = await ct(s, s.tool("search_persons"), {"query": query, "limit": limit})
             return s.name, [_to_person_result(s, r) for r in _items(raw)], None
         except Exception as e:  # timeout, HTTP, JSON-RPC, adapter — all non-fatal
             return s.name, [], str(e)
@@ -358,7 +358,7 @@ async def get_person(
     ct = call_tool or _call_tool
     s = reg.get_source(source)
     try:
-        raw = await ct(s, "get_person", {"pid": pid})
+        raw = await ct(s, s.tool("get_person"), {"pid": pid})
     except Exception:
         return None
     if not isinstance(raw, dict) or not raw:
@@ -381,7 +381,7 @@ async def search_fulltext(
 
     async def _one(s: reg.MCPSource):
         try:
-            raw = await ct(s, "search_fulltext", {"query": query, "limit": limit})
+            raw = await ct(s, s.tool("search_fulltext"), {"query": query, "limit": limit})
             return [
                 TextHit(source=s.name,
                         doc_id=str(r.get("doc_id") or r.get("id") or ""),
