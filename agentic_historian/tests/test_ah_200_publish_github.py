@@ -143,3 +143,30 @@ def test_publish_doc_no_artifacts_no_http(monkeypatch, tmp_path):
     fake = FakeGitHub()
     assert pg.publish_doc("doc1", session=fake) is None
     assert fake.calls == []
+
+
+def test_index_md_renders_metadata_entities_and_links():
+    import json
+    pipeline = {
+        "doc_id": "doc1",
+        "transcription": "Wir Hans von Wiler …",
+        "a_meta": {"source": "vlm", "qa_score": 0.8},
+        "description": {"source_json": {
+            "Datierung": {"wert": "15. Jahrhundert"},
+            "Sprache": {"wert": "de"},
+            "Schrift": {"wert": "Textura"},
+        }},
+        "entities": {"entities": [
+            {"text": "Hans von Wiler", "type": "PERSON", "gnd": "118000"},
+            {"text": "Thun", "type": "PLACE", "hls": "007856"},
+        ]},
+    }
+    artifacts = {"pipeline.json": json.dumps(pipeline).encode(),
+                 "transcription.txt": b"Wir Hans von Wiler ..."}
+    md = pg._index_md("doc1", artifacts, source_url="https://src/doc1")
+    assert "layout: default" in md and "# doc1" in md
+    assert "15. Jahrhundert" in md and "Textura" in md           # metadata
+    assert "### PERSON" in md and "Hans von Wiler" in md         # grouped entities
+    assert "https://d-nb.info/gnd/118000" in md                  # GND link
+    assert "https://hls-dhs-dss.ch/de/007856" in md              # HLS link
+    assert "https://src/doc1" in md and "## Transkription" in md
