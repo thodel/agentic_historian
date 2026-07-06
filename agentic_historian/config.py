@@ -50,6 +50,15 @@ GITHUB_TOKEN = _get("GITHUB_TOKEN")
 GITHUB_REPO = _get("GITHUB_REPO", "thodel/agentic_historian")
 GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 
+# ── GitHub output publishing (#200) ──────────────────────────────────────────
+# Processed outputs are committed to a dedicated PUBLIC repo (rendered as a
+# GitHub Pages catalogue, #201) for inspection/versioning/sharing. Only text
+# artifacts are published — source images are never committed. Opt-in; when off,
+# the pipeline is byte-identical.
+GITHUB_OUTPUT_REPO = _get("GITHUB_OUTPUT_REPO", "thodel/agentic-historian-outputs")
+GITHUB_OUTPUT_BRANCH = _get("GITHUB_OUTPUT_BRANCH", "main")
+ENABLE_GITHUB_PUBLISH = _get("ENABLE_GITHUB_PUBLISH", "false").lower() == "true"
+
 # ── Knowledge Hub (MCP-federated) ────────────────────────────────────────────
 # The Knowledge Hub is realised as a federation of MCP servers (one per
 # authority source), not a local store. The declarative source registry lives
