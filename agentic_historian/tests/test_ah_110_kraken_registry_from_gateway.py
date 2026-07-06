@@ -89,6 +89,25 @@ class TestRefreshKrakenRegistry:
         assert "la" in model.languages
         assert "Caroline minuscule" in model.scripts
 
+    def test_non_kraken_engines_excluded(self):
+        """trocr/party/vllm models must NOT enter the kraken registry (#191):
+        a non-kraken id sent to the kraken /ocr path returns 0 chars."""
+        mixed = MOCK_GATEWAY_MODELS + [
+            {"id": "trocr-medieval-escriptmask", "engine": "trocr",
+             "languages": ["de"], "description": "TrOCR medieval"},
+            {"id": "qwen3vl-8b-hebrew", "engine": "vllm", "languages": ["he"]},
+            {"id": "party", "engine": "party"},
+        ]
+        mock_client = MagicMock()
+        mock_client.list_models.return_value = mixed
+
+        with patch.dict(KRAKEN_MODELS_LIVE, clear=True):
+            result = refresh_kraken_registry(mock_client)
+
+        assert len(result) == len(MOCK_GATEWAY_MODELS)  # only the kraken ones
+        assert all("trocr" not in k and "qwen" not in k and k != "party"
+                   for k in result)
+
     def test_list_models_returns_list_of_dicts(self):
         """KrakenHTTPClient.list_models() returns list[dict], NOT list[str].
 

@@ -531,6 +531,12 @@ def refresh_kraken_registry(
     for m in raw_models:
         if not isinstance(m, dict) or "id" not in m:
             continue
+        # KRAKEN_MODELS_LIVE is the *kraken* registry that feeds select_kraken_model
+        # and the kraken /ocr path. The gateway also serves trocr/party/vllm models;
+        # they have their own selection paths and must NOT be picked here (a trocr id
+        # sent to the kraken /ocr call returns 0 chars). #191 follow-up.
+        if str(m.get("engine", "kraken")).lower() != "kraken":
+            continue
 
         model_id = m["id"]
         centuries: list[int] = []
