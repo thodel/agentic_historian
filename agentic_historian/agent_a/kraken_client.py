@@ -90,8 +90,9 @@ class KrakenHTTPClient:
         and text masks.  Raises ``KrakenClientError`` on HTTP errors.
         """
         files = self._prepare_files(image)
-        files["seg_mode"] = seg_mode
-        resp = self._post("/segment", files=files)
+        # model/seg_mode are Form(str) fields on the gateway — send as form data,
+        # NOT inside `files` (httpx would post them as file parts → 422).
+        resp = self._post("/segment", files=files, data={"seg_mode": seg_mode})
         return resp.json()
 
     def transcribe(
@@ -115,9 +116,11 @@ class KrakenHTTPClient:
         Raises ``KrakenClientError`` on HTTP errors.
         """
         files: dict = self._prepare_files(image)
-        files["model"] = model
-        files["seg_mode"] = seg_mode
-        resp = self._post("/ocr", files=files)
+        # model/seg_mode are Form(str) fields on the gateway — send as form data,
+        # NOT inside `files` (httpx would post them as file parts → 422, which was
+        # then silently parsed as an empty transcription).
+        resp = self._post("/ocr", files=files,
+                          data={"model": model, "seg_mode": seg_mode})
         data = resp.json()
         return KrakenResult(
             text=data.get("text", ""),
@@ -168,24 +171,38 @@ class KrakenHTTPClient:
     def _get(self, path: str) -> httpx.Response:
         assert self._client is not None
         try:
-            return self._client.get(path)
+            resp = self._client.get(path)
         except httpx.RequestError as exc:
             raise KrakenClientError(
                 f"Kraken service unreachable at {self.base_url}{path}: {exc}"
             ) from exc
+        return self._check(resp, path)
 
     def _post(
         self,
         path: str,
         files: dict,
+        data: Optional[dict] = None,
     ) -> httpx.Response:
         assert self._client is not None
         try:
-            return self._client.post(path, files=files)
+            resp = self._client.post(path, files=files, data=data)
         except httpx.RequestError as exc:
             raise KrakenClientError(
                 f"Kraken service error at {self.base_url}{path}: {exc}"
             ) from exc
+        return self._check(resp, path)
+
+    def _check(self, resp: httpx.Response, path: str) -> httpx.Response:
+        """Surface gateway 4xx/5xx as KrakenClientError instead of letting an
+        error body (e.g. a 422 validation payload) be silently parsed as an empty
+        OCR result."""
+        if resp.status_code >= 400:
+            raise KrakenClientError(
+                f"Kraken service {resp.status_code} at {self.base_url}{path}: "
+                f"{resp.text[:400]}"
+            )
+        return resp
 
 
 # ── result dataclass ──────────────────────────────────────────────────────────

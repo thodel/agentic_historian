@@ -114,3 +114,40 @@ def test_health_check_returns_healthresponse(monkeypatch):
     with kc.KrakenHTTPClient(base_url="http://gw:8200", api_key="k") as client:
         h = client.health_check()
     assert h["status"] == "ok" and h["model_count"] == 3
+
+
+# ── /ocr request encoding + error surfacing ──────────────────────────────────
+
+def test_ocr_sends_model_and_seg_mode_as_form_fields(monkeypatch):
+    """model/seg_mode must be multipart FORM fields, not file parts — the gateway
+    declares them Form(str); sending them as files yields a 422 (#191 regression)."""
+    captured = {}
+
+    def handler(request):
+        captured["body"] = request.content
+        return httpx.Response(200, json={"text": "hallo", "confidence": 0.9, "model": "m1"})
+
+    kc = _mock_client(monkeypatch, handler)
+    with kc.KrakenHTTPClient(base_url="http://gw:8200", api_key="k") as client:
+        res = client.transcribe(b"\xff\xd8\xff", model="m1", seg_mode="baseline")
+
+    assert res.text == "hallo"
+    body = captured["body"]
+    # form fields carry no filename=; a file part would ("...; name=\"model\"; filename=...")
+    assert b'name="model"' in body and b'name="model"; filename' not in body
+    assert b'name="seg_mode"' in body and b'name="seg_mode"; filename' not in body
+
+
+def test_gateway_4xx_raises_not_silent_empty(monkeypatch):
+    """A 422 (or any 4xx) must raise KrakenClientError, not be parsed into an
+    empty transcription (which masked the real failure as '0 chars')."""
+    def handler(request):
+        return httpx.Response(422, json={"detail": [{"loc": ["body", "model"]}]})
+
+    kc = _mock_client(monkeypatch, handler)
+    with kc.KrakenHTTPClient(base_url="http://gw:8200", api_key="k") as client:
+        try:
+            client.transcribe(b"\xff\xd8\xff", model="m1")
+            assert False, "expected KrakenClientError on 422"
+        except kc.KrakenClientError as e:
+            assert "422" in str(e)
