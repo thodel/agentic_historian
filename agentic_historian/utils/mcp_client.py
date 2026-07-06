@@ -78,6 +78,17 @@ CallTool = Callable[[reg.MCPSource, str, dict], Awaitable[Any]]
 _PROTOCOL_VERSION = "2024-11-05"
 
 
+def _toggle_messages_slash(url: str) -> str:
+    """Flip the trailing slash on a `/messages` path, preserving the query.
+
+    ``…/messages/?session_id=x`` ↔ ``…/messages?session_id=x``. Used to retry a
+    405 against servers that route POST at only one of the two forms.
+    """
+    head, sep, query = url.partition("?")
+    head = head[:-1] if head.endswith("/") else head + "/"
+    return head + sep + query
+
+
 async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
     """Run one JSON-RPC call over the MCP **SSE transport** and return ``result``.
 
@@ -119,8 +130,18 @@ async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
             data: list[str] = []
 
             async def _post(payload: dict) -> None:
-                r = await client.post(messages_url, json=payload,
-                                      headers={"Content-Type": "application/json"})
+                nonlocal messages_url
+                hdr = {"Content-Type": "application/json"}
+                r = await client.post(messages_url, json=payload, headers=hdr)
+                # Some SSE servers advertise `/messages/` but only route POST at
+                # `/messages` (no slash), or vice-versa → 405. Retry once with the
+                # slash toggled and stick with whichever variant the server accepts.
+                if r.status_code == 405:
+                    alt = _toggle_messages_slash(messages_url)
+                    if alt != messages_url:
+                        r_alt = await client.post(alt, json=payload, headers=hdr)
+                        if r_alt.status_code != 405:
+                            messages_url, r = alt, r_alt
                 r.raise_for_status()
 
             async for raw in stream.aiter_lines():
