@@ -44,10 +44,18 @@ def test_prompt_lists_all_eight_types():
 def test_all_eight_types_preserved_and_enriched():
     original = entity_agent.gs.chat_text
     entity_agent.gs.chat_text = lambda *a, **k: json.dumps(_FAKE_EXTRACTION)
+    # Hermetic: this test asserts the LOCAL hub-seed enrichment (hub_p_example /
+    # hub_loc_example). The MCP federation transport is real now (#189) and the
+    # tei sources are publicly reachable, so a live hit would override the seed
+    # and make this test network-dependent. Disable federation → exercise the
+    # local hub chain deterministically, offline (as the module docstring says).
+    mcp_was = config.ENABLE_MCP_LINKING
+    config.ENABLE_MCP_LINKING = False
     try:
         result = entity_agent.extract_entities("test_p37", "dummy transcription")
     finally:
         entity_agent.gs.chat_text = original
+        config.ENABLE_MCP_LINKING = mcp_was
 
     by_type = {e["type"]: e for e in result["entities"]}
 

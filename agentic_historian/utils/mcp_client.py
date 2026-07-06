@@ -16,6 +16,7 @@ cross-source resolver/merger is KH-2 (#88) and lives elsewhere.
 from __future__ import annotations
 
 import asyncio
+import json
 from typing import Any, Awaitable, Callable, Optional
 
 import httpx
@@ -74,32 +75,108 @@ CallTool = Callable[[reg.MCPSource, str, dict], Awaitable[Any]]
 
 # ── Transport seam (mock this in tests) ──────────────────────────────────────
 
-async def _call_tool(source: reg.MCPSource, tool: str, arguments: dict) -> Any:
-    """Call one MCP tool on one source and return the raw result payload.
+_PROTOCOL_VERSION = "2024-11-05"
 
-    Uses MCP streamable-HTTP JSON-RPC (``tools/call``). Kept as the single wire
-    seam so the higher-level logic is transport-agnostic and unit-testable.
 
-    NOTE: the exact endpoint/response envelope must be verified against a live
-    server inside the VPN; adjust only this function if it differs.
+async def _sse_rpc(source: reg.MCPSource, method: str, params: dict) -> Any:
+    """Run one JSON-RPC call over the MCP **SSE transport** and return ``result``.
+
+    The tei knowledge-hub servers (HLS/HBLS/KF/EOS) speak the MCP SSE transport,
+    proxied by nginx as ``/mcp/<src>/sse`` (event stream) + ``/mcp/<src>/messages``
+    (JSON-RPC channel). The handshake is:
+
+      1. ``GET <base>/sse`` opens a persistent event stream.
+      2. The server emits an ``endpoint`` event with the message path
+         (``/messages/?session_id=…``). nginx strips the ``/mcp/<src>`` prefix
+         before the backend, so that path is **re-prefixed with ``source.url``**
+         to route back through the proxy.
+      3. Requests are POSTed to that URL (each returns ``202 Accepted``); the
+         actual JSON-RPC responses arrive back on the event stream, correlated
+         by request ``id``.
+
+    Single wire seam: higher-level logic stays transport-agnostic and the whole
+    module is unit-testable by injecting ``call_tool`` (this is never hit in
+    tests).
     """
-    payload = {
-        "jsonrpc": "2.0",
-        "id": 1,
-        "method": "tools/call",
-        "params": {"name": tool, "arguments": arguments},
-    }
-    headers = {"Accept": "application/json, text/event-stream"}
     if source.external:
         raise MCPError(f"{source.name}: external MCP not reachable via this client")
-    async with httpx.AsyncClient(timeout=config.MCP_TIMEOUT) as client:
-        resp = await client.post(source.url, json=payload, headers=headers)
-        resp.raise_for_status()
-        data = resp.json()
-    if isinstance(data, dict) and data.get("error"):
-        raise MCPError(f"{source.name}: {data['error']}")
-    # MCP tools/call wraps the tool output in "result"; tolerate a bare payload.
-    return data.get("result", data) if isinstance(data, dict) else data
+
+    init_req = {"jsonrpc": "2.0", "id": 1, "method": "initialize",
+                "params": {"protocolVersion": _PROTOCOL_VERSION,
+                           "capabilities": {},
+                           "clientInfo": {"name": "agentic-historian", "version": "0.1"}}}
+    initialized = {"jsonrpc": "2.0", "method": "notifications/initialized"}
+    call_req = {"jsonrpc": "2.0", "id": 2, "method": method, "params": params}
+
+    timeout = httpx.Timeout(config.MCP_TIMEOUT, read=config.MCP_TIMEOUT)
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+        async with client.stream(
+            "GET", f"{source.url}/sse", headers={"Accept": "text/event-stream"}
+        ) as stream:
+            stream.raise_for_status()
+            messages_url: Optional[str] = None
+            event: Optional[str] = None
+            data: list[str] = []
+
+            async def _post(payload: dict) -> None:
+                r = await client.post(messages_url, json=payload,
+                                      headers={"Content-Type": "application/json"})
+                r.raise_for_status()
+
+            async for raw in stream.aiter_lines():
+                line = raw.rstrip("\r")
+                if line:  # accumulate one event's fields
+                    if line.startswith(":"):
+                        continue                       # SSE comment / heartbeat
+                    if line.startswith("event:"):
+                        event = line[6:].strip()
+                    elif line.startswith("data:"):
+                        data.append(line[5:].lstrip())
+                    continue
+
+                # blank line → dispatch the accumulated event
+                if event == "endpoint" and data:
+                    messages_url = source.url + "\n".join(data)
+                    await _post(init_req)
+                elif event == "message" and data:
+                    msg = json.loads("\n".join(data))
+                    if msg.get("error"):
+                        raise MCPError(f"{source.name}: {msg['error']}")
+                    if msg.get("id") == 1:             # initialize ack
+                        await _post(initialized)
+                        await _post(call_req)
+                    elif msg.get("id") == 2:           # our tool response
+                        return msg.get("result")
+                event, data = None, []
+
+    raise MCPError(f"{source.name}: SSE stream closed before a result arrived")
+
+
+def _unwrap_tool_result(result: Any) -> Any:
+    """Extract a tool's return value from an MCP ``tools/call`` result envelope.
+
+    Prefers ``structuredContent`` (the machine-readable return value); falls back
+    to decoding the first ``text`` content block as JSON, else returns as-is.
+    """
+    if not isinstance(result, dict):
+        return result
+    if result.get("structuredContent") is not None:
+        return result["structuredContent"]
+    content = result.get("content")
+    if isinstance(content, list):
+        for block in content:
+            if isinstance(block, dict) and block.get("type") == "text":
+                try:
+                    return json.loads(block.get("text", ""))
+                except (ValueError, TypeError):
+                    return block.get("text", "")
+    return result
+
+
+async def _call_tool(source: reg.MCPSource, tool: str, arguments: dict) -> Any:
+    """Call one MCP tool on one source and return its unwrapped result payload."""
+    result = await _sse_rpc(source, "tools/call", {"name": tool, "arguments": arguments})
+    return _unwrap_tool_result(result)
 
 
 def _items(raw: Any) -> list[dict]:
@@ -107,10 +184,25 @@ def _items(raw: Any) -> list[dict]:
     if isinstance(raw, list):
         return [r for r in raw if isinstance(r, dict)]
     if isinstance(raw, dict):
-        for key in ("results", "persons", "hits", "items"):
+        # FastMCP wraps a bare list return under "result"; tolerate common keys.
+        for key in ("results", "persons", "hits", "items", "result"):
             if isinstance(raw.get(key), list):
                 return [r for r in raw[key] if isinstance(r, dict)]
     return []
+
+
+# ── Diagnostics (verify tool names/args against a live source) ───────────────
+
+async def list_tools(source: reg.MCPSource) -> list[dict]:
+    """Return the ``tools/list`` descriptors a live source advertises."""
+    result = await _sse_rpc(source, "tools/list", {})
+    tools = result.get("tools") if isinstance(result, dict) else result
+    return tools if isinstance(tools, list) else []
+
+
+def list_tools_sync(source_name: str) -> list[dict]:
+    """Blocking wrapper: ``mcp_client.list_tools_sync("hls")``."""
+    return asyncio.run(list_tools(reg.get_source(source_name)))
 
 
 def _to_person_result(source: reg.MCPSource, raw: dict) -> PersonResult:
