@@ -28,13 +28,26 @@ def test_person_result_contract():
 
 
 def test_normalisation_maps_common_aliases():
-    s = reg.get_source("hbls")
-    raw = {"id": "hbls-42", "n": "Johann von Wiler", "y": "1300–1370",
+    s = reg.get_source("kf")  # adapter-free source → exercises default aliasing
+    raw = {"id": "kf-42", "n": "Johann von Wiler", "y": "1300–1370",
            "gnd": "118?", "v": ["Hans"], "c": 7}
     pr = mc._to_person_result(s, raw)
-    assert pr.source == "hbls" and pr.pid == "hbls-42"
+    assert pr.source == "kf" and pr.pid == "kf-42"
     assert pr.name == "Johann von Wiler" and pr.life_dates == "1300–1370"
     assert pr.gnd_id == "118?" and pr.variants == ["Hans"] and pr.mention_count == 7
+
+
+def test_hbls_adapter_maps_article_record():
+    """hbls returns article records (headword/id/snippet); the registry adapter
+    normalises them onto the PersonResult contract."""
+    s = reg.get_source("hbls")
+    raw = {"id": 10006, "headword": "LUTTRINGSHAUSEN", "volume": 4, "page": 751,
+           "snippet": "…Johann Jakob, Miniaturmaler…", "article_text": "Urspr. …"}
+    pr = mc._to_person_result(s, raw)
+    assert pr.source == "hbls" and pr.pid == "10006"
+    assert pr.name == "LUTTRINGSHAUSEN"
+    assert "Johann Jakob" in (pr.notes or "")
+    assert pr.entries == ["Bd. 4, S. 751"]
 
 
 # ── Federated search: parallel fan-out + normalisation ───────────────────────

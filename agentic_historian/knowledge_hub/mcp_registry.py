@@ -82,6 +82,27 @@ class MCPSource:
         return f"{config.MCP_BASE_URL}/{self.path.strip('/')}"
 
 
+# ── Source adapters (native record → common PersonResult aliases) ────────────
+
+def _hbls_adapter(raw: dict) -> dict:
+    """Map an HBLS ``search`` record to the common PersonResult aliases.
+
+    HBLS returns biographical-lexicon article records keyed
+    ``id/headword/volume/page/snippet/article_text`` (verified live 2026-07-06),
+    not the person contract — so rename onto the aliases `_to_person_result`
+    understands. ``headword`` is the family/person name.
+    """
+    entries = []
+    if raw.get("volume") and raw.get("page"):
+        entries.append(f"Bd. {raw['volume']}, S. {raw['page']}")
+    return {
+        "id": raw.get("id"),
+        "name": raw.get("headword"),
+        "notes": raw.get("snippet") or (raw.get("article_text") or "")[:200] or None,
+        "entries": entries,
+    }
+
+
 # ── The registry — edit HERE to add a knowledge hub ──────────────────────────
 # Every source below is LIVE (confirmed 2026-07-03). To add one, append an
 # MCPSource and follow docs/knowledge_hub.md §"Adding a source".
@@ -103,6 +124,11 @@ SOURCES: tuple[MCPSource, ...] = (
         kinds=("person",),
         path="hbls",
         authority=True,
+        # hbls exposes a generic `search` (args query/limit) returning article
+        # records keyed headword/id/snippet (verified live 2026-07-06); map the
+        # tool name and normalise the records via _hbls_adapter.
+        tool_map={"search_persons": "search"},
+        adapter=_hbls_adapter,
         notes="~137k merged person records; GND/Wikidata where available.",
     ),
     MCPSource(
