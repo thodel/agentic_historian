@@ -168,6 +168,9 @@ ROUTING_LOG_PATH = FEEDBACK_DIR / "routing.jsonl"
 
 # ── Knowledge Hub ────────────────────────────────────────────────────────────
 KH_DIR = BASE_DIR / "knowledge_hub" / "data"
+# Active Knowledge-Hub backend (#26). "json" = the local KnowledgeHub store; a
+# QLEVER triple-store backend (WP4) is selected here without touching agents.
+KH_BACKEND = _get("KH_BACKEND", "json")
 
 
 def ensure_dirs():
