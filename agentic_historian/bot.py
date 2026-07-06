@@ -179,11 +179,14 @@ async def run_pipeline(
         result = await _run_blocking(ctx, run_full_pipeline, fp)
         if result is None:
             return
+        doc_id = result.get("doc_id", Path(filename).stem)
         msg = (
             f"✅ Pipeline fertig für `{filename}`\n"
+            f"Doc-ID: `{doc_id}`\n"
             f"QA-Score: {result.get('a_meta', {}).get('qa_score', '?')}\n"
             f"Entitäten: {len(result.get('entities', {}).get('entities', []))}\n"
-            f"Errors: {len(result.get('errors', []))}"
+            f"Errors: {len(result.get('errors', []))}\n"
+            f"→ Gate 1: `/route {doc_id}`"
         )
         await ctx.followup.send(msg)
     except Exception as e:
