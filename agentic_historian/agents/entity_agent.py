@@ -98,6 +98,52 @@ def _strip_code_fences(raw: str) -> str:
     return cleaned.strip()
 
 
+_ENTITY_OBJ_RE = re.compile(r"\{[^{}]*\}")
+
+
+def _loads_entities(raw: str) -> list[dict]:
+    """Best-effort parse of the NER LLM's reply into a list of entity dicts.
+
+    LLMs occasionally emit slightly malformed JSON (a missing/trailing comma,
+    prose around the object, or a truncated tail). Rather than drop the whole
+    chunk on a single ``json.loads`` failure, try progressively looser
+    strategies and finally salvage whatever individual entity objects parse.
+    """
+    text = _strip_code_fences(raw)
+    if not text:
+        return []
+
+    candidates = [text]
+    # slice to the outermost JSON object (drops any prose around it)
+    a, b = text.find("{"), text.rfind("}")
+    if a != -1 and b > a:
+        candidates.append(text[a:b + 1])
+    # drop trailing commas before a closing ] or }
+    candidates += [re.sub(r",(\s*[}\]])", r"\1", c) for c in list(candidates)]
+
+    for cand in candidates:
+        try:
+            data = json.loads(cand)
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if isinstance(data, dict) and isinstance(data.get("entities"), list):
+            return [e for e in data["entities"] if isinstance(e, dict)]
+        if isinstance(data, list):
+            return [e for e in data if isinstance(e, dict)]
+
+    # last resort: collect individual {...} objects that parse and look like
+    # entities — salvages a truncated/partly-malformed list.
+    salvaged = []
+    for m in _ENTITY_OBJ_RE.finditer(text):
+        try:
+            obj = json.loads(m.group(0))
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if isinstance(obj, dict) and obj.get("text") and obj.get("type"):
+            salvaged.append(obj)
+    return salvaged
+
+
 def _extract_llm(transcription: str) -> dict:
     """
     Extract entities from the full transcription (all chunks), not a truncated
@@ -122,11 +168,28 @@ def _extract_llm(transcription: str) -> dict:
         )
         try:
             raw = gs.chat_text(prompt, system=None, max_tokens=8000)
-            cleaned = _strip_code_fences(raw)
-            data = json.loads(cleaned)
-            all_entities.extend(data.get("entities", []))
-        except (json.JSONDecodeError, Exception) as e:
-            logger.warning(f"[Agent C] Extraktion fehlgeschlagen (chunk {i+1}): {e}")
+        except Exception as e:
+            logger.warning(f"[Agent C] LLM-Aufruf fehlgeschlagen (chunk {i+1}): {e}")
+            continue
+
+        ents = _loads_entities(raw)
+        # If nothing parsed from a non-empty reply, retry ONCE — sampling variance
+        # alone usually yields parseable JSON, reinforced by an explicit-format nudge.
+        if not ents and raw and raw.strip():
+            logger.warning(
+                f"[Agent C] Chunk {i+1}: JSON nicht parsebar, Retry …")
+            try:
+                raw = gs.chat_text(
+                    prompt + "\n\nWICHTIG: Antworte AUSSCHLIESSLICH mit gültigem "
+                    "JSON, kein Text davor oder danach.",
+                    system=None, max_tokens=8000)
+                ents = _loads_entities(raw)
+            except Exception as e:
+                logger.warning(f"[Agent C] Retry fehlgeschlagen (chunk {i+1}): {e}")
+            if not ents:
+                logger.warning(
+                    f"[Agent C] Chunk {i+1}: auch nach Retry kein JSON — übersprungen")
+        all_entities.extend(ents)
 
     # Deduplicate by (text, type) — last occurrence wins for duplicates
     seen: dict[tuple, dict] = {}
