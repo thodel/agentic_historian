@@ -16,6 +16,7 @@ logged and returns None, never breaking the pipeline.
 from __future__ import annotations
 
 import base64
+import json
 from pathlib import Path
 from typing import Optional
 
@@ -63,18 +64,80 @@ def collect_artifacts(doc_id: str) -> dict[str, Path]:
     return {name: p for name, p in candidates.items() if p.exists()}
 
 
+def _val(x) -> str:
+    """Unwrap Agent B's ``{"wert": …}`` element shape (or return the value)."""
+    if isinstance(x, dict):
+        return str(x.get("wert") or x.get("value") or "")
+    return "" if x is None else str(x)
+
+
+_AUTHORITIES = (
+    ("gnd", "GND", "https://d-nb.info/gnd/{}"),
+    ("hls", "HLS", "https://hls-dhs-dss.ch/de/{}"),
+    ("wikidata", "WD", "https://www.wikidata.org/entity/{}"),
+)
+
+
+def _entity_links(ent: dict) -> str:
+    out = []
+    for key, label, tmpl in _AUTHORITIES:
+        v = ent.get(key) or ent.get(f"{key}_id")
+        if v:
+            out.append(f"[{label}]({tmpl.format(v)})")
+    return " · ".join(out)
+
+
 def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str]) -> str:
-    """A minimal per-document page (the rich catalogue is #201)."""
-    lines = ["---", f"doc_id: {doc_id}", "---", "", f"# {doc_id}", ""]
+    """Render the per-document page (#201): metadata + entities (with authority
+    links) + transcription + file links. Parses ``pipeline.json`` (the single
+    source that carries description/entities/a_meta); degrades gracefully.
+    """
+    pipe: dict = {}
+    if "pipeline.json" in artifacts:
+        try:
+            pipe = json.loads(artifacts["pipeline.json"].decode("utf-8", "replace"))
+        except (ValueError, TypeError):
+            pipe = {}
+    sj = (pipe.get("description") or {}).get("source_json") or {}
+    a_meta = pipe.get("a_meta") or {}
+    entities = (pipe.get("entities") or {}).get("entities") or []
+    transcription = pipe.get("transcription") or \
+        artifacts.get("transcription.txt", b"").decode("utf-8", "replace")
+
+    L = ["---", "layout: default", f"title: {doc_id}", "---", "", f"# {doc_id}", ""]
     if source_url:
-        lines += [f"**Quelle:** [{source_url}]({source_url})", ""]
-    txt = artifacts.get("transcription.txt")
-    if txt:
-        body = txt.decode("utf-8", "replace").strip()
-        lines += ["## Transkription", "", "```", body, "```", ""]
-    lines += ["## Dateien", ""]
-    lines += [f"- [{name}]({name})" for name in sorted(artifacts) if name != "index.md"]
-    return "\n".join(lines) + "\n"
+        L += [f"**Quelle:** [{source_url}]({source_url})", ""]
+
+    meta = []
+    for element, label in (("Datierung", "Datierung"), ("Sprache", "Sprache"),
+                           ("Schrift", "Schrift")):
+        v = _val(sj.get(element))
+        if v:
+            meta.append(f"| {label} | {v} |")
+    if a_meta.get("qa_score") is not None:
+        meta.append(f"| HTR | {a_meta.get('source', '?')} (QA {a_meta.get('qa_score')}) |")
+    if meta:
+        L += ["## Metadaten", "", "| Feld | Wert |", "|---|---|", *meta, ""]
+
+    if entities:
+        L += ["## Entitäten", ""]
+        by_type: dict[str, list] = {}
+        for e in entities:
+            by_type.setdefault(e.get("type", "?"), []).append(e)
+        for t in sorted(by_type):
+            L.append(f"### {t}")
+            for e in by_type[t]:
+                name = e.get("normalised") or e.get("text") or ""
+                links = _entity_links(e)
+                L.append(f"- {name}" + (f" — {links}" if links else ""))
+            L.append("")
+
+    if transcription.strip():
+        L += ["## Transkription", "", "```", transcription.strip(), "```", ""]
+
+    L += ["## Dateien", ""]
+    L += [f"- [{name}]({name})" for name in sorted(artifacts) if name != "index.md"]
+    return "\n".join(L) + "\n"
 
 
 def _commit_files(files: dict[str, bytes], message: str,
