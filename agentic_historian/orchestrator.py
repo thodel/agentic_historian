@@ -336,8 +336,23 @@ def run_full_pipeline(
 
     # Pipeline-Resultat speichern
     _save_pipeline_result(doc_id, ctx)
+    _publish_outputs(doc_id)
 
     return ctx.to_json()
+
+
+def _publish_outputs(doc_id: str) -> None:
+    """Publish this doc's outputs to the GitHub output repo (#200).
+
+    Opt-in (ENABLE_GITHUB_PUBLISH) and non-fatal — any failure is swallowed so
+    publishing never breaks the pipeline.
+    """
+    try:
+        from utils import publish_github
+        if publish_github.is_enabled():
+            publish_github.publish_doc(doc_id)
+    except Exception as e:
+        logger.warning(f"[Orchestrator] GitHub publish skipped ({doc_id}): {e}")
 
 
 def run_full_pipeline_group(
@@ -402,6 +417,7 @@ def run_full_pipeline_group(
             ctx.errors.append({"agent": "D", "error": str(e)})
 
     _save_pipeline_result(doc_id, ctx)
+    _publish_outputs(doc_id)
     logger.info(f"[Orchestrator] Order fertig: {doc_id} (QA {avg_qa:.2f}, {len(pages)} Seiten)")
     return ctx.to_json()
 
