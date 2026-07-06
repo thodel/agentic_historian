@@ -170,6 +170,15 @@ class ModelMatch:
         return self.score < other.score
 
 
+# Script weights: exact match is the dominant signal; a known-script mismatch is
+# penalised (not merely un-rewarded) so a wrong-script model is demoted below a
+# script-agnostic pick. Tuned so script_exact > lang+century and a mismatch pulls
+# a lang+century model below a correct-script one.
+SCRIPT_EXACT = 0.6
+SCRIPT_FUZZY = 0.3
+SCRIPT_MISMATCH = -0.35
+
+
 def score_model(
     model: KrakenModel,
     *,
@@ -189,17 +198,26 @@ def score_model(
     norm_script = normalise_script(script) if script else None
     norm_lang   = normalise_lang(lang) if lang else None
 
-    # Script match
+    # Script match — the strongest signal for HTR: a kraken model trained on the
+    # wrong script produces garbage even when language/century agree. So an exact
+    # script match dominates, and a KNOWN-script MISMATCH is penalised so a
+    # wrong-script model can't win on lang+century alone (#191 follow-up: a
+    # Textura model was picked for a cursive hand). When the script is unknown
+    # (criteria has none), scoring is unchanged.
     if norm_script and model.script:
         norm_model_script = normalise_script(model.script)
         if norm_script == norm_model_script:
-            score += 0.4
+            score += SCRIPT_EXACT
             matched.append("script")
             reasons.append(f"script={model.script}")
         elif norm_script in norm_model_script or norm_model_script in norm_script:
-            score += 0.2
+            score += SCRIPT_FUZZY
             matched.append("script~")
             reasons.append(f"script fuzzy: {model.script}")
+        else:
+            score += SCRIPT_MISMATCH
+            matched.append("script-mismatch")
+            reasons.append(f"script mismatch: want {script}, model {model.script}")
 
     # Language match
     if norm_lang and model.lang:
@@ -241,7 +259,10 @@ def score_model(
 
     return ModelMatch(
         model=model,
-        score=min(score, 1.0),
+        # Clamp to [0, 1]: a script mismatch may drive the raw score negative,
+        # which should rank the model last — not exclude it (select_kraken_model
+        # keeps score >= 0), so kraken still runs if every candidate mismatches.
+        score=max(0.0, min(score, 1.0)),
         matched_on=matched,
         reason="; ".join(reasons) if reasons else "no match",
     )
