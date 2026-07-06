@@ -255,12 +255,13 @@ def run_full_pipeline(
     if DUAL_AVAILABLE and ctx.transcription and ctx.description:
         try:
             source_desc_text = ctx.description.get("source_description", "")
-            if source_desc_text or source_json:
+            src_json = ctx.description.get("source_json")
+            if source_desc_text or src_json:
                 kraken_results = _rerun_kraken_with_model_selection(
                     image_path=img,
                     source_description=source_desc_text,
                     lang=lang,
-                    source_json=ctx.description.get("source_json"),
+                    source_json=src_json,
                 )
                 # Reconcile VLM (Phase 1) with kraken (Phase 3) instead of
                 # blindly preferring kraken.  Both transcriptions are kept;

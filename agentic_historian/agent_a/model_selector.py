@@ -80,7 +80,9 @@ def parse_century(date_str: str) -> Optional[int]:
     m = re.search(r"(\d{4})\s*[-–]\s*(\d{4})", s)
     if m:
         y1, y2 = int(m.group(1)), int(m.group(2))
-        return int(round((y1 / 100 + y2 / 100) / 2))
+        # Use the same +1 convention as the single-year branch below (the 1300s
+        # are the 14th c.), so a range midpoint agrees with a single year.
+        return int(round(((y1 // 100 + 1) + (y2 // 100 + 1)) / 2))
     # single year near a century
     m = re.search(r"\b(1\d)\d{2}\b", s)
     if m:
@@ -282,7 +284,7 @@ class SourceCriteria:
         script = None
         for kw, canonical in SCRIPT_ALIASES.items():
             if kw in desc:
-                script = canonical[0] if isinstance(canonical, list) else canonical
+                script = kw  # store the canonical key (matches from_source_json)
                 break
 
         # Extract century / date
