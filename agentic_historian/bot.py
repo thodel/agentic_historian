@@ -9,7 +9,7 @@ import logging
 from pathlib import Path
 
 import config
-from orchestrator import run_full_pipeline, run_full_pipeline_group, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
+from orchestrator import run_full_pipeline, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
 from discord import Intents, Option
 from discord.ext import commands
 
@@ -299,7 +299,7 @@ async def pull_folder_cmd(
 ):
     await ctx.defer()
     from utils import switchdrive
-    import shutil
+    import ingest
 
     if not switchdrive.is_configured():
         await ctx.followup.send(
@@ -309,36 +309,10 @@ async def pull_folder_cmd(
 
     parent = folder or config.SWITCHDRIVE_REMOTE_DIR
 
-    def _work():
-        # Each immediate subfolder = one order. If there are none, treat the parent
-        # itself as a single order (loose images directly in it).
-        orders = switchdrive.list_subdirs(parent) or [parent]
-        already = set() if reprocess else switchdrive.load_processed()
-        res = {"done": [], "skipped": [], "empty": [], "errors": []}
-        for order in orders:
-            order_id = order.strip("/").replace("/", "__")
-            if order_id in already:
-                res["skipped"].append(order_id)
-                continue
-            staging = config.HOT_FOLDER / "_orders" / order_id
-            try:
-                files = switchdrive.pull_folder(order, staging, recursive=True)
-                if not files:
-                    res["empty"].append(order_id)
-                    continue
-                doc_id = Path(order.rstrip("/")).name or order_id
-                run_full_pipeline_group(doc_id, files)
-                switchdrive.mark_processed(order_id)
-                res["done"].append(f"{doc_id} ({len(files)}p)")
-            except Exception as e:
-                logger.exception(f"pull_folder error for {order_id}")
-                res["errors"].append(f"{order_id}: {e}")
-            finally:
-                shutil.rmtree(staging, ignore_errors=True)
-        return res
-
     try:
-        res = await _run_blocking(ctx, _work)
+        # Ingestion logic lives in ingest.run_switchdrive_orders (#33) so any UI
+        # is a thin shell; the bot only renders the result.
+        res = await _run_blocking(ctx, ingest.run_switchdrive_orders, parent, reprocess)
         if res is None:
             return
         msg = (
