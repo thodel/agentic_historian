@@ -29,10 +29,18 @@ utils/
   switchdrive.py        — WebDAV ingestion from SwitchDrive
   metrics.py            — per-run telemetry (Agent E)
 orchestrator.py   — A→B→(kraken re-run)→C(→D) pipeline wiring (single doc + grouped "order")
+ingest.py         — SwitchDrive order ingestion (UI-agnostic core; bot is a thin shell, #33)
 runstate.py       — per-document run state + stage-invalidation state machine (HITL)
 routing_card.py   — HITL Gate-1 routing card (metadata selects → re-route HTR)
 path_compare.py   — HITL Gate-2 path-comparison card (measured CER)
-bot.py            — Discord bot (py-cord slash commands)
+uncertainty.py    — HITL gate-blocking rules + timeouts (when a gate interrupts)
+agent_tools.py    — uniform tool registry over the agents (A–E callable by name, #41)
+nl_orchestrator.py — NL/Scholar-in-the-Loop planner: LLM picks which agent tools to run (#32)
+semantic.py       — embedding retrieval + reproducible clustering with LLM labels (#28)
+utils/publish_github.py — publish outputs to the public catalogue repo (one commit/doc, #200)
+knowledge_hub/store.py  — swappable HubStore backend seam (JSON today, QLEVER at WP4, #26)
+output_site/      — scaffolding installed into the output repo (Pages config, index Action)
+bot.py            — Discord bot (py-cord slash commands; thin shell over the core modules)
 config.py         — central config + role-based GPUStack routing
 docs/knowledge_hub.md — MCP-federation methodology + how to add a source
 ```
@@ -90,8 +98,28 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
 | `VOYANT_API_URL` | Self-hosted Voyant instance (Agent D) |
 | `ENABLE_HLS_LOOKUP` / `HLS_DATA_PATH` | Offline HLS fallback (primary path is the HLS MCP) |
+| `ENABLE_GITHUB_PUBLISH` | Publish processed outputs to the public catalogue repo (default `false`) |
+| `GITHUB_OUTPUT_REPO` / `_BRANCH` | Output repo (default `thodel/agentic-historian-outputs`, `main`) |
+| `SOURCE_URL_BASE` | Base URL for source-image links on published pages (empty = no link) |
+| `ENABLE_ROUTING_PRIOR` | Additive routing prior from historian feedback in model selection (default `false`) |
+| `ORCHESTRATOR_LLM_ENABLED` | Optional LLM routing overlay for Phase 4+ decisions (default `false`) |
+| `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
 
 See `workspace/gpustack.env.example` for the full template.
+
+## Publishing outputs — GitHub + Pages
+
+With `ENABLE_GITHUB_PUBLISH=true`, every processed document is committed to the
+public **output repo** ([thodel/agentic-historian-outputs](https://github.com/thodel/agentic-historian-outputs))
+as `docs/<doc_id>/` — transcription, source description, entities, `pipeline.json`
+and a rendered `index.md` (metadata, entities with GND/HLS/Wikidata links, source
+link via `SOURCE_URL_BASE`) — **one atomic commit per document**, so every re-run
+is a reviewable diff. Only text artifacts are published; source images are linked,
+never committed. A build Action in the output repo regenerates the catalogue
+index; GitHub Pages (Settings → Pages → `main` `/docs`) serves it. One-time
+output-repo setup lives in [`output_site/README.md`](output_site/README.md).
+The publishing token needs `contents: write` on the output repo; failures are
+logged and never break the pipeline.
 
 ## Contributing — PR & issue rules
 
@@ -281,15 +309,30 @@ be segmented first (e.g. via kraken `blla`).
 
 ## Status
 
-The core pipeline is operational (VLM-first) with CI on every PR. See
-`IMPLEMENTATION_PLAN.md` for the detailed roadmap and `AGENTIC_HITL_PLAN.md`
-for the interactive-feedback work.
+The core pipeline is operational and verified live end-to-end (2026-07): VLM
+HTR → Ad-Fontes description → kraken re-run with script-aware model selection →
+entities with 4/4 MCP knowledge-hub sources. CI runs the full offline suite on
+every PR. See `IMPLEMENTATION_PLAN.md` and `AGENTIC_HITL_PLAN.md` for history.
 
 - Scaffold + Discord bot, Agents A–E, hot-folder/SwitchDrive ingestion ✅
-- **Knowledge Hub — MCP federation ✅** (registry + methodology; client, resolver, federated `/search`, Agent C linking)
-- Code-review remediation ✅ (external review 2026-07; last item: reconciliation tuning #17)
-- **serving-atr-inference gateway** 🔄 (auth + live registry done; TrOCR-via-gateway + reconciliation remaining)
-- **Agentic HITL — clickable routing cards + metadata-driven re-runs** 🔄 (Gate 1/2 + RunState done; Gate 3, persistence, gating remaining)
-- kraken activation, Voyant, NL/Scholar-in-the-Loop orchestrator ⬜
+- **Knowledge Hub — MCP federation ✅** (SSE + streamable-HTTP transports; HLS/HBLS/KF/EOS live; federated `/search`; Agent C linking)
+- **serving-atr-inference gateway ✅** (auth, live registry, kraken via `/ocr`; loud 4xx tracked in serving-atr-inference#21)
+- **Agentic HITL ✅ as machinery** (Gates 1–3, RunState invalidation, uncertainty rules, feedback log, routing prior, optional LLM router) — auto-wiring the gates into the pipeline is a Phase-0 follow-up
+- **Publishing to GitHub + Pages ✅** (opt-in; see "Publishing outputs")
+- NL/SitL planner prototype, semantic clustering, agent tool registry ✅ (built + tested; Discord wiring lands in Phase 1)
 
-VLM-first is the current operational baseline; kraken/TrOCR is the enhancement track.
+## Roadmap — Phase 1 (in progress)
+
+Tracked in **[#230](https://github.com/thodel/agentic_historian/issues/230)**;
+designed for parallel bots in three waves (each issue carries its order, tests,
+and a live-verification step):
+
+| Epic | Goal | Issues |
+|---|---|---|
+| [#218](https://github.com/thodel/agentic_historian/issues/218) P1-A | Search + cross-document **entity pages** on the Pages catalogue, `/entity` command | #221 → #222/#223 → #224 |
+| [#219](https://github.com/thodel/agentic_historian/issues/219) P1-B | **Semi-automatic reprocessing**: RunState as single source of truth, `reprocess()` API, hot-folder/gate triggers | #225 → #226 → #227 |
+| [serving-atr-inference#22](https://github.com/thodel/serving-atr-inference/issues/22) P1-C | Weekly **model discovery** (HuggingFace + Zenodo) → curated report issue | #23 → #24 (that repo) |
+| [#220](https://github.com/thodel/agentic_historian/issues/220) P1-D | **MCP onboarding via Discord**: `/mcp_propose` probes an endpoint and opens a reviewed registry PR (never hot-loads) | #228 → #229 |
+
+Wave 1 issues (#221, #225, #228, serving-atr#23) are independent and can start
+immediately; Wave-3 issues all touch `bot.py` and must run sequentially.
