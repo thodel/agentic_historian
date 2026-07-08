@@ -35,9 +35,9 @@ jobs:
       # Run ALL offline tests — existing ones plus the new test_ah_*.py
       # regression tests that ship with the fix PRs (#96-#103).
       # pyproject.toml lives in agentic_historian/ so install from there.
-      # --no-deps: all deps already in requirements-dev.txt.
+      # python -m pytest ensures pytest uses the same Python that pip installed to.
       - name: Run pytest
         run: |
           pip install -e agentic_historian/ --no-deps
-          pytest agentic_historian/tests/ \
+          python -m pytest agentic_historian/tests/ \
                   -v --tb=short
