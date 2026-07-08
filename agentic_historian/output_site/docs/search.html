@@ -1,0 +1,50 @@
+---
+layout: default
+title: Suche
+---
+{%- comment -%}
+  Client-side catalogue search (#223, P1-A3). Static — fetches search-index.json
+  (built by scripts/build_index.py) and filters in the browser via assets/search.js.
+  relative_url keeps paths correct under a project Pages base path (/repo/).
+{%- endcomment -%}
+
+<style>
+  .ah-search-wrap { max-width: 46rem; margin: 1rem 0; }
+  #ah-search-box {
+    width: 100%; box-sizing: border-box; padding: .6rem .8rem;
+    font-size: 1.1rem; border: 1px solid #bbb; border-radius: 6px;
+  }
+  #ah-search-count { color: #666; font-size: .85rem; margin: .4rem 0 1rem; }
+  .ah-hits { list-style: none; padding: 0; margin: 0; }
+  .ah-hit { padding: .8rem 0; border-bottom: 1px solid #eee; }
+  .ah-hit-title { font-size: 1.1rem; font-weight: 600; }
+  .ah-hit-meta { color: #555; font-size: .85rem; margin: .15rem 0; }
+  .ah-hit-snippet { margin: .3rem 0; color: #333; }
+  .ah-hit-ents { margin-top: .3rem; }
+  .ah-ent {
+    display: inline-block; background: #eef; color: #224;
+    border-radius: 4px; padding: .05rem .4rem; margin: .1rem .2rem .1rem 0;
+    font-size: .8rem;
+  }
+  .ah-search-empty { color: #777; font-style: italic; }
+</style>
+
+<div class="ah-search-wrap">
+  <input
+    id="ah-search-box"
+    type="search"
+    autocomplete="off"
+    disabled
+    placeholder="Suchindex wird geladen…"
+    data-index="{{ '/search-index.json' | relative_url }}"
+    aria-label="Volltextsuche im Dokumentkatalog" />
+  <div id="ah-search-count" aria-live="polite"></div>
+  <div id="ah-search-results"></div>
+</div>
+
+<noscript>
+  <p>Die Suche benötigt JavaScript. Ohne JavaScript steht die
+  <a href="{{ '/' | relative_url }}">Dokumentliste</a> zur Verfügung.</p>
+</noscript>
+
+<script src="{{ '/assets/search.js' | relative_url }}"></script>

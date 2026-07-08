@@ -118,7 +118,7 @@ def build(docs_dir: Path | str | None = None) -> int:
         "",
         "# Verarbeitete Dokumente",
         "",
-        f"{len(rows)} Dokument(e).",
+        f"{len(rows)} Dokument(e). · [🔍 Volltextsuche](search.html)",
         "",
         "| Dokument | Datierung | Sprache | Schrift | Entitäten |",
         "|---|---|---|---|---|",
