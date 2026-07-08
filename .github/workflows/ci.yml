@@ -34,7 +34,9 @@ jobs:
 
       # Run ALL offline tests — existing ones plus the new test_ah_*.py
       # regression tests that ship with the fix PRs (#96-#103).
+      # pip install -e . makes agentic_historian importable by system pytest.
       - name: Run pytest
         run: |
+          pip install -e .
           pytest agentic_historian/tests/ \
                   -v --tb=short
