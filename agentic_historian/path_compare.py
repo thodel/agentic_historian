@@ -37,7 +37,11 @@ def compare_paths(paths: dict[str, str]) -> dict:
     for i in range(len(names)):
         for j in range(i + 1, len(names)):
             a, b = names[i], names[j]
-            pairs[(a, b)] = cer(paths[a], paths[b])
+            # Gate-2 measures RAW divergence between HTR paths: whitespace, case,
+            # and punctuation are part of the transcription, so no normalisation
+            # (explicit — #236 changed cer()'s defaults to lenient).
+            pairs[(a, b)] = cer(paths[a], paths[b], ignore_case=False,
+                                ignore_whitespace=False, ignore_punctuation=False)
     return {"names": names, "pairs": pairs,
             "max_cer": max(pairs.values()) if pairs else 0.0}
 
