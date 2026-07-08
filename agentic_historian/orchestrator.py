@@ -244,9 +244,25 @@ def run_full_pipeline(
                 f"[Orchestrator] Agent A fertig "
                 f"(QA: {a_result.get('qa_score', 0):.2f})"
             )
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["vlm"] = DONE
+                state.artifacts["transcription"] = ctx.transcription
+                state.artifacts["a_meta"] = ctx.a_meta
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Phase 1 RunState persist skipped: {e2}")
     except Exception as e:
         logger.error(f"[Orchestrator] Phase 1 (Agent A) fehlgeschlagen: {e}")
         ctx.errors.append({"agent": "A", "phase": 1, "error": str(e)})
+        try:
+            from runstate import RunState, DONE, ERROR
+            state = RunState.load_or_new(doc_id)
+            state.stage_status["vlm"] = ERROR
+            state.save()
+        except Exception:
+            pass
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 2: Agent B — Quellenbeschreibung + Modellvorschlag
@@ -259,6 +275,14 @@ def run_full_pipeline(
                 image_path=str(img) if img != fp else None,
             )
             logger.info("[Orchestrator] Phase 2 (Agent B) fertig")
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["agent_b"] = DONE
+                state.artifacts["description"] = ctx.description
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Phase 2 RunState persist skipped: {e2}")
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 2 (Agent B) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
@@ -302,6 +326,18 @@ def run_full_pipeline(
                 ctx.a_meta["error_kraken"] = kraken_results["error_kraken"]
                 ctx.a_meta["error_party"] = kraken_results["error_party"]
                 logger.info("[Orchestrator] Phase 3 (kraken re-run) fertig")
+            # Record kraken + reconcile stages into RunState
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["model_select"] = DONE
+                state.stage_status["kraken"] = DONE
+                state.stage_status["reconcile"] = DONE
+                state.artifacts["transcription"] = ctx.transcription
+                state.artifacts["a_meta"] = ctx.a_meta
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Phase 3 RunState persist skipped: {e2}")
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 3 (kraken re-run) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
@@ -313,6 +349,14 @@ def run_full_pipeline(
         try:
             ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
             logger.info("[Orchestrator] Phase 4 (Agent C) fertig")
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["agent_c"] = DONE
+                state.artifacts["entities"] = ctx.entities
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Phase 4 RunState persist skipped: {e2}")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "C", "error": str(e)})
@@ -324,6 +368,13 @@ def run_full_pipeline(
         try:
             agent_d.analyse_corpus(corpus_name="default")
             logger.info("[Orchestrator] Phase 5 (Agent D) fertig")
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["agent_d"] = DONE
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Phase 5 RunState persist skipped: {e2}")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent D fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "D", "error": str(e)})
@@ -334,7 +385,7 @@ def run_full_pipeline(
     # gating have real values to work with. Human-pinned criteria (from a prior
     # correction) are preserved — we only fill fields not already set.
     try:
-        from runstate import RunState
+        from runstate import RunState, DONE, ERROR
         from agent_a.model_selector import SourceCriteria
         state = RunState.load_or_new(doc_id)
         desc_text = (ctx.description or {}).get("source_description", "")
@@ -354,8 +405,24 @@ def run_full_pipeline(
     except Exception as e:
         logger.warning(f"[Orchestrator] RunState persist skipped ({doc_id}): {e}")
 
-    # Pipeline-Resultat speichern
-    _save_pipeline_result(doc_id, ctx)
+    # ── Persist RunState (single source of truth) ─────────────────────────
+    # RunState is kept up-to-date after every phase so a crash at any point
+    # leaves a resumable, partially-done record in data/runs/<doc_id>.json.
+    # pipeline.json is derived from it on completion — never written directly.
+    try:
+        from runstate import RunState, DONE, ERROR
+        state = RunState.load_or_new(doc_id)
+        # Carry source_url forward
+        state.source_url = ctx.source_url
+        # Persist a back-compat hint so downstream readers know which version
+        # of the pipeline produced this RunState.
+        state.artifacts["pipeline_version"] = "225-derived"
+        state.save()
+    except Exception as e:
+        logger.warning(f"[Orchestrator] RunState persist skipped ({doc_id}): {e}")
+
+    # Derive pipeline.json from RunState (same shape as old ctx.to_json())
+    _save_pipeline_result(doc_id, ctx, from_runstate=True)
     _publish_outputs(doc_id, ctx.source_url)
 
     return ctx.to_json()
@@ -412,6 +479,15 @@ def run_full_pipeline_group(
     ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa, "source": "grouped"}
     if ctx.transcription:
         agent_a.save_transcription(doc_id, ctx.transcription, avg_qa, "grouped")
+        try:
+            from runstate import RunState, DONE, ERROR
+            state = RunState.load_or_new(doc_id)
+            state.stage_status["vlm"] = DONE
+            state.artifacts["transcription"] = ctx.transcription
+            state.artifacts["a_meta"] = ctx.a_meta
+            state.save()
+        except Exception as e2:
+            logger.warning(f"[Orchestrator] Group Phase 1 RunState persist skipped: {e2}")
 
     # PHASE 2: Agent B — one source description for the whole order
     if ctx.transcription:
@@ -421,6 +497,14 @@ def run_full_pipeline_group(
                 transcription=ctx.transcription,
                 image_path=str(pages[0]) if pages else None,
             )
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["agent_b"] = DONE
+                state.artifacts["description"] = ctx.description
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Group Phase 2 RunState persist skipped: {e2}")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent B fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
@@ -429,6 +513,14 @@ def run_full_pipeline_group(
     if ctx.transcription:
         try:
             ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
+            try:
+                from runstate import RunState, DONE, ERROR
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["agent_c"] = DONE
+                state.artifacts["entities"] = ctx.entities
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Group Phase 3 RunState persist skipped: {e2}")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "C", "error": str(e)})
@@ -533,11 +625,48 @@ def _append_errors_to_log(doc_id: str, errors: list) -> None:
     logger.info(f"[Orchestrator] {len(errors)} error(s) written to {log_path}")
 
 
-def _save_pipeline_result(doc_id: str, ctx: PipelineContext):
+def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: bool = False):
+    """Write <doc_id>_pipeline.json.
+
+    When ``from_runstate=True`` (normal path, #225): the RunState at
+    data/runs/<doc_id>.json is the authoritative record; pipeline.json is
+    derived from it so it is always consistent with what actually ran.
+    When ``from_runstate=False`` (legacy callers / back-compat): writes
+    ctx.to_json() directly.
+    """
     out = config.OUTPUTS_DIR / f"{doc_id}_pipeline.json"
-    with open(out, "w", encoding="utf-8") as f:
-        json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
-    logger.info(f"[Orchestrator] Pipeline-Resultat: {out}")
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    if from_runstate:
+        try:
+            from runstate import RunState, DONE, ERROR
+            state = RunState.load(doc_id)
+            # Derive the same field-shape that ctx.to_json() used to produce
+            pipeline = {
+                "doc_id": doc_id,
+                "transcription": state.artifacts.get("transcription", ""),
+                "description": state.artifacts.get("description", {}),
+                "entities": state.artifacts.get("entities", {}),
+                "errors": ctx.errors,
+                # a_meta derived from RunState artifacts
+                "a_meta": state.artifacts.get("a_meta", {}),
+            }
+            if state.source_url:
+                pipeline["source_url"] = state.source_url
+            with open(out, "w", encoding="utf-8") as f:
+                json.dump(pipeline, f, ensure_ascii=False, indent=2)
+            logger.info(f"[Orchestrator] Pipeline-Resultat (derived from RunState): {out}")
+        except Exception as e:
+            # Fallback: if RunState load fails for any reason, fall back to ctx
+            logger.warning(f"[Orchestrator] RunState derive failed ({doc_id}), "
+                           f"falling back to ctx.to_json(): {e}")
+            with open(out, "w", encoding="utf-8") as f:
+                json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
+    else:
+        # Legacy / back-compat path (e.g. direct callers)
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
+        logger.info(f"[Orchestrator] Pipeline-Resultat: {out}")
 
     # Persist errors to the persistent meta error log
     _append_errors_to_log(doc_id, ctx.errors)

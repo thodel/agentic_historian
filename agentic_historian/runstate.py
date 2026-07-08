@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -99,6 +100,7 @@ class RunState(BaseModel):
     gate_decisions: dict[str, Any] = Field(default_factory=dict)
     message_ids: dict[str, Any] = Field(default_factory=dict)   # Discord placeholder
     stale: list[str] = Field(default_factory=list)
+    source_url: Optional[str] = None                                    # #208 link to source image
 
     # ── queries ──────────────────────────────────────────────────────────────
 
@@ -170,7 +172,9 @@ class RunState(BaseModel):
     def save(self, path: Optional[Path] = None) -> Path:
         p = path or self._path(self.doc_id)
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(self.model_dump_json(indent=2), encoding="utf-8")
+        tmp = p.with_suffix(".json.tmp")
+        tmp.write_text(self.model_dump_json(indent=2), encoding="utf-8")
+        os.replace(tmp, p)          # atomic on POSIX
         return p
 
     @classmethod
