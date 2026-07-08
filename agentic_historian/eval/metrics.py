@@ -24,30 +24,60 @@ def normalise(text: str) -> str:
     return " ".join(tok.strip(string.punctuation) for tok in text.split())
 
 
-def cer(reference: str, hypothesis: str) -> float:
+def cer(
+    reference: str,
+    hypothesis: str,
+    *,
+    ignore_case: bool = True,
+    ignore_whitespace: bool = True,
+    ignore_punctuation: bool = True,
+    abbrev_fold: bool = False,
+) -> float:
     """
-    Character Error Rate = Levenshtein distance / reference length.
+    Character Error Rate = Levenshtein edit distance / reference length.
 
-    Returns a value that can exceed 1.0 when the hypothesis contains many
-    insertions relative to the reference length (e.g. hallucinated text).
-    The 0-1 range is a convenient fiction for the perfect-to-worst case on
-    same-length strings; it is NOT a clamped probability.
+    All normalisation behaviour is **explicit** via keyword arguments so
+    callers can reason precisely about what is being measured.
 
-    To compare across documents of very different lengths, consider
-    weighting by reference length or using WER alongside CER.
+    Parameters
+    ----------
+    reference, hypothesis : str
+        The reference (ground-truth) text and hypothesis (engine output).
+    ignore_case : bool  (default True)
+        Case-insensitive comparison.
+    ignore_whitespace : bool  (default True)
+        Collapse runs of whitespace to single spaces; strip ends.
+    ignore_punctuation : bool  (default True)
+        Remove punctuation characters from both strings before comparing.
+    abbrev_fold : bool  (default False)
+        Fold common abbreviation markers in historical German:
+        '̄' (macron) → '', 'ʒ' → 'z', 'ç' → 'c', 'ı' → 'i', 'ß' → 'ss'.
+        Use when comparing early-modern print with modern editorial text.
+
+    Returns a float that can exceed 1.0 when the hypothesis contains many
+    insertions (e.g. hallucinated text) relative to the reference length.
     """
-    ref = normalise(reference)
-    hyp = normalise(hypothesis)
+    def _normalise(text: str) -> str:
+        if abbrev_fold:
+            text = _fold_abbrevs(text)
+        if ignore_case:
+            text = text.lower()
+        if ignore_whitespace:
+            text = re.sub(r"\s+", " ", text).strip()
+        if ignore_punctuation:
+            text = text.translate(str.maketrans("", "", string.punctuation))
+        return text
+
+    ref = _normalise(reference)
+    hyp = _normalise(hypothesis)
 
     if not ref:
         return 0.0 if not hyp else 1.0
 
-    # Levenshtein distance via dynamic programming
     m, n = len(ref), len(hyp)
-    # Space-optimised: only keep two rows
+    # Space-optimised DP: two rows
     prev = list(range(m + 1))
     curr = [0] * (m + 1)
-
     for i in range(1, n + 1):
         curr[0] = i
         for j in range(1, m + 1):
@@ -56,21 +86,58 @@ def cer(reference: str, hypothesis: str) -> float:
             else:
                 curr[j] = 1 + min(prev[j], curr[j - 1], prev[j - 1])
         prev, curr = curr, prev
-
-    distance = prev[m]
-    return distance / m
+    return prev[m] / m
 
 
-def wer(reference: str, hypothesis: str) -> float:
+# ─── Private helpers (not exported at package level) ─────────────────────────
+
+_ABBREV_FOLD_MAP = {
+    "ā": "a", "ē": "e", "ī": "i", "ō": "o", "ū": "u",  # Latin macron
+    "Ā": "A", "Ē": "E", "Ī": "I", "Ō": "O", "Ū": "U",
+    "ʒ": "z", "Ç": "C", "ç": "c", "ı": "i",             # historical variants
+    "ß": "ss",                                          # long-s → ss
+    "ſ": "s",                                           # long-s → s
+}
+
+
+def _fold_abbrevs(text: str) -> str:
+    """Apply abbreviation folding for early-modern German comparison."""
+    for old, new in _ABBREV_FOLD_MAP.items():
+        text = text.replace(old, new)
+    return text
+
+
+def wer(
+    reference: str,
+    hypothesis: str,
+    *,
+    ignore_case: bool = True,
+    ignore_whitespace: bool = True,
+    ignore_punctuation: bool = True,
+    abbrev_fold: bool = False,
+) -> float:
     """
-    Word Error Rate = Levenshtein distance on words / reference word count.
+    Word Error Rate = Levenshtein word-level edit distance / word count.
 
-    Returns a value that can exceed 1.0 when the hypothesis contains many
-    word-level insertions (hallucinated content).  See cer() docstring for
-    the same caveat about the 0-1 "range".
+    Shares all normalisation switches with cer(); see cer() docstring for
+    parameter semantics.
+
+    Returns a float that can exceed 1.0 when the hypothesis contains many
+    word-level insertions (e.g. hallucinated text).
     """
-    ref_words = normalise(reference).split()
-    hyp_words = normalise(hypothesis).split()
+    def _normalise_words(text: str) -> list[str]:
+        if abbrev_fold:
+            text = _fold_abbrevs(text)
+        if ignore_case:
+            text = text.lower()
+        if ignore_whitespace:
+            text = re.sub(r"\s+", " ", text).strip()
+        if ignore_punctuation:
+            text = text.translate(str.maketrans("", "", string.punctuation))
+        return text.split()
+
+    ref_words = _normalise_words(reference)
+    hyp_words = _normalise_words(hypothesis)
 
     if not ref_words:
         return 0.0 if not hyp_words else 1.0
@@ -93,9 +160,15 @@ def wer(reference: str, hypothesis: str) -> float:
 
 
 def levenshtein(s1: str, s2: str) -> int:
-    """Plain Levenshtein distance (used by cer/wer)."""
-    ref = normalise(s1)
-    hyp = normalise(s2)
+    """Plain Levenshtein distance (used internally by cer/wer)."""
+    # Use the default switch combo that cer() uses by default
+    def _n(t):
+        t = t.lower()
+        t = re.sub(r"\s+", " ", t).strip()
+        t = t.translate(str.maketrans("", "", string.punctuation))
+        return t
+    ref = _n(s1)
+    hyp = _n(s2)
     m, n = len(ref), len(hyp)
     if m == 0:
         return n
@@ -112,6 +185,18 @@ def levenshtein(s1: str, s2: str) -> int:
                 curr[j] = 1 + min(prev[j], curr[j - 1], prev[j - 1])
         prev, curr = curr, prev
     return prev[m]
+
+
+def normalise(text: str) -> str:
+    """
+    Backward-compatible single-string normalisation.
+    Equivalent to cer(text, text, ignore_case=True, ignore_whitespace=True,
+    ignore_punctuation=True, abbrev_fold=False) but only applies to the
+    provided string (not pairwise). Used by format_report and external callers.
+    """
+    text = text.lower()
+    text = re.sub(r"\s+", " ", text).strip()
+    return " ".join(tok.strip(string.punctuation) for tok in text.split())
 
 
 def format_report(results: list[dict]) -> str:
