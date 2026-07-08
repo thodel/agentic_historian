@@ -36,5 +36,6 @@ jobs:
       # regression tests that ship with the fix PRs (#96-#103).
       - name: Run pytest
         run: |
-          pytest agentic_historian/tests/ \
+          pip install -e agentic_historian/ --no-deps
+          python -m pytest agentic_historian/tests/ \
                   -v --tb=short
