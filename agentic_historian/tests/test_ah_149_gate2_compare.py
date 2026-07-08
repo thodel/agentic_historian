@@ -45,6 +45,15 @@ def test_compare_paths_computes_pairwise_cer():
     assert comp["max_cer"] > 0.3
 
 
+def test_compare_paths_uses_raw_cer_not_normalised():
+    # #236 changed eval.metrics.cer defaults to lenient (ignore case/ws/punct);
+    # Gate-2 must stay RAW — case/whitespace/punctuation ARE part of an HTR path,
+    # so a diff in only those is genuine divergence, not agreement.
+    comp = pc.compare_paths({"vlm": "Wir Hans, tuend kund.",
+                             "kraken": "wir hans tuend kund"})
+    assert comp["max_cer"] > 0.0    # would be ~0.0 if lenient defaults leaked in
+
+
 def test_compare_ignores_empty_paths():
     comp = pc.compare_paths({"vlm": "abc", "kraken": "", "reconciled": None})
     assert comp["names"] == ["vlm"] and comp["pairs"] == {}
