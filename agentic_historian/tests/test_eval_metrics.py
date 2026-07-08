@@ -1,8 +1,15 @@
 """
-tests/test_eval_metrics.py
-
 Tests for eval/metrics.py — CER and WER computation.
+Run from the repo root:
+    pytest agentic_historian/tests/test_eval_metrics.py
 """
+
+import sys
+from pathlib import Path
+
+PKG = Path(__file__).resolve().parents[1]
+if str(PKG) not in sys.path:
+    sys.path.insert(0, str(PKG))
 
 import pytest
 from eval.metrics import cer, wer, levenshtein, normalise, format_report
