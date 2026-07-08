@@ -524,3 +524,206 @@ def select_best_kraken_model(
 
     matches = select_kraken_model(criteria, **kwargs)
     return matches[0].model if matches else None
+
+# ── TrOCR / HF model selection ───────────────────────────────────────────────
+
+
+def _score_tocr_model(
+    model,
+    lang: Optional[str] = None,
+    century: Optional[int] = None,
+) -> tuple[float, str]:
+    """
+    Score an HFModel for TrOCR selection.
+
+    Only attributes available on HFModel are used: lang, task, requires_line_images.
+    Score is 0.0–1.0 with a reason string.
+    """
+    score = 0.0
+    reasons: list[str] = []
+
+    # Language match (primary signal for TrOCR — it is script-specific)
+    if lang and model.lang:
+        if lang.lower() == model.lang.lower():
+            score += 0.6
+            reasons.append(f"lang={model.lang}")
+        elif model.lang == "mul":
+            score += 0.3  # multilingual model
+            reasons.append("lang=mul (multilingual)")
+
+    # Task filter: must be line-level OCR
+    if model.task in ("line-ocr", "htr"):
+        score += 0.2
+        reasons.append(f"task={model.task}")
+
+    # Century alignment via model notes/name (best-effort heuristic)
+    model_str = (model.name + " " + model.notes).lower()
+    if century:
+        if str(century) in model_str or f"xvi{xvii_century_symbol(century)}" in model_str:
+            score += 0.2
+            reasons.append(f"century={century}")
+
+    reason = ", ".join(reasons) if reasons else "generic match"
+    return score, reason
+
+
+def xvii_century_symbol(c: int) -> str:
+    """Return the century number in Roman numerals (XIII, XIV, XV, XVI, XVII...)."""
+    return {13: "xiii", 14: "xiv", 15: "xv", 16: "xvi", 17: "xvii",
+            18: "xviii", 19: "xix", 20: "xx"}.get(c, str(c))
+
+
+@dataclass
+class _ModelMatchHF:
+    """Ad-hoc match result for HFModel/Trocr selection (compatible interface with ModelMatch)."""
+    model: any
+    score: float
+    matched_on: list[str]
+    reason: str
+
+
+def select_tocr_model(
+    criteria: SourceCriteria,
+    *,
+    top_k: int = 3,
+    require_score_above: float = 0.0,
+) -> list:
+    """
+    Select the best-matching TrOCR (line-level HF) models for given criteria.
+
+    Returns sorted list of _ModelMatchHF (best first).
+    """
+    from agent_a.models import HF_MODELS
+
+    scored = []
+    for m in HF_MODELS.values():
+        if m.task not in ("line-ocr", "htr"):
+            continue
+
+        sc, reason = _score_tocr_model(m, lang=criteria.lang, century=criteria.century)
+        if sc >= require_score_above:
+            scored.append(_ModelMatchHF(
+                model=m,
+                score=sc,
+                matched_on=reason.split(", ") if reason else [],
+                reason=reason,
+            ))
+
+    scored.sort(key=lambda x: x.score, reverse=True)
+
+    if scored:
+        best = scored[0]
+        logger.info(
+            f"[model_selector/trocr] Best match: {best.model.name} "
+            f"(score={best.score:.2f}, {best.reason})"
+        )
+
+    return scored[:top_k]
+
+
+def select_party_model(
+    criteria: SourceCriteria,
+    *,
+    top_k: int = 1,
+    require_score_above: float = 0.0,
+) -> list:
+    """
+    Select the best-matching Party/PARY HTR model.
+
+    Party is a single model (zenodo:20642057) with broad coverage.
+    Returns a 0–1 ModelMatch list.
+    """
+    from agent_a.models import KRAKEN_MODELS
+
+    party = None
+    for m in KRAKEN_MODELS.values():
+        if "20642057" in (m.model_id or ""):
+            party = m
+            break
+
+    if party is None:
+        logger.warning("[model_selector/party] Party model not found in KRAKEN_MODELS")
+        return []
+
+    match = score_model(
+        party,
+        script=criteria.script,
+        lang=criteria.lang,
+        century=criteria.century,
+        document_type=criteria.document_type,
+    )
+    if match.score >= require_score_above:
+        logger.info(
+            f"[model_selector/party] Match: {match.model.name} "
+            f"(score={match.score:.2f}, {match.reason})"
+        )
+        return [match]
+    return []
+
+
+# ── Unified factory ──────────────────────────────────────────────────────────
+
+SUPPORTED_ENGINES = {
+    "kraken": select_kraken_model,
+    "trocr":  select_tocr_model,
+    "party":  select_party_model,
+}
+
+
+def select_best(
+    engine: str,
+    criteria: SourceCriteria | str,
+    *,
+    top_k: int = 1,
+    require_score_above: float = 0.0,
+) -> list[ModelMatch]:
+    """
+    Unified entry point for engine model selection.
+
+    Parameters
+    ----------
+    engine : "kraken" | "trocr" | "party"
+    criteria : SourceCriteria instance or raw description string
+    top_k : number of candidates to return
+    require_score_above : minimum score threshold
+
+    Returns
+    -------
+    Sorted list[ModelMatch] (best first). Empty if engine is unknown or
+    no model meets the score threshold.
+    """
+    if isinstance(criteria, str):
+        criteria = SourceCriteria.from_agent_b(criteria)
+
+    selector = SUPPORTED_ENGINES.get(engine)
+    if selector is None:
+        logger.warning(f"[model_selector] Unknown engine '{engine}' — returning []")
+        return []
+
+    return selector(criteria, top_k=top_k, require_score_above=require_score_above)
+
+
+# ── RecognitionResult dataclass ─────────────────────────────────────────────
+
+from pydantic import BaseModel, Field
+
+
+class RecognitionResult(BaseModel):
+    """
+    The output of a single OCR/HTR engine on one image.
+
+    Stored in PipelineContext.recognitions so all candidates survive to the
+    CER evaluation harness (#234 P1-3) and the reconciliation layer can
+    inspect every candidate before picking the best.
+
+    Pydantic BaseModel so it serialises to JSON automatically when stored
+    in RunState.artifacts and written to pipeline.json.
+    """
+
+    engine:       str = ""            # "vlm" | "kraken" | "trocr" | "party" | "hf"
+    model_id:     str = ""            # canonical model identifier
+    text:         str = ""
+    confidence:   float = 0.0
+    error:        str = ""
+    timing_ms:    int = 0
+    segmented_by: str | None = None   # "kraken-blla" when auto-segment was used

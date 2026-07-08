@@ -13,7 +13,7 @@ Usage:
   result = transcribe_dual("path/to/image.jpg", lang="la", source_description=description_md)
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
@@ -22,7 +22,7 @@ from loguru import logger
 import config
 from utils import gpustack_client as gs
 from agent_a import models
-from agent_a.model_selector import select_kraken_model, SourceCriteria
+from agent_a.model_selector import select_kraken_model, select_best, SourceCriteria, RecognitionResult
 from agent_a.kraken_ocr import _kraken_available
 from agent_a.pary_ocr import party_transcribe, _party_available
 from agent_a.reconcile import (
@@ -61,6 +61,7 @@ class DualTranscriptionResult:
     error_kraken: str = ""
     error_party: str = ""
     error_hf: str = ""
+    recognitions: list = field(default_factory=list)  # all candidates (#234)
     method_used: str = "multi"
 
     def best_transcription(self) -> str:
@@ -377,40 +378,107 @@ def transcribe_dual(
     result.kraken_available = _kraken_available()
     result.party_available = _party_available()
 
-    # ── Path 1: VLM ──────────────────────────────────────────────────────────
-    if run_vlm:
-        result.vlm_transcription, result.vlm_score = _run_vlm(
-            image_path, source_description
-        )
-        if not result.vlm_transcription:
-            result.error_vlm = "No output from VLM"
+    # ── Concurrent fan-out: all enabled OCR paths run in parallel ─────────────
+    # Each _run_* function returns (text_or_empty_str, model_id_or_error_str).
+    # Results are collected into recognitions list for the CER harness (#234).
+    def _make_run_vlm():
+        if not run_vlm:
+            return None
+        def _task():
+            text, score = _run_vlm(image_path, source_description)
+            return RecognitionResult(
+                engine="vlm",
+                model_id=models.get_primary_vlm().model_id,
+                text=text,
+                confidence=score,
+                error="" if text else "No output from VLM",
+            )
+        return _task
 
-    # ── Path 2: kraken (remote service + Agent B model selection) ──────────
-    if run_kraken:
-        kraken_text, kraken_model = _run_kraken(
-            image_path, source_description=source_description, lang=lang
-        )
-        if kraken_text:
-            result.kraken_transcription = kraken_text
-        else:
-            result.error_kraken = kraken_model
+    def _make_run_kraken():
+        if not run_kraken:
+            return None
+        def _task():
+            text, model_or_err = _run_kraken(
+                image_path, source_description=source_description, lang=lang
+            )
+            return RecognitionResult(
+                engine="kraken",
+                model_id=model_or_err if not text else _kraken_model_id_for_text(image_path, source_description, lang) or model_or_err,
+                text=text,
+                error=model_or_err if not text else "",
+            )
+        return _task
 
-    # ── Path 3: Party / PARY HTR ──────────────────────────────────────────────
-    if run_party:
-        party_text, party_msg = _run_party(image_path)
-        if party_text:
-            result.party_transcription = party_text
-        else:
-            result.error_party = party_msg
+    def _make_run_party():
+        if not run_party:
+            return None
+        def _task():
+            text, msg = _run_party(image_path)
+            return RecognitionResult(
+                engine="party",
+                model_id="10.5281/zenodo.20642057",
+                text=text,
+                error=msg if not text else "",
+            )
+        return _task
 
-    # ── Path 4: HuggingFace OCR ──────────────────────────────────────────────
-    if run_hf:
-        hf_text, hf_model_id = _run_hf_ocr(image_path, lang)
-        if hf_text:
-            result.hf_transcription = hf_text
-        else:
-            result.error_hf = hf_model_id
-        result.hf_available = bool(hf_text)
+    def _make_run_hf():
+        if not run_hf:
+            return None
+        def _task():
+            text, model_or_err = _run_hf_ocr(image_path, lang)
+            return RecognitionResult(
+                engine="hf",
+                model_id=model_or_err if not text else model_or_err,
+                text=text,
+                error=model_or_err if not text else "",
+            )
+        return _task
+
+    # Helper: resolve the model_id for kraken after the fact
+    def _kraken_model_id_for_text(image_path, source_description, lang):
+        if source_description:
+            matches = select_best("kraken", SourceCriteria.from_agent_b(source_description), top_k=1)
+            if matches:
+                return matches[0].model.model_id
+        from agent_a import models as m
+        fallback = m.kraken_model_for_lang(lang)
+        return fallback.model_id if fallback else ""
+
+    # Submit all enabled tasks to the thread pool
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = {}
+        for maker in [_make_run_vlm, _make_run_kraken, _make_run_party, _make_run_hf]:
+            task = maker()
+            if task:
+                futures[pool.submit(task)] = None
+
+        for future in as_completed(futures):
+            try:
+                rec = future.result()
+                result.recognitions.append(rec)
+                # Also populate DualTranscriptionResult fields for backward compat
+                if rec.engine == "vlm":
+                    result.vlm_transcription = rec.text
+                    result.vlm_score = rec.confidence
+                    if not rec.text:
+                        result.error_vlm = rec.error
+                elif rec.engine == "kraken":
+                    result.kraken_transcription = rec.text
+                    if not rec.text:
+                        result.error_kraken = rec.error
+                elif rec.engine == "party":
+                    result.party_transcription = rec.text
+                    if not rec.text:
+                        result.error_party = rec.error
+                elif rec.engine == "hf":
+                    result.hf_transcription = rec.text
+                    result.hf_available = bool(rec.text)
+                    if not rec.text:
+                        result.error_hf = rec.error
+            except Exception as exc:
+                logger.warning(f"[dual_pipeline] Path task failed: {exc}")
 
     # ── Reconciliation ────────────────────────────────────────────────────────
     available = [
