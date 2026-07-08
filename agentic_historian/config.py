@@ -126,6 +126,14 @@ MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
 # below a full script match so it only breaks near-ties.
 ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 
+# ── Multi-engine HTR fusion (#237) ───────────────────────────────────────────
+# Fuse all engine candidates (VLM/kraken/TrOCR/PARTY) into a best-fit
+# transcription via consensus + bounded LLM arbitration. OFF by default → the
+# pipeline keeps the 2-way reconcile behaviour (byte-identical). Strategy:
+# "vote" (align+vote+arbitrate) | "llm_merge" (LLM merges the raw texts).
+ENABLE_MULTI_ENGINE_FUSION = _get("ENABLE_MULTI_ENGINE_FUSION", "false").lower() == "true"
+FUSION_STRATEGY = _get("FUSION_STRATEGY", "vote")
+
 # ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
 # Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway
 # (verified contract: GET /health, GET /models, POST /segment, /recognize, /ocr).
