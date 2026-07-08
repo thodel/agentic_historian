@@ -33,7 +33,7 @@ from knowledge_hub import hub
 try:
     from agent_a import transcribe_dual, DualTranscriptionResult
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
-    from agent_a.model_selector import select_kraken_model, SourceCriteria
+    from agent_a.model_selector import select_kraken_model, select_best, SourceCriteria, RecognitionResult
     from agent_a.reconcile import reconcile
     from agent_a.models import refresh_kraken_registry, KRAKEN_MODELS_LIVE
     DUAL_AVAILABLE = True
@@ -59,6 +59,7 @@ class PipelineContext:
         self.a_meta: dict = {}
         self.source_url: Optional[str] = None   # link back to the source (#208)
         self.dual_result: Optional[DualTranscriptionResult] = None
+        self.recognitions: list[RecognitionResult] = []       # all OCR candidates (#234)
 
     def to_json(self) -> dict:
         base = {
@@ -72,6 +73,18 @@ class PipelineContext:
             base["a_meta"] = self.a_meta
         if self.source_url:
             base["source_url"] = self.source_url
+        base["recognitions"] = [
+            {
+                "engine": r.engine,
+                "model_id": r.model_id,
+                "text": r.text,
+                "confidence": r.confidence,
+                "error": r.error,
+                "timing_ms": r.timing_ms,
+                "segmented_by": r.segmented_by,
+            }
+            for r in self.recognitions
+        ]
         return base
 
 
@@ -232,6 +245,7 @@ def run_full_pipeline(
             ctx.dual_result = dual
             ctx.transcription = dual.vlm_transcription
             ctx.a_meta = dual.to_dict()
+            ctx.recognitions = list(dual.recognitions)
             logger.info(
                 f"[Orchestrator] Phase 1 (VLM) fertig — "
                 f"{len(ctx.transcription)} chars, score={dual.vlm_score:.2f}"
@@ -250,6 +264,8 @@ def run_full_pipeline(
                 state.stage_status["vlm"] = DONE
                 state.artifacts["transcription"] = ctx.transcription
                 state.artifacts["a_meta"] = ctx.a_meta
+                if ctx.recognitions:
+                    state.artifacts["recognitions"] = ctx.recognitions
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Phase 1 RunState persist skipped: {e2}")
@@ -297,19 +313,23 @@ def run_full_pipeline(
             source_desc_text = ctx.description.get("source_description", "")
             src_json = ctx.description.get("source_json")
             if source_desc_text or src_json:
-                kraken_results = _rerun_kraken_with_model_selection(
-                    image_path=img,
+                # ── Phase 3: transcribe_dual with concurrent kraken + party fan-out
+                dual_p3 = transcribe_dual(
+                    img,
                     source_description=source_desc_text,
                     lang=lang,
-                    source_json=src_json,
+                    run_vlm=False,   # VLM already done in Phase 1
+                    run_kraken=True,
+                    run_party=True,
+                    run_hf=False,
+                    use_llm_reconcile=True,
                 )
-                # Reconcile VLM (Phase 1) with kraken (Phase 3) instead of
-                # blindly preferring kraken.  Both transcriptions are kept;
-                # the better one (per the reconcile() diff/LLM logic) is used.
-                if kraken_results["kraken_transcription"]:
-                    vlm_text = ctx.transcription
-                    kraken_text = kraken_results["kraken_transcription"]
-                    rec_result = reconcile(vlm_text, kraken_text)
+                for rec in dual_p3.recognitions:
+                    if rec not in ctx.recognitions:
+                        ctx.recognitions.append(rec)
+                # Reconcile VLM (Phase 1) with kraken (Phase 3)
+                if dual_p3.kraken_transcription:
+                    rec_result = reconcile(ctx.transcription, dual_p3.kraken_transcription)
                     ctx.transcription = rec_result.reconciled
                     logger.info(
                         f"[Orchestrator] Phase 3: reconciled ({rec_result.method}), "
@@ -317,14 +337,10 @@ def run_full_pipeline(
                         f"{len(ctx.transcription)} chars"
                     )
                 # Store kraken metadata in a_meta
-                ctx.a_meta["kraken_transcription"] = kraken_results["kraken_transcription"]
-                ctx.a_meta["party_transcription"] = kraken_results["party_transcription"]
-                ctx.a_meta["kraken_model"] = (
-                    kraken_results["kraken_model"].model_id
-                    if kraken_results["kraken_model"] else None
-                )
-                ctx.a_meta["error_kraken"] = kraken_results["error_kraken"]
-                ctx.a_meta["error_party"] = kraken_results["error_party"]
+                ctx.a_meta["kraken_transcription"] = dual_p3.kraken_transcription
+                ctx.a_meta["party_transcription"] = dual_p3.party_transcription
+                ctx.a_meta["error_kraken"] = dual_p3.error_kraken
+                ctx.a_meta["error_party"] = dual_p3.error_party
                 logger.info("[Orchestrator] Phase 3 (kraken re-run) fertig")
             # Record kraken + reconcile stages into RunState
             try:
@@ -335,6 +351,8 @@ def run_full_pipeline(
                 state.stage_status["reconcile"] = DONE
                 state.artifacts["transcription"] = ctx.transcription
                 state.artifacts["a_meta"] = ctx.a_meta
+                if ctx.recognitions:
+                    state.artifacts["recognitions"] = ctx.recognitions
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Phase 3 RunState persist skipped: {e2}")
@@ -650,6 +668,12 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: b
                 "errors": ctx.errors,
                 # a_meta derived from RunState artifacts
                 "a_meta": state.artifacts.get("a_meta", {}),
+                # all OCR engine candidates (#234 P1-3)
+                # RecognitionResult is a Pydantic model — serialise to dict
+                "recognitions": [
+                    r.model_dump() if hasattr(r, "model_dump") else r
+                    for r in state.artifacts.get("recognitions", [])
+                ],
             }
             if state.source_url:
                 pipeline["source_url"] = state.source_url

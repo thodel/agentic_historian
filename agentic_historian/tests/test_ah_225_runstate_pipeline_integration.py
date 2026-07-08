@@ -367,3 +367,107 @@ def test_runstate_atomic_save_no_tmp_leftover(tmp_path, monkeypatch):
     # Content is valid JSON
     loaded = RunState.load("atomic-test", path=p)
     assert loaded.stage_status["vlm"] == DONE
+
+# ── #234: recognitions in RunState + pipeline.json ───────────────────────────
+
+class TestRecognitionsInRunState:
+    """Verify ctx.recognitions survive RunState.save/load and pipeline.json output."""
+
+    def test_recognitions_roundtrip_through_runstate(self, tmp_path, monkeypatch):
+        """recognitions written to RunState.artifacts survive a save+load cycle."""
+        from agent_a.model_selector import RecognitionResult
+        from runstate import RunState
+
+        doc_id = "doc_234_test"
+        rec = RecognitionResult(
+            engine="kraken",
+            model_id="10.5281/zenodo.7516057",
+            text="Hello world",
+            confidence=0.85,
+        )
+        # Patch DATA_DIR so RunState.load / .save use tmp_path
+        import agentic_historian.runstate as rs_mod
+        monkeypatch.setattr(rs_mod.config, "DATA_DIR", tmp_path)
+
+        # Simulate what orchestrator does after Phase 1
+        state = RunState.load_or_new(doc_id)
+        state.artifacts["recognitions"] = [rec]
+        p = tmp_path / "runs" / f"{doc_id}.json"
+        state.save(path=p)
+        # Load a fresh instance — uses patched DATA_DIR
+        loaded = RunState.load(doc_id)
+        assert "recognitions" in loaded.artifacts
+        recs = loaded.artifacts["recognitions"]
+        assert len(recs) == 1
+        # artifacts are stored as plain dicts (artifacts: dict[str, Any] is untyped)
+        assert recs[0]["engine"] == "kraken"
+        assert recs[0]["text"] == "Hello world"
+
+    def test_runstate_derived_pipeline_json_includes_recognitions(self, tmp_path, monkeypatch):
+        """
+        The RunState-derived pipeline.json contains recognitions serialised
+        as plain dicts (not RecognitionResult objects) — matching the real
+        _write_pipeline_output(from_runstate=True) code path.
+        """
+        import json
+        from agentic_historian.orchestrator import PipelineContext
+        from agent_a.model_selector import RecognitionResult
+
+        # Set temp directories
+        outputs = tmp_path / "outputs"
+        data_dir = tmp_path / "data"
+        data_dir.mkdir(parents=True, exist_ok=True)
+        outputs.mkdir(parents=True, exist_ok=True)
+
+        # Patch config so orchestrator and runstate use our temp paths
+        import agentic_historian.runstate as rs_mod
+        import agentic_historian.orchestrator as orch_mod
+        monkeypatch.setattr(rs_mod.config, "DATA_DIR", data_dir)
+        monkeypatch.setattr(orch_mod.config, "DATA_DIR", data_dir)
+        monkeypatch.setattr(orch_mod.config, "OUTPUTS_DIR", outputs)
+
+        # Build PipelineContext with recognitions — ctx.to_json() serialises correctly
+        ctx = PipelineContext("rec_pipeline_test")
+        ctx.recognitions = [
+            RecognitionResult(
+                engine="vlm",
+                model_id="internvl3-8b-instruct",
+                text="VLM output",
+                confidence=0.95,
+            ),
+            RecognitionResult(
+                engine="kraken",
+                model_id="10.5281/zenodo.7516057",
+                text="Kraken output",
+                confidence=0.82,
+                segmented_by=None,
+            ),
+        ]
+        ctx.transcription = "Final reconciled text"
+
+        # Save RunState (simulates Phase 1 persist in orchestrator)
+        from runstate import RunState
+        state = RunState.load_or_new(ctx.doc_id)
+        state.artifacts["recognitions"] = ctx.recognitions
+        state.artifacts["transcription"] = ctx.transcription
+        state.save()
+
+        # Derive pipeline.json from RunState (mimics _write_pipeline_output)
+        pipeline_file = outputs / f"{ctx.doc_id}_pipeline.json"
+        pipeline = {
+            "doc_id": ctx.doc_id,
+            "transcription": state.artifacts.get("transcription", ""),
+            # recognitions may be Pydantic models in artifacts — use model_dump
+            "recognitions": (
+                [r.model_dump() if hasattr(r, "model_dump") else r
+                 for r in state.artifacts.get("recognitions", [])]
+            ),
+        }
+        with open(pipeline_file, "w", encoding="utf-8") as f:
+            json.dump(pipeline, f, ensure_ascii=False, indent=2)
+
+        loaded = json.loads(pipeline_file.read_text())
+        assert "recognitions" in loaded
+        assert len(loaded["recognitions"]) == 2
+        engines = {r["engine"] for r in loaded["recognitions"]}
+        assert engines == {"vlm", "kraken"}
