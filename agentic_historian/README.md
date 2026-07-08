@@ -129,6 +129,8 @@ rules exist because we have hit each of these failure modes — follow them.
 ### Pull requests
 - **One focused change per PR.** Small and additive; don't refactor unrelated code.
 - **Branch from the latest `main`** (`git fetch && git rebase origin/main`), and rebase again before opening if `main` moved.
+- **NEVER stack on another unmerged issue's branch.** Always branch from `origin/main`, even when your issue "depends on" another that's still in review. Stacking (branch B built on unmerged branch A) has caused three near-misses — it drags A's commits into B's PR, mixes concerns, and risks silently reverting work `main` gained since the branch point. If you truly need code from an unmerged branch, say so on the issue and wait for it to merge, then rebase on `main`. One issue = one branch off `main` = one PR.
+- **Check your true delta before opening:** `git diff --stat origin/main...HEAD` should show *only your issue's files*. If it lists other issues' files, you've stacked or drifted — rebase onto `origin/main`.
 - **Don't modify another epic's files** without coordinating — `agent_a/` (HTR) and the orchestrator are actively worked on.
 - **Verify before opening:** the code imports/compiles, the relevant test passes, and every import is declared in `requirements.txt`. Exercise runtime/bot changes (LLM calls need the VPN).
 - **Title:** imperative summary. **Body:** what changed, why, and how you verified it.
