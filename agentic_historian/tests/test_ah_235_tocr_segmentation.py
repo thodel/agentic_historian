@@ -16,6 +16,14 @@ import numpy as np
 from PIL import Image as PILImage
 from unittest.mock import MagicMock, patch
 
+# torch isn't installed in CI (it's a heavy GPU dep pulled only on the ATR host).
+# _run_hf_ocr does `import torch`; stub it so the segmentation path is exercisable
+# offline. MagicMock supports `with torch.no_grad():` and attribute access.
+if "torch" not in sys.modules:
+    _torch_stub = MagicMock()
+    _torch_stub.cuda.is_available.return_value = False
+    sys.modules["torch"] = _torch_stub
+
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 

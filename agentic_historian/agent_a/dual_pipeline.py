@@ -33,52 +33,31 @@ from agent_a.reconcile import (
 )
 from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
 
-# ── transformers lazy-loads (must be at module-level so tests can patch them) ──
-# AutoProcessor is imported lazily so this package works without transformers installed.
-# Tests patch agent_a.dual_pipeline.AutoProcessor directly.
-_AutoProcessor: type | None = None
-
-# _AutoModelCls holds the resolved auto class for seq2seq vision models (TrOCR family).
-# Set by _ensure_transformers_ready() on first use; patchable at module level.
-_AutoModelCls: type | None = None
+# ── transformers lazy-loads (module-level so tests can patch them) ────────────
+# Resolved lazily via _ensure_transformers_ready() so this package imports without
+# transformers/torch installed. Tests patch _AutoProcessor / _AutoModelCls here.
+_AutoProcessor: type | None = None          # transformers.AutoProcessor
+_AutoModelCls: type | None = None           # seq2seq vision model class (TrOCR family)
 
 
-def _ensure_transformers_ready():
-    """Lazy-init transformers dependencies. Call before using HF models."""
+def _ensure_transformers_ready() -> None:
+    """Resolve the transformers classes on first use.
+
+    AutoModelForVision2Seq was removed in transformers 5.x, so fall back through
+    the seq2seq / vision-encoder-decoder chain. VisionEncoderDecoderModel exists
+    in every version, so the loop always resolves _AutoModelCls.
+    """
     global _AutoProcessor, _AutoModelCls
-    if _AutoProcessor is None:
-        from transformers import AutoProcessor as AP
-        from transformers import VisionEncoderDecoderModel as VED
-
-        # AutoModelForVision2Seq was renamed/removed in transformers 5.x;
-        # fall back through a chain to find what actually works.
-        for _name in ("AutoModelForVision2Seq", "AutoModelForSeq2SeqLM", "VisionEncoderDecoderModel"):
-            try:
-                from transformers import importlib
-                _mod = importlib.import_module("transformers")
-                _cls = getattr(_mod, _name, None)
-                if _cls is not None:
-                    _AutoModelCls = _cls
-                    break
-            except Exception:  # pragma: no cover
-                continue
-        else:  # pragma: no cover
-            _AutoModelCls = VED  # type: ignore[assignment]
-
-        _AutoProcessor = AP
-        # Prime the model-class cache so _get_transformers_model_cls() returns it.
-        _TransformersModels = (VED, _AutoModelCls)
-
-
-# Backwards-compatible alias for code that used _get_transformers_model_cls()
-_TransformersModels: tuple | None = None
-
-
-def _get_transformers_model_cls():
-    """Return (VisionEncoderDecoderModel, AutoModelCls) for the current transformers version."""
-    _ensure_transformers_ready()
-    from transformers import VisionEncoderDecoderModel as VED
-    return (VED, _AutoModelCls)
+    if _AutoProcessor is not None:
+        return
+    import importlib
+    tf = importlib.import_module("transformers")
+    _AutoProcessor = tf.AutoProcessor
+    for _name in ("AutoModelForVision2Seq", "AutoModelForSeq2SeqLM", "VisionEncoderDecoderModel"):
+        cls = getattr(tf, _name, None)
+        if cls is not None:
+            _AutoModelCls = cls
+            break
 
 
 

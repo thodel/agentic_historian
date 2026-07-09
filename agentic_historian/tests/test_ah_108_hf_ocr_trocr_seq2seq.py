@@ -7,7 +7,7 @@ Acceptance: loader selects the correct class for a TrOCR model id (unit test, mo
 from __future__ import annotations
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 # ── Set up mock modules BEFORE any test code imports agent_a ──────────────────
 _mock_torch = MagicMock()
@@ -43,6 +43,12 @@ sys.modules["torch.cuda"] = MagicMock()
 sys.modules["transformers"] = _mock_transformers
 sys.modules["PIL"] = _mock_pil
 sys.modules["PIL.Image"] = _mock_pil_image
+
+# Make the package importable when this file runs on its own (siblings / CI's
+# editable install otherwise provide it).
+PKG = str(Path(__file__).resolve().parents[1])
+if PKG not in sys.path:
+    sys.path.insert(0, PKG)
 
 import pytest
 from agent_a.models import HFModel
@@ -168,18 +174,28 @@ class TestErrorPaths:
 
 
 class TestRequiresLineImagesEarlyReturn:
-    """Real models require line images. Verify the early-return path."""
+    """#235 wired the line-image path: requires_line_images now routes through
+    kraken pre-segmentation instead of the old 'not yet wired' early return."""
 
-    def test_returns_line_image_error(self):
+    def test_line_image_path_now_uses_kraken(self):
         from agent_a import dual_pipeline, models
+        from agent_a.kraken_client import KrakenClientError
 
         models.hf_model_for_lang = lambda lang: HFModel(
             model_id="real/model", name="Real", lang=lang,
             requires_line_images=True,
         )
+        seg_client = MagicMock()
+        seg_client.segment.side_effect = KrakenClientError("segmenter down")
+        kraken_cm = MagicMock()
+        kraken_cm.__enter__.return_value = seg_client
+        kraken_cm.__exit__.return_value = False
         try:
-            text, err = dual_pipeline._run_hf_ocr(Path("/fake/page.tif"), lang="la")
-            assert text == "" and "line-image mode requires kraken pre-segmentation" in err
+            with patch.object(dual_pipeline, "KrakenHTTPClient", return_value=kraken_cm):
+                text, err = dual_pipeline._run_hf_ocr(Path("/fake/page.tif"), lang="la")
+            # no longer the old stub message; it attempted kraken segmentation
+            assert text == "" and "kraken segmentation failed" in err
+            seg_client.segment.assert_called_once()
         finally:
             models.hf_model_for_lang = _real_hf_model_for_lang
 
