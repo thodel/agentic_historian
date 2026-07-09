@@ -10,6 +10,10 @@ from unittest.mock import MagicMock, AsyncMock, patch
 BOT_PATH = Path(__file__).resolve().parents[1] / 'bot.py'
 CFG_PATH = Path(__file__).resolve().parents[1] / 'config.py'
 
+# `import bot` resolves modules from the package dir (agentic_historian/), like
+# the other suites and the CI import smoke test.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 
 class TestAdminOnlyDecorator:
     def test_admin_only_decorator_exists(self):

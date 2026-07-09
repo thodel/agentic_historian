@@ -6,7 +6,10 @@ directly from this Discord channel.
 
 import asyncio
 import logging
+import threading
 from pathlib import Path
+
+from watchdog.events import FileSystemEventHandler
 
 import config
 from orchestrator import run_full_pipeline, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
@@ -140,6 +143,108 @@ async def _run_blocking(ctx, func, *args, **kwargs):
     return await fut
 
 
+# ── Hot-folder watch ────────────────────────────────────────────────────────
+
+_HOT_QUEUE: asyncio.Queue = asyncio.Queue()
+_observer = None
+
+
+class _HotFolderHandler(FileSystemEventHandler):
+    """Debounced watchdog handler: enqueues (action, stem, path) to _HOT_QUEUE.
+
+    - New file (stem unknown) → action="run"
+    - Updated file (stem matches a RunState) → action="reprocess"
+    - Ignores non-watched extensions.
+    Debounce: a burst of events for the same path collapses to one enqueue after
+    HOT_FOLDER_DEBOUNCE_SEC seconds of quiescence (#227).
+    """
+
+    def __init__(self):
+        super().__init__()
+        self._pending: dict[str, float] = {}  # stem → last_event_time
+
+    def _enqueue(self, action: str, stem: str, path: Path) -> None:
+        asyncio.get_event_loop().call_soon_threadsafe(
+            _HOT_QUEUE.put_nowait, (action, stem, path)
+        )
+
+    def _stem_and_action(self, path: Path) -> tuple[str, str] | None:
+        if path.suffix.lower() not in config.WATCHED_EXTENSIONS:
+            return None
+        stem = path.stem
+        # Known run state → reprocess (pick up where it left off);
+        # no run state → run (start fresh from model_select).
+        from runstate import RunState
+        if RunState.exists(stem):
+            return (stem, "reprocess")
+        return (stem, "run")
+
+    def _dispatch(self, event, path: Path):
+        if event.event_type not in ("created", "modified"):
+            return
+        result = self._stem_and_action(path)
+        if result is None:
+            return
+        stem, action = result
+        # Debounce: record event time; schedule dispatch after DEBOUNCE_SEC
+        import time
+        when = time.monotonic()
+        self._pending[stem] = when
+        delay = config.HOT_FOLDER_DEBOUNCE_SEC
+
+        def _fire(when=when):
+            # Only fire if no newer event has arrived for this stem
+            last = self._pending.get(stem, 0)
+            if last == when:
+                self._pending.pop(stem, None)
+                self._enqueue(action, stem, path)
+        threading.Timer(delay, _fire).start()
+
+    def on_created(self, event):
+        self._dispatch(event, Path(event.src_path))
+
+    def on_modified(self, event):
+        self._dispatch(event, Path(event.src_path))
+
+
+def _ensure_hot_watch() -> None:
+    """Start (or re-start) the hot-folder watchdog observer."""
+    global _observer
+    if not config.ENABLE_HOT_FOLDER_WATCH:
+        return
+    if _observer is not None:
+        _observer.stop()
+        _observer.join(timeout=2)
+    handler = _HotFolderHandler()
+    _observer = Observer()
+    _observer.schedule(handler, str(config.HOT_FOLDER), recursive=False)
+    _observer.start()
+    logger.info(f"[hot-watch] started on {config.HOT_FOLDER}")
+
+
+async def _process_hot_queue() -> None:
+    """Background task: poll _HOT_QUEUE and dispatch to _run_blocking."""
+    while True:
+        try:
+            action, stem, path = await asyncio.wait_for(_HOT_QUEUE.get(), timeout=1.0)
+        except asyncio.TimeoutError:
+            continue
+        try:
+            if action == "run":
+                logger.info(f"[hot-watch] new file → run_full_pipeline({stem})")
+                await _run_blocking(None, run_full_pipeline, path)
+            else:  # reprocess
+                logger.info(f"[hot-watch] updated file → reprocess({stem})")
+                import ingest as _ingest
+                # Re-run all downstream stages for the new image (agent_a onward)
+                await _run_blocking(
+                    None, _ingest.reprocess, stem,
+                    stages=[],
+                )
+        except Exception as e:
+            logger.exception(f"[hot-watch] error processing {stem}: {e}")
+
+
 # ── Commands ─────────────────────────────────────────────────────────────────
 
 @bot.slash_command(name="status", description="Overall pipeline status")
@@ -174,15 +279,89 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     try:
         import routing_card
         import persistent_views
+        import ingest
         from runstate import RunState
         state = RunState.load_or_new(doc_id)
-        view = routing_card.build_view(state)
+        runners = ingest.build_stage_runners(state) if config.AUTO_RESUME_AFTER_GATE else None
+        view = routing_card.build_view(state, runners=runners)
         msg = await ctx.followup.send(routing_card.render_card(state), view=view)
         # Persist the message id so the view survives a bot restart (#150).
         if msg is not None:
             persistent_views.store_message_id(state, "gate1", msg.id)
     except Exception as e:
         await ctx.followup.send(f"❌ Error: {e}")
+
+
+@bot.slash_command(
+    name="reprocess",
+    description="Re-process a document after correcting criteria or stages",
+)
+@require_role
+async def reprocess_cmd(
+    ctx,
+    doc_id: Option(str, "Document id to reprocess", required=True),
+    changes: Option(
+        str,
+        "field:value pairs or stage names (e.g. century:14 agent_a)",
+        required=False,
+        default="",
+    ),
+):
+    """Reprocess a document: field:value pairs invalidate criteria; bare names force stage dirty."""
+    await ctx.defer()
+    from runstate import _INVALIDATION
+    fields: list[str] = []
+    stages: list[str] = []
+    bad: list[str] = []
+    STAGES = ("model_select", "kraken", "vlm", "reconcile",
+              "agent_a", "agent_b", "agent_c", "agent_d", "agent_e")
+    for token in (changes or "").strip().split():
+        if not token:
+            continue
+        if ":" in token:
+            field, _sep, _val = token.partition(":")
+            if field in _INVALIDATION:
+                fields.append(field)
+            else:
+                bad.append(token)
+        else:
+            if token in STAGES:
+                stages.append(token)
+            else:
+                bad.append(token)
+    if bad:
+        await ctx.followup.send(
+            f"❌ Unbekannte Felder/Stages: {', '.join(bad)}\n"
+            f"Gültige Felder: {sorted(_INVALIDATION)}\n"
+            f"Gültige Stages: {STAGES}"
+        )
+        return
+    if not fields and not stages:
+        await ctx.followup.send(
+            "⚠️ Nichts zu tun — gib field:value Paare oder Stage-Namen an.\n"
+            "Beispiele: `century:14 script:miniscule` · `agent_a` · `century:14 agent_b`"
+        )
+        return
+    try:
+        import ingest as _ingest
+        result = await _run_blocking(ctx, _ingest.reprocess, doc_id,
+                                     fields=fields or None,
+                                     stages=stages or None)
+        if result is None:
+            return
+        ran = result.get("ran", [])
+        skipped = result.get("skipped", [])
+        errors = result.get("errors", [])
+        parts = []
+        if ran:
+            parts.append(f"✅ Gelaufen: {', '.join(ran)}")
+        if skipped:
+            parts.append(f"⏭️ Übersprungen: {', '.join(skipped)}")
+        if errors:
+            parts.append(f"❌ Fehler: {', '.join(errors)}")
+        await ctx.followup.send("\n".join(parts) or "✅ Nichts zu tun.")
+    except Exception as e:
+        await ctx.followup.send(f"❌ Fehler: {e}")
 
 
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
@@ -445,6 +624,13 @@ async def on_ready():
             logger.info(f"[update] cleared back-online marker for {marker.requester}")
     except Exception as e:
         logger.warning(f"[update] on_ready marker check failed: {e}")
+
+    # Start hot-folder watch + background queue processor (#227).
+    try:
+        _ensure_hot_watch()
+        asyncio.create_task(_process_hot_queue())
+    except Exception as e:
+        logger.warning(f"[hot-watch] start failed: {e}")
 
 
 # ── Update command (P3-3, #248) ───────────────────────────────────────────────

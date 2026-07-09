@@ -140,12 +140,17 @@ class RunState(BaseModel):
         self,
         runners: dict[str, Callable[["RunState"], StageResult]],
         on_phase: Optional[Callable[[PhaseEvent], None]] = None,
+        stop_on_error: bool = False,
     ) -> list[str]:
         """Run every pending/dirty stage (in order) for which a runner exists.
 
         Done stages are skipped (their artifacts reused). Each run stage stores
-        its artifact, flips to done/error, and emits a PhaseEvent. Returns the
-        list of stages actually run.
+        its artifact, flips to done/error, and emits a PhaseEvent. A runner that
+        raises is caught and recorded as an error stage (never propagated); on
+        error the stage's previous artifact is kept (not overwritten with None).
+        With ``stop_on_error`` the loop halts after the first failing stage, so
+        downstream stages that depend on it are not run (used by reprocess, #226).
+        Returns the list of stages actually run (a failed stage included).
         """
         emit = on_phase or _log_emit
         ran: list[str] = []
@@ -153,14 +158,22 @@ class RunState(BaseModel):
             runner = runners.get(stage)
             if runner is None:
                 continue                              # optional/inapplicable stage
-            res = runner(self)
-            self.artifacts[stage] = res.artifact
-            status = ERROR if res.error else DONE
-            self.stage_status[stage] = status
+            try:
+                res = runner(self)
+            except Exception as e:                    # a runner blew up
+                res = StageResult(error=str(e))
+            if res.error:
+                self.stage_status[stage] = ERROR      # keep the prior artifact
+            else:
+                self.artifacts[stage] = res.artifact
+                self.stage_status[stage] = DONE
+            status = self.stage_status[stage]
             emit(PhaseEvent(doc_id=self.doc_id, phase=stage, agent=res.agent or stage,
                             status=status, excerpt=res.excerpt or "",
                             decision=res.decision or "", error=res.error or ""))
             ran.append(stage)
+            if res.error and stop_on_error:
+                break
         return ran
 
     # ── persistence ────────────────────────────────────────────────────────────
@@ -176,6 +189,11 @@ class RunState(BaseModel):
         tmp.write_text(self.model_dump_json(indent=2), encoding="utf-8")
         os.replace(tmp, p)          # atomic on POSIX
         return p
+
+    @classmethod
+    def exists(cls, doc_id: str) -> bool:
+        """Return True if a saved run state file exists for *doc_id*."""
+        return cls._path(doc_id).exists()
 
     @classmethod
     def load(cls, doc_id: str, path: Optional[Path] = None) -> "RunState":

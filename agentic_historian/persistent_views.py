@@ -55,14 +55,22 @@ def iter_run_states() -> Iterator[RunState]:
 
 
 def _build_view_for_gate(state: RunState, gate: str):
-    """Rebuild the view for a gate from the (loaded) run state, or None."""
+    """Rebuild the view for a gate from the (loaded) run state, or None.
+
+    Passes runners so gate callbacks can auto-resume when AUTO_RESUME_AFTER_GATE
+    is enabled (#227).
+    """
+    runners = None
+    if config.AUTO_RESUME_AFTER_GATE:
+        import ingest as _ingest
+        runners = _ingest.build_stage_runners(state)
     if gate == "gate1":
         import routing_card
-        return routing_card.build_view(state)
+        return routing_card.build_view(state, runners=runners)
     if gate == "gate2":
         import path_compare
         paths = state.artifacts.get("paths") or {}
-        return path_compare.build_view(state, paths) if paths else None
+        return path_compare.build_view(state, paths, runners=runners) if paths else None
     return None
 
 

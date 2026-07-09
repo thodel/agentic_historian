@@ -18,6 +18,8 @@ from typing import Optional
 
 from loguru import logger
 
+import config
+
 from feedback_logger import log_routing_feedback
 
 from agent_a.model_selector import (
@@ -164,9 +166,9 @@ def build_view(state: RunState, runners: Optional[dict] = None):
             raw = self.values[0]
             value = int(raw) if self.field == "century" else raw
             match = apply_criteria_change(state, self.field, value)
-            if runners:
-                state.resume(runners)
             state.save()
+            if runners and config.AUTO_RESUME_AFTER_GATE:
+                state.resume(runners)
             await interaction.response.edit_message(
                 content=render_card(state, match), view=self.view)
 

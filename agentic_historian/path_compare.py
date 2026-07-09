@@ -21,6 +21,7 @@ from typing import Optional
 from loguru import logger
 from feedback_logger import log_routing_feedback
 
+import config
 from eval.metrics import cer
 from runstate import RunState
 
@@ -121,9 +122,9 @@ def build_view(state: RunState, paths: dict[str, str], runners: Optional[dict] =
 
         async def callback(self, interaction):
             apply_path_choice(state, self.path, paths)
-            if runners:
-                state.resume(runners)
             state.save()
+            if runners and config.AUTO_RESUME_AFTER_GATE:
+                state.resume(runners)
             await interaction.response.edit_message(
                 content=render_compare_card(state, paths), view=self.view)
 
