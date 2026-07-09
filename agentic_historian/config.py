@@ -151,6 +151,12 @@ ATR_API_KEY = _get("ATR_API_KEY")
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"
 HOT_FOLDER = BASE_DIR / _get("HOT_FOLDER", "data/hot_folder")
 PROCESSED_FOLDER = BASE_DIR / _get("PROCESSED_FOLDER", "data/hot_folder/processed")
+AUTO_RESUME_AFTER_GATE = _get("AUTO_RESUME_AFTER_GATE", "false").lower() == "true"
+HOT_FOLDER_DEBOUNCE_SEC = float(_get("HOT_FOLDER_DEBOUNCE_SEC", "2.0"))
+WATCHED_EXTENSIONS = frozenset(
+    e.strip().lower() for e in _get("WATCHED_EXTENSIONS", ".jpg,.jpeg,.png,.tif,.tiff,.pdf").split(",")
+    if e.strip()
+)
 
 # ── Datenverzeichnisse ───────────────────────────────────────────────────────
 DATA_DIR = BASE_DIR / "data"
