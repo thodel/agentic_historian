@@ -32,7 +32,33 @@ from agent_a.reconcile import (
     RECONCILE_DEFAULT_MAX_TOKENS,
 )
 from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
-import config
+
+# ── transformers lazy-loads (module-level so tests can patch them) ────────────
+# Resolved lazily via _ensure_transformers_ready() so this package imports without
+# transformers/torch installed. Tests patch _AutoProcessor / _AutoModelCls here.
+_AutoProcessor: type | None = None          # transformers.AutoProcessor
+_AutoModelCls: type | None = None           # seq2seq vision model class (TrOCR family)
+
+
+def _ensure_transformers_ready() -> None:
+    """Resolve the transformers classes on first use.
+
+    AutoModelForVision2Seq was removed in transformers 5.x, so fall back through
+    the seq2seq / vision-encoder-decoder chain. VisionEncoderDecoderModel exists
+    in every version, so the loop always resolves _AutoModelCls.
+    """
+    global _AutoProcessor, _AutoModelCls
+    if _AutoProcessor is not None:
+        return
+    import importlib
+    tf = importlib.import_module("transformers")
+    _AutoProcessor = tf.AutoProcessor
+    for _name in ("AutoModelForVision2Seq", "AutoModelForSeq2SeqLM", "VisionEncoderDecoderModel"):
+        cls = getattr(tf, _name, None)
+        if cls is not None:
+            _AutoModelCls = cls
+            break
+
 
 
 SYSTEM_HTR = (
@@ -255,16 +281,18 @@ def _run_hf_ocr(
 
     try:
         import torch
-        from transformers import AutoProcessor, AutoModelForVision2Seq
         from PIL import Image as PILImage
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
         dtype  = torch.bfloat16 if device == "cuda" else torch.float32
 
+        # Lazy-load the right model class (handles transformers version differences)
+        _ensure_transformers_ready()
+
         # The deployed registry models (TrOCR family, LightOnOCR) are seq2seq
         # vision-encoder-decoder models — decode via generate(), not CTC logits.
-        processor = AutoProcessor.from_pretrained(model.model_id)
-        model_hf  = AutoModelForVision2Seq.from_pretrained(
+        processor = _AutoProcessor.from_pretrained(model.model_id)
+        model_hf  = _AutoModelCls.from_pretrained(
             model.model_id,
             torch_dtype=dtype,
         ).to(device)
@@ -272,7 +300,37 @@ def _run_hf_ocr(
         image = PILImage.open(image_path).convert("RGB")
 
         if model.requires_line_images:
-            return "", "line-image mode requires kraken pre-segmentation (not yet wired)"
+            # ── TrOCR / line-model path: kraken pre-segmentation (#235 P2-2) ──
+            try:
+                with KrakenHTTPClient() as client:
+                    seg = client.segment(image=image_path, seg_mode="baseline")
+                lines_raw = seg.get("lines", [])
+            except KrakenClientError as e:
+                return "", f"[TrOCR] kraken segmentation failed: {e}"
+
+            if not lines_raw:
+                return "", "[TrOCR] no lines found by kraken segmenter"
+
+            results: list[str] = []
+            for line_meta in lines_raw:
+                polygon = line_meta.get("baseline", [])
+                if len(polygon) < 2:
+                    continue
+                xs = [p[0] for p in polygon]
+                ys = [p[1] for p in polygon]
+                x0, x1 = max(0, int(min(xs)) - 2), int(max(xs)) + 2
+                y0, y1 = max(0, int(min(ys)) - 2), int(max(ys)) + 2
+                line_img = image.crop((x0, y0, x1, y1))
+                inputs = processor(images=line_img, return_tensors="pt").to(device)
+                with torch.no_grad():
+                    generated = model_hf.generate(**inputs, max_new_tokens=512)
+                pred = processor.batch_decode(generated, skip_special_tokens=True)[0]
+                if pred.strip():
+                    results.append(pred.strip())
+
+            if not results:
+                return "", f"[TrOCR] no lines produced text (model={model.model_id})"
+            return "\n".join(results), model.model_id
         else:
             inputs = processor(images=image, return_tensors="pt").to(device)
             with torch.no_grad():
