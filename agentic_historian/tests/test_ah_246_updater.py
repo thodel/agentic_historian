@@ -36,6 +36,12 @@ class MockRunner(SubprocessRunner):
         # Per-instance result for the smoke command (controlled by test).
         self._smoke_result: CmdResult = CmdResult(True, "smoke-ok\n", "", 0)
         self._pip_result: CmdResult = CmdResult(True, "Requirements satisfied.\n", "", 0)
+        # Captured invocation details for the pip/smoke steps (argv + cwd), so
+        # tests can assert the interpreter, single-arg code, and working dir.
+        self.smoke_argv: list | None = None
+        self.smoke_cwd = None
+        self.pip_argv: list | None = None
+        self.pip_cwd = None
 
     def _normalise(self, cmd) -> str:
         parts = cmd.split() if isinstance(cmd, str) else list(cmd)
@@ -53,10 +59,14 @@ class MockRunner(SubprocessRunner):
 
         # pip install — always intercepted by instance attribute.
         if "pip install" in cmd_str:
+            self.pip_argv = list(cmd) if isinstance(cmd, list) else cmd
+            self.pip_cwd = cwd
             return self._pip_result
 
-        # Smoke test command — always intercepted.
-        if cmd_str == _updater._SMOKE_COMMAND:
+        # Smoke test — argv list of the form [python, "-c", CODE].
+        if isinstance(cmd, list) and "-c" in cmd:
+            self.smoke_argv = list(cmd)
+            self.smoke_cwd = cwd
             return self._smoke_result
 
         # Git commands from sequence.
@@ -237,83 +247,37 @@ def test_apply_update_diverged_aborts(mock_runner):
 
 
 def test_apply_update_smoke_failure_rolls_back(mock_runner):
-    """Smoke test fails → reset --hard pre_sha, rolled_back=True."""
-    reset_calls: list[str] = []
+    """Smoke test fails → reset --hard pre_sha, rolled_back=True.
 
-    original_run = SubprocessRunner.run
-
-    def tracking_run(self, cmd, cwd=None, check=False):
-        key = " ".join(cmd) if isinstance(cmd, list) else cmd
-        if "reset --hard" in key:
-            reset_calls.append(key)
-        if "pip install" in key:
-            return CmdResult(True, "Installed.\n", "", 0)
-        return original_run(self, cmd, cwd=cwd, check=check)
-
-    mock_runner._seq = seq(
-        **{
-            "status --porcelain -uno": (True, "", ""),
-            "rev-parse HEAD": (True, "abc123def456\n", ""),
-            "fetch origin main:refs/remotes/origin/main": (True, "", ""),
-            "rev-parse refs/remotes/origin/main": (True, "def456abc123\n", ""),
-            "rev-list --left-right --count HEAD...refs/remotes/origin/main": (True, "0\t1\n", ""),
-            "log --format=%H %s -n 1 refs/remotes/origin/main..HEAD": (
-                True, "abc123def456 one commit\n", ""
-            ),
-            "pull --ff-only": (True, "Fast-forward\n", ""),
-            "rev-parse HEAD": (True, "def456abc123\n", ""),
-        }
-    )
-    # Override smoke to fail.
+    Asserts the rollback via MockRunner.calls (the runner records every command).
+    The previous patch.object(SubprocessRunner, ...) approach never fired because
+    MockRunner overrides run(), so reset_calls stayed empty and this test failed.
+    """
+    mock_runner._seq = _happy_seq()
     mock_runner._smoke_result = CmdResult(False, "", "ImportError: cannot import bot", 1)
 
-    with patch.object(SubprocessRunner, "run", tracking_run):
-        result = apply_update(runner=mock_runner)
+    result = apply_update(runner=mock_runner)
 
     assert result["ok"] is False
     assert result["stage"] == "smoke"
     assert result["rolled_back"] is True
     assert result["pre_sha"].startswith("abc123")
-    assert any("reset" in c and "abc123" in c for c in reset_calls), \
-        f"reset not called. Got: {reset_calls}"
+    assert any("reset --hard" in c and "abc123" in c for c in mock_runner.calls), \
+        f"rollback reset not issued. calls={mock_runner.calls}"
 
 
 def test_apply_update_pip_failure_rolls_back(mock_runner):
-    """pip install fails → rollback."""
-    reset_calls: list[str] = []
-    original_run = SubprocessRunner.run
-
-    def tracking_run(self, cmd, cwd=None, check=False):
-        key = " ".join(cmd) if isinstance(cmd, list) else cmd
-        if "reset --hard" in key:
-            reset_calls.append(key)
-        if "pip install" in key:
-            return CmdResult(False, "", "No such file: requirements-dev.txt", 1)
-        return original_run(self, cmd, cwd=cwd, check=check)
-
-    mock_runner._seq = seq(
-        **{
-            "status --porcelain -uno": (True, "", ""),
-            "rev-parse HEAD": (True, "abc123def456\n", ""),
-            "fetch origin main:refs/remotes/origin/main": (True, "", ""),
-            "rev-parse refs/remotes/origin/main": (True, "def456abc123\n", ""),
-            "rev-list --left-right --count HEAD...refs/remotes/origin/main": (True, "0\t1\n", ""),
-            "log --format=%H %s -n 1 refs/remotes/origin/main..HEAD": (
-                True, "abc123def456 one commit\n", ""
-            ),
-            "pull --ff-only": (True, "Fast-forward\n", ""),
-            "rev-parse HEAD": (True, "def456abc123\n", ""),
-        }
-    )
+    """pip install fails → rollback to pre_sha."""
+    mock_runner._seq = _happy_seq()
     mock_runner._pip_result = CmdResult(False, "", "No such file: requirements-dev.txt", 1)
 
-    with patch.object(SubprocessRunner, "run", tracking_run):
-        result = apply_update(runner=mock_runner)
+    result = apply_update(runner=mock_runner)
 
     assert result["ok"] is False
     assert result["stage"] == "pip"
     assert result["rolled_back"] is True
-    assert any("reset" in c and "abc123" in c for c in reset_calls)
+    assert result["pre_sha"].startswith("abc123")
+    assert any("reset --hard" in c and "abc123" in c for c in mock_runner.calls)
 
 
 # ── marker tests ─────────────────────────────────────────────────────────────
@@ -341,6 +305,52 @@ def test_read_marker_missing_returns_none(tmp_path):
     marker_path = tmp_path / "nonexistent.json"
     with patch.object(updater_mod(), "_MARKER_PATH", marker_path):
         assert read_marker() is None
+
+
+# ── smoke/pip invocation shape (regression: the live path must actually work) ─
+
+def _happy_seq():
+    return seq(
+        **{
+            "status --porcelain -uno": (True, "", ""),
+            "rev-parse HEAD": (True, "abc123def456\n", ""),
+            "fetch origin main:refs/remotes/origin/main": (True, "", ""),
+            "rev-parse refs/remotes/origin/main": (True, "def456abc123\n", ""),
+            "rev-list --left-right --count HEAD...refs/remotes/origin/main": (True, "0\t1\n", ""),
+            "log --format=%H %s -n 1 refs/remotes/origin/main..HEAD": (
+                True, "abc123def456 one commit\n", ""
+            ),
+            "pull --ff-only": (True, "Fast-forward\n", ""),
+        }
+    )
+
+
+def test_smoke_command_is_wellformed_argv():
+    """The smoke command must be [interpreter, '-c', <whole snippet as ONE arg>].
+
+    Regression: it used to be a space-joined string that SubprocessRunner.split()
+    turned into `python -c import …` (SyntaxError) → smoke always failed live.
+    """
+    cmd = _updater._SMOKE_COMMAND
+    assert isinstance(cmd, list) and len(cmd) == 3
+    assert cmd[0] == sys.executable          # this venv, not a bare "python"
+    assert cmd[1] == "-c"
+    assert "import bot" in cmd[2] and "print('smoke-ok')" in cmd[2]   # one intact arg
+
+
+def test_apply_update_runs_pip_and_smoke_with_venv_python_and_right_cwd(mock_runner):
+    """pip uses sys.executable; smoke uses sys.executable and runs from the
+    package dir (so `import bot` resolves)."""
+    mock_runner._seq = _happy_seq()
+    result = apply_update(runner=mock_runner)
+    assert result["ok"] is True
+
+    pkg_dir = Path(_updater.__file__).parent
+    assert mock_runner.pip_argv[0] == sys.executable
+    assert mock_runner.pip_argv[1:4] == ["-m", "pip", "install"]
+    assert mock_runner.smoke_argv[0] == sys.executable
+    assert mock_runner.smoke_argv[1] == "-c"
+    assert mock_runner.smoke_cwd == pkg_dir
 
 
 # ── fixture ──────────────────────────────────────────────────────────────────
