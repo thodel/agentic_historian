@@ -10,7 +10,9 @@ from pathlib import Path
 
 import config
 from orchestrator import run_full_pipeline, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
-from discord import Intents, Option
+from discord import Intents, Option, Interaction, ButtonStyle
+import discord
+from discord.ui import View
 from discord.ext import commands
 
 from loguru import logger
@@ -62,6 +64,28 @@ def require_role(func):
                 return
         return await func(ctx, *args, **kwargs)
     # Preserve command metadata so py-cord registers it correctly
+    import functools
+    return functools.wraps(func)(wrapper)
+
+
+def admin_only(func):
+    """Decorator: require the admin role (REQUIRED_ADMIN_ROLE_ID) for /update.
+
+    Shares the same guild-check pattern as require_role but reads the separate
+    admin role ID so it can be more restrictive than the base role gate.
+    Falls back gracefully when neither role is configured.
+    """
+    async def wrapper(ctx, *args, **kwargs):
+        if not ctx.guild:
+            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
+            return
+        admin_role_id = getattr(config, "REQUIRED_ADMIN_ROLE_ID", None)
+        if admin_role_id:
+            author_role_ids = {role.id for role in ctx.author.roles}
+            if admin_role_id not in author_role_ids:
+                await ctx.respond("⛔ Dieser Befehl ist admins reserviert.", ephemeral=True)
+                return
+        return await func(ctx, *args, **kwargs)
     import functools
     return functools.wraps(func)(wrapper)
 
@@ -397,6 +421,227 @@ async def on_ready():
         persistent_views.register_persistent_views(bot)
     except Exception as e:
         logger.warning(f"[persist] view registration failed: {e}")
+    # P3-3: back-online confirmation after a self-restart
+    try:
+        import updater
+        marker = updater.read_marker()
+        if marker:
+            chan = bot.get_channel(int(marker.channel_id))
+            if chan:
+                try:
+                    msg = await chan.fetch_message(int(marker.message_id))
+                    await msg.edit(
+                        content=(
+                            f"✅ Back online on `{marker.target_sha}` "
+                            f"(updated by {marker.requester})"
+                        )
+                    )
+                except Exception:
+                    await chan.send(
+                        f"✅ Back online on `{marker.target_sha}` "
+                        f"(updated by {marker.requester})"
+                    )
+            updater.clear_marker()
+            logger.info(f"[update] cleared back-online marker for {marker.requester}")
+    except Exception as e:
+        logger.warning(f"[update] on_ready marker check failed: {e}")
+
+
+# ── Update command (P3-3, #248) ───────────────────────────────────────────────
+
+import hmac
+import hashlib
+import time as _time
+from discord import ButtonStyle
+from discord.ui import button as _button, View, Button
+
+# Pending update confirmations: token → {channel_id, message_id, requester, target_sha, stage}
+_PENDING_UPDATES: dict[str, dict] = {}
+_UPDATE_TOKEN_TTL = 300  # 5 minutes to confirm
+
+
+def _make_token() -> str:
+    """Short-lived HMAC token for update Confirm buttons."""
+    secret = config.DISCORD_BOT_TOKEN.encode()
+    ts = str(_time.time_ns())
+    mac = hmac.new(secret, ts.encode(), hashlib.sha256).hexdigest()
+    return mac[:16]
+
+
+async def _do_apply_update(
+    token: str,
+    channel_id: int,
+    message_id: int,
+    requester: str,
+    target_sha: str,
+) -> None:
+    """Run apply_update off the event loop; called from the job queue.
+
+    On success: edits the original message → "⏳ Restarting…", writes the
+    marker, logs, then sys.exit(0) so systemd (P3-2) restarts the bot.
+    On failure: edits to the rollback message, stays running.
+    """
+    import updater as _updater_mod
+    import sys as _sys
+
+    # Phase 1: pulling
+    try:
+        chan = bot.get_channel(channel_id)
+        msg = await chan.fetch_message(message_id)
+        await msg.edit(content="⏳ Pulling changes…")
+    except Exception:
+        pass
+
+    result = _updater_mod.apply_update()
+
+    if result.get("ok"):
+        from_sha = result.get("from_sha", "?")
+        to_sha = result.get("to_sha", "?")
+        try:
+            chan = bot.get_channel(channel_id)
+            msg = await chan.fetch_message(message_id)
+            await msg.edit(content=f"⏳ Restarting on `{to_sha}`…")
+        except Exception:
+            pass
+        logger.info(f"[update] {requester}: {from_sha} → {to_sha}")
+        _updater_mod.write_marker(
+            str(channel_id), str(message_id), requester, to_sha
+        )
+        # Remove from pending BEFORE exit so on_ready doesn't double-post
+        _PENDING_UPDATES.pop(token, None)
+        _sys.exit(0)
+    else:
+        stage = result.get("stage", "unknown")
+        error = result.get("error", "")
+        pre_sha = result.get("pre_sha", "?")
+        try:
+            chan = bot.get_channel(channel_id)
+            msg = await chan.fetch_message(message_id)
+            await msg.edit(
+                content=(
+                    f"❌ Update failed at `{stage}` — rolled back to `{pre_sha}`\n"
+                    f"Error: {error[:200]}"
+                )
+            )
+        except Exception:
+            pass
+        logger.warning(f"[update] {requester}: failed at {stage}: {error[:200]}")
+        _PENDING_UPDATES.pop(token, None)
+
+
+class _ConfirmView(View):
+    """Confirm / Cancel for a pending update."""
+
+    def __init__(self, token: str, requester: str, target_sha: str, *, timeout: float = _UPDATE_TOKEN_TTL):
+        super().__init__(timeout=timeout)
+        self.token = token
+        self.requester = requester
+        self.target_sha = target_sha
+
+    async def interaction_check(self, interaction, /) -> bool:
+        if str(interaction.user.id) != self.requester:
+            await interaction.response.send_message(
+                "⛔ Nur derjenige, der /update aufgerufen hat, kann bestätigen.",
+                ephemeral=True,
+            )
+            return False
+        return True
+
+    @discord.ui.button(label="✅ Confirm", style=ButtonStyle.success, custom_id="update:confirm")
+    async def confirm(self, button: Button, interaction: Interaction):
+        await interaction.response.defer(thinking=True, ephemeral=False)
+        info = _PENDING_UPDATES.get(self.token)
+        if info is None:
+            await interaction.followup.send(
+                "⚠️ Diese Anfrage ist abgelaufen — bitte /update erneut aufrufen.",
+                ephemeral=True,
+            )
+            return
+
+        # Check queue busy
+        if not _job_queue.empty():
+            await interaction.followup.send(
+                "⛔ Die Job-Warteschlange ist noch aktiv — ein Neustart würde "
+                "einen laufenden /run unterbrechen. Bitte später erneut versuchen.",
+                ephemeral=True,
+            )
+            return
+
+        # Enqueue the update (run off event loop so it can sys.exit)
+        info["stage"] = "queued"
+        await _job_queue.put((
+            _do_apply_update,
+            (
+                self.token,
+                int(info["channel_id"]),
+                int(info["message_id"]),
+                info["requester"],
+                self.target_sha,
+            ),
+            {},
+            bot.loop.create_future(),
+        ))
+
+    @discord.ui.button(label="✖ Cancel", style=ButtonStyle.secondary, custom_id="update:cancel")
+    async def cancel(self, button: Button, interaction: Interaction):
+        info = _PENDING_UPDATES.pop(self.token, {})
+        try:
+            await interaction.response.edit_message(
+                content=f"❌ Update abgebrochen — bleibe auf `{info.get('from_sha', '?')}`.",
+                view=None,
+            )
+        except Exception:
+            await interaction.response.edit_message(
+                content="❌ Update abgebrochen.",
+                view=None,
+            )
+
+
+@bot.slash_command(name="update", description="Admin: check for and apply bot updates")
+@admin_only
+async def update_cmd(ctx):
+    """Check for updates; show commit list with Confirm/Cancel if behind main."""
+    await ctx.defer()
+
+    import updater
+
+    status = await _run_blocking(ctx, updater.fetch_status)
+    if not status.get("ok"):
+        await ctx.followup.send(f"❌ Status-Check fehlgeschlagen: {status.get('error', '?')}")
+        return
+
+    if status["ahead"] == 0:
+        sha = status["current_sha"][:12]
+        await ctx.followup.send(f"✅ Bereits auf dem neusten Stand — `{sha}`.")
+        return
+
+    # Build commit list
+    lines = [
+        f"📦 `{status['current_sha'][:12]}` → `{status['target_sha'][:12]}` — "
+        f"{status['ahead']} commit(s):"
+    ]
+    for c in status["commits"]:
+        lines.append(f"  • `{c['sha'][:7]}` {c['subject'][:72]}")
+    lines.append("")
+    lines.append("Bestätigen klicken zum Aktualisieren — der Bot wird anschliessend neu gestartet.")
+
+    token = _make_token()
+    target_sha = status["target_sha"][:12]
+    requester_id = str(ctx.author.id)
+
+    _PENDING_UPDATES[token] = {
+        "channel_id": str(ctx.channel.id),
+        "message_id": "?",  # filled after send
+        "requester": requester_id,
+        "target_sha": target_sha,
+        "from_sha": status["current_sha"][:12],
+    }
+
+    view = _ConfirmView(token=token, requester=requester_id, target_sha=target_sha)
+    msg = await ctx.followup.send("\n".join(lines), view=view)
+
+    # Store actual message id for on_ready marker (P3-3 step 4)
+    _PENDING_UPDATES[token]["message_id"] = str(msg.id)
 
 
 def main() -> None:
