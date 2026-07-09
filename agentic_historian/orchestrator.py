@@ -280,6 +280,19 @@ def run_full_pipeline(
         except Exception:
             pass
 
+    # #226: preserve the inputs a later isolated re-run (reprocess) needs — the
+    # pure VLM transcription (before Phase 3 reconciles ctx.transcription) and the
+    # source image path — so reprocess(fields=["script"]) can re-run kraken+reconcile.
+    try:
+        from runstate import RunState
+        state = RunState.load_or_new(doc_id)
+        if ctx.transcription:
+            state.artifacts["vlm_transcription"] = ctx.transcription
+        state.artifacts["image_path"] = str(img)
+        state.save()
+    except Exception as e:
+        logger.warning(f"[Orchestrator] reprocess-input persist skipped ({doc_id}): {e}")
+
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 2: Agent B — Quellenbeschreibung + Modellvorschlag
     # ════════════════════════════════════════════════════════════════════════
