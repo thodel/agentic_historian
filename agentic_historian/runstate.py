@@ -191,6 +191,11 @@ class RunState(BaseModel):
         return p
 
     @classmethod
+    def exists(cls, doc_id: str) -> bool:
+        """Return True if a saved run state file exists for *doc_id*."""
+        return cls._path(doc_id).exists()
+
+    @classmethod
     def load(cls, doc_id: str, path: Optional[Path] = None) -> "RunState":
         p = path or cls._path(doc_id)
         return cls.model_validate_json(p.read_text(encoding="utf-8"))

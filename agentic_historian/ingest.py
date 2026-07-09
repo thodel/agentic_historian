@@ -75,6 +75,11 @@ def run_switchdrive_orders(parent: Optional[str] = None,
 Runner = Callable[[object], object]
 
 
+def build_stage_runners(state) -> dict:
+    """Public wrapper for auto-resume in gate views (#227)."""
+    return _default_runners(state)
+
+
 def _default_runners(state) -> dict:
     """Bind each STAGE to its real implementation, reusing the agent + two-pronged
     HTR functions rather than reimplementing them.
