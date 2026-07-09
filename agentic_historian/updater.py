@@ -22,20 +22,26 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).parent.parent
-_MARKER_PATH = _REPO_ROOT / "data" / ".update-marker.json"
+_PKG_DIR = Path(__file__).parent               # agentic_historian/ — where `import bot` resolves
+_MARKER_PATH = _PKG_DIR / "data" / ".update-marker.json"
 
-# Packages checked by the smoke test.
-_SMOKE_COMMAND = (
-    "python -c "
-    + "import bot,config,orchestrator,ingest,agent_tools,nl_orchestrator,semantic;"
-    + "from utils import publish_github,mcp_probe; from knowledge_hub import store; from eval import harness;"
-    + "print('smoke-ok')"
+# Import smoke test — validates the new on-disk code in a subprocess. Built as a
+# proper argv list ([python, "-c", CODE]) so the whole snippet stays ONE argument
+# (a space-joined string would be word-split and run `python -c import`), and via
+# sys.executable so it uses THIS venv's interpreter (a bare "python" could hit a
+# different one without the deps). Mirrors update.sh's `cd $PKG && $PY -c …`.
+_SMOKE_CODE = (
+    "import bot, config, orchestrator, ingest, agent_tools, nl_orchestrator, "
+    "semantic; from utils import publish_github, mcp_probe; "
+    "from knowledge_hub import store; from eval import harness; print('smoke-ok')"
 )
+_SMOKE_COMMAND = [sys.executable, "-c", _SMOKE_CODE]
 
 
 # ── Subprocess runner protocol ───────────────────────────────────────────────
@@ -184,15 +190,15 @@ def apply_update(runner: SubprocessRunner | None = None) -> dict:
 
     # ── pip install -r requirements-dev.txt ───────────────────────────────────
     req_dev = _REPO_ROOT / "requirements-dev.txt"
-    pip_r = r.run(["python", "-m", "pip", "install", "-r", str(req_dev)], cwd=_REPO_ROOT)
+    pip_r = r.run([sys.executable, "-m", "pip", "install", "-r", str(req_dev)], cwd=_REPO_ROOT)
     if not pip_r.ok:
         _rollback(r, pre_sha)
         return dict(ok=False, stage="pip",
                     error=f"pip install failed: {pip_r.stderr.strip()[:200]}",
                     rolled_back=True, pre_sha=pre_sha)
 
-    # ── smoke test ────────────────────────────────────────────────────────────
-    smoke_r = r.run(_SMOKE_COMMAND, cwd=_REPO_ROOT)
+    # ── smoke test (run from the package dir so `import bot` resolves) ─────────
+    smoke_r = r.run(_SMOKE_COMMAND, cwd=_PKG_DIR)
     if not smoke_r.ok or "smoke-ok" not in smoke_r.stdout:
         _rollback(r, pre_sha)
         return dict(ok=False, stage="smoke",
