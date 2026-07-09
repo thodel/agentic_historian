@@ -135,8 +135,55 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
     if transcription.strip():
         L += ["## Transkription", "", "```", transcription.strip(), "```", ""]
 
+    # ── Recognition results (#238) ─────────────────────────────────────────
+    # Show every engine's output + provenance on the fused transcription.
+    # Parsed from pipeline.json (written by nl_orchestrator after Phase 3).
+    _recs = pipe.get("recognitions", []) or []
+    if _recs:
+        L += ["## Recognition results", ""]
+        L += [f"__{len(_recs)} engine(s) — collapsible view_", ""]
+        L += ["<details>", "<summary>Show all engine outputs</summary>", ""]
+        # Table: engine, model, provenance, chars
+        L += ["| Engine | Model | Provenance | Chars |",
+              "|---|---|---|---|"]
+        for r in _recs:
+            _engine = r.get("engine", "?")
+            _model = r.get("model_id", "—")
+            _txt = r.get("text", "") or ""
+            _len = len(_txt)
+            _src = "single" if len(_recs) == 1 else "fused"
+            # provenance badge on fused transcription
+            _a_meta_fusion = a_meta.get("fusion_strategy", "")
+            _llm_skipped = a_meta.get("fusion_llm_skipped", False)
+            if _a_meta_fusion:
+                _prov = "⚖️ vote" if _llm_skipped else "🤖 LLM-arbitrated"
+            else:
+                _prov = "single engine"
+            L.append(f"| `{_engine}` | `{_model}` | {_prov} | {_len} |")
+            L.append(f"<details>")
+            L.append(f"<summary>{_engine} output ({_len} chars)</summary>")
+            L.append("")
+            L.append("```")
+            L.append(_txt[:2000] + ("..." if len(_txt) > 2000 else ""))
+            L.append("```")
+            L.append("</details>")
+        # Provenance legend for the fused transcription
+        if a_meta.get("fusion_strategy"):
+            _n_arbitrated = a_meta.get("fusion_arbitrated", 0)
+            _skipped = a_meta.get("fusion_llm_skipped", False)
+            _cer = a_meta.get("fusion_agreement_cer", 0.0)
+            _prov_note = (
+                f"Fused transcription: {_n_arbitrated} spans LLM-arbitrated, "
+                f"agreement CER={_cer:.1%}. "
+                f"{'LLM skipped (high agreement)' if _skipped else 'LLM used for disagreements.'}"
+            )
+            L += ["", _prov_note]
+        L += ["</details>", ""]
+
     L += ["## Dateien", ""]
-    L += [f"- [{name}]({name})" for name in sorted(artifacts) if name != "index.md"]
+    # Include recognition files in the file list
+    _file_keys = sorted(k for k in artifacts if k not in ("index.md", "pipeline.json"))
+    L += [f"- [{name}]({name})" for name in _file_keys]
     return "\n".join(L) + "\n"
 
 
@@ -215,6 +262,37 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
             logger.info(f"[Publish] {doc_id}: no artifacts to publish")
             return None
         contents = {name: p.read_bytes() for name, p in local.items()}
+
+        # ── Publish all per-engine recognitions (#238) ─────────────────────
+        # Generate one txt file per engine + fused.txt from pipeline.json.
+        # This is additive: recognitions that are already on disk (future
+        # RECOGNITIONS_DIR) are also picked up automatically.
+        _recs: list = []
+        _fused_text = ""
+        if "pipeline.json" in contents:
+            try:
+                _pipe = json.loads(contents["pipeline.json"].decode("utf-8", "replace"))
+                _recs = _pipe.get("recognitions", []) or []
+                _fused_text = _pipe.get("transcription", "") or ""
+            except (ValueError, TypeError):
+                _recs = []
+        # Write one file per engine (skip if text is missing/error)
+        for _r in _recs:
+            _engine = _r.get("engine", "engine")
+            _model = _r.get("model_id", "")
+            _txt = _r.get("text", "") or ""
+            _err = _r.get("error", "") or ""
+            if not _txt or _err:
+                continue
+            _fname = f"recognitions/{_engine}"
+            if _model:
+                _fname += f"-{_model}"
+            _fname += ".txt"
+            contents[_fname] = _txt.encode("utf-8")
+        # Write fused transcription
+        if _fused_text:
+            contents["recognitions/fused.txt"] = _fused_text.encode("utf-8")
+
         contents["index.md"] = _index_md(doc_id, contents, source_url).encode("utf-8")
         files = {f"docs/{doc_id}/{name}": data for name, data in contents.items()}
         url = _commit_files(files, f"Publish {doc_id}", session=session)

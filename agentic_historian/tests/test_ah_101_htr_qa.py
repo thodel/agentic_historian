@@ -94,9 +94,12 @@ def test_phase3_uses_reconcile():
         "orchestrator must import reconcile from agent_a.reconcile"
     )
 
-    # Must call reconcile() in Phase 3
+    # Must call reconcile() in Phase 3. Scan the whole run_full_pipeline body
+    # (to the next top-level def) — #238 adds a fusion block before the reconcile
+    # elif, so a fixed byte window would miss it.
     func_idx = orc.find("def run_full_pipeline")
-    phase3 = orc[func_idx:func_idx + 8000]
+    next_def = orc.find("\ndef ", func_idx + 10)
+    phase3 = orc[func_idx: next_def if next_def != -1 else len(orc)]
     assert "reconcile(" in phase3, "Phase 3 must call reconcile()"
 
     # Must use reconciled output, not raw kraken overwrite
