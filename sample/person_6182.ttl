@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per006801>
+        a                    pers:person ;
+        rdfs:label           "Magnus Lucher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-21 18:20:02.223219" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Mangus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134a" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "562"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002574.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006801a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Magnus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006801a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002574> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002574> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

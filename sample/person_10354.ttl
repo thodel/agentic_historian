@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per011173>
+        a                    pers:person ;
+        rdfs:label           "Jean Bron"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1448" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-28 11:10:55.028112" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011173a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004115> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004115.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011173a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011173a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004115> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004115> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Ostorero 1995, p. 291" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "L'enfant de Nicod Durier a été tué dans sa maison selon les aveux de Jaquet Durier (ACV, Ac 29, p. 26)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009132> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

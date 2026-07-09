@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per015135>
+        a                    pers:person ;
+        rdfs:label           "NN Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1798" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-07 10:26:14.263488" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015135a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015135a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "29.03.1798" ;
+                               pers:description  "key003617" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004883>
+                             ] ;
+        pers:occupation      [ pers:description  "key000977" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "rhr: Hansueli Pfister geht gemäss mündlicher Auskunft davon aus, dass der 'Bürgermeister' identisch ist mit dem Müller Heinrich Meier (per015126)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008569> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

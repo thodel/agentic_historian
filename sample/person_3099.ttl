@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003549>
+        a                    pers:person ;
+        rdfs:label           "Melchior Burrach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1553" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1553" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-27 15:01:56.020013" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Melker" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13b" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "42"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001413.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003549a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003549a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001413> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001413> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000568> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003548> ;
+                               pers:occurence  "LU II/3"
+                             ] .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per002681>
+        a                pers:person ;
+        rdfs:label       "Jakob Zweifel"@deu ;
+        pers:births      [ pers:birth         "01.11.1730" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1730-11-01" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "17.12.1817" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1817-12-17" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002681a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343b" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "1150"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000655> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1769-1771" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1769" ;
+                                                                    pers:to    "1771"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000655> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "5998" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

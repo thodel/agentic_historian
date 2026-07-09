@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012660>
+        a                pers:person ;
+        rdfs:label       "Johann Ludwig Nüscheler"@deu ;
+        pers:births      [ pers:birth      "1672" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "27.04.1737" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 10:58:09.344852" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Zürich" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Johann Ludwig" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012660a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003013> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1718-1737" ;
+                           pers:description  "key005634" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date         "1707-1718" ;
+                           pers:description  "key004007" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010769> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1718-1737" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003013> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1019743921" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "46118" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

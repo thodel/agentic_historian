@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per004946>
+        a             pers:person ;
+        rdfs:label    "Heinrich Staufer"@deu ;
+        pers:births   [ pers:birth         "1211" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1211" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "10.02.1242" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1242-02-10" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-03-29 15:43:53.900784" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Heinrich" ;
+                        pers:gennames   [ pers:genname    "VII." ;
+                                          pers:occurence  "SG III/3"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004946a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "1j" ;
+                                                           pers:line     "31" ;
+                                                           pers:page     "6"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000081> ;
+                        pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                          pers:rolename   "König/roi"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000081> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:type  "other" ;
+                        pers:url   "https://www.deutsche-biographie.de/sfz57110.html#ndbcontent"
+                      ] ;
+        pers:sex      "1" .

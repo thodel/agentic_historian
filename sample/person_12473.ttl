@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per013430>
+        a                    pers:person ;
+        rdfs:label           "Dietrich von Englisberg"@deu ;
+        pers:citizenOf       [ pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002638>
+                             ] ;
+        pers:deaths          [ pers:death      "nach 25.06.1513" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1466" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 15:18:03.725906" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Dietrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013430a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003370> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1483-1486" ;
+                               pers:description  "key005669" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1487-" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003370> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "014983" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

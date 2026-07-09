@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per002267>
+        a                    pers:person ;
+        rdfs:label           "Franz Anton Zwyssig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1704" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1704" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1760" ] ] ;
+                               pers:last_mention  "1760" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Franz Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002267a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "198b" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "757"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000963> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Frantz Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000963.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002267a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000692" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key003656" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1737-1739" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1737" ;
+                                                                        pers:to    "1739"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000963> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

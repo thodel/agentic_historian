@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008768>
+        a                    pers:person ;
+        rdfs:label           "Frédéric Perret-Gentil"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003114>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1799" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1799" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 08:16:58.506131" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Frédéric" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008768a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003206> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Frédéric" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "sds_ne" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003206.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008768a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003206> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1799" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1799" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per009191>
+        a                    pers:person ;
+        rdfs:label           "Jacques Curty"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1607" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-26 13:32:35.545701" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003385.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009191a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009191a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003385> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003385.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009191a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003385> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008029> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009192> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

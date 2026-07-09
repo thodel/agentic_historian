@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per006963>
+        a                pers:person ;
+        rdfs:label       "Gregor XIII. (Papst)"@deu ;
+        pers:births      [ pers:birth         "1502" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1502" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1585" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1585" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-06-27 18:44:40.893035" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Gregor" ;
+                           pers:gennames   [ pers:genname    "XIII." ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006963a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "159b" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "699"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1572–1585" ;
+                           pers:description   "key000014" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1572" ;
+                                                                    pers:to    "1585"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118697390" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

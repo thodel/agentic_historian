@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per001535>
+        a                pers:person ;
+        rdfs:label       "Ruprecht von der Pfalz"@deu ;
+        pers:births      [ pers:birth         "05.05.1352" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1352-05-05" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "18.05.1410" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1410-05-18" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:employerOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000491> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:employerOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000490> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-10 10:07:56.858644" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Ruͦprecht" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000240.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001535a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Ruprecht" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000240.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001535a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Ruprecht" ;
+                           pers:gennames   [ pers:genname    "III." ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001535a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "38" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "76"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "134" ;
+                                                              pers:line     "5" ;
+                                                              pers:page     "444"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "55" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "180"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000240> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1400-1410" ;
+                           pers:description   "key000229" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1400" ;
+                                                                    pers:to    "1410"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000240> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

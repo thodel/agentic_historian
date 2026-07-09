@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per007046>
+        a                pers:person ;
+        rdfs:label       "Alois Negrelli"@deu ;
+        pers:births      [ pers:birth         "23.01.1799" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1799-01-23" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "01.10.1858" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1858-10-01" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-04 18:18:28.876110" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Alois" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007046a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "168b" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "758"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002651> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1826" ;
+                           pers:description   "key004853" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1826" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002651> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19906" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per001977>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Dulliker"@deu ;
+        pers:deaths          [ pers:death         "1559" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1559" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1522" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1522" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-03 15:07:37.796638" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000858.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001977a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001977a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "157" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "573"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000858> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000858.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001977a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1553" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000858> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "27139" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

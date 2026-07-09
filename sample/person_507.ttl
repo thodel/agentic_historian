@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000595>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Ab Yberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1389" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1389" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1431" ] ] ;
+                               pers:last_mention  "1431" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000595a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000289> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1428" ;
+                               pers:description   "key000639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000289> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18923" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

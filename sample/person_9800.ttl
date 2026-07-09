@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010573>
+        a                    pers:person ;
+        rdfs:label           "Pierre de Treytorrens"@fra ;
+        pers:deaths          [ pers:death      "avant 1593" ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-03 14:41:26.741085" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010573a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003936> ;
+                               pers:rolenames  [ pers:occurence  "NE 3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003936.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010573a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003936> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008068> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

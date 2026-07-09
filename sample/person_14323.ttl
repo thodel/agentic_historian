@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per015365>
+        a              pers:person ;
+        rdfs:label     "Katharina von Burgund"@deu ;
+        pers:births    [ pers:birth      "1378" ;
+                         pers:occurence  "mina"
+                       ] ;
+        pers:deaths    [ pers:death      "1425/1426" ;
+                         pers:occurence  "mina"
+                       ] ;
+        pers:hist      [ pers:date      "2020-04-03 13:38:43.585574" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename          "Katharina" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per015365a> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                  pers:occurence       "mina"
+                                                ] ;
+                         pers:occurence         "mina" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006167> ;
+                         pers:type              "std"
+                       ] ;
+        pers:name      [ pers:forename          "Katharina" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per015365b> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "pascale"
+                                                ] ;
+                         pers:occurence         "pascale" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org006167> ;
+        pers:project   "Königsfelden" ;
+        pers:refs      [ pers:id    "137313586" ;
+                         pers:type  "GND"
+                       ] ;
+        pers:sex       "2" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000387> ;
+                         pers:occurence  "mina"
+                       ] .

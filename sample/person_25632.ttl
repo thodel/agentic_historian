@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per027013>
+        a                    pers:person ;
+        rdfs:label           "Wetzel Schultheiss"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027010> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1302" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-27 09:15:47.395380" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1319" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Wetzel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027013a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002723> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wezel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002723.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027013a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1302-1311, 1314-1319" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000849> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002723> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Ziegler 1919, Nr. 7" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:title  "Ziegler 1919, Nr. 6" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

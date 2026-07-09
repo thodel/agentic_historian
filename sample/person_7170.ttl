@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per007841>
+        a                pers:person ;
+        rdfs:label       "Johann Jakob Tillier"@deu ;
+        pers:births      [ pers:birth         "1673" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1673" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1731" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1731" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-08 09:48:24.446302" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007841a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002886> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "254" ;
+                                                               pers:line     "31" ;
+                                                               pers:page     "1139"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002886.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007841a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1722" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1722" ;
+                           pers:description   "key003597" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002886> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17268" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex         "1" .

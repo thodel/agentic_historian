@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per027142>
+        a                    pers:person ;
+        rdfs:label           "Peter von Jauer"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000439> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1379" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-09 07:59:13.701114" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008960.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027142a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027142a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008960> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008960> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Schreiber in der Kanzlei von König Wenzel." ;
+        pers:sex             "1" .

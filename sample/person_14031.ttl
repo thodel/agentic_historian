@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per015061>
+        a                    pers:person ;
+        rdfs:label           "Hans Konrad Weber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1708" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-31 07:56:26.151433" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015061a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000230> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Conrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000230.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015061a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000230> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008751> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

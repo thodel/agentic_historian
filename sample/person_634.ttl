@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000723>
+        a                    pers:person ;
+        rdfs:label           "Elsa Knüwler"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001158>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Elss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000364.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000723a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Elsa" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000723a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "49" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "119"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000364> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000364> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000161> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" .

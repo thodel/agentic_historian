@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per015858>
+        a                       pers:person ;
+        rdfs:label              "André Liget"@fra ;
+        pers:first_mentions     [ pers:first_mention  "1479" ;
+                                  pers:occurence      "gortega"
+                                ] ;
+        pers:hist               [ pers:date      "2020-04-18 12:48:57.171807" ;
+                                  pers:username  "gortega"
+                                ] ;
+        pers:judgeAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011379> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:memberOf           [ pers:occurence      "gortega" ;
+                                  pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004150>
+                                ] ;
+        pers:name               [ pers:forename    "Andrea" ;
+                                  pers:lang        "lat" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006339.02> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015858a.01>
+                                ] ;
+        pers:name               [ pers:forename          "Andrea" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per015858a> ;
+                                  pers:lang              "lat" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006339> ;
+                                  pers:type              "std"
+                                ] ;
+        pers:name               [ pers:forename          "André" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per015858a> ;
+                                  pers:lang              "fra" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006339> ;
+                                  pers:type              "std"
+                                ] ;
+        pers:occupation         [ pers:description  "key003069" ;
+                                  pers:occurence    "gortega" ;
+                                  pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004025>
+                                ] ;
+        pers:occupation         [ pers:date         "16.11.1479" ;
+                                  pers:description  "key005585" ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:org_id             <http://ssrq-sds-fds.ch/Register/#org006339> ;
+        pers:project            "SSRQ" ;
+        pers:refs               [ pers:title  "Maier 1996, p. 413" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:refs               [ pers:title  "Reymond 1918, p. 38" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:sex                "1" .

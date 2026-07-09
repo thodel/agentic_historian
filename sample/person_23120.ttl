@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per024445>
+        a                pers:person ;
+        rdfs:label       "Kolumban Sozzi"@deu , "Colombano Sozzi"@ita ;
+        pers:births      [ pers:birth      "14.07.1728" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "23.06.1802" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-24 17:23:31.396521" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Columbanus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008437.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024445a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kolumban" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024445a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008437> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Colombano" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024445a> ;
+                           pers:lang       "ita" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008437> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1764–1785" ;
+                           pers:description  "key000001" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000087>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org008437> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1071924893" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "16980" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

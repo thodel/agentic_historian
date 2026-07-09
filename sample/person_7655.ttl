@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008341>
+        a                    pers:person ;
+        rdfs:label           "Karl Kühnis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1794" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1794" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 15:04:34.730354" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Karl" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008341a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002025> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Carlo" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "325e" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "1393"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002025.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008341a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1794" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1794" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002947>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002025> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

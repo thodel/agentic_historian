@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per000348>
+        a                    pers:person ;
+        rdfs:label           "Hermann von Landenberg"@deu ;
+        pers:deaths          [ pers:death         "01.04.1361" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1361-04-01" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1300?" ;
+                               pers:format_dates   [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                         pers:when       "1300"
+                                                                       ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-23 15:05:07.105079" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hermann" ;
+                               pers:gennames   [ pers:genname    "IV." ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000348a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "20" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "36"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002752> ;
+                               pers:rolenames  [ pers:occurence  "sabine" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1331" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000122> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000152> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "29272" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "1069344710" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:remark          "Projekt Königsfelden: Nach: Merz, Walther: Argauische Amtslisten. In: Argovia. Jahresschrift der Historischen Gesellschaft des Kantons Aargau, Bd. 46, 1934, Link: http://dx.doi.org/10.5169/seals-48912." ;
+        pers:sex             "1" .

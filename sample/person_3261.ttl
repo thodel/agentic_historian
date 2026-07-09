@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per003717>
+        a               pers:person ;
+        rdfs:label      "Hermann Gernas"@deu ;
+        pers:deaths     [ pers:death         "vor 1437" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1437" ;
+                                                                   pers:notBefore  "1387" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2015-08-06 10:25:00.218240" ;
+                          pers:username  "andreas"
+                        ] ;
+        pers:name       [ pers:forename    "Herman" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   [ pers:articles  [ pers:article  "41" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "110"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001373.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003717a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Hermann" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003717a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "LU II/3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001373> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001373> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:page   "S. 863" ;
+                          pers:title  "SSRQ BE II/8.2" ;
+                          pers:type   "biblio" ;
+                          pers:url    "https://www.ssrq-sds-fds.ch/online/BE_II_8/index.html#p_I"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

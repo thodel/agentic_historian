@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per000750>
+        a                    pers:person ;
+        rdfs:label           "Peter Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "15. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1500"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000750a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000750a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "51a" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "157"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

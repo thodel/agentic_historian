@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per000212>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Montfort"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1322" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1322" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000212a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "10a" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "13"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000032> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1322" ;
+                               pers:description   "key004906" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1322" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000032> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000017> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

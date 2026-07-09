@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009327>
+        a                pers:person ;
+        rdfs:label       "Galeazzo Maria Sforza"@deu , "Galeazzo Maria Sforza"@ita ;
+        pers:births      [ pers:birth         "14.01.1444" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1444-01-14" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "26.12.1476" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1476-12-26" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-06-26 09:55:56.096000" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Galeatz Maria" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003457.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009327a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Galeazzo Maria" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009327a> ;
+                           pers:lang       "ita" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003457> ;
+                           pers:rolenames  [ pers:occurence  "FDS TI" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Galeazzo Maria" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009327a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003457> ;
+                           pers:rolenames  [ pers:occurence  "FDS TI" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000189" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc005801> ;
+                           pers:occurence    "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003457> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29254" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per009217>
+        a                    pers:person ;
+        rdfs:label           "Jenon Jorand"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1610" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1610" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-22 10:47:03.864650" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009215> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009216> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename          "Jenon" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009217a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003403> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003403> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009214> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

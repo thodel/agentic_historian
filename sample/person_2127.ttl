@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002536>
+        a                    pers:person ;
+        rdfs:label           "Hans Ruesch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1657" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1657" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002536a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "242" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "891"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000332> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000332.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002536a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000332> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per000065>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Wildenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1261" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1261" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-29 16:23:25.636988" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hainricus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000020.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000065a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000065a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "8" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "12"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000020> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Henricus" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "pascale"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000065b> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000008> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Henricus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000065a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000020> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1261" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1261" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000020> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

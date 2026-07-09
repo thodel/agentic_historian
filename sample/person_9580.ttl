@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010341>
+        a                    pers:person ;
+        rdfs:label           "Otmar Ortwin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-16 16:45:58.531879" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Otmar" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010341a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003819> ;
+                               pers:type              "std"
+                             ] ;
+        pers:nationalOf      [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001889>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003819> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

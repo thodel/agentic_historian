@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per002773>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Emanuel Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1731" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1731" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Rudolph Emanuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002773a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf Emanuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002773a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "1148"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "298" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1037"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000754" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key003713" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

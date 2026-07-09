@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per012328>
+        a              pers:person ;
+        rdfs:label     "Ruff Marti"@fra , "Ruff Marti"@deu ;
+        pers:deaths    [ pers:death      "ca. 1638" ;
+                         pers:occurence  "lionel"
+                       ] ;
+        pers:hist      [ pers:date      "2019-09-27 09:33:40.253918" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename   "Ruff" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per012328a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "pascale" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003745> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename   "Ruff" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per012328a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "lionel" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003745> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003745> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012322> ;
+                         pers:occurence  "lionel"
+                       ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004676>
+        a             pers:person ;
+        rdfs:label    "Rudolf von Habsburg-Österreich"@deu ;
+        pers:births   [ pers:birth         "1552" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:deaths   [ pers:death         "1612" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2017-03-16 11:15:57.693931" ;
+                        pers:username  "SG III/4"
+                      ] ;
+        pers:name     [ pers:forename   "Rudolf" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "SG III/4"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004676a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                        pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                          pers:rolename   "Kaiser/empereur"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118603701" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

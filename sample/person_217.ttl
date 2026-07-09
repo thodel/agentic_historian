@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per003143>
+        a                    pers:person ;
+        rdfs:label           "Adelheid von Belmont"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1379" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1379" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1390" ] ] ;
+                               pers:last_mention  "1390" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000274> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003143b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m1" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "39" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000116> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003143a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "39" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000006> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000006> , <http://ssrq-sds-fds.ch/Register/#org000116> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000273> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003144> ;
+                               pers:occurence  "SG III/2"
+                             ] .

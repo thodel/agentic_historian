@@ -1,0 +1,95 @@
+<http://ssrq-sds-fds.ch/Register/#per002272>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Bossard"@deu ;
+        pers:deaths          [ pers:death         "02.07.1628" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1628-07-02" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-24 15:52:00.200964" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "802"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000955.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002272a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Leonhardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000955.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002272a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002272a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "718"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "203" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "770"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000955> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhard" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000955.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002272a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1611, 1612" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ;
+                                         pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1611-1613" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1611" ;
+                                                                        pers:to    "1613"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000955> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 18–19" ;
+                               pers:title  "Aschwanden 1936" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000139721"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

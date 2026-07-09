@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018288>
+        a                    pers:person ;
+        rdfs:label           "Hans Gamma"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1561" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-27 09:13:41.186377" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000961.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018288a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018288a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000961> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000961> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000100> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

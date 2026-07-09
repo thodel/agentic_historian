@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007167>
+        a                    pers:person ;
+        rdfs:label           "Melchior Brandenberg"@deu ;
+        pers:deaths          [ pers:death         "16.06.1620" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1620-06-16" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1600" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1600" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-24 15:23:02.652932" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007167a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "177" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "800"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000744> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000744> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26637" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

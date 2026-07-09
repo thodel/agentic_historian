@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004691>
+        a                    pers:person ;
+        rdfs:label           "Hans Baumgartner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1468" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1468" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-12-21 10:47:01.805009" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001672.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004691a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004691a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001672> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001672> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1468" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1468" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000211> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per003161>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus Schulmeister"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1372" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1372" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1403" ] ] ;
+                               pers:last_mention  "1403" ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003161a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "12" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "36"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "1" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "2"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "10" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "31"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "8" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "23"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "11" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "32"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "8b" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "28"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001239> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000540" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001239> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14766" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

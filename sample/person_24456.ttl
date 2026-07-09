@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per025806>
+        a                    pers:person ;
+        rdfs:label           "Hans Ringg [von Baldenstein]"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014071> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019376> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1412" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-17 11:59:03.259068" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001622.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025806a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "senior" ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025806a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001622> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001622> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000773> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

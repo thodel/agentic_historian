@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per003864>
+        a                    pers:person ;
+        rdfs:label           "Elsbeth Krepsinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1594" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1594" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-18 11:35:30.497900" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename          "Elsbeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003864a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "60" ;
+                                                                         pers:line     "15" ;
+                                                                         pers:page     "173"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000493> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000493> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003863> ;
+                               pers:occurence  "LU II/3"
+                             ] .

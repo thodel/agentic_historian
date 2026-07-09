@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per000847>
+        a                    pers:person ;
+        rdfs:label           "Hans Freitag"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1490" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000847a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "104" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "344"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000258> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000258.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000847a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000258> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

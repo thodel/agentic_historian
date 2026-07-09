@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per013504>
+        a             pers:person ;
+        rdfs:label    "Peter von Hewen"@deu ;
+        pers:births   [ pers:birth      "1328" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "29.09.1371" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-02-19 09:44:14.467005" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:forename    "Peter" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000182.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013504a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Peter" ;
+                        pers:gennames   [ pers:genname    "I." ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per013504a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000182> ;
+                        pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                          pers:rolename   "Freiherr (Baron)/baron"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000182> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

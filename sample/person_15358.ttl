@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per016442>
+        a                       pers:person ;
+        rdfs:label              "Jacques Tribolet"@fra ;
+        pers:citizenOf          [ pers:occurence  "gortega" ;
+                                  pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                                ] ;
+        pers:first_mentions     [ pers:first_mention  "1524" ;
+                                  pers:occurence      "gortega"
+                                ] ;
+        pers:hist               [ pers:date      "2020-12-07 12:34:33.127723" ;
+                                  pers:username  "gortega"
+                                ] ;
+        pers:judgeAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:name               [ pers:forename    "Jacob" ;
+                                  pers:lang        "fra" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.07> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016442a.02>
+                                ] ;
+        pers:name               [ pers:forename   "Jacques" ;
+                                  pers:id         <http://ssrq-sds-fds.ch/Register/#per016442a> ;
+                                  pers:lang       "fra" ;
+                                  pers:occurence  "gortega" ;
+                                  pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                                  pers:type       "std"
+                                ] ;
+        pers:name               [ pers:forename    "Jacob" ;
+                                  pers:lang        "fra" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.06> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016442a.01>
+                                ] ;
+        pers:occupation         [ pers:description  "key000180" ;
+                                  pers:location     <http://ssrq-sds-fds.ch/Register/#loc009762> ;
+                                  pers:occurence    "gortega" ;
+                                  pers:org_id       <http://ssrq-sds-fds.ch/Register/#org009297>
+                                ] ;
+        pers:occupation         [ pers:description  "key005092" ;
+                                  pers:occurence    "gortega" ;
+                                  pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005685>
+                                ] ;
+        pers:org_id             <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project            "SSRQ" ;
+        pers:refs               [ pers:id    "022393" ;
+                                  pers:type  "HLS"
+                                ] ;
+        pers:refs               [ pers:title  "Choffat 1989, p. 197" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:remark             "Il conduit le procès de Claude Rolier et prononce la sentence le 1er octobre 1524." ;
+        pers:sex                "1" .

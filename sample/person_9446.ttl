@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per010203>
+        a                    pers:person ;
+        rdfs:label           "Jakob Reich"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1661" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-23 12:31:57.475199" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010203a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000330> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1661" ;
+                               pers:description  "key005235" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000330> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1661" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000691> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

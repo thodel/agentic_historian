@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002876>
+        a               pers:person ;
+        rdfs:label      "Franz Xaver Tschudi"@deu ;
+        pers:births     [ pers:birth         "14.10.1713" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1713-10-14" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:deaths     [ pers:death         "07.05.1768" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1768-05-07" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:name       [ pers:forename   "Franz Xaver" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per002876a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "319" ;
+                                                             pers:line     "7" ;
+                                                             pers:page     "1079"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "24352" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001831> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002875> ;
+                          pers:occurence  "SG III/2"
+                        ] .

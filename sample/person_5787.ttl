@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per006385>
+        a                    pers:person ;
+        rdfs:label           "NN Franz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1730" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1730" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-21 18:14:13.457833" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128d" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "540"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002313.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006385a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006385a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002313> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 26.06.1730" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1730-06-26" ;
+                                                                        pers:notBefore  "1680-06-26" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002313> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

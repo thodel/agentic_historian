@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per007902>
+        a                    pers:person ;
+        rdfs:label           "Andreas Menhardt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1738" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1738" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-28 11:54:11.194908" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007902a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "269" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "1186"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002914> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002914> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

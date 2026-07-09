@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per017223>
+        a                    pers:person ;
+        rdfs:label           "Hans Raguth"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1439" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-06 09:33:27.849869" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1448" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017223a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006811> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006811.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017223a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1448" ;
+                               pers:description  "key000782" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006811> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008967> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

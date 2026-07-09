@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per018233>
+        a                    pers:person ;
+        rdfs:label           "Thomas Tester"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1587" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-25 11:05:21.060405" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1614" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Tomen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006691.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018233a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018233a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006691> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005724" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006691> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010750> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

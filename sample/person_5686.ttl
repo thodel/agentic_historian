@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per006281>
+        a                    pers:person ;
+        rdfs:label           "Johann Vintler"@deu ;
+        pers:deaths          [ pers:death         "vor 01.08.1550" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1550-08-01" ;
+                                                                        pers:notBefore  "1500-08-01" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006287> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1545" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-06 12:19:10.887979" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Platsch" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006281a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "126" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "508"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002449> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Plepst" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Johann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "126" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "509"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002449.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006281a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002449> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006282> ;
+                               pers:occurence  "SG III/3"
+                             ] .

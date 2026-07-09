@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per001586>
+        a                    pers:person ;
+        rdfs:label           "Moritz von Mettenwil"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:deaths          [ pers:death         "19.04.1548" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1548-04-19" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1513" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-20 13:25:51.066823" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Moritz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001586a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "116" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "394"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "132" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "438"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "131" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "436"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000710> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Maritz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000710.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001586a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1520-1522" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1520" ;
+                                                                        pers:to    "1522"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1520, 1521" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ;
+                                         pers:format_date  [ pers:when  "1521" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000710> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14246" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

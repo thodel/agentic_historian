@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008354>
+        a              pers:person ;
+        rdfs:label     "Johann Friedrich Custer"@deu ;
+        pers:births    [ pers:birth         "1762" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "1817" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1817" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-18 17:31:43.991205" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename    "Johann Friedrh." ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                             pers:line     "19" ;
+                                                             pers:page     "1399"
+                                                           ] ;
+                                            pers:vol       "SG III/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003034.01> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008354a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Johann Friedrich" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008354a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "SG III/3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003034> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003034> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:title  "Rohner, Geschlechter und Wappen, S. 73" ;
+                         pers:type   "biblio"
+                       ] ;
+        pers:sex       "1" .

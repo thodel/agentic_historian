@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per009100>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Weck"@deu ;
+        pers:deaths          [ pers:death         "04.12.1655" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1655-12-04" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 13:21:54.502830" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009100a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003345> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1611-1613" ;
+                               pers:description   "key004837" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1611" ;
+                                                                        pers:to    "1613"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1608-1655" ;
+                               pers:description  "key000181" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:occupation      [ pers:date          "1621-1655" ;
+                               pers:description   "key003647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1621" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003345> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VII, p. 247" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg00014483"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

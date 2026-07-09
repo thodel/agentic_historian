@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per003352>
+        a             pers:person ;
+        rdfs:label    "Hartmann von Wieladingen"@deu ;
+        pers:deaths   [ pers:death         "1380er Jahre" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1389" ;
+                                                                 pers:notBefore  "1380" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "LU II/3"
+                      ] ;
+        pers:hist     [ pers:date      "2015-06-29 16:35:21.300212" ;
+                        pers:username  "andreas"
+                      ] ;
+        pers:name     [ pers:forename   "Hartmann" ;
+                        pers:gennames   [ pers:genname    "III." ;
+                                          pers:occurence  "LU II/3"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per003352a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "8a" ;
+                                                           pers:line     "2" ;
+                                                           pers:page     "27"
+                                                         ] ;
+                                          pers:vol       "LU II/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001339> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001339> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

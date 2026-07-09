@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008251>
+        a                pers:person ;
+        rdfs:label       "Hans Ulrich Haltiner"@deu ;
+        pers:births      [ pers:birth         "08.12.1755" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1755-12-08" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "20.04.1814" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1814-04-20" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-10-17 17:19:07.853997" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008251a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003004> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joh.  Ullrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "314a" ;
+                                                               pers:line     "21" ;
+                                                               pers:page     "1350"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003004.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008251a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1782" ;
+                           pers:description   "key004958" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003004> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "31383" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

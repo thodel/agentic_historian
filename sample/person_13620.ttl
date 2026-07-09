@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014641>
+        a                    pers:person ;
+        rdfs:label           "NN Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1465" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-24 09:58:01.774586" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Alte" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014641a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.15> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014641a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000078" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008881> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

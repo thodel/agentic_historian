@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per024618>
+        a              pers:person ;
+        rdfs:label     "Joos Markes"@deu ;
+        pers:deaths    [ pers:death      "vor 01.1757" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024617> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2021-01-20 18:21:45.122053" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename    "Joß" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006913.14> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024618a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Jos" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per024618a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006913> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org006913> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

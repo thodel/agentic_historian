@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per007293>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Bucher"@deu ;
+        pers:deaths          [ pers:death         "18.02.1675" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1675-02-18" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1627" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1627" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-26 11:41:29.085394" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007293a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000977> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "186b" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "837"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000977.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007293a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1648" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:occupation      [ pers:date          "1648" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000977> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21135" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

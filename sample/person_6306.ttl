@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per006930>
+        a                    pers:person ;
+        rdfs:label           "Katharina Bücheler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1586" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1586" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-27 12:39:46.494897" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006927> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename    "Cathrina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "156" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "685"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002597.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006930a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006930b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006930a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002597> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002597> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006929> ;
+                               pers:occurence  "SG III/3"
+                             ] .

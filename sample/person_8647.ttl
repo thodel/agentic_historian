@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009384>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Kämmerling"@deu ;
+        pers:deaths          [ pers:death         "1639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1639" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013978> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1599" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-10 12:02:12.263825" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009384a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003480> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1621-1624" ;
+                               pers:description   "key003719" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1621" ;
+                                                                        pers:to    "1624"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:occupation      [ pers:date          "1599-1639" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1599" ;
+                                                                        pers:to    "1639"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003480> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 315" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg00014483"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

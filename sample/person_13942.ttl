@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per014971>
+        a                pers:person ;
+        rdfs:label       "Gottfried Keller"@deu ;
+        pers:births      [ pers:birth      "19.07.1819" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "15.07.1890" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 08:27:45.476965" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Gottfried" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014971a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003680" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1861-1866" ;
+                           pers:description  "key003628" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004906>
+                         ] ;
+        pers:occupation  [ pers:date         "1861-" ;
+                           pers:description  "key005694" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000066> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "012024" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "11856109X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

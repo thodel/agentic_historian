@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per001096>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Erdingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1368" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1368" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-02 16:04:35.688333" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1396" ] ] ;
+                               pers:last_mention  "1396" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001096b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "100" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "333"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000587> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Frydrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001096a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:gennames          [ pers:genname    "II." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001096a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "100" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "333"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1368-1376" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1368" ;
+                                                                        pers:to    "1376"
+                                                                      ] ] ;
+                               pers:occurence     "pascale" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000053> , <http://ssrq-sds-fds.ch/Register/#org000587> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12592" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

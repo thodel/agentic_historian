@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per010499>
+        a                    pers:person ;
+        rdfs:label           "Otto [von] Sonnenberg"@deu ;
+        pers:deaths          [ pers:death      "21.03.1491" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1452" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-22 08:39:09.587832" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename    "Otto" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000640.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010499a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Otto" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010499a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000640> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1480-1491" ;
+                               pers:description  "key000015" ;
+                               pers:occurence    "stadtasg" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                             ] ;
+        pers:occupation      [ pers:date         "1474-1480" ;
+                               pers:description  "key005261" ;
+                               pers:occurence    "stadtasg" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000640> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:id    "12975" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "122721004" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:page   "I/2,1, S. 366-371" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" .

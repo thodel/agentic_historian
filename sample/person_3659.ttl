@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004133>
+        a                    pers:person ;
+        rdfs:label           "Reinhard von Wattenwyl"@deu ;
+        pers:citizenOf       [ pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001199>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1525" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-26 15:31:13.655046" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1531" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Reinhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004133a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001076> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Reinhartt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "86b" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "323"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001076.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004133a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001421> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001076> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 459" ;
+                               pers:title  "Studer Immenhauser 2006" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000047272"
+                             ] ;
+        pers:sex             "1" .

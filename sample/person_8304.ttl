@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009030>
+        a                    pers:person ;
+        rdfs:label           "Philibert Perroud"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1652" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1652" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-07 13:11:33.558018" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1683" ] ] ;
+                               pers:last_mention  "1683" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Philibert" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009030a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003153> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1652-1669" ;
+                               pers:description  "key004235" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "1677-1683" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1677" ;
+                                                                        pers:to    "1683"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003153> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

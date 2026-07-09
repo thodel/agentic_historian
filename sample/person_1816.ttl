@@ -1,0 +1,86 @@
+<http://ssrq-sds-fds.ch/Register/#per002217>
+        a                    pers:person ;
+        rdfs:label           "Beat Jakob Frei"@deu ;
+        pers:deaths          [ pers:death         "25.11.1631" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1631-11-25" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1586" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1586" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 11:27:12.775910" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Beath Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002217a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Badt Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "154d" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "677"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002217a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Beat Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002217a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "195" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "698"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004803" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1603" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1603" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:occupation      [ pers:date          "1603" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1604" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1604" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1604" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1604" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26640" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

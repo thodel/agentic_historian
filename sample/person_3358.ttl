@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per003820>
+        a                pers:person ;
+        rdfs:label       "Niklaus Krus"@deu ;
+        pers:deaths      [ pers:death         "1594" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003277> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-14 11:09:29.675104" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Niclaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "124" ;
+                                                               pers:line     "31" ;
+                                                               pers:page     "455"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001301.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003820a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Niclaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "60" ;
+                                                               pers:line     "47" ;
+                                                               pers:page     "172"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001301.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003820a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Niklaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003820a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "137b" ;
+                                                              pers:line     "24" ;
+                                                              pers:page     "496"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "60" ;
+                                                              pers:line     "19" ;
+                                                              pers:page     "172"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001301> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "120b" ;
+                                                               pers:line     "11" ;
+                                                               pers:page     "435"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001301.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003820a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1587-1589" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1587" ;
+                                                                    pers:to    "1589"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc005948> ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001301> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

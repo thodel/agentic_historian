@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008459>
+        a                    pers:person ;
+        rdfs:label           "Jakob Graf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 09:02:42.586186" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008459a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328e" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "1404"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000235> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000235> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

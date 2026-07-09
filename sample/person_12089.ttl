@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per013012>
+        a                        pers:person ;
+        rdfs:label               "Etienne Laciant Panchaud"@fra ;
+        pers:deaths              [ pers:death      "01.11.1498" ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:first_mentions      [ pers:first_mention  "1498" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-05-02 16:39:25.638759" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename    "Stephanetus Laciant" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005313.02> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013012a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Etienne Laciant" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per013012a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005313> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Stephanetus Laciant" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per013012a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005313> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "12.1497" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org005313> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Pfister 1997, p. 296" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:remark              "Victime de Pierre Menetrey qui l'a empoisonné à Noël 1497; il perdit la parole jusqu'au 1er novembre 1498, date à laquelle il décéda." ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010904> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012767> ;
+                                   pers:occurence  "gortega"
+                                 ] .

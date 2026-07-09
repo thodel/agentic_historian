@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per017411>
+        a                    pers:person ;
+        rdfs:label           "Hans Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-11 09:26:10.743262" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Alt" ;
+                                                 pers:occurence  "sabine"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017411a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "1456 als 'der Alt' bezeichnet" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009651> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004065>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Reding"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:41:25.298610" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000288.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004065a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004065a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000288> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1513" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000288> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "19011" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

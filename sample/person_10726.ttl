@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011568>
+        a                pers:person ;
+        rdfs:label       "Jacques de Savoie"@fra ;
+        pers:births      [ pers:birth      "12.11.1450" ;
+                           pers:occurence  "gortega"
+                         ] ;
+        pers:deaths      [ pers:death      "30.01.1486" ;
+                           pers:occurence  "gortega"
+                         ] ;
+        pers:hist        [ pers:date      "2019-06-26 15:48:56.048951" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Jacques" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011568a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "gortega" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000150> ;
+                           pers:rolenames  [ pers:occurence  "gortega" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000189" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc005865> ;
+                           pers:occurence    "gortega"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000150> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "132267896" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "017862" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

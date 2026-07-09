@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per015036>
+        a                    pers:person ;
+        rdfs:label           "Hans Heinrich Rahn"@deu ;
+        pers:births          [ pers:birth      "10.03.1622" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:deaths          [ pers:death      "25.05.1676" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1658" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-23 09:35:44.987022" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1665" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015036a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000972> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000972.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015036a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1658-1664" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000012> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000972> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "115599266" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "018180" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

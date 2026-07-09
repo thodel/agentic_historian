@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per018563>
+        a                    pers:person ;
+        rdfs:label           "Martin Tester"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 09:58:37.441806" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1708" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018563a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006691> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006691.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018563a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006691> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010750> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

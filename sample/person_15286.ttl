@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per016369>
+        a                    pers:person ;
+        rdfs:label           "Kaspar II. Schmid von Grüneck"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1688" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-12 18:11:54.171914" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:gennames   [ pers:genname    "II." ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016369a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006510> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Casper" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006510.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016369a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Casper" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006510.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016369a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005658" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000304" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006510> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000985> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

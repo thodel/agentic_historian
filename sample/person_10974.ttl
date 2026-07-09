@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011833>
+        a                    pers:person ;
+        rdfs:label           "Jacques Racine"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003105>
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011834> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-24 18:41:08.967334" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011833a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004530> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004530> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Adrien Wyssbrod : Père de per011834, pas la même personne !" ;
+        pers:sex             "1" ;
+        pers:uncleOf         [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011827> ;
+                               pers:occurence  "NE 3"
+                             ] .

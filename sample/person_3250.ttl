@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003706>
+        a                    pers:person ;
+        rdfs:label           "Werner von Meggen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:47:02.577245" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Wernher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "41" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "109"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001483.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003706a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003706a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001483> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1437" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1437" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001483> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14241" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Amtsjahr 1437 Landvogt im HLS nicht verzeichnet." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

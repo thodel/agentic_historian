@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per009115>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Lanther"@deu ;
+        pers:deaths          [ pers:death         "1612" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-26 13:45:32.292554" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009115a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002507> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002507.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009115a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1588-1612" ;
+                               pers:description   "key003647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1588" ;
+                                                                        pers:to    "1612"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002507> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 453" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

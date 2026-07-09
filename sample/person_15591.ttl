@@ -1,0 +1,22 @@
+<http://ssrq-sds-fds.ch/Register/#per016679>
+        a                    pers:person ;
+        rdfs:label           "Hans Kratzer"@deu ;
+        pers:citizenOf       [ pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006616>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1482" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-24 19:20:39.434016" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016679a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000657> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000657> ;
+        pers:project         "Claudia Sutter" ;
+        pers:sex             "1" .

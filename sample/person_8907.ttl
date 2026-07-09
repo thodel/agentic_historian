@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009649>
+        a                    pers:person ;
+        rdfs:label           "Johann Tischhauser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1642" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1642" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009790> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-20 09:01:06.472710" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1644" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009649a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000733> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009649a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1642" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1642" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date         "1644" ;
+                               pers:description  "key000410" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000733> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1644" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

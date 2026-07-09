@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per028072>
+        a                    pers:person ;
+        rdfs:label           "Andreas Steiner"@deu ;
+        pers:deaths          [ pers:death      "1565" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1543" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-04 09:31:14.206635" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028072a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000704> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anderessen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000704.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028072a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000704> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Ziegler 1919, S. 72" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010888> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

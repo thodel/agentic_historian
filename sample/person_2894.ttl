@@ -1,0 +1,70 @@
+<http://ssrq-sds-fds.ch/Register/#per003341>
+        a                pers:person ;
+        rdfs:label       "Anton Russ"@deu ;
+        pers:births      [ pers:birth         "um 1393" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1403" ;
+                                                                    pers:notBefore  "1383" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1465" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1465" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-21 16:15:16.776746" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Anthoͤnya" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                               pers:line     "24" ;
+                                                               pers:page     "517"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000590.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003341a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Anthoͤnie" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "30a" ;
+                                                               pers:line     "39" ;
+                                                               pers:page     "73"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000590.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003341a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003341a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000590> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1422-" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1422" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1435-" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1435" ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000590> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14477" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per001879>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Steiner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1538" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1538" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000704.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001879a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001879a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "149" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "528"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000704> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1538" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1538" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000704> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

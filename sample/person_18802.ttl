@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per020019>
+        a             pers:person ;
+        rdfs:label    "Johann Ulrich von Salis"@deu ;
+        pers:births   [ pers:birth      "24.05.1777" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "15.01.1817" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2021-02-12 17:06:10.669929" ;
+                        pers:username  "GR B III/2"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Seewis" ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:forename   "Johann Ulrich" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per020019a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002799> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org002799> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "041368" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "12042035X" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

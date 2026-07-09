@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009385>
+        a                    pers:person ;
+        rdfs:label           "Hans Wulling"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1626" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-26 09:18:13.365665" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1640" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003481.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009385a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009385a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003481> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1626-1640" ;
+                               pers:description  "key000547" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003481> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Laut den Freiburger Besatzungsbüchern trat Hans Wulling 1640 von seinem Weibelamt zurück." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

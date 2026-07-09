@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010630>
+        a                    pers:person ;
+        rdfs:label           "Konrad Ehinger"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002020>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-11 11:35:34.156795" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010630a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002247> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Conrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002247.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010630a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002247> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

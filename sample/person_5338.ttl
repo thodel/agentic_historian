@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per006721>
+        a                    pers:person ;
+        rdfs:label           "Pierre Meino"@deu ;
+        pers:births          [ pers:birth      "1611-1612" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1626" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1626" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-25 07:40:36.222417" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1626" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Pierre" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002350.14> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006721a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006721a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002350> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007600> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006722> ;
+                               pers:occurence  "pascale"
+                             ] .

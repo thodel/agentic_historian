@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006426>
+        a                    pers:person ;
+        rdfs:label           "Hans Rechsteiner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1644" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1644" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 17:02:20.997757" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "132" ;
+                                                                   pers:line     "43" ;
+                                                                   pers:page     "551"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002153.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006426a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006426a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002153> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1644" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1644" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002954>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002153> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

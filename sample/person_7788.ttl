@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008476>
+        a                    pers:person ;
+        rdfs:label           "Johannes Kuster"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 10:25:59.233534" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008476a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328e" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "1405"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000926> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1797" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1797" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005988> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000926> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

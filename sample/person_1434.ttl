@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per001834>
+        a                    pers:person ;
+        rdfs:label           "Hans Rudolf Tschudi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1584" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1584" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Rudolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001834a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von und zu Glarus" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hans Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001834a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "181" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "653"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

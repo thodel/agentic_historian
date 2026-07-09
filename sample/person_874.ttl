@@ -1,0 +1,24 @@
+<http://ssrq-sds-fds.ch/Register/#per000950>
+        a                    pers:person ;
+        rdfs:label           "Hans Fingy"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1467?" ;
+                               pers:format_dates   [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                         pers:when       "1467"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000950a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "76" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "255"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000512> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000512> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

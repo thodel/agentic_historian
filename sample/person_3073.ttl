@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per003521>
+        a                pers:person ;
+        rdfs:label       "Beat Amrhyn"@deu ;
+        pers:deaths      [ pers:death         "1617" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-22 09:41:00.182971" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Beat" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "139" ;
+                                                               pers:line     "17" ;
+                                                               pers:page     "514"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "138" ;
+                                                               pers:line     "9" ;
+                                                               pers:page     "498"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "140" ;
+                                                               pers:line     "1" ;
+                                                               pers:page     "518"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000994.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003521a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Beat" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003521a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000994> ;
+                           pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000424" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1595-1597" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1595" ;
+                                                                    pers:to    "1597"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000994> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

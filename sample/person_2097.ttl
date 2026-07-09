@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002506>
+        a                    pers:person ;
+        rdfs:label           "Jakob Gugg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1657" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1657" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002506a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "241a" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "886"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000181> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000181.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002506a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000181> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

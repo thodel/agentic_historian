@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per005103>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Ulrich von Sax-Hohensax"@deu ;
+        pers:deaths          [ pers:death         "vor 12.08.1329" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1329-08-12" ;
+                                                                        pers:notBefore  "1279-08-12" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004385> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004981> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004980> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004982> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1312" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1313" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 17:10:43.856129" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005103a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000384> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000384> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 166–167" ;
+                               pers:title  "Deplazes-Haefliger 1976" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000080293"
+                             ] ;
+        pers:refs            [ pers:page   "S. 68" ;
+                               pers:title  "Gabathuler 2010c" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000120687"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Heinrich Ulrich nennt sich in den Urkunden meist Ritter Ulrich, der nach dem Siegel Heinrich Ulrich heisst. Nach der Zählung von Deplazes-Haefliger ist es Ulrich IV., der bereits 1280/1282 erwähnt wird. Nach Gabathuler muss jedoch der Ulrich, der 1280/1282 erwähnt wird, sein Vater gewesen sein." ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008725> ;
+                               pers:occurence  "SG III/4"
+                             ] .

@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per017913>
+        a                   pers:person ;
+        rdfs:label          "Jean Jolion"@deu ;
+        pers:births         [ pers:birth      "ca. 1582" ;
+                              pers:occurence  "pascale"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017933> ;
+                              pers:occurence  "lionel"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017938> ;
+                              pers:occurence  "lionel"
+                            ] ;
+        pers:hist           [ pers:date      "2020-07-30 14:34:52.190981" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1647" ;
+                              pers:occurence     "lionel"
+                            ] ;
+        pers:name           [ pers:addnames   [ pers:addname    "le pere" ;
+                                                pers:occurence  "pascale"
+                                              ] ;
+                              pers:forename   "Jean" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per017913a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "pascale" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007000> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "Jean" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "lionel" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007000.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017913a.02>
+                            ] ;
+        pers:name           [ pers:forename    "Jehan" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "lionel" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007000.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017913a.01>
+                            ] ;
+        pers:name           [ pers:addnames    [ pers:addname    "le pere" ;
+                                                 pers:occurence  "lionel"
+                                               ] ;
+                              pers:forename    "Jean" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "lionel" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007000.03> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017913a.03>
+                            ] ;
+        pers:name           [ pers:addnames   [ pers:addname    "der vatter" ;
+                                                pers:occurence  "lionel"
+                                              ] ;
+                              pers:addnames   [ pers:addname    "der alte" ;
+                                                pers:occurence  "lionel"
+                                              ] ;
+                              pers:forename   "Jean" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per017913a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "lionel" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007000> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:description  "key003498" ;
+                              pers:occurence    "pascale"
+                            ] ;
+        pers:occupation     [ pers:description  "key005165" ;
+                              pers:occurence    "lionel"
+                            ] ;
+        pers:occupation     [ pers:description  "key004437" ;
+                              pers:occurence    "lionel"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org007000> ;
+        pers:project        "SSRQ" ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007935> ;
+                              pers:occurence  "lionel"
+                            ] ;
+        pers:sex            "1" .

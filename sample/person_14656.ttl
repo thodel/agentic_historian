@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per015713>
+        a                    pers:person ;
+        rdfs:label           "Philipp Basig"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015714> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1572" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-09 09:45:00.108218" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Philipp" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015713a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006301> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Flip" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006301.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015713a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006301> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1572–" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000481>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Bott"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1407" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1407" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000685.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000481a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000481a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "37a" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "73"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000685> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000685> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000130> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

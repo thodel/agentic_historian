@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per011681>
+        a                    pers:person ;
+        rdfs:label           "Peter Happ"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1399" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-04 15:04:04.109836" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011681a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004470> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004470.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011681a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004470> ;
+        pers:project         "Claudia Sutter" ;
+        pers:residence       [ pers:date       "1399" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000656> ;
+                               pers:occurence  "claudia"
+                             ] ;
+        pers:sex             "1" .

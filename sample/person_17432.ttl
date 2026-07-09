@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per018601>
+        a                    pers:person ;
+        rdfs:label           "Samuel Buchli"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018600> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1742" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-02 12:26:00.497130" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1743" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Samuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000915.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018601a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Sammuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000915.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018601a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018601a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000915> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000915> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per009155>
+        a                    pers:person ;
+        rdfs:label           "Werner Giel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1479" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1479" ] ] ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-20 20:06:17.929891" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename          "Werner" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009155a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "claudia"
+                                                      ] ;
+                               pers:occurence         "claudia" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001916> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wernhert" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001916.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009155a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001916> ;
+        pers:project         "StadtASG" ;
+        pers:remark          "hat 1479 einen Sohn, der anstelle des Vaters Geld entgegennehmen darf (also erwachsen ist?)" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009156> ;
+                               pers:occurence  "claudia"
+                             ] .

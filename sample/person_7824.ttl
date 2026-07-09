@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per008512>
+        a                    pers:person ;
+        rdfs:label           "NN Bärlocher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-21 10:28:54.475486" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328j" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "1409"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002119.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008512a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008512a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002119> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1796/97" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1796" ;
+                                                                        pers:to    "1797"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002119> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

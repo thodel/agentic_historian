@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per004073>
+        a                pers:person ;
+        rdfs:label       "Wilhelm Tell"@deu ;
+        pers:hist        [ pers:date      "2020-04-06 07:19:58.427125" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Wilhelm" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004073a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "105" ;
+                                                              pers:line     "5" ;
+                                                              pers:page     "382"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001631> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003733" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001631> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118621211" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "17475" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

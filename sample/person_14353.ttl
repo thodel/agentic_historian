@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per015395>
+        a               pers:person ;
+        rdfs:label      "Anna Reinhart"@deu ;
+        pers:births     [ pers:birth      "um 1484" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "24.12.1538" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2020-04-07 15:46:57.909443" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename          "Anna" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per015395a> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                   pers:occurence       "ssrq-zh"
+                                                 ] ;
+                          pers:occurence         "ssrq-zh" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005531> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005531> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "1061160521" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:id    "10794" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "2" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003919> ;
+                          pers:occurence  "ssrq-zh"
+                        ] .

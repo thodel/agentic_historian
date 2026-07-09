@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003832>
+        a                    pers:person ;
+        rdfs:label           "Melchior Emmenegger"@deu ;
+        pers:deaths          [ pers:death         "1614" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1614" ] ] ;
+                               pers:occurence     "andreas"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1590" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1590" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-20 15:09:42.165617" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003832a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001329> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128a" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "462"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001329.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003832a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001329> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Später Landesfähnrich 1611-14; E_1601.11.28 (Chräjgade, auch Waser, 556, und E_1603.05.21)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

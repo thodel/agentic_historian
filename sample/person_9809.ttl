@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per010582>
+        a                pers:person ;
+        rdfs:label       "Kaspar Thomann"@deu ;
+        pers:births      [ pers:birth      "24.04.1519" ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death      "27.08.1594" ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-15 16:36:41.876889" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000887.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010582a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010582a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000887> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1589" ;
+                           pers:description  "key000133" ;
+                           pers:occurence    "FDS TI" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date         "1584-1594" ;
+                           pers:description  "key000133" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002406>
+                         ] ;
+        pers:occupation  [ pers:date         "1589" ;
+                           pers:description  "key000326" ;
+                           pers:occurence    "FDS TI" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date         "1572-1577" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000887> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18108" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "tke: Laut Ratslisten Bürgermeister 1584-1594 und nicht wie in HLS 1590" ;
+        pers:sex         "1" .

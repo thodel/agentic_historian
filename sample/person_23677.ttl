@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per025011>
+        a                    pers:person ;
+        rdfs:label           "Georg Schubinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1535" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-01 16:19:20.618179" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025011a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000535> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jerg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000535.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025011a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key003587" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000535> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009768> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

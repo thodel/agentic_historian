@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per005721>
+        a                    pers:person ;
+        rdfs:label           "Andreas Hagger"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005730> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1605" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1605" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-09 11:32:51.947280" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Anderes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "72h" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "262"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002275.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005721a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005721a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002275> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anderas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "72g" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "262"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002275.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005721a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002275> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität per005721a.02 und damit Vaterschaft wahrscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

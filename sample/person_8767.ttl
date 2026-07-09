@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009507>
+        a                    pers:person ;
+        rdfs:label           "Gilg Merz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 08:30:39.546695" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Gilg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009507a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000773> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gilg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000773.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009507a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1556" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000773> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

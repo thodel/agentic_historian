@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per007412>
+        a                    pers:person ;
+        rdfs:label           "Hans Messmer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1566" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1566" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 15:06:01.337173" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Bock" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007412a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002170> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Bock" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199a" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "885"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002170.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007412a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1566" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:occupation      [ pers:date          "1566" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002170> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

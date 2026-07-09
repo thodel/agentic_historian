@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per023237>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Sommerau"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1422" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-05 17:34:08.040851" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Elsbeth" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005961.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023237a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per023237a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005961> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005961> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023236> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

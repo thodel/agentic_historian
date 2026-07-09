@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per003056>
+        a                    pers:person ;
+        rdfs:label           "Josef Wohlwend"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1791" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1791" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:last_mention  "1793" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joßeph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000991.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003056a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003056a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "359b" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1190"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "369" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "1211"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000991> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000991.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003056a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1791, 1793" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ;
+                                         pers:format_date  [ pers:when  "1791" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001220>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000991> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000130> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

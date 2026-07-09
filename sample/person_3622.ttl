@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004096>
+        a                    pers:person ;
+        rdfs:label           "Jost Wicki"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1572" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1572" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-07 14:13:50.424240" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004096a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106b" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "389"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001529> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001529> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

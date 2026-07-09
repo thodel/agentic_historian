@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004220>
+        a                    pers:person ;
+        rdfs:label           "Simon Huber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1571" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1571" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-14 14:35:23.186428" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004220a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "103a" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "374"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000309> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000309> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005808> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

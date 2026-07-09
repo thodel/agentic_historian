@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per015500>
+        a             pers:person ;
+        rdfs:label    "Andris Carschat"@deu ;
+        pers:deaths   [ pers:death      "vor 1687" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-04-06 12:34:04.590040" ;
+                        pers:username  "GR B III/2"
+                      ] ;
+        pers:name     [ pers:forename    "Andriß" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006209.03> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015500a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Andris" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per015500a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006209> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org006209> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

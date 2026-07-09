@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003539>
+        a                    pers:person ;
+        rdfs:label           "Heinz zu Voglisberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1480" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-04 16:28:00.942454" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hentz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13b" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "41"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001409.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003539a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003539a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001409> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001409> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 1123" ;
+                               pers:title  "Waser 1996" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://www.bsg.nb.admin.ch/lib/item?id=chamo:76854&theme=BSG"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

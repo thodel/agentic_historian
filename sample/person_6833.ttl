@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007494>
+        a                    pers:person ;
+        rdfs:label           "Johannes Stieger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1654" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1654" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-03 11:41:47.029932" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "204" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "961"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002243.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007494a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007494a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002243> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1654" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1654" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002806>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002243> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

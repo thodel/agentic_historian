@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per006383>
+        a                    pers:person ;
+        rdfs:label           "Wendelin Häägle"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1708" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1708" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-01 11:40:25.595853" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Wendelin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006383a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002473> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wendelinus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128d" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "540"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002473.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006383a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1708" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1708" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002473> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

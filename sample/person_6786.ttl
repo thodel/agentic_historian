@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007442>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Lombach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1753" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1753" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-31 18:56:50.978829" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007442a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002365> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199b" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "918"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002365.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007442a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1753" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1753" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002365> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000464> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

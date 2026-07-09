@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008964>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques Müller"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002638>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1723" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1723" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-11 13:47:09.811886" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008964a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1723" ;
+                               pers:description   "key000562" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1723" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

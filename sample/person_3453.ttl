@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per003919>
+        a                pers:person ;
+        rdfs:label       "Huldrych Zwingli"@deu ;
+        pers:births      [ pers:birth      "01.01.1484" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "11.10.1531" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 15:42:54.727559" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Huldrych" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003919a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "111c" ;
+                                                              pers:line     "10" ;
+                                                              pers:page     "407"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000675> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000675.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003919a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1519-1531" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1516-1518" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000085> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000675> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "10447" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118637533" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:date       "1518-" ;
+                           pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000845> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015395> ;
+                           pers:occurence  "ssrq-zh"
+                         ] .

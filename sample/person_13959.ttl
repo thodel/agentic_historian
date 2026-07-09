@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per014989>
+        a                pers:person ;
+        rdfs:label       "Hans Friedrich Keller"@deu ;
+        pers:births      [ pers:birth      "1606" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1683" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 15:19:17.626826" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005075>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "vom Steinbock" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Hans Friedrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014989a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1674-1683" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1656-1662" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

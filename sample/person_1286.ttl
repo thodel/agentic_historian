@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001694>
+        a                    pers:person ;
+        rdfs:label           "Hans Matman"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001694a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "129a" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "425"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000754> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hensly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000754.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001694a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000754> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

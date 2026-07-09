@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008669>
+        a                    pers:person ;
+        rdfs:label           "Marie-Thérèse de Favarger"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1740" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1740" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 14:58:34.024634" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Marie-Thérèse" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008669a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003150> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marie-Theresse" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003150.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008669a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003150> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

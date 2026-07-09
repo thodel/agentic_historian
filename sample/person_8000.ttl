@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per008702>
+        a                    pers:person ;
+        rdfs:label           "Jean-Frédéric Bosset"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1767" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1767" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-17 12:04:54.526722" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:last_mention  "1770" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Frédéric" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008702a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003176> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean Frédéric" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003176.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008702a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1767-1770" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1767" ;
+                                                                        pers:to    "1770"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003176> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1767-1770" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1767" ;
+                                                                        pers:to    "1770"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

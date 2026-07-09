@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per002825>
+        a                pers:person ;
+        rdfs:label       "Johann Pfiffner"@deu ;
+        pers:deaths      [ pers:death         "12.12.1797" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1797-12-12" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Johanes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000220.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002825a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Hanis" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000220.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002825a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002825a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "308f" ;
+                                                              pers:line     "29" ;
+                                                              pers:page     "1057"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000220> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1797" ;
+                           pers:description   "key001019" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1797" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000220> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000481> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

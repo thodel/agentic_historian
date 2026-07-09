@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009180>
+        a                    pers:person ;
+        rdfs:label           "Wolfgang Hütschi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1529" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 09:06:59.606175" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Wolfgang" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009180a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003380> ;
+                               pers:rolenames  [ pers:occurence  "FDS TI" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Wolfgang" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009180a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003380> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Vuolff" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003380.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009180a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003380> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

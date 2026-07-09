@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010628>
+        a                    pers:person ;
+        rdfs:label           "Burkhard Schenk"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-11 11:07:52.747846" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010628a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003967> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Burckhartt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003967.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010628a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003967> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

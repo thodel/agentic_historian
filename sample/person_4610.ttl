@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005148>
+        a                    pers:person ;
+        rdfs:label           "Hans Mäder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1435" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1435" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-12 09:19:53.084242" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "25" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "66"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002045.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005148a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005148a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002045> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002045> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007313> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

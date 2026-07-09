@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008734>
+        a                    pers:person ;
+        rdfs:label           "Gallus Engler"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008735> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1706" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1706" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 07:51:10.139898" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1721" ] ] ;
+                               pers:last_mention  "1721" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008734a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1706, 1714" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1706" ] ;
+                                         pers:format_date  [ pers:when  "1714" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date         "1706, 1721" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000528> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1706" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1706" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

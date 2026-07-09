@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per024265>
+        a                pers:person ;
+        rdfs:label       "Heinrich Werdmüller"@deu ;
+        pers:births      [ pers:birth      "1443" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1513" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-21 09:03:36.104197" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005075>
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001036.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024265a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024265a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001036> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1474-1488, 1494-1513" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001036> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

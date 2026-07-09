@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002844>
+        a                    pers:person ;
+        rdfs:label           "Magdalena Nadig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1745" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1745" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Magdalena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002844a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "312" ;
+                                                                         pers:line     "19" ;
+                                                                         pers:page     "1067"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001089> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Magdalena" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001089.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002844a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001089> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003525>
+        a               pers:person ;
+        rdfs:label      "Friedrich von Habsburg-Österreich"@deu ;
+        pers:deaths     [ pers:death         "1344" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1344" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2021-03-16 14:37:20.974360" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:forename   "Friedrich" ;
+                          pers:gennames   [ pers:genname    "II." ;
+                                            pers:occurence  "LU II/3"
+                                          ] ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003525a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "13" ;
+                                                             pers:line     "33" ;
+                                                             pers:page     "37"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project    "SSRQ" ;
+        pers:remark     "Geburtsjahr umstritten" ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012501> ;
+                          pers:occurence  "mina"
+                        ] .

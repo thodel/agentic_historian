@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009223>
+        a                pers:person ;
+        rdfs:label       "Caspar Rod"@fra ;
+        pers:deaths      [ pers:death         "vor 1611" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1611" ;
+                                                                    pers:notBefore  "1561" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2019-03-13 08:23:18.932194" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003408.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009223a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Caspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009223a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003408> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Caspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009223a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003408> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003408.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009223a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "vor 1611" ;
+                           pers:description  "key000932" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003408> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009222> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

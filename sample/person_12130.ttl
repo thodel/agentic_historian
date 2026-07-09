@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per013055>
+        a                    pers:person ;
+        rdfs:label           "Peter Bachmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1315" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-13 08:25:17.678029" ;
+                               pers:username  "fahe"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013055a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000741> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000741> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "1315" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008679> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per008138>
+        a                    pers:person ;
+        rdfs:label           "Franziska Seitz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1752" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1752" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 11:01:55.798224" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Francisca" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "280" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "1234"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002165.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008138a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Franziska" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008138b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002311> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Franziska" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008138a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "280" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "1234"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002165> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1752" ;
+                               pers:description   "key000848" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1752" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002165> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008137> ;
+                               pers:occurence  "SG III/3"
+                             ] .

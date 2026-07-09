@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per001982>
+        a                    pers:person ;
+        rdfs:label           "Martin Zukäs"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1552" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1552" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1554" ] ] ;
+                               pers:last_mention  "1554" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Marthin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000739.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001982a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001982a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "158" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "577"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000739> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marthin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000739.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001982a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1553" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:date          "1552-1554" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1552" ;
+                                                                        pers:to    "1554"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000739> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per002368>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Gut"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1623" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1623" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1626" ] ] ;
+                               pers:last_mention  "1626" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002368a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "217" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "809"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000999> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhartt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000999.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002368a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Lenhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000999.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002368a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000999> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

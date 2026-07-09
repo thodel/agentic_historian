@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per002645>
+        a                    pers:person ;
+        rdfs:label           "Johann Rudolf Good"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002697> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002970> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002971> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002694> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002968> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003050> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1671" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1671" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1682" ] ] ;
+                               pers:last_mention  "1682" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jo. Rudolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002645a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Johen Rudolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002645a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002645a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "1146"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "260a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "936"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "264" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "959"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1677" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1677" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1671-1682" ;
+                               pers:description   "key003713" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1671" ;
+                                                                        pers:to    "1682"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

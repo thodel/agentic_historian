@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003888>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Fleckenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1559" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:19:11.681740" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003888a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000888> ;
+                               pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "62b" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "180"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000888.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003888a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1559-" ;
+                               pers:description   "key003647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1559" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1566" ;
+                               pers:description   "key003714" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000888> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

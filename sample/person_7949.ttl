@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008647>
+        a                    pers:person ;
+        rdfs:label           "Philippe Ferdinand Richard"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1828" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1828" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-23 22:35:41.977189" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1829" ] ] ;
+                               pers:last_mention  "1829" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Philippe Ferdinand" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008647a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003133> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003133> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1828" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1828" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

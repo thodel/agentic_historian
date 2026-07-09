@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010135>
+        a                    pers:person ;
+        rdfs:label           "Jacques Dubied"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009017> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1667" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-19 12:19:12.336696" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010135a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003325> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003325.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010135a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003325> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007787> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

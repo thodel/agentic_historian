@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per009360>
+        a                    pers:person ;
+        rdfs:label           "Jean Pinny"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1629" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1629" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-04 09:49:25.483692" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009360a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003468> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003468.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009360a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009360a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003468> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003468.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009360a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005165" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003468> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Stammt ursprünglich aus Bossonnens." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007902> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007903> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

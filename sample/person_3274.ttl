@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003730>
+        a                    pers:person ;
+        rdfs:label           "Kläui in der Ei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-12 12:08:26.011603" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Clewi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "117"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001291.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003730a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Kläui" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003730a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001291> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001291> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc003958> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

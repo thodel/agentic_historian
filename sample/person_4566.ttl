@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005097>
+        a                    pers:person ;
+        rdfs:label           "Heinrich NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1423" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005096> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-11 07:00:57.018550" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005097a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "16" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "40"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005097a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

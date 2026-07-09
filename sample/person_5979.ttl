@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006580>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Meyer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1616" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1616" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-10 14:37:50.682179" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1659" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006580a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003364> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003364.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006580a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1616-1659" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1616" ;
+                                                                        pers:to    "1659"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date          "1625-1628" ;
+                               pers:description   "key004837" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1625" ;
+                                                                        pers:to    "1629"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002638>
+                             ] ;
+        pers:occupation      [ pers:date         "1639-1659" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001539> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 740" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

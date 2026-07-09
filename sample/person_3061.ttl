@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003509>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Stans"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1392" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1392" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-08 11:41:31.072234" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003509a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "10" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "30"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "14" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "43"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001393> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001393> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003508> ;
+                               pers:occurence  "LU II/3"
+                             ] .

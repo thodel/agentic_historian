@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per012907>
+        a                    pers:person ;
+        rdfs:label           "Conrard Ferron dit Pontus"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1605" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 11:15:35.302828" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Conrard" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005272.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012907a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Conrard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012907a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005272> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005272> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1605" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008483> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012909> ;
+                               pers:occurence  "pascale"
+                             ] .

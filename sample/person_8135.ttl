@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per008843>
+        a               pers:person ;
+        rdfs:label      "Pierre Roulet"@fra ;
+        pers:citizenOf  [ pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                        ] ;
+        pers:deaths     [ pers:death         "avant 1726" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1726" ;
+                                                                   pers:notBefore  "1716" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:hist       [ pers:date      "2018-03-12 16:48:14.310772" ;
+                          pers:username  "NE 3"
+                        ] ;
+        pers:name       [ pers:forename   "Pierre" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per008843a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003238> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003238> ;
+        pers:project    "SSRQ" ;
+        pers:remark     "Adrien Wyssbrod : Communier de Peseux et Corcelles" ;
+        pers:sex        "1" .

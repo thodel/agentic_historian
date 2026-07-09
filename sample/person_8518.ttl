@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009250>
+        a                    pers:person ;
+        rdfs:label           "Pankraz Gerwer"@deu ;
+        pers:deaths          [ pers:death      "1637" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1603" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1603" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-11 16:07:33.604434" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Pankraz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009250a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003417> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1603-1637" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date          "1616-1637" ;
+                               pers:description   "key003647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1616" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003417> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009720>
+        a                    pers:person ;
+        rdfs:label           "Jean Perat"@fra ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009719> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-01 14:16:27.611471" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009720a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003604> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003604.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009720a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003604> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

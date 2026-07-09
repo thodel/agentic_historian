@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010348>
+        a                    pers:person ;
+        rdfs:label           "Johannes Kupferschmid"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010311> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-13 11:00:35.737629" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010348a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000312> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Iohannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000312.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010348a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000312> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per001831>
+        a                pers:person ;
+        rdfs:label       "Josef Leodegar Bartholomäus Tschudi"@deu ;
+        pers:births      [ pers:birth         "23.08.1708" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1708-08-23" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "25.08.1772" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1772-08-25" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Leodegari Bartolome" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001831a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Leodegarius Bartholomaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001831a.02>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Thurn und Valtassine" ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:forename   "Josef Leodegar Bartholomäus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001831a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "352" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "1174"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "181" ;
+                                                              pers:line     "28" ;
+                                                              pers:page     "654"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "319" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "1079"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1748-1767" ;
+                           pers:description   "key003071" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1748" ;
+                                                                    pers:to    "1767"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                         ] ;
+        pers:occupation  [ pers:date          "1749" ;
+                           pers:description   "key004803" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1749" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17959" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002876> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002875> ;
+                           pers:occurence  "SG III/2"
+                         ] .

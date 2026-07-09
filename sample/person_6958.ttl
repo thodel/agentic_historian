@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007621>
+        a                    pers:person ;
+        rdfs:label           "Hans Schmidheini"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1681" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1681" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 17:14:14.728334" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007621a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002452> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "227" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "1033"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002452.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007621a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1681" ;
+                               pers:description   "key004835" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1681" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002452> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per000357>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Gessler"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007191> ;
+                               pers:occurence  "lukas"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1359" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1359" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 08:03:12.087479" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:notAfter   "1408" ;
+                                                                        pers:notBefore  "1358" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:last_mention  "vor 1408" ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000154.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000357a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000357a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "14" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "44"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "22" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "40"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000154> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1387" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date          "1395" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1395" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1403" ;
+                               pers:description   "key003263" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1403" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000649> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date         "1386" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010971> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000154> ;
+        pers:project         "Königsfelden" , "SSRQ" ;
+        pers:refs            [ pers:title  "https://hls-dhs-dss.ch/de/articles/020097/2020-01-09/" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per016152>
+        a                    pers:person ;
+        rdfs:label           "Simon Paul"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1558" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-17 15:15:43.643543" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016152a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005831> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Schamu̍n" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005831.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016152a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005831> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010071> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

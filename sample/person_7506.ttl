@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per008187>
+        a                pers:person ;
+        rdfs:label       "Cölestin Gugger"@deu ;
+        pers:births      [ pers:birth         "28.06.1701" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1701-06-28" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "24.02.1767" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767-02-24" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-08 08:07:10.421105" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:addnames          [ pers:addname    "von Staudach" ;
+                                                    pers:occurence  "SG III/3"
+                                                  ] ;
+                           pers:forename          "Cölestin" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per008187a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002184> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Coelestin" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "290" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1263"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008187b.01>
+                         ] ;
+        pers:name        [ pers:forename          "Cölestin" ;
+                           pers:gennames          [ pers:genname    "II." ;
+                                                    pers:occurence  "SG III/3"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per008187b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1740–1767" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1740" ;
+                                                                    pers:to    "1767"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002184> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21741" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per013887>
+        a             pers:person ;
+        rdfs:label    "Rudolf von Planta"@deu ;
+        pers:births   [ pers:birth      "1569" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:deaths   [ pers:death      "1638" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-06 17:06:04.475398" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Wildenberg" ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:forename   "Rudolf" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per013887a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000866> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Rudolff" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000866.09> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013887a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000866> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "139212736" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:refs     [ pers:id    "16916" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

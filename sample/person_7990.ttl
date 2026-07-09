@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008690>
+        a                pers:person ;
+        rdfs:label       "Guillaume-Pierre d’ Ivernois"@fra ;
+        pers:births      [ pers:birth         "03.02.1701" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1701-02-03" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death         "23.05.1775" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1775-05-23" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-03-12 15:08:10.253129" ;
+                           pers:username  "NE 3"
+                         ] ;
+        pers:name        [ pers:forename   "Guillaume-Pierre" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008690a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003163> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005023" ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:occupation  [ pers:description  "key005082" ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003163> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15696" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

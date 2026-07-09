@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004018>
+        a                pers:person ;
+        rdfs:label       "Josef Renggli"@deu ;
+        pers:deaths      [ pers:death         "1768" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1768" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-02 10:52:53.959540" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                             pers:occurence  "LU II/3"
+                                           ] ;
+                           pers:forename   "Josef" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004018a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "96" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "349"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "73" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "218"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001352> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1751-1768" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1751" ;
+                                                                    pers:to    "1768"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001352> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

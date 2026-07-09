@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per008228>
+        a                    pers:person ;
+        rdfs:label           "Hans Ulrich Schawalder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1774" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1774" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 16:04:19.844684" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "305a" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "1317"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002223.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008228a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hans Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "305a" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "1315"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "305b" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "1319"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002223.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008228a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008228a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002223> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1774" ;
+                               pers:description   "key004821" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1774" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002223> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

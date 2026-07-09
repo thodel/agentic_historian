@@ -1,0 +1,83 @@
+<http://ssrq-sds-fds.ch/Register/#per001666>
+        a                    pers:person ;
+        rdfs:label           "Konrad Bachmann"@deu ;
+        pers:deaths          [ pers:death         "anfangs 1532" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1532-02-28" ;
+                                                                        pers:notBefore  "1532-01-01" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "vor 1503" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1503" ;
+                                                                         pers:notBefore  "1453" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Cunrath" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000741.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001666a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000741.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001666a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001666a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "128" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "423"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "127" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "421"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000741> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1515-1517, 1531-1532" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1515" ;
+                                                                        pers:to    "1517"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1531" ;
+                                                             pers:to    "1532"
+                                                           ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1515-1517, 1531-1532" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1515" ;
+                                                                        pers:to    "1517"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1531" ;
+                                                             pers:to    "1532"
+                                                           ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000741> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 16–17" ;
+                               pers:title  "Aschwanden 1936" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000139721"
+                             ] ;
+        pers:refs            [ pers:id    "26686" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

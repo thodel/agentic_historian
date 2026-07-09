@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per004153>
+        a                    pers:person ;
+        rdfs:label           "Balthasar Berchtold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1550" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1550" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-10 08:08:29.692783" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Ballttisser" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "93" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "344"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000051.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004153a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Balthasar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004153a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000051> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000051> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

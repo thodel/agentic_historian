@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000423>
+        a                    pers:person ;
+        rdfs:label           "Johann Waller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1377" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1377" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000423a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "29" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "51"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000193> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000193.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000423a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000193> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000033> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

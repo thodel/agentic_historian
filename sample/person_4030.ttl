@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004518>
+        a                    pers:person ;
+        rdfs:label           "NN Kröpfli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-10 13:56:18.370514" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001484.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004518a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004518a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001484> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1442" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006027> ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001829>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001484> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

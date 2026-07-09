@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per005344>
+        a                pers:person ;
+        rdfs:label       "Wilhelm Eugen von Gonzenbach"@deu ;
+        pers:births      [ pers:birth         "1817" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1817" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1880" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1880" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-05-24 10:30:29.245639" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Wilhelm Eugen" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005344a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "51" ;
+                                                              pers:line     "38" ;
+                                                              pers:page     "166"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002143> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1860–1880" ;
+                           pers:description   "key003916" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1860" ;
+                                                                    pers:to    "1880"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002143> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.briefedition.alfred-escher.ch/kontexte/personen/korrespondenten/G/Gonzenbach%20Wilhelm%20Eugen%20von/#correspondent=Gonzenbach%20Wilhelm%20Eugen%20von"
+                         ] ;
+        pers:refs        [ pers:id    "1089305729" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

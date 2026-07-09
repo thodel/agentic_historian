@@ -1,0 +1,76 @@
+<http://ssrq-sds-fds.ch/Register/#per002310>
+        a                pers:person ;
+        rdfs:label       "Beda Fink"@deu ;
+        pers:births      [ pers:birth         "05.07.1611" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611-07-05" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "02.07.1691" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1691-07-02" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Beda" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002310a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Beda" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002310b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "227" ;
+                                                                     pers:line     "27" ;
+                                                                     pers:page     "848"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "204b" ;
+                                                                     pers:line     "39" ;
+                                                                     pers:page     "773"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000688> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Beda" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002310a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "204b" ;
+                                                                     pers:line     "39" ;
+                                                                     pers:page     "773"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "227" ;
+                                                                     pers:line     "27" ;
+                                                                     pers:page     "848"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1637-1644" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1637" ;
+                                                                    pers:to    "1644"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000688> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21845" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000738> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per013424>
+        a                    pers:person ;
+        rdfs:label           "Urs Werder"@deu ;
+        pers:deaths          [ pers:death      "04.07.1499" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-21 13:01:07.934686" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Ursch" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002240.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013424a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Urs" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013424a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002240> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002240> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "018410" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "1021411205" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

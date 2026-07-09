@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008371>
+        a              pers:person ;
+        rdfs:label     "Anton Schachtler"@deu ;
+        pers:births    [ pers:birth         "1784" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1784" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "1859" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1859" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-19 09:12:22.583139" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename   "Anton" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008371a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                            pers:line     "25" ;
+                                                            pers:page     "1399"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002130> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org002130> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:page   "S. 330" ;
+                         pers:title  "Kuster et al. 1998" ;
+                         pers:type   "biblio" ;
+                         pers:url    "http://permalink.snl.ch/bib/chbsg000065568"
+                       ] ;
+        pers:sex       "1" .

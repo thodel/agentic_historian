@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004424>
+        a                    pers:person ;
+        rdfs:label           "Hugo von Werdenberg-Heiligenberg"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000105> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001024> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000269> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1281" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1281" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 16:41:59.111592" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:from  "1305" ;
+                                                                        pers:to    "1307"
+                                                                      ] ] ;
+                               pers:last_mention  "1305/07" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "Hugo" ;
+                               pers:gennames          [ pers:genname    "II." ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004424a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000019> ;
+                               pers:rolenames         [ pers:occurence  "SG III/4" ;
+                                                        pers:rolename   "Graf/comte"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000019> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "136213650" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

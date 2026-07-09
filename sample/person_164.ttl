@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per000216>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Tschudi"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001163>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1473" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1473" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-29 16:33:43.464234" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                               pers:last_mention  "1477" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Fridolin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000216a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "87" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "301"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Magister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Fridolinus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000216a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridlin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000216a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Fridolinus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000216a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1477" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006193> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1473" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001066> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

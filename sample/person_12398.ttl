@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per013355>
+        a                pers:person ;
+        rdfs:label       "Hans Caspar Escher"@deu ;
+        pers:births      [ pers:birth      "15.02.1678" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "23.12.1762" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-30 10:11:29.427147" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013355a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "vom Glas" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Hans Caspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013355a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1726-" ;
+                           pers:description  "key000607" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1718-1723" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000012> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1740-1762" ;
+                           pers:description  "key000133" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18057" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "135935237" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

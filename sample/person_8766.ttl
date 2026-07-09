@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per009506>
+        a                    pers:person ;
+        rdfs:label           "Martin de Boccard"@fra ;
+        pers:deaths          [ pers:death         "1647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1647" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-09 09:49:57.934016" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Martin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003395.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009506a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003395.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009506a.03>
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009506a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009506a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marti" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003395.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009506a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1613-1647" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1613" ;
+                                                                        pers:to    "1647"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003395> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009253> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

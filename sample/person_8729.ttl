@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per009468>
+        a                pers:person ;
+        rdfs:label       "Franz von Affry"@deu ;
+        pers:births      [ pers:birth         "1495" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1495" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "1570 oder 1571" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1571" ;
+                                                                    pers:notBefore  "1570" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-18 07:28:15.990957" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Franz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009468a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003422> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Frantz" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003422.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009468a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1552" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003222>
+                         ] ;
+        pers:occupation  [ pers:date          "1552" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003422> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "I, S. 165" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

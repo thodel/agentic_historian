@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per003688>
+        a                    pers:person ;
+        rdfs:label           "Klaus Blum"@deu ;
+        pers:first_mentions  [ pers:first_mention  "nach 1550" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore
+                                                           "1550" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-11 09:12:27.684823" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003688a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000408> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Clauß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "48b" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "137"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000408.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003688a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "97a" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "351"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000408.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003688a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "97a" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "351"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000408.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003688a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000408> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005872> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

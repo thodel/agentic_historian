@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008276>
+        a                    pers:person ;
+        rdfs:label           "NN Stettler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1789" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1789" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-14 10:25:00.773213" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "322" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "1371"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003014.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008276a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008276a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003014> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1789" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1789" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003014> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit Rudolf Stettler aus Bern (http://www.hls-dhs-dss.ch/textes/d/D7212.php)" ;
+        pers:sex             "1" .

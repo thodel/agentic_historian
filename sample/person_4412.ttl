@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per004938>
+        a                    pers:person ;
+        rdfs:label           "Alexander III. (Papst)"@deu ;
+        pers:deaths          [ pers:death         "1181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1181" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1159" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1159" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-20 10:28:57.293852" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Alexandro" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004938a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Alexander" ;
+                               pers:gennames          [ pers:genname    "III." ;
+                                                        pers:occurence  "SG III/3"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004938a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1i" ;
+                                                                         pers:line     "3" ;
+                                                                         pers:page     "6"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1159-1181" ;
+                               pers:description   "key000014" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1159" ;
+                                                                        pers:to    "1181"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "118819712" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

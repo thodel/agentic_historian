@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per011103>
+        a                         pers:person ;
+        rdfs:label                "Jean de Tavel"@fra ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004499>
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-28 11:21:49.968856" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Noble" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011103a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004173> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Nobilis" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011103a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004173> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004173.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011103a.01>
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004173.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011103a.02>
+                                  ] ;
+        pers:occupation           [ pers:date         "04.03.1448, 06.03.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004173> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero 1995, p. 291" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008099> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010753> ;
+                                    pers:occurence  "gortega"
+                                  ] .

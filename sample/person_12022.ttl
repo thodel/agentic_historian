@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per012935>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Stühlinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1302" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-27 11:17:17.066519" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012935a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005286> ;
+                               pers:rolenames  [ pers:occurence  "fahe" ;
+                                                 pers:rolename   "Vogt/bailli"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1312" ;
+                               pers:description  "key000303" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000020> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005286> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.e-periodica.ch/cntmng?pid=ahe-001:1898:12::178"
+                             ] ;
+        pers:sex             "1" .

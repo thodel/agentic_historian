@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per011520>
+        a                    pers:person ;
+        rdfs:label           "Hans Stroh"@deu ;
+        pers:deaths          [ pers:death      "1636" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1621" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-09-18 08:32:32.033193" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004383.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011520a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004383.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011520a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011520a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004383> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1621-1636" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004383> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

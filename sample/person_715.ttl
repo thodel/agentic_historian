@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per000791>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Oettingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1431" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1443" ] ] ;
+                               pers:last_mention  "1443" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000415.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000791b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000791b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "53" ;
+                                                                         pers:line     "18" ;
+                                                                         pers:page     "174"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000415> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000791a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "53" ;
+                                                                         pers:line     "18" ;
+                                                                         pers:page     "174"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000414> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1431-1443" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1431" ;
+                                                                        pers:to    "1443"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000415>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000414> , <http://ssrq-sds-fds.ch/Register/#org000415> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

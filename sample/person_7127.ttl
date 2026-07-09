@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007799>
+        a                    pers:person ;
+        rdfs:label           "Jakob Knobel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1529" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 08:13:54.133670" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1532" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007799a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002874> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002874.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007799a.01>
+                             ] ;
+        pers:nationalOf      [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:occupation      [ pers:date          "1529–1532" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1529" ;
+                                                                        pers:to    "1532"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002874> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

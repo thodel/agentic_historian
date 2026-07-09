@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003213>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Hedmen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:22:53.893094" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003213a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001261> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "2a" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "4"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001261.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003213a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001261> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1363" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1363" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005921> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

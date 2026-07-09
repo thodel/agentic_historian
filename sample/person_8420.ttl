@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per009149>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus Zimmermann"@deu ;
+        pers:deaths          [ pers:death         "1616" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1616" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:employerOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009139> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1581" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-09 14:49:28.322234" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003366.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009149a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003366.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009149a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009149a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003366> ;
+                               pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1581-1616" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003366> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VII, p. 440" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009148> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

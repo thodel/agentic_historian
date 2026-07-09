@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010301>
+        a                    pers:person ;
+        rdfs:label           "Ursula von Roggwil"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002020>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1421" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-09 11:10:17.124106" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Uorsell" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003806.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010301a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ursula" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010301a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003806> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003806> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "2" .

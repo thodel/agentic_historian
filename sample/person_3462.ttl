@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003930>
+        a                    pers:person ;
+        rdfs:label           "Klaus Megger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1478" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1478" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-25 16:32:20.619916" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003930a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001568> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "64b" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "189"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001568.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003930a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001568> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Dass an gleicher Stelle auch ein von Meggen vorkommt, lässt vermuten, dass von Meggen nicht gleich Megger, vgl. LU I/3." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

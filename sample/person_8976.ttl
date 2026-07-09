@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per009718>
+        a                   pers:person ;
+        rdfs:label          "Collette Born"@fra ;
+        pers:hist           [ pers:date      "2021-01-26 08:05:18.110874" ;
+                              pers:username  "rita"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                              pers:last_mention  "1517" ;
+                              pers:occurence     "FR I/2/8"
+                            ] ;
+        pers:name           [ pers:forename    "Colletta" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "rita" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003602.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009718a.01>
+                            ] ;
+        pers:name           [ pers:forename          "Collette" ;
+                              pers:id                <http://ssrq-sds-fds.ch/Register/#per009718a> ;
+                              pers:lang              "fra" ;
+                              pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                       pers:occurence       "FR I/2/8"
+                                                     ] ;
+                              pers:occurence         "FR I/2/8" ;
+                              pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003602> ;
+                              pers:type              "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003602> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "2" ;
+        pers:spouseOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009712> ;
+                              pers:occurence  "FR I/2/8"
+                            ] .

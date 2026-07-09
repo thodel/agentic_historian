@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per001500>
+        a                    pers:person ;
+        rdfs:label           "Blasius Künzel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1489" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1489" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Blaͤsi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000658.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001500a.03>
+                             ] ;
+        pers:name            [ pers:forename   "Blasius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001500a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "109" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "365"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000658> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Blasius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000658.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001500a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Blaͤsy" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000658.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001500a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1489" ;
+                               pers:description   "key000276" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1489" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000658> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

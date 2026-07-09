@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per009221>
+        a                    pers:person ;
+        rdfs:label           "Jakob Ratzé"@deu ;
+        pers:deaths          [ pers:death         "05.12.1631" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1631" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019202> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1596" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-10 11:37:18.767727" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Jakob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003406.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009221a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009221a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003406> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003406.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009221a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1596-1631" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1596" ;
+                                                                        pers:to    "1631"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003406> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, p. 396" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

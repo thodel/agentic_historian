@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005023>
+        a                    pers:person ;
+        rdfs:label           "Hans von Gossau"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1415" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 09:23:06.013243" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005023a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001991> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "11" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001991.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005023a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1415" ;
+                               pers:description   "key000256" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1415" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001991> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

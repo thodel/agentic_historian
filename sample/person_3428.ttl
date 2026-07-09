@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per003894>
+        a                pers:person ;
+        rdfs:label       "Hans Kraft"@deu ;
+        pers:deaths      [ pers:death         "1575" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-24 15:53:20.047308" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003894a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "111" ;
+                                                              pers:line     "3" ;
+                                                              pers:page     "401"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "106b" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "389"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000186> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1570-1575" ;
+                           pers:description   "key000540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1570" ;
+                                                                    pers:to    "1575"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1566-1570" ;
+                           pers:description   "key003686" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1566" ;
+                                                                    pers:to    "1570"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000186> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14166" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per001937>
+        a                    pers:person ;
+        rdfs:label           "Hans Hartmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1551" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1551" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1557" ] ] ;
+                               pers:last_mention  "1557" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001937a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "153c" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "550"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "570"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000841> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000841.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001937a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1551, 1557" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1551" ] ;
+                                         pers:format_date  [ pers:when  "1557" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001218>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000841> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

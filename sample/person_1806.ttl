@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per002210>
+        a                    pers:person ;
+        rdfs:label           "Jost Franz Helmlin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1618" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1618" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1621" ] ] ;
+                               pers:last_mention  "1621" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jost Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002210a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "209a" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "785"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000886> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1620" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1620" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1619-1621" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1619" ;
+                                                                        pers:to    "1621"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000978" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000310" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007734> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000886> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

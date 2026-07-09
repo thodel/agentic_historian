@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per018762>
+        a                    pers:person ;
+        rdfs:label           "Oswald Färber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-02 16:09:46.257392" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1797" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018762a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002531> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Oschwald" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002531.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018762a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1779" ;
+                               pers:description  "key000547" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:date         "1797" ;
+                               pers:description  "key004964" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002531> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000227> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

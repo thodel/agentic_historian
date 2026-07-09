@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per025021>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Tschuor"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025019> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1726" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-01 16:34:46.693780" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025021a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006692> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Casper" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006692.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025021a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006692> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

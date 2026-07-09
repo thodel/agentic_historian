@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per013422>
+        a                    pers:person ;
+        rdfs:label           "Jeanne Moyreux"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1602" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-10 10:25:51.465247" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jehanne" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005458.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013422a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Jeanne" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per013422a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005458> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005458> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013421> ;
+                               pers:occurence  "NE 3"
+                             ] .

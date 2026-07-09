@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per006548>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Keller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-08 16:40:59.971231" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006548a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134a" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "560"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006548a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

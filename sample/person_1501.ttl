@@ -1,0 +1,77 @@
+<http://ssrq-sds-fds.ch/Register/#per001904>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Stucki"@deu ;
+        pers:deaths          [ pers:death      "27.12.1564" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1530" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1530" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 07:18:44.848757" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Rudolf" ;
+                               pers:gennames          [ pers:genname    "III." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001904a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "151b" ;
+                                                                         pers:line     "17" ;
+                                                                         pers:page     "541"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolffuß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001904a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001904b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "151b" ;
+                                                                         pers:line     "17" ;
+                                                                         pers:page     "541"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000395> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1530" ;
+                               pers:description   "key000043" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1530" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:occupation      [ pers:date          "1549-1564" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1549" ;
+                                                                        pers:to    "1564"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000395> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21840" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

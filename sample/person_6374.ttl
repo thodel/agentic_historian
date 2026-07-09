@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per007004>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Kellenberger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-03 16:49:21.413901" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bartli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "162b" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "721"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002641.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007004a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007004a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002641> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1598" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006329> ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002640>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002641> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: geografische Zuordnung gemäss Folgerung aus HLS-Artikel ’Walzenhausen’" ;
+        pers:sex             "1" .

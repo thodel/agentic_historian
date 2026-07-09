@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per013746>
+        a                    pers:person ;
+        rdfs:label           "Franz von Greyerz"@deu , "François de Gruyère"@fra ;
+        pers:deaths          [ pers:death      "1499" ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1493" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-12 13:57:01.873007" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "François" ;
+                               pers:gennames   [ pers:genname    "II" ;
+                                                 pers:occurence  "gortega"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013746a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003731> ;
+                               pers:rolenames  [ pers:occurence  "gortega" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:gennames   [ pers:genname    "II." ;
+                                                 pers:occurence  "pascale"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013746a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003731> ;
+                               pers:rolenames  [ pers:occurence  "pascale" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1493–1498" ;
+                               pers:description  "key000019" ;
+                               pers:occurence    "gortega" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004872>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003731> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

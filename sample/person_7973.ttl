@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008672>
+        a                    pers:person ;
+        rdfs:label           "NN Tribolet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1741" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1741" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-01 11:58:28.668990" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008672a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008672a.01>
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008672b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003086> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008671> ;
+                               pers:occurence  "NE 3"
+                             ] .

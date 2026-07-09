@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003952>
+        a                    pers:person ;
+        rdfs:label           "Thüring Siber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1487" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1487" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-26 16:26:47.297818" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Thüring" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003952a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001578> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Thu̍ring" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "68" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "205"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001578.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003952a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001578> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

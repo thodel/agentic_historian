@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per014777>
+        a                    pers:person ;
+        rdfs:label           "Hans Krebs"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-25 09:11:42.680540" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014777a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006013> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006013.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014777a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006013> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008837> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

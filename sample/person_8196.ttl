@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008909>
+        a               pers:person ;
+        rdfs:label      "Pierre Maillier"@fra ;
+        pers:citizenOf  [ pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                        ] ;
+        pers:deaths     [ pers:death         "avant 1696" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1696" ;
+                                                                   pers:notBefore  "1686" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008908> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:hist       [ pers:date      "2018-02-24 22:11:46.546119" ;
+                          pers:username  "NE 3"
+                        ] ;
+        pers:name       [ pers:forename   "Pierre" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per008909a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003282> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003282> ;
+        pers:project    "SSRQ" ;
+        pers:sex        "1" .

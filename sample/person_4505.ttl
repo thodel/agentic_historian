@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per005038>
+        a                    pers:person ;
+        rdfs:label           "Eberhard Stagel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1418" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1418" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 09:34:08.483502" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Eberhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "26"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002001.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005038a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Eberhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005038a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002001> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000028" ;
+                               pers:occurence    "SG III/3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002001> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

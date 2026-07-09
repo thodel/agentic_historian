@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per003078>
+        a                    pers:person ;
+        rdfs:label           "Johann Blum"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1788" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1788" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000408.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003078a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000408.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003078a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003078a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "366b" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "1203"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "366a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1203"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "366d" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "1206"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "366c" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1205"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000408> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000408> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000286> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

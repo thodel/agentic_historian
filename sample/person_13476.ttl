@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per014493>
+        a                pers:person ;
+        rdfs:label       "Georg Göldli"@deu ;
+        pers:births      [ pers:birth      "1466" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1536" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-24 13:36:51.226158" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                         ] ;
+        pers:name        [ pers:forename    "Jörg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000777.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014493a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Joͤrg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000777.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014493a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Jörg" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Georg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014493a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000777> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1525-1533" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000777> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089467796" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "023722" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

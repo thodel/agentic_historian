@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per005641>
+        a                pers:person ;
+        rdfs:label       "Hans Keller"@deu ;
+        pers:births      [ pers:birth         "1454" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1454" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "07.03.1526" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1526-03-07" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-28 10:20:30.518754" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Hanns" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "70" ;
+                                                               pers:line     "15" ;
+                                                               pers:page     "244"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005641a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005641a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005641a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1490" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date          "1490" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18164" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

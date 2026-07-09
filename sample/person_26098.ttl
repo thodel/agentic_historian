@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per027488>
+        a                pers:person ;
+        rdfs:label       "Hugo von Montfort-Bregenz"@deu ;
+        pers:births      [ pers:birth      "ca. 1370" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "10.04.1444" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-12 07:49:47.275329" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hugo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027488a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000012> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Graf/comte"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hug" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000012.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027488a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1393-1444" ;
+                           pers:description  "key003314" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc013091> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000012> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "HS" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:refs        [ pers:id    "137431775" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "49175" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

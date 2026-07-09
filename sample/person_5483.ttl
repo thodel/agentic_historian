@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per006065>
+        a                pers:person ;
+        rdfs:label       "Jost Tschudi"@deu ;
+        pers:births      [ pers:birth         "18.04.1462" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462-04-18" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "14.05.1527" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1527-05-14" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-13 10:47:42.459438" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Jos" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "103" ;
+                                                               pers:line     "5" ;
+                                                               pers:page     "399"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006065a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                             pers:occurence  "SG III/4"
+                                           ] ;
+                           pers:forename   "Jost" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006065a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "102" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "395"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1523" ;
+                           pers:description   "key000029" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:occupation  [ pers:date          "1523" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "41347" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Sibylle Malamud: Er ist nicht identisch mit dem Landvogt Jost Tschudi 1526-29, siehe Nr. 113, Fussnote 2." ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001517> ;
+                           pers:occurence  "SG III/4"
+                         ] .

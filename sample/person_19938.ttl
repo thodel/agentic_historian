@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per021192>
+        a               pers:person ;
+        rdfs:label      "Johann Gaudenz von Castelberg"@deu ;
+        pers:births     [ pers:birth      "1640" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:deaths     [ pers:death      "1672" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-08-31 09:43:47.084299" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Johann Gaudenz" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per021192a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001102> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hanß Gudens" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001102.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021192a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001102> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024832> ;
+                          pers:occurence  "GR B III/2"
+                        ] .

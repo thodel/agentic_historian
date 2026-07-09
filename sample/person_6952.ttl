@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007615>
+        a                pers:person ;
+        rdfs:label       "Fridolin Freuler"@deu ;
+        pers:births      [ pers:birth         "1626" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1626" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "05.1714" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1714-05" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-08 12:22:30.643582" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Fridolin" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007615a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "225" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "1029"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002827> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1677" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1677" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002827> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17941" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: Fridolin Freuler war gemäss HLS und den gängigen Landvogtslisten (vgl. Kap. 3.5) 1678–1680 Landvogt im Rheintal. Aufgrund des üblichen zweijährigen Turnus in den geraden Jahren und einem fehlenden Hinweis, dass der vorangehende Landvogt Paul Müller frühzeitig ausschied (er lebte bis 1699), handelt es sich entweder um einen Irrtum in den EA oder die katholischen Orte versuchten, diesen katholischen Landvogt mit dem Beginn der Gemeinderschaft 1677 zu installieren, sahen aber dann aufgrund der evangelischen Vorbehalte davon ab." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

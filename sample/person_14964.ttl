@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016033>
+        a                    pers:person ;
+        rdfs:label           "Hans Bähler"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016031> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1644" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-16 15:43:34.546730" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016033a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006431> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006431.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016033a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006431> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008597> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per004081>
+        a                    pers:person ;
+        rdfs:label           "Jakob Wespi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1570" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1570" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-06 19:25:42.138674" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "105b" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "385"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "103c" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "376"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001553.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004081a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004081a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "103c" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "375"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001553> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001553> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1575" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001602> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

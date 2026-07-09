@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000128>
+        a             pers:person ;
+        rdfs:label    "Albert Schrusch"@deu ;
+        pers:births   [ pers:birth         "09.01.1295" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1295-01-09" ] ] ;
+                        pers:occurence     "SG III/2"
+                      ] ;
+        pers:name     [ pers:forename    "Alberto" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000017.03> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000128a.02>
+                      ] ;
+        pers:name     [ pers:forename    "Alberto" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000017.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000128a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Albert" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per000128a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "8" ;
+                                                           pers:line     "23" ;
+                                                           pers:page     "12"
+                                                         ] ;
+                                          pers:vol       "SG III/2"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000017> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000017> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

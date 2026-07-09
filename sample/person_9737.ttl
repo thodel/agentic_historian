@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010506>
+        a                    pers:person ;
+        rdfs:label           "Giovanni Node"@ita ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010505> ;
+                               pers:occurence  "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 15:15:46.069329" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ioanne" ;
+                               pers:lang        "ita" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003904.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010506a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Giovanni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010506a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003904> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003904> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

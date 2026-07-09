@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012943>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Schröter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1311" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1291" ;
+                               pers:occurence      "cohp"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-22 16:34:01.168242" ;
+                               pers:username  "cohp"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012943a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001671> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Rudolfus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "mina" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001671.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012943a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001671> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012944> ;
+                               pers:occurence  "mina"
+                             ] .

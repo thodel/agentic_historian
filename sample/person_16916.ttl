@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per018068>
+        a                    pers:person ;
+        rdfs:label           "Hans Schafer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1647" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-25 10:30:16.550456" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Hanßen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003436.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018068a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018068a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003436> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003436> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011620> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018066> ;
+                               pers:occurence  "lionel"
+                             ] .

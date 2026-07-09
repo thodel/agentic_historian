@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002221>
+        a                    pers:person ;
+        rdfs:label           "Jakob Gantner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "nach 1604" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore
+                                                           "1604" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002221a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "196a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "712"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000768> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000768.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002221a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000768> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000034> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

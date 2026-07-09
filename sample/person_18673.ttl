@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019886>
+        a                    pers:person ;
+        rdfs:label           "Anton Daniou"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1522" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-18 11:07:09.076466" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019886a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007451> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Töni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007451.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019886a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007451> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008920> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

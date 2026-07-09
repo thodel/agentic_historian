@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per028241>
+        a                pers:person ;
+        rdfs:label       "Franz Peter Xavier Gottrau"@deu ;
+        pers:births      [ pers:birth      "1696" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1750" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-19 08:08:09.517080" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Franz Peter Xavier" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028241a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028241a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1733-1750" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1748-1750" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1738-1743" ;
+                           pers:description  "key000826" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "Gehört zur Linie Gottrau de Granges." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

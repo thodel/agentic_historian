@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011258>
+        a                pers:person ;
+        rdfs:label       "Peter Kistler"@deu ;
+        pers:hist        [ pers:date      "2020-09-30 09:36:45.587461" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011258b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ismail" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000538> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1470" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "mina" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004002>
+                         ] ;
+        pers:occupation  [ pers:description  "key000028" ;
+                           pers:occurence    "ismail"
+                         ] ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "008092" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "135974291" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

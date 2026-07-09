@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009052>
+        a                    pers:person ;
+        rdfs:label           "Hans Gafaley"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1515" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1515" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-19 09:44:44.712690" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003337.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009052a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009052a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003337> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1515" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1515" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000218> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003337> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

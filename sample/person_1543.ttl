@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per001945>
+        a                    pers:person ;
+        rdfs:label           "Jakob Töni"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1565" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1565" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001945a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "153c" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "550"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000343> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000343> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017644>
+        a                    pers:person ;
+        rdfs:label           "Hans Joos"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1722" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-14 13:31:39.265181" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017644a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006299.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017644a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005676" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006299> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000244> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

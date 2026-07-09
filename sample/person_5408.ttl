@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005985>
+        a                    pers:person ;
+        rdfs:label           "Michael Bischofberger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 16:32:35.750409" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005985a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002361> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Michael" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95n" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "362"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002361.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005985a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002361> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

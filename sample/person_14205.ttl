@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per015239>
+        a                    pers:person ;
+        rdfs:label           "Jörg Bargetzi"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015240> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1730" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-26 13:56:04.566873" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015239a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002789> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "der alt" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Jery" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002789.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015239a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002789> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000244> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per001882>
+        a                    pers:person ;
+        rdfs:label           "Adrian Lur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1609" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1609" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                               pers:last_mention  "1611" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Adrian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001882a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "202" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "764"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "150a" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "532"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000822> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1609-1611" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1609" ;
+                                                                        pers:to    "1611"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1610" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1610" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000822> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per011212>
+        a                         pers:person ;
+        rdfs:label                "Pierre de Mont"@fra ;
+        pers:fatherOf             [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011395> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-02 09:41:17.115115" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004236.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011212a.02>
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Noble" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Pierre" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011212a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004236> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004236.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011212a.01>
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Nobilis" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Petrus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011212a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004236> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "11.04.1448–16.04.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "12.04.1448" ;
+                                    pers:description  "key005588" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004236> ;
+        pers:project              "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs                 [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 45" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:refs                 [ pers:title  "Wilderman 1993, p. 484" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:refs                 [ pers:title  "Déglon 1949, p. 190" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Il rallie, avec Antoine de Galléra, Guillaume de Sévery et Jean Pittet, le duc de Savoie en janvier 1448 dans la guerre contre les Fribourgeois (Deglon 1949, p. 190). Patron de l'autel Marie-Madeleine à l'église de Champvent (Wilderman 1993, p. 484)" ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                                    pers:occurence  "gortega"
+                                  ] .

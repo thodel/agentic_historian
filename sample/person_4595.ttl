@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per005132>
+        a                    pers:person ;
+        rdfs:label           "Konrad Hör"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1415" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-07 15:22:30.061851" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1457" ] ] ;
+                               pers:last_mention  "1457" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005132a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001979> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "23" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "59"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001979.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005132a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1432" ;
+                               pers:description   "key000133" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1432" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001979> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "45958" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per005144" ;
+        pers:sex             "1" .

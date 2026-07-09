@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012183>
+        a                    pers:person ;
+        rdfs:label           "Jean Fornachon"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1595" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-09-16 13:33:37.627041" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012183a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003093> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003093.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012183a.02>
+                             ] ;
+        pers:occupation      [ pers:description  "key000275" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003093> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007815> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

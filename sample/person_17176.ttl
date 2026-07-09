@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per018336>
+        a             pers:person ;
+        rdfs:label    "Fortunat [von] Sprecher"@deu ;
+        pers:births   [ pers:birth      "09.01.1585" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "14.01.1647" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-06-04 09:06:38.245200" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Bernegg" ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:forename   "Fortunat" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per018336a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007099> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org007099> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "124789609" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:refs     [ pers:id    "016984" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

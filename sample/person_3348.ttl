@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003807>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Schiffmann"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000920> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1460" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 19:59:28.935102" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003807a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "53" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "152"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "173"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000491> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1460" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1460" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000491> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14483" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "HLS vermerkt Landvogtamt Entlebuch nicht, HBLS schon, allerdings nur 1458-1459." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

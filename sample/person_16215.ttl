@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per017336>
+        a                    pers:person ;
+        rdfs:label           "Lorenz NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1492" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-08 16:24:58.662084" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Lorentzen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017336a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lorenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017336a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010099> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

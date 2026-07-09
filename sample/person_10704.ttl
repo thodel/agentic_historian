@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per011545>
+        a                    pers:person ;
+        rdfs:label           "Peter Kämmerling"@deu ;
+        pers:deaths          [ pers:death      "1668" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1628" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-26 15:34:39.547016" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der jung" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                               pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011545a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003480> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1628-1668" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003480> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per002682>
+        a                    pers:person ;
+        rdfs:label           "Johann Christof Zweifel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1738" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1738" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-06 11:31:29.677184" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:last_mention  "1745" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Johan Christoff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000655.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002682a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Christof" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002682a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "289b" ;
+                                                                  pers:line     "46" ;
+                                                                  pers:page     "1018"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000655> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Christoph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000655.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002682a.02>
+                             ] ;
+        pers:occupation      [ pers:date         "1745" ;
+                               pers:description  "key000424" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1738, 1744" ;
+                               pers:description   "key004803" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1744" ] ;
+                                         pers:format_date  [ pers:when  "1738" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000655> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

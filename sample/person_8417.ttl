@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009146>
+        a                    pers:person ;
+        rdfs:label           "Jost Brünisholz"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009139> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1613" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-15 11:42:28.340796" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jost" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003363.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009146a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009146a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003363> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003363> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

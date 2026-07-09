@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per008000>
+        a                    pers:person ;
+        rdfs:label           "Paulus Ritter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1768" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1768" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 10:00:16.654633" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Paulus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008000a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "274d" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1213"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "274c" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "1210"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002117> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1768" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1768" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:date          "1768" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1768" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002117> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Rohner, Geschlechter und Wappen, S. 105" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Werner Kuster: evtl. identisch mit per007802" ;
+        pers:sex             "1" .

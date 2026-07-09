@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per018949>
+        a                    pers:person ;
+        rdfs:label           "Agatha von Wicken"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1340" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-08 11:11:46.592858" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013139> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Agatha" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018949a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "sabine"
+                                                      ] ;
+                               pers:occurence         "sabine" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005367> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005367> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018948> ;
+                               pers:occurence  "sabine"
+                             ] .

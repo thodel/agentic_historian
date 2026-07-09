@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per011631>
+        a                    pers:person ;
+        rdfs:label           "Gui Fontaine"@deu ;
+        pers:employerOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009299> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1620" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-25 16:16:05.660275" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1631" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Guy" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004441.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011631a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Gui" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per011631a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004441> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1620–1631" ;
+                               pers:description  "key004278" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007605> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004441> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

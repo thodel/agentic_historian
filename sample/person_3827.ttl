@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per004308>
+        a                pers:person ;
+        rdfs:label       "Peter Renggli"@deu ;
+        pers:deaths      [ pers:death         "1717" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1717" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-19 15:59:33.222659" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004308a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "135b" ;
+                                                              pers:line     "29" ;
+                                                              pers:page     "486"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "135c" ;
+                                                              pers:line     "18" ;
+                                                              pers:page     "487"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001352> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "135b" ;
+                                                               pers:line     "28" ;
+                                                               pers:page     "486"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001352.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004308a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1676-1715" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1676" ;
+                                                                    pers:to    "1715"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001352> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

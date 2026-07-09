@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002633>
+        a                    pers:person ;
+        rdfs:label           "Franz Bislin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1711" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1711" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002633a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "255b" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "929"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001059> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Frantz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001059.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002633a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001059> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

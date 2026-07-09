@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009638>
+        a                pers:person ;
+        rdfs:label       "Jonas Favre"@fra ;
+        pers:births      [ pers:birth         "ca. 1630" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1640" ;
+                                                                    pers:notBefore  "1620" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                         ] ;
+        pers:deaths      [ pers:death         "26.01.1694" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1694-01-26" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 13:11:47.729428" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Jonas" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009638a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003131> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1680" ;
+                           pers:description   "key005161" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1680" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003131> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19409" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009639> ;
+                           pers:occurence  "NE 3"
+                         ] .

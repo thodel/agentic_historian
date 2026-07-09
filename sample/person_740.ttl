@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per000815>
+        a                pers:person ;
+        rdfs:label       "Ludwig Kramer"@deu ;
+        pers:births      [ pers:birth         "1420" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1420" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001164>
+                         ] ;
+        pers:deaths      [ pers:death         "24.04.1491" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1491-04-24" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-12 16:18:38.216236" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Lu̍dwig" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "61" ;
+                                                               pers:line     "17" ;
+                                                               pers:page     "174"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000427.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000815a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000815a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "56a" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "159"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "61" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "195"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000427> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1472" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1472" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1488" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000427> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14167" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

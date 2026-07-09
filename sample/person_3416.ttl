@@ -1,0 +1,105 @@
+<http://ssrq-sds-fds.ch/Register/#per003882>
+        a                pers:person ;
+        rdfs:label       "Heinrich Fleckenstein"@deu ;
+        pers:births      [ pers:birth         "um 1484" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1494" ;
+                                                                    pers:notBefore  "1474" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1558" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1558" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002062> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-03 15:02:56.436272" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000888.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003882a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003882a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "62b" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "178"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000888> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "62b" ;
+                                                               pers:line     "37" ;
+                                                               pers:page     "178"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000888.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003882a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000888.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003882a.03>
+                         ] ;
+        pers:occupation  [ pers:date          "1523, 1524" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ;
+                                     pers:format_date  [ pers:when  "1524" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1555" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                         ] ;
+        pers:occupation  [ pers:date          "1535-" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1535" ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1523, 1524" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1524" ] ;
+                                     pers:format_date  [ pers:when  "1523" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1546" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1555" ;
+                           pers:description   "key000623" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000888> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14122" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

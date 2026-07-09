@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per010019>
+        a                    pers:person ;
+        rdfs:label           "Hans Müntener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1637" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-09-27 14:35:00.927404" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010019a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001907> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1637" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001834>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001907> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

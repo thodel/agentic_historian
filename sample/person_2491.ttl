@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per002909>
+        a                    pers:person ;
+        rdfs:label           "Johann Peter Enderli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1752" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1752" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000466.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002909a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Montzwick" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Johann Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002909a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "325" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "1094"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000466> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1752" ;
+                               pers:description   "key003687" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1752" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001165>
+                             ] ;
+        pers:occupation      [ pers:description  "key001104" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000895" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000466> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

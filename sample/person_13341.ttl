@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per014352>
+        a                    pers:person ;
+        rdfs:label           "Peter Felix"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-20 12:10:08.216858" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014352a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005790> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005790.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014352a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005790> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

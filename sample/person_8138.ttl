@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per008847>
+        a                    pers:person ;
+        rdfs:label           "Jean de Turtin"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1650" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-29 10:17:16.809469" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003245.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008847a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008847a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003245> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003245> ;
+        pers:origin          [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007646> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007646> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:residence       [ pers:date       "1650" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

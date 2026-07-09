@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005028>
+        a                    pers:person ;
+        rdfs:label           "Hans Garnleder"@deu ;
+        pers:births          [ pers:birth      "1388" ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:deaths          [ pers:death      "1416" ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1415" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-09 09:39:29.082948" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005028a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "11" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "18"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001994> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1415" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1415" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001994> ;
+        pers:project         "StadtASG" ;
+        pers:remark          "Die Lebensdaten stammen aus: Ehrenzeller, Ernst: Geschichte der Stadt St. Gallen, VGS, 1988, S. 66. Dort Johannes genannt." ;
+        pers:sex             "1" .

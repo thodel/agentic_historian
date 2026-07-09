@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per008247>
+        a                pers:person ;
+        rdfs:label       "Franz Joseph Müller-Friedberg"@deu ;
+        pers:births      [ pers:birth         "12.09.1725" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1725-09-12" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "17.02.1803" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1803-02-17" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-13 10:15:29.632617" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Franz Joseph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "312" ;
+                                                               pers:line     "21" ;
+                                                               pers:page     "1342"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003003.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008247a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008247a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003003> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1779" ;
+                           pers:description   "key003892" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003003> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21766" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

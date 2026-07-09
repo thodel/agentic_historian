@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008464>
+        a                    pers:person ;
+        rdfs:label           "Johannes Lüchinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 09:21:54.725966" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008464a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002217> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joh." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328e" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "1405"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002217.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008464a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002217> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011821>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques Carrel"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1606" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-24 14:54:52.736972" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jean Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003875.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011821a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011821a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003875> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003875> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

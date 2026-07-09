@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002789>
+        a                    pers:person ;
+        rdfs:label           "Florian Gehrig"@deu ;
+        pers:employerOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002788> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1773" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1773" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Florian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002789a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "307c" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1052"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000952> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Flori" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000952.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002789a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000952> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

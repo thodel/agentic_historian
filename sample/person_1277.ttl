@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001685>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Wildhaber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000750.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001685a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001685a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "129a" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "425"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000750> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000750> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

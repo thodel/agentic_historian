@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009368>
+        a                    pers:person ;
+        rdfs:label           "Peter Wanner"@deu ;
+        pers:deaths          [ pers:death         "1628" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1628" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-24 11:41:56.416165" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009368a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003473> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1611-1628" ;
+                               pers:description  "key005548" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:occupation      [ pers:date          "1626-1628" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1626" ;
+                                                                        pers:to    "1628"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003473> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Freiburger Wundarzt 1611-1628." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007782>
+        a                    pers:person ;
+        rdfs:label           "Georg Lutz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1713" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1713" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-16 11:19:47.319845" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Georg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250h" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "1121"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000771.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007782a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007782a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000771> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1713" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002812>
+                             ] ;
+        pers:occupation      [ pers:date          "1713" ;
+                               pers:description   "key000978" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000771> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006320> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

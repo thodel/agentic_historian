@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per009139>
+        a                pers:person ;
+        rdfs:label       "Peter Brünisholz"@deu ;
+        pers:cousinOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009146> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death         "04.06.1613" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1613-06-04" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:employeeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009149> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-24 07:30:40.863332" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Kleine" ;
+                                             pers:occurence  "FR I/2/8"
+                                           ] ;
+                           pers:addnames   [ pers:addname    "Klein Peter" ;
+                                             pers:occurence  "FR I/2/8"
+                                           ] ;
+                           pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009139a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003363> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003363.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009139a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003363.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009139a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003363.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009139a.02>
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003363> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007627> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009140> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009137> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010907>
+        a                pers:person ;
+        rdfs:label       "Jakob Christoph Hirzel"@deu ;
+        pers:births      [ pers:birth      "1745" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1825" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-01 14:49:19.534455" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005075>
+                         ] ;
+        pers:name        [ pers:forename   "Jakob Christoph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010907a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000997> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1787-1793" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000997> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

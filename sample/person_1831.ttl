@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002232>
+        a                    pers:person ;
+        rdfs:label           "Johann Friedrich Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1602" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1602" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Schaffhausen" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Johann Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002232a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "715"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1602" ;
+                               pers:description   "key003667" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1602" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000965> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

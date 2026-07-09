@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per007666>
+        a                pers:person ;
+        rdfs:label       "Desiderius Eberli"@deu ;
+        pers:births      [ pers:birth         "12.10.1637" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1637-10-12" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "15.02.1699" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1699-02-15" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-11 14:51:06.960660" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Desiderius" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007666a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "238" ;
+                                                              pers:line     "20" ;
+                                                              pers:page     "1060"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002848> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1692" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:occupation  [ pers:date          "1692" ;
+                           pers:description   "key000607" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000840> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002848> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "http://www.sg.ch/home/kultur/stiftsarchiv/geschichte/abtei_st_gallen/konventualen/professen_unter_abtgallusaltteil11654-1666.popup.html"
+                         ] ;
+        pers:sex         "1" .

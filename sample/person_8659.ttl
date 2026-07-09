@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009396>
+        a                    pers:person ;
+        rdfs:label           "Hans Rederer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1607" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-20 16:32:54.535054" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009396a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001919> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001919.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009396a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1607" ;
+                               pers:description   "key004139" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1607" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000389> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001919> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1607" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000389> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

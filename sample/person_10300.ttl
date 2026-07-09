@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per011119>
+        a                    pers:person ;
+        rdfs:label           "Hans Heinrich Spöndli"@deu ;
+        pers:births          [ pers:birth      "1583" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:deaths          [ pers:death      "1662" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1630" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-07 11:48:19.250870" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011119a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001103> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001103.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011119a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1630" ;
+                               pers:description  "key000778" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001103> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Pascale Sutter: Lebensdaten nach den Zürcher Ratslisten." ;
+        pers:sex             "1" .

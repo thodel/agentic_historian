@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009515>
+        a                    pers:person ;
+        rdfs:label           "Jean Thoma"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009511> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009539> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1623" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1623" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-05 14:45:26.645517" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009515a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003532> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003532.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009515a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008276> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

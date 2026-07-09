@@ -1,0 +1,86 @@
+<http://ssrq-sds-fds.ch/Register/#per005027>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Gundelfingen"@deu ;
+        pers:deaths          [ pers:death         "März 1429" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1429-03" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1379" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1379" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:46:00.666325" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005027a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "144" ;
+                                                                         pers:line     "35" ;
+                                                                         pers:page     "620"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "11" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005027a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005027b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001993> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "15" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "34"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005027a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1411–1418" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1411" ;
+                                                                        pers:to    "1418"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000581> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12660" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1314-1315" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:refs            [ pers:title  "Duft/Gössi/Vogler, Abtei, S. 144–145" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

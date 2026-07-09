@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per027425>
+        a                    pers:person ;
+        rdfs:label           "Hans Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1530" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-10 12:09:03.511661" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Rot" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027425a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027425a.01>
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Rot" ;
+                                                  pers:occurence  "ssrq-zh"
+                                                ] ;
+                               pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027425a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000849> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027424> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

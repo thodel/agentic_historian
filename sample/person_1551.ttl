@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per001953>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Lavater"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1780" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1780" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-28 10:39:05.561207" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001953a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "353" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1178"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000832> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1780" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1780" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000832> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per022543>
+        a               pers:person ;
+        rdfs:label      "Stefan von Rongellen"@deu ;
+        pers:deaths     [ pers:death      "vor 1566" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-29 09:43:17.506762" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Stefan" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per022543a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008083> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Steffan" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008083.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022543a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008083> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

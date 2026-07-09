@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007742>
+        a                    pers:person ;
+        rdfs:label           "Christian Heller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 14:52:04.465314" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007742a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "250h" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "1121"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "250c" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1098"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002283> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712, 1713" ;
+                               pers:description   "key004836" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ;
+                                         pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002171>
+                             ] ;
+        pers:occupation      [ pers:date          "1712, 1713" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ;
+                                         pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002812>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002283> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007132> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

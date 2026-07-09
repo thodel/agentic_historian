@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019860>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Camenisch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-18 09:40:54.035336" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019860a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005380> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartlome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005380.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019860a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005380> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008920> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

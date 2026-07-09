@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per017168>
+        a               pers:person ;
+        rdfs:label      "Pierre Morand"@fra ;
+        pers:deaths     [ pers:death      "vor 1647" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026681> ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:hist       [ pers:date      "2020-10-14 15:19:09.085303" ;
+                          pers:username  "rita"
+                        ] ;
+        pers:name       [ pers:forename   "Pierre" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017168a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006766> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Pierre" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006766.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017168a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006766> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007983> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017167> ;
+                          pers:occurence  "lionel"
+                        ] .

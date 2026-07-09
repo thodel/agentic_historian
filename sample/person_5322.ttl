@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005900>
+        a                    pers:person ;
+        rdfs:label           "Urban Indermaur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1495" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1495" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-26 08:45:37.441117" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Urba" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "94" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "340"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002249.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005900a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Urban" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005900a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002249> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002249> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

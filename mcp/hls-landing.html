@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HLS MCP — Historisches Lexikon der Schweiz</title>
+  <style>
+    :root { --bg:#f7f5f0; --surface:#fff; --border:#d8d0c4; --accent:#1a4a6e; --accent2:#2c7bb6; --text:#2a2018; --muted:#7a6e63; --code-bg:#ede9e1; --tag-bg:#e8e0d4; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header { background: var(--accent); color: #fff; padding: 1.75rem 2rem; display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap; }
+    header h1 { font-size: 1.35rem; font-weight: 600; }
+    .badge { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--accent2); color: #fff; padding: 0.15em 0.6em; border-radius: 3px; vertical-align: middle; }
+    header .tagline { font-size: 0.9rem; opacity: 0.82; }
+    main { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+    .card.full { grid-column: 1 / -1; }
+    .card h2 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .endpoint-url { font-family: 'Courier New', monospace; font-size: 0.92rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; word-break: break-all; user-select: all; }
+    .copy-btn { display: inline-block; font-size: 0.78rem; font-weight: 600; background: var(--accent); color: #fff; border: none; border-radius: 3px; padding: 0.3em 0.8em; cursor: pointer; transition: background 0.15s; }
+    .copy-btn:hover { background: var(--accent2); }
+    .copy-hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+    .stat { background: var(--tag-bg); border-radius: 4px; padding: 0.65rem 0.75rem; text-align: center; }
+    .stat .val { display: block; font-size: 1.4rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+    .stat .lbl { display: block; font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    table.tools { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    table.tools th { text-align: left; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); }
+    table.tools td { padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    table.tools tr:last-child td { border-bottom: none; }
+    .tool-name { font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--accent); font-weight: 600; }
+    .tool-desc { color: var(--text); }
+    .tool-args { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--muted); }
+    .resource-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .resource-uri { font-family: 'Courier New', monospace; font-size: 0.8rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 3px; padding: 0.3rem 0.6rem; color: var(--accent); }
+    .example-label { font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; }
+    pre.example { background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.8rem; white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
+    footer { max-width: 900px; margin: 0 auto 3rem; padding: 0 2rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    footer a { font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 0.35rem; }
+    footer a:hover { color: var(--accent2); text-decoration: none; }
+    .source-note { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
+    @media (max-width: 620px) { main { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>HLS MCP Server <span class="badge">Alpha</span></h1>
+  <span class="tagline">Historisches Lexikon der Schweiz / DHS — 33 506 Personenartikel</span>
+</header>
+
+<main>
+
+  <div class="card full" style="background: var(--accent); border-color: var(--accent2);">
+    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.85); margin-bottom: 0.5rem;">
+      Historisches Lexikon der Schweiz (DHS) — das wissenschaftliche Referenzwerk zur Geschichte der Schweiz.
+    </p>
+    <h2 style="border: none; color: #fff; font-size: 1rem; margin-bottom: 0.5rem;">
+      <a href="https://hls-dhs-dss.ch/" style="color: #fff;" target="_blank" rel="noopener">hls-dhs-dss.ch ↗</a>
+    </h2>
+    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.65);">33 506 biographische Artikel — GND, Wikidata und Wikipedia integriert via dhs-nerd</p>
+  </div>
+
+  <div class="card">
+    <h2>Endpoint</h2>
+    <div class="endpoint-url" id="ep-url">https://tei.dh.unibe.ch/mcp/hls</div>
+    <button class="copy-btn" onclick="copyUrl()">Copy URL</button>
+    <p class="copy-hint">MCP-kompatibler Client (OpenClaw, Claude Desktop, …)</p>
+  </div>
+
+  <div class="card">
+    <h2>Corpus</h2>
+    <div class="stats-grid">
+      <div class="stat"><span class="val" id="n-total">—</span><span class="lbl">Artikel</span></div>
+      <div class="stat"><span class="val" id="n-gnd">—</span><span class="lbl">GND</span></div>
+      <div class="stat"><span class="val" id="n-wd">—</span><span class="lbl">Wikidata</span></div>
+      <div class="stat"><span class="val" id="n-wp">—</span><span class="lbl">Wikipedia</span></div>
+    </div>
+    <p class="source-note">Daten: hls-dhs-dss.ch + dhs-nerd (EPFL) angereichert mit GND/Wikidata</p>
+  </div>
+
+  <div class="card full">
+    <h2>Available tools</h2>
+    <table class="tools">
+      <thead><tr><th>Tool</th><th>Description</th><th>Arguments</th></tr></thead>
+      <tbody>
+        <tr><td class="tool-name">hls_search_persons</td><td class="tool-desc">FTS5 name search (family_name, first_name, title)</td><td class="tool-args">query, limit?</td></tr>
+        <tr><td class="tool-name">hls_get_person</td><td class="tool-desc">Full record by HLS ID (6-digit, e.g. 025265)</td><td class="tool-args">id</td></tr>
+        <tr><td class="tool-name">hls_search_fulltext</td><td class="tool-desc">Full-text keyword search across article content</td><td class="tool-args">query, limit?</td></tr>
+        <tr><td class="tool-name">hls_search_places</td><td class="tool-desc">Person search with geo coordinates</td><td class="tool-args">query, limit?</td></tr>
+        <tr><td class="tool-name">hls_corpus_stats</td><td class="tool-desc">Corpus summary counts</td><td class="tool-args">—</td></tr>
+        <tr><td class="tool-name">hls_health</td><td class="tool-desc">DB health check</td><td class="tool-args">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Data sources</h2>
+    <div class="resource-list">
+      <span class="resource-uri">~/hls/HLS/hls_articles.json</span>
+      <span style="font-size:0.82rem; color:var(--muted); padding:0.1rem 0.3rem;">33 506 Artikel, Primärdaten</span>
+      <span class="resource-uri">dhs-nerd / gh-pages (EPFL)</span>
+      <span style="font-size:0.82rem; color:var(--muted); padding:0.1rem 0.3rem;">GND-IDs, Wikidata Q-IDs, Wikipedia-URLs</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quick example</h2>
+    <p class="example-label">hls_search_persons — "Johann"</p>
+    <pre class="example">→ hls_search_persons(query="Johann", limit=5)
+← [{id:"029335",
+    title:"Johann Melchior Camenzind",
+    family_name:"Camenzind",
+    first_name:"Johann Melchior",
+    birth_date:"1730-12-23",
+    death_date:"1776-03-02",
+    gnd_id:"1053322747",
+    wikidata_id:"Q96281557"}, …]</pre>
+  </div>
+
+</main>
+
+<footer>
+  <a href="https://hls-dhs-dss.ch/" target="_blank">hls-dhs-dss.ch ↗</a>
+  <a href="https://tei.dh.unibe.ch">tei.dh.unibe.ch</a>
+</footer>
+
+<script>
+  const MCP_BASE = 'https://tei.dh.unibe.ch/mcp/hls';
+  function copyUrl() {
+    navigator.clipboard.writeText(document.getElementById('ep-url').textContent.trim())
+      .then(() => { const btn = document.querySelector('.copy-btn'); btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy URL', 1500); });
+  }
+  async function rpc(method, params, id) {
+    const res = await fetch(MCP_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream' },
+      body: JSON.stringify({ jsonrpc: '2.0', id, method, params })
+    });
+    const text = await res.text();
+    for (const line of text.split(/[\r\n]+/)) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('data:')) return JSON.parse(trimmed.slice(5).trim());
+    }
+    return JSON.parse(text);
+  }
+  async function loadStats() {
+    try {
+      const json = await rpc('tools/call', { name: 'hls_corpus_stats', arguments: {} }, 1);
+      const text = json.result?.content?.[0]?.text;
+      if (!text) return;
+      const s = JSON.parse(text);
+      const f = n => n ? Number(n).toLocaleString() : '—';
+      document.getElementById('n-total').textContent = f(s.total_articles);
+      document.getElementById('n-gnd').textContent   = f(s.with_gnd);
+      document.getElementById('n-wd').textContent    = f(s.with_wikidata);
+      document.getElementById('n-wp').textContent    = f(s.with_wikipedia);
+    } catch(e) { console.warn('stats load failed', e); }
+  }
+  loadStats();
+</script>
+
+</body>
+</html>

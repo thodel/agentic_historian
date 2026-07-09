@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003631>
+        a                    pers:person ;
+        rdfs:label           "Heini Türler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1424" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:33:27.263530" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heini" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003631a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000322> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "30a" ;
+                                                                   pers:line     "33" ;
+                                                                   pers:page     "73"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000322.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003631a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1424" ;
+                               pers:description   "key000135" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1424" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000322> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005623> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

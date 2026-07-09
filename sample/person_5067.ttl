@@ -1,0 +1,99 @@
+<http://ssrq-sds-fds.ch/Register/#per005640>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Göldli"@deu ;
+        pers:births          [ pers:birth         "vor 1445" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1445" ;
+                                                                        pers:notBefore  "1395" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:deaths          [ pers:death         "15.05.1514" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1514-05-15" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1490" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-23 14:40:52.751406" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005640a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000777> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "77" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "274"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "70" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "244"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000777.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005640a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1498" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                             ] ;
+        pers:occupation      [ pers:date          "1490" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                             ] ;
+        pers:occupation      [ pers:date         "1476-1482, 1485" ;
+                               pers:description  "key000133" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002406>
+                             ] ;
+        pers:occupation      [ pers:date          "1498" ;
+                               pers:description   "key003617" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:occupation      [ pers:date          "1490" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:occupation      [ pers:date         "1461-75, 1483, 1484, 1486-1514" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000777> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18071" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "137644787" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:remark          "tke: In Ratsliste Geburt 1437." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

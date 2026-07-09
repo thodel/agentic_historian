@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003534>
+        a                    pers:person ;
+        rdfs:label           "Peter Tröspel"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003533> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1453" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-22 10:46:46.713733" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003534a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "52" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "149"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001406> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001406> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

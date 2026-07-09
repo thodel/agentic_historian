@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009070>
+        a                    pers:person ;
+        rdfs:label           "Johannes Kessler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1622" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1622" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-04 12:58:07.642907" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Johanneß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000164.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009070a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009070a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000164> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1622" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1622" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006040> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1622" ;
+                               pers:description   "key004619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1622" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001881>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000164> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

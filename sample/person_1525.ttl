@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per001928>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Imfeld"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1568" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1568" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1570" ] ] ;
+                               pers:last_mention  "1570" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001928a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "169" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "613"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "166" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "600"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "155" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "568"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "167" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "608"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000835> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000835.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001928a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1568-1570" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1568" ;
+                                                                        pers:to    "1570"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1568, 1569" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1569" ] ;
+                                         pers:format_date  [ pers:when  "1568" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001213>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000835> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

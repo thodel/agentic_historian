@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003373>
+        a                    pers:person ;
+        rdfs:label           "Hänsli Spitz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-06-30 14:41:11.644369" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "116"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001348.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003373a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003373a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001348> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001348> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

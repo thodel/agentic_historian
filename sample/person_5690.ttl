@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per006285>
+        a                    pers:person ;
+        rdfs:label           "Christina von Reitnau"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1550" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1550" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-12 16:46:08.110473" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006283> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename          "Christina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006285b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001978> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Christina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "126" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "509"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000246.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006285a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Christina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006285a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "126" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "508"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000246> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000246> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006286> ;
+                               pers:occurence  "SG III/3"
+                             ] .

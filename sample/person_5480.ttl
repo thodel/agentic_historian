@@ -1,0 +1,85 @@
+<http://ssrq-sds-fds.ch/Register/#per006062>
+        a                pers:person ;
+        rdfs:label       "Gilg Reichmuth"@deu ;
+        pers:births      [ pers:birth         "um 1465" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1475" ;
+                                                                    pers:notBefore  "1455" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1554" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1554" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-02-06 17:11:01.888421" ;
+                           pers:username  "SG III/4"
+                         ] ;
+        pers:name        [ pers:forename   "Gilg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006062a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000776> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Gilg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006062a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Gilg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "102" ;
+                                                               pers:line     "35" ;
+                                                               pers:page     "395"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006062a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Gilg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "103" ;
+                                                               pers:line     "3" ;
+                                                               pers:page     "399"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "108" ;
+                                                               pers:line     "25" ;
+                                                               pers:page     "409"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006062a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1541" ;
+                           pers:description   "key000427" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:occupation  [ pers:date          "1523, 1524" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ;
+                                     pers:format_date  [ pers:when  "1524" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:occupation  [ pers:date          "1523, 1524" ;
+                           pers:description   "key000029" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1524" ] ;
+                                     pers:format_date  [ pers:when  "1523" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000776> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19029" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

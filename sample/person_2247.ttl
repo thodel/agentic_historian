@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per002642>
+        a                    pers:person ;
+        rdfs:label           "Remigius de Florin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-11 11:42:16.576420" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1705" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Remigiuß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001060.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002642a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Remigio" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001060.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002642a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Remigius" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002642a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "260a" ;
+                                                                         pers:line     "4" ;
+                                                                         pers:page     "934"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "260b" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "937"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "260" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "934"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001060> ;
+                               pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                        pers:rolename   "Junker/donzel"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000808" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1678, 1705" ;
+                               pers:description   "key005658" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1678" ] ] ;
+                               pers:occurence     "GR B III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org006378>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001060> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000266> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002641> ;
+                               pers:occurence  "SG III/2"
+                             ] .

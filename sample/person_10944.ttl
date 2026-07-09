@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011803>
+        a                    pers:person ;
+        rdfs:label           "Gérard Robin"@fra ;
+        pers:citizenOf       [ pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004481>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1449" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-22 17:23:02.500128" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Gérard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011803a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004521> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Girardus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011803a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004521> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004521> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

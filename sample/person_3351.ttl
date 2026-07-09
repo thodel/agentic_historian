@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per003810>
+        a                pers:person ;
+        rdfs:label       "Johannes XXIII. (Papst)"@deu ;
+        pers:deaths      [ pers:death         "23.12.1419" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1419-12-23" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-25 09:06:27.075525" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Johansen" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003810a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:gennames   [ pers:genname    "XXIII." ;
+                                             pers:occurence  "LU II/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003810a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "56" ;
+                                                              pers:line     "4" ;
+                                                              pers:page     "157"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1410-1415" ;
+                           pers:description   "key000014" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1410" ;
+                                                                    pers:to    "1415"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "Andreas Ineichen: Umstritten, ob am 22. oder 23. Dez. gestorben. Claudia Sutter: Nicht Papst, sondern Gegenpapst (key005581)." ;
+        pers:sex         "1" .

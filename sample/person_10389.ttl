@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per011209>
+        a                         pers:person ;
+        rdfs:label                "Jean de Jougne"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-02 09:30:10.217862" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011209a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004233> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004233.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011209a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011209a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004233> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "03.04.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004233> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 43" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Jean de Jougne, notable de la ville d’Orbe, peut-être en lien de parenté avec Pierre de Jougne, châtelain et bailli d’Orbe et d’Échallens pour Louis de Chalon, prince d’Orange. Voir Barbey 1911, p. 162–163." ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007918> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                                    pers:occurence  "gortega"
+                                  ] .

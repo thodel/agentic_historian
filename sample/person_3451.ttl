@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003917>
+        a                    pers:person ;
+        rdfs:label           "Jakob Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1585" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:23:29.190169" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "118b" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "423"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003917a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003917a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1585" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1585" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005981> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

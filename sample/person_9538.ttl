@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010298>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Gnäpser"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1421" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-09 10:55:32.910418" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010298a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003805> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uolrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003805.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010298a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003805> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010299> ;
+                               pers:occurence  "stadtasg"
+                             ] .

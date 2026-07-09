@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per006435>
+        a                    pers:person ;
+        rdfs:label           "Samuel Haltinner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1762" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-06 09:49:30.611598" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Samuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "132" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "552"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002151.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006435a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Samuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "132" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "552"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002151.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006435a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006435a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002151> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1762, 1770, 1781" ;
+                               pers:description   "key000782" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ;
+                                         pers:format_date  [ pers:when  "1770" ] ;
+                                         pers:format_date  [ pers:when  "1781" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002880>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002151> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per023008>
+        a               pers:person ;
+        rdfs:label      "Joseph Simonett"@deu ;
+        pers:deaths     [ pers:death      "vor 1623" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-08-04 11:23:29.018853" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Joseph" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005953.10> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023008a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Joseph" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per023008a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005953> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005953> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011002> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023007> ;
+                          pers:occurence  "GR B III/2"
+                        ] .

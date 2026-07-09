@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per000880>
+        a                    pers:person ;
+        rdfs:label           "Heini Albrecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1461" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1461" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000350.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000880a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heini" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000880a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "64" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "211"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1461" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1461" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000350> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

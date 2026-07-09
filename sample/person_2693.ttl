@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per003124>
+        a                    pers:person ;
+        rdfs:label           "Eberhard Kraft"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Eberhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003124a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "261" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "941"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "151a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "540"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000186> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Eberhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000186.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003124a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Äberhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000186.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003124a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1674" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1674" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001218>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000186> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003736>
+        a                pers:person ;
+        rdfs:label       "Heinrich Renteller"@deu ;
+        pers:deaths      [ pers:death         "1457" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1457" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-02 16:30:34.688181" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003736a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "45" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "124"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001498> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "78b" ;
+                                                               pers:line     "38" ;
+                                                               pers:page     "297"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001498.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003736a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001498> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

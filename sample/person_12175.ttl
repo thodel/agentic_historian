@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per013109>
+        a                    pers:person ;
+        rdfs:label           "Marie Matthey"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1763" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-16 12:13:24.824214" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Marie" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003250.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013109a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Marie" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per013109a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003250> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Madeleine" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per013109b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003170> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003250> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007805> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008696> ;
+                               pers:occurence  "NE 3"
+                             ] .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003377>
+        a                    pers:person ;
+        rdfs:label           "Ueli Hildprand"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003376> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-06-30 15:18:45.898924" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "116"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001350.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003377a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003377a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001350> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

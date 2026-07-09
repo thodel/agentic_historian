@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005966>
+        a                    pers:person ;
+        rdfs:label           "Hans Ulrich Seitz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 14:44:18.128815" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005966a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002165> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95n" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "361"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002165.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005966a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002165> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

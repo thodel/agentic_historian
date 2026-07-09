@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per007667>
+        a                pers:person ;
+        rdfs:label       "Cölestin Sfondrati"@deu ;
+        pers:births      [ pers:birth         "10.01.1644" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1644-01-10" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "04.09.1696" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1696-09-04" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-08 08:06:23.248720" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename          "Cölestin" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007667a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "239" ;
+                                                                     pers:line     "13" ;
+                                                                     pers:page     "1065"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002849> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Cölestin" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007667b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "276" ;
+                                                                     pers:line     "16" ;
+                                                                     pers:page     "1226"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1687–1696" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1687" ;
+                                                                    pers:to    "1696"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002849> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21738" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

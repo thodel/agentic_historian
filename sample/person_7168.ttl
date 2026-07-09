@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007839>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Zäch"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002947>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1719" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1719" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 17:40:36.693570" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "254" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "1135"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002238.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007839a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007839a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002238> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1719" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1719" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001230>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002238> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

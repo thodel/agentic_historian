@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per014243>
+        a             pers:person ;
+        rdfs:label    "Jörg Cajacob"@deu ;
+        pers:births   [ pers:birth      "um 1491/1492" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "06.09.1529" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-20 09:09:40.322445" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Jörg Blaurock" ;
+                                          pers:occurence  "pascale"
+                                        ] ;
+                        pers:forename   "Jörg" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per014243b> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "pascale" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005848> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Georg Cajakob" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Jörg" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per014243a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005801> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Georg" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005801.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014243a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org005801> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "010545" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "118663879" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per014242>
+        a                    pers:person ;
+        rdfs:label           "Jakob Baur"@deu ;
+        pers:deaths          [ pers:death      "1544" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1515" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 10:23:05.416933" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001140.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014242a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014242a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001140> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1529-1543" ;
+                               pers:description  "key000778" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005083>
+                             ] ;
+        pers:occupation      [ pers:date         "1529, 1531" ;
+                               pers:description  "key003669" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009865> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1515-1516, 1529-1543" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001140> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

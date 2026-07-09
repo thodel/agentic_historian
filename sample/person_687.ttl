@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per000763>
+        a                    pers:person ;
+        rdfs:label           "Klaus Berlinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1461" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1461" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000392.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000763a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000763a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "144d" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "498"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "51c" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "165"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "77a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "259"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "65" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "213"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000392> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000392> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

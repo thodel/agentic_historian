@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010470>
+        a                    pers:person ;
+        rdfs:label           "Jean Henry Philippin"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1618" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-04 11:51:30.617568" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jean Henry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010470a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003597> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003597.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010470a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003597> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

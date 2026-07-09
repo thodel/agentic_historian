@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per002428>
+        a                    pers:person ;
+        rdfs:label           "Melchior Krepsinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1647" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1647" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1668" ] ] ;
+                               pers:last_mention  "1668" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Melchior" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000493.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002428a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002428a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "232" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "861"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000493> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1647-1649" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1647" ;
+                                                                        pers:to    "1649"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1647" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1647" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000493> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

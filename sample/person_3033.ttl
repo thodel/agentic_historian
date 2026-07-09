@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003471>
+        a                    pers:person ;
+        rdfs:label           "Elsa Horwer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-06 11:55:21.760678" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Elsa" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003471a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43a" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "119"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001380> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001380> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001427> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per000719>
+        a                    pers:person ;
+        rdfs:label           "Andreas von Waldburg"@deu ;
+        pers:deaths          [ pers:death         "10.05.1511" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1511-05-10" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1483" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1483" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-14 07:51:05.853481" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Andreas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000359.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000719a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Truchsess von" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000719a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "78" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "270"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "93" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "321"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000359> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000359> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023685> ;
+                               pers:occurence  "pascale"
+                             ] .

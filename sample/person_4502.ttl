@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per005035>
+        a                    pers:person ;
+        rdfs:label           "Eberhard von Nellenburg"@deu ;
+        pers:deaths          [ pers:death         "1422" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1422" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1415" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-11 11:17:36.635798" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Eberhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005035a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "12a" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "21"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001999> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1415" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1415" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007128> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001999> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "138041105" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.deutsche-biographie.de/sfz71043.html"
+                             ] ;
+        pers:sex             "1" .

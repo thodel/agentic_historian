@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per024769>
+        a             pers:person ;
+        rdfs:label    "Ulysses von Salis"@deu ;
+        pers:births   [ pers:birth      "25.08.1728" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:deaths   [ pers:death      "06.10.1800" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-08-31 07:21:13.877858" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Marschlins" ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:forename   "Ulysses" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per024769a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002799> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:addnames    [ pers:addname    "von Marschlins" ;
+                                           pers:occurence  "GR B III/2"
+                                         ] ;
+                        pers:forename    "U." ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002799.06> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024769a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org002799> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "16961" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "11676452X" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

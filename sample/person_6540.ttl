@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007179>
+        a                pers:person ;
+        rdfs:label       "Elsbeth von Goldenberg"@deu ;
+        pers:hist        [ pers:date      "2020-03-16 11:55:35.060948" ;
+                           pers:username  "sabine"
+                         ] ;
+        pers:name        [ pers:forename          "Elsbeth" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007179a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "lukas"
+                                                  ] ;
+                           pers:occurence         "lukas" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002710> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1390" ;
+                           pers:description  "key004102" ;
+                           pers:occurence    "sabine" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002710> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:title  "Teuscher, Simon. Königsfelden: Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 256." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007221> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007178> ;
+                           pers:occurence  "lukas"
+                         ] ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007180> ;
+                           pers:occurence  "lukas"
+                         ] ;
+        pers:sex         "2" .

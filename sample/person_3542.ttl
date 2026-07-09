@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per004015>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Enders"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1581" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:32:01.821027" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004015a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "121" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "437"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "127" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "460"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "117a" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "419"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001612> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1589-1594" ;
+                               pers:description   "key003731" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1589" ;
+                                                                        pers:to    "1594"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1581-1595" ;
+                               pers:description   "key000826" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1581" ;
+                                                                        pers:to    "1595"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001612> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

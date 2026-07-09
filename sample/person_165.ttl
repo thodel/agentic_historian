@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per000218>
+        a                    pers:person ;
+        rdfs:label           "Hartmann von Windegg"@deu ;
+        pers:deaths          [ pers:death         "vor 07.04.1363" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1363-04-07" ;
+                                                                        pers:notBefore  "1313-04-07" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000220> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1322" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1322" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Meyer" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Hartman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000034.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000218a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Meier" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hartmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000218a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "10a" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "14"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "11b" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "16"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "18" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "32"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000034> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1322, 1342, 1349" ;
+                               pers:description   "key000002" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1349" ] ;
+                                         pers:format_date  [ pers:when  "1322" ] ;
+                                         pers:format_date  [ pers:when  "1342" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000034> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000219> ;
+                               pers:occurence  "SG III/2"
+                             ] .

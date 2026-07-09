@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002149>
+        a                    pers:person ;
+        rdfs:label           "Martin Zwerff"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:memberOf        [ pers:date           "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:name            [ pers:forename    "Marti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000918.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002149a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002149a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "187" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "666"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000918> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000918> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010781>
+        a                    pers:person ;
+        rdfs:label           "Walter von Hohenklingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1275" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-04 15:16:55.562431" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename    "Walther" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000104.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010781a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Walter" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010781a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "claudia"
+                                                      ] ;
+                               pers:occurence         "claudia" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000104> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000104> ;
+        pers:project         "Claudia Sutter" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010782> ;
+                               pers:occurence  "claudia"
+                             ] .

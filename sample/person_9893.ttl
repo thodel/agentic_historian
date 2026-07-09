@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per010667>
+        a                pers:person ;
+        rdfs:label       "Jacques d' Estavayer"@fra , "Jakob von Stäffis"@deu ;
+        pers:births      [ pers:birth      "10.03.1601" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death      "24.04.1664" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2019-05-03 11:41:24.747482" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "de Molondin" ;
+                                             pers:occurence  "NE 3"
+                                           ] ;
+                           pers:forename   "Jacques" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010667a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003980> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Molondin" ;
+                                             pers:occurence  "pascale"
+                                           ] ;
+                           pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010667a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003980> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003980.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010667a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1655" ;
+                           pers:description  "key005226" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003980> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15640" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1019507594" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

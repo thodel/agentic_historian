@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per009450>
+        a                    pers:person ;
+        rdfs:label           "Peter de Gady"@deu ;
+        pers:deaths          [ pers:death         "1633" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1633" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026281> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1614" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1614" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-28 10:28:26.031850" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003501.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009450a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009450a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003501> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1623-1625" ;
+                               pers:description   "key004837" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1623" ;
+                                                                        pers:to    "1625"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:occupation      [ pers:date          "1614-1633" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1614" ;
+                                                                        pers:to    "1633"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003501> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III, p. 300" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg00014483"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

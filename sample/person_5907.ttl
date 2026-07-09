@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per006508>
+        a                    pers:person ;
+        rdfs:label           "Emanuel Brunn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-06 14:54:09.991819" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Melly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134a" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "560"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002496.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006508a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Emanuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006508a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002496> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002496> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Ableitung des Vornamens unsicher (gemäss Idiotikon: Mēli N. 4,170); es könnte auch Melchior sein." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006784> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

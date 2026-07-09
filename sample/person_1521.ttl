@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per001924>
+        a                    pers:person ;
+        rdfs:label           "Johann Escher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1666" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1666" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-04 11:51:31.209173" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001924a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "229b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "856"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "247b" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "905"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "215" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "990"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1666" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:occurence     "SG III/2" , "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:occupation      [ pers:date          "1666" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2" , "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

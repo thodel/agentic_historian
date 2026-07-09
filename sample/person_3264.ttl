@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003720>
+        a                    pers:person ;
+        rdfs:label           "Bürgi zu Schauensee"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-06 11:30:29.521558" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Bu̍rgi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "42" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "112"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001490.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003720a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bürgi" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003720a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001490> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001490> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001513> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

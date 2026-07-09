@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per022020>
+        a                    pers:person ;
+        rdfs:label           "Peter Dettli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-20 16:33:22.371614" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007073.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022020a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022020a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007073> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004819" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007073> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000651> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

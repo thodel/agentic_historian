@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per000325>
+        a                    pers:person ;
+        rdfs:label           "Rüdiger Manesse"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:deaths          [ pers:death         "09.11.1383" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1383-11-09" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1336" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1336" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdger" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000141.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000325a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rüdiger" ;
+                               pers:gennames   [ pers:genname    "VII." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000325a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "17" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "29"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000141> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1360-1383" ;
+                               pers:description   "key000133" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1360" ;
+                                                                        pers:to    "1383"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000141> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18090" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

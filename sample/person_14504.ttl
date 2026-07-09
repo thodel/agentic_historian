@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per015554>
+        a                pers:person ;
+        rdfs:label       "Katharina von Zimmern"@deu ;
+        pers:births      [ pers:birth      "1478" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "17.08.1547" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-08 07:41:19.009486" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Katharina" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015554a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005061> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Katerina" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005061.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015554a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1496-1524" ;
+                           pers:description  "key003740" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004908>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005061> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "026577" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "121500020" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:date       "1524-" ;
+                           pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "2" .

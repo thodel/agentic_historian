@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per010637>
+        a                    pers:person ;
+        rdfs:label           "Guillaume Rosselet"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010638> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1578" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-15 22:03:36.534133" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010637a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003318> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Guilliaume" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003318.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010637a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Guillaume" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003318.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010637a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003318> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

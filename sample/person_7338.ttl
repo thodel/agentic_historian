@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per008017>
+        a                    pers:person ;
+        rdfs:label           "NN Andermatt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1770" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1770" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-01 14:08:31.583376" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008017a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001006> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "274e" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "1218"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001006.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008017a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001006> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per002396, aber keine Übereinstimmung mit der Landammannszeit" ;
+        pers:sex             "1" .

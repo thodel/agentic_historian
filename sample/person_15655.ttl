@@ -1,0 +1,22 @@
+<http://ssrq-sds-fds.ch/Register/#per016746>
+        a                    pers:person ;
+        rdfs:label           "Hans Schüler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1497" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-27 08:06:27.677084" ;
+                               pers:username  "fahe"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016746a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006643> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006643> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007770> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

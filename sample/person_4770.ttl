@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per005320>
+        a                    pers:person ;
+        rdfs:label           "Johannes Kuster"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1727" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1727" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 07:55:39.847226" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Johanneß" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "47" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "142"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000926.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005320a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005320a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000926> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005320a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000926> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1727" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1727" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:date          "1727" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1727" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002133>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000926> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Rohner, Geschlechter und Wappen, S. 69" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

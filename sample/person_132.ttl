@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per000130>
+        a                    pers:person ;
+        rdfs:label           "Kunz Bannwart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1299" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1299" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1301" ] ] ;
+                               pers:last_mention  "1301" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kunz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000130a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "8" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "9"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000005> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000005.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000130a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1299-1301" ;
+                               pers:description   "key000066" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1299" ;
+                                                                        pers:to    "1301"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001172>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000005> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000136> ;
+                               pers:occurence  "SG III/2"
+                             ] .

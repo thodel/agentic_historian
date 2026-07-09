@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per007254>
+        a              pers:person ;
+        rdfs:label     "Elisabeth von Habsburg-Österreich"@deu ;
+        pers:births    [ pers:birth         "1262" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1262" ] ] ;
+                         pers:occurence     "colette"
+                       ] ;
+        pers:deaths    [ pers:death         "28.10.1313" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1313-10-28" ] ] ;
+                         pers:occurence     "colette"
+                       ] ;
+        pers:hist      [ pers:date      "2017-07-25 16:17:43.873266" ;
+                         pers:username  "colette"
+                       ] ;
+        pers:name      [ pers:forename          "Elisabeth" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per007254a> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "colette"
+                                                ] ;
+                         pers:occurence         "colette" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                         pers:rolenames         [ pers:occurence  "colette" ;
+                                                  pers:rolename   "Königin/reine"
+                                                ] ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project   "Königsfelden" ;
+        pers:sex       "2" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004951> ;
+                         pers:occurence  "colette"
+                       ] .

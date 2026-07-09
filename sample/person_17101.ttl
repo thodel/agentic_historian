@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018260>
+        a               pers:person ;
+        rdfs:label      "Flisch Caflisch"@deu ;
+        pers:deaths     [ pers:death      "vor 1559" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-26 17:29:46.108443" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Flysch" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006200.05> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018260a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Flisch" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per018260a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006200> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006200> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007688> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

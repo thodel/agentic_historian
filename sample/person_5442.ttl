@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per006021>
+        a                    pers:person ;
+        rdfs:label           "Jakob Ritz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-18 08:37:02.008888" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "97" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "373"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002160.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006021a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006021a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002160> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key003666" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002160> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

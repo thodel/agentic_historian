@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005878>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Göldschi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1510" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1510" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-12 11:45:52.835088" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "87" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "318"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002344.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005878a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005878a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002344> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1510" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002344> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

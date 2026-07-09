@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001621>
+        a                    pers:person ;
+        rdfs:label           "Heinz Marquart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1510" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1510" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000524.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001621a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001621a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "121" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "404"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000524> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000524> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

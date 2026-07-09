@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per016360>
+        a               pers:person ;
+        rdfs:label      "Hans Stapfer"@deu ;
+        pers:deaths     [ pers:death      "vor 1456" ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012029> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:hist       [ pers:date      "2021-02-18 16:18:41.441808" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "der alte Zulauf" ;
+                                            pers:occurence  "sabine"
+                                          ] ;
+                          pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016360a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "sabine" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001321> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001321> ;
+        pers:project    "Königsfelden" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009651> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:sex        "1" .

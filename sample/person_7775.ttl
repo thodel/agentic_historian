@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008463>
+        a                    pers:person ;
+        rdfs:label           "Baptist Thurnherr"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 09:20:41.599139" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bapt." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328e" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "1405"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002232.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008463a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Baptist" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008463a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002232> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002232> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

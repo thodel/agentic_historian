@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004192>
+        a                    pers:person ;
+        rdfs:label           "Lorenz Schoneger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1561" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:02:37.032139" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Loräntz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "98a" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "356"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001687.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004192a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lorenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004192a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001687> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1561" ;
+                               pers:description   "key000314" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1561" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001687> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

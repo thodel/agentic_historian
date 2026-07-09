@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per017030>
+        a               pers:person ;
+        rdfs:label      "Albin Dedelley"@fra ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017023> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-04 13:11:45.334543" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename   "Albin" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017030a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006732> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Albin" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006732.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017030a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006732> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000284> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" .

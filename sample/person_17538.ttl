@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per018714>
+        a                    pers:person ;
+        rdfs:label           "Margarethe von Wessenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1337" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-09 10:41:11.931556" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Margarethe" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018714a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "sabine"
+                                                      ] ;
+                               pers:occurence         "sabine" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003072> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003072> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008554> ;
+                               pers:occurence  "sabine"
+                             ] .

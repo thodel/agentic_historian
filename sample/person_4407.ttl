@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per004932>
+        a                pers:person ;
+        rdfs:label       "Ludwig IV., der Bayer"@deu ;
+        pers:births      [ pers:birth         "1281/82" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1281" ;
+                                                                    pers:to    "1282"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "11.10.1347" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1347-10-11" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2019-12-09 11:41:50.665066" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Bayer" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Ludwig" ;
+                           pers:gennames   [ pers:genname    "IV." ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004932a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "1j" ;
+                                                              pers:line     "42" ;
+                                                              pers:page     "6"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "1h" ;
+                                                              pers:line     "30" ;
+                                                              pers:page     "5"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "3" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "11"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001962> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Kaiser/empereur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1328-1347" ;
+                           pers:description  "key000422" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000672> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001962> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118574957" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "29205" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

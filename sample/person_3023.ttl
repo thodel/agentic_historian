@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per003460>
+        a                    pers:person ;
+        rdfs:label           "Walter im Meisenbach"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003462> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003463> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-06 10:36:08.026404" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Welti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "119"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001376.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003460a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003460a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001376> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001376> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 667" ;
+                               pers:title  "Waser 1996" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://www.bsg.nb.admin.ch/lib/item?id=chamo:76854&theme=BSG"
+                             ] ;
+        pers:remark          "Vom Hof Meisebach, Marbach" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001602> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003461> ;
+                               pers:occurence  "LU II/3"
+                             ] .

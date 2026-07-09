@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009421>
+        a                    pers:person ;
+        rdfs:label           "Georg Hasler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1619" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1619" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-25 14:07:31.930311" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009421a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001638> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001638.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009421a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Jerg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001638.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009421a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1619" ;
+                               pers:description   "key004964" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000936> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1619" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001638> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000936> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

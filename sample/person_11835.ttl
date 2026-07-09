@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012736>
+        a                    pers:person ;
+        rdfs:label           "Oswald Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2019-12-09 09:13:34.212185" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1504" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012736a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Oschwalden" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.12> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012736a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Oschwald" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012736a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1491-1504" ;
+                               pers:description  "key003669" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 335" ;
+                               pers:title  "Dütsch 1994" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000114745"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

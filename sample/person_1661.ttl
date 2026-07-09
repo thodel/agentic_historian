@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per002063>
+        a                pers:person ;
+        rdfs:label       "Hans Jakob Bürkli"@deu ;
+        pers:births      [ pers:birth      "1562" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1633" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-05-07 11:39:41.899786" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "pascale" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002063a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "170b" ;
+                                                              pers:line     "31" ;
+                                                              pers:page     "622"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000514> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000514.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002063a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1630" ;
+                           pers:description  "key000180" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date          "1617-1619" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1617" ;
+                                                                    pers:to    "1619"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000514> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "Pascale Sutter: Lebensdaten nach den Zürcher Ratslisten." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

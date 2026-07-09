@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per004325>
+        a                    pers:person ;
+        rdfs:label           "Gilg Grebel"@deu ;
+        pers:deaths          [ pers:death         "1590" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1590" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1586" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1586" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-22 13:57:26.959579" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                                 pers:occurence  "LU II/3"
+                                               ] ;
+                               pers:forename   "Gilg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004325a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "140" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "517"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "519"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000987.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004325a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000424" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:description  "key003628" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

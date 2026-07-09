@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008235>
+        a                    pers:person ;
+        rdfs:label           "David Gruner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1727" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1727" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-12 11:56:13.964430" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008235a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "306a" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1323"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002999> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004705" ;
+                               pers:occurence    "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002999> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000464> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

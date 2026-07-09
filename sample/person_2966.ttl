@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per003409>
+        a                    pers:person ;
+        rdfs:label           "Peter Kadler"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003412> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003411> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-01 16:22:32.719323" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003409a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43a" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "117"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "41" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "108"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001360> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001360> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003410> ;
+                               pers:occurence  "LU II/3"
+                             ] .

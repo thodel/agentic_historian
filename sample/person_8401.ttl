@@ -1,0 +1,87 @@
+<http://ssrq-sds-fds.ch/Register/#per009130>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Engler"@deu ;
+        pers:births          [ pers:birth         "ca. 1610" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1620" ;
+                                                                        pers:notBefore  "1600" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:deaths          [ pers:death         "1673" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1673" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1637" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1637" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 07:52:06.354297" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009130a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Clauß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000528.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009130a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "um 1648" ;
+                               pers:description   "key000979" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1658" ;
+                                                                        pers:notBefore  "1638" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1666–1673" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1666" ;
+                                                                        pers:to    "1673"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1652–1666" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1652" ;
+                                                                        pers:to    "1666"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1652–1660" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1652" ;
+                                                                        pers:to    "1660"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1637" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1637" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001834>
+                             ] ;
+        pers:occupation      [ pers:date          "1666" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003242>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000528> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Die Angaben zu Niklaus Engler beruhen auf den Angaben zu einem Kopialbuch, das Niklaus Engler um 1648 von Balthasar Streiff geschenkt worden war. Es enthält neben Formularen für Briefe auch Urkundenabschriften und Tagebuchnotizen von Niklaus Engler. Dieses Buch wurde von Ulrich Friedrich Hagmann 1975 dem PGA Buchs geschenkt (PGA Buchs B 11.21). Niklaus Engler war auch massgeblich an der Stiftung für eine Schule in Sevelen 1637 beteiligt." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000428> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007749>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus Rüst"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 17:08:23.560516" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007749a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002188> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Nicolaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250c" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "1098"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "250h" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "1121"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002188.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007749a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1712, 1713" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ;
+                                         pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002812>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002188> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007305> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

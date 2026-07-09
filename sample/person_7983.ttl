@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per008682>
+        a                    pers:person ;
+        rdfs:label           "Jacques Vattel"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1744" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1744" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-16 11:23:10.150565" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008682a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003158> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1744" ;
+                               pers:description   "key000907" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1744" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003158> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1744" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1744" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per011560>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Appenthel"@deu , "Guillaume Appenthel"@fra ;
+        pers:deaths          [ pers:death      "1643" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1616" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-26 16:55:06.290248" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011560a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004398> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004398.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011560a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011560a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004398> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1616-1643" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004398> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "I, p. 356" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:remark          "Pascale Sutter: Wird im HLS-Familienartikel als Sohn von Gaspard († 1620) erwähnt, war Vogt von Jaun (1627–1632)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per005789>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Märkli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1406" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1406" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-10 15:48:56.306560" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005789a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000221> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1406" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000221> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1406" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000730> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

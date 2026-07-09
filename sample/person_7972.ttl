@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per008671>
+        a                    pers:person ;
+        rdfs:label           "Abraham Gallot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1741" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1741" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-08 22:47:15.001831" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008671a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003086> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1741" ;
+                               pers:description   "key004007" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1741" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "1741" ;
+                               pers:description   "key003801" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1741" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003086> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008672> ;
+                               pers:occurence  "NE 3"
+                             ] .

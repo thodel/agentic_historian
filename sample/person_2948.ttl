@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003391>
+        a                    pers:person ;
+        rdfs:label           "Elsa im Bach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-01 10:22:59.956597" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003389> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename          "Elsa" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003391a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         "LU II/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001318> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Elß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "118"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001318.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003391a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001318> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

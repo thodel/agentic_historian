@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008613>
+        a                    pers:person ;
+        rdfs:label           "Pierre-Louis Jacottet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1836" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1836" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-19 16:31:07.427213" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1841" ] ] ;
+                               pers:last_mention  "1841" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre-Louis" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008613a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003104> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1836-1841" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1841" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003104> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

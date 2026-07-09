@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per026819>
+        a                    pers:person ;
+        rdfs:label           "Jean Chaney"@fra ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026816> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1664" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-25 07:30:16.756950" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026819a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008872> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026819a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008872> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008872> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007970> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

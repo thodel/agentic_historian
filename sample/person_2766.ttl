@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003207>
+        a                    pers:person ;
+        rdfs:label           "Klaus Vogel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1592" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:20:07.095797" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "138" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "499"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000689.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003207a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003207a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "124" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "457"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000689> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1592" ;
+                               pers:description   "key000827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1592" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005964> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:description  "key000547" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000689> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

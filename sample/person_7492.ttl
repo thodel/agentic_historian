@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per008173>
+        a                    pers:person ;
+        rdfs:label           "Anton Vogt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1767" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1767" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 09:14:57.376031" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Anton" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008173a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "287d" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "1252"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001707> ;
+                               pers:rolenames         [ pers:occurence  "SG III/3" ;
+                                                        pers:rolename   "Pater/pater"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1767" ;
+                               pers:description   "key004278" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006009> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001707> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

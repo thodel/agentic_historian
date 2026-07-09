@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009503>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Falkner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1555" ] ] ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 11:00:48.270751" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009503a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003529> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003529.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009503a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003510>
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001158>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003529> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

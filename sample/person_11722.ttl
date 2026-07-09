@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per012622>
+        a                        pers:person ;
+        rdfs:label               "Jean Bonat"@fra ;
+        pers:fatherOf            [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012601> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:first_mentions      [ pers:first_mention  "1461" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-02-05 09:22:40.173506" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename   "Jean" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012622a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004751> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename    "Johannes" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004751.02> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012622a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Johannes" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012622a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004751> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "12.10.1461" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org004751> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Modestin 1999, p. 365" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012368> ;
+                                   pers:occurence  "gortega"
+                                 ] .

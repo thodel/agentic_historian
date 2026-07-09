@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per015274>
+        a                    pers:person ;
+        rdfs:label           "Hans Duss"@deu ;
+        pers:deaths          [ pers:death      "vor 1443" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1419" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-08 09:07:53.496305" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001256.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015274a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015274a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001256> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001256> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009558> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015275> ;
+                               pers:occurence  "sabine"
+                             ] .

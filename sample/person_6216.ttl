@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006839>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Lary"@deu ;
+        pers:deaths          [ pers:death         "ca. 1655/1656" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1656" ;
+                                                                        pers:notBefore  "1655" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1610" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 08:22:56.487871" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "H Ja" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002589.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006839a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006839a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002589> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Ja" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002589.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006839a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002589.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006839a.03>
+                             ] ;
+        pers:occupation      [ pers:date         "1610-1655" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002589> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 456" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

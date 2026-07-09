@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008266>
+        a                    pers:person ;
+        rdfs:label           "J. A. Federer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1868" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1868" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-14 08:38:06.399026" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "J. A." ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008266a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "315" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "1357"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002085> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1868" ;
+                               pers:description   "key004585" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1868" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002085> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

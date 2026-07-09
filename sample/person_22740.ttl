@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per024060>
+        a                pers:person ;
+        rdfs:label       "Johannes Guler von Wyneck"@deu ;
+        pers:births      [ pers:birth      "31.10.1562" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "24.01.1637" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-24 08:01:00.447337" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024060a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008378> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johan" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008378.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024060a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005702" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key005709" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org008378> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16845" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "123624770" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010361>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Keller"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1429" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-14 09:35:52.074751" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010361a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartholomee" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010361a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

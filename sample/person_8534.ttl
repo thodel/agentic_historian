@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per009268>
+        a               pers:person ;
+        rdfs:label      "Pierre Cucheman"@fra ;
+        pers:deaths     [ pers:death         "vor 1629" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1629" ;
+                                                                   pers:notBefore  "1579" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2019-06-26 09:27:51.185193" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Pierre" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003430.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009268a.02>
+                        ] ;
+        pers:name       [ pers:forename   "Pierre" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009268a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003430> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Pierre" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003430.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009268a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003430> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007608> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009270> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009269> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per015038>
+        a                pers:person ;
+        rdfs:label       "Hans Jakob Schwerzenbach"@deu ;
+        pers:births      [ pers:birth      "1636" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1694" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 08:56:31.292279" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005611>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015038a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005553> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Jacoben" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005553.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015038a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1667-1674" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005553> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002568>
+        a                    pers:person ;
+        rdfs:label           "Anna Maria Waser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1749" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1749" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Anna Maria" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002568a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "319" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "1080"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000934> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Frau/dame"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000934> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" .

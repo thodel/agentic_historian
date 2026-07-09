@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017288>
+        a               pers:person ;
+        rdfs:label      "Heinz Gartmann"@deu ;
+        pers:deaths     [ pers:death      "vor 1517" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017287> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-08 10:31:24.686415" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Haintz" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000902.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017288a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Heinz" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017288a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "pascale" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000902> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000902> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008924> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:sex        "1" .

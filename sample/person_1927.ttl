@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per002330>
+        a                    pers:person ;
+        rdfs:label           "Johann Baptist Bircher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1660" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1660" ] ] ;
+                               pers:occurence      "SG III/2" , "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-03 15:14:42.499867" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johan Baptist" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "208a" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "971"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000833.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002330a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Baptist" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002330a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "249" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "910"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000833> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1660" ;
+                               pers:description   "key003686" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1660" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000833> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

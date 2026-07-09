@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003752>
+        a                    pers:person ;
+        rdfs:label           "Ueli Jud"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1452" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1452" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-10 09:20:46.957840" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003752a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "127"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001505> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001505> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005724> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

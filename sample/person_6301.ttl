@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per006925>
+        a                    pers:person ;
+        rdfs:label           "Johannes Bodmer"@deu ;
+        pers:deaths          [ pers:death         "19.07.1590" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1590-07-19" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1557" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1557" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-27 11:44:27.903583" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006925a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000602> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johan" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "155" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "682"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000602.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006925a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1582" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1582" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000602> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18858" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

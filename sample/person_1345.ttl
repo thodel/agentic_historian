@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per001751>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Schuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1520" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Fridolin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001751a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "132" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "438"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000775> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000775.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001751a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1520" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001076> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000775> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

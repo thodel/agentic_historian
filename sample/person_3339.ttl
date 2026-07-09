@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003798>
+        a                    pers:person ;
+        rdfs:label           "Heinz Schwendimann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1457" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1457" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-11 16:52:37.474371" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003798a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "51" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "147"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001520> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001520> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001515> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

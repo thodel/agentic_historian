@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per009537>
+        a                pers:person ;
+        rdfs:label       "Kaspar Willading"@deu ;
+        pers:births      [ pers:birth         "18.01.1531" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1531-01-18" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "29.08.1570" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1570-08-29" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-07 15:54:13.297478" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001657.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009537a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009537a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001657> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1566" ;
+                           pers:description   "key003719" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:occupation  [ pers:date          "1566" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001657> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17310" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

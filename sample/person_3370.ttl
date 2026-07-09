@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per003833>
+        a                    pers:person ;
+        rdfs:label           "Melchior Emmenegger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1679" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:12:52.056682" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003833a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001329> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Melchior" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "96" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "348"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001329.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003833a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1679-1685" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1679" ;
+                                                                        pers:to    "1685"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                             ] ;
+        pers:occupation      [ pers:date          "1685-1704" ;
+                               pers:description   "key003207" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1685" ;
+                                                                        pers:to    "1704"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001329> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

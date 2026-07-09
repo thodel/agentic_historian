@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per009613>
+        a                pers:person ;
+        rdfs:label       "Hans Peller"@fra , "Hans Peller"@deu ;
+        pers:deaths      [ pers:death         "1620" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1620" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-25 08:14:36.698370" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Bottin" ;
+                                             pers:occurence  "FR I/2/8"
+                                           ] ;
+                           pers:addnames   [ pers:addname    "Botting" ;
+                                             pers:occurence  "FR I/2/8"
+                                           ] ;
+                           pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009613a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003577> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hausi" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003577.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009613a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Hanß" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003577.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009613a.03>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009613a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003577> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hausy" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003577.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009613a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Hausi" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003577.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009613a.04>
+                         ] ;
+        pers:occupation  [ pers:description  "key005165" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003577> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

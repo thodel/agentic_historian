@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per009451>
+        a                    pers:person ;
+        rdfs:label           "Jakob Christoph von Ligerz"@deu ;
+        pers:deaths          [ pers:death         "ca. 1640" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1650" ;
+                                                                        pers:notBefore  "1630" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1614" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1614" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-18 09:29:09.470390" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Ja C" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002516.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009451a.03>
+                             ] ;
+        pers:name            [ pers:forename    "C" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002516.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009451a.01>
+                             ] ;
+        pers:name            [ pers:forename    "C" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002516.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009451a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009451a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002516> ;
+                               pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1614-1640" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1614" ;
+                                                                        pers:to    "1640"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002516> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

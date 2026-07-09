@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003125>
+        a               pers:person ;
+        rdfs:label      "Franz Märkli"@deu ;
+        pers:deaths     [ pers:death         "1771" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1771" ] ] ;
+                          pers:occurence     "SG III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Franz" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003125a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "308d" ;
+                                                             pers:line     "6" ;
+                                                             pers:page     "1056"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000221> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Frantz" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000221.08> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003125a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000221> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:sex        "1" .

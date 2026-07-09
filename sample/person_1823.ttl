@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per002224>
+        a                    pers:person ;
+        rdfs:label           "Martin Rupp"@deu ;
+        pers:citizenOf       [ pers:date          "1621-" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1671" ;
+                                                                        pers:notBefore  "1621" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001171>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1605" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1605" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:last_mention  "1657" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002224a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "243" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "894"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "196d" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "713"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "213b" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "799"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000945> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Martin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000945.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002224a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Marti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000945.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002224a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1605" ;
+                               pers:description   "key000123" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1605" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000419> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000945> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000034> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

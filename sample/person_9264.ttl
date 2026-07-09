@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010011>
+        a                    pers:person ;
+        rdfs:label           "Heinrich NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "22.02.1421" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-09-25 15:35:30.783961" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010011a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010011a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010010> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010012> ;
+                               pers:occurence  "stadtasg"
+                             ] .

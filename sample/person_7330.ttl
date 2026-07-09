@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per008008>
+        a                    pers:person ;
+        rdfs:label           "NN Wüst"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1768" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1768" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 11:25:45.357217" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008008a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000412> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "274e" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "1217"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "274d" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "1215"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000412.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008008a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1768, 1770" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ;
+                                         pers:format_date  [ pers:when  "1768" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002947>
+                             ] ;
+        pers:occupation      [ pers:date          "1768, 1770" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1768" ] ;
+                                         pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002947>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000412> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per012941>
+        a                    pers:person ;
+        rdfs:label           "Burkhart NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1311" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-01 13:43:45.144932" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Burkhart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012941a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1311" ;
+                               pers:description  "key000933" ;
+                               pers:occurence    "fahe"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "136009875" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.deutsche-biographie.de/ppn136009875.html"
+                             ] ;
+        pers:residence       [ pers:date       "1311" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009759> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

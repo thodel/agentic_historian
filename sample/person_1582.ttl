@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per001984>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Pfiffner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1553" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1553" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001984a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "158" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "578"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000220> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000220> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000837> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

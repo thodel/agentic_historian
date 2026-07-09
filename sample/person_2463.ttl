@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002881>
+        a                    pers:person ;
+        rdfs:label           "Anton Seebach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1759" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1759" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1781" ] ] ;
+                               pers:last_mention  "1781" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Antonius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001095.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002881a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002881a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "321c" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1084"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "356" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "1183"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001095> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1759, 1781" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1759" ] ;
+                                         pers:format_date  [ pers:when  "1781" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1759, 1781" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1781" ] ;
+                                         pers:format_date  [ pers:when  "1759" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001095> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

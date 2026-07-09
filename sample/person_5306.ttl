@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per005884>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Imhof"@deu ;
+        pers:deaths          [ pers:death      "1515" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1510" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1510" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-18 10:04:54.818102" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "89" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "321"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "88" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "319"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000365.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005884a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005884a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000365> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1510, 1511" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ;
+                                         pers:format_date  [ pers:when  "1511" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date         "1513-1515" ;
+                               pers:description  "key001116" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000365> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

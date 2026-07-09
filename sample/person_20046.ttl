@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per021301>
+        a             pers:person ;
+        rdfs:label    "Rudolf Rühle"@deu ;
+        pers:births   [ pers:birth      "um 1320" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "1367" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-07-08 11:47:48.424862" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Friedberg" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Rudolf" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per021301a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007793> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org007793> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "138063796" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

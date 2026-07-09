@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per001078>
+        a                    pers:person ;
+        rdfs:label           "Thomas Johannes"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1497" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1497" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1501" ] ] ;
+                               pers:last_mention  "1501" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Thoman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000575.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001078a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001078a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "117" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "395"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "92" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "116" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "391"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000575> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000624" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1501" ;
+                               pers:description   "key000088" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1501" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000575> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

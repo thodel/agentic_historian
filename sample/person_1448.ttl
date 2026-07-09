@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per001849>
+        a                    pers:person ;
+        rdfs:label           "Hans Richter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1735" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001849a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "144g" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "505"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000243> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000243> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

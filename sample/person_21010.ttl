@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per022289>
+        a                    pers:person ;
+        rdfs:label           "Simon Mastral"@deu ;
+        pers:first_mentions  [ pers:first_mention  "nach 1537" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-04 09:17:10.156781" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022289a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005870> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Schamun" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005870.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022289a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005870> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009730> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

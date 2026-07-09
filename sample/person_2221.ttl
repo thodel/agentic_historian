@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per002616>
+        a                    pers:person ;
+        rdfs:label           "Joseph Ditzner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1704" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1704" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                               pers:last_mention  "1711" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001032.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002616a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001032.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002616a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002616a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "255a" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "921"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "255" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "920"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "255b" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "926"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001032> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004904" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1711" ;
+                               pers:description   "key001106" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001032> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

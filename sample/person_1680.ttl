@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002081>
+        a                    pers:person ;
+        rdfs:label           "Juvenalis Kreder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1575" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Juvenalis" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002081a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "173" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "627"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000895> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1575" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006197> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000895> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

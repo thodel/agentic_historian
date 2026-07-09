@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006006>
+        a                    pers:person ;
+        rdfs:label           "Gregorius Gerung"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1514" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1514" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-18 11:46:04.274337" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Goriuss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "101" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "392"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001915.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006006a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Gregoriuss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "97" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "370"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001915.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006006a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Gregorius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006006a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "97" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "370"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001915> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1514, 1522" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1514" ] ;
+                                         pers:format_date  [ pers:when  "1522" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007183> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001915> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

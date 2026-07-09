@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per015624>
+        a                    pers:person ;
+        rdfs:label           "Johannes Wegmann"@deu ;
+        pers:deaths          [ pers:death      "1531" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1505" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-08 14:04:48.607747" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003518.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015624a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015624a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003518> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1505-1518" ;
+                               pers:description  "key000778" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005993>
+                             ] ;
+        pers:occupation      [ pers:date         "1505-1518, 1528-1531" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003518> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

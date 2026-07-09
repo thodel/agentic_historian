@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per028141>
+        a                pers:person ;
+        rdfs:label       "Heinrich von Maillardoz"@deu ;
+        pers:births      [ pers:birth      "04.02.1677" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "21.01.1758" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-15 09:11:24.679339" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028141a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org009311> ;
+                           pers:rolenames  [ pers:occurence  "rita" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org009311.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028141a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1718-1723" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007882> ;
+                           pers:occurence    "rita"
+                         ] ;
+        pers:occupation  [ pers:date         "1730-1758" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1705-1758" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org009311> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

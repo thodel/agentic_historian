@@ -1,0 +1,75 @@
+<http://ssrq-sds-fds.ch/Register/#per000219>
+        a                    pers:person ;
+        rdfs:label           "Ursula von Hohenems"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1363" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000220> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "Meierin" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "Ursula" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000219a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "18" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "31"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "39b" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "80"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000034> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Ursula" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000219b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "39b" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "80"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "18" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "31"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000103> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Meigerin" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000034.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000219a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Ursula" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000034.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000219a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000034> , <http://ssrq-sds-fds.ch/Register/#org000103> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000218> ;
+                               pers:occurence  "SG III/2"
+                             ] .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per007842>
+        a                pers:person ;
+        rdfs:label       "Johann Joseph Dürler"@deu ;
+        pers:births      [ pers:birth         "22.11.1674" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1674-11-22" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "30.01.1752" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1752-01-30" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-22 14:31:35.819267" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "254" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "1139"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002837.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007842a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007842a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002837> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1722" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1722" ;
+                           pers:description   "key004883" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002837> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14108" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex         "1" .

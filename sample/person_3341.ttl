@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003800>
+        a                    pers:person ;
+        rdfs:label           "Ueli im Schachen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1457" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1457" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-11 17:11:22.413690" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003800a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001522> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤle" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "51" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "147"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001522.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003800a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001522> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005779> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

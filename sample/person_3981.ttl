@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004463>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Vittler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1400" ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1425"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 10:49:52.943066" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004463a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000353> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Elßbeth" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000353.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004463a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000353> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004462> ;
+                               pers:occurence  "pascale"
+                             ] .

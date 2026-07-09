@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per010445>
+        a                pers:person ;
+        rdfs:label       "Henri II d’Orléans-Longueville"@fra ;
+        pers:births      [ pers:birth      "27.04.1595" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death      "11.05.1663" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2019-12-09 16:53:38.805916" ;
+                           pers:username  "NE 3"
+                         ] ;
+        pers:name        [ pers:forename    "Henry" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "NE 3" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003598.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010445a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Henri II" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010445a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003598> ;
+                           pers:rolenames  [ pers:occurence  "NE 3" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "29.04.1595" ;
+                           pers:description  "key000189" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:occupation  [ pers:date         "1657-1663" ;
+                           pers:description  "key005202" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003598> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "44493" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "115812067" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per012712>
+        a               pers:person ;
+        rdfs:label      "Paulus von Rom (Hl.)"@deu ;
+        pers:hist       [ pers:date      "2019-12-02 09:48:51.798745" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:memberOf   [ pers:occurence      "ssrq-zh" ;
+                          pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004874>
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "von Rom" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "Paulus" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012712a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:type  "other" ;
+                          pers:url   "https://www.heiligenlexikon.de/BiographienP/Paulus_von_Rom.htm"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012711> ;
+                          pers:occurence  "ssrq-zh"
+                        ] .

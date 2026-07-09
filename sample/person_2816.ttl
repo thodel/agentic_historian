@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per003265>
+        a                    pers:person ;
+        rdfs:label           "Johann von Wolhusen"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003263> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1290" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1290" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1334" ] ] ;
+                               pers:last_mention  "1334" ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003265a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "7"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001288> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001288> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Lebensdaten nach Federer, Freiherren" ;
+        pers:sex             "1" .

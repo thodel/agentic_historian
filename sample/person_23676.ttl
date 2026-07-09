@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per025010>
+        a                    pers:person ;
+        rdfs:label           "Johannes Schnewly"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1534" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-06 18:06:17.251961" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1539" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025010a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008531> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1534-1539" ;
+                               pers:description  "key000001" ;
+                               pers:occurence    "pascale" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000030>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008531> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "biblio" ;
+                               pers:url   "HS III/3, S. 462–463"
+                             ] ;
+        pers:sex             "1" .

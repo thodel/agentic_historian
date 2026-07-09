@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per008827>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques de Pury"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1716" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1716" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-17 11:41:31.390879" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1725" ] ] ;
+                               pers:last_mention  "1725" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008827a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003111> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "J. J." ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008827a.02>
+                             ] ;
+        pers:name            [ pers:forename    "J J" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008827a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1716-1725" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1716" ;
+                                                                        pers:to    "1725"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003111> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

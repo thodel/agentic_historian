@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000471>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Lölli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1450" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1450" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000233.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000471a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000471a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "36b" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "70"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000233> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000233> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000545> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

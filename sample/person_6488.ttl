@@ -1,0 +1,76 @@
+<http://ssrq-sds-fds.ch/Register/#per007120>
+        a                pers:person ;
+        rdfs:label       "Leonhard Holzhalb"@deu ;
+        pers:births      [ pers:birth         "1553" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "04.03.1617" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1617-03-04" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-07-08 11:57:45.233766" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Leonhart" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000857.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007120a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Leonhard" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007120a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000857> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Leonhardt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                               pers:line     "13" ;
+                                                               pers:page     "798"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000857.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007120a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1609-1616" ;
+                           pers:description  "key000133" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002406>
+                         ] ;
+        pers:occupation  [ pers:description  "key000424" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1593-1595" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005611>
+                         ] ;
+        pers:occupation  [ pers:date          "1611" ;
+                           pers:description   "key000133" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:occupation  [ pers:date         "1593-1595, 1604-0609" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date          "1611" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000857> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18081" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

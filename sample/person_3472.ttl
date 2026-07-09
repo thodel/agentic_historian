@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003942>
+        a                    pers:person ;
+        rdfs:label           "NN Frauenlob"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1478" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1478" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-26 10:57:08.411696" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003942a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001574> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "63a" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "183"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001574.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003942a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001574> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000972> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

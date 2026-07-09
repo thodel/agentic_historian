@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per005136>
+        a                    pers:person ;
+        rdfs:label           "Hans Noll"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1432" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-12 07:53:24.310830" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005136a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "23" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "59"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002036> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002036> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006006> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

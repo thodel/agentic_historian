@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per010363>
+        a                    pers:person ;
+        rdfs:label           "Walter Koppenhan"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-13 11:18:41.584441" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Alte" ;
+                                                 pers:occurence  "stadtasg"
+                                               ] ;
+                               pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010363a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003832> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Waelti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003832.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010363a.01>
+                             ] ;
+        pers:nationalOf      [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001889>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003832> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:id    "18880" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Claudia Sutter: Identifikation mit HLS 18880 sehr wahrscheinlich, aber nicht sicher." ;
+        pers:residence       [ pers:date       "1438" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007416> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

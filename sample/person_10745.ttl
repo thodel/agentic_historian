@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per011587>
+        a                pers:person ;
+        rdfs:label       "Wildhans von Breitenlandenberg"@deu ;
+        pers:births      [ pers:birth      "nach 1410" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "28.05.1444" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-28 10:47:21.459374" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Wildhans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011587a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002060> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hans" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002060.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011587a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000424" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc008569> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002060> ;
+        pers:project     "StadtASG, SSRQ" ;
+        pers:refs        [ pers:id    "46021" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

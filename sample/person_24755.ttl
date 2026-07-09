@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per026115>
+        a                pers:person ;
+        rdfs:label       "Johannes Lavater"@deu ;
+        pers:births      [ pers:birth      "1624" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "21.06.1695" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:38:24.317512" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026115a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000832> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000832.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026115a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key004942" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1667" ;
+                           pers:description  "key000170" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000832> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "123449006" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "010727" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

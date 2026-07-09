@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per006840>
+        a                    pers:person ;
+        rdfs:label           "Andres Fleischmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-20 16:12:02.744293" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1663" ;
+                               pers:occurence     "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Andres" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006840a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002590> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Andreß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002590.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006840a.02>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002590.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006840a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1641-1663" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1611-1640" ;
+                               pers:description  "key000547" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002638>
+                             ] ;
+        pers:occupation      [ pers:date         "1649-1663" ;
+                               pers:description  "key005735" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002590> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Rita Binz: Der langjährige Stadtweibel Andres Fleischmann erhielt 1635 das privilegierte Freiburger Bürgerrecht und wurde 1641 in den Rat der Zweihundert gewählt. Von 1649-1663 war er zusätzlich Abwart des Rathauses (in Freiburg Amman oder Stadtamman genannt). Vgl. StAFR. Ratsmanual 186 (1635), fol. 500; ebenso StAFR, Besatzungsbücher 12 und 13." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

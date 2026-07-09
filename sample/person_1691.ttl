@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002092>
+        a                    pers:person ;
+        rdfs:label           "Klaus Flip"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002092a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "176a" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "633"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000891> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Klauß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000891.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002092a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000891> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

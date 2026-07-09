@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020197>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Buchli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-22 17:48:49.085221" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020197a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000915> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lieonhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000915.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020197a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000915> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

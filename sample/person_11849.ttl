@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per012750>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Perrod"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012738> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1498" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-05-02 10:03:22.259992" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012750a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005201> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012750a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005201> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005201.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012750a.01>
+                                        ] ;
+        pers:occupation                 [ pers:date         "08.11.1498" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org005201> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Pfister 1997, p. 299" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:remark                     "Arrêté à Echallens pour hérésie, selon les aveux de Marguerite Diserens (ACV, Ac 29, p. 356)." ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008040> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

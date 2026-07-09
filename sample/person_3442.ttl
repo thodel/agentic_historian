@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003908>
+        a                    pers:person ;
+        rdfs:label           "Hans Heid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1575" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-24 11:03:22.229833" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003908a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "111c" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "404"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001385> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001385> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005788> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003907> ;
+                               pers:occurence  "LU II/3"
+                             ] .

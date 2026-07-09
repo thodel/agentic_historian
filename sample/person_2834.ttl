@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per003284>
+        a               pers:person ;
+        rdfs:label      "Ernst von Habsburg-Österreich"@deu ;
+        pers:births     [ pers:birth         "1377" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1377" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:deaths     [ pers:death         "1424" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1424" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2021-03-16 15:16:19.508114" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:forename   "Ernst" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003284a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "17" ;
+                                                             pers:line     "34" ;
+                                                             pers:page     "49"
+                                                           ] ;
+                                            pers:articles  [ pers:article  "18" ;
+                                                             pers:line     "10" ;
+                                                             pers:page     "52"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project    "SSRQ" ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003283> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000346> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000387> ;
+                          pers:occurence  "mina"
+                        ] .

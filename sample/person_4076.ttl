@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004570>
+        a                    pers:person ;
+        rdfs:label           "Hans Jäckli"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004594> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-22 11:28:34.586590" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001841.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004570a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Ursiler" ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004570a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001841> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001841> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

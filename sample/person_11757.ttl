@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per012657>
+        a              pers:person ;
+        rdfs:label     "Hans Landis"@deu ;
+        pers:births    [ pers:birth      "um 1545" ;
+                         pers:occurence  "ssrq-zh"
+                       ] ;
+        pers:deaths    [ pers:death      "30.09.1614" ;
+                         pers:occurence  "ssrq-zh"
+                       ] ;
+        pers:hist      [ pers:date      "2019-11-27 14:26:18.853844" ;
+                         pers:username  "ssrq-zh"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "ssrq-zh" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005058>
+                       ] ;
+        pers:name      [ pers:addnames   [ pers:addname    "von Wädenswil" ;
+                                           pers:occurence  "ssrq-zh"
+                                         ] ;
+                         pers:forename   "Hans" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per012657a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "ssrq-zh" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005164> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org005164> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "10722" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:refs      [ pers:id    "130035173" ;
+                         pers:type  "GND"
+                       ] ;
+        pers:sex       "1" .

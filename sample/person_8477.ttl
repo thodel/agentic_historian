@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per009209>
+        a                    pers:person ;
+        rdfs:label           "Nicod Dulin"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009210> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-05-25 13:18:10.509370" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Nicod" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009209a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003400> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003400> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007902> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

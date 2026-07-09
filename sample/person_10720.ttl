@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per011561>
+        a                    pers:person ;
+        rdfs:label           "Hans Ludwig Reyff"@deu ;
+        pers:deaths          [ pers:death      "1670" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1619" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-26 15:41:24.802289" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011561a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003353> ;
+                               pers:rolenames  [ pers:occurence  "rita" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1619-1670" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003353> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, p. 458" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:remark          "Laut DHBS verstarb Hans Ludwig Reyff im Jahr 1640. Gemäss den Freiburger Besatzungsbüchern sass er hingegen bis 1670 im Rat der Sechzig. Vgl. StAFR, Besatzungsbuch 13, f. 281r." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

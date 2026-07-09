@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003326>
+        a                    pers:person ;
+        rdfs:label           "Werner von Lindenbühl"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1382" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename    "Wernher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "6" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "19"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001327.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003326a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003326a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001327> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001327> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc004886> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

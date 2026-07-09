@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009015>
+        a                    pers:person ;
+        rdfs:label           "Abraham Grisel"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1666" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1666" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-22 11:45:20.029720" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1686" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Abraham" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003322.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009015a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009015a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003322> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1686" ;
+                               pers:description  "key005212" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007794> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003322> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010531>
+        a                    pers:person ;
+        rdfs:label           "Georg von Zell"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003915>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1436" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-04 16:03:12.889102" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010531a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003914> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Geori" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003914.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010531a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003914> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

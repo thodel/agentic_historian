@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008676>
+        a                    pers:person ;
+        rdfs:label           "Philibert Perroud"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1735" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 14:52:18.801627" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1741" ] ] ;
+                               pers:last_mention  "1741" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Philibert" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008676a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003153> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1735-1741" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1735" ;
+                                                                        pers:to    "1741"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003153> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

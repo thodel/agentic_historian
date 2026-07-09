@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per001088>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Sulzmatter"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001169>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1454" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1489" ] ] ;
+                               pers:last_mention  "1489" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001088a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "98" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "329"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000584> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000584.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001088a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1484" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1484" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000584> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "23198" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009013>
+        a                    pers:person ;
+        rdfs:label           "Judith de Pury"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1686" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1686" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 10:48:45.736004" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Judith" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009013a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Judith" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009013b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003202> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Judith" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009013a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003111> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003111> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009014> ;
+                               pers:occurence  "NE 3"
+                             ] .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014226>
+        a                    pers:person ;
+        rdfs:label           "Joder Alig"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015596> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1552" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-08 11:30:36.104974" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1554" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Joder" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005796.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014226a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joder" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014226a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005796> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005796> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000125> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

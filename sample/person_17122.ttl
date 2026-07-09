@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per018281>
+        a               pers:person ;
+        rdfs:label      "Anton Fieni"@deu ;
+        pers:deaths     [ pers:death      "vor 1502" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018282> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-26 18:43:41.641803" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Anthoni" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006310.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018281a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Anton" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per018281a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006310> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006310> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007688> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003855>
+        a                    pers:person ;
+        rdfs:label           "Ueli Achmüller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1548" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:14:23.368925" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003855a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "172"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "133b" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "477"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001538> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1548" ;
+                               pers:description   "key000898" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001538> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Anfang 1570er Jahre als selig vermeldet." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

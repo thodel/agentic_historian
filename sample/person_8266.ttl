@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008986>
+        a                    pers:person ;
+        rdfs:label           "Élie Bugnot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1695" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1695" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-22 18:20:32.495236" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "le jeune" ;
+                                                 pers:occurence  "NE 3"
+                                               ] ;
+                               pers:forename   "Élie" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008986a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003232> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Elie" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003232.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008986a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1695" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1695" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007800> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003232> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

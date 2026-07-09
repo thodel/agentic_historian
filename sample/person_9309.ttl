@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per010057>
+        a                pers:person ;
+        rdfs:label       "Guillaume Gruyère"@fra ;
+        pers:births      [ pers:birth      "ca. 1439" ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death      "vor dem 02.05.1506" ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 07:42:45.803028" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename   "Guillaume" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010057a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003731> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Guilliame" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003731.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010057a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1477-1483" ;
+                           pers:description  "key000825" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:date         "1494-1501" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003731> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "25284" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "III, p. 656" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

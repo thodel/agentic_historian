@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003961>
+        a                    pers:person ;
+        rdfs:label           "Jost Schütz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1485" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1485" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-27 14:44:54.443660" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Jost" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "70a" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "209"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001508.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003961a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003961a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "70a" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "209"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001508> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001508> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

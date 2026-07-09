@@ -1,0 +1,70 @@
+<http://ssrq-sds-fds.ch/Register/#per006004>
+        a                    pers:person ;
+        rdfs:label           "Samuel Albrecht von Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1788" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1788" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-14 09:57:43.530706" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Samuel Albrecht" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006004a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002366> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Riedberg" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "320" ;
+                                                                   pers:line     "33" ;
+                                                                   pers:page     "1365"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002366.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006004a.02>
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Rietburg" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95s" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "367"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002366.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006004a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "321" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "1369"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002366.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006004a.03>
+                             ] ;
+        pers:occupation      [ pers:date          "1788, 1789" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1789" ] ;
+                                         pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002366> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004462>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Vittler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1400" ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1425"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-31 15:31:20.354178" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000353.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004462a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Ulrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004462a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000353> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000353> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004463> ;
+                               pers:occurence  "SG III/4"
+                             ] .

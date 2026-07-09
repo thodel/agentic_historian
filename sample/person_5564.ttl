@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006153>
+        a                    pers:person ;
+        rdfs:label           "Michael Gabler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1530" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1530" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-23 14:45:56.234308" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006153a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001830> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Michyl" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113d" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "443"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001830.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006153a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1530" ;
+                               pers:description   "key003403" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1530" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006572> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001830> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

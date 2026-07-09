@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003351>
+        a             pers:person ;
+        rdfs:label    "Joseph Xaver Schnyder von Wartensee"@deu ;
+        pers:births   [ pers:birth         "02.05.1750" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1750-05-02" ] ] ;
+                        pers:occurence     "HLS"
+                      ] ;
+        pers:deaths   [ pers:death         "08.07.1784" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1784-07-08" ] ] ;
+                        pers:occurence     "HLS"
+                      ] ;
+        pers:hist     [ pers:date      "2015-08-11 09:31:37.629829" ;
+                        pers:username  "andreas"
+                      ] ;
+        pers:name     [ pers:forename    "Joseph" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "48b" ;
+                                                            pers:line     "23" ;
+                                                            pers:page     "141"
+                                                          ] ;
+                                           pers:vol       "LU II/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001338.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003351a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Joseph Xaver" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per003351a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "8" ;
+                                                           pers:line     "20" ;
+                                                           pers:page     "23"
+                                                         ] ;
+                                          pers:articles  [ pers:article  "140" ;
+                                                           pers:line     "42" ;
+                                                           pers:page     "517"
+                                                         ] ;
+                                          pers:vol       "LU II/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001338> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001338> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "14487" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

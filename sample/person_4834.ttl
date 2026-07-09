@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per005393>
+        a             pers:person ;
+        rdfs:label    "Kaspar Blarer"@deu ;
+        pers:deaths   [ pers:death         "vor 25.07.1476" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1476-07-25" ;
+                                                                 pers:notBefore  "1426-07-25" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-11-20 07:42:03.905643" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "zu Wartensee" ;
+                                          pers:occurence  "SG III/3"
+                                        ] ;
+                        pers:forename   "Kaspar" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per005393a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/3" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000191> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:addnames    [ pers:addname    "zuͦ Warttensee" ;
+                                           pers:occurence  "SG III/3"
+                                         ] ;
+                        pers:forename    "Caspar" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                            pers:line     "5" ;
+                                                            pers:page     "191"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000191.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005393a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000191> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

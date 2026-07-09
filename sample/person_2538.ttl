@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per002959>
+        a                    pers:person ;
+        rdfs:label           "Hans Peter Boon"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1766" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1766" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001107.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002959a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002959a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "342b" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "1141"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001107> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1766" ;
+                               pers:description   "key000827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1766" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001172>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001107> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

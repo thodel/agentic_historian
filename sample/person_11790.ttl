@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per012691>
+        a                pers:person ;
+        rdfs:label       "Johann Ribi"@deu ;
+        pers:births      [ pers:birth      "um 1310/1320" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:deaths      [ pers:death      "06.08.1374" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:hist        [ pers:date      "2020-01-28 09:19:32.836265" ;
+                           pers:username  "fahe"
+                         ] ;
+        pers:name        [ pers:forename    "Johans" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "sabine" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000118.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012691a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Platzheim" ;
+                                             pers:occurence  "sabine"
+                                           ] ;
+                           pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012691a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "sabine" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000118> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1364" ;
+                           pers:description  "key000015" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc011580> ;
+                           pers:occurence    "fahe"
+                         ] ;
+        pers:occupation  [ pers:description  "key000015" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010982> ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000118> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.deutsche-biographie.de/gnd136293131.html#ndbcontent"
+                         ] ;
+        pers:refs        [ pers:id    "028642" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "136293131" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:remark      "Beim Zunamen auch von 'Blatzheim' möglich" ;
+        pers:sex         "1" .

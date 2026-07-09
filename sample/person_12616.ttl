@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per013576>
+        a                    pers:person ;
+        rdfs:label           "Hans Arnold Segesser von Brunegg"@deu ;
+        pers:deaths          [ pers:death      "vor 1522" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013579> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013577> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1512" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-23 15:28:07.791463" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Arnold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013576a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000962> ;
+                               pers:rolenames  [ pers:occurence  "sabine" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1512" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000121> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000962> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.bernergeschlechter.ch/humo-gen/family.php?database=humo_&id=F63787&main_person=I192800"
+                             ] ;
+        pers:refs            [ pers:title  "Schweiz. Geschlechterbuch 2, 491-492." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

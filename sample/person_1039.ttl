@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001130>
+        a                    pers:person ;
+        rdfs:label           "Oswald Heintzi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1490" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Oschwald" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000608.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001130a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001130a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "104" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "344"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000608> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000608> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

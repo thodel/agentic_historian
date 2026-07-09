@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per002982>
+        a                pers:person ;
+        rdfs:label       "Franz Maria Josef Leonz Crivelli"@deu ;
+        pers:births      [ pers:birth         "08.09.1696" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1696-09-08" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "10.11.1771" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1771-11-10" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-15 14:28:28.675743" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Franz Maria Joseph Leonzi" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001115.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002982a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Franz Maria Joseph Leonti" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "281" ;
+                                                               pers:line     "11" ;
+                                                               pers:page     "1236"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001115.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002982a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Maria Josef Leonz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002982a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "2" ;
+                                                              pers:page     "1150"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001115> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004803" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1752-1753" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1752" ;
+                                                                    pers:to    "1753"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                           pers:occurence     "SG III/2; SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1753" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1753" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                         ] ;
+        pers:occupation  [ pers:date          "1732-1733" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1732" ;
+                                                                    pers:to    "1733"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007728> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003718" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001115> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15510" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

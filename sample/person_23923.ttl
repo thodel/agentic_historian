@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per025262>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Schörli"@deu ;
+        pers:deaths          [ pers:death      "1581" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1557" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-03 17:01:24.875885" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005082>
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025262a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002306> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1560-" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009859> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1557-1581" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002306> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

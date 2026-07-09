@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003348>
+        a                    pers:person ;
+        rdfs:label           "Johannes Vogt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1383" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:06:17.440812" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003348a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "7" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "22"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001336> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johansen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "7" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "22"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001336.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003348a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001336> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1383" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1383" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005929> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

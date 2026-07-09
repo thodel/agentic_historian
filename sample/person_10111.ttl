@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010906>
+        a                pers:person ;
+        rdfs:label       "Hans Konrad Keller"@deu ;
+        pers:births      [ pers:birth      "1724" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1783" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-31 10:23:42.371749" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Steinbock" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Hans Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010906a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1775-1781" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

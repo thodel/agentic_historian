@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008484>
+        a                    pers:person ;
+        rdfs:label           "Johannes Egger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 10:45:35.055323" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008484a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328e" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "1406"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000786> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000786> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008483> ;
+                               pers:occurence  "SG III/3"
+                             ] .

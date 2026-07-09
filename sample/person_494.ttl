@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000582>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Marmels"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1419" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1419" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000582a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "42" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "93"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000247> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1419" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1419" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000974> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000247> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

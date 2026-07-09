@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per023063>
+        a                    pers:person ;
+        rdfs:label           "Jakob Berther"@deu ;
+        pers:deaths          [ pers:death      "1676" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1673" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-04 15:08:00.409342" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per023063a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005731> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005731.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023063a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005658" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005731> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc012001> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

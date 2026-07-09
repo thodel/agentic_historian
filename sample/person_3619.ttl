@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004093>
+        a                    pers:person ;
+        rdfs:label           "Gorius Küng"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1572" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:43:24.548871" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Gorius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004093a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106b" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "388"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000419> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1572" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1572" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000419> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

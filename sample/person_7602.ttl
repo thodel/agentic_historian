@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008287>
+        a                    pers:person ;
+        rdfs:label           "Gregor Lechleitner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-14 15:23:31.124513" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Gregor" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008287a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "324b" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "1379"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003018> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003018> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000780> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000439> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

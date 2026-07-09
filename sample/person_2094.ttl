@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per002500>
+        a                    pers:person ;
+        rdfs:label           "NN Egger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1844" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1844" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1855" ] ] ;
+                               pers:last_mention  "1855" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002500a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "241b" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "886"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "243" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "895"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000786> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000786.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002500a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1855" ;
+                               pers:description   "key004897" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1855" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1840" ;
+                               pers:description   "key004895" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1840" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000786> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

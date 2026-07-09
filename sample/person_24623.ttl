@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per025981>
+        a                pers:person ;
+        rdfs:label       "Hans Jakob Scheuchzer"@deu ;
+        pers:births      [ pers:birth      "1613" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1669" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-22 09:39:13.278186" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005082>
+                         ] ;
+        pers:name        [ pers:forename    "Hans Jakob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001025.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025981a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025981a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001025> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1655-1669" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001025> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per002557>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1648" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1648" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-27 07:29:10.020468" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                               pers:last_mention  "1658" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "186b" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "837"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002557a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002557a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "245" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "898"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1648" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                             ] ;
+        pers:occupation      [ pers:date          "1648" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

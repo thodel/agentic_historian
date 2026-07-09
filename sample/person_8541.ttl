@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per009275>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus Paccot"@deu ;
+        pers:deaths          [ pers:death         "1619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 08:53:07.245434" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009275a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003433> ;
+                               pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1617-1619" ;
+                               pers:description   "key003647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1617" ;
+                                                                        pers:to    "1619"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:occupation      [ pers:date         "1608-1619" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003433> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, p. 214" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

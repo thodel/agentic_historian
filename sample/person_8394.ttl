@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per009123>
+        a                pers:person ;
+        rdfs:label       "Lorenz Werli"@deu ;
+        pers:births      [ pers:birth         "um 1560" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1570" ;
+                                                                    pers:notBefore  "1550" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1626" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-23 13:30:52.768746" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Lorenz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009123a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003358> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003358.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009123a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Lorentz" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003358.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009123a.01>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003358.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009123a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1584-1626" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002268> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26281" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "VII, p. 255" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:remark      "Rita Binz: Der Artikel im DHBS ist genauer als der HLS Artikel. Laut Besatzungsbuch starb Werli im Jahr 1626 und nicht 1629." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

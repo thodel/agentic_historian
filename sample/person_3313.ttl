@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per003769>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Lauber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1584" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 17:05:27.170210" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003769a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001503> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "120a" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "431"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001503.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003769a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "120a" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "429"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001503.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003769a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "523"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001503.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003769a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1599" ;
+                               pers:description   "key003723" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1584" ;
+                               pers:description   "key000356" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1584" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001503> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

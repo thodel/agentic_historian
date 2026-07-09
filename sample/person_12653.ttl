@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per013616>
+        a                    pers:person ;
+        rdfs:label           "Hans Usteri"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1526" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-24 07:21:25.588224" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013616a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000912> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000912.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013616a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1526" ;
+                               pers:description  "key000659" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005088>
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000912> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

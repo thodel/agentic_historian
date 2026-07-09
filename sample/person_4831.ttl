@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per005388>
+        a                    pers:person ;
+        rdfs:label           "Hans Metzler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1627" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1627" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 17:04:31.634454" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "175b" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "787"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002118.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005388a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "54" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "190"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002118.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005388a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005388a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002118> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1627, 1633" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1633" ] ;
+                                         pers:format_date  [ pers:when  "1627" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002118> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex             "1" .

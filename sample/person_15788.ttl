@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per016886>
+        a                    pers:person ;
+        rdfs:label           "Peter Mehr"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016885> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1775" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-28 14:23:01.476648" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006297.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016886a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016886a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006297> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006297> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

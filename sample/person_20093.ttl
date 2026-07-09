@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per021349>
+        a                    pers:person ;
+        rdfs:label           "Johannes Münch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1328" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:29:36.076292" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1330" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006171.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021349a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021349a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006171> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1330" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006171> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Zürcher Ratslisten, 33503" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

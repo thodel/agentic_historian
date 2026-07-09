@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per009676>
+        a                pers:person ;
+        rdfs:label       "Jakob Oberried"@deu ;
+        pers:births      [ pers:birth         "1523" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "07.11.1608" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1608-11-07" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-19 12:14:27.798776" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003596.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009676a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009676a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003596> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000824" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003596> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19262" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

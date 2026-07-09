@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000680>
+        a                    pers:person ;
+        rdfs:label           "Hans Huber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1448" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1448" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000309.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000680a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000680a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "45" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "102"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000309> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1448" ;
+                               pers:description   "key003661" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1448" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007739> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000309> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

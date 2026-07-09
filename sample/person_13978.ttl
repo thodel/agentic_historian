@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per015008>
+        a                  pers:person ;
+        rdfs:label         "Anton Mätzler"@deu ;
+        pers:deaths        [ pers:death      "1482" ;
+                             pers:occurence  "ssrq-zh"
+                           ] ;
+        pers:hist          [ pers:date      "2020-03-30 16:17:57.142893" ;
+                             pers:username  "ssrq-zh"
+                           ] ;
+        pers:name          [ pers:forename    "Anthony" ;
+                             pers:lang        "deu" ;
+                             pers:occurence   "ssrq-zh" ;
+                             pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002352.03> ;
+                             pers:type        "orig" ;
+                             pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015008a.01>
+                           ] ;
+        pers:name          [ pers:addnames   [ pers:addname    "von Lindau" ;
+                                               pers:occurence  "ssrq-zh"
+                                             ] ;
+                             pers:forename   "Anton" ;
+                             pers:id         <http://ssrq-sds-fds.ch/Register/#per015008a> ;
+                             pers:lang       "deu" ;
+                             pers:occurence  "ssrq-zh" ;
+                             pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002352> ;
+                             pers:type       "std"
+                           ] ;
+        pers:occupation    [ pers:description  "key000876" ;
+                             pers:occurence    "ssrq-zh"
+                           ] ;
+        pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002352> ;
+        pers:project       "SSRQ" ;
+        pers:residence     [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000486> ;
+                             pers:occurence  "ssrq-zh"
+                           ] ;
+        pers:sex           "1" ;
+        pers:sexPartnerOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015010> ;
+                             pers:occurence  "ssrq-zh"
+                           ] .

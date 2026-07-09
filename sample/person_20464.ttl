@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per021727>
+        a                    pers:person ;
+        rdfs:label           "Maria Simmen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1682" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 08:25:14.466986" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021704> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Maria" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021727a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007888> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "die alti" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Maria" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007888.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021727a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007888> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

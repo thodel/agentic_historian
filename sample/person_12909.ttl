@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per013901>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Isnach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1383" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-06 17:09:53.371917" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1443" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013901a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005644> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1429" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1383-1386, 1388-1393, 1424-1429, 1431-1443" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005644> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

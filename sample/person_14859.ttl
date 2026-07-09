@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per015922>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Segesser von Brunegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1439" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-27 23:36:04.072219" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per015922a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000962> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000562" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006292>
+                             ] ;
+        pers:occupation      [ pers:date         "1439" ;
+                               pers:description  "key000805" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006292>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000962> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000121> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015920> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015919> ;
+                               pers:occurence  "mina"
+                             ] .

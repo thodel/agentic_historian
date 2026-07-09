@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005975>
+        a                    pers:person ;
+        rdfs:label           "Tobias Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 15:00:47.059005" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Tobias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005975a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Tobias" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95n" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "361"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005975a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1779" ;
+                               pers:description   "key004557" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

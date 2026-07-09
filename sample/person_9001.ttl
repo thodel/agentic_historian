@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per009743>
+        a               pers:person ;
+        rdfs:label      "François Bosson"@fra ;
+        pers:deaths     [ pers:death         "ca. 1564" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1574" ;
+                                                                   pers:notBefore  "1554" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2018-11-06 17:46:03.198371" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Francoys" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "FR I/2/8" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003440.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009743a.01>
+                        ] ;
+        pers:name       [ pers:forename   "François" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009743a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003440> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003440> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007663> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009742> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

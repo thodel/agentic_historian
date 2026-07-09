@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004125>
+        a                pers:person ;
+        rdfs:label       "Ludwig von Orléans"@deu ;
+        pers:births      [ pers:birth         "27.06.1462" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462-06-27" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:deaths      [ pers:death         "01.01.1515" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1515-01-01" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-16 15:55:44.746963" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:gennames   [ pers:genname    "XII." ;
+                                             pers:occurence  "LU II/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004125a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "84" ;
+                                                              pers:line     "25" ;
+                                                              pers:page     "315"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001651> ;
+                           pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                             pers:rolename   "König/roi"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000229" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000281> ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001651> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29214" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118780735" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

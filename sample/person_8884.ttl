@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009626>
+        a                pers:person ;
+        rdfs:label       "Johann Lussi"@deu ;
+        pers:deaths      [ pers:death         "1580" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1580" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-17 15:27:29.576465" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009626a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000422> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000422.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009626a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1577" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1577" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000422> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "IV, S. 737" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:sex         "1" .

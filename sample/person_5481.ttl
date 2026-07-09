@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per006063>
+        a                    pers:person ;
+        rdfs:label           "Hans Zumbühl"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1523" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1523" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 13:49:47.667391" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "102" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "395"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "103" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "399"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002289.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006063a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006063a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002289> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1523" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:occupation      [ pers:date          "1523" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002289> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

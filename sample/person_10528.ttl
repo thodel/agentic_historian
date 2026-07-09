@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per011361>
+        a                               pers:person ;
+        rdfs:label                      "Jean Durier"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1448" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-02 10:09:32.757265" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Johannes" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004013.04> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011361a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Johannes" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011361a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004013> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Jean" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011361a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004013> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "13.04.1448" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004013> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 53, 159" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:remark                     "Dénoncé par Pierre Chavaz, il a vraisemblablement fait l’objet d’une enquête qui l’a innocenté; son nom a ensuite été biffé car il a été acquitté, comme le signale cette note marginale. En raison de l’éloignement géographique, il faut certainement exclure une parenté avec Jacquet Durier alias Costumier de Blonay, condamné à mort pour hérésie le 15 mars 1448. Voir Ostorero 1995." ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007918> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

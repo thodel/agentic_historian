@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012667>
+        a                pers:person ;
+        rdfs:label       "Hans Conrad Rahn"@deu ;
+        pers:births      [ pers:birth      "1616" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1676" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-27 15:22:43.841839" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005076>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000972.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012667a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Conrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012667a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000972> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1655-1675" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1655-1675" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005076>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000972> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "108954202X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:remark      "tke: In der Quelle 'herr kornmeister Rahn'." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

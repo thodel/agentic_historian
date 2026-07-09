@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per003548>
+        a                    pers:person ;
+        rdfs:label           "Elsa Huber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1553" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1553" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-23 10:24:21.862012" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename          "Elsa" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003548a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13b" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "42"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000309> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000309> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003549> ;
+                               pers:occurence  "LU II/3"
+                             ] .

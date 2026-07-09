@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per014043>
+        a                    pers:person ;
+        rdfs:label           "Claude Chollet"@deu ;
+        pers:deaths          [ pers:death      "29.04.1676" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1639" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-11 11:03:09.136391" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Claude" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014043a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003443> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claudi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003443.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014043a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1639-1676" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003443> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

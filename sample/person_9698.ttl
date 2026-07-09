@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per010462>
+        a                    pers:person ;
+        rdfs:label           "Pierre Grisel"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1621" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-30 09:40:02.687429" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1646" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010462a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003322> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1646" ;
+                               pers:description  "key005005" ;
+                               pers:occurence    "NE 3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003322> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

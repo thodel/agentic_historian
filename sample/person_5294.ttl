@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per005873>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Rettich"@deu ;
+        pers:deaths          [ pers:death         "06.06.1513" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513-06-06" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1478" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1478" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 11:19:26.430150" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005873a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002342> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "87" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "317"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002342.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005873a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1510" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002342> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26652" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007017>
+        a                    pers:person ;
+        rdfs:label           "Hugo von Walderdorf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1887" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1887" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-04 10:02:44.879646" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hugo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007017a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002644> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hugo" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "166" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "730"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002644.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007017a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002644> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

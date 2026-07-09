@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per002938>
+        a                    pers:person ;
+        rdfs:label           "Josef Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1762" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002938a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002938a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "339" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "1130"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1762" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002941>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000630> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per020989>
+        a                pers:person ;
+        rdfs:label       "Martin Trepp"@deu ;
+        pers:births      [ pers:birth      "30.09.1732" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "26.06.1804" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-26 07:18:30.278508" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Martin" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per020989a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007358> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Martin" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007358.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020989a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005523" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key005658" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006296>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org007358> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1075707951" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "http://e-lir.ch/index.php?id=3088"
+                         ] ;
+        pers:refs        [ pers:id    "16999" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009720> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009722> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024428> ;
+                           pers:occurence  "pascale"
+                         ] .

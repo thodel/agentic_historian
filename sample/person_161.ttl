@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per000213>
+        a                    pers:person ;
+        rdfs:label           "Werner Elmer"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001163>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1322" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1322" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 08:21:54.689276" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000213a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "10a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "14"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000102> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1322" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1322" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000102> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

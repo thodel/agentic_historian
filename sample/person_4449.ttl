@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per004975>
+        a                    pers:person ;
+        rdfs:label           "Konrad Litscher"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004974> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1292" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1292" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-30 15:29:35.156149" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004975a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001975> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001975.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004975a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001975> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1292" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1292" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

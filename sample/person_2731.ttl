@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003166>
+        a               pers:person ;
+        rdfs:label      "Filippo Maria Visconti"@deu ;
+        pers:births     [ pers:birth         "23.09.1392" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1392-09-23" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:deaths     [ pers:death         "13.08.1447" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1447-08-13" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:hist       [ pers:date      "2018-06-26 09:58:03.955713" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Filipus Maria" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "FDS TI" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001244.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003166a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Filippo Maria" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003166a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "31" ;
+                                                             pers:line     "38" ;
+                                                             pers:page     "75"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001244> ;
+                          pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                            pers:rolename   "Herzog/duc"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001244> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "29262" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005801> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

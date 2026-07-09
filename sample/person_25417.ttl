@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per026792>
+        a                    pers:person ;
+        rdfs:label           "Hans Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1663" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-20 09:09:28.681306" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026792a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026792a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001276> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026789> ;
+                               pers:occurence  "rita"
+                             ] .

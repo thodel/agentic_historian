@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per002747>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Huber"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002752> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1738" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1738" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002747a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "289b" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "1016"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "294" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1029"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000309> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000309.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002747a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Johan Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000309.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002747a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1738" ;
+                               pers:description   "key000908" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1738" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000309> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009067>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Scheuchzer"@deu ;
+        pers:deaths          [ pers:death         "um 1620" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1630" ;
+                                                                        pers:notBefore  "1610" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1615" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1615" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-04 08:49:40.037917" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009067a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001025> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Rudolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001025.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009067a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Rudolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001025.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009067a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1615, 1619" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1615" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001025> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

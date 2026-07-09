@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per009212>
+        a                pers:person ;
+        rdfs:label       "Peter Spreng"@deu ;
+        pers:deaths      [ pers:death         "1613" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1613" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2018-09-05 09:31:44.507280" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009212a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003402> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1582-1613" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003402> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

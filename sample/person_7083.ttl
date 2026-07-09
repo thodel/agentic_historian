@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007754>
+        a                    pers:person ;
+        rdfs:label           "Hans Kaspar Enzler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 16:39:56.656781" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250c" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "1098"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002865.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007754a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007754a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002865> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key004278" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007157> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002865> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

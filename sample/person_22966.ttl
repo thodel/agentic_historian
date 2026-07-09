@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per024289>
+        a                    pers:person ;
+        rdfs:label           "Anton Talhammer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-21 10:23:01.155360" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org002768>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per024289a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008422> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Annthonius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008422.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024289a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key003630" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010511> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008422> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

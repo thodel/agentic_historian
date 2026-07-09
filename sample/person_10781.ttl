@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per011624>
+        a                pers:person ;
+        rdfs:label       "Sixtus V. (Papst)"@deu ;
+        pers:births      [ pers:birth      "13.12.1521" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "27.08.1590" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-06-25 08:09:46.680017" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Sixtus" ;
+                           pers:gennames          [ pers:genname    "V." ;
+                                                    pers:occurence  "pascale"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per011624a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "pascale"
+                                                  ] ;
+                           pers:occurence         "pascale" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1585-1590" ;
+                           pers:description  "key000014" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118765671" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://viaf.org/viaf/7525513/"
+                         ] ;
+        pers:sex         "1" .

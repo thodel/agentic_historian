@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per013368>
+        a               pers:person ;
+        rdfs:label      "Hans von Ulm"@deu ;
+        pers:deaths     [ pers:death      "1444" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2020-02-18 09:54:37.823088" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per013368a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004144> ;
+                          pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                            pers:rolename   "Meister/maître"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hans" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004144.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013368a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004144> ;
+        pers:project    "SSRQ" ;
+        pers:remark     "Enthauptet nach der Beleagerung von Greifensee 1444" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

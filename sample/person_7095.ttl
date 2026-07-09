@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007766>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Kobelt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1713" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1713" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-16 09:18:24.470521" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007766a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002650> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250e" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "1114"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002650.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007766a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002650> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006006> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

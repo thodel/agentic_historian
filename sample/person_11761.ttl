@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per012661>
+        a               pers:person ;
+        rdfs:label      "Jean-Frédéric Ostervald"@deu ;
+        pers:births     [ pers:birth      "24.11.1663" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:deaths     [ pers:death      "14.04.1747" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2019-11-28 11:00:54.335015" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "von Neuenburg" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "Jean-Frédéric" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012661a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003202> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "NN" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003202.06> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012661a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003202> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "12364433X" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:id    "11267" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

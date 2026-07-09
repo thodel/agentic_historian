@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per018241>
+        a                    pers:person ;
+        rdfs:label           "Gallus von Jochberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1559" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 08:22:22.032453" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Galluß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006650.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018241a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018241a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006650> ;
+                               pers:rolenames  [ pers:occurence  "pascale" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1559" ;
+                               pers:description  "key000310" ;
+                               pers:occurence    "pascale" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001225>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006650> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

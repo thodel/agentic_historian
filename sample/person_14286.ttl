@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per015322>
+        a                    pers:person ;
+        rdfs:label           "Peter Paul von Paravicini"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005516>
+                             ] ;
+        pers:deaths          [ pers:death      "vor 01.06.1770" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1765" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-26 12:36:31.812528" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter Paul" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015322a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000967> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000978" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000967> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008909> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

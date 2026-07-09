@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per026212>
+        a                    pers:person ;
+        rdfs:label           "NN Albrecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1707" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-25 08:05:54.095288" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000350.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026212a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026212a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000350> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005750" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000350> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

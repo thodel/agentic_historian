@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per011030>
+        a                pers:person ;
+        rdfs:label       "Adelberg Meyer"@deu ;
+        pers:births      [ pers:birth      "nach 1482" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "06.06.1548" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2019-04-02 09:01:43.383229" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Adelberg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011030a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004135> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000133" ;
+                           pers:occurence    "stadtasg"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004135> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "138373140" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "19316" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

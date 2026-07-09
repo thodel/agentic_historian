@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per009705>
+        a                pers:person ;
+        rdfs:label       "Giovanni Angelo Franzoni"@ita , "Giovanni Angelo Franzoni"@deu ;
+        pers:births      [ pers:birth         "ca. 1550" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1560" ;
+                                                                    pers:notBefore  "1540" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "26.01.1640" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1640-01-26" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-30 09:37:28.589317" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Giovan Angelo" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009705a.04>
+                         ] ;
+        pers:name        [ pers:forename    "Hanns Angeli" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009705a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Giovanni Angelo" ;
+                           pers:lang        "ita" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009705a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Johann Enngell" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009705a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Giovanni Angelo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009705a> ;
+                           pers:lang       "ita" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003490> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Giovanni Angelo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009705a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003490> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1589, 1596" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1596" ] ;
+                                     pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc006141> ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003490> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15356" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

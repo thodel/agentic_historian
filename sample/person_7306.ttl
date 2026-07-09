@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007984>
+        a                    pers:person ;
+        rdfs:label           "Hans Georg Indermaur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1789?" ;
+                               pers:format_dates   [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                         pers:when       "1789"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 09:19:03.159247" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007984a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002249> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "272" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "1201"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002249.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007984a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1789?" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                        pers:when       "1789"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002249> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per012664>
+        a             pers:person ;
+        rdfs:label    "Plutarch NN"@deu ;
+        pers:births   [ pers:birth      "45 n. Chr." ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "125 n. Chr." ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2019-11-27 15:02:46.996560" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Griechenland" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Plutarch" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per012664a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Plutarchus" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012664a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118595237" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per000050>
+        a                    pers:person ;
+        rdfs:label           "Berthold von Heiligenberg"@deu ;
+        pers:deaths          [ pers:death         "17.01.1298" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1298-01-17" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1251" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1251" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 13:17:14.805384" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Berthold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000050b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000075> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Berthold" ;
+                               pers:gennames          [ pers:genname    "II." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000050a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "3b" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "3"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1278" ;
+                               pers:description   "key000170" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1278" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1291-1298" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1291" ;
+                                                                        pers:to    "1298"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" , "GR B III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000053> , <http://ssrq-sds-fds.ch/Register/#org000075> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12679" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

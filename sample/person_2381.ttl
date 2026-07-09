@@ -1,0 +1,91 @@
+<http://ssrq-sds-fds.ch/Register/#per002783>
+        a                pers:person ;
+        rdfs:label       "Joseph Benedikt von Rost"@deu ;
+        pers:births      [ pers:birth         "17.02.1696" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1696-02-17" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "12.11.1754" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1754-11-12" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-02 15:10:48.600866" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph Benedict" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002783a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Joseph Benedict" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001081.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002783b.01>
+                         ] ;
+        pers:name        [ pers:forename          "Joseph Benedikt" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002783b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "311" ;
+                                                                     pers:line     "31" ;
+                                                                     pers:page     "1065"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "301" ;
+                                                                     pers:line     "3" ;
+                                                                     pers:page     "1044"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001081> ;
+                           pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                    pers:rolename   "Freiherr (Baron)/baron"
+                                                  ] ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Joseph Benedict" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002783a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "301" ;
+                                                                     pers:line     "3" ;
+                                                                     pers:page     "1044"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "311" ;
+                                                                     pers:line     "31" ;
+                                                                     pers:page     "1065"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph Benedictus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002783a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1728-1754" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "pascale" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000053>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000053> , <http://ssrq-sds-fds.ch/Register/#org001081> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26320" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Wahl 1728; Weihe zum Bischof erfolgte erst 1729." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

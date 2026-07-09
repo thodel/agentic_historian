@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001880>
+        a                    pers:person ;
+        rdfs:label           "Martin Hegener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1538" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1538" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Marty" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000291.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001880a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001880a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "149" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "528"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000291> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000291> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000545> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003149>
+        a                    pers:person ;
+        rdfs:label           "Hans von Wartau"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000234> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1389" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1389" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1405" ] ] ;
+                               pers:last_mention  "1405" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003149a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "33" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "60"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "31" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "58"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000041> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000041.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003149a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000029" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000041> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

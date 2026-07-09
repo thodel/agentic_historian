@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per024900>
+        a                    pers:person ;
+        rdfs:label           "Hans Berger"@deu ;
+        pers:deaths          [ pers:death      "1527" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1516" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-01 09:30:37.216327" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per024900a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000448> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1516-1517" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:occupation      [ pers:date         "1516" ;
+                               pers:description  "key000180" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001233>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000448> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

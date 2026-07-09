@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per026997>
+        a                pers:person ;
+        rdfs:label       "Hans Lenzburger"@deu ;
+        pers:births      [ pers:birth      "1589" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1650" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-25 13:54:35.752432" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026997a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003359> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003359.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026997a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1629-1634" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007889> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date         "1625-1650" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1635-1650" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003359> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "IV, p. 497" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

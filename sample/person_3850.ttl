@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004331>
+        a                    pers:person ;
+        rdfs:label           "Anton Kneblinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1590" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:32:19.356868" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004331a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "142" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "524"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001746> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1590" ;
+                               pers:description   "key000314" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1590" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001746> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001495> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

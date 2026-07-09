@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per001475>
+        a                    pers:person ;
+        rdfs:label           "Hermann Brennwald"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:last_mention  "1517" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Herman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000641.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001475a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hermann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001475a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106a" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "354"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "129a" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "426"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000641> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000641> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

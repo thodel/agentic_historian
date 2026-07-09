@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per001525>
+        a                pers:person ;
+        rdfs:label       "Christian Schwiggli"@deu ;
+        pers:deaths      [ pers:death         "1499" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1499" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-30 07:26:43.506076" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Christianus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001525a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000190> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Christian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001525a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "111" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "379"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000190> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Cristianus" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000190.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001525a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1499" ;
+                           pers:description   "key000301" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1499" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007745> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000190> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

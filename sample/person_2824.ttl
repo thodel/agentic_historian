@@ -1,0 +1,70 @@
+<http://ssrq-sds-fds.ch/Register/#per003614>
+        a                    pers:person ;
+        rdfs:label           "Petermann von Lütishofen"@deu ;
+        pers:deaths          [ pers:death         "23.09.1444" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1444-09-23" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1412" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1412" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-12-14 13:56:38.945054" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "27" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "69"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "27" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "68"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001295.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003614a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Petermann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003614a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001295> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "27" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "69"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "27" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "68"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001295.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003614a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1441, 1444" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1444" ] ;
+                                         pers:format_date  [ pers:when  "1441" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001295> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14233" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

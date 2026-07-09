@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per010197>
+        a                    pers:person ;
+        rdfs:label           "Stefan Beusch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1661" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 11:18:59.182419" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Stoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001808.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010197a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Stefan" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010197a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001808> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001808> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1661" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000691> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

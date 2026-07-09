@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per007519>
+        a                    pers:person ;
+        rdfs:label           "Wolfgang Jakob von Bernhausen"@deu ;
+        pers:deaths          [ pers:death         "1669" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1669" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1664" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1664" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-30 15:15:08.642714" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Wolfgang Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007519a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "210" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "979"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002549> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wolff Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "210" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "979"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002549.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007519a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002475>
+                             ] ;
+        pers:occupation      [ pers:date          "1664–1669" ;
+                               pers:description   "key003669" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1664" ;
+                                                                        pers:to    "1669"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006404> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002549> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "StiASG, Rep. 14a, S. 127" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

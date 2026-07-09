@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020151>
+        a                    pers:person ;
+        rdfs:label           "Christian Gander"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1706" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-22 15:15:18.474350" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020151a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001857> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Christen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001857.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020151a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001857> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010548> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

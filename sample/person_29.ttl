@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per000027>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Flums"@deu ;
+        pers:deaths          [ pers:death         "24.02.1312" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1312-02-24" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1283" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1283" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:43:12.030533" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000009.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000027a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:gennames   [ pers:genname    "II." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000027a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "2"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000009> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000009> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000026> ;
+                               pers:occurence  "SG III/2"
+                             ] .

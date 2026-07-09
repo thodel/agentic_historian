@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per026505>
+        a                pers:person ;
+        rdfs:label       "Johann Heinrich Waser"@deu ;
+        pers:births      [ pers:birth      "01.04.1742" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "27.05.1780" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-09 08:00:29.536101" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000934.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026505a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026505a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000934> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000934.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026505a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1770-" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc012668> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000934> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "120435659" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "026273" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

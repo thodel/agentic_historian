@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per026842>
+        a                    pers:person ;
+        rdfs:label           "Willy Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1665" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-20 13:46:10.461948" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Willy" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026842a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008751> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ulli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008751.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026842a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008751> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007894> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026840> ;
+                               pers:occurence  "rita"
+                             ] .

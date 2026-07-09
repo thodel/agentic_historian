@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004011>
+        a                    pers:person ;
+        rdfs:label           "Jakob Lindacher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1583" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1583" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-01 11:01:18.990680" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "120a" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "431"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001611.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004011a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004011a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "120a" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "430"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001611> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000301" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005965> ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001611> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per010031>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Wingarter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "21.11.1414" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "06.06.1418" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-26 13:32:31.941683" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "06.06.1418" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Ruodolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003719.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010031a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010031a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003719> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004964" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000144>
+                             ] ;
+        pers:occupation      [ pers:date         "06.06.1418" ;
+                               pers:description  "key000065" ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003719> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:date       "06.06.1418" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007566> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

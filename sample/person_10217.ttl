@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011024>
+        a                    pers:person ;
+        rdfs:label           "Klaus Gehr"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-26 13:36:30.146330" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011024a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001773> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001773.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011024a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1480" ;
+                               pers:description  "key000827" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001923>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001773> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1480" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc006100> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

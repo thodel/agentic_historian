@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per006501>
+        a                    pers:person ;
+        rdfs:label           "Peter Heinricher"@deu ;
+        pers:deaths          [ pers:death         "1652" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1652" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1616" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1618" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-09 15:58:06.554219" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006501a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002491> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002491.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006501a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1616-1652" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002491> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 15" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

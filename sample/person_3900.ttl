@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004551>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Sax-Hohensax"@deu ;
+        pers:deaths          [ pers:death         "vor 1429" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1429" ;
+                                                                        pers:notBefore  "1379" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004526> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004641> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1384" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 17:15:54.437172" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004551a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000384> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhalm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000384.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004551a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000384> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004506> ;
+                               pers:occurence  "SG III/4"
+                             ] .

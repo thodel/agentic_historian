@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010921>
+        a               pers:person ;
+        rdfs:label      "Antoine Bodevin"@deu ;
+        pers:deaths     [ pers:death      "vor 1612" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2019-03-15 10:09:42.686825" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Anthoine" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004057.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010921a.01>
+                        ] ;
+        pers:name       [ pers:forename          "Antoine" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per010921a> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "pascale"
+                                                 ] ;
+                          pers:occurence         "pascale" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004057> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004057> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007886> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009202> ;
+                          pers:occurence  "pascale"
+                        ] .

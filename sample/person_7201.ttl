@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007876>
+        a                pers:person ;
+        rdfs:label       "Alphons Ignaz Dulliker"@deu ;
+        pers:births      [ pers:birth         "1689" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1689" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "01.12.1762" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1762-12-01" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-23 14:42:06.905227" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Alphonsus Ignatius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "268" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1179"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000858.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007876a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Alphons Ignaz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007876a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000858> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1737" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1737" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1737" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1737" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000858> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14105" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

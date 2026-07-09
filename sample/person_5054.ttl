@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per005625>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Zili"@deu ;
+        pers:deaths          [ pers:death         "nach 1500" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1500" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1467" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1467" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-05 17:47:30.304199" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005625a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002084> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "65" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "228"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002084.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005625a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1486" ;
+                               pers:description   "key003617" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002084> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21785" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

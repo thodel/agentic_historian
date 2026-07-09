@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per004332>
+        a                    pers:person ;
+        rdfs:label           "Burin NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1367" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:32:41.763865" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addname     "bruͦder" ;
+                               pers:forename    "Buri" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13a" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "38"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004332a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Burin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004332a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "13" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "37"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "13a" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "39"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1367, 1396" ;
+                               pers:description   "key003069" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1396" ] ;
+                                         pers:format_date  [ pers:when  "1367" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001747>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005727> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

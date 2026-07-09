@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004110>
+        a                    pers:person ;
+        rdfs:label           "Hans Peyer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1513" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-08 09:17:05.947362" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004110a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001644> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001644.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004110a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001644> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21615" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

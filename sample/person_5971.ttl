@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per006572>
+        a                    pers:person ;
+        rdfs:label           "Hans Schelleli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-08 18:43:27.957805" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134i" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "568"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "134k" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "573"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "134r" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "578"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "134m" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "575"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002524.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006572a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006572a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002524> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1556" ;
+                               pers:description   "key003907" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002524> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

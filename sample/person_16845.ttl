@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per017995>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth von Trostberg"@deu ;
+        pers:deaths          [ pers:death      "04.10.1360" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1359" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-23 17:27:27.532932" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003300> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022292> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per017995a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "mina"
+                                                      ] ;
+                               pers:occurence         "mina" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002719> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per017995b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000479> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002719> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017994> ;
+                               pers:occurence  "mina"
+                             ] .

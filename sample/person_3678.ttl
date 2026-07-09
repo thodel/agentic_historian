@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per004154>
+        a                pers:person ;
+        rdfs:label       "Franz Niklaus Meyer"@deu ;
+        pers:deaths      [ pers:death         "1682" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1682" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004157> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-10 08:48:30.377457" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Niclaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "96" ;
+                                                               pers:line     "23" ;
+                                                               pers:page     "348"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004154a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Niklaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004154a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "96" ;
+                                                              pers:line     "28" ;
+                                                              pers:page     "348"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001539> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003647" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001539> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004155> ;
+                           pers:occurence  "LU II/3"
+                         ] .

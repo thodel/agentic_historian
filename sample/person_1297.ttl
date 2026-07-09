@@ -1,0 +1,101 @@
+<http://ssrq-sds-fds.ch/Register/#per001705>
+        a                    pers:person ;
+        rdfs:label           "Balthasar Tschudi"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001839> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001836> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1590" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1590" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-03 13:39:22.362368" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1608" ] ] ;
+                               pers:last_mention  "1608" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Glarus" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:addnames          [ pers:addname    "der junge" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "Balthasar" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001705a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "147b" ;
+                                                                         pers:line     "15" ;
+                                                                         pers:page     "523"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "194" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "695"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "145d" ;
+                                                                         pers:line     "38" ;
+                                                                         pers:page     "514"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "181" ;
+                                                                         pers:line     "6" ;
+                                                                         pers:page     "655"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "156" ;
+                                                                         pers:line     "24" ;
+                                                                         pers:page     "571"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "187" ;
+                                                                         pers:line     "30" ;
+                                                                         pers:page     "665"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Balthassar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001705a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1590, 1593, 1598, 1602" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ;
+                                         pers:format_date  [ pers:when  "1590" ] ;
+                                         pers:format_date  [ pers:when  "1593" ] ;
+                                         pers:format_date  [ pers:when  "1602" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1592-1608" ;
+                               pers:description   "key003071" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1592" ;
+                                                                        pers:to    "1608"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:occupation      [ pers:date          "1590, 1593, 1598, 1602" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ;
+                                         pers:format_date  [ pers:when  "1602" ] ;
+                                         pers:format_date  [ pers:when  "1590" ] ;
+                                         pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000017> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

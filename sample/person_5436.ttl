@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per006015>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Federer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-18 08:23:02.994491" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Zwiefes" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006015a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "97" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "373"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002085> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002085> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

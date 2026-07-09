@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per001034>
+        a                    pers:person ;
+        rdfs:label           "Hans Baldenweg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1482" ] ] ;
+                               pers:last_mention  "1482" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001034a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "313"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "168" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "609"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000558> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000558.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001034a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1482" ;
+                               pers:description   "key000226" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1482" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002904>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000558> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

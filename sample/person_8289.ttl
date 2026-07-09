@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per009014>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques Ostervald"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:deaths          [ pers:death         "avant 1686" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1686" ;
+                                                                        pers:notBefore  "1676" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1664" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-22 13:58:03.452412" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:last_mention  "avant 1686" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename    "Jeanjaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003202.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009014a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009014a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003202> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1664" ;
+                               pers:description  "key004803" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:occupation      [ pers:description  "key000607" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003202> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009013> ;
+                               pers:occurence  "NE 3"
+                             ] .

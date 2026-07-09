@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per000442>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Bamberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1400" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-29 16:50:39.662677" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000442a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "32" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "60"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000216> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000442a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000216> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000216.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000442a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000216> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

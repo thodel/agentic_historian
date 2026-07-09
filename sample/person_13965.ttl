@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per014995>
+        a                pers:person ;
+        rdfs:label       "Felix Manz"@deu ;
+        pers:births      [ pers:birth      "um 1500" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "05.01.1527" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 15:40:42.572667" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Felix" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014995a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000178> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Felix" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000178.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014995a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005438" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000178> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118730746" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "021518" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per006525>
+        a                pers:person ;
+        rdfs:label       "Lukas Zeiner"@deu ;
+        pers:births      [ pers:birth         "um 1454" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1464" ;
+                                                                    pers:notBefore  "1444" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:deaths      [ pers:death         "um 1513" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1523" ;
+                                                                    pers:notBefore  "1503" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-14 07:59:43.468116" ;
+                           pers:username  "SG III/4"
+                         ] ;
+        pers:name        [ pers:forename    "Lucas" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002512.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006525a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Lukas" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006525a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002512> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1497" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date          "1497" ;
+                           pers:description   "key000078" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002512> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18313" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

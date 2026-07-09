@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per001978>
+        a                    pers:person ;
+        rdfs:label           "Peter Jauch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1592" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1592" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                               pers:last_mention  "1594" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001978a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "571"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000579> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1592-1594" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1592" ;
+                                                                        pers:to    "1594"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000579> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

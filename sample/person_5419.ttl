@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per005996>
+        a                    pers:person ;
+        rdfs:label           "NN Bessler (von Wattingen)"@deu ;
+        pers:first_mentions  [ pers:first_mention  "wohl 18. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from       "1701" ;
+                                                                         pers:precision  "0.5" ;
+                                                                         pers:to         "1800"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 17:02:08.104930" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005996a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002363> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "194"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002363.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005996a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002363> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

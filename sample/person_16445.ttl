@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per017575>
+        a                    pers:person ;
+        rdfs:label           "Hans Zanugg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1496" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-13 17:25:31.641703" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017575a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005964> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005964.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017575a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005964> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009070> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

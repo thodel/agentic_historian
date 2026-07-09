@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per000067>
+        a                pers:person ;
+        rdfs:label       "Friedrich Staufer"@deu ;
+        pers:births      [ pers:birth         "26.12.1194" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1194-12-26" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "13.12.1250" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1250-12-13" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-08 08:38:54.296627" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Friedrich" ;
+                           pers:gennames   [ pers:genname    "II." ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000067a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "1j" ;
+                                                              pers:line     "40" ;
+                                                              pers:page     "6"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                              pers:line     "3" ;
+                                                              pers:page     "4"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000081> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Kaiser/empereur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1220-1250" ;
+                           pers:description   "key000422" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1220" ;
+                                                                    pers:to    "1250"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000081> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29200" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

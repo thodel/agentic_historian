@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009036>
+        a                    pers:person ;
+        rdfs:label           "Jean-François Jaquet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1681" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1681" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-22 15:57:31.165993" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jean François" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003215.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009036a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009036a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003215> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003215> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010101> ;
+                               pers:occurence  "pascale"
+                             ] .

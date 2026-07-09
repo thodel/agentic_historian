@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per005325>
+        a                    pers:person ;
+        rdfs:label           "Konrad NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1473" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1473" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-24 18:36:51.837589" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Conrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "48" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "144"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005325a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005325a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1473" ;
+                               pers:description   "key000825" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:occupation      [ pers:date          "1473" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

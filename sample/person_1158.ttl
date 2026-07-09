@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per001559>
+        a                    pers:person ;
+        rdfs:label           "Jakob NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "16. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1501" ;
+                                                                         pers:to    "1600"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001559a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001559a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "113" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "386"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "16. Jh." ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1501" ;
+                                                                        pers:to    "1600"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000063> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

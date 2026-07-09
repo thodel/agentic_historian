@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per008911>
+        a                    pers:person ;
+        rdfs:label           "Gédéon Guillebert"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1696" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 10:22:09.918810" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Gedeon" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003200.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008911a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Gédéon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008911a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003200> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1696" ;
+                               pers:description   "key005204" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1696" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008081> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003200> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

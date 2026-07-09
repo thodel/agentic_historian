@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per010511>
+        a                    pers:person ;
+        rdfs:label           "Jean Clerc-dit-Guy"@fra ;
+        pers:deaths          [ pers:death      "avant 1628" ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1600" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-28 08:25:13.893346" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003092>
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003908.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010511a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010511a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003908> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003908.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010511a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1604" ;
+                               pers:description  "key000824" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003908> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010741> ;
+                               pers:occurence  "pascale"
+                             ] .

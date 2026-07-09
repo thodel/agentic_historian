@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per021849>
+        a                    pers:person ;
+        rdfs:label           "Herkules Ulysses Brügger"@deu ;
+        pers:births          [ pers:birth      "um 1720" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022375> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:deaths          [ pers:death      "23.07.1806" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-26 17:19:00.409458" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Herkules Ulysses" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021849a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003010> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003010> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "16769" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per018566>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Gredig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1706" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018564> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-10 14:12:58.598241" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Bärtli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006125.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018566a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018566a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006125> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1706" ;
+                               pers:description  "key000547" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006125> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

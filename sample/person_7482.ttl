@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008162>
+        a                    pers:person ;
+        rdfs:label           "Anton Hutter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1764" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1764" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 08:29:28.035216" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "schmids" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287c" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "1250"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000711.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008162a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Schmids" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008162a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000711> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000711> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006542> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

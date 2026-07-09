@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020368>
+        a                    pers:person ;
+        rdfs:label           "Janett von Schauenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1542" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-25 09:04:30.594972" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Janett" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020368a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007407> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jannet" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007407.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020368a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007407> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008965> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

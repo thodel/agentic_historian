@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per020978>
+        a                    pers:person ;
+        rdfs:label           "Wolfram von Nellenburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1316" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-03 10:50:03.326402" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1377" ;
+                               pers:occurence     "mina"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "mina" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004500>
+                             ] ;
+        pers:name            [ pers:forename   "Wolfram" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020978a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001999> ;
+                               pers:rolenames  [ pers:occurence  "mina" ;
+                                                 pers:rolename   "Bruder/frère"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1322-1331" ;
+                               pers:description  "key005733" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005654> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001999> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "141148780" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

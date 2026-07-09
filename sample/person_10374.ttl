@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per011193>
+        a                    pers:person ;
+        rdfs:label           "Jean de Preux"@fra , "Hans de Preux"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1614" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-16 10:31:54.949638" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004220.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011193a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011193a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004220> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011193a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004220> ;
+                               pers:rolenames  [ pers:occurence  "pascale" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1614" ;
+                               pers:description  "key005509" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008972> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004220> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

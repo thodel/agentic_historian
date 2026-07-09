@@ -1,0 +1,75 @@
+<http://ssrq-sds-fds.ch/Register/#per000439>
+        a                pers:person ;
+        rdfs:label       "Wenzel von Luxemburg"@deu ;
+        pers:births      [ pers:birth         "26.02.1361" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1361-02-26" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "16.08.1419" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1419-08-16" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:employerOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000441> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-07 09:09:07.587519" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Wenceslaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000439b> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "57" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "184"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "32" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "60"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000203> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Wenzel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000439a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                              pers:line     "14" ;
+                                                              pers:page     "12"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "28" ;
+                                                              pers:line     "15" ;
+                                                              pers:page     "71"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "32" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "60"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "57" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "184"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000203> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "König/roi"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1363-16.08.1419" ;
+                           pers:description   "key000229" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1363" ;
+                                                                    pers:to    "1419-08-16"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000203> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29207" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

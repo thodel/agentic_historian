@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002090>
+        a                    pers:person ;
+        rdfs:label           "Jakob Zipper"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002090a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "176a" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "633"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000899> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000899.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002090a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000899> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

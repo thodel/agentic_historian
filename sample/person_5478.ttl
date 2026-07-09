@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006059>
+        a                    pers:person ;
+        rdfs:label           "Jos Beck"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1522" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1522" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-18 14:22:25.517710" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jos" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006059a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "101" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "394"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001836> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001836> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006951> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per001035>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Albertin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-26 10:52:36.139703" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000559.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001035a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001035a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "313"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000559> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000559> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

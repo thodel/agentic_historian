@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per011822>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques de Pury"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1606" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-06 18:19:56.636635" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011822a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jehan Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011822a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011822a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003111> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003111> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

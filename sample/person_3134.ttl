@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003584>
+        a                    pers:person ;
+        rdfs:label           "Lütold von Sumiswald"@deu ;
+        pers:deaths          [ pers:death      "vor 1245" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1225" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1225" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 08:09:22.749300" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Lu̍ttold" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "16" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "47"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001435.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003584a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lütold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003584a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "16" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "49"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001435> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001435> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

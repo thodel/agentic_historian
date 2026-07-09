@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per009576>
+        a                    pers:person ;
+        rdfs:label           "Claude Sermoud"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009577> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1623" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1623" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-15 15:04:01.747730" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Claude" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003559.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009576a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Claude" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009576a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003559> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claudo" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003559.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009576a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003559> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007862> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

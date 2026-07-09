@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010012>
+        a               pers:person ;
+        rdfs:label      "Hans Zeph"@deu ;
+        pers:deaths     [ pers:death      "vor 22.02.1421" ;
+                          pers:occurence  "stadtasg"
+                        ] ;
+        pers:hist       [ pers:date      "2018-11-12 13:46:45.669290" ;
+                          pers:username  "stadtasg"
+                        ] ;
+        pers:name       [ pers:forename    "Hans" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "stadtasg" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010012a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per010012a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "stadtasg" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project    "StadtASG" ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010010> ;
+                          pers:occurence  "stadtasg"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010011> ;
+                          pers:occurence  "stadtasg"
+                        ] .

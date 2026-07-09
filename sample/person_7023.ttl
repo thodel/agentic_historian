@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per007693>
+        a                    pers:person ;
+        rdfs:label           "Cornelius Escher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-16 07:31:57.027574" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250b" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "1093"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007693a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Cornelius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007693a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "248" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "1088"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key004527" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 115" ;
+                               pers:title  "Kuster 2006" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000046465"
+                             ] ;
+        pers:sex             "1" .

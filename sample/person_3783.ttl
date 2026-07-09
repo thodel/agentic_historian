@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per004263>
+        a                    pers:person ;
+        rdfs:label           "Heini Metzger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "vor 1579" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1579" ;
+                                                                         pers:notBefore  "1529" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-16 14:54:42.013953" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Heini" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004263a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "117b" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "421"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000223> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000223> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

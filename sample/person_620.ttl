@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000708>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Kalberer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1434" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦsch" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000354.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000708a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000708a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "46" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "107"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000354> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1434" ;
+                               pers:description   "key000088" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1434" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000354> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

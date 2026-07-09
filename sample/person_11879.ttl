@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per012780>
+        a                    pers:person ;
+        rdfs:label           "Jörg Aeppli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-28 15:29:34.336352" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012780a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004085> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jeorgen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004085.15> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012780a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000547" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008648> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004085> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Schmid 1963, S. 322" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008648> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

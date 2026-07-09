@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010140>
+        a                    pers:person ;
+        rdfs:label           "Louis Barillier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1666" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 11:44:46.204721" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1699" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Louys" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003767.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010140a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Louis" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010140a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003767> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1666-1699" ;
+                               pers:description  "key005212" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007803> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003767> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Adrien Wyssbrod : Est-ce bien le même Louys Barillier en 1666 et en 1699? Les deux sont maire de Lignières, mais peut-être s’agit-il d’un père et de son fils." ;
+        pers:sex             "1" .

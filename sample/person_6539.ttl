@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per007178>
+        a                    pers:person ;
+        rdfs:label           "Anna von Goldenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1371" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-16 11:55:59.553680" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1378" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007178a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002710> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1378" ;
+                               pers:description  "key003740" ;
+                               pers:occurence    "lukas" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:occupation      [ pers:date         "1371" ;
+                               pers:description  "key003740" ;
+                               pers:occurence    "lukas" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002710> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:page   "V/1, S. 570" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:refs            [ pers:title  "Teuscher, Simon. Königsfelden: Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 256." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007180> ;
+                               pers:occurence  "lukas"
+                             ] ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007221> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007179> ;
+                               pers:occurence  "lukas"
+                             ] ;
+        pers:sex             "2" .

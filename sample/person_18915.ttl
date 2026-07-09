@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per020133>
+        a                    pers:person ;
+        rdfs:label           "Hans Peter Aeby"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1649" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-23 07:10:57.412098" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Hanß Peiru" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                               pers:addnames   [ pers:addname    "Peiru" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                               pers:forename   "Hans Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020133a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007508> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007508.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020133a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007508> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007667> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020132> ;
+                               pers:occurence  "rita"
+                             ] .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004710>
+        a                    pers:person ;
+        rdfs:label           "Peter Schäpper"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1497" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1497" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-16 13:18:03.551172" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004710a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001895> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001895> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1497" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004709> ;
+                               pers:occurence  "SG III/4"
+                             ] .

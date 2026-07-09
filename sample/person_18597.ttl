@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per019810>
+        a                    pers:person ;
+        rdfs:label           "Sabina Stecher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1519" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-19 07:16:00.040976" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Zubina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006760.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019810a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Sabina" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019810a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006760> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Sabina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per019810b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org007413> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006760> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019816> ;
+                               pers:occurence  "pascale"
+                             ] .

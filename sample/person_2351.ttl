@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per002749>
+        a                    pers:person ;
+        rdfs:label           "Plazidus Leontius Hauser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1713" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1713" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1715" ] ] ;
+                               pers:last_mention  "1715" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Plazidus Leontius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002749a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "289b" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "1017"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001077> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1713-1715" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1713" ;
+                                                                        pers:to    "1715"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001077> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

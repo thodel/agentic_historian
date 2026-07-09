@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008059>
+        a                    pers:person ;
+        rdfs:label           "Johannes Heer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 15:16:50.964471" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "naglers" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Johanes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "1231"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000753.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008059a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Naglers" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008059a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000753> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000753> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000650> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

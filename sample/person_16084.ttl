@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per017199>
+        a                    pers:person ;
+        rdfs:label           "Hans Allemann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1699" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017196> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-05 15:11:37.603313" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006738.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017199a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017199a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006738> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000547" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key005061" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006738> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

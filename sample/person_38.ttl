@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000038>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Wangs"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1288" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1288" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Wilnheln" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000039.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000038a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000038a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "2"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000039> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000039> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000002> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

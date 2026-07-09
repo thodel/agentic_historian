@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per026137>
+        a                pers:person ;
+        rdfs:label       "Hans Heinrich Werdmüller"@deu ;
+        pers:births      [ pers:birth      "1649" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "11.02.1714" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:51:48.048630" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Hans Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001036.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026137a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026137a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001036> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1683-1713" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1683-1713" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010875> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:description  "key003577" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001036> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://swb.bsz-bw.de/DB=2.104/PPNSET?PPN=699868890&INDEXSET=21"
+                         ] ;
+        pers:refs        [ pers:id    "1019762438" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

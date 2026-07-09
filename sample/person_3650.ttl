@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004124>
+        a               pers:person ;
+        rdfs:label      "Rudolf Mettenberg"@deu ;
+        pers:deaths     [ pers:death         "1516?" ;
+                          pers:format_dates  [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                   pers:when       "1516"
+                                                                 ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2015-09-08 17:30:00.185269" ;
+                          pers:username  "andreas"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "Mieschbühler" ;
+                                            pers:occurence  "LU II/3"
+                                          ] ;
+                          pers:forename   "Rudolf" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per004124a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "84" ;
+                                                             pers:line     "30" ;
+                                                             pers:page     "315"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001650> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001650> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005948> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

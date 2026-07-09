@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per009760>
+        a                    pers:person ;
+        rdfs:label           "David Petitpierre"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-22 16:37:55.033755" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1679" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003092>
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009760a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003121> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "David" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003121.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009760a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "avant 1769" ;
+                               pers:description   "key005080" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1769" ;
+                                                                        pers:notBefore  "1719" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003121> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

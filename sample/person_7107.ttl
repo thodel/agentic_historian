@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per007778>
+        a                pers:person ;
+        rdfs:label       "Samuel Frisching"@deu ;
+        pers:births      [ pers:birth         "27.06.1638" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1638-06-27" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "23.10.1721" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1721-10-23" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-16 10:54:46.625967" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Samuel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007778a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "250f" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "1116"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002868> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1713" ;
+                           pers:description   "key003597" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1713" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                         ] ;
+        pers:occupation  [ pers:date          "1713" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1713" ;
+                           pers:description   "key003071" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001373> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1713" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002868> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16681" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

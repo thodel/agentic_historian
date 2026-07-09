@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008655>
+        a                    pers:person ;
+        rdfs:label           "Abraham Bullot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1731" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1731" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-24 17:46:48.195759" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename    "Abram" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003137.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008655a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008655a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003137> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1731" ;
+                               pers:description   "key005005" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1731" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003137> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1730" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1730" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

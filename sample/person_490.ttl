@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per000578>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Iten"@deu ;
+        pers:deaths          [ pers:death         "14.09.1515" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1515-09-14" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000578a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41c" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "92"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000275> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000578a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1486-1488" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1486" ;
+                                                                        pers:to    "1488"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000275> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26770" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

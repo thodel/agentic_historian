@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per013722>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Suter"@deu ;
+        pers:deaths          [ pers:death      "1469" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1444" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-26 16:47:35.287567" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000273.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013722a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013722a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000273> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000273.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013722a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1444-1454, 1455-1459, 1461-1469" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:occupation      [ pers:date         "1464" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000273> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

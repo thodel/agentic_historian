@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per021344>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Stagel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1328" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:25:15.823005" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1330" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021344a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002001> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1330" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002001> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "Zürcher Ratslisten, 49805"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

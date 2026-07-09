@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002868>
+        a                    pers:person ;
+        rdfs:label           "Hans Broder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1748" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1748" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002612> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002868a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "315" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "1071"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000453> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000453.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002868a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key003624" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000453> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

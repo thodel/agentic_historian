@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per002124>
+        a                    pers:person ;
+        rdfs:label           "Otto Mannhart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "20. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1901" ;
+                                                                         pers:to    "2000"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Otto" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002124a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "182" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "658"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000568> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000568> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

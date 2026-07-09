@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000711>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Saxer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1735" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-22 11:02:39.417161" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1744" ] ] ;
+                               pers:last_mention  "1744" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000711a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "46" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "110"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000356> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000356> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

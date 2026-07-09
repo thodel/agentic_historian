@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per014085>
+        a             pers:person ;
+        rdfs:label    "Friedrich Schenk von Limpurg"@deu ;
+        pers:births   [ pers:birth      "1401" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "1474" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-17 08:13:50.010239" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Friedrich" ;
+                        pers:gennames   [ pers:genname    "V." ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per014085a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002587> ;
+                        pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                          pers:rolename   "Herr/monsieur"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Fridrich" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002587.04> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014085a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org002587> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "1081269979" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

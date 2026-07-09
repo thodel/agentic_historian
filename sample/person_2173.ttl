@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002574>
+        a                    pers:person ;
+        rdfs:label           "NN Locher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1658" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1658" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002574a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "246" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "901"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000338> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000338> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002573> ;
+                               pers:occurence  "SG III/2"
+                             ] .

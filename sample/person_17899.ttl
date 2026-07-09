@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per019089>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Hunger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-12 08:57:31.666318" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019089a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004074> ;
+                               pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004074.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019089a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004074> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

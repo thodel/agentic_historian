@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003808>
+        a                pers:person ;
+        rdfs:label       "Kueni zum Wald"@deu ;
+        pers:deaths      [ pers:death         "1419" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1419" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-12 11:52:01.769073" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Kueni" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003808a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001524> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Kuͤni" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "54" ;
+                                                               pers:line     "10" ;
+                                                               pers:page     "154"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001524.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003808a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key003725" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc001386> ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001524> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "S. 64" ;
+                           pers:title  "SSRQ BE II/8.1" ;
+                           pers:type   "biblio" ;
+                           pers:url    "https://www.ssrq-sds-fds.ch/online/BE_II_8/index.html#p_I"
+                         ] ;
+        pers:sex         "1" .

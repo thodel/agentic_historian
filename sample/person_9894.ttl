@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per010668>
+        a                    pers:person ;
+        rdfs:label           "Jacques Renaud"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010694> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1559" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-16 22:02:16.774067" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1597" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jacques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003140.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010668a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010668a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003140> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003140.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010668a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Jacques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003140.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010668a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003140> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007879> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

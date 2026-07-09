@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010192>
+        a                    pers:person ;
+        rdfs:label           "Pierre Reymond"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1660" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-05 10:16:52.510987" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010192a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003112> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003112.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010192a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003112> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007799> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

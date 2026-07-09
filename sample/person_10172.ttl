@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per010978>
+        a                         pers:person ;
+        rdfs:label                "Jean Catio"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-23 17:10:17.561425" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per010978a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004083> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004083.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010978a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per010978a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004083> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "16.03.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004083> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero 1995, p. 289" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008475> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010866> ;
+                                    pers:occurence  "gortega"
+                                  ] .

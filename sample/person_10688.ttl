@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per011527>
+        a                    pers:person ;
+        rdfs:label           "Beat Jakob von Montenach"@deu ;
+        pers:deaths          [ pers:death      "1663" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1631" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:grandfatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027726> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 10:44:27.828327" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Beat Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011527a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002509> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Beath Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002509.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011527a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1637-1640" ;
+                               pers:description  "key004837" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:occupation      [ pers:date         "1631-1663" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1648-1663" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:occupation      [ pers:date         "1645-1648" ;
+                               pers:description  "key003719" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002509> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 790" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

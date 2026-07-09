@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008995>
+        a                    pers:person ;
+        rdfs:label           "Pierre Renaud"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1692" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1692" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-22 12:15:57.727661" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008995a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003140> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1692" ;
+                               pers:description   "key005148" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003140> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Il s’agit peut-être de la même personne que per008901" ;
+        pers:sex             "1" .

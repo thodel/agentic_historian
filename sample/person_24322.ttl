@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per025670>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Vögeli"@deu ;
+        pers:deaths          [ pers:death      "1635" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1595" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-17 07:52:41.046976" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005075>
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025670a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000321> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1595-1635" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000321> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "1089710135" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

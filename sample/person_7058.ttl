@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per007729>
+        a                    pers:person ;
+        rdfs:label           "Gallus Oeler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 10:33:55.480582" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007729a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002028> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gali" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250b" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "1093"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002028.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007729a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002028> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005988> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

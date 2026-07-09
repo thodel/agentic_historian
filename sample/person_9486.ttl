@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per010243>
+        a                    pers:person ;
+        rdfs:label           "Foelix de Meuron"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1714" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-25 15:51:04.658899" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1718" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Foelix" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003109.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010243a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Felix" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010243a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003109> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1714" ;
+                               pers:description  "key000907" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003109> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

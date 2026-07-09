@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per026409>
+        a                pers:person ;
+        rdfs:label       "Hans Keller"@deu ;
+        pers:births      [ pers:birth      "1681" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1757" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-30 09:55:40.681862" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005611>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026409a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1734-1757" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

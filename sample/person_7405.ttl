@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008085>
+        a                    pers:person ;
+        rdfs:label           "Johannes Tobler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 16:22:44.124321" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "gelb huet" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Johanes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "1232"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000566.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008085a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Gelbhut" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008085a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000566> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000566> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007305> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

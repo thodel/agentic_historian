@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per008119>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Diezi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 10:15:03.061191" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008119a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002121> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "1232"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002121.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008119a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1751" ;
+                               pers:description   "key000963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1751" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002121> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006383> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per002980>
+        a                pers:person ;
+        rdfs:label       "Joseph Anton Leodegar Keller"@deu ;
+        pers:births      [ pers:birth         "25.10.1697" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1697-10-25" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "22.02.1782" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782-02-22" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-17 16:36:54.919012" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph Leodegari Anton" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002980a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Joseph Anton Leodegar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002980a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "46" ;
+                                                              pers:page     "1149"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "78" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "292"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000028" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1767" ;
+                           pers:description   "key000824" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1728-1750" ;
+                           pers:description   "key000540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1728" ;
+                                                                    pers:to    "1750"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14163" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

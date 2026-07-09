@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per012079>
+        a                    pers:person ;
+        rdfs:label           "Konrad Megger"@deu ;
+        pers:citizenOf       [ pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002020>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1394" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-19 11:25:43.047764" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001568.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012079a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012079a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001568> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1394" ;
+                               pers:description  "key000659" ;
+                               pers:occurence    "claudia" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004622>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001568> ;
+        pers:project         "Claudia Sutter" ;
+        pers:sex             "1" .

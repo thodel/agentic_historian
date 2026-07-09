@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per017332>
+        a               pers:person ;
+        rdfs:label      "Wolf [von] Capol"@deu ;
+        pers:births     [ pers:birth      "05.1473" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:deaths     [ pers:death      "27.11.1563" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2020-12-01 14:53:45.191884" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Wolff" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000525.16> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017332a.02>
+                        ] ;
+        pers:name       [ pers:forename   "Wolf" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017332a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000525> ;
+                          pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                            pers:rolename   "Junker/donzel"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hans Wolf" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000525.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017332a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000525> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "1070134678" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:id    "016790" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000100> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017436> ;
+                          pers:occurence  "pascale"
+                        ] .

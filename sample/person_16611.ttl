@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per017749>
+        a             pers:person ;
+        rdfs:label    "Napoleon Bonaparte"@deu ;
+        pers:births   [ pers:birth      "15.08.1769" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "05.05.1821" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-05-18 07:16:04.190526" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Napoleon" ;
+                        pers:gennames   [ pers:genname    "I." ;
+                                          pers:occurence  "pascale"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per017749a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "pascale" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006960> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org006960> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118586408" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

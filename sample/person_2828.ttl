@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003278>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Rudenz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1381" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:47:12.282821" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003278a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001302> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "4" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "11"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001302.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003278a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001302> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1381" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1381" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

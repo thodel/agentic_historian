@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per002364>
+        a                    pers:person ;
+        rdfs:label           "Werner Mok"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1623" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1623" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 20:22:30.610658" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Wernher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000331.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002364a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002364a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "217" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "809"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000331> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1623" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1623" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001172>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000331> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

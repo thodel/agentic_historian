@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002644>
+        a                    pers:person ;
+        rdfs:label           "Josef Leonti Widrig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1707" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1707" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                               pers:last_mention  "1711" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Josef Leonti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000708.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002644a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef Leonti" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002644a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "300" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "1040"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "280" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "995"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000708> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1707, 1711" ;
+                               pers:description   "key000908" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ;
+                                         pers:format_date  [ pers:when  "1707" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1707, 1711" ;
+                               pers:description   "key000908" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1707" ] ;
+                                         pers:format_date  [ pers:when  "1711" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000708> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per013008>
+        a                        pers:person ;
+        rdfs:label               "Pierre Ros"@fra ;
+        pers:first_mentions      [ pers:first_mention  "1498" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-05-02 17:22:27.875265" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename   "Pierre" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per013008a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004039> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Petrus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per013008a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004039> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename    "Petrus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004039.03> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013008a.01>
+                                 ] ;
+        pers:occupation          [ pers:date         "1490" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org004039> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Pfister 1997, p. 300" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:remark              "Victime de Pierre Menetrey, qui l'a empoisonné en 1490, suite à un conflit portant sur la dîme (ACV, Ac 29, p. 432)" ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007669> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012767> ;
+                                   pers:occurence  "gortega"
+                                 ] .

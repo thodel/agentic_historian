@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008894>
+        a                    pers:person ;
+        rdfs:label           "Samuel de Pury"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1703" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1703" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-25 14:13:40.086765" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008894a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003111> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Samuel" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008894a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003111> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001615>
+        a                    pers:person ;
+        rdfs:label           "Hans Bruchli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1510" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1510" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001615a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "121" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "404"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000536> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000536.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001615a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000536> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

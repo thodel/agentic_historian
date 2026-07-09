@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per025400>
+        a                    pers:person ;
+        rdfs:label           "Eberhard von Kestenburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1321" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-08 00:29:24.741782" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Eberhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025400a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008597> ;
+                               pers:rolenames  [ pers:occurence  "mina" ;
+                                                 pers:rolename   "Bruder/frère"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1321" ;
+                               pers:description  "key005744" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000770> ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004887>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008597> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "HS IV/7, S. 55" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

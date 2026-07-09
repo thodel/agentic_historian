@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006433>
+        a                    pers:person ;
+        rdfs:label           "Johannes Dietrich"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1744" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1744" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 16:01:50.387400" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johaneß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "132" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "552"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000382.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006433a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006433a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000382> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1744" ;
+                               pers:description   "key003639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1744" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002954>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000382> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

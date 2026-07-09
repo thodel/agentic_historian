@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004141>
+        a                    pers:person ;
+        rdfs:label           "Margret Hiltbrand"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1546" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1546" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-09 12:11:22.444147" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename          "Margret" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004141a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "89a" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "332"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001662> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001662> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004139> ;
+                               pers:occurence  "LU II/3"
+                             ] .

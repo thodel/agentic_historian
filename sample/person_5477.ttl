@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006058>
+        a                    pers:person ;
+        rdfs:label           "Peter Beck"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1522" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1522" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-18 14:21:51.616503" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006058a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "101" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "394"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001836> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001836> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006951> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per001961>
+        a                    pers:person ;
+        rdfs:label           "Franz Leonti Cysat"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1735" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1736" ] ] ;
+                               pers:last_mention  "1736" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Franz Leonti" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001961a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "154b" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "565"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000850> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1735-1737" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1735" ;
+                                                                        pers:to    "1737"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000850> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

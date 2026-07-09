@@ -1,0 +1,106 @@
+<http://ssrq-sds-fds.ch/Register/#per008260>
+        a                pers:person ;
+        rdfs:label       "Friedrich Johann Nepomuk von Seilern"@deu ;
+        pers:births      [ pers:birth         "1743" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1743" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "1794" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1794" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 08:45:29.911884" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Friedrich Johann Nepomuk" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008260a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002794> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Freiherr (Baron)/baron"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joh.  Nep." ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "325d" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1391"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002794.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008260a.02>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "321" ;
+                                                               pers:line     "38" ;
+                                                               pers:page     "1369"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002794.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008260a.03>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "325d" ;
+                                                               pers:line     "24" ;
+                                                               pers:page     "1391"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002794.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008260a.05>
+                         ] ;
+        pers:name        [ pers:forename    "Friedrich Johann Nepomuk" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "315" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1354"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002794.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008260a.01>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "325b" ;
+                                                               pers:line     "4" ;
+                                                               pers:page     "1384"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002794.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008260a.04>
+                         ] ;
+        pers:occupation  [ pers:date          "1782, 1789, 1793" ;
+                           pers:description   "key003669" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1789" ] ;
+                                     pers:format_date  [ pers:when  "1793" ] ;
+                                     pers:format_date  [ pers:when  "1782" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc006404> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1782, 1789, 1793" ;
+                           pers:description   "key003669" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ;
+                                     pers:format_date  [ pers:when  "1789" ] ;
+                                     pers:format_date  [ pers:when  "1782" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc006404> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002794> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "https://hls-dhs-dss.ch/de/articles/049600/2011-02-21/" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per008172>
+        a                pers:person ;
+        rdfs:label       "Klemens XIII. (Papst)"@deu ;
+        pers:births      [ pers:birth         "1693" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1693" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1769" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-06 09:08:29.708418" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Klemens" ;
+                           pers:gennames   [ pers:genname    "XIII." ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008172a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Clemens" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "287d" ;
+                                                               pers:line     "10" ;
+                                                               pers:page     "1252"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008172a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1758–1769" ;
+                           pers:description   "key000014" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1758" ;
+                                                                    pers:to    "1769"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "123610311" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "http://192.124.243.55/cgi-bin/gkdb.pl?x=u&sart=p&t_multi=x&v_0=TIT&q_0=123610311"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per004919>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Montfort"@deu ;
+        pers:deaths          [ pers:death         "11.10.1301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1301-10-11" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1272" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1272" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:26:19.495459" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Wilhelm" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004919b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1k" ;
+                                                                         pers:line     "47" ;
+                                                                         pers:page     "7"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1d" ;
+                                                                         pers:line     "39" ;
+                                                                         pers:page     "3"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Wilhelm" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004919a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000007> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1281–1301" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1281" ;
+                                                                        pers:to    "1301"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000007> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12839" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "IV, Nr. 2353" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1306-1307" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" .

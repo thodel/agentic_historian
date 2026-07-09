@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per006128>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Kobler"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002953>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1527" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1527" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 15:41:37.488039" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006128a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001777> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "112" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "424"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001777.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006128a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1527" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1527" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002396>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001777> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006348> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

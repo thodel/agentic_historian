@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per015167>
+        a              pers:person ;
+        rdfs:label     "Heinrich Leemann"@deu ;
+        pers:deaths    [ pers:death      "vor 07.1439" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015166> ;
+                         pers:occurence  "sabine"
+                       ] ;
+        pers:hist      [ pers:date      "2020-04-03 09:45:58.680825" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename   "Heinrich" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per015167a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "sabine" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005191> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Heini" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "sabine" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005191.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015167a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org005191> ;
+        pers:project   "Königsfelden" ;
+        pers:sex       "1" .

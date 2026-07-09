@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per001042>
+        a                    pers:person ;
+        rdfs:label           "Margret Ruf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1480" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 20:12:55.436758" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Gret" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000683.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001042b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Margret" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001042b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "91" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "313"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000683> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Margret" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001042a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "91" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "313"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000248> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000248> , <http://ssrq-sds-fds.ch/Register/#org000683> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001040> ;
+                               pers:occurence  "SG III/2"
+                             ] .

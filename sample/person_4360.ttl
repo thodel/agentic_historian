@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per004880>
+        a             pers:person ;
+        rdfs:label    "Otto Ottonen"@deu ;
+        pers:births   [ pers:birth         "955" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "0955" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "07.12.0983" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "0983-12-07" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-03-16 15:51:34.617913" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Otto" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "SG III/3"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004880a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "1b" ;
+                                                           pers:line     "20" ;
+                                                           pers:page     "2"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001888> ;
+                        pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                          pers:rolename   "Kaiser/empereur"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001888> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118738747" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per012690>
+        a                pers:person ;
+        rdfs:label       "Meinhard Wittelsbacher"@deu ;
+        pers:deaths      [ pers:death      "1363" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 09:59:38.606581" ;
+                           pers:username  "sabine"
+                         ] ;
+        pers:name        [ pers:forename   "Meinhard" ;
+                           pers:gennames   [ pers:genname    "III." ;
+                                             pers:occurence  "sabine"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012690a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "sabine" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001962> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Meinhart" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "sabine" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001962.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012690a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000019" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000780> ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:occupation  [ pers:description  "key005492" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010390> ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:occupation  [ pers:description  "key000189" ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001962> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "123611911" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

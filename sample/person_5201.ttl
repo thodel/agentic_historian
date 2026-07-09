@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per005779>
+        a                pers:person ;
+        rdfs:label       "Hugo von Hohenlandenberg"@deu ;
+        pers:births      [ pers:birth         "1460" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1460" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "07.01.1532" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1532-01-07" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-16 11:08:09.027596" ;
+                           pers:username  "ssrq-sh-i-3"
+                         ] ;
+        pers:name        [ pers:forename          "Hugo" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per005779b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "80b" ;
+                                                                     pers:line     "16" ;
+                                                                     pers:page     "295"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000056> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Hugo" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per005779a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000151> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1496–1530, 1531–1532" ;
+                           pers:description   "key000015" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1496" ;
+                                                                    pers:to    "1530"
+                                                                  ] ;
+                                     pers:format_date  [ pers:from  "1531" ;
+                                                         pers:to    "1532"
+                                                       ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000151> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "12703" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "I/2,1, S. 376-385" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "1" .

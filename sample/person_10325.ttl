@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per011144>
+        a                pers:person ;
+        rdfs:label       "Nicolas de Wolff"@deu , "Nicolas de Wolff"@fra ;
+        pers:births      [ pers:birth      "um 1543" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1618" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-04-12 09:22:52.458809" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Nicolas" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011144a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004190> ;
+                           pers:rolenames  [ pers:occurence  "pascale" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Nicolas" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011144a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004190> ;
+                           pers:rolenames  [ pers:occurence  "pascale" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Niclaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004190.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011144a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1614" ;
+                           pers:description  "key005495" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004190> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21470" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

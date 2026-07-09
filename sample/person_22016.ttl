@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per023319>
+        a                    pers:person ;
+        rdfs:label           "Christian NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1688" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-06 16:24:23.595077" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Khrist" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023319a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per023319a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008920> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

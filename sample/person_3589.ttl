@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per004063>
+        a                    pers:person ;
+        rdfs:label           "Martin Andermatt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1513" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-03 17:36:41.229684" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004063a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001006> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001006.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004063a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001006> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Nach Weber, Beiträge zur alten Familienkunde des Kantons Schwyz, zum Geschlecht der Indermatt gehörend, ab 1522 war Martin Landammann SZ. Müsste durch modernere SZ-Hist. verifiziert werden." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000730> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

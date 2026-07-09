@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per024310>
+        a                    pers:person ;
+        rdfs:label           "Hans Glatz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1529" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-21 11:26:49.110456" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per024310a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008426> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanßen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008426.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024310a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008426> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010381> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

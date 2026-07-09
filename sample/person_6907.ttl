@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per007570>
+        a             pers:person ;
+        rdfs:label    "Hermann NN"@deu ;
+        pers:deaths   [ pers:death         "vor 1352" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1352" ;
+                                                                 pers:notBefore  "1302" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2017-08-06 17:27:18.027566" ;
+                        pers:username  "SG III/4"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Schönenboden" ;
+                                          pers:occurence  "SG III/4"
+                                        ] ;
+                        pers:forename   "Hermann" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per007570a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

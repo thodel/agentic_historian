@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003088>
+        a                    pers:person ;
+        rdfs:label           "Margaretha Oberli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1792" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1792" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Margaretha" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003088a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "370" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "1212"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000942> ;
+                               pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                        pers:rolename   "Jungfrau/vierge"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000942> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per016899>
+        a                    pers:person ;
+        rdfs:label           "Hans Schwab"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1468" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1483" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:grandfatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016896> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-04 08:30:44.917833" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1483" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016899a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002974> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004576>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002974> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000979> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

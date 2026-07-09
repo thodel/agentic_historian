@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008233>
+        a                    pers:person ;
+        rdfs:label           "Johann Nepomuk von Landsee"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1782" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-12 10:56:31.215273" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Nepomuk" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008233a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "305b" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "1319"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002998> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Freiherr (Baron)/baron"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002998> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

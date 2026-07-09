@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008264>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1782" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-28 11:04:18.363580" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Uli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "315" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "1355"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008264a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Sägen" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008264a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006361> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

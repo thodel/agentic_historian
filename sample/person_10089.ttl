@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per010870>
+        a                pers:person ;
+        rdfs:label       "Karl Josef Reding"@deu ;
+        pers:births      [ pers:birth      "20.11.1713" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death      "18.07.1761" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-13 10:17:18.497100" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Karl Josef" ;
+                           pers:gennames   [ pers:genname    "de" ;
+                                             pers:occurence  "SG III/4"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010870a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000288> ;
+                           pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                             pers:rolename   "Freiherr (Baron)/baron"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carl" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000288.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010870a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1741" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000288> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "24187" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

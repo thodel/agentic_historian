@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003879>
+        a                    pers:person ;
+        rdfs:label           "Anton Wig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1555" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-19 11:43:39.685366" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Toͤngi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "60" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "172"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001546.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003879a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003879a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001546> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001546> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

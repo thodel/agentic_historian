@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per007156>
+        a                pers:person ;
+        rdfs:label       "David Studer"@deu ;
+        pers:births      [ pers:birth         "03.10.1551" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1551-10-03" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "15.11.1614" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1614-11-15" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-24 11:59:09.702448" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "von Winckelbach zum Bolbach" ;
+                                              pers:occurence  "SG III/3"
+                                            ] ;
+                           pers:forename    "David" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                               pers:line     "25" ;
+                                                               pers:page     "798"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000722.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007156a.01>
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "von Winckelbach" ;
+                                              pers:occurence  "SG III/3"
+                                            ] ;
+                           pers:forename    "David" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                               pers:line     "13" ;
+                                                               pers:page     "800"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000722.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007156a.02>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Winkelbach" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "David" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007156a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000722> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1611, 1612" ;
+                           pers:description   "key000808" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ;
+                                     pers:format_date  [ pers:when  "1611" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:occupation  [ pers:date          "1611, 1612" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ;
+                                     pers:format_date  [ pers:when  "1612" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000722> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21759" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

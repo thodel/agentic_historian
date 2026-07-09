@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010375>
+        a                    pers:person ;
+        rdfs:label           "Siegfried Plütsch"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003846>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-16 15:08:41.899684" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Syfrit" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003845.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010375a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Siegfried" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010375a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003845> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003845> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009420>
+        a                    pers:person ;
+        rdfs:label           "Hieronymus Zürcher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1619" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1619" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-25 12:04:39.548465" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hieronymus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000848.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009420a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hieronymus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009420a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000848> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1619" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006574> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000848> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002794>
+        a                    pers:person ;
+        rdfs:label           "Baptist Schlitt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1743" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1743" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Baptist" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002794a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "308a" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "1052"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001086> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001086> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000631> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002793> ;
+                               pers:occurence  "SG III/2"
+                             ] .

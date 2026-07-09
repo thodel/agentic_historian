@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per000896>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Hetzel"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-02 13:31:48.752626" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1467" ] ] ;
+                               pers:last_mention  "1467" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000896a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "75b" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "249"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "67" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "218"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000473> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1467" ;
+                               pers:description   "key003719" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1467" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:occupation      [ pers:date         "sicher 1434-1439" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000473> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, S. 211–212" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

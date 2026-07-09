@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per001013>
+        a                    pers:person ;
+        rdfs:label           "Peter Schap"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001184>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1477" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1477" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001013a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "88" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "302"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000537> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000537> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000833> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

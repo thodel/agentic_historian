@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per000988>
+        a                    pers:person ;
+        rdfs:label           "Hans Marquart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1474" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1474" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1505" ] ] ;
+                               pers:last_mention  "1505" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000988a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "186" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "665"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "83" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "284"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "189a" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "672"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000524> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000524.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000988a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000524> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000170> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per001995>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Tschudi"@deu ;
+        pers:deaths          [ pers:death         "02.12.1567" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1567-12-02" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1532" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1532" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename          "Fridolin" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001995b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "162" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "589"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Fridolin" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001995a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "162" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "589"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1565-1567" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1565" ;
+                                                                        pers:to    "1567"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21841" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

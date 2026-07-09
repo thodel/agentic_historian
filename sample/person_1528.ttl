@@ -1,0 +1,108 @@
+<http://ssrq-sds-fds.ch/Register/#per002202>
+        a                    pers:person ;
+        rdfs:label           "Michael Bäldi"@deu ;
+        pers:deaths          [ pers:death         "09.12.1619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619-12-09" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1568-" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore
+                                                           "1568" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 11:35:10.956139" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Michel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000837.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002202a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002202a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "194" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "695"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "193" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "689"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "202" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "763"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "195" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "698"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "203" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "769"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "177" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "800"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "154d" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "677"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000837> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Michel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000837.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002202a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:occupation      [ pers:description  "key000326" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1603, 1612" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ;
+                                         pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:occupation      [ pers:date          "1601-1604, 1609-1611" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1601" ;
+                                                                        pers:to    "1604"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1609" ;
+                                                             pers:to    "1611"
+                                                           ] ] ;
+                               pers:occurence     "SG III/2" , "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000837> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "17973" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

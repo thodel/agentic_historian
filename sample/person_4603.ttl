@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per005140>
+        a                    pers:person ;
+        rdfs:label           "Marquard Brisacher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "15. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1500"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 18:02:44.365497" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1452" ] ] ;
+                               pers:last_mention  "1452" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Marquard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005140a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002041> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marquardus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "24a" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "63"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "24b" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "65"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002041.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005140a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Marquart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "33" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "82"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002041.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005140a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1452" ;
+                               pers:description   "key004801" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1452" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002041> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

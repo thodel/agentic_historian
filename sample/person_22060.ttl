@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per023365>
+        a                pers:person ;
+        rdfs:label       "Ludovico Sforza"@deu ;
+        pers:births      [ pers:birth      "03.08.1452" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "17.05.1508" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027834> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-27 13:58:33.601778" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Ludovico" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per023365a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003457> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000189" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc005801> ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003457> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29255" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118820745" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

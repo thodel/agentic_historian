@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per009111>
+        a              pers:person ;
+        rdfs:label     "Richard Bardet"@fra ;
+        pers:deaths    [ pers:death         "vor 1607" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1607" ;
+                                                                  pers:notBefore  "1557" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "FR I/2/8"
+                       ] ;
+        pers:hist      [ pers:date      "2018-05-16 09:51:03.383858" ;
+                         pers:username  "rita"
+                       ] ;
+        pers:name      [ pers:forename          "Richard" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per009111a> ;
+                         pers:lang              "fra" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "FR I/2/8"
+                                                ] ;
+                         pers:occurence         "FR I/2/8" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003352> ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003352> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009112> ;
+                         pers:occurence  "FR I/2/8"
+                       ] .

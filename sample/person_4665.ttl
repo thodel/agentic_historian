@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per005208>
+        a                    pers:person ;
+        rdfs:label           "Johannes Hopper"@deu ;
+        pers:first_mentions  [ pers:first_mention  "frühestens 1460" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore  "1460" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-26 10:54:59.903602" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Joh." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "37" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "93"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002076.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005208a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005208a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "110"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002076> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Lic./lic."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "frühestens 1460" ;
+                               pers:description   "key003073" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore  "1460" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1463" ;
+                               pers:description   "key003448" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1463" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006540> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "frühestens 1460" ;
+                               pers:description   "key000634" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore  "1460" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002076> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

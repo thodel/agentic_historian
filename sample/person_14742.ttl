@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per015800>
+        a                               pers:person ;
+        rdfs:label                      "Claude de Costel"@fra ;
+        pers:deaths                     [ pers:death      "ap. 1490" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011379> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1479" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-04-09 14:47:35.363239" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename          "Claude" ;
+                                          pers:id                <http://ssrq-sds-fds.ch/Register/#per015800a> ;
+                                          pers:lang              "fra" ;
+                                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                                   pers:occurence       "gortega"
+                                                                 ] ;
+                                          pers:occurence         "gortega" ;
+                                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006327> ;
+                                          pers:type              "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Glaudius" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006327.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015800a.01>
+                                        ] ;
+        pers:name                       [ pers:forename          "Glaudius" ;
+                                          pers:id                <http://ssrq-sds-fds.ch/Register/#per015800a> ;
+                                          pers:lang              "lat" ;
+                                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                                   pers:occurence       "gortega"
+                                                                 ] ;
+                                          pers:occurence         "gortega" ;
+                                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006327> ;
+                                          pers:type              "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "10.11.1479" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org006327> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Maier 1996, p. 402" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009098> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:residence                  [ pers:date       "1479" ;
+                                          pers:location   <http://ssrq-sds-fds.ch/Register/#loc008530> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

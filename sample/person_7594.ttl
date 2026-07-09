@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008279>
+        a                    pers:person ;
+        rdfs:label           "NN Zweifel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1789" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1789" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-14 10:45:09.501720" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008279a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "322" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "1371"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000655> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1789" ;
+                               pers:description   "key003656" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1789" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000655> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: wohl identisch mit Jakob Zweifel (http://www.hls-dhs-dss.ch/textes/d/D5998.php)" ;
+        pers:sex             "1" .

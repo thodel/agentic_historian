@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per007056>
+        a                    pers:person ;
+        rdfs:label           "Johannes Dietschi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1608" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 15:45:33.993537" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johanes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "172a" ;
+                                                                   pers:line     "33" ;
+                                                                   pers:page     "773"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001282.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007056a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007056a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001282> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "176" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "791"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001282.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007056a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1608, 1612" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ;
+                                         pers:format_date  [ pers:when  "1608" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006404> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001282> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007887>
+        a                    pers:person ;
+        rdfs:label           "Daniel Friedrich Schlumpf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1738" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1738" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-23 18:11:05.636104" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Daniel Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007887a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000271> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Daniel Fridrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "269" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "1185"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000271.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007887a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000271> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

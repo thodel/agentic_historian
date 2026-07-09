@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007750>
+        a                    pers:person ;
+        rdfs:label           "Karl Granzi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 16:15:03.642401" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Karl" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007750a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002863> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Carli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250c" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "1098"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002863.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007750a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002812>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002863> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006320> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

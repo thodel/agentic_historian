@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008176>
+        a                    pers:person ;
+        rdfs:label           "Johannes Hug"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1767" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1767" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 10:58:47.024005" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008176a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "287e" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1256"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000450> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "06.09.1767-" ;
+                               pers:description   "key000276" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1767-09-06" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006661> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000450> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

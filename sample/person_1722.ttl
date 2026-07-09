@@ -1,0 +1,75 @@
+<http://ssrq-sds-fds.ch/Register/#per002122>
+        a                pers:person ;
+        rdfs:label       "Johann Peter Zwicky"@deu ;
+        pers:births      [ pers:birth         "07.04.1692" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692-04-07" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "28.04.1779" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1779-04-28" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2019-02-11 10:55:36.797280" ;
+                           pers:username  "SG III/4"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002122a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "178b" ;
+                                                              pers:line     "35" ;
+                                                              pers:page     "640"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000140> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Peter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000140.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002122a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Johann Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000140.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002122a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1724–1726, 1734–1736, 1754–1756" ;
+                           pers:description   "key003656" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1724" ;
+                                                                    pers:to    "1726"
+                                                                  ] ;
+                                     pers:format_date  [ pers:from  "1754" ;
+                                                         pers:to    "1756"
+                                                       ] ;
+                                     pers:format_date  [ pers:from  "1734" ;
+                                                         pers:to    "1736"
+                                                       ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:occupation  [ pers:date          "1731-1734" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1731" ;
+                                                                    pers:to    "1734"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                           pers:occurence     "SG III/2" , "SG III/4"
+                         ] ;
+        pers:occupation  [ pers:description  "key000427" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000140> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18045" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

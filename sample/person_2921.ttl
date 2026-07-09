@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per003368>
+        a                    pers:person ;
+        rdfs:label           "Hans zu Brandösch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "nach 1442" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:06:50.084442" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Pfruͦnder" ;
+                                                  pers:occurence  "LU II/3"
+                                                ] ;
+                               pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "116"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001347.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003368a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Pfründer" ;
+                                                 pers:occurence  "LU II/3"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003368a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001347> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001347> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "nach 1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001263> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

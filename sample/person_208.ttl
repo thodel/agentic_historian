@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per000264>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Peter"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000265> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1361" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1361" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000052.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000264a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000264a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "11c" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "17"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "27" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "47"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000052> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "genant Peter" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000052.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000264a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000052> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

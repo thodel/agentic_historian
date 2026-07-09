@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per005903>
+        a                    pers:person ;
+        rdfs:label           "Konrad Kalm"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1512" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1512" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-15 17:00:19.031499" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Schriber" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Conrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "94" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "340"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002348.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005903a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Schreiber" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005903a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002348> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1512" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1512" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002348> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

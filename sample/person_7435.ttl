@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008115>
+        a                    pers:person ;
+        rdfs:label           "Lisabetha Hasler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 09:27:14.173058" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Lisabetha" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008115a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001638> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lisabetha" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "1232"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001638.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008115a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001638> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006607> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

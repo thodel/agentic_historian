@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009298>
+        a                pers:person ;
+        rdfs:label       "Konrad Meyer"@deu ;
+        pers:deaths      [ pers:death         "vor 1628" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1628" ;
+                                                                    pers:notBefore  "1578" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2018-06-12 13:42:28.303195" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "Cunrad" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009298a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009298a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001539> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003498" ;
+                           pers:occurence    "FR I/2/8"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001539> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001313> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009299> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

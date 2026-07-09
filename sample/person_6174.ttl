@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per006793>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Schweiss"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1549" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1549" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-20 15:29:40.354967" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006793a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002408> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartlome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "125" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "506"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002408.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006793a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Bartlime" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "146" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "626"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002408.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006793a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1549" ;
+                               pers:description   "key000065" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1549" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:date          "1549" ;
+                               pers:description   "key003010" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1549" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1567" ;
+                               pers:description   "key004771" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1567" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002408> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Rohner, Geschlechter und Wappen, S. 135" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Werner Kuster: gemäss Rohner, Geschlechter, wohl identisch" ;
+        pers:sex             "1" .

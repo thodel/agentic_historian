@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per013872>
+        a                    pers:person ;
+        rdfs:label           "Hans Schwarz"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001160>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1562" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-04 09:57:31.203535" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per013872a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000965> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000965.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013872a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000965> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013873> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

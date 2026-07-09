@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per015682>
+        a                    pers:person ;
+        rdfs:label           "Hans von Mont"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015682> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015685> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1581" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-09 08:37:23.979788" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015682a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001063> ;
+                               pers:rolenames  [ pers:occurence  "pascale" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001063.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015682a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001063> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1581–" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:residence       [ pers:date       "–1581" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009571> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per000685>
+        a                    pers:person ;
+        rdfs:label           "Dietrich von Hertenegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1433" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Dietrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000685a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "45" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "103"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000681> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Dietrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000681.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000685a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1433" ;
+                               pers:description   "key000043" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1433" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000681> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

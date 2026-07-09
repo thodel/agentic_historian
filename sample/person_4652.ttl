@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per005194>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Kolin"@deu ;
+        pers:deaths          [ pers:death         "1477-1497" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1497" ;
+                                                                        pers:notBefore  "1477" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1433" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-07 07:19:58.855801" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bartli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "35" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "88"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000294.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005194a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005194a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000294> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1459" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1459" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000294> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26773" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

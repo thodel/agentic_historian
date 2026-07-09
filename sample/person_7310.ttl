@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per007988>
+        a                pers:person ;
+        rdfs:label       "Just Ignaz Imfeld"@deu ;
+        pers:births      [ pers:birth         "12.05.1691" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1691-05-12" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "17.09.1765" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1765-09-17" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-30 10:52:12.931916" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Just Ignaty" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "274a" ;
+                                                               pers:line     "1" ;
+                                                               pers:page     "1204"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000835.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007988a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Johann Just Ignatii" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "273" ;
+                                                               pers:line     "7" ;
+                                                               pers:page     "1202"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000835.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007988a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Just Ignaz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007988a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000835> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1747" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1747" ;
+                           pers:description   "key000320" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                         ] ;
+        pers:occupation  [ pers:date          "1747" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001213>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000835> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21188" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

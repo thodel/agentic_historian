@@ -1,0 +1,77 @@
+<http://ssrq-sds-fds.ch/Register/#per000413>
+        a                    pers:person ;
+        rdfs:label           "Peter Schwiggli"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1481" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1481" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1487" ] ] ;
+                               pers:last_mention  "1487" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Vild" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000413a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "92" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "316"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "41c" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "91"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "28" ;
+                                                                  pers:line     "48" ;
+                                                                  pers:page     "50"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000190> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "zuͦ Vill" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000190.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000413a.02>
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Vill" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000190.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000413a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000190.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000413a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000190> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000059> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000414> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000412> ;
+                               pers:occurence  "SG III/2"
+                             ] .

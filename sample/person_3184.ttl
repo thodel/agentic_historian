@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003638>
+        a                    pers:person ;
+        rdfs:label           "Hans Zscholi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1424" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:35:40.581224" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "30a" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "74"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001459.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003638a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003638a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001459> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1424" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1424" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001459> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per000657>
+        a                    pers:person ;
+        rdfs:label           "Hans Türler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1498" ] ] ;
+                               pers:occurence      "SG III/2" , "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-07 13:21:18.150801" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Unterwalden" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000657a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "77" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "275"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "44" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "101"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000322> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000322.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000657a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1498" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2" , "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000322> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000568> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

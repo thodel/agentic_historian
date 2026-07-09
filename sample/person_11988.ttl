@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per012891>
+        a                   pers:person ;
+        rdfs:label          "Mermet Mongouz"@fra ;
+        pers:births         [ pers:birth      "ca. 1438" ;
+                              pers:occurence  "pascale"
+                            ] ;
+        pers:hist           [ pers:date      "2020-11-30 13:24:01.414319" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1498" ;
+                              pers:occurence     "pascale"
+                            ] ;
+        pers:name           [ pers:forename   "Mermetus" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per012891a> ;
+                              pers:lang       "lat" ;
+                              pers:occurence  "gortega" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005267> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "Mermetus" ;
+                              pers:lang        "lat" ;
+                              pers:occurence   "gortega" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005267.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012891a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Mermet" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per012891a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "gortega" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005267> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date         "26.10.1498" ;
+                              pers:description  "key005588" ;
+                              pers:occurence    "gortega"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org005267> ;
+        pers:project        "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs           [ pers:title  "Pfister 1997, p. 298" ;
+                              pers:type   "biblio"
+                            ] ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010902> ;
+                              pers:occurence  "gortega"
+                            ] ;
+        pers:sex            "1" .

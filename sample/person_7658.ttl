@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008344>
+        a                    pers:person ;
+        rdfs:label           "Johannes Ritz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-07 11:33:58.393891" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008344a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "1395"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002160> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1796" ;
+                               pers:description   "key000276" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1796" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002160> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "vor 1796" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1796" ;
+                                                                        pers:notBefore  "1746" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:residence       [ pers:date          "1796" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1796" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000439> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:sex             "1" .

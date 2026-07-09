@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per007695>
+        a                    pers:person ;
+        rdfs:label           "Josef Anton von Kohlern"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1693" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1693" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-14 15:52:54.753571" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "235b" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "1056"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002853.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007695a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007695a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002853> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1693" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1693" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006574> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002853> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Prof. Dr. Alois Niederstätter, VLA (14.08.2017): ’Es handelt sich um Josef Anton von Kohlern (Kollern), in den 1690er Jahren zunächst Landschreiber, dann Oberamtmann zu Hohenems.’" ;
+        pers:sex             "1" .

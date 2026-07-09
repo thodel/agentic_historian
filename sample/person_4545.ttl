@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005210>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Diessenhofen"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005078> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1460" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1460" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-20 09:25:58.717154" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005210a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "38a" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "94"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002000.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005210a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1460" ;
+                               pers:description   "key000254" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1460" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006531> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002000> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

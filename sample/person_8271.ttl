@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per008992>
+        a                    pers:person ;
+        rdfs:label           "Nicolas Huguenaud"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1650" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 10:45:59.202053" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1701" ] ] ;
+                               pers:last_mention  "1701" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename    "N" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003314.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008992a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Nicolas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008992a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003314> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1694" ;
+                               pers:description   "key005005" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1694" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:occupation      [ pers:date         "1701" ;
+                               pers:description  "key000275" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "1676-1696" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1676" ;
+                                                                        pers:to    "1696"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003314> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Remplace le secrétaire de ville le 26 mai 1701" ;
+        pers:sex             "1" .

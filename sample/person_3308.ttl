@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per003764>
+        a                    pers:person ;
+        rdfs:label           "Jost Stadelmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1590" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1590" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-10 14:16:14.938997" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Jost" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128a" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "462"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "523"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001417.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003764a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003764a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001417> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1599" ;
+                               pers:description   "key003723" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001417> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per004970>
+        a                    pers:person ;
+        rdfs:label           "Kuno von Stoffeln"@deu ;
+        pers:deaths          [ pers:death         "19.10.1411" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1411-10-19" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1365" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1365" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:41:59.324662" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Kuno" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004970a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001974> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦn" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "11" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001974.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004970a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Kuno" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004970b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1n" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "9"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1o" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "10"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1l" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "8"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1379–1411" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1379" ;
+                                                                        pers:to    "1411"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001974> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12985" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1313-1314" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" .

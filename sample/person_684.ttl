@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000760>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Tangel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1453" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000760a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "51b" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "164"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000391> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000391.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000760a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000391> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000170> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

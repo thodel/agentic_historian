@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per003260>
+        a                    pers:person ;
+        rdfs:label           "Hans Leopold Cysat"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1645" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:42:21.535452" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Leopold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003260a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "78a" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "294"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000850> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1645-1659" ;
+                               pers:description   "key003686" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1645" ;
+                                                                        pers:to    "1659"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000850> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

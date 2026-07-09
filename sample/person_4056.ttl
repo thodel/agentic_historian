@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004552>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Windegg"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004550> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 16:43:00.164526" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1454" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000034.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004552a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004552a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000034> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1454" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1454" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000034> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

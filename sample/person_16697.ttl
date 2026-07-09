@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per017840>
+        a              pers:person ;
+        rdfs:label     "Anna von Planta"@deu ;
+        pers:deaths    [ pers:death      "1600" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-06-03 13:58:10.076844" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename          "Anna" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per017840b> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                  pers:occurence       "pascale"
+                                                ] ;
+                         pers:occurence         "pascale" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000866> ;
+                         pers:type              "std"
+                       ] ;
+        pers:name      [ pers:addnames   [ pers:addname    "geb. Planta" ;
+                                           pers:occurence  "GR B III/2"
+                                         ] ;
+                         pers:forename   "Anna" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per017840a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000078> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Anna" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000078.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017840a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000078> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "2" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017530> ;
+                         pers:occurence  "GR B III/2"
+                       ] .

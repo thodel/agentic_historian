@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per002550>
+        a                    pers:person ;
+        rdfs:label           "Ambros Rosenkranz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1657" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1657" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:last_mention  "1666" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ambrosy" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000889.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002550a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "alt" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Ambros" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002550a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "253a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "915"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "243" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "894"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000889> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1666" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1657" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1666" ;
+                               pers:description   "key003620" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000889> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

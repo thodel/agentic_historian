@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per012338>
+        a                    pers:person ;
+        rdfs:label           "Jakob Grimm"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1526" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2019-09-04 15:06:07.924410" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012338a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001540> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001540.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012338a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001540> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009219> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per001112>
+        a                    pers:person ;
+        rdfs:label           "Jakob Murer"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001184>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1490" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:last_mention  "1498" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000597.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001112a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001112a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "109" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "366"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "108" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "363"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "102" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "338"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "129a" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "426"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000597> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000410" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000597> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000833> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

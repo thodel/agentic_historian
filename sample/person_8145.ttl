@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008857>
+        a                    pers:person ;
+        rdfs:label           "David Montandon"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003114>
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008858> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-15 21:54:50.142873" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008857a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003249> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003249> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

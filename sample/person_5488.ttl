@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per006070>
+        a                    pers:person ;
+        rdfs:label           "Hans Mattle"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1523" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1523" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-19 10:45:25.963668" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "105" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "403"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002220.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006070a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "105" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "404"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002220.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006070a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006070a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "105" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "403"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002220> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002220> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006348> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

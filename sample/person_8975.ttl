@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009717>
+        a             pers:person ;
+        rdfs:label    "Galeazzo Franzoni"@ita , "Galeazzo Franzoni"@deu ;
+        pers:deaths   [ pers:death         "vor 1598" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1598" ;
+                                                                 pers:notBefore  "1548" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "FDS TI"
+                      ] ;
+        pers:hist     [ pers:date      "2018-10-30 09:38:21.830242" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Galeazzo" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per009717a> ;
+                        pers:lang       "ita" ;
+                        pers:occurence  "FDS TI" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003490> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename   "Galeazzo" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per009717a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "pascale" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003490> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Galeatz" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "FDS TI" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.03> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009717a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org003490> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "15355" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

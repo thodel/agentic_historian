@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009694>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Feldmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1754" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1754" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-20 09:16:18.482461" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Hirschenwirt" ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009694a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001015> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "hirschenwirt" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001015.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009694a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1754" ;
+                               pers:description   "key000356" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1754" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001015> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

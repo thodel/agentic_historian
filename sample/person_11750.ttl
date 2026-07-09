@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per012650>
+        a                pers:person ;
+        rdfs:label       "Rudolf Gwalther"@deu ;
+        pers:births      [ pers:birth      "02.10.1519" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "25.12.1586" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 10:37:32.718639" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Zürich" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012650a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005161> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1542-1546" ;
+                           pers:description  "key004007" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010769> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1575-1586" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:description  "key005634" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005161> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "28298" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "11854392X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

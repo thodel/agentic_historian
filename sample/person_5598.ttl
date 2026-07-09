@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per006189>
+        a                    pers:person ;
+        rdfs:label           "Jakob Büchel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1538" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1538" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 18:23:00.270801" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "114a" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "461"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001986.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006189a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006189a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001986> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1538" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1538" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002953>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001986> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per006189" ;
+        pers:sex             "1" .

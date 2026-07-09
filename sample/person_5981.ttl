@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006582>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Werdenberg-Sargans-Vaduz"@deu ;
+        pers:deaths          [ pers:death         "1397" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1397" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "um 1345" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1355" ;
+                                                                         pers:notBefore  "1335" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-08 11:57:42.108135" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:gennames          [ pers:genname    "V." ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006582a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "25" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "45"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "6" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "14"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1o" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "10"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000170> ;
+                               pers:rolenames         [ pers:occurence  "SG III/3" ;
+                                                        pers:rolename   "Graf/comte"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000170> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 128" ;
+                               pers:title  "Burmeister 2006" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000150287"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Die Lebensdaten wurden von Burmeister 2006, S. 128 übernommen." ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006583> ;
+                               pers:occurence  "SG III/4"
+                             ] .

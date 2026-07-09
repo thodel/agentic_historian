@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per007898>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Högger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1738" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1738" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-28 11:10:32.934897" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007898a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "269" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1186"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002048> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002048> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

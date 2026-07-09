@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per014202>
+        a                    pers:person ;
+        rdfs:label           "Anna Adlischwyler"@deu ;
+        pers:deaths          [ pers:death      "25.09.1564" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1504" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-20 08:52:32.158922" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Anna" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005792.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014202a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per014202b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003005> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename   "Anna" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014202a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005792> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005792> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "143751573" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012634> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

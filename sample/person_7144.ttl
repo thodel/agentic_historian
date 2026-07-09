@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per007816>
+        a                    pers:person ;
+        rdfs:label           "Georg Späth"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1562" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1562" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 14:32:05.284700" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007816a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002881> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1562" ;
+                               pers:description   "key003211" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1562" ;
+                               pers:description   "key004803" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000008> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002881> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

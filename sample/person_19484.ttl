@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020717>
+        a                    pers:person ;
+        rdfs:label           "Andreas Zinsli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1601" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-01 11:29:39.635657" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020717a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006846> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Andres" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006846.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020717a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006846> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009722> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

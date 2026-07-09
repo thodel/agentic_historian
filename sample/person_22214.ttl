@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per023519>
+        a              pers:person ;
+        rdfs:label     "Stoffel Markes"@deu ;
+        pers:deaths    [ pers:death      "vor 25.02.1518" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023518> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-08-11 11:10:37.185265" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename   "Stoffel" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per023519a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006913> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Stoffell" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006913.12> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023519a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org006913> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

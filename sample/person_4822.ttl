@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per005379>
+        a                    pers:person ;
+        rdfs:label           "Hans Oeler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1565" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1565" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 17:10:12.063044" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "143" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "613"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "148" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "633"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "54" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "188"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002028.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005379a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005379a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002028> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1565, 1567" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1567" ] ;
+                                         pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:occupation      [ pers:date          "1571" ;
+                               pers:description   "key003987" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1571" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:occupation      [ pers:date          "1567, 1571" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1567" ] ;
+                                         pers:format_date  [ pers:when  "1571" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002028> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

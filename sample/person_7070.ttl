@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007741>
+        a                    pers:person ;
+        rdfs:label           "Rudolph Zengerli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 14:49:07.130847" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007741a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002331> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Rudolph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250c" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "1098"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "250h" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "1121"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002331.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007741a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1712, 1713" ;
+                               pers:description   "key000424" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ;
+                                         pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002187>
+                             ] ;
+        pers:occupation      [ pers:date          "1712, 1713" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ;
+                                         pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002812>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002331> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

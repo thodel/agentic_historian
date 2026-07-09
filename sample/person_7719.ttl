@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008407>
+        a                    pers:person ;
+        rdfs:label           "Johann Ulrich Tagmann-Gondini"@deu ;
+        pers:first_mentions  [ pers:first_mention  "19. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1801" ;
+                                                                         pers:to    "1900"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-08 09:38:41.825309" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:forename    "J. U." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "1399"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003045.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008407a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008407a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003045> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "19. Jh." ;
+                               pers:description   "key004944" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1801" ;
+                                                                        pers:to    "1900"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003045> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

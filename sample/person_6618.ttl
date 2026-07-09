@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per007267>
+        a               pers:person ;
+        rdfs:label      "Otto von Habsburg-Österreich"@deu ;
+        pers:births     [ pers:birth         "1301" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1301" ] ] ;
+                          pers:occurence     "colette"
+                        ] ;
+        pers:deaths     [ pers:death         "1339" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1339" ] ] ;
+                          pers:occurence     "colette"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012501> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003525> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:hist       [ pers:date      "2021-03-16 14:39:22.964203" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:forename          "Otto" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per007267a> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "colette"
+                                                 ] ;
+                          pers:occurence         "colette" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project    "Königsfelden" ;
+        pers:refs       [ pers:id    "103115099" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007258> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000347> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007252> ;
+                          pers:occurence  "colette"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006964> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000342> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013089> ;
+                          pers:occurence  "pascale"
+                        ] .

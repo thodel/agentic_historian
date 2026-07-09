@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005984>
+        a                    pers:person ;
+        rdfs:label           "Hans Georg Dierauer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 16:30:57.150224" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Klauses" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Hans Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005984a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000588> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Clauses" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Hs. Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95n" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "362"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000588.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005984a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000588> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

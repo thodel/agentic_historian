@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per009342>
+        a                    pers:person ;
+        rdfs:label           "Lienhard Büeler"@deu ;
+        pers:deaths          [ pers:death         "vor 21.06.1571" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1571-06-21" ;
+                                                                        pers:notBefore  "1521-06-21" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1545" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-17 16:13:24.562262" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Lienhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009342a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000932> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lienhartt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000932.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009342a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1546, 1549" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000324" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000932> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18958" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

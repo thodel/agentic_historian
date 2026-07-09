@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per002559>
+        a                    pers:person ;
+        rdfs:label           "Balthasar Bessmer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1658" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1658" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Balthaßer" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001042.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002559a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Balthasar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002559a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "245" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "898"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001042> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1658" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001042> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

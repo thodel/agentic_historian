@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008426>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Lutz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-19 16:14:47.238417" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Elisabeth" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008426a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000771> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Elis." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328e" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "1403"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000771.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008426a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000771> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003869>
+        a                    pers:person ;
+        rdfs:label           "Hans Heid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1573" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:15:38.642874" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003869a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106c" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "390"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "107" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "391"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001385> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1573" ;
+                               pers:description   "key003461" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1573" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001385> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

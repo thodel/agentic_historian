@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012230>
+        a                    pers:person ;
+        rdfs:label           "Hans Meiss"@deu ;
+        pers:deaths          [ pers:death      "vor 1507" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:deaths          [ pers:death      "1504" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-28 10:46:01.646041" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012230a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000662> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000662.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012230a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1489" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:occupation      [ pers:date         "1463-1494" ;
+                               pers:description  "key000181" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000662> ;
+        pers:refs            [ pers:page   "V, S. 69" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

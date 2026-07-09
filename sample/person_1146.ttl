@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per001547>
+        a                    pers:person ;
+        rdfs:label           "Gerold Meyer von Knonau"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1454" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 08:17:41.347344" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1518" ] ] ;
+                               pers:last_mention  "1518" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Gerold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001547a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "115" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "388"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000433> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gerold" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000433.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001547a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1501" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1501" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000433> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008468>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Keller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 09:29:34.742122" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008468a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328e" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "1405"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006320> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

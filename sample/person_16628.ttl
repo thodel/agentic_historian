@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per017767>
+        a                pers:person ;
+        rdfs:label       "Pierre Romanens"@fra ;
+        pers:deaths      [ pers:death      "ca. 1647" ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017764> ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-18 12:38:01.063308" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "pascale" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org002638>
+                         ] ;
+        pers:name        [ pers:forename   "Peterman" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per017767b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006964> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peterman" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006964.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017767b.01>
+                         ] ;
+        pers:name        [ pers:forename   "Pierre" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per017767b> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "lionel" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006964> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Pierre" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006964.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017767b.02>
+                         ] ;
+        pers:name        [ pers:forename    "Peter" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006964.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017767b.03>
+                         ] ;
+        pers:occupation  [ pers:description  "key000963" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006964> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008196> ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:sex         "1" .

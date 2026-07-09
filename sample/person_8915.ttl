@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per009657>
+        a                    pers:person ;
+        rdfs:label           "NN Schwegler"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009656> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1754" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1754" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-19 09:42:52.026513" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009657a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001820> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1754" ;
+                               pers:description   "key004857" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1754" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001820> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

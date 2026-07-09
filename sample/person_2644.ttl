@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per003074>
+        a                    pers:person ;
+        rdfs:label           "NN Hüssy"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1786" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1786" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003074a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "364" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1199"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001131> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001131.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003074a.02>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001131.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003074a.03>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001131.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003074a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1786" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1786" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002939>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001131> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000542> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

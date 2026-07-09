@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per006499>
+        a                    pers:person ;
+        rdfs:label           "Hans von Bonstetten"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004819> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1411" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-13 16:04:49.514518" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1423" ] ] ;
+                               pers:last_mention  "1423" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006499a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000928> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000928> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

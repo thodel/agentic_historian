@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per005050>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Johann von Wengi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1418" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1418" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-06 17:38:15.517329" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005050a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000477> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "29"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000477.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005050a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000477> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per010323>
+        a                    pers:person ;
+        rdfs:label           "Konrad Utz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-10 11:15:50.439291" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010323a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002066> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuonrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002066.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010323a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1437" ;
+                               pers:description  "key004838" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002066> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

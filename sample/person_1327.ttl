@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per001733>
+        a                    pers:person ;
+        rdfs:label           "Leonhart Locher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1626" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1626" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:last_mention  "1657" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhartt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000338.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001733a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Leonhart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001733a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "217" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "809"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "243" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "894"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000338> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1657" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001172>
+                             ] ;
+        pers:occupation      [ pers:date          "1626" ;
+                               pers:description   "key000827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1626" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000338> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

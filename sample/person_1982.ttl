@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per002388>
+        a                    pers:person ;
+        rdfs:label           "Johann Zeller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1627" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1627" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002388a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "220" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "831"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001003> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1627" ;
+                               pers:description   "key000898" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1627" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001003> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000741> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

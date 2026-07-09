@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010526>
+        a                    pers:person ;
+        rdfs:label           "Hans Barter"@deu ;
+        pers:births          [ pers:birth      "vor 1436" ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001176>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1436" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-10 16:52:20.819634" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010526a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003831> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003831.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010526a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003831> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010569> ;
+                               pers:occurence  "stadtasg"
+                             ] .

@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per006243>
+        a                pers:person ;
+        rdfs:label       "Heinrich Rahn"@deu ;
+        pers:births      [ pers:birth      "1483" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1548" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-10 12:05:59.276582" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005076>
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006243a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000972> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "121a" ;
+                                                               pers:line     "15" ;
+                                                               pers:page     "484"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "121b" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "488"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000972.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006243a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000356" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date          "1545" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1545" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                         ] ;
+        pers:occupation  [ pers:date          "1545" ;
+                           pers:description   "key000636" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1545" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:occupation  [ pers:date         "1532-1535, 1542-1548" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000972> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

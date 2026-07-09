@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per025263>
+        a                pers:person ;
+        rdfs:label       "Hans Ulrich Grebel"@deu ;
+        pers:births      [ pers:birth      "1515" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1582" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-03 17:07:54.579853" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025263a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hanns Uͦlrichen" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000987.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025263a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1564-1582" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

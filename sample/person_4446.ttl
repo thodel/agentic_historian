@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004972>
+        a                    pers:person ;
+        rdfs:label           "Eglolf von Rosenberg"@deu ;
+        pers:deaths          [ pers:death         "1388" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1388" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1388" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1388" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-28 11:44:12.149268" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Eglolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004972a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1l" ;
+                                                                         pers:line     "34" ;
+                                                                         pers:page     "8"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001956> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001956> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Welti, Hohenems, Beilage Stammtafel" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:page   "X, Nr. 6250" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per005088a" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004971> ;
+                               pers:occurence  "SG III/3"
+                             ] .

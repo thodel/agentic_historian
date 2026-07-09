@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per026465>
+        a                pers:person ;
+        rdfs:label       "Anton Ott"@deu ;
+        pers:births      [ pers:birth      "20.08.1748" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "19.05.1800" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-07 16:58:51.418983" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026465a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002897> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Anton" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002897.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026465a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000265" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org008786>
+                         ] ;
+        pers:occupation  [ pers:description  "key003675" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002897> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "029403" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1076097480" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

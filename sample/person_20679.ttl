@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per021947>
+        a              pers:person ;
+        rdfs:label     "Hans Lex"@deu ;
+        pers:deaths    [ pers:death      "vor 02.11.1613" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-07-24 09:41:10.185695" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename    "Hanß" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007755.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021947a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Hans" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per021947a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007755> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org007755> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021948> ;
+                         pers:occurence  "pascale"
+                       ] .

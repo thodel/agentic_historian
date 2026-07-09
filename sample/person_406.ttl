@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000458>
+        a                    pers:person ;
+        rdfs:label           "Agnes Vidal"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1410" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1410" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:motherInLawOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000457> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000459> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Agnesa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000226.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000458a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Agnes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000458a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "36a" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "69"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000226> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000226> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" .

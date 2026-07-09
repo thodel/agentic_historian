@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008207>
+        a                    pers:person ;
+        rdfs:label           "Jakob Rüesch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1770" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1770" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 15:55:31.056212" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "299" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "1294"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002211.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008207a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008207a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002211> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002211> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

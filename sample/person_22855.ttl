@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per024177>
+        a                    pers:person ;
+        rdfs:label           "Matthäus Pernisch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1644" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-20 13:19:29.706540" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Matthäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per024177a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007722> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "alt" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Mathew" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007722.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024177a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007722> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000779> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

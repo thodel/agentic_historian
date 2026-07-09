@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per013446>
+        a                   pers:person ;
+        rdfs:label          "Ludwig Haberkorn"@deu ;
+        pers:births         [ pers:birth      "um 1602" ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:deaths         [ pers:death      "1652" ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026625> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:grandfatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028155> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:hist           [ pers:date      "2020-12-15 14:02:38.947738" ;
+                              pers:username  "rita"
+                            ] ;
+        pers:name           [ pers:addnames    [ pers:addname    "Stadtarzt" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                              pers:forename    "NN" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "rita" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002502.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013446a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Ludwig" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per013446a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "rita" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002502> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date         "1629-1652" ;
+                              pers:description  "key005635" ;
+                              pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                              pers:occurence    "rita"
+                            ] ;
+        pers:occupation     [ pers:date         "1623-1652" ;
+                              pers:description  "key000181" ;
+                              pers:occurence    "rita" ;
+                              pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org002502> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:page   "III, p. 723" ;
+                              pers:title  "DHBS" ;
+                              pers:type   "biblio" ;
+                              pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                            ] ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:sex            "1" .

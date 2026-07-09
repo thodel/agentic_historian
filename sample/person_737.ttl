@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per000812>
+        a                pers:person ;
+        rdfs:label       "Maximilian von Habsburg-Österreich"@deu ;
+        pers:births      [ pers:birth         "22.03.1459" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1459-03-22" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "12.01.1519" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1519-01-12" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-03 10:59:34.558336" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Maximilian" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000088.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000812a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Maximilian" ;
+                           pers:gennames   [ pers:genname    "I." ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000812a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "57" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "185"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "329" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "1413"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Kaiser/empereur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1486-1519" ;
+                           pers:description   "key000229" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1486" ;
+                                                                    pers:to    "1519"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1508-1519" ;
+                           pers:description   "key000422" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1508" ;
+                                                                    pers:to    "1519"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29210" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

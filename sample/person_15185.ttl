@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per016265>
+        a                    pers:person ;
+        rdfs:label           "Elsa Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-04 16:12:17.626740" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:motherInLawOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017768> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:name            [ pers:forename    "Elsa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.13> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016265a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Elsa" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016265a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.e-periodica.ch/digbib/view?pid=arg-001%3A1961%3A73#75"
+                             ] ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016266> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "2" .

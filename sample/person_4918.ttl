@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005480>
+        a                    pers:person ;
+        rdfs:label           "Margreth Zünd"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1483" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1483" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-19 16:14:15.648143" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005481> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Margreth" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005480a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001735> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Margreth" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "62" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "216"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001735.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005480a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001735> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006005> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

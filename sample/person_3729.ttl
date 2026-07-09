@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004207>
+        a                    pers:person ;
+        rdfs:label           "Anton Kaiser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1564" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1564" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-12 18:27:09.011055" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004207a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "100b" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "365"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001521> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001521> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

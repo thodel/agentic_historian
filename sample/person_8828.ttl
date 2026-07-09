@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009569>
+        a                    pers:person ;
+        rdfs:label           "Pierre Bosson"@fra ;
+        pers:deaths          [ pers:death         "1623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1623" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1620" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1620" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-03 06:39:39.589977" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009569a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003440> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005165" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003440> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007647> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per007445>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Kuhn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1753" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1753" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-31 19:07:44.207316" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007445a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "199b" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "918"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001587> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1753" ;
+                               pers:description   "key000812" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1753" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000650> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001587> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

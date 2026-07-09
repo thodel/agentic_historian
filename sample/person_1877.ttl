@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per002279>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus von Paravicini"@deu ;
+        pers:deaths          [ pers:death         "26.03.1710" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1710-03-26" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1641" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1641" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-12 10:29:17.533133" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Bartholame" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000967.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002279a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002279a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "270" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "972"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000967> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartholome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000967.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002279a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1689-1692" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1689" ;
+                                                                        pers:to    "1692"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/2" , "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000967> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 36" ;
+                               pers:title  "Kubly-Müller 1927" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000139748"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Bartholomäus von Paravicini ist von 1689 bis 1692 als Landvogt von Werdenberg belegt." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

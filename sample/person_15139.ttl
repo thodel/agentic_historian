@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per016218>
+        a                         pers:person ;
+        rdfs:label                "Jean Chivalleri"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1480" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-04-22 13:55:57.537457" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per016218a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006483> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006483.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016218a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per016218a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006483> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:neighbourOf          [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016283> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "24.11.1480" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org006483> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Maier 1996, p. 400" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011106> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015156> ;
+                                    pers:occurence  "gortega"
+                                  ] .

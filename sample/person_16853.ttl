@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per018003>
+        a                    pers:person ;
+        rdfs:label           "Maria Hunger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1521" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-23 13:41:07.009878" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Maria" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018003a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004074> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Maria" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004074.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018003a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004074> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "2" .

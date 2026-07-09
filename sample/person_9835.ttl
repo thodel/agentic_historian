@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010608>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Miltenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-10 15:11:00.119439" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010608a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003956> ;
+                               pers:rolenames  [ pers:occurence  "stadtasg" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003956.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010608a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1437" ;
+                               pers:description  "key005201" ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003956> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

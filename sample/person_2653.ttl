@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per003083>
+        a                    pers:person ;
+        rdfs:label           "Hans Heinrich Tischhauser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1791" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1791" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003083a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "369" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1211"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000733> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003083a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003083a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003083a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000733> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000755> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

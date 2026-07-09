@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010425>
+        a                    pers:person ;
+        rdfs:label           "Guillaume Matthey-Doret"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1629" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-10 07:15:45.419404" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010425a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003280> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Guillaume" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003280.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010425a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003280> ;
+        pers:origin          [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1629" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007897> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

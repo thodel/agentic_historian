@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per002716>
+        a                    pers:person ;
+        rdfs:label           "Luzi Mannhart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1710" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1710" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1715" ] ] ;
+                               pers:last_mention  "1715" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Luzi" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002716a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "283" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "1000"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000568> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lutzi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000568.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002716a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000568> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000158> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002717> ;
+                               pers:occurence  "SG III/2"
+                             ] .

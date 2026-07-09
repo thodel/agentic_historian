@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per009706>
+        a               pers:person ;
+        rdfs:label      "Estieven Lasne"@fra ;
+        pers:deaths     [ pers:death         "ca. 1493" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1503" ;
+                                                                   pers:notBefore  "1483" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2018-07-23 09:52:33.951989" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename   "Estieven" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009706a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003599> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003599> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007639> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009707> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

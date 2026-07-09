@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per003264>
+        a              pers:person ;
+        rdfs:label     "Imer von Strassberg"@deu ;
+        pers:deaths    [ pers:death         "1364" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1364" ] ] ;
+                         pers:occurence     "HLS"
+                       ] ;
+        pers:name      [ pers:forename   "Imer" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per003264a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  [ pers:articles  [ pers:article  "8a" ;
+                                                            pers:line     "41" ;
+                                                            pers:page     "26"
+                                                          ] ;
+                                           pers:articles  [ pers:article  "13" ;
+                                                            pers:line     "35" ;
+                                                            pers:page     "37"
+                                                          ] ;
+                                           pers:vol       "LU II/3"
+                                         ] ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001289> ;
+                         pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                           pers:rolename   "Graf/comte"
+                                         ] ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Ymmer" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "17" ;
+                                                             pers:line     "8" ;
+                                                             pers:page     "50"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001289.01> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003264a.01>
+                       ] ;
+        pers:name      [ pers:forename    "Ymmer" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "10" ;
+                                                             pers:line     "28" ;
+                                                             pers:page     "31"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001289.03> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003264a.03>
+                       ] ;
+        pers:name      [ pers:forename    "Ymmer" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "18" ;
+                                                             pers:line     "19" ;
+                                                             pers:page     "52"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001289.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003264a.02>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org001289> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "29246" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003263> ;
+                         pers:occurence  "LU II/3"
+                       ] .

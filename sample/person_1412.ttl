@@ -1,0 +1,77 @@
+<http://ssrq-sds-fds.ch/Register/#per001814>
+        a                    pers:person ;
+        rdfs:label           "Jakob Amort"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1520" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-26 15:51:11.169855" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:last_mention  "1531" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000800.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001814a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000800.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001814a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jacobus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001814a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000800> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001814a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "143" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "491"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000800> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1520" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1520" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000409" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000495> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000800> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

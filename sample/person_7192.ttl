@@ -1,0 +1,78 @@
+<http://ssrq-sds-fds.ch/Register/#per007867>
+        a                pers:person ;
+        rdfs:label       "Johann Franz Schenk von Stauffenberg"@deu ;
+        pers:births      [ pers:birth         "18.02.1658" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1658-02-18" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "12.06.1740" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1740-06-12" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-30 15:42:36.745717" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename          "Johann Franz" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007867a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002893> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Johann Franz" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007867b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000056> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joannes Franciscus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "266" ;
+                                                               pers:line     "22" ;
+                                                               pers:page     "1175"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000056.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007867b.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1733" ;
+                           pers:description   "key003071" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1733" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000087> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1705–1740" ;
+                           pers:description   "key000015" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1705" ;
+                                                                    pers:to    "1740"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:occupation  [ pers:date          "1733" ;
+                           pers:description   "key003071" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1733" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007125> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1733" ;
+                           pers:description   "key004884" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1733" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002894>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002893> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26344" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

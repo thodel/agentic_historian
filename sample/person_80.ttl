@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000081>
+        a                    pers:person ;
+        rdfs:label           "Hiltbrand von Sagogn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1261" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1261" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hiltbrand" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000081a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000015> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000015> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000046> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

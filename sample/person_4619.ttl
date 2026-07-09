@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per005159>
+        a                    pers:person ;
+        rdfs:label           "Silvester Pflieger"@deu ;
+        pers:deaths          [ pers:death         "11.10.1453" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1453-10-11" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "15. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1500"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-07 11:09:01.742978" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Silvestrus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "28" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "73"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002050.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005159b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Silvester" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005159b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002050> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename   "Silvester" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005159a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002051> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1438–1453" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1438" ;
+                                                                        pers:to    "1453"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002050>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002051> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "136585876" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.deutsche-biographie.de/sfz80309.html#ndbcontent"
+                             ] ;
+        pers:sex             "1" .

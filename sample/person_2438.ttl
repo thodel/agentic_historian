@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002846>
+        a                    pers:person ;
+        rdfs:label           "Anna Maria Bärtsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1745" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1745" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Anna Maria" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000434.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002846a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anna Maria" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002846a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "312" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1067"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000434> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000434> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

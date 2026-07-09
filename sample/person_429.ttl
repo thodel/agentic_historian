@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per000648>
+        a                    pers:person ;
+        rdfs:label           "Verena von Hofstetten"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1455" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1455" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Wartensee" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "Verena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000648b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "44" ;
+                                                                         pers:line     "35" ;
+                                                                         pers:page     "100"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000191> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Verena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000648a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "44" ;
+                                                                         pers:line     "35" ;
+                                                                         pers:page     "100"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000062> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000062> , <http://ssrq-sds-fds.ch/Register/#org000191> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

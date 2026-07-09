@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003183>
+        a                pers:person ;
+        rdfs:label       "Ulrich Kündig"@deu ;
+        pers:deaths      [ pers:death         "1398" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1398" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:name        [ pers:forename    "Uͦlrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "13a" ;
+                                                               pers:line     "13" ;
+                                                               pers:page     "38"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001249.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003183a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Ulrich" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per003183a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "LU II/3"
+                                                  ] ;
+                           pers:occurence         "LU II/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001249> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1383-1398" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1383" ;
+                                                                    pers:to    "1398"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001250>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001249> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III/3, S. 410" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "1" .

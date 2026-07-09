@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per006522>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Kienast"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-30 11:33:43.565676" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1513" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006522a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002510> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1497" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:occupation      [ pers:date         "1508-1513" ;
+                               pers:description  "key000778" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005077>
+                             ] ;
+        pers:occupation      [ pers:date          "1497" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date         "1508-1513" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002510> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "tke: Heinrich Kienast laut Ratslisten 1497 noch kein Ratsherr von Zürich." ;
+        pers:sex             "1" .

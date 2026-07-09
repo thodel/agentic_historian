@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per014217>
+        a                pers:person ;
+        rdfs:label       "Hans Trüllerey"@deu ;
+        pers:births      [ pers:birth      "1457" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1515" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-20 08:58:48.649954" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Hanns" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004388.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014217a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014217a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004388> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "um 1499-1515" ;
+                           pers:description  "key000133" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004388> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "021612" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1075708079" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014218> ;
+                           pers:occurence  "ssrq-zh"
+                         ] .

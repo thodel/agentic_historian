@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per003605>
+        a                    pers:person ;
+        rdfs:label           "Hans von Büren"@deu ;
+        pers:deaths          [ pers:death         "1422" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1422" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 07:39:30.069690" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003605a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "22" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "63"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000953> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "22" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "62"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000953.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003605a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1411" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1411" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000953> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "https://hls-dhs-dss.ch/de/articles/020245/2003-04-10/" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

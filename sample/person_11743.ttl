@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per012643>
+        a                pers:person ;
+        rdfs:label       "Heinrich Escher"@deu ;
+        pers:births      [ pers:birth      "28.09.1728" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "10.09.1814" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-27 13:11:21.135713" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "vom Glas" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012643a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1770-1804" ;
+                           pers:description  "key000043" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010488> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1760" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc008729> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "105596391X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per002796>
+        a               pers:person ;
+        rdfs:label      "Anna Maria Meier"@deu ;
+        pers:deaths     [ pers:death         "vor 1743" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1743" ;
+                                                                   pers:notBefore  "1693" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "SG III/2"
+                        ] ;
+        pers:motherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002793> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:motherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002794> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:name       [ pers:forename          "Anna Maria" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per002796b> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "SG III/2"
+                                                 ] ;
+                          pers:occurence         [ pers:articles  [ pers:article  "308a" ;
+                                                                    pers:line     "31" ;
+                                                                    pers:page     "1052"
+                                                                  ] ;
+                                                   pers:vol       "SG III/2"
+                                                 ] ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001086> ;
+                          pers:type              "std"
+                        ] ;
+        pers:name       [ pers:forename    "Anna Maria" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.07> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002796a.01>
+                        ] ;
+        pers:name       [ pers:forename          "Anna Maria" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per002796a> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                   pers:occurence       "SG III/2"
+                                                 ] ;
+                          pers:occurence         [ pers:articles  [ pers:article  "308a" ;
+                                                                    pers:line     "31" ;
+                                                                    pers:page     "1052"
+                                                                  ] ;
+                                                   pers:vol       "SG III/2"
+                                                 ] ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> , <http://ssrq-sds-fds.ch/Register/#org001086> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000631> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:sex        "2" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002795> ;
+                          pers:occurence  "SG III/2"
+                        ] .

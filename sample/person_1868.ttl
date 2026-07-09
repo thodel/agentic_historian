@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per002270>
+        a                pers:person ;
+        rdfs:label       "Michael August Wegelin"@deu ;
+        pers:births      [ pers:birth         "17.06.1797" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1797-06-17" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death         "08.02.1867" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1867-02-08" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2020-07-02 08:59:35.170466" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Michael August" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002270a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "270" ;
+                                                              pers:line     "39" ;
+                                                              pers:page     "972"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "224" ;
+                                                              pers:line     "19" ;
+                                                              pers:page     "843"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "193" ;
+                                                              pers:line     "14" ;
+                                                              pers:page     "691"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000935> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Dr./dr."
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1839, 1840" ;
+                           pers:description   "key003590" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1840" ] ;
+                                     pers:format_date  [ pers:when  "1839" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1840" ;
+                           pers:description   "key003590" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1840" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000935> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1067742522" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "6851" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

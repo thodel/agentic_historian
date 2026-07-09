@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per007637>
+        a                pers:person ;
+        rdfs:label       "Johann Rudolf Dürler"@deu ;
+        pers:births      [ pers:birth         "10.07.1645" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1645-07-10" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "16.09.1712" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1712-09-16" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-09 15:56:19.253065" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Rudolph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "232" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1045"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "230" ;
+                                                               pers:line     "11" ;
+                                                               pers:page     "1040"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002837.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007637a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007637a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002837> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Ruͦdolff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "233" ;
+                                                               pers:line     "11" ;
+                                                               pers:page     "1049"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002837.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007637a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1686" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1686" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1686" ;
+                           pers:description   "key004803" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002837> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14109" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

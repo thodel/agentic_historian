@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per011695>
+        a                pers:person ;
+        rdfs:label       "Louis Valois"@fra , "Ludwig Valois"@deu ;
+        pers:births      [ pers:birth      "03.07.1423" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "30.08.1483" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2019-07-22 15:40:34.463333" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Louis" ;
+                           pers:gennames   [ pers:genname    "XI." ;
+                                             pers:occurence  "pascale"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011695a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004072> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:gennames   [ pers:genname    "XI." ;
+                                             pers:occurence  "stadtasg"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011695a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004072> ;
+                           pers:rolenames  [ pers:occurence  "stadtasg" ;
+                                             pers:rolename   "König/roi"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000229" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004072> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "118574930" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000281> ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:sex         "1" .

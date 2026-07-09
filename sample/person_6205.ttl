@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per006826>
+        a                    pers:person ;
+        rdfs:label           "NN Thür"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006825> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1567" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1567" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-20 15:15:53.782688" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Blayen" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "146" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "625"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000883.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006826a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Blaien" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006826a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000883> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000883> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per002994>
+        a                pers:person ;
+        rdfs:label       "Johann Georg Neher"@deu ;
+        pers:births      [ pers:birth         "25.03.1788" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1788-03-25" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "27.11.1858" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1858-11-27" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Georg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002994a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "1149"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001119> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1823-" ;
+                           pers:description   "key003713" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1873" ;
+                                                                    pers:notBefore  "1823" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001119> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "42996" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

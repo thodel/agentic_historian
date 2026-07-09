@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per004132>
+        a                    pers:person ;
+        rdfs:label           "Gian Giacomo Medici"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-12 09:51:51.284022" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Müsser" ;
+                                                 pers:occurence  "LU II/3"
+                                               ] ;
+                               pers:forename   "Gian Giacomo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004132a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "86b" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "322"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001658> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005092" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001658> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Vgl. die Müsserkriege: https://hls-dhs-dss.ch/de/articles/008904/2009-02-04/" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005825> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

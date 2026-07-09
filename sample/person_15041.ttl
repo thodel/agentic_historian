@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016115>
+        a                    pers:person ;
+        rdfs:label           "Johannes Tönz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1553" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-31 09:23:29.027909" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Johanes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006270.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016115a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016115a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006270> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005676" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006270> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000244> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

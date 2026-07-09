@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008201>
+        a                    pers:person ;
+        rdfs:label           "Johannes Gasser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1770" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1770" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 15:17:03.253043" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008201a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "297a" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1285"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000437> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key004923" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000437> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per026448>
+        a                pers:person ;
+        rdfs:label       "Johann Leu"@deu ;
+        pers:births      [ pers:birth      "1714" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1782" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-30 11:56:29.290664" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005083>
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026448a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005704> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1760-1781" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "vor 1763" ;
+                           pers:description  "key000065" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005704> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "136663540" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per012887>
+        a                         pers:person ;
+        rdfs:label                "Etienne Fauconet"@fra ;
+        pers:births               [ pers:birth      "ca. 1458" ;
+                                    pers:occurence  "pascale"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-11-30 13:14:20.921702" ;
+                                    pers:username  "pascale"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1498" ;
+                                    pers:occurence     "pascale"
+                                  ] ;
+        pers:name                 [ pers:forename   "Stephanus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012887a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005264> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Stephanus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005264.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012887a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Etienne" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012887a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005264> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "26.10.1498" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "26.10.1498" ;
+                                    pers:description  "key005588" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "1492" ;
+                                    pers:description  "key005624" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005264> ;
+        pers:project              "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs                 [ pers:title  "Pfister 1997, p. 293" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010902> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:victimAtTheTrialOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                                    pers:occurence  "gortega"
+                                  ] .

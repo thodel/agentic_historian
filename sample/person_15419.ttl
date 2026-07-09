@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per016504>
+        a                    pers:person ;
+        rdfs:label           "Peter Hitz"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005516>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1691" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-23 11:43:40.547010" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016504a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000827> ;
+                               pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "–1691" ;
+                               pers:description  "key000314" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009216> ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000827> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016505> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

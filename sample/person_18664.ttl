@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019877>
+        a                    pers:person ;
+        rdfs:label           "Peter Carisch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-18 10:39:39.630512" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019877a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007448> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pieder" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007448.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019877a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007448> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008917> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

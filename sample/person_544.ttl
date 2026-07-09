@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per000632>
+        a                   pers:person ;
+        rdfs:label          "Heinrich von Sax-Misox"@deu ;
+        pers:births         [ pers:birth         "um 1418" ;
+                              pers:format_dates  [ pers:format_date  [ pers:notAfter   "1428" ;
+                                                                       pers:notBefore  "1408" ;
+                                                                       pers:precision  "0.5"
+                                                                     ] ] ;
+                              pers:occurence     "HLS"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000643> ;
+                              pers:occurence  "SG III/2"
+                            ] ;
+        pers:hist           [ pers:date      "2020-08-12 14:35:12.020185" ;
+                              pers:username  "GR B III/2"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1479" ] ] ;
+                              pers:last_mention  "1479" ;
+                              pers:occurence     "HLS"
+                            ] ;
+        pers:name           [ pers:forename    "Heinrich" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "GR B III/2" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000016.11> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000632a.02>
+                            ] ;
+        pers:name           [ pers:forename    "Hainrich" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "pascale" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000016.09> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000632a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Heinrich" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per000632a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  [ pers:articles  [ pers:article  "44" ;
+                                                                 pers:line     "16" ;
+                                                                 pers:page     "99"
+                                                               ] ;
+                                                pers:vol       "SG III/2"
+                                              ] ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000016> ;
+                              pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                pers:rolename   "Graf/comte"
+                                              ] ;
+                              pers:type       "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org000016> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:id    "29252" ;
+                              pers:type  "HLS"
+                            ] ;
+        pers:sex            "1" ;
+        pers:siblingOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000642> ;
+                              pers:occurence  "SG III/2"
+                            ] .

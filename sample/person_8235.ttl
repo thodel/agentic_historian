@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008953>
+        a                    pers:person ;
+        rdfs:label           "Daniel Vögeli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1778" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1778" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-08 13:14:00.391295" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "pascale" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:name            [ pers:forename   "Daniel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008953a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000321> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1778" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1778" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000321> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per019783>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Erstheim"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1331" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-19 07:07:41.533396" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1337" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per019783a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "mina"
+                                                      ] ;
+                               pers:occurence         "mina" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org007422> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1331-1337" ;
+                               pers:description  "key004872" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002768>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007422> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://dl.ub.uni-freiburg.de/diglit/eubel1886/0171"
+                             ] ;
+        pers:remark          "Provinzial der oberdeutschen Provinz des Franziskanerordens" ;
+        pers:sex             "1" .

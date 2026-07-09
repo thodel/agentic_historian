@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per004414>
+        a                    pers:person ;
+        rdfs:label           "NN Frech"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1397" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1397" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-09-27 15:48:40.718039" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004414a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001778> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001778> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004413> ;
+                               pers:occurence  "SG III/4"
+                             ] .

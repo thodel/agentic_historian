@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003602>
+        a                    pers:person ;
+        rdfs:label           "Henmann Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1411" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-28 12:12:42.882891" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Henman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "22" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "62"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003602a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Henmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003602a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

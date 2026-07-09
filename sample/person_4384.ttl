@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per004908>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Hardegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1252" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1252" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 08:43:55.569802" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1275" ] ] ;
+                               pers:last_mention  "1275" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004908a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1c" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001952> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrico" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "1c" ;
+                                                                   pers:line     "43" ;
+                                                                   pers:page     "2"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001952.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004908a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1272" ;
+                               pers:description   "key000002" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1272" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001952> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, Nr. 1902" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

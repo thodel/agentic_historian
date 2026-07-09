@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per002648>
+        a                    pers:person ;
+        rdfs:label           "Alfons Sulser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1921" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1921" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Alfons" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002648a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "261" ;
+                                                                  pers:line     "43" ;
+                                                                  pers:page     "940"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000532> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000198> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

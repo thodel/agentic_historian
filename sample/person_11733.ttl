@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per012633>
+        a                    pers:person ;
+        rdfs:label           "Philipp Brunner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1504" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-27 11:28:48.419770" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1538" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Glarus" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "Philipp" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012633a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001627> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1530-1531" ;
+                               pers:description  "key000180" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001231>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001627> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "108942437X" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "17936" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date       "1521" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

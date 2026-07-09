@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per004899>
+        a                    pers:person ;
+        rdfs:label           "Moritz Bernegger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1518" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1518" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-21 15:49:24.798365" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Moritz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004899a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001783> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1518" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1518" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000211> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001783> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000211> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

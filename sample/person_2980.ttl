@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per003423>
+        a                    pers:person ;
+        rdfs:label           "Hänsli zu Marbach"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003425> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003424> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-02 10:31:21.729336" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Hennsli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "117"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001363.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003423a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hennsli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43b" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "120"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001363.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003423a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003423a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001363> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001363> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001386> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

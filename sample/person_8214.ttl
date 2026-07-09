@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008931>
+        a                    pers:person ;
+        rdfs:label           "Jakob Schuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1565" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1565" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-05 09:52:27.623777" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000775.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008931a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008931a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000775> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1565" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:occupation      [ pers:date          "1565" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000775> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

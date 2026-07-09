@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012504>
+        a                    pers:person ;
+        rdfs:label           "Johann NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1349" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2019-10-23 12:31:27.825952" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012504a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Huͤter" ;
+                                                 pers:occurence  "sabine"
+                                               ] ;
+                               pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012504a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000121> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

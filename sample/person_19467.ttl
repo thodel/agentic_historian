@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per020699>
+        a             pers:person ;
+        rdfs:label    "Friedrich von Salis"@deu ;
+        pers:births   [ pers:birth      "1512" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:deaths   [ pers:death      "14.06.1570" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-07-02 22:04:00.653845" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Samedan" ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:forename   "Friedrich" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per020699a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002799> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org002799> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "016941" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "139620435" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per012786>
+        a                    pers:person ;
+        rdfs:label           "NN Binder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1369" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2019-12-04 13:30:43.075766" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "ca. 1416" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002390.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012786a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012786a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002390> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "tke: Ersterwähnung und Letzterwähnung nicht zwingend selbe Person, da in beiden Quellen nur Nachname, jedoch sicher selber Hof. Da nur Nachname vorhanden, in derselben pers zusammengeführt." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008816> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

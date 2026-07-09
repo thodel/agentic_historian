@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002935>
+        a               pers:person ;
+        rdfs:label      "Johannes Stucki"@deu ;
+        pers:deaths     [ pers:death         "1760" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1760" ] ] ;
+                          pers:occurence     "SG III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Johannes" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per002935a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "338" ;
+                                                             pers:line     "28" ;
+                                                             pers:page     "1128"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000395> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Johannes" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.09> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002935a.02>
+                        ] ;
+        pers:name       [ pers:forename    "Johannes" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.10> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002935a.03>
+                        ] ;
+        pers:name       [ pers:forename    "Johannes" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.05> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002935a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000395> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:sex        "1" .

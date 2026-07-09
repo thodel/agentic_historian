@@ -1,0 +1,76 @@
+<http://ssrq-sds-fds.ch/Register/#per001826>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Tolder"@deu ;
+        pers:deaths          [ pers:death         "um 1556" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1566" ;
+                                                                        pers:notBefore  "1546" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1516" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1516" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-28 09:01:44.168698" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Fridolin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001826a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "143" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "491"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000660> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000660.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001826a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Fridli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "99" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "387"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000660.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001826a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1519, 1531" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1519" ] ] ;
+                               pers:occurence     "SG III/2" , "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:occupation      [ pers:date          "1519" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1519" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000660> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "17938" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

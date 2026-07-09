@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per001070>
+        a                    pers:person ;
+        rdfs:label           "Christof Pfanner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1497" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1497" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-03 13:37:32.065380" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:last_mention  "1517" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Stoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000571.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001070a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Christof" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001070a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "92" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "129b" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "428"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000571> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Stoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000571.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001070a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000571> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: 1517 war er 90 Jahre alt." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

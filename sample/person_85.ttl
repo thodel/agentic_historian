@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per000086>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Montfort"@deu ;
+        pers:deaths          [ pers:death         "14.11.1272" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1272-11-14" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1248" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1248" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 13:22:40.443488" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:gennames          [ pers:genname    "III." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000086a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "4" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "4"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000007> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:gennames          [ pers:genname    "I." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000086b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "4" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "4"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1251-1272" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1251" ;
+                                                                        pers:to    "1272"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" , "GR B III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000007> , <http://ssrq-sds-fds.ch/Register/#org000053> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12838" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

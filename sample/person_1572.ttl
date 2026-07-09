@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per001974>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Gantner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:last_mention  "1593" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001974a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "571"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "176a" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "633"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000768> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Urich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000768.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001974a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1580" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1580" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1593" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000768> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002417>
+        a                    pers:person ;
+        rdfs:label           "NN Katz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1837" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1837" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:doubtful_reading  "1" ;
+                               pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002417a> ;
+                               pers:lang              "deu" ;
+                               pers:occurence         [ pers:articles  [ pers:article  "228" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "853"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001010> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1837" ;
+                               pers:description   "key003637" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1837" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002793>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001010> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

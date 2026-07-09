@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009561>
+        a                    pers:person ;
+        rdfs:label           "Simeon Boive"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1666" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-22 16:13:41.708712" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1681" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003092>
+                             ] ;
+        pers:name            [ pers:forename   "Simeon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009561a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003134> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Simeon" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003134.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009561a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1681" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1681" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date         "1666" ;
+                               pers:description  "key005080" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003134> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1681" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1681" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

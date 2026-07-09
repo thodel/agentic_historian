@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per004896>
+        a                    pers:person ;
+        rdfs:label           "Bernhard von St. Gallen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "10.04.0870" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "0870-04-10" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-08 08:05:14.671732" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "0890-05-14" ] ] ;
+                               pers:last_mention  "14.05.0890" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename          "Bernhard" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004896a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1c" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "2"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "883–890" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "0883" ;
+                                                                        pers:to    "0890"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000581> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "10074" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

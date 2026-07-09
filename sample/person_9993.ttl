@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010770>
+        a                    pers:person ;
+        rdfs:label           "Christian Litscher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1785" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-28 09:28:04.080260" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010770a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001975> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1785" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001834>
+                             ] ;
+        pers:occupation      [ pers:date         "1785" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001975> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1785" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

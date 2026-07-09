@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per001963>
+        a                pers:person ;
+        rdfs:label       "Johann Heinrich Streiff"@deu ;
+        pers:births      [ pers:birth         "01.01.1709" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1709-01-01" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "28.10.1780" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1780-10-28" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-28 10:30:01.477363" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Johan Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000851.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001963a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001963a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343b" ;
+                                                              pers:line     "24" ;
+                                                              pers:page     "1152"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "199c" ;
+                                                              pers:line     "13" ;
+                                                              pers:page     "928"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000851> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1769" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                         ] ;
+        pers:occupation  [ pers:date          "1769" ;
+                           pers:description   "key001063" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                           pers:occurence     "SG III/2" , "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:occupation  [ pers:date          "1769" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:occupation  [ pers:date          "1768-1769" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1768" ;
+                                                                    pers:to    "1769"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                           pers:occurence     "SG III/2" , "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000851> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "28578" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per006511>
+        a                pers:person ;
+        rdfs:label       "Claudo Haberkorn"@deu ;
+        pers:births      [ pers:birth      "1568" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death         "1639" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1639" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013446> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-09 16:00:04.269551" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Claudo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006511a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002502> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002502.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006511a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1600-1658" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002502> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III, p. 723" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

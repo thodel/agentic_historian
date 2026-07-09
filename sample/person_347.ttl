@@ -1,0 +1,82 @@
+<http://ssrq-sds-fds.ch/Register/#per000404>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Gutenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1501" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1501" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1512" ] ] ;
+                               pers:last_mention  "1512" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000184.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000404a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000184.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000404a.03>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000404a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "140" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "484"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "124" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "414"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "28" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "50"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "121" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "403"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "293" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "1026"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000184> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000184.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000404a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000184.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000404a.04>
+                             ] ;
+        pers:occupation      [ pers:date          "1501, 1510, 1512" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1501" ] ;
+                                         pers:format_date  [ pers:when  "1510" ] ;
+                                         pers:format_date  [ pers:when  "1512" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000184> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per005276>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Schnitzer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1469" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1469" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-24 08:40:54.219938" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Schriber" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "46b" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "126"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002108.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005276a.02>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Schreiber" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005276a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002108> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "46a" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "124"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002108.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005276a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1476" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1469" ;
+                               pers:description   "key000051" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1469" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002108> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000656> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:residence       [ pers:date          "1469" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1469" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006006> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:sex             "1" .

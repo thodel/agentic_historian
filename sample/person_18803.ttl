@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per020020>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Rechberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1440" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-02 15:12:23.246047" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1441" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Konrad" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per020020b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Conrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020020b.02>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "zu Hohenrechberg" ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020020a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000180> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cunradt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020020b.03>
+                             ] ;
+        pers:name            [ pers:forename    "Cuenrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020020b.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1440-1441" ;
+                               pers:description  "key000015" ;
+                               pers:occurence    "GR B III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:occupation      [ pers:description  "key005103" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000180> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "HS I/1, S. 489f." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per010979>
+        a                    pers:person ;
+        rdfs:label           "Walter von Aarwangen"@deu ;
+        pers:deaths          [ pers:death      "1320" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1266" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2019-12-09 11:30:53.767714" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Walther" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001403.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010979a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010979a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001403> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "07.01.1300" ;
+                               pers:description  "key000078" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001403> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18416" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010863>
+        a                    pers:person ;
+        rdfs:label           "NN Düsel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1699" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-01 11:21:03.320613" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003690.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010863a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010863a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003690> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1699" ;
+                               pers:description  "key005259" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000950> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003690> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1699" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000950> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

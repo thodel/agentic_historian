@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per012500>
+        a                        pers:person ;
+        rdfs:label               "NN Durier"@fra ;
+        pers:births              [ pers:birth      "1435" ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:deaths              [ pers:death      "1437" ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-12-29 10:15:33.414070" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:last_mentions       [ pers:last_mention  "1448" ;
+                                   pers:occurence     "gortega"
+                                 ] ;
+        pers:name                [ pers:forename    "Jaquetus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004013.04> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012500a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Jaquetus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012500a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004013> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Jaquet" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012500a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004013> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "1437" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org004013> ;
+        pers:project             "SSRQ" ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010753> ;
+                                   pers:occurence  "gortega"
+                                 ] .

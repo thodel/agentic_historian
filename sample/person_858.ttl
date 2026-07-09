@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per000935>
+        a                    pers:person ;
+        rdfs:label           "Hänsli Tschus"@deu ;
+        pers:citizenOf       [ pers:date          "1465" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1465" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001182>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1465" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1465" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000935a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "73" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "243"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000303> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Henßli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000303.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000935a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000303> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

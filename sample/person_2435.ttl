@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002849>
+        a                    pers:person ;
+        rdfs:label           "NN Märkli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1745" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1745" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000221.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002849a.01>
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002849a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "313" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "1069"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000221> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000221> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002843> ;
+                               pers:occurence  "SG III/2"
+                             ] .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per025659>
+        a                pers:person ;
+        rdfs:label       "Kaspar Meier"@deu ;
+        pers:births      [ pers:birth      "1522" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1595" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-16 09:52:44.140283" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005084>
+                         ] ;
+        pers:name        [ pers:forename    "Kaspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025659a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025659a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025659a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004913" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1565-1571, 1582-1594" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per000713>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Matsch"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000716> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000713a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "116"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000175> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000019" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002907>
+                             ] ;
+        pers:occupation      [ pers:date          "1437" ;
+                               pers:description   "key004803" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1437" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000410" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000175> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

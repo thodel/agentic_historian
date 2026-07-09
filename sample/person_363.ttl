@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000420>
+        a                    pers:person ;
+        rdfs:label           "Walter Blarer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1377" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1377" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Walther" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000191.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000420a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000420a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "29" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "51"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000191> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000191> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

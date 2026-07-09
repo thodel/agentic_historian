@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per000883>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Gocham"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1455" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1455" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-02 11:00:05.426799" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1465" ] ] ;
+                               pers:last_mention  "1465" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000883a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "66" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "214"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000463> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000463.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000883a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000463.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000883a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1462" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000463> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Eher nicht identisch mit dem früheren Vogt Heinrich Gocham (per004535), der 1428 und 1437 als Vogt in Werdenberg belegt ist." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

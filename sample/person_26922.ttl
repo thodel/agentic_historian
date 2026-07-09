@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per028330>
+        a                    pers:person ;
+        rdfs:label           "Peter Walter Kuenlin"@deu ;
+        pers:deaths          [ pers:death      "01.10.1742" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1695" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-19 08:41:33.514879" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Peter Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028330a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008738> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008738.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028330a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1695-1742" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1724-1742" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008738> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "DHBS, IV, p. 405" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027633> ;
+                               pers:occurence  "rita"
+                             ] .

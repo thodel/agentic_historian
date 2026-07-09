@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007807>
+        a                    pers:person ;
+        rdfs:label           "Joseph Ulrich Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "18. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1701" ;
+                                                                         pers:to    "1800"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-17 14:37:22.141398" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jos. Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250b" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "1095"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007807a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007807a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "18. Jh." ;
+                               pers:description   "key004529" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1701" ;
+                                                                        pers:to    "1800"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002857>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

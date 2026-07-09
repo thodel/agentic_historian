@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005905>
+        a                    pers:person ;
+        rdfs:label           "Jos Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1513" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-15 17:12:32.901394" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jos" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005905a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "94" ;
+                                                                   pers:line     "42" ;
+                                                                   pers:page     "341"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005905a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1513" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per005799, per005901 und per005888" ;
+        pers:sex             "1" .

@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per007040>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Haab"@deu ;
+        pers:births          [ pers:birth      "1601" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:deaths          [ pers:death      "1682" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1663" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1663" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-06 09:28:24.189052" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007040a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000839> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "168b" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "758"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000839.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007040a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Johann Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000839.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007040a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1663" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1663" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:occupation      [ pers:date         "1650-1682" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000839> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "1089431856" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

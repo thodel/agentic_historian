@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per004491>
+        a                    pers:person ;
+        rdfs:label           "Marquard Plattner"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004436> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1419" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1419" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-07 15:00:46.646845" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Marquard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004491a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000468> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marquart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000468.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004491a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000468> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004490> ;
+                               pers:occurence  "SG III/4"
+                             ] .

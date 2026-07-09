@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per021062>
+        a             pers:person ;
+        rdfs:label    "Johann Abys"@deu ;
+        pers:births   [ pers:birth      "1614" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:deaths   [ pers:death      "1697" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-07-23 07:36:09.226511" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Johann" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per021062a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007744> ;
+                        pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                          pers:rolename   "Dr./dr."
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Johan" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007744.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021062a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org007744> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:type  "other" ;
+                        pers:url   "https://hls-dhs-dss.ch/de/articles/021885/2007-07-16/"
+                      ] ;
+        pers:sex      "1" .

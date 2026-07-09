@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per007203>
+        a                pers:person ;
+        rdfs:label       "Hans Rudolf Rahn"@deu ;
+        pers:births      [ pers:birth         "28.12.1594" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1594-12-28" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "08.11.1655" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1655-11-08" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-25 11:18:16.627617" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Ruedolff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "184" ;
+                                                               pers:line     "34" ;
+                                                               pers:page     "825"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000972.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007203a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007203a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000972> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1643" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date          "1643" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                         ] ;
+        pers:occupation  [ pers:date          "1643" ;
+                           pers:description   "key000607" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000972> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "46204" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

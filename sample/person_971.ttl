@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per001060>
+        a                    pers:person ;
+        rdfs:label           "Johans Nussbaumer"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001182>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1492" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1492" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:last_mention  "1497" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001060a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "92" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "106a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "356"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000136> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000136.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001060a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000136.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001060a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1492, 1497" ;
+                               pers:description   "key000623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ;
+                                         pers:format_date  [ pers:when  "1492" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001219>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000136> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

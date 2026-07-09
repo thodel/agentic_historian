@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per000492>
+        a                    pers:person ;
+        rdfs:label           "Innozenz VIII. (Papst)"@deu ;
+        pers:deaths          [ pers:death         "25.07.1492" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1492-07-25" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1432" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Innozenz" ;
+                               pers:gennames          [ pers:genname    "VIII." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000492a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "38" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "78"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1484-1492" ;
+                               pers:description   "key000014" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1484" ;
+                                                                        pers:to    "1492"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

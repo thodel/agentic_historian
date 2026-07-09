@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012206>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 14:53:29.436990" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012206a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1492" ;
+                               pers:description  "key000303" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009231> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1487" ;
+                               pers:description  "key000303" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009231> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009231> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

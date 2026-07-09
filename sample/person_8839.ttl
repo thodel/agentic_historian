@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009580>
+        a                    pers:person ;
+        rdfs:label           "Madeleine Franex"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1623" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1623" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-30 13:49:54.338190" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Magdeleine" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003551.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009580a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Madeleine" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009580a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003551> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Madeleine" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009580a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003551> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003551> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009558> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

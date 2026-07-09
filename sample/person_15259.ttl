@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per016341>
+        a               pers:person ;
+        rdfs:label      "Jean Décimator"@fra ;
+        pers:deaths     [ pers:death      "av. 1484" ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016340> ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:hist       [ pers:date      "2020-04-22 10:33:38.163321" ;
+                          pers:username  "gortega"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "antenatus" ;
+                                            pers:occurence  "gortega"
+                                          ] ;
+                          pers:forename   "Johannes" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016341a> ;
+                          pers:lang       "lat" ;
+                          pers:occurence  "gortega" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006513> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Johannes" ;
+                          pers:lang        "lat" ;
+                          pers:occurence   "gortega" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006513.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016341a.01>
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "l’aîné" ;
+                                            pers:occurence  "gortega"
+                                          ] ;
+                          pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016341a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "gortega" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006513> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006513> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008152> ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:sex        "1" .

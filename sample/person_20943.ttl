@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per022222>
+        a                    pers:person ;
+        rdfs:label           "Christoffel [von] Canal"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1487" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 14:22:25.709110" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Cristoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007120.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022222a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christoffel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022222a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007120> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007120> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000930> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022221> ;
+                               pers:occurence  "pascale"
+                             ] .

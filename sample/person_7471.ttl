@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008151>
+        a                    pers:person ;
+        rdfs:label           "Joseph Anton Locher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1760" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1760" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 15:22:57.347842" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Anthony" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287a" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "1246"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000338.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008151a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008151a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000338> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000338> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Wohnort Diepoldsau oder Schmitter" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006542> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

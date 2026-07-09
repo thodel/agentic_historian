@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001713>
+        a                    pers:person ;
+        rdfs:label           "Jos Amal"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jos" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001713a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "129a" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "426"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000757> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jos" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000757.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001713a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000757> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

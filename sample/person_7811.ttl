@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per008499>
+        a                    pers:person ;
+        rdfs:label           "Anton Walser"@deu ;
+        pers:deaths          [ pers:death         "vor 27.07.1796" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1796-07-27" ;
+                                                                        pers:notBefore  "1746-07-27" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 11:39:57.440444" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Anthon" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328f" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "1407"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "328k" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "1410"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000615.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008499a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008499a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000615> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000615> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000439> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

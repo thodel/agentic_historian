@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per015339>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Caviezel"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005516>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1783" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-02 16:33:59.451813" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015339a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006161> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhard" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006161.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015339a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006161> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

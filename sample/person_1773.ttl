@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per002175>
+        a                pers:person ;
+        rdfs:label       "Karl Emanuel von Bonstetten"@deu ;
+        pers:births      [ pers:birth         "14.03.1706" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1706-03-14" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "28.01.1773" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1773-01-28" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Karl Emanuel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002175a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "45" ;
+                                                              pers:page     "1149"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000928> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carl Emanuel" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000928.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002175a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1767" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000928> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16652" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

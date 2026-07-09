@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per003960>
+        a                    pers:person ;
+        rdfs:label           "Ueli Schütz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1481" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:28:04.613145" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "70a" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "208"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001508.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003960a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003960a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "70a" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "208"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001508> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1481" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1481" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005964> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001508> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

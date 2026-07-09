@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008065>
+        a                    pers:person ;
+        rdfs:label           "Magdalena Zengerli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 15:36:28.093828" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Magdalena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008065a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002331> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Magdtalehna" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "1231"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002331.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008065a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002331> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006606> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008066> ;
+                               pers:occurence  "SG III/3"
+                             ] .

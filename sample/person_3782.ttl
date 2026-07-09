@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per004262>
+        a                    pers:person ;
+        rdfs:label           "Hans Iseli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "vor 1579" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1579" ;
+                                                                         pers:notBefore  "1529" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-16 14:45:04.228044" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004262a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001723> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "117b" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "421"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001723.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004262a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001723> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001146> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

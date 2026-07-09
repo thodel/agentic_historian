@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008368>
+        a                    pers:person ;
+        rdfs:label           "Jakob Custer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "19. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1801" ;
+                                                                         pers:to    "1900"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-27 09:00:29.615245" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008368a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "1399"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003034> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003034.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008368a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003034> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

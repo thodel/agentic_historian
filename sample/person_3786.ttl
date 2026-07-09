@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004267>
+        a                    pers:person ;
+        rdfs:label           "Anstatt Schneller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:19:19.769434" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Anstat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "118a" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "422"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001724.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004267a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anstatt" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004267a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "118b" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "424"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "118a" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "422"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001724> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1582" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001724> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005725> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

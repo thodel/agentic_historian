@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007701>
+        a                    pers:person ;
+        rdfs:label           "Balthasar Schegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-14 16:22:58.976702" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Baltus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250a" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "1091"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002290.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007701a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Balthasar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007701a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002290> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002290> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

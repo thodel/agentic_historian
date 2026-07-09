@@ -1,0 +1,78 @@
+<http://ssrq-sds-fds.ch/Register/#per005094>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Mansdorf"@deu ;
+        pers:deaths          [ pers:death         "13.09.1426" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1426-09-13" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1419" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1419" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:52:35.492661" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "16" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "38"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005094b.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hainrîch" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "16" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "36"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005094b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005094b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005094a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002021> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1419–1426" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1419" ;
+                                                                        pers:to    "1426"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002021> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "27682" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1315-1316" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000059>
+        a                    pers:person ;
+        rdfs:label           "Hartwig von Löwenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1289" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1289" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:46:12.428678" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1303" ] ] ;
+                               pers:last_mention  "1303" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Hartwig" ;
+                               pers:gennames   [ pers:genname    "II." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000059a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000022> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000022> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

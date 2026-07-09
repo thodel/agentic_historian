@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per005756>
+        a                    pers:person ;
+        rdfs:label           "Konrad Kätzi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1498" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 11:00:25.659295" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005756a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000313> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "77" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "275"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000313.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005756a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1498" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:occupation      [ pers:date          "1498" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000313> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

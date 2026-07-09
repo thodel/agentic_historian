@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per006832>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Hewen"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006803> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004818> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1414" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1414" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:grandfatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006835> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:grandfatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006834> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 18:12:34.483550" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1471" ] ] ;
+                               pers:last_mention  "1471" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Fridrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000182.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006832a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Fridrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000182.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006832a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Fridrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000182.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006832a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:gennames          [ pers:genname    "II." ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006832a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000182> ;
+                               pers:rolenames         [ pers:occurence  "SG III/4" ;
+                                                        pers:rolename   "Freiherr (Baron)/baron"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000182> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Die Lebensdaten beruhen auf dem Stammbaum im Oberbadischen Geschlechterbuch 1905, Bd. 2, S. 61. – Hans Friedrich Hewer ist ein unehelicher Sohn." ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017905> ;
+                               pers:occurence  "pascale"
+                             ] .

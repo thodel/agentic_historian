@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per005748>
+        a                pers:person ;
+        rdfs:label       "Anton Joseph Sutter"@deu ;
+        pers:births      [ pers:birth         "01.03.1720" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1720-03-01" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "09.03.1784" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1784-03-09" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-02 13:15:20.107813" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Anton Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005748a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "74" ;
+                                                              pers:line     "14" ;
+                                                              pers:page     "268"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002265> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1775" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1775" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002163>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002265> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18889" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "138579938" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per005014>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Grünenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1410" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1410" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-05 10:59:52.240152" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1421" ] ] ;
+                               pers:last_mention  "1421" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005014a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "12"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001978> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001978> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "XIII, Nr. 7967" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "1" .

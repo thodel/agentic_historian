@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007660>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Motes"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1693" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1693" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-10 19:04:35.741099" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007660a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002847> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "235b" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "1056"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002847.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007660a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1693" ;
+                               pers:description   "key004873" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1693" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002847> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Name unsichere Lesung" ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007962>
+        a                    pers:person ;
+        rdfs:label           "NN Schobinger"@deu ;
+        pers:deaths          [ pers:death         "vor 10.1738" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1738-10" ;
+                                                                        pers:notBefore  "1688-10" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1738" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1738" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-28 18:27:59.035464" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007962a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "269" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "1192"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002112> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002112> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

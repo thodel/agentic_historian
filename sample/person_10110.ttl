@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per010905>
+        a                pers:person ;
+        rdfs:label       "Hans Jakob Nägeli"@deu ;
+        pers:births      [ pers:birth      "1706" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1780" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-26 18:05:08.054936" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010905a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004044> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1769-1775" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004044> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

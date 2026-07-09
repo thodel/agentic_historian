@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per013041>
+        a                         pers:person ;
+        rdfs:label                "Guichard NN"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1498" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-05-02 17:18:45.811625" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:memberOf             [ pers:occurence      "gortega" ;
+                                    pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005242>
+                                  ] ;
+        pers:name                 [ pers:forename   "Guichardus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per013041a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Guichardus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.04> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013041a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Guichard" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per013041a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "24.11.1498" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "1498" ;
+                                    pers:description  "key000254" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006715>
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Pfister 1997, p. 294" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011125> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012767> ;
+                                    pers:occurence  "gortega"
+                                  ] .

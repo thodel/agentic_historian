@@ -1,0 +1,22 @@
+<http://ssrq-sds-fds.ch/Register/#per018001>
+        a              pers:person ;
+        rdfs:label     "Kaspar Tester"@deu ;
+        pers:deaths    [ pers:death      "vor 14.02.1519" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020040> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-06-19 10:43:52.804214" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename   "Kaspar" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per018001a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006691> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org006691> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

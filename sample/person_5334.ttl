@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005912>
+        a                    pers:person ;
+        rdfs:label           "Georg Graf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "16. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1501" ;
+                                                                         pers:to    "1600"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-15 17:44:34.958731" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005912a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000235> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jerg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95s" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "368"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000235.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005912a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "16. Jh." ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1501" ;
+                                                                        pers:to    "1600"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000282> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000235> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

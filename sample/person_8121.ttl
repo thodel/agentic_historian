@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008828>
+        a                    pers:person ;
+        rdfs:label           "Hugues Faton"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1722" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1722" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-10 15:09:16.934464" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1723" ] ] ;
+                               pers:last_mention  "1723" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Hugues" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008828a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003228> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1722-1723" ;
+                               pers:description   "key005106" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1722" ;
+                                                                        pers:to    "1723"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007820> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003228> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1722-1723" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1722" ;
+                                                                        pers:to    "1723"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007820> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

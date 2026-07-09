@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006468>
+        a                    pers:person ;
+        rdfs:label           "Jakob Bärlocher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1593" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 14:18:07.064113" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006468a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002119> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "556"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "160c" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "707"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "199a" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "905"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002119.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006468a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1593" ;
+                               pers:description   "key004172" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007157> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1593, 1598" ;
+                               pers:description   "key000424" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ;
+                                         pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002171>
+                             ] ;
+        pers:occupation      [ pers:date          "1598" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002119> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per003878>
+        a                    pers:person ;
+        rdfs:label           "Jost ab Underegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1555" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-19 11:33:47.075422" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003878a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "172"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001545> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001545> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 1110" ;
+                               pers:title  "Waser 1996" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://www.bsg.nb.admin.ch/lib/item?id=chamo:76854&theme=BSG"
+                             ] ;
+        pers:remark          "Möglicherweise Jost Müller 1563 auf dem Hof Underegg, vgl. Waser" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

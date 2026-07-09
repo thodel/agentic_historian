@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per010547>
+        a                pers:person ;
+        rdfs:label       "Andreas von Habsburg-Österreich"@deu ;
+        pers:births      [ pers:birth      "15.06.1558" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "12.11.1600" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-13 17:30:02.530153" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Andreas" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010547a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "stadtasg"
+                                                  ] ;
+                           pers:occurence         "stadtasg" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1589-1600" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "stadtasg" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:page   "I/2,1, S. 412-418" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:refs        [ pers:id    "26337" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "119263580" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

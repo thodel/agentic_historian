@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005114>
+        a                    pers:person ;
+        rdfs:label           "Bürk Steiger"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1426" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1426" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-11 14:55:46.167995" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Bürk" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005114a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001515> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bu̍rk" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "18" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "48"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001515.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005114a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001515> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

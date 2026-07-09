@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per029301>
+        a                    pers:person ;
+        rdfs:label           "Samuel Tillmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1567" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-16 08:06:28.648319" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1570" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per029301a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org009628> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1567-1570" ;
+                               pers:description  "key000808" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org009628> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.hfls.ch/humo-gen/family/1/F31745/I20182/"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

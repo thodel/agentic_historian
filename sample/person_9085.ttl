@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per009830>
+        a                    pers:person ;
+        rdfs:label           "Hans Ulrich Keller"@deu ;
+        pers:citizenOf       [ pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1597" ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-24 17:14:27.221570" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009830a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009830a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

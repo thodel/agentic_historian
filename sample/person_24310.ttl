@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per025658>
+        a                pers:person ;
+        rdfs:label       "Georg Grebel"@deu ;
+        pers:births      [ pers:birth      "1516" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1607" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-17 07:49:26.037571" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                         ] ;
+        pers:name        [ pers:forename   "Georg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025658a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1585-1607" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "um 1585" ;
+                           pers:description  "key003669" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc009865> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089280637" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

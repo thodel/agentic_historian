@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per027525>
+        a                    pers:person ;
+        rdfs:label           "Jean Enfer"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1425/1426" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-16 08:48:00.155670" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org009091.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027525a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027525a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org009091> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org009091> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1426" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc012851> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

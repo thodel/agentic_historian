@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010041>
+        a                pers:person ;
+        rdfs:label       "Alexander Giger"@deu ;
+        pers:hist        [ pers:date      "2018-10-29 16:52:28.565123" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Alexander" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010041a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000518> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Alexander" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010041a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000518> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Alexander" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000518.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010041a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1529" ;
+                           pers:description  "key000326" ;
+                           pers:occurence    "FDS TI" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002901>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000518> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:sex         "1" .

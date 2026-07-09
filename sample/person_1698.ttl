@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per002100>
+        a                    pers:person ;
+        rdfs:label           "Hans Finger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1590" ;
+                                                                         pers:notBefore  "1570" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000903.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002100a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002100a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "178a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "638"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000903> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000903> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

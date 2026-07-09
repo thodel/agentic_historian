@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008790>
+        a                    pers:person ;
+        rdfs:label           "Hans Grünenfelder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1540" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1540" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-05 11:22:51.332124" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000442.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008790a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008790a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000442> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000442> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1540" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

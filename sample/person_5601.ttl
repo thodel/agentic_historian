@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per006193>
+        a                    pers:person ;
+        rdfs:label           "Hans Kluser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1548" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1548" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 18:29:35.948812" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "114b" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "465"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002397.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006193a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006193a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002397> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1548" ;
+                               pers:description   "key003639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002953>
+                             ] ;
+        pers:occupation      [ pers:date          "1548" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002953>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002397> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per001841>
+        a                    pers:person ;
+        rdfs:label           "Hans Oeri"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:last_mention  "1565" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000505.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001841a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001841a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "157" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "573"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "145a" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "509"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "163" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "593"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "150a" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "530"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000505> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000505.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001841a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000505.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001841a.03>
+                             ] ;
+        pers:occupation      [ pers:date          "1531, 1535, 1553, 1565" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ;
+                                         pers:format_date  [ pers:when  "1553" ] ;
+                                         pers:format_date  [ pers:when  "1531" ] ;
+                                         pers:format_date  [ pers:when  "1535" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001219>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000505> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002285>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Gafafer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1592" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1592" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Fridolin" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002285a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "200" ;
+                                                                         pers:line     "1" ;
+                                                                         pers:page     "761"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000416> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000416> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002286> ;
+                               pers:occurence  "SG III/2"
+                             ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004608>
+        a                    pers:person ;
+        rdfs:label           "Hans Santjohanner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-24 09:59:00.241509" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001852.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004608a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004608a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001852> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001852> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

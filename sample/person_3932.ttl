@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004419>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Haarlos"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1397" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1397" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-12 11:33:26.380107" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004419a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001780> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Haini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001780.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004419a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001780.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004419a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001780> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004420> ;
+                               pers:occurence  "SG III/4"
+                             ] .

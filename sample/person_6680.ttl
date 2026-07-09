@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per007331>
+        a             pers:person ;
+        rdfs:label    "Johann Rudolf Philipp Forer"@deu ;
+        pers:births   [ pers:birth         "19.02.1598" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1598-02-19" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "1666?" ;
+                        pers:format_dates  [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                 pers:when       "1666"
+                                                               ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-07-26 16:29:39.518593" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Johann Rudolf Philipp" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per007331a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "188" ;
+                                                           pers:line     "32" ;
+                                                           pers:page     "848"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002763> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org002763> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "10605" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,70 @@
+<http://ssrq-sds-fds.ch/Register/#per002395>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Andermatt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1700" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1700" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johan Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001006.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002395b.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Baar" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002395b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "279a" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "991"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001006> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001006.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002395b.02>
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Baar" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "Johann Jakob" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002395a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "279a" ;
+                                                                         pers:line     "3" ;
+                                                                         pers:page     "991"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1700-" ;
+                               pers:description   "key000825" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1750" ;
+                                                                        pers:notBefore  "1700" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org001006> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

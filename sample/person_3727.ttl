@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004205>
+        a                    pers:person ;
+        rdfs:label           "Hans Michel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1564" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1564" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-12 18:17:45.338625" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004205a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "100b" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "365"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001128> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001128> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001141> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004206> ;
+                               pers:occurence  "LU II/3"
+                             ] .

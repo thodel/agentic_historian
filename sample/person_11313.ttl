@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per012204>
+        a                    pers:person ;
+        rdfs:label           "Hans Kindhauser"@deu ;
+        pers:deaths          [ pers:death      "(vor) 1520" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012205> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-30 11:20:35.732069" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004682.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012204a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012204a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004682> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004682> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000979> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

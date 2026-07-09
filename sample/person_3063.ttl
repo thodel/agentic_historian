@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per003511>
+        a                    pers:person ;
+        rdfs:label           "Anna von Iberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1354" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1364" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1364" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-27 17:51:44.851511" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1364" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028558> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028557> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017886> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003511a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "10" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "31"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001394> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003511b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001395> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001394> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Merz, Walther: Die mittelalterlichen Burganlagen und Wehrbauten des Kantons Aargau, Bd. 2, 1906, S. 587." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003512> ;
+                               pers:occurence  "LU II/3"
+                             ] .

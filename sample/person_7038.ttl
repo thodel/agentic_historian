@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per007709>
+        a                    pers:person ;
+        rdfs:label           "Beat Kaiser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1528" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-14 18:20:24.980032" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Beat" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007709a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001521> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Batt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001521.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007709a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Batt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001521.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007709a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001521> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1528" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1528" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007714> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

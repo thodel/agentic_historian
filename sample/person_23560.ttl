@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per024894>
+        a                    pers:person ;
+        rdfs:label           "Hans Fuchs"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1665" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-02 16:56:53.962711" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001843.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024894a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per024894a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001843> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003713" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001843> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000771> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

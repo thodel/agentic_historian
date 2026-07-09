@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per011243>
+        a                    pers:person ;
+        rdfs:label           "Franz de Platea"@fra , "Franz de Platea"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1614" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-01 13:47:43.294776" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Frantz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004248.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011243a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011243a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004248> ;
+                               pers:rolenames  [ pers:occurence  "pascale" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011243a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004248> ;
+                               pers:rolenames  [ pers:occurence  "pascale" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1614" ;
+                               pers:description  "key000203" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009131> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004248> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Franz Amhengart, Landvogt von St-Maurice 1610-1612 (Biner, Etat des gouverneurs, S. 207)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008972> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

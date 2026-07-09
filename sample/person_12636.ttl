@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per013597>
+        a                    pers:person ;
+        rdfs:label           "Peter von Werdt"@deu ;
+        pers:citizenOf       [ pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                             ] ;
+        pers:deaths          [ pers:death      "1550" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1524" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-21 09:20:52.738733" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013597a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005523> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005523.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013597a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005523> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

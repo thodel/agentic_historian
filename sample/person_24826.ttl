@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per026186>
+        a                pers:person ;
+        rdfs:label       "Johann Rudolf Escher"@deu ;
+        pers:births      [ pers:birth      "1662" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1721" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-25 07:41:58.701554" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026186a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hans Rudolf" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026186a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Johann Rudolff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026186a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "bis 1705" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1706-1711" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000012> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1714-1721" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1715-1721" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc009865> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://swb.bsz-bw.de/DB=2.104/PPNSET?PPN=853369852&INDEXSET=21"
+                         ] ;
+        pers:refs        [ pers:id    "1089586353" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

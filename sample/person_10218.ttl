@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011025>
+        a                    pers:person ;
+        rdfs:label           "Oswald Schlegel"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011026> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-29 15:43:05.899915" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011025a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000714> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Oswalt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000714.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011025a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000714> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

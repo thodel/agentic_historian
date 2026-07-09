@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per008290>
+        a                    pers:person ;
+        rdfs:label           "Anton Thurnherr"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1793" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1793" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 13:55:50.973564" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008290a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002232> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Antony" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "325a" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "1382"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002232.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008290a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Antony" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "325d" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "1386"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002232.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008290a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1793" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003030>
+                             ] ;
+        pers:occupation      [ pers:date          "1793" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003019>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002232> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006008> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

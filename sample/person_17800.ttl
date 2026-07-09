@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per018989>
+        a              pers:person ;
+        rdfs:label     "Florian von Planta"@deu ;
+        pers:births    [ pers:birth      "13.06.1763" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:deaths    [ pers:death      "13.05.1843" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018988> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-06-12 08:32:44.552905" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:addnames   [ pers:addname    "Samedan" ;
+                                           pers:occurence  "GR B III/2"
+                                         ] ;
+                         pers:forename   "Florian" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per018989a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000866> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000866> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "5273" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:refs      [ pers:id    "1052412297" ;
+                         pers:type  "GND"
+                       ] ;
+        pers:sex       "1" .

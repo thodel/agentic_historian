@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per012541>
+        a                         pers:person ;
+        rdfs:label                "Jean Exchampéry"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1459" ;
+                                    pers:occurence      "pascale"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-06 07:44:39.186933" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1472" ;
+                                    pers:occurence     "pascale"
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Noble" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012541a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004848> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004848.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012541a.01>
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Nobilis" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012541a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004848> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "1472" ;
+                                    pers:description  "key005623" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005356>
+                                  ] ;
+        pers:occupation           [ pers:date         "01.05.1459" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004848> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ammann–Doubliez dans Ostorero et al. 2007, p. 208" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010609> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:siblingOf            [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012540> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012525> ;
+                                    pers:occurence  "gortega"
+                                  ] .

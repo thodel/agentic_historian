@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per000705>
+        a                    pers:person ;
+        rdfs:label           "Hans Spangolf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1433" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000352.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000705a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000705a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "46" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "107"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000352> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000352> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

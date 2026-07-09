@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per002635>
+        a                    pers:person ;
+        rdfs:label           "Christoph [von] Mohr"@deu ;
+        pers:deaths          [ pers:death         "10.10.1668" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1668-10-10" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1637" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1637" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-25 12:48:39.055837" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Christoff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000738.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002635a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Christoff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000738.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002635a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002635a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "248" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "906"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000738> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000738.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002635a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1659" ;
+                               pers:description   "key003448" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1659" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000264>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000738> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "I/1, S. 528, 542" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

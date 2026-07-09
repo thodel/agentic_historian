@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004294>
+        a                    pers:person ;
+        rdfs:label           "Philipp Luterbach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1576" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:26:45.411483" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Philipp" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004294a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "133b" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "477"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001733> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Philip" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133b" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "478"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001733.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004294a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1576, 1593" ;
+                               pers:description   "key000051" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1576" ] ;
+                                         pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001733> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per022305>
+        a                    pers:person ;
+        rdfs:label           "Johann Stefan von Stampa"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 09:48:42.331535" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1623" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Stefan" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022305a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005806> ;
+                               pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johan Stëffen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005806.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022305a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005806> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010201> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per011142>
+        a                pers:person ;
+        rdfs:label       "Anton Waldin"@deu , "Antoine Waldin"@fra ;
+        pers:births      [ pers:birth      "um 1565" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "Herbst 1616" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-04-12 09:31:36.832813" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Anthoni" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004188.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011142a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Antoine" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011142a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004188> ;
+                           pers:rolenames  [ pers:occurence  "pascale" ;
+                                             pers:rolename   "Hauptmann/capitaine"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011142a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004188> ;
+                           pers:rolenames  [ pers:occurence  "pascale" ;
+                                             pers:rolename   "Hauptmann/capitaine"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1614" ;
+                           pers:description  "key005496" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004188> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21466" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005883> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:sex         "1" .

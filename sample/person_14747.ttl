@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per015805>
+        a                         pers:person ;
+        rdfs:label                "Jacques Gaucher"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1479" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-04-09 15:03:28.172302" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jacobus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per015805a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006329> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jacques" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per015805a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006329> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Jacobus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006329.03> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015805a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "16.11.1479" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org006329> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Maier 1996, p. 406" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011379> ;
+                                    pers:occurence  "gortega"
+                                  ] .

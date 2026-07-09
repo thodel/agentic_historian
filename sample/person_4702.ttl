@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per005250>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Worms"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-21 14:54:06.961429" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005250a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "110"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002096> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1463" ;
+                               pers:description   "key000043" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1463" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002096> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

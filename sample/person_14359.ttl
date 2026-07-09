@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per015401>
+        a                    pers:person ;
+        rdfs:label           "Jörg Brunli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-12 16:44:33.471665" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015401a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006509> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jorg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006509.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015401a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006509> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011767> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

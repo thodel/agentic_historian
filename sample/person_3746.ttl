@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004225>
+        a                    pers:person ;
+        rdfs:label           "Lux Berchtold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:08:39.238950" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Lux" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004225a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "103c" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "375"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "103d" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "376"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000051> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1575-" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1575" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005802> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000051> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

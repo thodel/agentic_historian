@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per021077>
+        a                pers:person ;
+        rdfs:label       "Johann [von] Sprecher"@deu ;
+        pers:births      [ pers:birth      "01.05.1646" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "09.02.1679" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-07-23 07:42:46.772216" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Bernegg" ;
+                                             pers:occurence  "GR B III/2"
+                                           ] ;
+                           pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per021077a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007099> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "von Bereneckh" ;
+                                              pers:occurence  "GR B III/2"
+                                            ] ;
+                           pers:forename    "Johan" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007099.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021077a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key004594" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org007099> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16989" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1075552591" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per019689>
+        a                pers:person ;
+        rdfs:label       "Johann von Bubenberg"@deu ;
+        pers:births      [ pers:birth      "1290" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:deaths      [ pers:death      "um 1369" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-18 08:00:00.755878" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:gennames   [ pers:genname    "II." ;
+                                             pers:occurence  "sabine"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019689a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "sabine" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000470> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1346" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "sabine" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004002>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000470> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "135663822" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "029267" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

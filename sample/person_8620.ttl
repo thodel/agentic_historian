@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009357>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Buman"@deu ;
+        pers:deaths          [ pers:death      "1639" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1627" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1627" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-11 15:17:15.465642" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002517.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009357a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hanß J" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002517.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009357a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009357a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002517> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1627-1639" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1627" ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002517> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

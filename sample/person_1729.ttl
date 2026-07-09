@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per002129>
+        a                    pers:person ;
+        rdfs:label           "Jakob Stark"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1595" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1595" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Jacob" ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         "SG III/2" ;
+                               pers:org_var_id        <http://ssrq-sds-fds.ch/Register/#org000755.03> ;
+                               pers:type              "orig" ;
+                               pers:var_id            <http://ssrq-sds-fds.ch/Register/#per002129a.01>
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Wattwil" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "Jakob" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002129a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "184" ;
+                                                                         pers:line     "1" ;
+                                                                         pers:page     "660"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000755> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000820" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000755> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002130> ;
+                               pers:occurence  "SG III/2"
+                             ] .

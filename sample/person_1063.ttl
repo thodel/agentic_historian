@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001455>
+        a                    pers:person ;
+        rdfs:label           "Hans Schett"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1490" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001455a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "104" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "346"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000260> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000260.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001455a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000260> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020389>
+        a                    pers:person ;
+        rdfs:label           "Hartwig Camenisch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1563" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-25 10:45:30.779081" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hartwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020389a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005380> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Urdwisch" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005380.24> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020389a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005676" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005380> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008917> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

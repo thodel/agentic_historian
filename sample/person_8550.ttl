@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per009286>
+        a                    pers:person ;
+        rdfs:label           "Franz Prosper Gottrau"@deu ;
+        pers:deaths          [ pers:death         "1641" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 08:51:50.427346" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009286a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Franz Prosper" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009286a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                               pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "doctor" ;
+                                                  pers:occurence  "pascale"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009286a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1608-1641" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1624-1641" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

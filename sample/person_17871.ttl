@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per019061>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Wesen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1331" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1337" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-10 13:23:06.109385" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019061a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007225> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007225> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per006535>
+        a                    pers:person ;
+        rdfs:label           "Paul Schwarz"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1515" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1515" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-17 12:35:25.799968" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:last_mention  "1529" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Paul" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006535a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000965> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pauli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000965.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006535a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Pauly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000965.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006535a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001816>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000965> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1515" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1515" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

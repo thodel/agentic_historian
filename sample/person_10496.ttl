@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011328>
+        a                    pers:person ;
+        rdfs:label           "Hans Hünenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1452" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "21.02.1453" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-25 08:32:06.256238" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011328b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004283> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1452" ;
+                               pers:description  "key000623" ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "21.02.1453" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "saeg" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002958>
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit per026255" ;
+        pers:residence       [ pers:date       "21.02.1453" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000020> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

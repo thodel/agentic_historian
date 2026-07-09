@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per011003>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Torney"@fra ;
+        pers:citizenOf                  [ pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004499>
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010866> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1428" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-02-23 17:33:19.755565" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:last_mentions              [ pers:last_mention  "1448" ;
+                                          pers:occurence     "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004119.01> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011003a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011003a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004119> ;
+                                          pers:rolenames  [ pers:occurence  "gortega" ;
+                                                            pers:rolename   "Junker/donzel"
+                                                          ] ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011003a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004119> ;
+                                          pers:rolenames  [ pers:occurence  "gortega" ;
+                                                            pers:rolename   "Junker/donzel"
+                                                          ] ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:description  "key003211" ;
+                                          pers:occurence    "gortega" ;
+                                          pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004499>
+                                        ] ;
+        pers:occupation                 [ pers:date         "17.03.1448" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:occupation                 [ pers:date         "1446-1447" ;
+                                          pers:description  "key000275" ;
+                                          pers:location     <http://ssrq-sds-fds.ch/Register/#loc008099> ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004119> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Ostorero 1995, p. 294" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:remark                     "Son pré sert de lieu de sabbat selon les aveux de Catherine Quicquat." ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008181> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

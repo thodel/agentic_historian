@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per003873>
+        a                    pers:person ;
+        rdfs:label           "Anton Scherer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1471" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:16:30.702603" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Anthöni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "61" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "174"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001266.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003873a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                                 pers:occurence  "LU II/3"
+                                               ] ;
+                               pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003873a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001266> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1471-1473" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1471" ;
+                                                                        pers:to    "1473"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001266> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

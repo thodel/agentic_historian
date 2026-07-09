@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003011>
+        a                    pers:person ;
+        rdfs:label           "Johann Franz Lendi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1773" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1773" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002807> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003011a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "347a" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "1166"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001148> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joh. Frantz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001148.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003011a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001148> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000517> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

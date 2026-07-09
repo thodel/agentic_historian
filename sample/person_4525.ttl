@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per005059>
+        a                    pers:person ;
+        rdfs:label           "Jos Künzler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "15?86" ;
+                               pers:format_dates   [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                         pers:when       "1586"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-06 18:29:51.882613" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jos" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005059a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002012> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "29"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002012.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005059a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002012> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006329> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per009126>
+        a                pers:person ;
+        rdfs:label       "Jacques de Fégely"@fra ;
+        pers:births      [ pers:birth         "1556" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "10.01.1624" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1624-01-10" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-09 14:35:19.236582" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Jacques" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009126a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003357> ;
+                           pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009126a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003357> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003357.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009126a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003357.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009126a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1607-1624" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000321> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1077052146" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "23673" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

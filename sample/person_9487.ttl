@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010244>
+        a                    pers:person ;
+        rdfs:label           "Simon de Merveilleux"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1658" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-04 18:22:17.093227" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003098>
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010244a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003627> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Simon" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003627.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010244a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1658" ;
+                               pers:description  "key005212" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007818> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003627> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Adrien Wyssbrod : Même personne que per013956 ?" ;
+        pers:sex             "1" .

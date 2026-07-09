@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003703>
+        a                    pers:person ;
+        rdfs:label           "Hänsli zum Bühl"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1434" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-05 14:03:15.648433" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "39b" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "102"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001482.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003703a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003703a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001482> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001482> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 183" ;
+                               pers:title  "Waser 1996" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://www.bsg.nb.admin.ch/lib/item?id=chamo:76854&theme=BSG"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

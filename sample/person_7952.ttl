@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008650>
+        a                    pers:person ;
+        rdfs:label           "Abraham Boive"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1730" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1730" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-03 21:07:48.590136" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008650a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003134> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1730" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1730" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007799> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003134> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1730" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1730" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007799> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

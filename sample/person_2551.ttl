@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per002976>
+        a                    pers:person ;
+        rdfs:label           "Joseph Rudolf Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1758" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1758" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002976a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1147"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "-1758" ;
+                               pers:description   "key003713" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1758" ;
+                                                                        pers:notBefore  "1748" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

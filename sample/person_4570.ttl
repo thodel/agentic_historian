@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per005102>
+        a                    pers:person ;
+        rdfs:label           "Hermann von Hohenlandenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1425" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1425" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-11 09:22:01.562101" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hermann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005102a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000151> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Herman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "17b" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "44"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000151.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005102a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000151> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per027029>
+        a                    pers:person ;
+        rdfs:label           "Eberhard von Eppenstein"@deu ;
+        pers:deaths          [ pers:death      "1334" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1302" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-09 07:38:57.623864" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Eberhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027029a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008930> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Eberhartes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008930.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027029a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000068" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000010>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008930> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III, S. 48" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027026> ;
+                               pers:occurence  "pascale"
+                             ] .

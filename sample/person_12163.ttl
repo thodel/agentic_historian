@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per013095>
+        a                pers:person ;
+        rdfs:label       "Rudolf von Habsburg-Österreich"@deu ;
+        pers:births      [ pers:birth      "1281" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:deaths      [ pers:death      "04.07.1307" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-16 12:02:15.986945" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Rudolf" ;
+                           pers:gennames   [ pers:genname    "III." ;
+                                             pers:occurence  "fahe"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013095a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "fahe" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:rolenames  [ pers:occurence  "fahe" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000189" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000589> ;
+                           pers:occurence    "fahe"
+                         ] ;
+        pers:occupation  [ pers:date         "1306" ;
+                           pers:description  "key000229" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc006386> ;
+                           pers:occurence    "fahe"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:title  "Hamann, Brigitte: Die Habsburger - Ein biographisches Lexikon, Wien 1988, S. 406-407." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006964> ;
+                           pers:occurence  "mina"
+                         ] .

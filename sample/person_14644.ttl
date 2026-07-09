@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per015699>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Schänni"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015701> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015700> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1574" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-09 09:11:41.045226" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Barttli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005625.11> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015699a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015699a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005625> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005625> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1574–" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

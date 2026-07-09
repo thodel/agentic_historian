@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009496>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Alt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1555" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-18 07:28:46.206289" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009496a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002089> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Sebastian" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002089.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009496a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002089> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

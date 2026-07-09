@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per006927>
+        a                    pers:person ;
+        rdfs:label           "Hans Keller"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002305>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1586" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1586" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-27 12:34:55.486489" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006927a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "684"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "156" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "685"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006927a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "156" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "684"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006927a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1586" ;
+                               pers:description   "key000501" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006722> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

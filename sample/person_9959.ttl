@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per010734>
+        a                    pers:person ;
+        rdfs:label           "Andreas Tischhauser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1795" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-06 10:55:23.544092" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010734a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000733> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Andres" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.17> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010734a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1795" ;
+                               pers:description  "key005275" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date         "1795" ;
+                               pers:description  "key000636" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000733> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1795" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007822> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

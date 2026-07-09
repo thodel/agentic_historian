@@ -1,0 +1,85 @@
+<http://ssrq-sds-fds.ch/Register/#per001883>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Weidmann"@deu ;
+        pers:deaths          [ pers:death         "08.06.1574" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1574-06-08" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1558" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1558" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-17 17:00:49.885687" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heinricus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001883a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001883a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "252" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "914"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "172" ;
+                                                                         pers:line     "38" ;
+                                                                         pers:page     "624"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "150b" ;
+                                                                         pers:line     "19" ;
+                                                                         pers:page     "533"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001883b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "172" ;
+                                                                         pers:line     "38" ;
+                                                                         pers:page     "624"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "150b" ;
+                                                                         pers:line     "19" ;
+                                                                         pers:page     "533"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "252" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "914"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000823> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1570-1574" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1570" ;
+                                                                        pers:to    "1574"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000823> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "42334" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

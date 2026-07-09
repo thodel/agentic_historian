@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per017432>
+        a                pers:person ;
+        rdfs:label       "Eberhard von Württemberg"@deu ;
+        pers:births      [ pers:birth      "1445" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "1496" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-05-11 15:08:11.852681" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Eberhard" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per017432a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005232> ;
+                           pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                             pers:rolename   "Herzog/duc"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Eberharten" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005232.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017432a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000189" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005232> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "11852853X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://de.wikipedia.org/wiki/Eberhard_I._(W%C3%BCrttemberg,_Herzog)"
+                         ] ;
+        pers:sex         "1" .

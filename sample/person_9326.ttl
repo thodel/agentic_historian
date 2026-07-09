@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010074>
+        a                    pers:person ;
+        rdfs:label           "Jacob Helbling"@deu ;
+        pers:deaths          [ pers:death      "02.12.1523" ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1499" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-11 09:52:48.291684" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Jacob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010074a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003740> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1514-1523" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003740> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 17" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

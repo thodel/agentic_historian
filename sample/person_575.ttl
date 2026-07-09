@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per000663>
+        a                    pers:person ;
+        rdfs:label           "Georg Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1448" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1448" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000663a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "76" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "254"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "45" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "101"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "51b" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "164"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jorig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000663a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Joͤrg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000663a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jorig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000663a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

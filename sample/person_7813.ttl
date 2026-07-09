@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per008501>
+        a                    pers:person ;
+        rdfs:label           "Johann Binder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-21 10:27:16.922956" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008501a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1796/97" ;
+                               pers:description   "key004399" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1796" ;
+                                                                        pers:to    "1797"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002390> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

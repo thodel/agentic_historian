@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per010058>
+        a                    pers:person ;
+        rdfs:label           "Nicolas Lombard"@deu ;
+        pers:deaths          [ pers:death      "16.12.1514" ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-10 10:38:07.060386" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Nicolas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010058a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000281> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000281.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010058a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1492-1514" ;
+                               pers:description  "key000825" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:date         "1501-1509" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000281> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 549" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:refs            [ pers:id    "15016" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

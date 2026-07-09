@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per001653>
+        a                    pers:person ;
+        rdfs:label           "Peter zum Wissenbach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1512" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1512" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1514" ] ] ;
+                               pers:last_mention  "1514" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001653a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "125" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "415"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "126" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "419"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000736> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000736.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001653a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1512-1514" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1512" ;
+                                                                        pers:to    "1514"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000736> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

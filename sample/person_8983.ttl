@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009725>
+        a                    pers:person ;
+        rdfs:label           "Nicod Perrottet"@fra ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009724> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1521" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1521" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-24 10:07:22.717120" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "le petit" ;
+                                                 pers:occurence  "FR I/2/8"
+                                               ] ;
+                               pers:forename   "Nicod" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009725a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003607> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Nicco" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003607.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009725a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003607> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009723> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

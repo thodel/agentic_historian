@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per026107>
+        a                pers:person ;
+        rdfs:label       "Johann Heinrich Hardegger"@deu ;
+        pers:births      [ pers:birth      "01.07.1633" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "18.01.1698" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-23 09:23:18.010875" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026107a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000805> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hanß Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000805.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026107a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key004942" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:description  "key003691" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000805> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "11660462X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "010459" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

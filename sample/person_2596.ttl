@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003022>
+        a                    pers:person ;
+        rdfs:label           "Werner Gadient"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1777" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1777" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001201>
+                             ] ;
+        pers:name            [ pers:forename    "Wernet" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001126.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003022a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003022a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "350" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "1169"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001126> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001126> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

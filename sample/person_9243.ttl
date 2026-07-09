@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per009990>
+        a             pers:person ;
+        rdfs:label    "Guillaume de Merveilleux"@fra ;
+        pers:deaths   [ pers:death      "avant 1674" ;
+                        pers:occurence  "NE 3"
+                      ] ;
+        pers:hist     [ pers:date      "2019-05-20 08:47:25.627887" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename    "Guillaume" ;
+                        pers:lang        "fra" ;
+                        pers:occurence   "pascale" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003627.02> ;
+                        pers:rolenames   [ pers:occurence  "NE 3" ;
+                                           pers:rolename   "jonker"
+                                         ] ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009990a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Guillaume" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per009990a> ;
+                        pers:lang       "fra" ;
+                        pers:occurence  "NE 3" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003627> ;
+                        pers:rolenames  [ pers:occurence  "NE 3" ;
+                                          pers:rolename   "Junker/donzel"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org003627> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

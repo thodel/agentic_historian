@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per007441>
+        a                pers:person ;
+        rdfs:label       "Johann Josef Florian Scolar"@deu ;
+        pers:births      [ pers:birth         "18.11.1683" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1683-11-18" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "01.02.1759" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1759-02-01" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-08 14:28:18.475239" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "199b" ;
+                                                               pers:line     "39" ;
+                                                               pers:page     "917"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002787.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007441a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Josef Florian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007441a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002787> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1740" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1740" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002787> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15602" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: in Differenz zum HLS Landvogt im Rheintal nicht nur 1738–1739, sondern –1740" ;
+        pers:sex         "1" .

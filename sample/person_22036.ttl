@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per023339>
+        a                    pers:person ;
+        rdfs:label           "Daniel Ringg"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023341> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1439" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-07 14:01:47.776479" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Daniel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per023339a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005620> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Daniel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005620.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023339a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005620> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008946> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

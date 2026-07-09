@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002954>
+        a                    pers:person ;
+        rdfs:label           "Franz Natsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1764" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1764" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002954a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "342a" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "1139"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000724> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Frantz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000724.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002954a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000724> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

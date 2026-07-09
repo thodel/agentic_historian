@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per011294>
+        a                    pers:person ;
+        rdfs:label           "Gilian Achshalm"@deu ;
+        pers:citizenOf       [ pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                             ] ;
+        pers:deaths          [ pers:death      "1494" ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "07.12.1469" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-29 10:51:29.306901" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Gilian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011294b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004268> ;
+                               pers:type       "std"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "16298" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date       "07.12.1469" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per009099>
+        a                    pers:person ;
+        rdfs:label           "Jean Besson"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-05-16 08:29:42.830961" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                                 pers:occurence  "FR I/2/8"
+                                               ] ;
+                               pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009099a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003344> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003344> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007610> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per002753>
+        a                    pers:person ;
+        rdfs:label           "Alexander Tschudi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1727" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1727" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1738" ] ] ;
+                               pers:last_mention  "1738" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Alexander" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002753a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "289b" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "1018"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1738" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1738" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1727-1729" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1727" ;
+                                                                        pers:to    "1729"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

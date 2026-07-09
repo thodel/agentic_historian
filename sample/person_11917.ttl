@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per012818>
+        a                pers:person ;
+        rdfs:label       "Albrecht von Brandenburg"@deu ;
+        pers:births      [ pers:birth      "09.09.1414" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "11.03.1486" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2020-01-10 07:49:47.087808" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Albrecht Achilles" ;
+                           pers:gennames   [ pers:genname    "III." ;
+                                             pers:occurence  "stadtasg"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012818a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004217> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005492" ;
+                           pers:occurence    "stadtasg"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004217> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "118637665" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

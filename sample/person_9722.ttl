@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per010488>
+        a                pers:person ;
+        rdfs:label       "Rudolf von Montfort"@deu ;
+        pers:births      [ pers:birth      "um 1275" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "27./28.03.1334" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-04 09:43:59.525554" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Rudolf" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010488a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "stadtasg"
+                                                  ] ;
+                           pers:occurence         "stadtasg" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000007> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1322" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "pascale" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:occupation  [ pers:date         "1330-1333" ;
+                           pers:description  "key000659" ;
+                           pers:occurence    "stadtasg" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000007> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "137432119" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "12840" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "III/1,2, S. 1310" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016015>
+        a               pers:person ;
+        rdfs:label      "Hans Waeber"@deu ;
+        pers:deaths     [ pers:death      "ca. 1643" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2020-06-15 13:32:00.551410" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016015a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003669> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hans" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003669.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016015a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003669> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008071> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016019> ;
+                          pers:occurence  "pascale"
+                        ] .

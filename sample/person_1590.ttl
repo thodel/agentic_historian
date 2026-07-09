@@ -1,0 +1,82 @@
+<http://ssrq-sds-fds.ch/Register/#per001992>
+        a                    pers:person ;
+        rdfs:label           "Wolfgang Lussi"@deu ;
+        pers:deaths          [ pers:death         "30.03.1597" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1597-03-30" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "vor 1525" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1525" ;
+                                                                         pers:notBefore  "1475" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Wolfgang" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001992a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "175" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "631"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "161" ;
+                                                                  pers:line     "42" ;
+                                                                  pers:page     "585"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000422> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wolffganng" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000422.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001992a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1578" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1578" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:occupation      [ pers:date          "1562-1577, 1585-1593" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1562" ;
+                                                                        pers:to    "1577"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1585" ;
+                                                             pers:to    "1593"
+                                                           ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:occupation      [ pers:date          "1562-1577, 1585-1593" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1562" ;
+                                                                        pers:to    "1577"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1585" ;
+                                                             pers:to    "1593"
+                                                           ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:occupation      [ pers:date          "1577-1579" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1577" ;
+                                                                        pers:to    "1579"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000422> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "23239" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

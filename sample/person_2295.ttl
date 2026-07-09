@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002690>
+        a                    pers:person ;
+        rdfs:label           "Meinrad Albrecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1676" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1676" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Meinradt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000350.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002690a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Meinrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002690a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "262" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "955"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000350> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

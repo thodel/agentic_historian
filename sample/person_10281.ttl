@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per011098>
+        a                         pers:person ;
+        rdfs:label                "Jean de Gingins"@fra ;
+        pers:births               [ pers:birth      "1385" ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:deaths               [ pers:death      "1461" ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-12-29 16:10:11.423155" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename          "Johannes" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per011098a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004168> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004168.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011098a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Jean" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per011098a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004168> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:description  "key005092" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005216>
+                                  ] ;
+        pers:occupation           [ pers:description  "key000041" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004168> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:id    "017797" ;
+                                    pers:type  "HLS"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008180> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:spouseOf             [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012499> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010753> ;
+                                    pers:occurence  "gortega"
+                                  ] .

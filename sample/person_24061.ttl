@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per025403>
+        a                    pers:person ;
+        rdfs:label           "Peter Menn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1787" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-08 09:24:27.813188" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Peder" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007763.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025403a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025403a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007763> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004964" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007763> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011032> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

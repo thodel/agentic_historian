@@ -1,0 +1,112 @@
+<http://ssrq-sds-fds.ch/Register/#per001952>
+        a                pers:person ;
+        rdfs:label       "Franz Anton Good"@deu ;
+        pers:births      [ pers:birth         "21.06.1793" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1793-06-21" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "07.07.1866" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1866-07-07" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001952a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001952a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "261" ;
+                                                              pers:line     "39" ;
+                                                              pers:page     "953"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "269" ;
+                                                              pers:line     "44" ;
+                                                              pers:page     "971"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "198b" ;
+                                                              pers:line     "16" ;
+                                                              pers:page     "757"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "202" ;
+                                                              pers:line     "15" ;
+                                                              pers:page     "768"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "196" ;
+                                                              pers:line     "45" ;
+                                                              pers:page     "710"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "156" ;
+                                                              pers:line     "38" ;
+                                                              pers:page     "571"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "167" ;
+                                                              pers:line     "24" ;
+                                                              pers:page     "608"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "271" ;
+                                                              pers:line     "11" ;
+                                                              pers:page     "974"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "153c" ;
+                                                              pers:line     "11" ;
+                                                              pers:page     "556"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1834, 1836, 1845-1855" ;
+                           pers:description   "key004889" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1836" ] ;
+                                     pers:format_date  [ pers:from  "1845" ;
+                                                         pers:to    "1855"
+                                                       ] ;
+                                     pers:format_date  [ pers:when  "1834" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1831-1836" ;
+                           pers:description   "key003637" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1831" ;
+                                                                    pers:to    "1836"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1834, 1836, 1845-1855" ;
+                           pers:description   "key004889" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1834" ] ;
+                                     pers:format_date  [ pers:from  "1845" ;
+                                                         pers:to    "1855"
+                                                       ] ;
+                                     pers:format_date  [ pers:when  "1836" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003645" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003589" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1833-1834" ;
+                           pers:description   "key003629" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1833" ;
+                                                                    pers:to    "1834"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003590" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18268" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

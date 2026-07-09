@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per003280>
+        a                pers:person ;
+        rdfs:label       "Petermann von Gundoldingen"@deu ;
+        pers:deaths      [ pers:death         "09.07.1386" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1386-07-09" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-13 17:43:41.812220" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Petermann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003280a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001304> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "4" ;
+                                                               pers:line     "12" ;
+                                                               pers:page     "11"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001304.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003280a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1361-1384" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1361" ;
+                                                                    pers:to    "1384"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001304> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14136" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007140>
+        a                    pers:person ;
+        rdfs:label           "Verena von Veringen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "25.11.1311" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1311-11-25" ] ] ;
+                               pers:occurence      "lukas"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1310" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-12 21:17:48.554257" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1311" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025853> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007364> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Verena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007140a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002693> ;
+                               pers:rolenames         [ pers:occurence  "lukas" ;
+                                                        pers:rolename   "Gräfin/comtesse"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002693> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "2" .

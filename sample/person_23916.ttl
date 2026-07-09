@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per025254>
+        a                pers:person ;
+        rdfs:label       "Rudolf Escher"@deu ;
+        pers:births      [ pers:birth      "12.01.1523" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "31.03.1575" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-07 08:19:00.900966" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "vom Glas" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025254a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Rudolf" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.11> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025254a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1569-1573" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:description  "key005272" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "018142" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1074070836" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

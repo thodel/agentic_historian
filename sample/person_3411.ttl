@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003877>
+        a                    pers:person ;
+        rdfs:label           "Andres Lussi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1472" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-19 11:08:15.852105" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Andress" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "61" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "174"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000422.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003877a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Andres" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003877a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000422> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000422> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Damals offenbar auch in OW, vgl. Küchler, Protokoll, S. 174." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

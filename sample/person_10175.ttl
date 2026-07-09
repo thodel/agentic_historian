@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per010981>
+        a                pers:person ;
+        rdfs:label       "Hans Asper"@deu ;
+        pers:births      [ pers:birth      "1491" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "21.03.1571" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-12-11 16:59:07.059663" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010981a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004087> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1545-1571" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004906>
+                         ] ;
+        pers:occupation  [ pers:description  "key005491" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004087> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18317" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "135772923" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "http://www.sikart.ch/kuenstlerinnen.aspx?id=4022859"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

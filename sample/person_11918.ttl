@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per012819>
+        a                pers:person ;
+        rdfs:label       "Jakob von Baden"@deu ;
+        pers:births      [ pers:birth      "15.03.1407" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "13.10.1453" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2020-01-10 07:50:55.460098" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:gennames   [ pers:genname    "I." ;
+                                             pers:occurence  "stadtasg"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012819a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005231> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005492" ;
+                           pers:occurence    "stadtasg"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005231> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "137069170" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per007812>
+        a                    pers:person ;
+        rdfs:label           "NN Schneider"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1718" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1718" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-17 16:06:47.862052" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007812a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "253b" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "1130"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002228> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002228> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006863> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

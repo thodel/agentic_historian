@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008850>
+        a                    pers:person ;
+        rdfs:label           "Charles Moulli"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1714" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1714" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 10:31:03.147785" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Charles" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008850a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003247> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003247> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Le point de coutume neuchâtelois du 16 février 1714 mentionne « Mouthier en Bourgogne » comme lieu de résidence sans préciser s’il s’agit de Mouthier-Haute-Pierre ou Mouthier-en-Bresse." ;
+        pers:residence       [ pers:date          "1714" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1714" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008302> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:residence       [ pers:date          "1714" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1714" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008303> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

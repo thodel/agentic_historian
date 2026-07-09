@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per004894>
+        a                pers:person ;
+        rdfs:label       "Rudolf Stähli"@deu ;
+        pers:births      [ pers:birth         "1724" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1724" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death      "25.05.1786" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-13 10:34:39.257248" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004894a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003219> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Rudolff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003219.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004894a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Johann Rudolf" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003219.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004894a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1779" ;
+                           pers:description   "key003624" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:occupation  [ pers:date          "1779" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:occupation  [ pers:date         "1775" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003219> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17955" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:sex         "1" .

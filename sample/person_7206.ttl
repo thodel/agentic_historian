@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per007881>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Ott"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1731" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1731" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-23 15:42:11.954616" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007881a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "269" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "1184"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002897> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1731" ;
+                               pers:description   "key004594" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1731" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002897> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://scope.staatsarchiv.sg.ch/detail.aspx?ID=424965"
+                             ] ;
+        pers:remark          "Werner Kuster: Vornamen gemäss Verweis auf StASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007727> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per009244>
+        a               pers:person ;
+        rdfs:label      "Augustin Paris"@fra ;
+        pers:deaths     [ pers:death         "vor 1635" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1635" ;
+                                                                   pers:notBefore  "1585" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2018-06-01 09:30:14.223824" ;
+                          pers:username  "rita"
+                        ] ;
+        pers:name       [ pers:forename   "Augustin" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009244a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003404> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003404> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007678> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" .

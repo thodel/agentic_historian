@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per001822>
+        a                    pers:person ;
+        rdfs:label           "Michael Nussbaumer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1607" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-05 17:31:42.602720" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001822a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "201" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "761"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000136> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Michael" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "171" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "762"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000136.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001822a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1607" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1607" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:occupation      [ pers:date          "1607" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1607" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000136> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

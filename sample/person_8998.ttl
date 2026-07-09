@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per009740>
+        a               pers:person ;
+        rdfs:label      "Jean Meino"@fra ;
+        pers:deaths     [ pers:death         "ca. 1560" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1570" ;
+                                                                   pers:notBefore  "1550" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-14 11:40:20.564409" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009740a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002350> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Jehan" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002350.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009740a.02>
+                        ] ;
+        pers:name       [ pers:forename    "Jehan" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "FR I/2/8" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002350.06> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009740a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002350> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007892> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009739> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

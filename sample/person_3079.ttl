@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per003527>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Moos"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1396" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:12:08.976539" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003527a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000284> ;
+                               pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "15" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "45"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "13a" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "38"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000284.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003527a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1396" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1396" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000284> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, S. 155" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

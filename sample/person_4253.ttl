@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004768>
+        a                    pers:person ;
+        rdfs:label           "Klaus Meli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1484" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1484" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 11:45:46.537733" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1485" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004768a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000451> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1485" ;
+                               pers:description   "key004791" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000451> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1484" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1484" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006100> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:residence       [ pers:date          "1485" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000198> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

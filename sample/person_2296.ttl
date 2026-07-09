@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per002691>
+        a                pers:person ;
+        rdfs:label       "Johann Jakob Zweifel"@deu ;
+        pers:births      [ pers:birth         "18.07.1701" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1701-07-18" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "12.10.1759" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1759-10-12" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2019-02-18 10:45:29.022304" ;
+                           pers:username  "SG III/4"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002691a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "270" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "972"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000655> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000655.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002691a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" , "SG III/4" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001211>
+                         ] ;
+        pers:occupation  [ pers:date          "1742" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1742" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                           pers:occurence     "SG III/2" , "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000655> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "S. 48" ;
+                           pers:title  "Kubly-Müller 1927" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000139748"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

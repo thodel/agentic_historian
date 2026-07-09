@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009719>
+        a                pers:person ;
+        rdfs:label       "Pierre Perat"@fra ;
+        pers:cousinOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009720> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death         "1517" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2020-05-14 09:36:16.752071" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename    "Pierro" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003604.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009719a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Pierre" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009719a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003604> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key005165" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003604> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007669> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

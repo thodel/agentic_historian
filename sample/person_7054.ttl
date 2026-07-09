@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007725>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Keel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 09:52:57.784864" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hß. Jackh" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250b" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "1093"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002141.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007725a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007725a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002141> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002857>
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000782" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002857>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002141> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

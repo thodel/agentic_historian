@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per005906>
+        a                    pers:person ;
+        rdfs:label           "Georg Forster"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1626" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1626" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-15 17:16:42.076338" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005906a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "94" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "343"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002311> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1626" ;
+                               pers:description   "key004819" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1626" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002311> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

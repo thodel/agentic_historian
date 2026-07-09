@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per021101>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Galmton"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1322" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1328" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-13 11:50:17.369291" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1333" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021101a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007542> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004554>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007542> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021042> ;
+                               pers:occurence  "mina"
+                             ] .

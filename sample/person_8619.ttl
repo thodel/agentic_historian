@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per009356>
+        a                    pers:person ;
+        rdfs:label           "Marie Clerc"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1629" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1629" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-04 09:34:28.401098" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009358> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009359> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename          "Marie" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009356a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003467> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Marie" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009356b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003466> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key000945" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003467> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Stammt ursprünglich aus Riaz." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007846> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007609> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009355> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003822>
+        a                    pers:person ;
+        rdfs:label           "Anton Wicki"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1590" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:01:06.568806" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Dongi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128a" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "461"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001529.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003822a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003822a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001529> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1590" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1590" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001529> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

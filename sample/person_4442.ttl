@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per004968>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Hohenems"@deu ;
+        pers:deaths          [ pers:death         "nach 1354" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1354" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1345" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1345" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 15:25:08.777040" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004968a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1k" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "8"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000103> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000103> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Welti, Hohenems, Beilage Stammtafel" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Werner Kuster: Zählung nach Welti" ;
+        pers:sex             "1" .

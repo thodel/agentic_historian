@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per027531>
+        a                pers:person ;
+        rdfs:label       "Franz Odet"@deu ;
+        pers:births      [ pers:birth      "1625" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1700" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-16 08:28:05.285261" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Franz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027531a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003442> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003442.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027531a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1652-1700" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003442> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "V, p. 179" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

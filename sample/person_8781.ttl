@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009521>
+        a                    pers:person ;
+        rdfs:label           "Oswald Bachmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1558" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1558" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 07:27:09.813065" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Oßwald" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000741.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009521a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009521a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000741> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1558" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1558" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000741> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

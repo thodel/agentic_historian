@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per008032>
+        a                    pers:person ;
+        rdfs:label           "Hans Michael Wittmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1749" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1749" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 10:23:38.054498" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Michel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "277" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "1229"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002972.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008032a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Michel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "277" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "1227"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002972.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008032a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008032a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002972> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002972> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007543> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

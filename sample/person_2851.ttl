@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003297>
+        a                    pers:person ;
+        rdfs:label           "Henmann von Bubendorf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:54:09.966291" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hemman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001312.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003297a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Henmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003297a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001312> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1382" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001312> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

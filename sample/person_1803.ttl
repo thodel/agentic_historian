@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per002206>
+        a                    pers:person ;
+        rdfs:label           "Friedrich Staufer"@deu ;
+        pers:deaths          [ pers:death         "10.06.1190" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1190-06-10" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "um 1122" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1132" ;
+                                                                         pers:notBefore  "1112" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-08 08:32:03.358263" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Barbarossa" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Friedrich" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002206a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "194" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "696"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1g" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "5"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000081> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Kaiser/empereur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1152-1190" ;
+                               pers:description   "key000229" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1152" ;
+                                                                        pers:to    "1190"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1155-1190" ;
+                               pers:description   "key000422" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1155" ;
+                                                                        pers:to    "1190"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000081> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "29199" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

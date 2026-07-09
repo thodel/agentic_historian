@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per021706>
+        a                    pers:person ;
+        rdfs:label           "Johannes Obrist"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1795" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-13 12:14:44.623275" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021706a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002478> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "elter" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Johanes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002478.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021706a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002478> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

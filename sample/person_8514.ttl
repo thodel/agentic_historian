@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009246>
+        a                    pers:person ;
+        rdfs:label           "Paravizin Hilty"@deu ;
+        pers:deaths          [ pers:death         "1866" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1866" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1806" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1806" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-28 07:55:27.226494" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Paravizin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009246a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000305> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1851, 1852, 1855" ;
+                               pers:description   "key004831" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1855" ] ;
+                                         pers:format_date  [ pers:when  "1851" ] ;
+                                         pers:format_date  [ pers:when  "1852" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000962> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1842–1866" ;
+                               pers:description   "key003590" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1842" ;
+                                                                        pers:to    "1866"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000962> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000305> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "3988" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

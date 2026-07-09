@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KF MCP — Königsfelden</title>
+  <style>
+    :root {
+      --bg:       #f7f5f0;
+      --surface:  #ffffff;
+      --border:   #d8d0c4;
+      --accent:   #7a3b1e;
+      --accent2:  #c05d1a;
+      --text:     #2a2018;
+      --muted:    #7a6e63;
+      --code-bg:  #ede9e1;
+      --tag-bg:   #e8e0d4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+    header h1 { font-size: 1.35rem; font-weight: 600; }
+    .alpha-badge {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; background: var(--accent2); color: #fff;
+      padding: 0.15em 0.6em; border-radius: 3px; vertical-align: middle;
+    }
+    header .tagline { font-size: 0.9rem; opacity: 0.82; }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+    }
+    .card.full { grid-column: 1 / -1; }
+    .card h2 {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;
+    }
+    .endpoint-url {
+      font-family: 'Courier New', monospace; font-size: 0.92rem;
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 0.75rem;
+      word-break: break-all; user-select: all;
+    }
+    .copy-btn {
+      display: inline-block; font-size: 0.78rem; font-weight: 600;
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 3px; padding: 0.3em 0.8em; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .copy-btn:hover { background: var(--accent2); }
+    .copy-hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem; margin-bottom: 1rem;
+    }
+    .stat { background: var(--tag-bg); border-radius: 4px; padding: 0.65rem 0.75rem; text-align: center; }
+    .stat .val { display: block; font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+    .stat .lbl { display: block; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .stats-footer { font-size: 0.8rem; color: var(--muted); text-align: right; }
+    table.tools { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    table.tools th { text-align: left; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); }
+    table.tools td { padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    table.tools tr:last-child td { border-bottom: none; }
+    .tool-name { font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--accent); font-weight: 600; white-space: nowrap; }
+    .tool-desc { color: var(--text); }
+    .tool-args { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+    .resource-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .resource-uri { font-family: 'Courier New', monospace; font-size: 0.8rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 3px; padding: 0.3rem 0.6rem; color: var(--accent); }
+    .example-label { font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; }
+    pre.example { background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.8rem; white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
+    footer { max-width: 900px; margin: 0 auto 3rem; padding: 0 2rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    footer a { font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 0.35rem; }
+    footer a:hover { color: var(--accent2); text-decoration: none; }
+    @media (max-width: 620px) {
+      main { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      header { flex-direction: column; gap: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Königsfelden MCP Server <span class="alpha-badge">Alpha</span></h1>
+  <span class="tagline">Kloster und Hofmeisterei Königsfelden — 1300–1658</span>
+</header>
+
+<main>
+
+  <div class="card full" style="background: var(--accent); border-color: var(--accent2);">
+    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.85); margin-bottom: 0.5rem;">Kloster und Hofmeisterei Königsfelden, 1300–1658</p>
+    <h2 style="border: none; color: #fff; font-size: 1rem; margin-bottom: 0.5rem;">
+      <a href="https://koenigsfelden.sources-online.org/" style="color: #fff;" target="_blank" rel="noopener">
+        Project Website ↗
+      </a>
+    </h2>
+    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.65);">koenigsfelden.sources-online.org</p>
+  </div>
+
+  <div class="card">
+    <h2>Endpoint</h2>
+    <div class="endpoint-url" id="ep-url">https://tei.dh.unibe.ch/mcp/kf</div>
+    <button class="copy-btn" onclick="copyUrl()">Copy URL</button>
+    <p class="copy-hint">MCP-compatible client (Claude Desktop, OpenClaw, …)</p>
+  </div>
+
+  <div class="card">
+    <h2>Corpus</h2>
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="val" id="n-entries">—</span>
+        <span class="lbl">entries</span>
+      </div>
+      <div class="stat">
+        <span class="val" id="n-persons">—</span>
+        <span class="lbl">persons</span>
+      </div>
+      <div class="stat">
+        <span class="val" id="n-places">—</span>
+        <span class="lbl">places</span>
+      </div>
+    </div>
+    <p class="stats-footer" id="year-range"></p>
+  </div>
+
+  <div class="card full">
+    <h2>Available tools</h2>
+    <table class="tools">
+      <thead>
+        <tr><th>Tool</th><th>Description</th><th>Arguments</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tool-name">corpus_stats</td><td class="tool-desc">High-level counts and year range</td><td class="tool-args">—</td></tr>
+        <tr><td class="tool-name">search_persons</td><td class="tool-desc">FTS name search across person authority file</td><td class="tool-args">query, limit?</td></tr>
+        <tr><td class="tool-name">search_places</td><td class="tool-desc">FTS place search</td><td class="tool-args">query, limit?</td></tr>
+        <tr><td class="tool-name">get_entry</td><td class="tool-desc">Full entry by ID: transcription, persons, places, links</td><td class="tool-args">entry_id</td></tr>
+        <tr><td class="tool-name">list_entries</td><td class="tool-desc">Paginated entry listing</td><td class="tool-args">offset?, limit?</td></tr>
+        <tr><td class="tool-name">search_fulltext</td><td class="tool-desc">Full-text keyword search over transcriptions</td><td class="tool-args">query, limit?</td></tr>
+        <tr><td class="tool-name">get_cooccurrences</td><td class="tool-desc">Persons appearing in same documents as a given person</td><td class="tool-args">person_name, limit?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Resources</h2>
+    <div class="resource-list">
+      <span class="resource-uri">kf://stats</span>
+      <span style="font-size:0.82rem; color:var(--muted); padding:0.1rem 0.3rem;">Corpus statistics as JSON</span>
+      <span class="resource-uri">kf://entry/{entry_id}</span>
+      <span style="font-size:0.82rem; color:var(--muted); padding:0.1rem 0.3rem;">Single entry as JSON</span>
+      <span class="resource-uri">kf://persons</span>
+      <span style="font-size:0.82rem; color:var(--muted); padding:0.1rem 0.3rem;">All persons as JSON</span>
+    </div>
+  </div>
+
+
+
+<footer>
+  <a href="https://koenigsfelden.sources-online.org/">Project Website ↗</a>
+  <a href="https://tei.dh.unibe.ch">tei.dh.unibe.ch</a>
+  <a href="https://github.com/…">GitHub</a>
+</footer>
+
+<script>
+  const MCP_BASE = 'https://tei.dh.unibe.ch/mcp/kf';
+
+  function copyUrl() {
+    navigator.clipboard.writeText(document.getElementById('ep-url').textContent.trim())
+      .then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy URL', 1500);
+      });
+  }
+
+  async function rpc(method, params, id) {
+    const res = await fetch(MCP_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream' },
+      body: JSON.stringify({ jsonrpc: '2.0', id, method, params })
+    });
+    const text = await res.text();
+    // SSE stream: extract JSON from "data: {...}" lines (handle \r\n line endings)
+    for (const line of text.split(/[\r\n]+/)) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('data:')) {
+        return JSON.parse(trimmed.slice(5).trim());
+      }
+    }
+    return JSON.parse(text);
+  }
+  async function loadStats() {
+    try {
+      const json = await rpc('tools/call', { name: 'corpus_stats', arguments: {} }, 1);
+      const text = json.result?.content?.[0]?.text;
+      if (!text) return;
+      const s = JSON.parse(text);
+      document.getElementById('n-entries').textContent = s.n_entries ? s.n_entries.toLocaleString() : '—';
+      document.getElementById('n-persons').textContent = s.n_persons ? s.n_persons.toLocaleString() : '—';
+      document.getElementById('n-places').textContent  = s.n_places  ? s.n_places.toLocaleString()  : '—';
+      document.getElementById('year-range').textContent = s.year_min && s.year_max ? s.year_min + ' – ' + s.year_max : '';
+    } catch(e) { /* keep fallback dashes */ }
+  }
+
+  loadStats();
+
+</body>
+</html>

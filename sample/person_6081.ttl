@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006688>
+        a                    pers:person ;
+        rdfs:label           "Jörg Gret"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-12 16:58:40.869285" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jorg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134o" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "577"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002542.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006688a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006688a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002542> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1556" ;
+                               pers:description   "key000553" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000439> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002542> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

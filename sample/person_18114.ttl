@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019314>
+        a                    pers:person ;
+        rdfs:label           "Heinz Bell"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1400" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-11 10:37:42.853171" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019314a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007280> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Haintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007280.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019314a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007280> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

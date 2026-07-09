@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per003145>
+        a                pers:person ;
+        rdfs:label       "Ludwig Tschudi"@deu ;
+        pers:births      [ pers:birth         "18.04.1462" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462-04-18" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:cousinOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001659> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:cousinOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000650> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "19.02.1534" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1534-02-19" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001019> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000063> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001660> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-03 13:42:58.784113" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:addnames   [ pers:addname    "von Glarus" ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:forename   "Ludwig" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003145a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "125" ;
+                                                              pers:line     "22" ;
+                                                              pers:page     "418"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1513" ;
+                           pers:description   "key003071" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000130> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17960" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

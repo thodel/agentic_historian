@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per006305>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Rohner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1550" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1550" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-31 11:28:36.882529" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bartli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "126" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "510"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002004.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006305a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006305a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002004> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002004> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

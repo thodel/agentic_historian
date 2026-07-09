@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004279>
+        a                    pers:person ;
+        rdfs:label           "Andreas Kleeb"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1645" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1645" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-17 10:17:33.234034" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004279a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "119b" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "427"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001727> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000827" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005871> ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001727> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

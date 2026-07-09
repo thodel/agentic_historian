@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per026685>
+        a                    pers:person ;
+        rdfs:label           "Hans Spielmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-14 18:13:28.162675" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026685a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007192> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1415" ;
+                               pers:description  "key003403" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007192> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "1415" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009772> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

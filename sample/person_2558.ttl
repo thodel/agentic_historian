@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per002983>
+        a                    pers:person ;
+        rdfs:label           "Karl Alfons Lässer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1767" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1767" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Karl Alfons" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002983a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "1150"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000265> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Carl Alphons" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000265.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002983a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1767" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000265> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000814> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

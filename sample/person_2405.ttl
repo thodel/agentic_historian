@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per002807>
+        a                    pers:person ;
+        rdfs:label           "Adam Lendi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1771" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1771" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:landlordOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002808> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1773" ] ] ;
+                               pers:last_mention  "1773" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Adam" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002807a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "347a" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "1166"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "308c" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "1055"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001148> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001148> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000517> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

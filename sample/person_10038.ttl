@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010816>
+        a                    pers:person ;
+        rdfs:label           "Hans Hagmann"@deu ;
+        pers:deaths          [ pers:death      "01.11.1743" ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1741" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-18 08:58:39.878845" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001768.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010816a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010816a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001768> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1741, 1743" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001768> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1741, 1743" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000389> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per011863>
+        a                    pers:person ;
+        rdfs:label           "Pierre Chanoz"@fra ;
+        pers:deaths          [ pers:death      "ap. 04.1458" ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-03 15:18:27.340732" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Petrus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011863a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003696> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011863a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003696> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003696.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011863a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "04.1458" ;
+                               pers:description  "key005165" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003696> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Modestin 1999, p. 340–341" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Son procès a été conservé (ACV, Ac 29, p. 72–91)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007893> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007892> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012517> ;
+                               pers:occurence  "gortega"
+                             ] .

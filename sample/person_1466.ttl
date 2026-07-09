@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per001868>
+        a                    pers:person ;
+        rdfs:label           "Samuel von Muralt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1733" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1735" ] ] ;
+                               pers:last_mention  "1735" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001868a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "144i" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "507"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "300" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "1041"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000813> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1733-1735" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1733" ;
+                                                                        pers:to    "1735"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1734" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1734" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000813> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

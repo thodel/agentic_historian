@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per003863>
+        a                pers:person ;
+        rdfs:label       "Niklaus Schumacher"@deu ;
+        pers:deaths      [ pers:death         "1612" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-18 11:34:35.097558" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Niklaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003863a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                              pers:line     "20" ;
+                                                              pers:page     "172"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "136c" ;
+                                                              pers:line     "25" ;
+                                                              pers:page     "492"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000713> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000424" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000713> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003864> ;
+                           pers:occurence  "LU II/3"
+                         ] .

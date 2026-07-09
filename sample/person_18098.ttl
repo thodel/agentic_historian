@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per019296>
+        a             pers:person ;
+        rdfs:label    "Konrad Salier"@deu ;
+        pers:births   [ pers:birth      "990" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "1039" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-06-12 09:41:28.529476" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Konrad" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "GR B III/2"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per019296a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004134> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename   "Konrad" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "pascale"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per019296b> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "pascale" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000936> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org004134> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118565079" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

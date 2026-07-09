@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000589>
+        a                    pers:person ;
+        rdfs:label           "Henmann von Spiegelberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1421" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1421" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 08:10:24.228599" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1451" ] ] ;
+                               pers:last_mention  "1451" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Henmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000589a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000283> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1428" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002899>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000283> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000738> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008111>
+        a                    pers:person ;
+        rdfs:label           "Magdalena Büel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 09:18:09.006847" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Magdalena" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008111a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002977> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Magdtalehna" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "1232"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002977.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008111a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002977> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006607> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

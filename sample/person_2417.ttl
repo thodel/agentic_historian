@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002819>
+        a                    pers:person ;
+        rdfs:label           "Anton Schlegel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1777" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1777" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Anton" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002819a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "308e" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "1056"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000714> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000714> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002818> ;
+                               pers:occurence  "SG III/2"
+                             ] .

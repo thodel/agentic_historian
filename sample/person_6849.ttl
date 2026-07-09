@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per007510>
+        a                pers:person ;
+        rdfs:label       "Johannes Rechsteiner"@deu ;
+        pers:births      [ pers:birth         "14.09.1618" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1618-09-14" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "01.06.1665" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1665-06-01" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-03 16:00:56.099109" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Johann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "208b" ;
+                                                               pers:line     "26" ;
+                                                               pers:page     "973"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002153.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007510a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007510a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002153> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1662" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1662" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1662" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1662" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                         ] ;
+        pers:occupation  [ pers:date          "1662" ;
+                           pers:description   "key000824" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1662" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002153> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15115" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per007215>
+        a                    pers:person ;
+        rdfs:label           "Margarethe von Wehingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1400" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-12 00:52:54.746126" ;
+                               pers:username  "lukas"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1410" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Margarethe" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007215a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002721> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1400; 1406-1410" ;
+                               pers:description  "key003740" ;
+                               pers:occurence    "lukas" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:occupation      [ pers:date         "1406" ;
+                               pers:description  "key005528" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002721> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Teuscher, Simon. Königsfelden: Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 257." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:title  "V/1, S. 571" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "2" .

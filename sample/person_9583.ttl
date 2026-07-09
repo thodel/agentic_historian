@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per010345>
+        a                    pers:person ;
+        rdfs:label           "Johann von Fleckenstein"@deu ;
+        pers:deaths          [ pers:death      "20.12.1436" ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1398" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-08 00:40:57.833700" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010345a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003821> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000015" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008438> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:occupation      [ pers:date         "1423-1436" ;
+                               pers:description  "key000015" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004917>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003821> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:id    "12604" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

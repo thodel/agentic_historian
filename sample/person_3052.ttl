@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003500>
+        a                    pers:person ;
+        rdfs:label           "Jenni Weibel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-07 16:59:58.471087" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Jenni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003500a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "55" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "156"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "43a" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "115"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000031> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000031> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per005254>
+        a                    pers:person ;
+        rdfs:label           "Michael Schreiber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 07:54:10.904492" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Michahele" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "41" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "113"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002099.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005254a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005254a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002099> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005254a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002099> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1463" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1463" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1463" ;
+                               pers:description   "key003648" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1463" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000056>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002099> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Göldi, Bernang, zu Nr. 149" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006976> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

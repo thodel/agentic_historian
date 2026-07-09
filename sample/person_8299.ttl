@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009025>
+        a                    pers:person ;
+        rdfs:label           "Henry de Meuron"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1684" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1684" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 11:41:43.691939" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Henry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009025a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003109> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Henry" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003109.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009025a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003109> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

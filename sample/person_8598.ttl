@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per009335>
+        a                pers:person ;
+        rdfs:label       "Petermann Schmidt"@deu ;
+        pers:deaths      [ pers:death         "24.02.1547" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1547-02-24" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-17 15:21:00.646596" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Petermann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009335a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003461> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Petterman" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003461.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009335a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Petterman" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003461.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009335a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1543" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003222>
+                         ] ;
+        pers:occupation  [ pers:date          "1543, 1546" ;
+                           pers:description   "key005669" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ;
+                                     pers:format_date  [ pers:when  "1546" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date          "1546" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003461> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VI, S. 203" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

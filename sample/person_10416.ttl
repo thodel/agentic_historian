@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011241>
+        a              pers:person ;
+        rdfs:label     "Franz de Platea"@fra , "Franz de Platea"@deu ;
+        pers:births    [ pers:birth      "1547" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:deaths    [ pers:death      "15.05.1613" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011243> ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:hist      [ pers:date      "2019-05-01 13:15:13.443128" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename   "Franz" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per011241a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "pascale" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004248> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename   "Franz" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per011241a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "pascale" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004248> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org004248> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "21415" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:sex       "1" .

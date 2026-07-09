@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per002558>
+        a                    pers:person ;
+        rdfs:label           "Johann Franz Imhof"@deu ;
+        pers:deaths          [ pers:death         "11.04.1674" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1674-04-11" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1601" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1601" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Frantz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000365.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002558a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Blumenfeld" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Johann Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002558a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "245" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "898"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000365> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1655-1659" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1655" ;
+                                                                        pers:to    "1659"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000365> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15540" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

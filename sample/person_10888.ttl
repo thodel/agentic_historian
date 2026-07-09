@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011745>
+        a                    pers:person ;
+        rdfs:label           "Pierre Vuillemin"@fra ;
+        pers:citizenOf       [ pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004481>
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011746> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2019-10-27 13:58:14.750538" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011745a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004498> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004498> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Déglon 1949, p. 268 n. et 307 n." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Pierre Vuillemin, bourgeois d’Yverdon, dont le fils Humbert est reçu comme enfant de chœur à Yverdon en 1453 (Déglon, 1949, p. 268 n., 307 n.)" ;
+        pers:sex             "1" .

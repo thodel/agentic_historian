@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per009282>
+        a                   pers:person ;
+        rdfs:label          "Margareth Grob"@deu ;
+        pers:deaths         [ pers:death         "vor 1629" ;
+                              pers:format_dates  [ pers:format_date  [ pers:notAfter   "1629" ;
+                                                                       pers:notBefore  "1579" ;
+                                                                       pers:precision  "0.5"
+                                                                     ] ] ;
+                              pers:occurence     "FR I/2/8"
+                            ] ;
+        pers:hist           [ pers:date      "2019-06-26 08:48:43.432062" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:motherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009281> ;
+                              pers:occurence  "FR I/2/8"
+                            ] ;
+        pers:name           [ pers:forename   "Margareth" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per009282a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "FR I/2/8" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003435> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename   "Margareth" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per009282a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "pascale" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003435> ;
+                              pers:type       "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003435> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "2" .

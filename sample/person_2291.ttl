@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002685>
+        a                pers:person ;
+        rdfs:label       "Jost Rudolf Reding"@deu ;
+        pers:births      [ pers:birth         "28.01.1639" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1639-01-28" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "27.03.1705" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1705-03-27" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Jost Ruodolph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000288.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002685a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jost Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002685a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "271" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "973"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000288> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1690" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1690" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:occupation  [ pers:description  "key000041" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002936>
+                         ] ;
+        pers:occupation  [ pers:description  "key004803" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000288> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19018" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

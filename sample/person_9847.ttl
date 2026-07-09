@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010620>
+        a                   pers:person ;
+        rdfs:label          "Jean de Chambrier"@fra ;
+        pers:citizenOf      [ pers:occurence  "NE 3" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                            ] ;
+        pers:deaths         [ pers:death      "avant 1582" ;
+                              pers:occurence  "NE 3"
+                            ] ;
+        pers:hist           [ pers:date      "2019-03-06 08:53:37.264717" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1582" ;
+                              pers:occurence     "NE 3"
+                            ] ;
+        pers:name           [ pers:forename    "Jehan" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "pascale" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003190.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010620a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Jean" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per010620a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "NE 3" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003190> ;
+                              pers:type       "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003190> ;
+        pers:project        "SSRQ" ;
+        pers:remark         "Adrien Wyssbrod : Probablement le père de Pierre Chambrier per010619" ;
+        pers:sex            "1" .

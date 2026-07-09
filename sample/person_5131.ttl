@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per005707>
+        a                    pers:person ;
+        rdfs:label           "Magnus Rohner"@deu ;
+        pers:deaths          [ pers:death         "spätestens 1566" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1566" ;
+                                                                        pers:notBefore  "1566" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1529–1566" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1566" ] ;
+                                         pers:format_date  [ pers:from  "1529" ;
+                                                             pers:to    "1566"
+                                                           ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-20 10:53:11.787696" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Magnus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005707a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002004> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Mangus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "72f" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "261"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "72e" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "260"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002004.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005707a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002004> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

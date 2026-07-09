@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per010525>
+        a                    pers:person ;
+        rdfs:label           "Henri d’ Orléans-Longueville"@fra ;
+        pers:deaths          [ pers:death      "08.04.1595" ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1581" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-28 08:38:46.171532" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1628" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Henri" ;
+                               pers:gennames   [ pers:genname    "I" ;
+                                                 pers:occurence  "NE 3"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010525a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003598> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Henry" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003598.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010525a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1581-1595" ;
+                               pers:description  "key005202" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003598> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

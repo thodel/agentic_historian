@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000021>
+        a                    pers:person ;
+        rdfs:label           "Adelheid von Flums"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1249" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1249" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:41:52.581763" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000021a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "3a" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "2"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000009> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000009> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000020> ;
+                               pers:occurence  "SG III/2"
+                             ] .

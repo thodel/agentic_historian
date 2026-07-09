@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per017811>
+        a                    pers:person ;
+        rdfs:label           "NN Bandli"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018099> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018100> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 13:33:41.664543" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017811a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007054> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007054.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017811a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005487" ;
+                               pers:occurence    "GR B III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006755>
+                             ] ;
+        pers:occupation      [ pers:date         "1529" ;
+                               pers:description  "key000224" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007054> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008924> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

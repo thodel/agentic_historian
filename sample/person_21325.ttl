@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per022613>
+        a              pers:person ;
+        rdfs:label     "Anna Fricker"@deu ;
+        pers:deaths    [ pers:death      "spätestens 1378" ;
+                         pers:occurence  "sabine"
+                       ] ;
+        pers:hist      [ pers:date      "2020-07-29 21:14:44.956874" ;
+                         pers:username  "sabine"
+                       ] ;
+        pers:motherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022611> ;
+                         pers:occurence  "sabine"
+                       ] ;
+        pers:name      [ pers:forename          "Anna" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per022613a> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "sabine"
+                                                ] ;
+                         pers:occurence         "sabine" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004226> ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org004226> ;
+        pers:project   "Königsfelden" ;
+        pers:sex       "2" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022612> ;
+                         pers:occurence  "sabine"
+                       ] .

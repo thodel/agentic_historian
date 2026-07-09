@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per012645>
+        a              pers:person ;
+        rdfs:label     "Johann Melchior Füssli"@deu ;
+        pers:births    [ pers:birth      "1677" ;
+                         pers:occurence  "ssrq-zh"
+                       ] ;
+        pers:deaths    [ pers:death      "1736" ;
+                         pers:occurence  "ssrq-zh"
+                       ] ;
+        pers:hist      [ pers:date      "2019-11-28 10:32:43.199760" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "ssrq-zh" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                       ] ;
+        pers:name      [ pers:addnames          [ pers:addname    "von Zürich" ;
+                                                  pers:occurence  "ssrq-zh"
+                                                ] ;
+                         pers:forename          "Johann Melchior" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per012645a> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "ssrq-zh"
+                                                ] ;
+                         pers:occurence         "ssrq-zh" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000687> ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000687> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "19116" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:refs      [ pers:id    "133989348" ;
+                         pers:type  "GND"
+                       ] ;
+        pers:sex       "1" .

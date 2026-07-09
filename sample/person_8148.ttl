@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per008860>
+        a              pers:person ;
+        rdfs:label     "Samuel Matthey"@fra ;
+        pers:deaths    [ pers:death         "avant 1712" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1712" ;
+                                                                  pers:notBefore  "1702" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "NE 3"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008859> ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:hist      [ pers:date      "2018-02-15 21:58:04.552895" ;
+                         pers:username  "NE 3"
+                       ] ;
+        pers:name      [ pers:forename   "Samuel" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008860a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "NE 3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003250> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003250> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

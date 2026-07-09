@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per020063>
+        a                    pers:person ;
+        rdfs:label           "Girolama Doria"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-22 15:36:54.597134" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018363> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018240> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Girolama" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per020063b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006840> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename   "Girolama" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020063a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007494> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hieronyma" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007494.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020063a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007494> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017353> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

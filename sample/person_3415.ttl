@@ -1,0 +1,78 @@
+<http://ssrq-sds-fds.ch/Register/#per003881>
+        a                    pers:person ;
+        rdfs:label           "Hans Hug"@deu ;
+        pers:deaths          [ pers:death         "1534" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1534" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001966> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 13:42:10.032566" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003881a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "85b" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000450> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "103" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "399"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "102" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "395"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000450.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003881a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1523" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:description  "key000028" ;
+                               pers:occurence    "LU II/3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1523" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                             ] ;
+        pers:occupation      [ pers:date          "1517" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001189>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000450> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14156" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Andreas Ineichen: Da wohl schon vor 1525 Schultheiss (entgegen HLS und übriger Lit.), keine Amtsjahre angegeben." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

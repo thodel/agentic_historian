@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per009153>
+        a                pers:person ;
+        rdfs:label       "Kaspar Göldli"@deu ;
+        pers:births      [ pers:birth         "1468" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1468" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "1542" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1542" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-30 08:22:27.992477" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Gaspar" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000777.13> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009153a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009153a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000777> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000777.14> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009153a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009153a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000777> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1520" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date          "vor 1532" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1532" ;
+                                                                    pers:notBefore  "1482" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000777> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "23721" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

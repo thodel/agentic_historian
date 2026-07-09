@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per003902>
+        a                    pers:person ;
+        rdfs:label           "Jost Stutzmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1575" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-24 09:59:36.437789" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Claus!" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "111c" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "405"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001558.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003902a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Jost" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "111b" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "403"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "111c" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "406"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001558.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003902a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003902a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001558> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001558> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

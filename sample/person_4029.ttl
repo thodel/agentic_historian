@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per004517>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Krämmel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-19 10:29:20.583136" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004517a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001831> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001831.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004517a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1442" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001923>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001831> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1422" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc006100> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

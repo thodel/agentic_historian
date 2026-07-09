@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per023831>
+        a                    pers:person ;
+        rdfs:label           "Christina Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-14 16:04:44.770952" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Christina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023831a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Christina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per023831a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023830> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

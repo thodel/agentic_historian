@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per021309>
+        a                    pers:person ;
+        rdfs:label           "Peter von Oppeln"@deu ;
+        pers:deaths          [ pers:death      "26.03.1375" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1366" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:07:30.335831" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "scolasticus Lubucensis" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021309a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007794> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000276" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1366-1375" ;
+                               pers:description  "key000015" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007794> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "tke: Bischof von Lebus 1366 bis 1375" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc013046> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

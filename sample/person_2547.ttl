@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per002972>
+        a                   pers:person ;
+        rdfs:label          "Hans Heinrich Schulthess"@deu ;
+        pers:births         [ pers:birth         "25.08.1707" ;
+                              pers:format_dates  [ pers:format_date  [ pers:when  "1707-08-25" ] ] ;
+                              pers:occurence     "HLS"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1802" ] ] ;
+                              pers:last_mention  "1802" ;
+                              pers:occurence     "HLS"
+                            ] ;
+        pers:name           [ pers:forename    "Johann Heinrich" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "SG III/2" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001111.03> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002972a.02>
+                            ] ;
+        pers:name           [ pers:forename   "Hans Heinrich" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per002972a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  [ pers:articles  [ pers:article  "343b" ;
+                                                                 pers:line     "24" ;
+                                                                 pers:page     "1150"
+                                                               ] ;
+                                                pers:articles  [ pers:article  "344a" ;
+                                                                 pers:line     "19" ;
+                                                                 pers:page     "1153"
+                                                               ] ;
+                                                pers:articles  [ pers:article  "343a" ;
+                                                                 pers:line     "23" ;
+                                                                 pers:page     "1147"
+                                                               ] ;
+                                                pers:vol       "SG III/2"
+                                              ] ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001111> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "NN" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "SG III/2" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001111.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002972a.01>
+                            ] ;
+        pers:occupation     [ pers:description  "key001059" ;
+                              pers:occurence    "SG III/2"
+                            ] ;
+        pers:occupation     [ pers:date          "1767-1802" ;
+                              pers:description   "key003713" ;
+                              pers:format_dates  [ pers:format_date  [ pers:from  "1767" ;
+                                                                       pers:to    "1802"
+                                                                     ] ] ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org001111> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:id    "29415" ;
+                              pers:type  "HLS"
+                            ] ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                              pers:occurence  "SG III/2"
+                            ] ;
+        pers:sex            "1" .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per000623>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Loop"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1431" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000623a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "44" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "97"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000304> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000304.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000623a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000304.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000623a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000304> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000130> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

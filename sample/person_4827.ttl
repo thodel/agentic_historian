@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005384>
+        a                    pers:person ;
+        rdfs:label           "Johann Pankraz Haug"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1633" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1633" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-27 11:15:14.232067" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johan Pangratz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "54" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "190"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002164.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005384a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Pankraz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005384a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002164> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1633" ;
+                               pers:description   "key000825" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1633" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002164> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

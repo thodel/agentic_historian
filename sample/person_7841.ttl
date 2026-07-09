@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008529>
+        a                    pers:person ;
+        rdfs:label           "NN Valentin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 14:58:32.978895" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008529a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328l" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "1411"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003058> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003058> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Familienname unsicher (evtl. Vorname)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006376> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

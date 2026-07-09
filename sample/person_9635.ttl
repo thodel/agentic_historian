@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per010398>
+        a                    pers:person ;
+        rdfs:label           "Hans Wechsler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1435" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 15:58:02.153386" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010398a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003862> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003862.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010398a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003862> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:date       "1435" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008458> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

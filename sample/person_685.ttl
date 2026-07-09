@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per000761>
+        a                    pers:person ;
+        rdfs:label           "Konrad Kupferschmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                               pers:last_mention  "1477" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000312.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000761a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦnrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000312.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000761a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000761a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "75b" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "249"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "51d" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "169"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000312> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000312> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18997" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

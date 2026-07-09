@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per000898>
+        a                    pers:person ;
+        rdfs:label           "Heinzmann Velga"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hentzman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000475.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000898a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Heintzman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000475.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000898a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinzmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000898a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "67" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "218"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000475> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000475> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

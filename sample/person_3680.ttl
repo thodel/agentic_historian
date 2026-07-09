@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004155>
+        a                    pers:person ;
+        rdfs:label           "Anna Maria Katharina Pfyffer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 12:20:41.789056" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Anna Maria Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004155a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "96" ;
+                                                                         pers:line     "29" ;
+                                                                         pers:page     "348"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001146> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001146> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004154> ;
+                               pers:occurence  "LU II/3"
+                             ] .

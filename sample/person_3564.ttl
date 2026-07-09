@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per004037>
+        a                pers:person ;
+        rdfs:label       "Jost Fleckenstein"@deu ;
+        pers:deaths      [ pers:death         "1706" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1706" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-02 14:58:00.619388" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Jost" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004037a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000888> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "78b" ;
+                                                               pers:line     "12" ;
+                                                               pers:page     "295"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000888.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004037a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1673-1675" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1673" ;
+                                                                    pers:to    "1675"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000888> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

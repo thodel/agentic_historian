@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per021839>
+        a                    pers:person ;
+        rdfs:label           "Giacomo Sternino"@ita , "Giacomo Sternino"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021838> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-04 14:28:27.487181" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Giacomo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021839a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Giacomo" ;
+                               pers:lang        "ita" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007929.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021839a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Giacomo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021839a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007929> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000491> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008862>
+        a                    pers:person ;
+        rdfs:label           "Foelin de Meuron"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-25 11:11:44.237994" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Foelin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008862a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003109> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000907" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003109> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

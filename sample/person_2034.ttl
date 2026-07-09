@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per002442>
+        a             pers:person ;
+        rdfs:label    "Martin Oberli"@deu ;
+        pers:deaths   [ pers:death         "vor 1647" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1647" ;
+                                                                 pers:notBefore  "1597" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/2"
+                      ] ;
+        pers:name     [ pers:forename   "Martin" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per002442a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "233" ;
+                                                           pers:line     "35" ;
+                                                           pers:page     "863"
+                                                         ] ;
+                                          pers:vol       "SG III/2"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000942> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Marti" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000942.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002442a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000942> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

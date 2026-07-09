@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per000456>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Grünenhag"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1410" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1410" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1419" ] ] ;
+                               pers:last_mention  "1419" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000456a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41a" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "85"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "36a" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "69"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000224> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Haintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000224.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000456a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1410, 1419" ;
+                               pers:description   "key000088" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1419" ] ;
+                                         pers:format_date  [ pers:when  "1410" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000224> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

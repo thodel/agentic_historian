@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per006806>
+        a             pers:person ;
+        rdfs:label    "Ulrich Jäger"@deu ;
+        pers:deaths   [ pers:death         "vor 1471" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1471" ;
+                                                                 pers:notBefore  "1421" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2017-06-19 15:37:50.930016" ;
+                        pers:username  "SG III/4"
+                      ] ;
+        pers:name     [ pers:forename    "Uͦlrich" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/4" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001033.04> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006806a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Ulrich" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per006806a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001033> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001033> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

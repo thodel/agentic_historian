@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per026150>
+        a                pers:person ;
+        rdfs:label       "David Horner"@deu ;
+        pers:births      [ pers:birth      "1638" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1704" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 08:21:28.320013" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "David" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007752.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026150a.01>
+                         ] ;
+        pers:name        [ pers:forename   "David" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026150a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007752> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1676-1704" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:description  "key005749" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date         "1676-1704" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005084>
+                         ] ;
+        pers:occupation  [ pers:description  "key004399" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:description  "key005748" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org007752> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

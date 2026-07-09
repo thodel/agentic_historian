@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per003054>
+        a                pers:person ;
+        rdfs:label       "Franz Joseph Michael Letter"@deu ;
+        pers:births      [ pers:birth         "29.09.1748" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1748-09-29" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "05.04.1825" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1825-04-05" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Franciscus Josephus Michael" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000494.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003054a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Joseph Michael" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003054a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "373" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "1220"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "359b" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "1189"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "372" ;
+                                                              pers:line     "17" ;
+                                                              pers:page     "1218"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000494> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1793-1795" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1793" ;
+                                                                    pers:to    "1795"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1793" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000494> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "27174" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

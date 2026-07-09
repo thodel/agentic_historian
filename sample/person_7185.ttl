@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007858>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Kaufmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1727" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1727" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-22 17:38:27.797783" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007858a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001664> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "261" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "1163"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001664.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007858a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001664> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006732> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

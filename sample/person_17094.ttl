@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018253>
+        a               pers:person ;
+        rdfs:label      "Paul Disch"@deu ;
+        pers:deaths     [ pers:death      "vor 1559" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-06-04 08:25:44.750691" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Paul" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per018253a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005713> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Pal" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005713.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018253a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005713> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007688> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

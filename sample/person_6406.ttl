@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007034>
+        a                    pers:person ;
+        rdfs:label           "Hans Ulrich Zünd"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1782" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-04 12:02:10.921065" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "167" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "753"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001735.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007034a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007034a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001735> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1782" ;
+                               pers:description   "key000659" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006006> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1782" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002648>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001735> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per003739>
+        a                    pers:person ;
+        rdfs:label           "Hans Jörg Portmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:55:16.524734" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003739a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001241> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jöry" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "521"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001241.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003739a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jöry" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "522"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001241.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003739a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1599" ;
+                               pers:description   "key000009" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001241> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

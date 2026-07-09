@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004999>
+        a             pers:person ;
+        rdfs:label    "Ruprecht Wittelsbacher"@deu ;
+        pers:births   [ pers:birth         "05.05.1352" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1352-05-05" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "18.05.1410" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1410-05-18" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-04-03 16:31:21.761918" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von der Pfalz" ;
+                                          pers:occurence  "SG III/3"
+                                        ] ;
+                        pers:forename   "Ruprecht" ;
+                        pers:gennames   [ pers:genname    "III." ;
+                                          pers:occurence  "SG III/3"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004999a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "7" ;
+                                                           pers:line     "21" ;
+                                                           pers:page     "15"
+                                                         ] ;
+                                          pers:articles  [ pers:article  "4" ;
+                                                           pers:line     "13" ;
+                                                           pers:page     "13"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001962> ;
+                        pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                          pers:rolename   "König/roi"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001962> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:type  "other" ;
+                        pers:url   "https://www.deutsche-biographie.de/sfz74680.html#ndbcontent"
+                      ] ;
+        pers:sex      "1" .

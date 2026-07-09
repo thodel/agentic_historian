@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004043>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Bünder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "vor 1674" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:38:24.216289" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Niclauß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "78b" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "295"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001504.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004043a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004043a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001504> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 1674" ;
+                               pers:description   "key003443" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1674" ;
+                                                                        pers:notBefore  "1624" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001504> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

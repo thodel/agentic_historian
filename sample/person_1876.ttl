@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002278>
+        a                    pers:person ;
+        rdfs:label           "Paravicin von Paravicini"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1699" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1699" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1701" ] ] ;
+                               pers:last_mention  "1701" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Paravicin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002278a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "218" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "828"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "294" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "1028"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "198b" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "750"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000967> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004803" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1699-1701" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1699" ;
+                                                                        pers:to    "1701"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1701" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1701" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000967> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

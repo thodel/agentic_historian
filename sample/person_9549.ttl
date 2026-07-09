@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010310>
+        a                    pers:person ;
+        rdfs:label           "Johannes NN"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000712> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1424" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-09 17:12:05.881723" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Melonensibus" ;
+                                                 pers:occurence  "stadtasg"
+                                               ] ;
+                               pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010310a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1424" ;
+                               pers:description  "key005247" ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008429> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

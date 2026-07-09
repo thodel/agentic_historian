@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per006910>
+        a                    pers:person ;
+        rdfs:label           "Konrad Tschigeli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1603" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1603" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 14:24:39.915442" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006910a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002611> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Conradt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "154d" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "677"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002611.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006910a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1603" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002610>
+                             ] ;
+        pers:occupation      [ pers:date          "1603" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002610>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002611> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

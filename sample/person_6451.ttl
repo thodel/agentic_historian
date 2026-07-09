@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007082>
+        a                    pers:person ;
+        rdfs:label           "Othmar Weibel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1612" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1612" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 16:58:52.454694" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Othmar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007082a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000031> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Othmar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "176" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "796"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000031.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007082a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000825" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000031> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

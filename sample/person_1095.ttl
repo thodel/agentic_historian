@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per001487>
+        a                    pers:person ;
+        rdfs:label           "Hieronymus Schaffner"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001488> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1565" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1565" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hieronymus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001487a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "360"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000653> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jeronimus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000653.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001487a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000653> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

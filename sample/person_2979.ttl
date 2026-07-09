@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per003421>
+        a                    pers:person ;
+        rdfs:label           "Klaus zu Marbach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1550" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1550" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-09 16:14:50.281950" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003421a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001363> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "92b" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "342"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "92a" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "341"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001363.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003421a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001363> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001602> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

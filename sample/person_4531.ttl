@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per005065>
+        a                    pers:person ;
+        rdfs:label           "Felix Wingarter"@deu ;
+        pers:deaths          [ pers:death         "1536" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1536" ] ] ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1489" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 16:46:03.916980" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Velix" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113g" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "455"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003719.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005065a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Felix" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005065a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" , "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003719> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Felix" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113d" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "444"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003719.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005065a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1498-1512, 1515-1519, 1532-1536" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                             ] ;
+        pers:occupation      [ pers:date          "1517" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001189>
+                             ] ;
+        pers:occupation      [ pers:date         "1498-1512, 1515-1519" ;
+                               pers:description  "key000778" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005082>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003719> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18206" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "tke: Achtung! Differenz zwischen HLS und Schnyders Ratsliste. In Schnyders Ratsliste werden 2 verschiedene durch ihren jeweiligen Tod während der Amtszeit identifiziert: 1.) Felix Wingarter: Ratsherr 1498-1512, Tod 1512; 2.) Felix Wingarter: Zunftmeister 1515-1519, Ratsherr 1532-1536, Tod 1536. In Rücksprache mit dem HLS handelt es sich wahrscheinlich um dieselbe Person." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000066> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

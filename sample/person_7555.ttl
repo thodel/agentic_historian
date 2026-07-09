@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per008240>
+        a                    pers:person ;
+        rdfs:label           "Nikodemus von Flüe"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1775" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1775" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-12 17:49:55.605645" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Nikodemus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008240a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000884> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Nicodemus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "308" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "1333"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000884.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008240a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1775" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1775" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1775" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1775" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1775" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1775" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000884> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003137>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Fröhlich"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1509" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1509" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000533.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003137a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003137a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "87" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "302"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000533> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1509" ;
+                               pers:description   "key003599" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1509" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001066> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000533> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

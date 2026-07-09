@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per006992>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Kästli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-02 13:19:49.493743" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bartli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "162a" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "718"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002636.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006992a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006992a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002636> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002636> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Wohn-/Herkunftsort wahrscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006005> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

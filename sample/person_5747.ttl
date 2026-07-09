@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per006344>
+        a                    pers:person ;
+        rdfs:label           "Lux Ritter"@deu ;
+        pers:deaths          [ pers:death         "10.05.1559" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1559-05-10" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1537" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1537" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-07 11:30:43.772800" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Lukas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "127" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "512"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "134p" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "578"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "134i" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "570"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002117.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006344a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lux" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006344a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002117> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1550" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1550" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                             ] ;
+        pers:occupation      [ pers:date          "1550" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1550" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1556" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002117> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14473" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Pascale Sutter: Lux ist eine Variante von Lukas (vgl. Idiotikon: Lukas N. 3,1254,​ Lūk N.,​ Lux)." ;
+        pers:sex             "1" .

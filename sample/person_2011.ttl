@@ -1,0 +1,83 @@
+<http://ssrq-sds-fds.ch/Register/#per002415>
+        a                pers:person ;
+        rdfs:label       "Joseph Arnold"@deu ;
+        pers:births      [ pers:birth         "10.02.1738" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1738-02-10" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "13.05.1819" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1819-05-13" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename          "Joseph" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002415a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "228" ;
+                                                                     pers:line     "15" ;
+                                                                     pers:page     "853"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "376b" ;
+                                                                     pers:line     "4" ;
+                                                                     pers:page     "1232"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename   "Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002415b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "376b" ;
+                                                              pers:line     "4" ;
+                                                              pers:page     "1232"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "228" ;
+                                                              pers:line     "15" ;
+                                                              pers:page     "853"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000123> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000123.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002415b.01>
+                         ] ;
+        pers:name        [ pers:forename    "Josephus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000123.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002415b.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1786-" ;
+                           pers:description   "key000043" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1836" ;
+                                                                    pers:notBefore  "1786" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1784" ;
+                           pers:description   "key000825" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1784" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000123> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21852" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

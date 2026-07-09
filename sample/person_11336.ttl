@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per012227>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Moos"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1487" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-30 23:08:00.131928" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012227a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000284> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1487" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000284> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

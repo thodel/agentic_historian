@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009341>
+        a                    pers:person ;
+        rdfs:label           "Balthasar Ritter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1546" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:42:26.214231" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Balthasar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009341a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002117> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Baltasar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002117.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009341a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002117> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, S. 648" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

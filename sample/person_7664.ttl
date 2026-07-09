@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008350>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Ritz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "wohl 1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                         pers:when       "1796"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-19 11:38:45.367434" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008350a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002160> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "J. J." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "1399"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002160.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008350a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002160> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003884>
+        a                pers:person ;
+        rdfs:label       "Hans von Mettenwil"@deu ;
+        pers:deaths      [ pers:death         "1599" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-20 09:23:21.447536" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Hans" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "124" ;
+                                                               pers:line     "4" ;
+                                                               pers:page     "456"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000710.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003884a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003884a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000710> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1587-1589" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1587" ;
+                                                                    pers:to    "1589"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000710> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

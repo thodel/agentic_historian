@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per011867>
+        a                    pers:person ;
+        rdfs:label           "Ulli Chollet"@fra , "Ulli Chollet"@deu ;
+        pers:deaths          [ pers:death      "1637" ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1635" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-04 10:45:03.247585" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Willy" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003443.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011867a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Ulli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003443.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011867a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Ulli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011867a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003443> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Ulli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011867a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003443> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key005165" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003443> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007856> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" .

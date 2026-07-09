@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per023426>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Mani"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1703" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-11 07:19:09.246699" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Ellisabeta" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006168.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023426a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Elisabeth" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per023426a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006168> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per023426b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000590> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006168> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023429> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

@@ -1,0 +1,78 @@
+<http://ssrq-sds-fds.ch/Register/#per001107>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Seiler"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:deaths          [ pers:death         "18.10.1499" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1499-10-18" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1440" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1440" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-02 16:20:17.705109" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001107a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "101" ;
+                                                                  pers:line     "47" ;
+                                                                  pers:page     "334"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000594> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "62" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "216"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "61" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "213"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000594.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001107a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1483" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1483" ;
+                               pers:description   "key004803" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1483" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1486" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000594> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14504" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

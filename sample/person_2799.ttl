@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per003245>
+        a                    pers:person ;
+        rdfs:label           "Arnold Merchis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1363" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename   "Arnold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003245a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "2a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001278> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001278> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per000415>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Montfort-Feldkirch"@deu ;
+        pers:deaths          [ pers:death         "1390" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1390" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1377" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1377" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-26 17:00:26.752372" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:gennames   [ pers:genname    "V." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000415a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "29" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "51"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000013> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000013.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000415a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000013> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://daten.digitale-sammlungen.de/~db/0001/bsb00016336/images/index.html?id=00016336&groesser=&fip=eayaxsqrseayayztsxdsydsdasxdsydeayaeayaen&no=2&seite=68"
+                             ] ;
+        pers:sex             "1" .

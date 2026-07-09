@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per008839>
+        a              pers:person ;
+        rdfs:label     "George Simonin"@fra ;
+        pers:deaths    [ pers:death         "avant 1724" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1724" ;
+                                                                  pers:notBefore  "1714" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "NE 3"
+                       ] ;
+        pers:hist      [ pers:date      "2018-02-10 17:30:15.594165" ;
+                         pers:username  "NE 3"
+                       ] ;
+        pers:name      [ pers:forename   "George" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008839a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "NE 3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003235> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003235> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008840> ;
+                         pers:occurence  "NE 3"
+                       ] .

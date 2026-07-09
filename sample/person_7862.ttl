@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per008554>
+        a                    pers:person ;
+        rdfs:label           "Heinz von Wessenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1337" ;
+                               pers:occurence      "lukas"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 13:11:03.343697" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008554a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "lukas" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003072> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003072> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                               pers:occurence  "lukas"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018714> ;
+                               pers:occurence  "sabine"
+                             ] .

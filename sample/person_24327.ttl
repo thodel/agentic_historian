@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per025675>
+        a                pers:person ;
+        rdfs:label       "Peter Füssli"@deu ;
+        pers:births      [ pers:birth      "1577" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1629" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-17 07:55:02.027562" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025675a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000687> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Meister/maître"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Petern" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000687.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025675a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key004724" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1619-1628" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1619-1628" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005080>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000687> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "22303" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1072100401" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

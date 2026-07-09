@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003819>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Anton Hecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1742" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:00:42.878685" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003819a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "171"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1742" ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1742" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005965> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001528> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

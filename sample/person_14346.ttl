@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per015388>
+        a               pers:person ;
+        rdfs:label      "Konrad Pellikan"@deu ;
+        pers:births     [ pers:birth      "ca. 09.01.1478" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "05.04.1556" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2020-04-03 15:07:00.739010" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:forename    "Conrad" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006178.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015388a.01>
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "Kürschner" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "Konrad" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per015388a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006178> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006178> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "010781" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:refs       [ pers:id    "118739867" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:residence  [ pers:date       "1541-" ;
+                          pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

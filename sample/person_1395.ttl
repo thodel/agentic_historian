@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per001802>
+        a                    pers:person ;
+        rdfs:label           "Johannes Gallati"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1691" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1691" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001802a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "343" ;
+                                                                         pers:line     "46" ;
+                                                                         pers:page     "1146"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000490> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1691" ;
+                               pers:description   "key000898" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1691" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000490> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002968> ;
+                               pers:occurence  "SG III/2"
+                             ] .

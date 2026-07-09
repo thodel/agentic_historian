@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per015991>
+        a                    pers:person ;
+        rdfs:label           "Klaus von Dux"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001160>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1449" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-07 14:35:13.180730" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1473" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015991a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006415> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006415.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015991a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1473" ;
+                               pers:description  "key000825" ;
+                               pers:occurence    "GR B III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001160>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006415> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://historisches-lexikon.li/Dux,_von"
+                             ] ;
+        pers:sex             "1" .

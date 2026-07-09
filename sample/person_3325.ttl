@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per003781>
+        a                    pers:person ;
+        rdfs:label           "Jakob Portmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 19:57:35.989586" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "523"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001241.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003781a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003781a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001241> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1599" ;
+                               pers:description   "key003723" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001241> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Nach Bieri identisch mit späterem Weibel im Bachgut, nicht mit Weibel/Landeshauptmann/Bannermeister, der wohl1596/97 starb." ;
+        pers:sex             "1" .

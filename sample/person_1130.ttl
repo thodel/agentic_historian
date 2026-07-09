@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per001527>
+        a               pers:person ;
+        rdfs:label      "Philipp (Hl.)"@deu ;
+        pers:feast_day  "29.04." ;
+        pers:hist       [ pers:date      "2020-06-11 15:05:57.145963" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:memberOf   [ pers:occurence      "SG III/2" ;
+                          pers:property_type  <http://ssrq-sds-fds.ch/Register/#org002519>
+                        ] ;
+        pers:name       [ pers:forename    "Philip" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org999999.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001527a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Philipp" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per001527a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "92" ;
+                                                             pers:line     "25" ;
+                                                             pers:page     "319"
+                                                           ] ;
+                                            pers:articles  [ pers:article  "282" ;
+                                                             pers:line     "12" ;
+                                                             pers:page     "1000"
+                                                           ] ;
+                                            pers:articles  [ pers:article  "197a" ;
+                                                             pers:line     "29" ;
+                                                             pers:page     "717"
+                                                           ] ;
+                                            pers:articles  [ pers:article  "337" ;
+                                                             pers:line     "34" ;
+                                                             pers:page     "1122"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Filip" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org999999.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001527a.02>
+                        ] ;
+        pers:project    "SSRQ" ;
+        pers:sex        "1" .

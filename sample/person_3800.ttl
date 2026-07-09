@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per004281>
+        a                pers:person ;
+        rdfs:label       "Kaspar Ratzenhofer"@deu ;
+        pers:deaths      [ pers:death         "1592" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1592" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-21 20:55:15.169155" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "121" ;
+                                                               pers:line     "7" ;
+                                                               pers:page     "448"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000862.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004281a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004281a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000862> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1579-1580" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1579" ;
+                                                                    pers:to    "1580"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000862> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000972> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

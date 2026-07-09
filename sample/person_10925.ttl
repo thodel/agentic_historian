@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per011783>
+        a                pers:person ;
+        rdfs:label       "Ludwig von der Pfalz"@deu ;
+        pers:births      [ pers:birth      "01.01.1424" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "13.08.1449" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2019-07-22 16:20:53.739024" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:gennames   [ pers:genname    "IV." ;
+                                             pers:occurence  "stadtasg"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011783a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000240> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005565" ;
+                           pers:occurence    "stadtasg"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000240> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.deutsche-biographie.de/gnd123011884.html#ndbcontent"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per012283>
+        a                pers:person ;
+        rdfs:label       "Katharina von Waldburg"@deu ;
+        pers:auntOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007312> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:births      [ pers:birth      "um 1470" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:deaths      [ pers:death      "um 1536" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 11:54:25.860661" ;
+                           pers:username  "sabine"
+                         ] ;
+        pers:name        [ pers:forename   "Katharina" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012283a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "sabine" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000359> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Kathrin" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "sabine" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000359.09> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012283a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1498?-1528" ;
+                           pers:description  "key004102" ;
+                           pers:occurence    "sabine" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                         ] ;
+        pers:occupation  [ pers:date         "1515-1528" ;
+                           pers:description  "key003740" ;
+                           pers:occurence    "sabine" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000359> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "026517" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:title  "Teuscher, Simon. Königsfelden : Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 260." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:refs        [ pers:page   "V/1, S. 575" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "2" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007289> ;
+                           pers:occurence  "sabine"
+                         ] .

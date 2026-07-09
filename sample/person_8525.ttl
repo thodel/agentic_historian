@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per009259>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus von Ligerz"@deu ;
+        pers:deaths          [ pers:death      "1663" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1613" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 11:56:14.763608" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009259a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002516> ;
+                               pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002516.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009259a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002516.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009259a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1613-1663" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1613" ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1644-1663" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002516> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per000688>
+        a                    pers:person ;
+        rdfs:label           "Niklaus von Zuben"@deu ;
+        pers:deaths          [ pers:death         "um 1494/95" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1495" ;
+                                                                        pers:notBefore  "1494" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1471" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1471" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-25 16:42:39.901830" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000688a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "45" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "105"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000339> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "52" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "167"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000339.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000688a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1473" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:occupation      [ pers:date          "1474" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1474" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:occupation      [ pers:date          "1471" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1471" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000033> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000339> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21229" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

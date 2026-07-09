@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008785>
+        a                    pers:person ;
+        rdfs:label           "Ferdinand Chaillet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1719" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1719" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-30 16:12:00.644856" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003098>
+                             ] ;
+        pers:name            [ pers:forename   "Ferdinand" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008785a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003160> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1719" ;
+                               pers:description   "key000133" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1719" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008513> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003160> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

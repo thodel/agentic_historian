@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001850>
+        a                    pers:person ;
+        rdfs:label           "NN Schur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Alte" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001850a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "144g" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "504"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000516> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000516.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001850a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000516> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

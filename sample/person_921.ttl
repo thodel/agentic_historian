@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000997>
+        a                    pers:person ;
+        rdfs:label           "Hans Engler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1491" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000528.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000997a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "über Schollberg" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000997a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "84b" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "294"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000528> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

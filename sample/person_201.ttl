@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000257>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Chur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1357" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1357" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000257a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "11b" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "17"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000047> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1357" ;
+                               pers:description   "key000105" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1357" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000047>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000047> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

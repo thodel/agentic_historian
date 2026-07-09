@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per011928>
+        a                    pers:person ;
+        rdfs:label           "Hans Savary"@fra , "Hans Savary"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1636" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-09 11:26:37.239997" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011928a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004572> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011928a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004572> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004572.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011928a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004572.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011928a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004572> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011929> ;
+                               pers:occurence  "lionel"
+                             ] .

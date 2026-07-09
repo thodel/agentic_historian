@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per022232>
+        a                    pers:person ;
+        rdfs:label           "Leonhard [von] Lohn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1518" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-11 17:14:48.877427" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022232a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007916> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lienhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007916.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022232a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007916> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

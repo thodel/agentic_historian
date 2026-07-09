@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per000069>
+        a                    pers:person ;
+        rdfs:label           "Albert von Sax-Misox"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1236" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1236" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:44:21.384406" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1275" ] ] ;
+                               pers:last_mention  "1275" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Albreht" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000016.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000069a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Albert" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000069a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "8" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "8"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000016> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1257" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1257" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000016> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Stammvater der Linie Sax-Misox. Konsequenterweise müsste es Albert der I. von Sax-Misox und Albert III. von Sax heissen. Zur Zählung vgl. die Bemerkungen zur Familie von Sax." ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000024> ;
+                               pers:occurence  "SG III/2"
+                             ] .

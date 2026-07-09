@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002095>
+        a                    pers:person ;
+        rdfs:label           "Silvester Wolf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Väster" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000900.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002095a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Silvester" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002095a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "176a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "633"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000900> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000900> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

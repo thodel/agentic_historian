@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004047>
+        a                    pers:person ;
+        rdfs:label           "Hans Feer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1504" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:39:50.785043" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "80" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "303"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000592.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004047a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004047a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000592> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1504" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1504" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000592> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Wohl einer der wenigen Fälle, in denen bei einem Mitglied der städt. Führungsschicht die Identifikation nicht möglich: Messmer/Hoppe, Patriziat, S. 160f., verzeichnen gleichzeitig drei Grossräte namens Hans Feer (ab 1502)! Der bekannte gleichnamige Schultheiss schon 1484 gest." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

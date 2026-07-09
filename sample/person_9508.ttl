@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per010267>
+        a                    pers:person ;
+        rdfs:label           "Michael Hilty"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1754" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 16:55:27.053969" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "auf dem korenhaus" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Michel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000305.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010267a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "auf dem Kornhaus" ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010267a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000305> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1754" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000305> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1754" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

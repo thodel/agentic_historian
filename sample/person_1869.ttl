@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per002271>
+        a                    pers:person ;
+        rdfs:label           "Bartholome Gehrig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1604" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholome" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002271a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "716"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000952> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartolome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000952.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002271a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000952> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

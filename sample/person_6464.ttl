@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per007096>
+        a                    pers:person ;
+        rdfs:label           "NN Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1610" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1610" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 18:01:44.598740" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007096a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "177" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "797"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000439> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per000341>
+        a                    pers:person ;
+        rdfs:label           "Peter Kottmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1364" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1364" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000341a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "19" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "35"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000148> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000341b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "19" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "35"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000149> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1364" ;
+                               pers:description   "key003603" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1364" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:occupation      [ pers:date          "1364" ;
+                               pers:description   "key000170" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1364" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000149>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000148> , <http://ssrq-sds-fds.ch/Register/#org000149> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

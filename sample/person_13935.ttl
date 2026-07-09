@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014964>
+        a                pers:person ;
+        rdfs:label       "David Herrliberger"@deu ;
+        pers:births      [ pers:birth      "31.01.1697" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "25.05.1777" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 08:16:56.346379" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "David" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014964a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006081> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005693" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:description  "key001051" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc008648> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006081> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "11943" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "11870382X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

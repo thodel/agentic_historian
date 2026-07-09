@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per018447>
+        a                    pers:person ;
+        rdfs:label           "Agnes Caprez"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1656" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 10:09:05.679853" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Agnes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018447a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001100> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018447b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org007114> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Nessa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001100.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018447a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001100> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018441> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

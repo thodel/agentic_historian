@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012679>
+        a                pers:person ;
+        rdfs:label       "Ludwig von Bourbon"@deu ;
+        pers:births      [ pers:birth      "05.09.1638" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "01.09.1715" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 11:20:19.249573" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:gennames   [ pers:genname    "XIV." ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012679a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003912> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000229" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000281> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003912> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118816829" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

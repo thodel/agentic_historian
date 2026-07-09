@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000283>
+        a                    pers:person ;
+        rdfs:label           "Wolfgang von Wolfurt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1342" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1342" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Woͤlfli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000044.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000283a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Wolfgang" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000283a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "14" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "21"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000044> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000044> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

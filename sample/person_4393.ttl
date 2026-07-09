@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004917>
+        a                    pers:person ;
+        rdfs:label           "Friedrich Tumb (von Neuburg)"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1294" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1294" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-16 15:22:30.069160" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004917a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1d" ;
+                                                                         pers:line     "38" ;
+                                                                         pers:page     "3"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1k" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "8"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001955> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001955> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, Nr. 2353" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004966> ;
+                               pers:occurence  "SG III/3"
+                             ] .

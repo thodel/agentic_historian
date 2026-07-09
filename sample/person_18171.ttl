@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per019372>
+        a                    pers:person ;
+        rdfs:label           "Berchtold von Mülinen"@deu ;
+        pers:deaths          [ pers:death      "1353" ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027816> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019507> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013222> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1333" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-27 11:02:19.345513" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Berchtold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019372a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000765> ;
+                               pers:rolenames  [ pers:occurence  "fahe" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000028" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000765> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

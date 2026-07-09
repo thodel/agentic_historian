@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per018360>
+        a                    pers:person ;
+        rdfs:label           "Petrus Fröweler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1371" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 09:15:17.559409" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1389" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Petrus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018360a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org007105> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1371-1389" ;
+                               pers:description  "key003448" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005889>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007105> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "HS: Register der Oberen und Oberinnen, Nr. 11519." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000161> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

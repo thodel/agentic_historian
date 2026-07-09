@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006252>
+        a                    pers:person ;
+        rdfs:label           "Josef Grüninger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1546" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1546" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-31 11:54:38.380973" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Josepp" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199a" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "889"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000986.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006252a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006252a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000986> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "121c" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "496"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000986.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006252a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000986> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000730> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

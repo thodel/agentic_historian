@@ -1,0 +1,70 @@
+<http://ssrq-sds-fds.ch/Register/#per005174>
+        a                    pers:person ;
+        rdfs:label           "Ursula von Sigberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1432" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-22 15:04:04.864408" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:last_mention  "1476" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Ursula" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005174a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000100> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ursul" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "32" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "78"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002059.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005174b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Ursula" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005174b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "46a" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "124"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "46b" ;
+                                                                         pers:line     "14" ;
+                                                                         pers:page     "125"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002059> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1432-1476" ;
+                               pers:description   "key003740" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1432" ;
+                                                                        pers:to    "1476"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002059>
+                             ] ;
+        pers:occupation      [ pers:date          "1476" ;
+                               pers:description   "key004805" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007361> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000100> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

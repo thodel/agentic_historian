@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005781>
+        a                    pers:person ;
+        rdfs:label           "Meinrad Schörli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1505" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1505" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 11:03:45.134398" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Mainratt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "81" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "299"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002306.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005781a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Meinrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005781a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002306> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1505" ;
+                               pers:description   "key004963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1505" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002306> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

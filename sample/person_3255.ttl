@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003711>
+        a                    pers:person ;
+        rdfs:label           "Benz NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-06 09:37:29.960892" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Bentz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "41" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "109"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003711a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Benz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003711a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005900> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

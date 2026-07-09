@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per024725>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Küssenberg"@deu ;
+        pers:deaths          [ pers:death      "vor 23.11.1536" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1519" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-31 07:16:26.467057" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per024725a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008487> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1519" ;
+                               pers:description  "key003661" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005892>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008487> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "014751" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000463> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

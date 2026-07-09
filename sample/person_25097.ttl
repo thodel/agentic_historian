@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per026460>
+        a                pers:person ;
+        rdfs:label       "Georg Christoph Tobler"@deu ;
+        pers:births      [ pers:birth      "1702" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1784" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-07 16:50:59.405020" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Georg Christoph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026460a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000566> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Geörg Christoff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000566.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026460a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1754-" ;
+                           pers:description  "key000170" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1754-" ;
+                           pers:description  "key000301" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005106>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000566> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089383738" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

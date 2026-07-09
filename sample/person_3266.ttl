@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003722>
+        a                    pers:person ;
+        rdfs:label           "Ueli Peter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-06 11:39:44.654576" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003722a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000052> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "42" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "112"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000052.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003722a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000052> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

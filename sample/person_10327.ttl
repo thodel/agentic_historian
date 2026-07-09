@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per011146>
+        a                pers:person ;
+        rdfs:label       "Barthélemy Allet"@fra , "Bartholomäus Allet"@deu ;
+        pers:births      [ pers:birth      "um 1540" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "um 1620" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-04-12 10:12:53.671824" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Barthélemy" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011146a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004191> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Bartholomäus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011146a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004191> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Bartlome" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004191.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011146a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1614" ;
+                           pers:description  "key000824" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc008975> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004191> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "10563" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

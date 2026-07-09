@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per006072>
+        a                    pers:person ;
+        rdfs:label           "Jakob Walt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1523" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1523" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 15:52:39.229570" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006072a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002126> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "105" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "404"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002126.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006072a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "105" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "403"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002126.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006072a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1523" ;
+                               pers:description   "key004963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1523" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002954>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002126> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010615>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques Jaquemet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1581" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-10 16:20:03.990303" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010615a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003888> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan Jacques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003888.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010615a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003888> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

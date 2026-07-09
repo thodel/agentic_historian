@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008602>
+        a                    pers:person ;
+        rdfs:label           "Marguerite de Bellevaux"@fra ;
+        pers:deaths          [ pers:death         "11.1537" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1537-11" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1529" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-28 07:57:17.147844" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Marguerite" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008602a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003087> ;
+                               pers:rolenames         [ pers:occurence  "NE 3" ;
+                                                        pers:rolename   "Frau/dame"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Margueritte" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003087.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008602a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003087> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008601> ;
+                               pers:occurence  "NE 3"
+                             ] .

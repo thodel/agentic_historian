@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per004915>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Brandis"@deu ;
+        pers:deaths          [ pers:death         "22.11.1383" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1383-11-22" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1348" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1348" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-16 11:13:45.381253" ;
+                               pers:username  "fahe"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004915a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1c" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "3"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000217> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004915b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000056> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1357–1383" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1357" ;
+                                                                        pers:to    "1383"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000056>
+                             ] ;
+        pers:occupation      [ pers:date         "1348-1357" ;
+                               pers:description  "key000001" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000577>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000217> ;
+        pers:project         "Königsfelden" , "SSRQ" ;
+        pers:refs            [ pers:id    "12523" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

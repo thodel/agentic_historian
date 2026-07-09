@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per001818>
+        a                pers:person ;
+        rdfs:label       "Franz Viktor Schorno"@deu ;
+        pers:births      [ pers:birth         "03.07.1641" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1641-07-03" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "18.01.1709" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1709-01-18" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Franz Viktor" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001818a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "271" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "974"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000801> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000801.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001818a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1679-1699" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1679" ;
+                                                                    pers:to    "1699"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000801> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19041" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

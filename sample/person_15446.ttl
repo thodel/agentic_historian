@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per016533>
+        a                         pers:person ;
+        rdfs:label                "Pierre Barbey"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1524" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-04-23 19:01:59.018180" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Pierre" ;
+                                    pers:lang        "fra" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006572.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016533a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Pierre" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per016533a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006572> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "01.10.1524" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org006572> ;
+        pers:project              "SSRQ" ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                    pers:occurence  "gortega"
+                                  ] .

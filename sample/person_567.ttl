@@ -1,0 +1,109 @@
+<http://ssrq-sds-fds.ch/Register/#per000655>
+        a                    pers:person ;
+        rdfs:label           "Melchior von Hörnlingen"@deu ;
+        pers:deaths          [ pers:death         "1506" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1506" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1489" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1489" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename          "Melchior" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000655b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "91" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "315"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "44" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "101"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "151a" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "538"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "62c" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "207"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "84b" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "295"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "110" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "376"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000320> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Melchior" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000655a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "110" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "376"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "151a" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "538"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "91" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "315"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "84b" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "295"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "44" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "101"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "62c" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "207"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Mölchior" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000655a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1489-1506" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1489" ;
+                                                                        pers:to    "1506"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000320> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18414" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.sg.ch/content/kanton_st__gallen/home/kultur/stiftsarchiv/geschichte/abtei_pfaefers/aebte/melchior_von_hoernlingen.popup.html"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per018870>
+        a                pers:person ;
+        rdfs:label       "Gregor V. (Papst)"@deu ;
+        pers:births      [ pers:birth      "972" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "18.02.0999" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-05 07:17:15.170326" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Gregor" ;
+                           pers:gennames   [ pers:genname    "V." ;
+                                             pers:occurence  "GR B III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per018870a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Gregory V" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018870a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "996-999" ;
+                           pers:description  "key000014" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118697382" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

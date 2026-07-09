@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per019428>
+        a                    pers:person ;
+        rdfs:label           "Disch Pitschen"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019427> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-17 18:08:15.877193" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Dysch" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005812.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019428a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Disch" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019428a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005812> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005812> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019437> ;
+                               pers:occurence  "pascale"
+                             ] .

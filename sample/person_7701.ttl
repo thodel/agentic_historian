@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per008388>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Schelling"@deu ;
+        pers:first_mentions  [ pers:first_mention  "19. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1801" ;
+                                                                         pers:to    "1900"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-19 12:02:03.656929" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Jakob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "1399"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002392.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008388a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008388a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002392> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "19. Jh." ;
+                               pers:description   "key000976" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1801" ;
+                                                                        pers:to    "1900"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002392> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

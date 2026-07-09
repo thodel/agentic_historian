@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per012577>
+        a                         pers:person ;
+        rdfs:label                "Henri de Lalerio"@fra ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004483>
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1461" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-08 15:35:01.892331" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Henricus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012577a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004868> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename   "Henri" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012577a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004868> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Henricus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004868.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012577a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "02.11.1461" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004868> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Modestin 1999, p. 335" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011218> ;
+                                    pers:occurence  "gortega"
+                                  ] .

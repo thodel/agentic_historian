@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per003168>
+        a                    pers:person ;
+        rdfs:label           "Egloff Etterlin"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003169> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003668> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1452" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 13:04:52.055312" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Egloff" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003168a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "44a" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "122"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "39c" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "106"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "39b" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "103"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "42" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "114"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "32b" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "77"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "44b" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "123"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001246> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "-1452" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1452" ;
+                                                                        pers:notBefore  "1442" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001246> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14113" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per026406>
+        a                pers:person ;
+        rdfs:label       "Hans Blarer"@deu ;
+        pers:births      [ pers:birth      "1685" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "27.06.1757" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-07 16:41:51.468280" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026406a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006103> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1724-1757" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006103> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "136305067" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "29376" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

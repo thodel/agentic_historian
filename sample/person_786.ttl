@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000865>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Ruck"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1466" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1466" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Tannegg" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000865a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "62c" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "204"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000456> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000456.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000865a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1466" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1466" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001835>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000456> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per003279>
+        a                    pers:person ;
+        rdfs:label           "Gilg von Engiberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1378" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1378" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-06-30 17:10:35.997604" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1404" ] ] ;
+                               pers:last_mention  "1404" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Gilg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003279a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "11"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001303> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001303> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18969" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date          "1381" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1381" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000730> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

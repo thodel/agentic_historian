@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007128>
+        a                    pers:person ;
+        rdfs:label           "Werner von Wohlen"@deu ;
+        pers:deaths          [ pers:death      "1348" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003512> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1290" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "24.01.1313" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1313-01-24" ] ] ;
+                               pers:occurence      "tobias"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-20 10:27:24.674093" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:gennames   [ pers:genname    "II." ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007128a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "tobias" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001395> ;
+                               pers:rolenames  [ pers:occurence  "mina" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1311, 1313, 1319" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001395> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "020116" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:title  "Merz, Walther: Die Mittelalterlichen Burganlagen Und Wehrbauten Des Kantons Aargau. Bd 2, 1906, S. 587." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

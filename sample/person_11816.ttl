@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per012717>
+        a                pers:person ;
+        rdfs:label       "Karl der Grosse (Hl.)"@deu ;
+        pers:births      [ pers:birth      "747" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "814" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:feast_day   "28.01." ;
+        pers:hist        [ pers:date      "2020-06-11 08:57:20.515595" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Karoli" ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:type       "orig" ;
+                           pers:var_id     <http://ssrq-sds-fds.ch/Register/#per012717a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Carolus Magnus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org999999.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012717a.03>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Grosse" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Karl" ;
+                           pers:gennames   [ pers:genname    "I." ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012717a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Karolus" ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:type       "orig" ;
+                           pers:var_id     <http://ssrq-sds-fds.ch/Register/#per012717a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "800-814" ;
+                           pers:description  "key000422" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004134>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org999999> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.heiligenlexikon.de/BiographienK/Karl_der_Grosse.htm"
+                         ] ;
+        pers:refs        [ pers:id    "20775" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118560034" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

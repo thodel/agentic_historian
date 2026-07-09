@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per007383>
+        a                    pers:person ;
+        rdfs:label           "Georg Hammerer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1644" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1644" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 08:03:58.004550" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "198" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "882"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002159.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007383a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007383a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002159> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "194" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "867"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002159.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007383a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1644, 1650" ;
+                               pers:description   "key003639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1650" ] ;
+                                         pers:format_date  [ pers:when  "1644" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:occupation      [ pers:date          "1650" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1650" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003020>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002159> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

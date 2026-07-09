@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per001020>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Brun"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1378" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1378" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Rhäzüns" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001020a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "89" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "306"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000539> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000539> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000661> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

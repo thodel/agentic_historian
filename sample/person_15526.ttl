@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per016613>
+        a                    pers:person ;
+        rdfs:label           "Christoffel de Gabriel"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006812>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1746" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-11 11:59:09.442331" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1767" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Christoffel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016613a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006597> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1767" ;
+                               pers:description  "key005671" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key005658" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006597> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "AC/(JM): In Tenna eingebürgert am 18. Mai 1767." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000985> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

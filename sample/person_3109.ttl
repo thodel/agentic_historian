@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003559>
+        a                    pers:person ;
+        rdfs:label           "Jost Pfyffer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1673" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:14:59.310400" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003559a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "66" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "202"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "73" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "219"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001146> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1676" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1676" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:occupation      [ pers:date          "1673-1689" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1673" ;
+                                                                        pers:to    "1689"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001146> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

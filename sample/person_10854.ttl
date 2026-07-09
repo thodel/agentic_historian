@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per011706>
+        a                    pers:person ;
+        rdfs:label           "Jean Pittet"@fra ;
+        pers:citizenOf       [ pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004481>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1444" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2019-10-27 12:34:00.543867" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011706a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004480> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011706a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004480> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000907" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007618> ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:occupation      [ pers:date         "1444" ;
+                               pers:description  "key005487" ;
+                               pers:occurence    "gortega" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004481>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004480> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Deglon 1949, p. 187, 189, 190, 193, 218, 235, 271, 315, 330 et 341" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Il rallie, avec Antoine de Galléra, Guillaume de Sévery et Pierre de Mont, le duc de Savoie en janvier 1448 dans la guerre contre les Fribourgeois (Deglon 1949, p. 190)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007618> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

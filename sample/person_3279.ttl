@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003735>
+        a                pers:person ;
+        rdfs:label       "Franz Josef Stalder"@deu ;
+        pers:births      [ pers:birth         "1757" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1757" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1833" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1833" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-15 16:37:04.286131" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Franz Josef" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003735a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "44b" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "123"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "119b" ;
+                                                              pers:line     "14" ;
+                                                              pers:page     "426"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000492> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000301" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000492> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "12310" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

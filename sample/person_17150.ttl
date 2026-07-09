@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per018310>
+        a                    pers:person ;
+        rdfs:label           "Margaretha von Stampa"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1570" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 08:54:34.954321" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Margaretha" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018310a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005806> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Margaretha" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018310b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000866> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005806> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013880> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

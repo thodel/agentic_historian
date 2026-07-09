@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007536>
+        a                    pers:person ;
+        rdfs:label           "Hans Zellweger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1664" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1664" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 17:20:33.837778" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "211" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "982"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002079.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007536a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007536a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002079> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1664" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1664" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:occupation      [ pers:date          "1664" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1664" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002079> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

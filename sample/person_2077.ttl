@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per002486>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Stieber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1655" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1655" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001029.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002486a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Schiltriet" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002486a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "240" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "884"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001029> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1655" ;
+                               pers:description   "key003681" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1655" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001029> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

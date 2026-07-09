@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002758>
+        a                    pers:person ;
+        rdfs:label           "Georg Tschudi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1723" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1723" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002758a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "293" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1027"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Georgio" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002758a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1723" ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1723" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000063> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

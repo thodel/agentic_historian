@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per006581>
+        a                    pers:person ;
+        rdfs:label           "Jost Vonderweid"@deu ;
+        pers:deaths          [ pers:death         "1637" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1637" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1621" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1621" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 13:21:02.780213" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006581a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002526> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1617-1637" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1617" ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002526> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VII, p. 171" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

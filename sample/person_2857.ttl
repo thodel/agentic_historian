@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per003303>
+        a                    pers:person ;
+        rdfs:label           "Johannes Segesser von Brunegg"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013267> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-27 17:56:17.168771" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003303a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000962> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000962.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003303a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1382" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000504> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date         "1400" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000504> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:occupation      [ pers:date         "1412" ;
+                               pers:description  "key003211" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000088>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000962> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "GHS 3, S. 197-199, Nr. 11" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

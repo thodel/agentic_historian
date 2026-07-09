@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per008383>
+        a                    pers:person ;
+        rdfs:label           "Johannes Ritz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-19 11:34:35.941888" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:forename    "Johan" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "1399"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002160.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008383a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008383a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "1400"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002160> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1796" ;
+                               pers:description   "key000276" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1796" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002160> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per004881>
+        a                    pers:person ;
+        rdfs:label           "Berchtold von Falkenstein"@deu ;
+        pers:deaths          [ pers:death         "10.07.1272" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1272-07-10" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "25.11.1244" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1244-11-25" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-27 15:01:09.819253" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename    "Berchtoldus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004881a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Berchtold" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004881a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1c" ;
+                                                                         pers:line     "41" ;
+                                                                         pers:page     "2"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Berchtold" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004881b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001943> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1244-1272" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1244" ;
+                                                                        pers:to    "1272"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000581> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III/1,2, S. 1301-1303" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:refs            [ pers:id    "12600" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

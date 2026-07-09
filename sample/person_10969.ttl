@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011828>
+        a                    pers:person ;
+        rdfs:label           "Louis Robert"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1612" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-08 09:48:13.225959" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Louis" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011828a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003115> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Louys" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003115.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011828a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003115> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007815> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011829> ;
+                               pers:occurence  "pascale"
+                             ] .

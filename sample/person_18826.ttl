@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020043>
+        a                    pers:person ;
+        rdfs:label           "Gotthard Bolzoni"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020042> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1543" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-19 10:54:56.473542" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Gotthard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020043a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007489> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gotardi" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007489.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020043a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007489> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008346> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

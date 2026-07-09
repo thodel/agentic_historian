@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per016454>
+        a                         pers:person ;
+        rdfs:label                "Claude Clavel"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1524" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-04-23 08:50:42.609556" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Claude" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per016454a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005178> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Glaude" ;
+                                    pers:lang        "fra" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005178.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016454a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "01.10.1524" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005178> ;
+        pers:project              "SSRQ" ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                    pers:occurence  "gortega"
+                                  ] .

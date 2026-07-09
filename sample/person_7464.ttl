@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per008144>
+        a                    pers:person ;
+        rdfs:label           "Karl Paul Dietegen von Salis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1753" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1753" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 11:48:21.431909" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Karl Paul Dietegen" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008144a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "281" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "1235"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002799> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Carl Paul Diethegen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "329" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "1416"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "281" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "1236"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "305b" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "1318"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002799.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008144a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1753" ;
+                               pers:description   "key001104" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1753" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002799> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000053> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

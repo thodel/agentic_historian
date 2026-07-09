@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per011200>
+        a                    pers:person ;
+        rdfs:label           "Hans Fränkli"@deu ;
+        pers:births          [ pers:birth      "um 1410" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:deaths          [ pers:death      "1478" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "01.06.1470" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-16 08:29:32.657998" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011200a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004225> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "saeg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004225.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011200a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "01.06.1470" ;
+                               pers:description  "key000636" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence    "saeg" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004002>
+                             ] ;
+        pers:occupation      [ pers:date         "1447" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005784> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004225> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "16698" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://de.wikipedia.org/wiki/Hans_Fr%C3%A4nkli"
+                             ] ;
+        pers:refs            [ pers:id    "136927254" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

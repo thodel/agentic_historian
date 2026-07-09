@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per010297>
+        a                pers:person ;
+        rdfs:label       "Heinrich Garnleder"@deu ;
+        pers:citizenOf   [ pers:occurence  "claudia" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                         ] ;
+        pers:deaths      [ pers:death      "vor 1421" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010296> ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2019-05-27 20:56:25.933590" ;
+                           pers:username  "claudia"
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010297a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001994> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hainrice" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "claudia" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001994.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010297a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Heini" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "stadtasg" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001994.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010297a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1369" ;
+                           pers:description  "key000540" ;
+                           pers:occurence    "claudia" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001179>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001994> ;
+        pers:project     "StadtASG" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:sex         "1" .

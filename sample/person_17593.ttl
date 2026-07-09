@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per018770>
+        a                    pers:person ;
+        rdfs:label           "Jakob Jörg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1704" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 11:18:22.086299" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006162.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018770a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018770a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006162> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006162> ;
+        pers:project         "SSRQ" ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018769> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018772> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007691> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

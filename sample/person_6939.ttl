@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per007602>
+        a                    pers:person ;
+        rdfs:label           "Hans Forster"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-07 15:36:15.492516" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "221a" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "1010"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002311.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007602a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007602a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002311> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002311> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Wohnort wahrscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

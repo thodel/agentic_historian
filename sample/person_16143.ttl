@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017260>
+        a               pers:person ;
+        rdfs:label      "Hans Padrun"@deu ;
+        pers:deaths     [ pers:death      "vor 1515" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017259> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-08 08:49:36.073407" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017260a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "pascale" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006818> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hans" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006818.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017260a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006818> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008964> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:sex        "1" .

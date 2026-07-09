@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per012748>
+        a                        pers:person ;
+        rdfs:label               "Nycod Magan"@fra ;
+        pers:births              [ pers:birth      "ca. 1468" ;
+                                   pers:occurence  "pascale"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-11-30 13:25:05.674440" ;
+                                   pers:username  "pascale"
+                                 ] ;
+        pers:last_mentions       [ pers:last_mention  "1498" ;
+                                   pers:occurence     "gortega"
+                                 ] ;
+        pers:last_mentions       [ pers:last_mention  "1498" ;
+                                   pers:occurence     "pascale"
+                                 ] ;
+        pers:name                [ pers:forename    "Nycodus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005200.03> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012748a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Nycodus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012748a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005200> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Nycod" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012748a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005200> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "26.10.1498" ;
+                                   pers:description  "key005588" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:occupation          [ pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org005200> ;
+        pers:project             "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs                [ pers:title  "Pfister 1997, p. 296" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:remark              "Ne respecte pas le secret de l'instruction et informe Marguerite Diserens que plusieurs personnes ont témoigné contre elle lors de l'enquête du Chapitre en septembre 1498." ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007669> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                                   pers:occurence  "gortega"
+                                 ] .

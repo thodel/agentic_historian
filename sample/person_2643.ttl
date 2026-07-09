@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003073>
+        a                    pers:person ;
+        rdfs:label           "Josef Gätzi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1786" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1786" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003073a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "364" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "1199"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001038> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001038.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003073a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000370" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001038> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000237> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

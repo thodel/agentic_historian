@@ -1,0 +1,151 @@
+#!/usr/bin/env bash
+# ssrq — thin CLI wrapper around the SSRQ MCP server on tei.dh.unibe.ch
+#
+# Usage:
+#   ssrq ping                                    # server live?
+#   ssrq search <query>                          # full-text search
+#   ssrq list-collections                        # available collections
+#   ssrq get-entry <id>                          # fetch one entry
+#
+# The server URL and auth token come from environment variables:
+#   SSRQ_MCP_URL      e.g. https://tei.dh.unibe.ch/mcp/ssrq/
+#   SSRQ_MCP_TOKEN    long-lived token (ask Tobias)
+#
+set -euo pipefail
+
+URL="${SSRQ_MCP_URL:-https://tei.dh.unibe.ch/mcp/ssrq/}"
+TOKEN="${SSRQ_MCP_TOKEN:-}"
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+info() { echo "[ssrq] $*" >&2; }
+die()  { echo "[ssrq] ERROR: $*" >&2; exit 1; }
+
+http_get() {
+    local path="$1"
+    shift
+    curl -sf \
+        -H "Authorization: Bearer ${TOKEN}" \
+        -H "Accept: application/json" \
+        "${URL}${path}" \
+        "$@"
+}
+
+http_post() {
+    local path="$1" data="$2"
+    shift 2
+    curl -sf \
+        -H "Authorization: Bearer ${TOKEN}" \
+        -H "Accept: application/json" \
+        -H "Content-Type: application/json" \
+        -d "${data}" \
+        "${URL}${path}" \
+        "$@"
+}
+
+json_escape() {
+    # Escape a string for use as a JSON value (simple version — no unicode surprises)
+    printf '%s' "$1" | python3 -c 'import sys,json; print(json.dumps(sys.stdin.read()))'
+}
+
+# ── commands ─────────────────────────────────────────────────────────────────
+
+cmd_ping() {
+    info "pinging ${URL}..."
+    local resp
+    resp=$(http_get "" -o /dev/null -w "%{http_code}" 2>/dev/null || echo "000")
+    if [[ "$resp" == "200" ]]; then
+        echo "pong"
+    else
+        die "server returned HTTP ${resp}"
+    fi
+}
+
+cmd_search() {
+    local query="${1:-}"
+    [[ -z "$query" ]] && die "usage: ssrq search <query>"
+    info "searching: ${query}"
+    local q
+    q=$(json_escape "$query")
+    http_post "search" "[{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"search\",\"arguments\":{\"query\":${q}}}}]" | \
+        python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("result",d))' 2>/dev/null || \
+        die "search failed"
+}
+
+cmd_list_collections() {
+    info "listing collections..."
+    http_get "collections" | python3 -m json.tool 2>/dev/null || die "list-collections failed"
+}
+
+cmd_get_entry() {
+    local id="${1:-}"
+    [[ -z "$id" ]] && die "usage: ssrq get-entry <id>"
+    info "fetching entry: ${id}"
+    local e
+    e=$(json_escape "$id")
+    http_post "get-entry" "[{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"get-entry\",\"arguments\":{\"entry_id\":${e}}}}]" | \
+        python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("result",d))' 2>/dev/null || \
+        die "get-entry failed"
+}
+
+cmd_persons_search() {
+    local query="${1:-}"
+    [[ -z "$query" ]] && die "usage: ssrq persons-search <query>"
+    info "persons search: ${query}"
+    local q
+    q=$(json_escape "$query")
+    http_post "persons-search" "[{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"search_persons\",\"arguments\":{\"query\":${q}}}}]" | \
+        python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("result",d))' 2>/dev/null || \
+        die "persons-search failed"
+}
+
+cmd_places_search() {
+    local query="${1:-}"
+    [[ -z "$query" ]] && die "usage: ssrq places-search <query>"
+    info "places search: ${query}"
+    local q
+    q=$(json_escape "$query")
+    http_post "places-search" "[{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"search_places\",\"arguments\":{\"query\":${q}}}}]" | \
+        python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("result",d))' 2>/dev/null || \
+        die "places-search failed"
+}
+
+cmd_corpus_stats() {
+    info "fetching corpus stats..."
+    http_post "corpus-stats" "[{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"corpus_stats\",\"arguments\":{}}}]" | \
+        python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("result",d))' 2>/dev/null || \
+        die "corpus-stats failed"
+}
+
+# ── dispatcher ────────────────────────────────────────────────────────────────
+
+CMD="${1:-}"
+shift 2>/dev/null || true
+
+case "$CMD" in
+    ping)             cmd_ping "$@" ;;
+    search)           cmd_search "$@" ;;
+    list-collections) cmd_list_collections ;;
+    get-entry)        cmd_get_entry "$@" ;;
+    persons-search)   cmd_persons_search "$@" ;;
+    places-search)    cmd_places_search "$@" ;;
+    corpus-stats)     cmd_corpus_stats ;;
+    *) cat <<EOF >&2
+Usage: ssrq <command> [args]
+
+Commands:
+  ping              Check server is alive
+  search <query>    Full-text search
+  list-collections  Show collections
+  get-entry <id>    Fetch one entry by ID
+  persons-search <query>  Search person authority
+  places-search <query>  Search place authority
+  corpus-stats      High-level corpus counts
+
+Environment:
+  SSRQ_MCP_URL   Server URL  (default: https://tei.dh.unibe.ch/mcp/ssrq/)
+  SSRQ_MCP_TOKEN Bearer token (required; ask Tobias to set up)
+EOF
+       exit 1
+       ;;
+esac

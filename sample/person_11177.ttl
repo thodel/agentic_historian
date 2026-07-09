@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per012052>
+        a                    pers:person ;
+        rdfs:label           "Hans Gebhard"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1477" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-25 15:44:07.613705" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1477" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012052a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003545> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1477" ;
+                               pers:description  "key004139" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005974> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003545> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit per011856 oder mit per018130" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005974> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

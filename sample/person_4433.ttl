@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per004957>
+        a                    pers:person ;
+        rdfs:label           "Georg von Wildenstein"@deu ;
+        pers:deaths          [ pers:death         "31.03.1379" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1379-03-31" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1347" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1347" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:40:57.455882" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Georg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004957a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001969> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Georg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004957b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1j" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "7"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1360–1379" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1360" ;
+                                                                        pers:to    "1379"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001969> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Duft/Gössi/Vogler, Abtei, S. 142–143" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.wilnet.ch/Default.aspx?Command=PrdtDetail&prdtName=29394d0d-330c-4224-a34f-80327e73ea78"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1312-1313" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" .

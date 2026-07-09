@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per004520>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Rot"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1430" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1430" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-28 08:52:54.119686" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004522> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004521> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004523> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Elzbeth" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000307.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004520b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004520b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000307> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004520a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000468> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000468> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004436> ;
+                               pers:occurence  "SG III/4"
+                             ] .

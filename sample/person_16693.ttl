@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per017836>
+        a                    pers:person ;
+        rdfs:label           "Josef Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1470" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-19 08:45:36.897381" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Jos" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017836a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017836a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000622" ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004641>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

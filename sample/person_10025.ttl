@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per010802>
+        a                    pers:person ;
+        rdfs:label           "Andreas Schlegel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-13 10:07:54.256291" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "schloserly" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Andres" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000714.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010802a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010802a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000714> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1733" ;
+                               pers:description  "key000408" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date         "1733" ;
+                               pers:description  "key000966" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000714> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Zuständig für das Sechstel Unterdorf von Grabs zur Einhaltung der Feuerordnung." ;
+        pers:residence       [ pers:date       "1733" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007827> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

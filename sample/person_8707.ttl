@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per009446>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Nussbaumer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1612" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1612" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 14:21:43.262788" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1632" ] ] ;
+                               pers:last_mention  "1632" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003498.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009446a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009446a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003498> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1612-1632" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1612" ;
+                                                                        pers:to    "1632"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003498> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

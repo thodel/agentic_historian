@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008640>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques Petitpierre"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1827" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1827" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-17 11:58:25.879441" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008640a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003121> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003121.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008640a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003121> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1827" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005824> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

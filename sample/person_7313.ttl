@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007990>
+        a                    pers:person ;
+        rdfs:label           "Hans Georg Geiger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1747" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1747" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-30 17:19:04.777301" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007990a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002427> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "274a" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "1204"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002427.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007990a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1747" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:occupation      [ pers:date          "1747" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002427> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per009235>
+        a                pers:person ;
+        rdfs:label       "Jost Wohlgemut"@deu ;
+        pers:births      [ pers:birth      "1586" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death         "1611" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-22 11:47:05.776383" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename   "Jost" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009235a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003413> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003413.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009235a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003413.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009235a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003413.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009235a.02>
+                         ] ;
+        pers:occupation  [ pers:description  "key000603" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003413> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001482> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010918> ;
+                           pers:occurence  "pascale"
+                         ] .

@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002284>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Winmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1605" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1605" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002284a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "200" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "760"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000651> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000651.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002284a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000651> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

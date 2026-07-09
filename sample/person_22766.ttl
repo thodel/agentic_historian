@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per024087>
+        a                pers:person ;
+        rdfs:label       "Johann Flugi"@deu ;
+        pers:births      [ pers:birth      "1550" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "30.08.1627" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-02 16:19:30.342907" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024087a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001012> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024087b.01>
+                         ] ;
+        pers:name        [ pers:forename          "Johann" ;
+                           pers:gennames          [ pers:genname    "V." ;
+                                                    pers:occurence  "GR B III/2"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per024087b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "GR B III/2"
+                                                  ] ;
+                           pers:occurence         "GR B III/2" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1601–1627" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000053>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001012> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "HS I/1, S. 498f.; Fischer 2017, S. 215f." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:refs        [ pers:id    "122914899" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "26311" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

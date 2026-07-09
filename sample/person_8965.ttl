@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009707>
+        a                pers:person ;
+        rdfs:label       "Jeannette Lasne"@fra ;
+        pers:deaths      [ pers:death         "1493" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1493" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 07:29:51.148883" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename    "Jehanneta" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003599.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009707a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Jeannette" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per009707a> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                    pers:occurence       "FR I/2/8"
+                                                  ] ;
+                           pers:occurence         "FR I/2/8" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003599> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key000945" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003599> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "2" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009706> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

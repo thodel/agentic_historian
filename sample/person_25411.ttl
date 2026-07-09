@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per026786>
+        a                    pers:person ;
+        rdfs:label           "Konrad Waldmann"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016895> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-01 23:58:35.406278" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026786a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000426> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1423" ;
+                               pers:description  "key000303" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009765> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000426> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008681> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

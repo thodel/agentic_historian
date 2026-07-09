@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per008171>
+        a                pers:person ;
+        rdfs:label       "Iso Walser"@deu ;
+        pers:births      [ pers:birth         "28.08.1722" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1722-08-28" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "03.06.1800" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1800-06-03" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-06 08:54:55.496695" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename          "Iso" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per008171a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "292" ;
+                                                                     pers:line     "35" ;
+                                                                     pers:page     "1268"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "287c" ;
+                                                                     pers:line     "25" ;
+                                                                     pers:page     "1251"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "287e" ;
+                                                                     pers:line     "22" ;
+                                                                     pers:page     "1256"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "304" ;
+                                                                     pers:line     "26" ;
+                                                                     pers:page     "1312"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "287d" ;
+                                                                     pers:line     "12" ;
+                                                                     pers:page     "1252"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000615> ;
+                           pers:rolenames         [ pers:occurence  "SG III/3" ;
+                                                    pers:rolename   "Pater/pater"
+                                                  ] ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1764, 1767, 1774" ;
+                           pers:description   "key003761" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1764" ] ;
+                                     pers:format_date  [ pers:when  "1767" ] ;
+                                     pers:format_date  [ pers:when  "1774" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000615> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21777" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

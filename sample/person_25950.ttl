@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per027340>
+        a             pers:person ;
+        rdfs:label    "Karl von Burgund"@deu ;
+        pers:births   [ pers:birth      "10.11.1433" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "05.01.1477" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-11-09 08:46:42.026206" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "der Kühne" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Karl" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per027340a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006167> ;
+                        pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                          pers:rolename   "Herzog/duc"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Karl dem Kühnen" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006167.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027340a.02>
+                      ] ;
+        pers:name     [ pers:forename    "Hertzog" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006167.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027340a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org006167> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "029226" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "118560026" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

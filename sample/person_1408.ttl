@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per001810>
+        a                    pers:person ;
+        rdfs:label           "Ambrosius Jenny"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1528" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ambrosius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001810a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "141" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "486"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000694> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Brosi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000694.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001810a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1528" ;
+                               pers:description   "key000782" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1528" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002123>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000694> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000531> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

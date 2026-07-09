@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004810>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Ufrecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-02-09 12:56:05.440008" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "Wilhelm" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004810a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001922> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001922> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1486" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006121> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004811> ;
+                               pers:occurence  "SG III/4"
+                             ] .

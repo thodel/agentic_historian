@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004901>
+        a                    pers:person ;
+        rdfs:label           "Franziskus Hardegger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1710" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1710" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-28 18:20:55.569427" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                               pers:last_mention  "1722" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Frantziß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000805.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004901a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Franziskus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004901a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000805> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1710, 1712" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ;
+                                         pers:format_date  [ pers:when  "1710" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000211> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1722" ;
+                               pers:description   "key004798" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000211> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000805> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004900> ;
+                               pers:occurence  "SG III/4"
+                             ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010102>
+        a                pers:person ;
+        rdfs:label       "Sigmund d’ Erlach"@fra ;
+        pers:births      [ pers:birth      "03.10.1614" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "07.12.1699" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-22 08:43:32.809197" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Sigmund" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010102a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003527> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1676" ;
+                           pers:description  "key003976" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000743> ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003527> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16679" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:sex         "1" .

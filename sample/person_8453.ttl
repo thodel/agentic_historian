@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009186>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Bläsi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-01 12:03:50.147838" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009186a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001416> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001416.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009186a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinricus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009186a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001416> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1517" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006141> ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001416> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

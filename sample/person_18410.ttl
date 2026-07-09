@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019618>
+        a                    pers:person ;
+        rdfs:label           "Georg Tras"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1473" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-16 08:21:10.026686" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019618a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007381> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Georig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007381.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019618a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007381> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000948> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per009175>
+        a                    pers:person ;
+        rdfs:label           "Jakob Troger"@deu ;
+        pers:deaths          [ pers:death         "07.06.1534" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1534-06-07" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1519" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1519" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 08:38:12.202136" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jacobus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009175a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000853> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000853.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009175a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009175a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000853> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004964" ;
+                               pers:occurence    "FDS TI" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000853> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15615" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

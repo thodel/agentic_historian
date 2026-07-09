@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per008620>
+        a                    pers:person ;
+        rdfs:label           "Isaac Vuagneux"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1839" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1839" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-15 21:37:40.512153" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Isac" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003110.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008620a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Isaac" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008620a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003110> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1839" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1839" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "avant 1839" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1839" ;
+                                                                        pers:notBefore  "1789" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003110> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

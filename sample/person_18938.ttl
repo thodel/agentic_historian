@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per020156>
+        a                    pers:person ;
+        rdfs:label           "Martin Gredig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1706" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-23 07:17:01.277315" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1723" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020156a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006125> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Martty" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006125.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020156a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1723" ;
+                               pers:description  "key000051" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006125> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

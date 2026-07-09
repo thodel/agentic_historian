@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000715>
+        a                    pers:person ;
+        rdfs:label           "Hans Rad"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000715a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "116"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000358> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1437" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1437" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001162>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000358> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

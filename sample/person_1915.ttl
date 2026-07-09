@@ -1,0 +1,101 @@
+<http://ssrq-sds-fds.ch/Register/#per002318>
+        a                pers:person ;
+        rdfs:label       "Bonifaz Pfister"@deu ;
+        pers:births      [ pers:birth         "14.10.1700" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1700-10-14" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "20.01.1769" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1769-01-20" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:addnames          [ pers:addname    "der Dritte" ;
+                                                    pers:occurence  "SG III/2"
+                                                  ] ;
+                           pers:forename          "Bonifaz" ;
+                           pers:gennames          [ pers:genname    "III." ;
+                                                    pers:occurence  "SG III/2"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002318a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "309" ;
+                                                                     pers:line     "37" ;
+                                                                     pers:page     "1061"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "225" ;
+                                                                     pers:line     "35" ;
+                                                                     pers:page     "847"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "326" ;
+                                                                     pers:line     "34" ;
+                                                                     pers:page     "1100"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "337" ;
+                                                                     pers:line     "9" ;
+                                                                     pers:page     "1121"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Bonifaz" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002318b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "337" ;
+                                                                     pers:line     "9" ;
+                                                                     pers:page     "1121"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "225" ;
+                                                                     pers:line     "35" ;
+                                                                     pers:page     "847"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "309" ;
+                                                                     pers:line     "37" ;
+                                                                     pers:page     "1061"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "326" ;
+                                                                     pers:line     "34" ;
+                                                                     pers:page     "1100"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000325> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "der Dritte" ;
+                                              pers:occurence  "SG III/2"
+                                            ] ;
+                           pers:forename    "Bonifacius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002318a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1738-1769" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1738" ;
+                                                                    pers:to    "1769"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000325> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21850" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000047> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

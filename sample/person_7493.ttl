@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008174>
+        a                    pers:person ;
+        rdfs:label           "Anton Bösch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1767" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1767" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 09:18:48.692774" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008174a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001738> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287d" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "1255"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001738.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008174a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001738> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

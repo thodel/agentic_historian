@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010376>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Kupferschmid"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002020>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-05 17:01:31.675827" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Els" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000312.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010376a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010376a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000312> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000312> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010377> ;
+                               pers:occurence  "stadtasg"
+                             ] .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per014684>
+        a                    pers:person ;
+        rdfs:label           "Beat Effinger"@deu ;
+        pers:deaths          [ pers:death      "1529" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1525" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-25 13:54:14.362135" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                             ] ;
+        pers:name            [ pers:forename   "Beat" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014684a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002421> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Batt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002421.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014684a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1525-1529" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002421> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

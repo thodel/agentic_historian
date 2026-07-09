@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001513>
+        a                    pers:person ;
+        rdfs:label           "Hans von Sengen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1500" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1500" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-16 11:46:14.094768" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001513a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "109" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "374"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000668> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000668> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1477" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000979> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

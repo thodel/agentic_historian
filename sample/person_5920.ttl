@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per006521>
+        a                    pers:person ;
+        rdfs:label           "Georg Grebel"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:deaths          [ pers:death      "1527" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1484" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 07:30:46.366309" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006521a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joͤrg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000987.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006521a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000987.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006521a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1497" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:occupation      [ pers:date          "1497" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud:  Wahrscheinlich derselbe wie der im HLS erwähnte Georg Grebel (gestorben 1527), der älteste Sohn von Hans Grebel, der 1485 von Junker Engelhard die Burg Maur erwarb (die Gerichtsherrschaft blieb bei den Aeppli). Dieser Zweig wurde fortan Grebel von Maur genannt." ;
+        pers:sex             "1" .

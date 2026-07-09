@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per014695>
+        a                    pers:person ;
+        rdfs:label           "Hans Felix Manz"@deu ;
+        pers:deaths          [ pers:death      "1533" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-25 13:58:31.765880" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005082>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Felix" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014695a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000178> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns Felix" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000178.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014695a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1520-1532" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000178> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

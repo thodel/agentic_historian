@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per011708>
+        a                    pers:person ;
+        rdfs:label           "Gérard Daux"@fra ;
+        pers:citizenOf       [ pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004483>
+                             ] ;
+        pers:deaths          [ pers:death      "1453" ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011796> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011795> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1449" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 09:35:46.353751" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Gérard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011708a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004482> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Girardus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011708a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004482> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Girardus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004482.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011708a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000275" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004482> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Ostorero et al. 2007, p. 103" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "On trouve mention en 1453 d’Aymon et Jacques, fils de Girardus de Alpibus, notaire et bourgeois de Lausanne (AVL, Chavanne, C 228, fol. 7v.). À ne pas confondre avec Girardus de Alpibus, dont le registre notarial est conservé (ACV, Dg 80/1). Pour d’autres mentions, voir Utz Tremp, p. 751." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003067>
+        a                    pers:person ;
+        rdfs:label           "Benedikt Hobi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1785" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1785" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-19 10:31:53.511554" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Benedict" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000720.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003067a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Benedikt" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003067a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "363" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1199"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000720> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000720> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000244> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per025694>
+        a                pers:person ;
+        rdfs:label       "Hans Heinrich Müller"@deu ;
+        pers:births      [ pers:birth      "21.12.1571" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "23.03.1648" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-17 07:59:32.480913" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Hanß Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025694a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025694a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1622-1628" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000012> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1618-1621" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:occupation  [ pers:date         "1618-1621, 1628-1647" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18171" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1074540360" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

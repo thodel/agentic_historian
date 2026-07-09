@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per002233>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Besserer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1602" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1602" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002233a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "715"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000732> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1602" ;
+                               pers:description   "key004901" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1602" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000732> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

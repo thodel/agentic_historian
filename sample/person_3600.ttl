@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004074>
+        a                    pers:person ;
+        rdfs:label           "Ueli Achermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1570" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1570" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-06 17:58:02.952286" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Ueli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004074a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "105" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "382"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001593> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001593> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per006086>
+        a                    pers:person ;
+        rdfs:label           "Felix Grebel"@deu ;
+        pers:deaths          [ pers:death      "1528" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1524" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1524" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1506" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-03 10:41:15.730705" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004958>
+                             ] ;
+        pers:name            [ pers:forename   "Felix" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006086a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "107" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "408"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1506-1508, 1522-1524" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1510-1526" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:occupation      [ pers:date          "1524" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1524" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000066> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

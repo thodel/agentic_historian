@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per006005>
+        a                    pers:person ;
+        rdfs:label           "NN Bucher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1878" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1878" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 14:48:33.694375" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006005a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "95s" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "368"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000977> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1878" ;
+                               pers:description   "key004889" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1878" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000650> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000977> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

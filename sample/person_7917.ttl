@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per008615>
+        a                    pers:person ;
+        rdfs:label           "Abram Henry Borel-Jaquet"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1838" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1838" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-17 09:48:06.256476" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Abram Henry" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003107.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008615a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Abram Henry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008615a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003107> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003107> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007787> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

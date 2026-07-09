@@ -1,0 +1,89 @@
+<http://ssrq-sds-fds.ch/Register/#per007472>
+        a                pers:person ;
+        rdfs:label       "Peter von Salis"@deu ;
+        pers:births      [ pers:birth         "19.12.1729" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1729-12-19" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001160>
+                         ] ;
+        pers:deaths      [ pers:death         "24.10.1783" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1783-10-24" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-02 17:37:53.198604" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007472a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "305b" ;
+                                                              pers:line     "13" ;
+                                                              pers:page     "1318"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "299" ;
+                                                              pers:line     "30" ;
+                                                              pers:page     "1293"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "203a" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "950"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "305a" ;
+                                                              pers:line     "39" ;
+                                                              pers:page     "1317"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002799> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "329" ;
+                                                               pers:line     "39" ;
+                                                               pers:page     "1416"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "299" ;
+                                                               pers:line     "35" ;
+                                                               pers:page     "1293"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "305b" ;
+                                                               pers:line     "38" ;
+                                                               pers:page     "1318"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002799.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007472a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1771" ;
+                           pers:description   "key003579" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1771" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1782" ;
+                           pers:description   "key003671" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1782" ;
+                           pers:description   "key004861" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002799> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16955" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: Im HLS fehlt der Hinweis auf den Kauf der Herrschaft Widnau-Haslach 1782 (zusammen mit Rudolf von Salis; s. dortige Bemerkung)." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007285> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

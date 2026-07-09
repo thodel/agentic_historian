@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per005501>
+        a                    pers:person ;
+        rdfs:label           "Peter Alt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-04 11:52:19.379510" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005501a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "64" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "221"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002089> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002089> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006007> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000073>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Rapperswil"@deu ;
+        pers:deaths          [ pers:death      "1283" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1261" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1261" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-20 12:53:51.717878" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000073a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000004> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000004> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

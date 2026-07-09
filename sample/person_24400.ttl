@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per025748>
+        a                    pers:person ;
+        rdfs:label           "Hans Burri"@deu ;
+        pers:deaths          [ pers:death      "vor 1637" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025747> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1614" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-17 08:09:41.921529" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025748a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007784> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007784.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025748a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1614-1637" ;
+                               pers:description  "key000051" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009768> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007784> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

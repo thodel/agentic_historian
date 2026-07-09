@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003652>
+        a                    pers:person ;
+        rdfs:label           "Niklaus von Einwil"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1427" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-30 10:48:02.375794" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003652a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "32b" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "76"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001464> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003718" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001464> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21144" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005557>
+        a                    pers:person ;
+        rdfs:label           "Thomas Aebli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-04 17:13:04.966940" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005557a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000234> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Thoman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "64" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "222"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000234.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005557a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000234> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006749> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

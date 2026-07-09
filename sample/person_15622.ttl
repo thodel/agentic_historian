@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016712>
+        a                               pers:person ;
+        rdfs:label                      "Jean Lorent"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016599> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1525" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-05-08 11:25:14.444356" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Jean" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016712a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006629> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Joham" ;
+                                          pers:lang        "fra" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006629.01> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016712a.01>
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org006629> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Dorthe dans Ostorero et al. 2007, p. 269" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:sex                        "1" .

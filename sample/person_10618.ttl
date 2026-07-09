@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011454>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Ramsperger"@deu ;
+        pers:citizenOf       [ pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1426" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-29 16:31:23.148554" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011454a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004353> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Vͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004353.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011454a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004353> ;
+        pers:project         "Claudia Sutter" ;
+        pers:sex             "1" .

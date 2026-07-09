@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per028489>
+        a                pers:person ;
+        rdfs:label       "Peter Falk"@deu ;
+        pers:births      [ pers:birth      "ca. 1468" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "06.10.1519" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 14:51:15.571016" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028489a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003375> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003375.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028489a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1493-1519" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1511-1519" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003375> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "136322956" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "014986" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

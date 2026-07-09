@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per027608>
+        a                    pers:person ;
+        rdfs:label           "Hans Nikolaus von Montenach"@deu ;
+        pers:deaths          [ pers:death      "1709" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1673" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-18 13:43:12.278094" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002509.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027608a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027608a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002509> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1692-1695" ;
+                               pers:description  "key003719" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:occupation      [ pers:date         "1673-1709" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002509> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

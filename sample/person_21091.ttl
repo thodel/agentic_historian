@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per022374>
+        a                    pers:person ;
+        rdfs:label           "Matthäus Meuli"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007351>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 08:25:13.748883" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1731" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Matthäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022374a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006274> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Mathe" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006274.12> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022374a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005646" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006274> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009720> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

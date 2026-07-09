@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per002471>
+        a                    pers:person ;
+        rdfs:label           "Franz Rigert"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1650" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1652" ] ] ;
+                               pers:last_mention  "1652" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Francisc" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001023.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002471a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002471a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "237" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "873"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001023> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1650-1652" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1650" ;
+                                                                        pers:to    "1652"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001023> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

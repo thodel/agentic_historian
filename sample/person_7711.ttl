@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per008398>
+        a                pers:person ;
+        rdfs:label       "Karl Völker"@deu ;
+        pers:births      [ pers:birth         "05.01.1796" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1796-01-05" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "02.10.1884" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1884-10-02" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-19 14:21:57.459959" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "SG III/3" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                         ] ;
+        pers:name        [ pers:forename    "Karl" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1399"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003042.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008398a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Karl" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008398a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003042> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004942" ;
+                           pers:occurence    "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003042> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "28136" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006743> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

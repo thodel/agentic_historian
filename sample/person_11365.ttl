@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per012256>
+        a                pers:person ;
+        rdfs:label       "Johannes XXII.  (Papst)"@deu ;
+        pers:births      [ pers:birth      "1244" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1334" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-12-02 09:59:29.477697" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename          "Johannes XXII." ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per012256a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "claudia"
+                                                  ] ;
+                           pers:occurence         "claudia" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johannis" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012256a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1316-1334" ;
+                           pers:description  "key000014" ;
+                           pers:occurence    "claudia"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "Claudia Sutter" ;
+        pers:refs        [ pers:id    "118557912" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

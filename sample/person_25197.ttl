@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per026560>
+        a                    pers:person ;
+        rdfs:label           "Beat Simon Buman"@deu ;
+        pers:deaths          [ pers:death      "09.05.1709" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027738> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1669" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 11:13:36.028205" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Oberleutnant" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                               pers:forename   "Beat Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026560a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002517> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002517.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026560a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1669-1709" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002517> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

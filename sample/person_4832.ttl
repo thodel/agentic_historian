@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per005389>
+        a                    pers:person ;
+        rdfs:label           "Hans Eisenhut"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1477" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1477" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-09 18:40:10.346542" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "190"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002166.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005389a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005389a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002166> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "77" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "277"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002166.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005389a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1477" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1477" ;
+                               pers:description   "key000409" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000650> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002166> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität von per005389a.02 wahrscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005996> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

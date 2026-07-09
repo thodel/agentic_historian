@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per000204>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Sigberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1312" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1312" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:48:52.939467" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000204a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "9" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "13"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000100> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000100> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

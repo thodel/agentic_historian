@@ -1,0 +1,82 @@
+<http://ssrq-sds-fds.ch/Register/#per005624>
+        a                    pers:person ;
+        rdfs:label           "Gallus Kapfmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1477" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021983> ;
+                               pers:occurence  "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-17 17:48:32.962755" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005624a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002204> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gallusß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002204.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005624a.04>
+                             ] ;
+        pers:name            [ pers:forename    "Galluss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "65" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "227"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002204.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005624a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Gallus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "65" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "229"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002204.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005624a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Galluss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002204.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005624a.03>
+                             ] ;
+        pers:occupation      [ pers:date          "1486" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1486" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001876>
+                             ] ;
+        pers:occupation      [ pers:date          "1486" ;
+                               pers:description   "key000898" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002204> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

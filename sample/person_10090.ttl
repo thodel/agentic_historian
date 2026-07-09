@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per010871>
+        a                pers:person ;
+        rdfs:label       "Johannes Schefferenz"@deu ;
+        pers:deaths      [ pers:death      "1741" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2019-03-08 10:47:38.072147" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010871a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004035> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004035.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010871a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Johannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004035.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010871a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1741" ;
+                           pers:description  "key000603" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date         "1741" ;
+                           pers:description  "key001111" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004035> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005561> ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:sex         "1" .

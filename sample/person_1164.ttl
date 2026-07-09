@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per001565>
+        a                    pers:person ;
+        rdfs:label           "Marquard Zelger"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001169>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1470" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 12:58:35.592550" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1513" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Marquart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000703.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001565a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Marquard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001565a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "115" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "388"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000703> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Merchi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000703.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001565a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1501" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1501" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:occupation      [ pers:date          "1513" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000703> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "23226" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Andreas Ineichen: Das Todesjar 1510 im HLS-Artikel ist nicht ein Todes-, sondern das Letzterwähnungsjahr nach Zelger, Chronik, S. 41. Im Spruchbrief von 1513 erscheint Merchi Zelger als alt Landammann NW, demnach war er damals noch am Leben. Um den gleichnamigen Sohn kann es sich nicht handeln, er wurde erst 1521 Landammann (Anfrage bei Emil Weber, Staatsarchivar  NW: er sieht nichts, das gegen die obige Vermutung spricht, 22.12. 2015)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

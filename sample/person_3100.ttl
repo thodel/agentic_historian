@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003550>
+        a                    pers:person ;
+        rdfs:label           "Hans Hafner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1537" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1537" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-23 10:47:35.949574" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003550a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "171"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "13b" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "42"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001273> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001273> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005965> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005973>
+        a                    pers:person ;
+        rdfs:label           "Anton Joseph Seitz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 14:56:40.044794" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Anthoni Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95n" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "361"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002165.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005973a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005973a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002165> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1779" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002165> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

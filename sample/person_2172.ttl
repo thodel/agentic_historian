@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per002573>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Locher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1658" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1658" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002573a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "246" ;
+                                                                         pers:line     "36" ;
+                                                                         pers:page     "900"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000338> ;
+                               pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                        pers:rolename   "Meister/maître"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1658" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000338> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002574> ;
+                               pers:occurence  "SG III/2"
+                             ] .

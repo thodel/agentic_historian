@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008423>
+        a                    pers:person ;
+        rdfs:label           "Joseph Anton Federer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-19 16:10:48.948900" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008423a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002085> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Anthon" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328e" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "1403"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002085.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008423a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002085> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

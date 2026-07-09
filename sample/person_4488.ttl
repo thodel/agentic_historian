@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per005015>
+        a                    pers:person ;
+        rdfs:label           "Hugo von Montfort-Bregenz"@deu ;
+        pers:deaths          [ pers:death         "1424" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1424" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1373" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1373" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-11 11:08:40.686979" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hugo" ;
+                               pers:gennames   [ pers:genname    "XII." ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005015a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "13"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000012> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000012> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "118554603" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "21520" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "XIII, Nr. 7575" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "1" .

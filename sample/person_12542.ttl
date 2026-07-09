@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per013499>
+        a                pers:person ;
+        rdfs:label       "Hugo von Hegi"@deu ;
+        pers:births      [ pers:birth      "um 1410" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "nach 08.07.1493" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-23 14:51:08.595331" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hugo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013499a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002744> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1468" ;
+                           pers:description  "key000086" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000849> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002744> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "018214" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000849> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

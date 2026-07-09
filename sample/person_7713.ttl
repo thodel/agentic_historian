@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per008400>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Saxer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "19. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1801" ;
+                                                                         pers:to    "1900"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-19 14:35:14.999539" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "sohn" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "J. J." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "1399"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000356.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008400a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Sohn" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008400a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000356> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000356> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

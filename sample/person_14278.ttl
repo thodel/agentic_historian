@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per015314>
+        a                    pers:person ;
+        rdfs:label           "Peter Schneller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1774" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-25 10:03:34.334026" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "ca. 1780" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015314a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001724> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001724.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015314a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1774" ;
+                               pers:description  "key000827" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001724> ;
+        pers:project         "SSRQ" ;
+        pers:remark_update   "doppelte Anzeige!!! verheiratet nur mit 2 Pers.: Regula Felix=Regula Schneller und Anna Schneller=Anna Voneschen" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015315> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015319> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

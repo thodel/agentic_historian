@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001891>
+        a                    pers:person ;
+        rdfs:label           "Philip Hermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1545" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Philip" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001891a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "151a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "538"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000826> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Philip" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000826.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001891a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000826> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000057> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

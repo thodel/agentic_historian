@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001625>
+        a                    pers:person ;
+        rdfs:label           "Otmar Rissi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1510" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1510" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Otmar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001625a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "121" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "404"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000726> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ottmar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000726.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001625a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000726> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

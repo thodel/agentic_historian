@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020624>
+        a                    pers:person ;
+        rdfs:label           "Antoine Chappuis"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1652" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-30 11:01:41.979128" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Anthoyne" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007640.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020624a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Antoine" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020624a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007640> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007640> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008127> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020625> ;
+                               pers:occurence  "rita"
+                             ] .

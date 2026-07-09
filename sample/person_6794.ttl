@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007450>
+        a                    pers:person ;
+        rdfs:label           "Christian Hofmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1773" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1773" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 17:24:04.008152" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Christian" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199c" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "929"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "303" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "1308"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000541.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007450a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007450a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000541> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1773, 1776" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1773" ] ;
+                                         pers:format_date  [ pers:when  "1776" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:occupation      [ pers:date          "1773, 1776" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1773" ] ;
+                                         pers:format_date  [ pers:when  "1776" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000541> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

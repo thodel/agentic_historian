@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003365>
+        a                    pers:person ;
+        rdfs:label           "Agnes Nebel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-02 10:07:35.010087" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003365a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         "LU II/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001346> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Nesa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "116"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001346.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003365a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001346> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

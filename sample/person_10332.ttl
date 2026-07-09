@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per011151>
+        a                    pers:person ;
+        rdfs:label           "Martin Jost"@fra , "Martin Jost"@deu ;
+        pers:deaths          [ pers:death      "vor 23.05.1616" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1563" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-12 11:04:36.267371" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011151a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000459> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Martin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000459.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011151a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011151a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000459> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000203" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000459> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "16262" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008979> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

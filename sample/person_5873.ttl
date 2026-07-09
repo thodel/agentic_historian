@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per006472>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Tobler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1593" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006455> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-02 18:37:42.694564" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006472a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000566> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "556"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000566.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006472a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000566> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

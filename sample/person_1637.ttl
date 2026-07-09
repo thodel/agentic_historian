@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002041>
+        a                    pers:person ;
+        rdfs:label           "Jakob Bantli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1568" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1568" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002041a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "168" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "609"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000127> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1568" ;
+                               pers:description   "key000226" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1568" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002904>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000127> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

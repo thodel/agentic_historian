@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per003634>
+        a                    pers:person ;
+        rdfs:label           "Niklaus von Hertenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1591" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:33:57.108354" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003634a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "133b" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "479"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000859> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Niclauß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133b" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "478"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000859.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003634a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1591-1593" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1591" ;
+                                                                        pers:to    "1593"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000859> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 487" ;
+                               pers:title  "Messmer/Hoppe 1976" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000092195"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

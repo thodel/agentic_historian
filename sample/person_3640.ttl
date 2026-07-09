@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004114>
+        a               pers:person ;
+        rdfs:label      "Valerius Anshelm"@deu ;
+        pers:births     [ pers:birth         "1475" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1475" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:deaths     [ pers:death         "1547" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:hist       [ pers:date      "2015-11-03 10:08:07.912375" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Valerius" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per004114a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "82" ;
+                                                             pers:line     "43" ;
+                                                             pers:page     "309"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001645> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001645> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "10506" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per001758>
+        a                    pers:person ;
+        rdfs:label           "Klaus Meli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                               pers:last_mention  "1547" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001758a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "133" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "443"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "231" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "858"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000451> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1547" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000451> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

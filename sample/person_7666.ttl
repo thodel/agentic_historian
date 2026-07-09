@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008353>
+        a              pers:person ;
+        rdfs:label     "Johannes Custer"@deu ;
+        pers:births    [ pers:birth         "1762" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "1805" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1805" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-18 17:28:47.913777" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename   "Johannes" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008353a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                            pers:line     "19" ;
+                                                            pers:page     "1399"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003034> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003034> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:page   "S. 330" ;
+                         pers:title  "Kuster et al. 1998" ;
+                         pers:type   "biblio" ;
+                         pers:url    "http://permalink.snl.ch/bib/chbsg000065568"
+                       ] ;
+        pers:sex       "1" .

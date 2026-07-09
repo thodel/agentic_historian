@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004855>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Jäger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1485" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1485" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-03 13:09:06.316539" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004855a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001033.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004855a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1485" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

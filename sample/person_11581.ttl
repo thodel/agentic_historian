@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per012476>
+        a                pers:person ;
+        rdfs:label       "Bilgeri von Heudorf"@deu ;
+        pers:births      [ pers:birth      "kurz nach 1400" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1476" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:employeeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-07-02 14:37:48.425045" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Bilgeri" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012476a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004805> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003211" ;
+                           pers:occurence    "stadtasg"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004805> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "119140128" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "45963" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per004163>
+        a                    pers:person ;
+        rdfs:label           "Agnes Schröter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:53:43.792713" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004163a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         "LU II/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001671> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Agneß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "97a" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "351"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001671.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004163a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1556" ;
+                               pers:description   "key000877" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001671> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" .

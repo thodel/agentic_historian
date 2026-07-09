@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per003313>
+        a                    pers:person ;
+        rdfs:label           "Hans Hafner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1382" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003313a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "19" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "57"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "6" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "19"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001273> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1405" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1405" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001273> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003314> ;
+                               pers:occurence  "LU II/3"
+                             ] .

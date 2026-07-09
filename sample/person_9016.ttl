@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per009761>
+        a               pers:person ;
+        rdfs:label      "Jean Prince-dit-Clottu"@fra ;
+        pers:deaths     [ pers:death         "avant 1678" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1678" ;
+                                                                   pers:notBefore  "1668" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009762> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:hist       [ pers:date      "2019-01-22 16:45:40.251333" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Jean" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "NE 3" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003626.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009761a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009761a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003626> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003626> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008081> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:sex        "1" .

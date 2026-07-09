@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005637>
+        a                    pers:person ;
+        rdfs:label           "Hans in der Vorburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1488" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1488" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 11:05:27.415091" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005637a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002254> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "68" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "240"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002254.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005637a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1488" ;
+                               pers:description   "key004963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002254> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004112>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Schönbrunner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:44:59.211578" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004112a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000815> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000815.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004112a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1513" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000815> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Es kann sich nicht um den HLS-Heinrich Sch. handeln, der erst 1528 Ratsherr wurde, evtl. dessen Vater?" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

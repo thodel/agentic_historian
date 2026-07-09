@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003336>
+        a                    pers:person ;
+        rdfs:label           "Rudolf NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1382" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003336a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "6" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "19"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003336a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

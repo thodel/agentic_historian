@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per007045>
+        a                pers:person ;
+        rdfs:label       "Hans Conrad Römer"@deu ;
+        pers:births      [ pers:birth         "1724" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1724" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1778" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1778" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-04 18:08:36.244247" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "274e" ;
+                                                               pers:line     "23" ;
+                                                               pers:page     "1218"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001438.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007045a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Conrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007045a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "168b" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "758"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "297a" ;
+                                                              pers:line     "7" ;
+                                                              pers:page     "1286"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "274e" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "1217"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001438> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1769, 1770" ;
+                           pers:description   "key004614" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ;
+                                     pers:format_date  [ pers:when  "1770" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001438> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "Kaiser, Rheingutachten, S. 44" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

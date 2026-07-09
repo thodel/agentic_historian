@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per005883>
+        a                    pers:person ;
+        rdfs:label           "Mathias Wolf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1549" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1549" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-02 12:03:56.424007" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:last_mention  "1565" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Mathyas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000900.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005883a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Mathias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005883a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000900> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1549" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1549" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002790>
+                             ] ;
+        pers:occupation      [ pers:date          "1565" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001816>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000900> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

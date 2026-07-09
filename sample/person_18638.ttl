@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per019851>
+        a                    pers:person ;
+        rdfs:label           "Mattli Weisstanner"@deu ;
+        pers:deaths          [ pers:death      "vor 24.08.1557" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020481> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1537" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-29 08:37:20.965133" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Mattli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019851a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007357> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Matlin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007357.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019851a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Mattlin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007357.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019851a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007357> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Zinsli 1970, S. 504; Santi 2006f, Nr. 104" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009722> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

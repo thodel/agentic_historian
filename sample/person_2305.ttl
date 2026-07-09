@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per002702>
+        a                pers:person ;
+        rdfs:label       "Joseph Vogler"@deu ;
+        pers:deaths      [ pers:death         "vor 1731" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1731" ;
+                                                                    pers:notBefore  "1681" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002701> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002702a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "279b" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "993"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001005> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001005.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002702a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "vor 1731" ;
+                           pers:description   "key000029" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1731" ;
+                                                                    pers:notBefore  "1681" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000002> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001005> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000002> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

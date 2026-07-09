@@ -1,0 +1,88 @@
+<http://ssrq-sds-fds.ch/Register/#per006812>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Iten"@deu ;
+        pers:deaths          [ pers:death         "vor 03.01.1588" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1588-01-03" ;
+                                                                        pers:notBefore  "1538-01-03" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1558" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1558" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-10 15:32:34.613935" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Niclus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "143" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "610"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006812a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "143" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "610"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006812a.02>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199a" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "895"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006812a.03>
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006812a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "199a" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "901"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000275> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1565" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1565, 1566" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ;
+                                         pers:format_date  [ pers:when  "1566" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000275> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26680" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000215> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

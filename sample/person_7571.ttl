@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008256>
+        a                    pers:person ;
+        rdfs:label           "Jakob Kehl"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1782" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-14 07:56:22.996551" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008256a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002798> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "314b" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "1353"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002798.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008256a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1782" ;
+                               pers:description   "key004934" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:occupation      [ pers:date          "1782" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003007>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002798> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

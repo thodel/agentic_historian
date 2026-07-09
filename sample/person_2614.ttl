@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003041>
+        a                    pers:person ;
+        rdfs:label           "Anton Lendi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1781" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1781" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003041a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "356" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "1183"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001148> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001148.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003041a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key003623" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001219>
+                             ] ;
+        pers:occupation      [ pers:date          "1781-" ;
+                               pers:description   "key001080" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1831" ;
+                                                                        pers:notBefore  "1781" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001148> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

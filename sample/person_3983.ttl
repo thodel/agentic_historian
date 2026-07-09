@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004465>
+        a                    pers:person ;
+        rdfs:label           "Hans Steinheuel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "zwischen 1401 und 1425" ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1425"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-06 17:04:02.925986" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004465a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000792> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heͣnsli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000792.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004465a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000792> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

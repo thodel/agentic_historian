@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per006213>
+        a                    pers:person ;
+        rdfs:label           "Lienhard Hirtenegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1540" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1540" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-24 15:32:27.748123" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Lienhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "115" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "470"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002429.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006213a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lienhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006213a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002429> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002429> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006396> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

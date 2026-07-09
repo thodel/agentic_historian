@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per024599>
+        a                pers:person ;
+        rdfs:label       "Ludwig Lavater"@deu ;
+        pers:births      [ pers:birth      "04.03.1527" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "15.07.1586" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-28 07:27:25.859726" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024599a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000832> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Ludwig" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000832.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024599a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1585" ;
+                           pers:description  "key005634" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000832> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "100182747" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "010728" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

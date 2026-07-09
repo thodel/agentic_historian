@@ -1,0 +1,86 @@
+<http://ssrq-sds-fds.ch/Register/#per001795>
+        a                    pers:person ;
+        rdfs:label           "Johann Rudolf Gallati"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1679" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1679" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1755" ] ] ;
+                               pers:last_mention  "1755" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Johann Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001795a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "331" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "1113"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "284" ;
+                                                                         pers:line     "24" ;
+                                                                         pers:page     "1005"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "219" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "831"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "300" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "1041"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000490> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jo. Ruodolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000490.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001795a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1746" ;
+                               pers:description   "key003684" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1746" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:occupation      [ pers:date          "1711" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001218>
+                             ] ;
+        pers:occupation      [ pers:date          "1734, 1755" ;
+                               pers:description   "key000623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1755" ] ;
+                                         pers:format_date  [ pers:when  "1734" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001218>
+                             ] ;
+        pers:occupation      [ pers:date          "1746" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1746" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001218>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000490> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001799> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002380> ;
+                               pers:occurence  "SG III/2"
+                             ] .

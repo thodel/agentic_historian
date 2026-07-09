@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per022545>
+        a                    pers:person ;
+        rdfs:label           "Georg Mugg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1566" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-12 14:15:50.033407" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022545a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000331> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jory" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000331.21> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022545a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000331> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000773> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per007553>
+        a                    pers:person ;
+        rdfs:label           "Hans Hinterberger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1669" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1669" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-04 15:21:29.029374" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007553a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001940> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "216" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "994"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001940.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007553a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001940> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Verortung in Lienz aufgrund des Kontexts" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000951> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

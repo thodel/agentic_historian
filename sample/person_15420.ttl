@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per016505>
+        a                    pers:person ;
+        rdfs:label           "Anna Schmid"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005516>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1691" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-23 11:45:15.281331" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per016505b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000827> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename   "Anna" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016505a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "–1691" ;
+                               pers:description  "key005797" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016504> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

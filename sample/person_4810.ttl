@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per005367>
+        a                    pers:person ;
+        rdfs:label           "Hans Buschor"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1634" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1634" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-25 09:05:46.073880" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005367a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002150> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "53c" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "177"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002150.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005367a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002150> ;
+        pers:ownerOf         [ pers:location       <http://ssrq-sds-fds.ch/Register/#loc006585> ;
+                               pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per010852>
+        a                    pers:person ;
+        rdfs:label           "NN Hanselmann"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010851> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1699" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-28 12:15:58.416327" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010852a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001474> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1699" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001474> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

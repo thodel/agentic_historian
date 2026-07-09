@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per002919>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Sulser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1754" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1754" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1780" ] ] ;
+                               pers:last_mention  "1780" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "am Rhein bei der Fahr" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002919a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "355" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1182"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "329f" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "1108"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "329b" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1106"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000532> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uelerich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000532.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002919a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1765-1780" ;
+                               pers:description   "key000202" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1765" ;
+                                                                        pers:to    "1780"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000827> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1754-1765" ;
+                               pers:description   "key000201" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1754" ;
+                                                                        pers:to    "1765"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000828> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

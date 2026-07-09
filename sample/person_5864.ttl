@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per006463>
+        a                    pers:person ;
+        rdfs:label           "Hans Kuhn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1593" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-28 17:39:18.988017" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133" ;
+                                                                   pers:line     "43" ;
+                                                                   pers:page     "555"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001587.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006463a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006463a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001587> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1593, 1598" ;
+                               pers:description   "key004771" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ;
+                                         pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:occupation      [ pers:date          "1593" ;
+                               pers:description   "key004172" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007157> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1598" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:occupation      [ pers:date          "1593, 1598" ;
+                               pers:description   "key004771" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ;
+                                         pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001587> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex             "1" .

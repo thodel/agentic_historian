@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per002608>
+        a                pers:person ;
+        rdfs:label       "Franz Joseph Mettler"@deu ;
+        pers:births      [ pers:birth         "11.11.1661" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1661-11-11" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "22.01.1748" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1748-01-22" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Franz Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002608a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "255" ;
+                                                              pers:line     "25" ;
+                                                              pers:page     "920"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000593> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001214>
+                         ] ;
+        pers:occupation  [ pers:date          "1703-1705" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1703" ;
+                                                                    pers:to    "1705"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000593> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18999" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

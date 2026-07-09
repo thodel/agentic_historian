@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per003785>
+        a                    pers:person ;
+        rdfs:label           "Jenni Lüpold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1453" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-11 16:54:57.680267" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Jenni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "49" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "142"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001517.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003785a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jenni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003785a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001517> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jenni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "51" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "147"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001517.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003785a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001517> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003784> ;
+                               pers:occurence  "LU II/3"
+                             ] .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per014342>
+        a                pers:person ;
+        rdfs:label       "Jakob Edlibach"@deu ;
+        pers:births      [ pers:birth      "14.04.1482" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "19.01.1546" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-20 11:12:18.150003" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000296.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014342a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014342a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000296> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1504-1526" ;
+                           pers:description  "key000170" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000296> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "014735" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "119660652" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per005287>
+        a                pers:person ;
+        rdfs:label       "Sebastian Schobinger"@deu ;
+        pers:births      [ pers:birth         "10.04.1579" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1579-04-10" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "10.01.1652" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1652-01-10" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-04-24 11:01:25.280574" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Sebastian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005287a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                              pers:line     "45" ;
+                                                              pers:page     "136"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002112> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1641" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001876>
+                         ] ;
+        pers:occupation  [ pers:date          "1641" ;
+                           pers:description   "key000976" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1641" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002112> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21807" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

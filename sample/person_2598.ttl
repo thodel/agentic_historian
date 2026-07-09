@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003024>
+        a                    pers:person ;
+        rdfs:label           "Johann Heinrich Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1777" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1777" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001201>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003024a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "350" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "1169"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000209" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001201>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per009827>
+        a                    pers:person ;
+        rdfs:label           "Giacomo Mandolfino"@ita , "Jacob Mandolfino"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1588" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-29 16:55:28.078531" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Giacomo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009827a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003652> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Jacob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009827a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003652> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003652.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009827a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Giacomo" ;
+                               pers:lang        "ita" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003652.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009827a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003652.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009827a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1588, 1596" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "FDS TI" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003496>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003652> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008324> ;
+                               pers:occurence  "FDS TI"
+                             ] ;
+        pers:sex             "1" .

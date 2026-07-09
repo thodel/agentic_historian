@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007638>
+        a                    pers:person ;
+        rdfs:label           "Johann Indermaur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1686" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1686" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-26 08:42:43.781016" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007638a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002249> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "231" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "1042"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002249.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007638a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1686" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:occupation      [ pers:date          "1686" ;
+                               pers:description   "key000256" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002249> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

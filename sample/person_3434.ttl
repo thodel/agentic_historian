@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per003900>
+        a                    pers:person ;
+        rdfs:label           "Hans Christen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1478" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:21:29.737579" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "63a" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "183"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000329.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003900a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "63b" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "184"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000329.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003900a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003900a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000329> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1478" ;
+                               pers:description   "key001041" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1478" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000329> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000847> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007671>
+        a                    pers:person ;
+        rdfs:label           "Pelagius Graf"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007672> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1698" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1698" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-11 16:19:02.850471" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Poley" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "242a" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "1070"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000235.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007671a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Pelagius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007671a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000235> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000235> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006818> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

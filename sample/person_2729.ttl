@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003163>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Glanzmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1653" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 13:02:10.739970" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003163a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001240> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1653" ;
+                               pers:description   "key003207" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1653" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001240> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per009273>
+        a              pers:person ;
+        rdfs:label     "Louis Dumont"@fra ;
+        pers:deaths    [ pers:death         "vor 1629" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1629" ;
+                                                                  pers:notBefore  "1579" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "FR I/2/8"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009272> ;
+                         pers:occurence  "FR I/2/8"
+                       ] ;
+        pers:hist      [ pers:date      "2018-06-06 09:47:40.313322" ;
+                         pers:username  "rita"
+                       ] ;
+        pers:name      [ pers:forename   "Louis" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per009273a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "FR I/2/8" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003432> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Lois" ;
+                         pers:lang        "fra" ;
+                         pers:occurence   "FR I/2/8" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003432.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009273a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003432> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

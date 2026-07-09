@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007077>
+        a                pers:person ;
+        rdfs:label       "Johann Wirz"@deu ;
+        pers:births      [ pers:birth         "1566" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "03.10.1625" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1625-10-03" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-06 16:07:57.133662" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007077a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000429> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johan" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "176" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "791"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000429.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007077a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1612" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001213>
+                         ] ;
+        pers:occupation  [ pers:date          "1612" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000429> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21219" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

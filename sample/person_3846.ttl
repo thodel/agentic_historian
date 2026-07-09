@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per004327>
+        a               pers:person ;
+        rdfs:label      "Martin Knüsel"@deu ;
+        pers:deaths     [ pers:death         "vor 1598" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1598" ;
+                                                                   pers:notBefore  "1548" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004328> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2015-09-22 12:16:12.490247" ;
+                          pers:username  "andreas"
+                        ] ;
+        pers:name       [ pers:forename    "Martin" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                              pers:line     "5" ;
+                                                              pers:page     "519"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001744.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004327a.01>
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "senior" ;
+                                            pers:occurence  "LU II/3"
+                                          ] ;
+                          pers:forename   "Martin" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per004327a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "140" ;
+                                                             pers:line     "35" ;
+                                                             pers:page     "517"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001744> ;
+                          pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                            pers:rolename   "Meister/maître"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001744> ;
+        pers:project    "SSRQ" ;
+        pers:remark     "Wohl identisch mit dem Luzerner Hafner Martin Knüsel." ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

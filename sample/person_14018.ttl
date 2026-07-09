@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per015048>
+        a             pers:person ;
+        rdfs:label    "Philipp Melanchthon"@deu ;
+        pers:births   [ pers:birth      "16.02.1497" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "19.04.1560" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-30 18:00:42.581762" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Philipp Schwarzerdt" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Philipp" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per015048a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006095> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org006095> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118580485" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:refs     [ pers:id    "021574" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

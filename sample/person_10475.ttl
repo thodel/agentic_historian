@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per011307>
+        a                    pers:person ;
+        rdfs:label           "NN Preud'homme"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1645" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-15 14:36:04.581278" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per011307a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003962> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003962> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011306> ;
+                               pers:occurence  "NE 3"
+                             ] .

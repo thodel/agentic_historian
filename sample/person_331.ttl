@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per000388>
+        a                    pers:person ;
+        rdfs:label           "Engelhard von Weinsberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1393" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1393" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-15 11:13:39.771446" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Engelhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000172.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000388a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Engelhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000388a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "26" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "46"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000172> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1393" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1393" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000916> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date         "1393" ;
+                               pers:description  "key000180" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000088>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000172> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.deutsche-biographie.de/sfz45487.html"
+                             ] ;
+        pers:refs            [ pers:id    "136459676" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000916> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

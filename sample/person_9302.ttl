@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per010050>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Stucki"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1651" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-09 08:11:32.502756" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010050a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010050a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1651" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003419>
+                             ] ;
+        pers:occupation      [ pers:date         "1651" ;
+                               pers:description  "key000636" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000395> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1651" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

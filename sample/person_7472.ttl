@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per008152>
+        a                    pers:person ;
+        rdfs:label           "Joseph Hutter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1760" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1760" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 15:55:58.601419" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Josseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287a" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "1246"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000711.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008152a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008152a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000711> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287b" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "1249"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000711.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008152a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1762" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002956>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000711> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Wohnort Diepoldsau oder Schmitter; Gesandter von Diepoldsau und Schmitter; Identität warhscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006542> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

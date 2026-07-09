@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012567>
+        a                               pers:person ;
+        rdfs:label                      "Jaquet de la Cremaz"@fra ;
+        pers:deaths                     [ pers:death      "av. 10.1461" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011218> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1461" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2021-01-28 09:07:11.868942" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Jaquetus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012567a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004864> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Jaquetus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004864.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012567a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Jaquet" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012567a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004864> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "24.10.1461" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004864> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Modestin 1999, p. 353" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007662> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

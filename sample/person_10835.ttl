@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011685>
+        a                    pers:person ;
+        rdfs:label           "Hans Mok"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1399" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-04 16:00:10.500007" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011685a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000331> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000331.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011685a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1399" ;
+                               pers:description  "key000078" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007474> ;
+                               pers:occurence    "claudia"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000331> ;
+        pers:project         "Claudia Sutter" ;
+        pers:residence       [ pers:date       "1399" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008729> ;
+                               pers:occurence  "claudia"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000074>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Matzingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1261" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1261" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000074a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000083> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000083> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000039> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

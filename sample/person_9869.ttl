@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010642>
+        a                    pers:person ;
+        rdfs:label           "Peter Tüsch"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1574" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-11 14:41:54.186461" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003972.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010642a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010642a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003972> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003972> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008516> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

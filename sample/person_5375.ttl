@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005952>
+        a                    pers:person ;
+        rdfs:label           "Othmar Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1768" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1768" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 17:50:41.239331" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Othmar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95m" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "359"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005952a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Othmar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005952a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1768" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1768" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

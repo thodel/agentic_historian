@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per028348>
+        a                pers:person ;
+        rdfs:label       "Simon Joseph de Boccard"@deu , "Simon Joseph de Boccard"@fra ;
+        pers:births      [ pers:birth      "1707" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1786" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 13:59:45.420619" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Simon Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028348a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003395> ;
+                           pers:rolenames  [ pers:occurence  "rita" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Simon" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003395.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028348a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Simon Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028348a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003395> ;
+                           pers:rolenames  [ pers:occurence  "pascale" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1731-1786" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1752-1786" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003395> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

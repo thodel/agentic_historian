@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per006838>
+        a                pers:person ;
+        rdfs:label       "Wilhelm Zurthannen"@deu ;
+        pers:births      [ pers:birth      "1595" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death         "1631" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1631" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-28 13:09:15.097537" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002588.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006838a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Wilhelm" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006838a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002588> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1619-1631" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002588> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VII, p. 541" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026304> ;
+                           pers:occurence  "rita"
+                         ] .

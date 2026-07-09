@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per012944>
+        a                    pers:person ;
+        rdfs:label           "Walter Schröter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1311" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-13 07:47:49.104466" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1313" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Waltherus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "mina" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001671.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012944a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012944a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001671> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001671> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012943> ;
+                               pers:occurence  "fahe"
+                             ] .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per002467>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Bilger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1650" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002467a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "237" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "873"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001022> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key001104" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key003071" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000401> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key003718" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1650" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1650" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001022> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per010086>
+        a                    pers:person ;
+        rdfs:label           "Hans Praderwan"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1518" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 11:35:57.644326" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1527" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003538.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010086a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010086a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003538> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1518-1521" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1522-1527" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1519-1520" ;
+                               pers:description  "key004837" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003538> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, p. 334" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

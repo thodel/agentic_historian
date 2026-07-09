@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003342>
+        a                    pers:person ;
+        rdfs:label           "Richard Russ"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1488" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1488" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-06-29 11:01:15.199831" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "LU II/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001334>
+                             ] ;
+        pers:name            [ pers:forename          "Richard" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003342a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "69" ;
+                                                                         pers:line     "4" ;
+                                                                         pers:page     "208"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000590> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Richhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "69" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "207"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000590.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003342a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000590> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

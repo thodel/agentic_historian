@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000316>
+        a                    pers:person ;
+        rdfs:label           "Johann Mühlestein"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001184>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1351" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1351" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000138.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000316a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000316a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "17" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "28"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000138> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000138> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000833> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

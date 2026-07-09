@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per013035>
+        a                    pers:person ;
+        rdfs:label           "Jean Girod"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-10 08:34:49.263275" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013035a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004736> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004736.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013035a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013035a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004736> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000042" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004736> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "En 1498, il vit avec Jeannette NN (per013034) 'Ultra lacum'; peut-être Evian." ;
+        pers:residence       [ pers:date       "1496" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008040> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

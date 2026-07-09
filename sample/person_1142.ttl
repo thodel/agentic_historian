@@ -1,0 +1,88 @@
+<http://ssrq-sds-fds.ch/Register/#per001543>
+        a                    pers:person ;
+        rdfs:label           "Christoph Tschudi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1551" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1551" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1581" ] ] ;
+                               pers:last_mention  "1581" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Christoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001543a.03>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Glarus" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001543a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "159" ;
+                                                                  pers:line     "42" ;
+                                                                  pers:page     "580"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "179" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "644"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "113" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "385"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "155" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "566"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "181" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "652"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cristoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001543a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Christoff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001543a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1550, 1554" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1554" ] ;
+                                         pers:format_date  [ pers:when  "1550" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001219>
+                             ] ;
+        pers:occupation      [ pers:date          "1555-1581" ;
+                               pers:description   "key003071" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1555" ;
+                                                                        pers:to    "1581"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000017> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

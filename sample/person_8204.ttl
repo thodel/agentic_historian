@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008921>
+        a                    pers:person ;
+        rdfs:label           "Friedrich de Chambrier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1696" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-22 15:36:18.322480" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008921a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003190> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridrich" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003190.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008921a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1696" ;
+                               pers:description   "key000890" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1696" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003190> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

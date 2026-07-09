@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per009263>
+        a                pers:person ;
+        rdfs:label       "Claude Bergier"@fra ;
+        pers:deaths      [ pers:death         "1628" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1628" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-04 09:04:54.630128" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename   "Claude" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009263a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003426> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Claude" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009263a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003426> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Claudo" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003426.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009263a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Claudo" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003426.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009263a.02>
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key005165" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003426> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007856> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

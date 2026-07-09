@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per013007>
+        a                    pers:person ;
+        rdfs:label           "Pierre Bechet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-02 15:38:18.644441" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013007a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005311> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Petrus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013007a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005311> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005311.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013007a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005311> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Pfister 1997, p. 291" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Aurait accusé d'hérésie Pierre Menetrey d'être hérétique." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011123> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

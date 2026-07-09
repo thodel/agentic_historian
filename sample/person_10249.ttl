@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per011056>
+        a                         pers:person ;
+        rdfs:label                "Jean Preux"@fra ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004499>
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-24 08:03:19.701432" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004145.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011056a.01>
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Noble" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011056a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004145> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Nobilis" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011056a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004145> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:description  "key003211" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004499>
+                                  ] ;
+        pers:occupation           [ pers:date         "23.03.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004145> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero 1995, p. 290-291" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010998> ;
+                                    pers:occurence  "gortega"
+                                  ] .

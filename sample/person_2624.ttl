@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003053>
+        a                    pers:person ;
+        rdfs:label           "Josef Thuli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1783" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1783" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001072.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003053a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003053a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "359a" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "1187"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001072> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000636" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002943>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001072> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

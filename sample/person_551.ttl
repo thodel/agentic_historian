@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000636>
+        a                    pers:person ;
+        rdfs:label           "Konrad Rietler"@deu ;
+        pers:deaths          [ pers:death         "1458" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1458" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000636a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "44" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "99"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000315> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1442" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000315> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18019" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per008002>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Graf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1758" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1758" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-05 15:48:58.582300" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008002a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "288" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "1257"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "274c" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "1210"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000235> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1758, 1768" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1758" ] ;
+                                         pers:format_date  [ pers:when  "1768" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:occupation      [ pers:date          "1768" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1768" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000235> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

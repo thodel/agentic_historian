@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per002147>
+        a                    pers:person ;
+        rdfs:label           "Margareta Töngi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002149> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Margareta" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002147b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "187" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "666"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000918> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Margareta" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002147a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "187" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "666"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000764> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Margreth" ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         "SG III/2" ;
+                               pers:org_var_id        <http://ssrq-sds-fds.ch/Register/#org000764.05> ;
+                               pers:type              "orig" ;
+                               pers:var_id            <http://ssrq-sds-fds.ch/Register/#per002147a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000764> , <http://ssrq-sds-fds.ch/Register/#org000918> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002148> ;
+                               pers:occurence  "SG III/2"
+                             ] .

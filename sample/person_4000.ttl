@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per004482>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Duss"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1400" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1410" ;
+                                                                         pers:notBefore  "1390" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-26 11:24:11.961091" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004482a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001256> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͤli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001256.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004482a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001256> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per009173>
+        a                    pers:person ;
+        rdfs:label           "Hans Franz Nägeli"@deu ;
+        pers:births          [ pers:birth         "1497" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:deaths          [ pers:death         "09.01.1579" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1579-01-09" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1529" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 08:34:20.885004" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009173a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003369> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009173a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003369> ;
+                               pers:rolenames  [ pers:occurence  "FDS TI" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Franz" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003369.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009173a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003369> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "16686" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

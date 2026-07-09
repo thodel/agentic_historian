@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per009710>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Velga"@deu ;
+        pers:deaths          [ pers:death         "1504" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1504" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 11:25:01.133839" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009710a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000475> ;
+                               pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhelm" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000475.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009710a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1462-1487" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "lionel" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1501-1502" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "lionel" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1487-1504" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "lionel" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000475> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15048" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" .

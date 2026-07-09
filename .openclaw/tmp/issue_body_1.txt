@@ -1,0 +1,23 @@
+**Epic:** #1  
+**Milestone:** Epic 1 — LLM Provider Abstraction
+
+## Goal
+Add GPUStack as a first-class config option. All LLM calls route through `tei.dh.unibe.ch`. No code changes needed to switch providers.
+
+## Files
+- `scripts/config.py` (new) — GPUSTACK_BASE_URL, GPUSTACK_API_KEY, GPUSTACK_TIMEOUT, EXTRACTION_MODEL, ORCHESTRATOR_MODEL, OCR_ENGINE
+- `.env.gpustack` (new, git-ignored) — defaults for all vars above
+- `.gitignore` — already covers `.env*`; confirm
+
+## Env vars
+| Var | Default |
+|-----|---------|
+| GPUSTACK_BASE_URL | https://tei.dh.unibe.ch/v1 |
+| GPUSTACK_API_KEY | (empty) |
+| GPUSTACK_TIMEOUT | 120 |
+| EXTRACTION_MODEL | qwen3-30b-a3b-instruct |
+| ORCHESTRATOR_MODEL | minimax-m2.7 |
+| OCR_ENGINE | easyocr |
+
+## Acceptance
+Pipeline reads GPUStack config from `.env.gpustack` — no hardcoded URLs or keys.

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per021108>
+        a                pers:person ;
+        rdfs:label       "Werner Basler"@deu ;
+        pers:deaths      [ pers:death      "vor 1329" ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021110> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021109> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:hist        [ pers:date      "2020-07-04 02:47:59.682816" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Werner" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per021108a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "mina" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000973> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000085" ;
+                           pers:occurence    "mina" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002670>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000973> ;
+        pers:project     "Königsfelden" ;
+        pers:sex         "1" .

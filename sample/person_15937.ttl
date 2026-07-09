@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per017046>
+        a              pers:person ;
+        rdfs:label     "Hans Allemann"@deu ;
+        pers:deaths    [ pers:death      "vor 1446" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017047> ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:hist      [ pers:date      "2020-05-05 07:19:21.111432" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename    "Hans" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "pascale" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006738.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017046a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Hans" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per017046a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "pascale" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006738> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org006738> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

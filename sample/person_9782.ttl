@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010553>
+        a                    pers:person ;
+        rdfs:label           "Françoise Armet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1594" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-03 14:16:48.864833" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Françoise" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010553a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003928> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Françoise" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010553b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003921> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003928> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010570> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010540> ;
+                               pers:occurence  "NE 3"
+                             ] .

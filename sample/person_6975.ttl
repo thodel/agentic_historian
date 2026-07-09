@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per007639>
+        a                    pers:person ;
+        rdfs:label           "Konrad Bärlocher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1686" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1686" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-10 15:05:03.825989" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007639a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002119> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Conrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "234" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "1052"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "231" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "1043"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002119.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007639a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1687" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1687" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1686" ;
+                               pers:description   "key004816" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:occupation      [ pers:date          "1686" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002120>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002119> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex             "1" .

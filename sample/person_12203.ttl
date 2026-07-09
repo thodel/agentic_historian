@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per013140>
+        a               pers:person ;
+        rdfs:label      "Anna von Habsburg-Österreich"@deu ;
+        pers:deaths     [ pers:death      "1327" ;
+                          pers:occurence  "fahe"
+                        ] ;
+        pers:hist       [ pers:date      "2020-11-01 23:54:04.070078" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:forename   "Anna" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per013140a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "fahe" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                          pers:rolenames  [ pers:occurence  "fahe" ;
+                                            pers:rolename   "Herzogin/duchesse"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename          "Anna" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per013140b> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "mina"
+                                                 ] ;
+                          pers:occurence         "mina" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org008989> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project    "Königsfelden" ;
+        pers:refs       [ pers:title  "Hammann, Brigitte: Die Habsburger- Ein biographisches Lexikon, Wien 1988, S.51-52." ;
+                          pers:type   "biblio"
+                        ] ;
+        pers:sex        "2" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006964> ;
+                          pers:occurence  "fahe"
+                        ] .

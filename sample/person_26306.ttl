@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per027700>
+        a                pers:person ;
+        rdfs:label       "Angelo Barbarigo"@deu ;
+        pers:births      [ pers:birth      "um 1350" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1418" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-27 07:34:29.913074" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Verona" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Angelo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027700a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org009135> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Angelus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org009135.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027700a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005659" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc013662> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org009135> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.treccani.it/enciclopedia/angelo-barbarigo_(Dizionario-Biografico)/"
+                         ] ;
+        pers:remark      "Im Register der Tschudi Chronik aufgeführt." ;
+        pers:sex         "1" .

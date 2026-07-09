@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per012665>
+        a             pers:person ;
+        rdfs:label    "Phocylides NN"@deu ;
+        pers:births   [ pers:birth      "um 50 v. Chr." ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "um 50 n. Chr." ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2019-11-27 15:11:22.569164" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:forename    "Phocillides" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012665a.01>
+                      ] ;
+        pers:name     [ pers:alias      "1" ;
+                        pers:forename   "Pseudo-Phocylide" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per012665a.02> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Milet" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Phocylides" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per012665a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118791990" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002351>
+        a                    pers:person ;
+        rdfs:label           "NN Nigg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "17. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1601" ;
+                                                                         pers:to    "1700"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000981.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002351a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002351a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "213b" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "798"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000981> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000877" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000036> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000981> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

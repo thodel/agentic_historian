@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per016571>
+        a                         pers:person ;
+        rdfs:label                "Jean Meyjoz"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1521" ;
+                                    pers:occurence      "pascale"
+                                  ] ;
+        pers:hist                 [ pers:date      "2021-01-20 08:40:39.011122" ;
+                                    pers:username  "pascale"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1528" ;
+                                    pers:occurence     "pascale"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per016571a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006578> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Jehan" ;
+                                    pers:lang        "fra" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006578.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016571a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "1521" ;
+                                    pers:description  "key005624" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org006578> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Choffat 1989, p. 195" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Son nom figure au début du procès de Françoise Gilliéron, mais n'est pas mentionné ensuite dans la liste des témoins aux audiences du 24 septembre et du 1er octobre 1528." ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010907> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:victimAtTheTrialOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016717> ;
+                                    pers:occurence  "gortega"
+                                  ] .

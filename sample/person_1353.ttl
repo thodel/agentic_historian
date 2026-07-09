@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per001760>
+        a                    pers:person ;
+        rdfs:label           "Luzi Tonder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                               pers:last_mention  "1547" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Luzi" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001760a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "293" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "1026"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "144g" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "504"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "133" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "443"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000447> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lutzi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000447.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001760a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Luci" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000447.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001760a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000123" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007737> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key000123" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007738> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000447> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

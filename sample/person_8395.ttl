@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009124>
+        a                    pers:person ;
+        rdfs:label           "Hans Krummenstoll"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1595" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1595" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 08:03:28.984824" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1608" ] ] ;
+                               pers:last_mention  "1608" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003356.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009124a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009124a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003356> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1595-1608" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003356> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

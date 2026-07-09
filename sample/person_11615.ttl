@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per012515>
+        a                    pers:person ;
+        rdfs:label           "Jean Grant"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-03 15:16:23.480691" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1458" ;
+                               pers:occurence     "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004825.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012515a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012515a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004825> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012515a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004825> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "av. 06.04.1458" ;
+                               pers:description  "key005588" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004825> ;
+        pers:project         "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011863> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs            [ pers:title  "Modestin 1999, p. 367" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

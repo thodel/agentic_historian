@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per001033>
+        a                    pers:person ;
+        rdfs:label           "Georg Wirps"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001033a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "313"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000557> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joͤrg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000557.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001033a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1463" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1463" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1463" ;
+                               pers:description   "key004900" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1463" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000033> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000557> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

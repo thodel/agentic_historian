@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009319>
+        a                    pers:person ;
+        rdfs:label           "Antoine Péclat"@fra ;
+        pers:deaths          [ pers:death         "vor 1628" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1628" ;
+                                                                        pers:notBefore  "1578" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1620" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1620" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-16 16:43:10.470087" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Antoine" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009319a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003453> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Antheino" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003453.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009319a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003453> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009312> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per012329>
+        a               pers:person ;
+        rdfs:label      "Vincent Piccand"@fra ;
+        pers:deaths     [ pers:death      "ca. 1638" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012322> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2019-09-04 14:23:33.540373" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "Chapuis" ;
+                                            pers:occurence  "lionel"
+                                          ] ;
+                          pers:forename   "Vincent" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012329a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003632> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003632> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008489> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" .

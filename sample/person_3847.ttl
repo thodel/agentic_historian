@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per004328>
+        a                    pers:person ;
+        rdfs:label           "Martin Knüsel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-22 12:17:11.895530" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "junior" ;
+                                                 pers:occurence  "LU II/3"
+                                               ] ;
+                               pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004328a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001744> ;
+                               pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Martin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "518"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001744.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004328a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001744> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

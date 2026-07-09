@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per012308>
+        a                pers:person ;
+        rdfs:label       "Jean Sellier"@fra ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012307> ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:hist        [ pers:date      "2019-09-25 10:15:09.493494" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Jean" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012308a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "lionel" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004711> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jehan" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004711.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012308a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000624" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007603> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004711> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007804> ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002898>
+        a                    pers:person ;
+        rdfs:label           "Bonifaz Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1784" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1784" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Bonifaz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002898a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "323a" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "1090"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:ownerOf         [ pers:location       <http://ssrq-sds-fds.ch/Register/#loc001094> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001205>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

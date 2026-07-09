@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011882>
+        a                    pers:person ;
+        rdfs:label           "Hans Strebel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "09.06.1468" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1466" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-22 11:43:02.007213" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1482" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011882a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001034> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001034> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "09.06.1468" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008679> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

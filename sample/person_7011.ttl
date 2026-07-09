@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007678>
+        a                pers:person ;
+        rdfs:label       "Leonhard Werdmüller"@deu ;
+        pers:births      [ pers:birth         "08.02.1635" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1635-02-08" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "27.04.1704" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1704-04-27" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-11 17:52:07.689035" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Leonard" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "243" ;
+                                                               pers:line     "4" ;
+                                                               pers:page     "1075"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001036.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007678a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Leonhard" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007678a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001036> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1698" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1698" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date          "1698" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1698" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001036> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "49983" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

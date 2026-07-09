@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per016763>
+        a                    pers:person ;
+        rdfs:label           "Hans Karli"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016270> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:deaths          [ pers:death      "vor 1454" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1439" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-24 10:07:07.835138" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016763a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004465> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004465> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000042> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016762> ;
+                               pers:occurence  "sabine"
+                             ] .

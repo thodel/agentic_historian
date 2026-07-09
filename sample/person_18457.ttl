@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019668>
+        a              pers:person ;
+        rdfs:label     "Kaspar Schänni"@deu ;
+        pers:deaths    [ pers:death      "vor 21.01.1507" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019667> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-10-25 09:40:49.193142" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename   "Kaspar" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per019668a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005625> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Caspar" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005625.08> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019668a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org005625> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per002084>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Püntener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "nach 1515" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore
+                                                           "1515" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-04 10:57:45.596266" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1580" ] ] ;
+                               pers:last_mention  "1580" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002084a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "175" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "629"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000406> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrych" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000406.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002084a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000406.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002084a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1556" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007734> ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                             ] ;
+        pers:occupation      [ pers:date          "1577-1579" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1577" ;
+                                                                        pers:to    "1579"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000406> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15571" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

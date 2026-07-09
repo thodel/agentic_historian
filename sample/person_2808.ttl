@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003255>
+        a                    pers:person ;
+        rdfs:label           "Ulrich zu den Bäumen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1363" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "2a" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "4"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001285.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003255a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003255a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001285> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001285> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

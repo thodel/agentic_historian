@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per006771>
+        a                    pers:person ;
+        rdfs:label           "Veit Peck"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1562" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1562" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-15 16:23:10.212349" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Veit" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "600"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002565.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006771a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Veit" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006771a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002565> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1562" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000653> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1562" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002565> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

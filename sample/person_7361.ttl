@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per008040>
+        a                    pers:person ;
+        rdfs:label           "Samuel Pfeiffer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1749" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1749" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 11:05:49.687899" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008040a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "277" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1230"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002523> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Sammuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "277" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "1228"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002523.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008040a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1749" ;
+                               pers:description   "key004875" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1749" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1749" ;
+                               pers:description   "key004910" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1749" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002523> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Wohnort sehr wahrscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000650> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

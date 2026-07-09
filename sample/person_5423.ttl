@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per006002>
+        a                    pers:person ;
+        rdfs:label           "NN Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1788" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1788" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 11:39:30.639845" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006002a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95r" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "367"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "274f" ;
+                                                                   pers:line     "42" ;
+                                                                   pers:page     "1221"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006002a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1788" ;
+                               pers:description   "key004964" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:occupation      [ pers:date          "1788" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Der Ammann meint hier mit grosser Wahrscheinlichkeit auch den Hofammann und nicht den Landvogtsammann, was auf eine Identität schliessen lässt." ;
+        pers:sex             "1" .

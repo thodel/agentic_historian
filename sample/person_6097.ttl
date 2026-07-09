@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per006705>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Bernhausen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1558" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1558" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-13 11:09:13.437583" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhelm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "137" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "585"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002549.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006705a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006705a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002549> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1558" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1558" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002549> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

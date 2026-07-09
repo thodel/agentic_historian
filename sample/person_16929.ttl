@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018081>
+        a              pers:person ;
+        rdfs:label     "Marquard Masüger"@deu ;
+        pers:deaths    [ pers:death      "spätestens 1573" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018080> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2021-02-12 09:14:14.982876" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename   "Marquard" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per018081a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001026> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Marckert" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001026.03> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018081a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org001026> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

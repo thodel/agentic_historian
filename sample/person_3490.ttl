@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per003962>
+        a                pers:person ;
+        rdfs:label       "Jörg Schoch"@deu ;
+        pers:deaths      [ pers:death         "1505" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1505" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-27 15:14:00.657824" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Joͤrg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "70b" ;
+                                                               pers:line     "24" ;
+                                                               pers:page     "211"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001586.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003962a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jörg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003962a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001586> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1488" ;
+                           pers:description   "key003729" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001586> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VI, S. 228" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:remark      "HBLS und Kurmann normalisieren auf Schoch." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

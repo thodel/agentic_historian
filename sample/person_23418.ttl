@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per024748>
+        a                pers:person ;
+        rdfs:label       "Lorenz Willi"@deu ;
+        pers:births      [ pers:birth      "1697" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "1744" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-28 11:45:03.480558" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Lorenz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024748a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000807> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000807.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024748a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005658" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000807> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "Collenberg 2015, S. 219." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000985> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:sex         "1" .

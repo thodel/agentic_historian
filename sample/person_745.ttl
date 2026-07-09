@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000820>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Trinkler"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001186>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1483" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1483" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Zug" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000820a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "61" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "195"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000430> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000430> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

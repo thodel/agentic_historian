@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004727>
+        a                    pers:person ;
+        rdfs:label           "Hannes Steinheuel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1476" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1476" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-01-19 10:39:07.269242" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004727a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000792> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Henni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000792.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004727a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1476" ;
+                               pers:description   "key000741" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000792> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "Hanni -ä- N. 2,1311" ;
+                               pers:type  "idiotikon"
+                             ] ;
+        pers:residence       [ pers:date          "1476" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

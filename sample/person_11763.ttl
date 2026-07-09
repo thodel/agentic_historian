@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per012663>
+        a             pers:person ;
+        rdfs:label    "Platone NN"@ita , "Platon NN"@deu ;
+        pers:births   [ pers:birth      "427 v. Chr." ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "347 v. Chr." ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-04-06 12:11:45.128638" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Athen" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Platon" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per012663a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename   "Platone" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per012663a> ;
+                        pers:lang       "ita" ;
+                        pers:occurence  "pascale" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Plato" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "ssrq-zh" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012663a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "118594893" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

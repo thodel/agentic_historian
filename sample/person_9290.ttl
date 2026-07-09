@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per010038>
+        a                    pers:person ;
+        rdfs:label           "Hans Techtermann"@deu ;
+        pers:deaths          [ pers:death      "1521" ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 07:18:29.479978" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jung" ;
+                                                 pers:occurence  "FR I/2/8"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010038a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003381> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003381.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010038a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1491-1493" ;
+                               pers:description  "key004837" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:date         "1496, 1502-1521" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003381> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, p. 469" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014931>
+        a                    pers:person ;
+        rdfs:label           "Arnaud de Pellegrue"@deu ;
+        pers:deaths          [ pers:death      "1331" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1321" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-03 08:02:49.218982" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Arnaud" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014931a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006071> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1321" ;
+                               pers:description  "key005688" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002768>
+                             ] ;
+        pers:occupation      [ pers:date         "1321" ;
+                               pers:description  "key005659" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc011769> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006071> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://en.wikipedia.org/wiki/Arnaud_de_Pellegrue"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per005309>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Federer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1668" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1668" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 17:29:42.786062" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005309a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "43" ;
+                                                                  pers:page     "138"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002085> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bascha" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "218" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "1000"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002085.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005309a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1668, 1669" ;
+                               pers:description   "key003987" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1668" ] ;
+                                         pers:format_date  [ pers:when  "1669" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:occupation      [ pers:date          "1668, 1669" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1668" ] ;
+                                         pers:format_date  [ pers:when  "1669" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002085> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

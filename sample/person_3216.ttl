@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003671>
+        a                    pers:person ;
+        rdfs:label           "Verena zu der Emmen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1432" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-04 09:23:27.407120" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003670> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename          "Verena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003671a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         "LU II/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001473> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Verena" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "36" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "83"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001473.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003671a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001473> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

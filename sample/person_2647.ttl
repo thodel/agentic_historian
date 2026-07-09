@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per003077>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Peter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1781" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1781" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:last_mention  "1788" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Niklaus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003077a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "365" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "1201"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000052> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000052.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003077a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "–1781" ;
+                               pers:description   "key000801" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter
+                                                           "1781" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000052> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

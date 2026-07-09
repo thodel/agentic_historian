@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per002840>
+        a                pers:person ;
+        rdfs:label       "Leodegar Gallus Anton Müller"@deu ;
+        pers:births      [ pers:birth         "12.03.1700" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1700-03-12" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "08.07.1763" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1763-07-08" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-17 11:33:58.178745" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Leodegario" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002840a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Leodegar Gallus Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002840a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "309" ;
+                                                              pers:line     "2" ;
+                                                              pers:page     "1062"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1732-1737" ;
+                           pers:description   "key000301" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1732" ;
+                                                                    pers:to    "1737"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1742-1745" ;
+                           pers:description   "key003660" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1742" ;
+                                                                    pers:to    "1745"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "-1742" ;
+                           pers:description   "key000853" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1742" ;
+                                                                    pers:notBefore  "1732" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

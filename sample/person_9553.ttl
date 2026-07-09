@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010314>
+        a                    pers:person ;
+        rdfs:label           "Werner Ehinger"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002020>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-12 10:58:28.669853" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010314a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002247> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wernher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002247.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010314a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002247> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000444>
+        a                    pers:person ;
+        rdfs:label           "Wolfhart von Brandis"@deu ;
+        pers:deaths          [ pers:death         "1418" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1418" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1356" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1356" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Wolfhart" ;
+                               pers:gennames   [ pers:genname    "IV." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000444a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "32" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "60"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000217> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000217> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "29265" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000443> ;
+                               pers:occurence  "SG III/2"
+                             ] .

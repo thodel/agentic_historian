@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per011170>
+        a                    pers:person ;
+        rdfs:label           "Jean Bouquet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1448" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-01 14:05:22.145056" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per011170a> ;
+                               pers:lang              "lat" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004212> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Jean" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per011170a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004212> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004212.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011170a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004212> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007851> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011248> ;
+                               pers:occurence  "gortega"
+                             ] .

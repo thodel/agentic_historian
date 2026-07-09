@@ -1,0 +1,20 @@
+# ── Voyant Tools ────────────────────────────────────
+location /voyant {
+    return 301 /voyant/;
+}
+location /voyant/ {
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    # Rewrite internal HTML/JS URLs from / to /voyant/
+    sub_filter_once off;
+    sub_filter_types text/html application/javascript;
+    sub_filter 'href="/' 'href="/voyant/';
+    sub_filter "src=\"/" "src=\"/voyant/";
+    sub_filter "url('/" "url('/voyant/";
+    sub_filter 'url("/' 'url("/voyant/';
+
+    proxy_pass http://127.0.0.1:8888/;
+}

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009984>
+        a                    pers:person ;
+        rdfs:label           "Georg Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1662" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-09-24 14:40:34.158518" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1663" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "Georg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009984a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009984a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1662" ;
+                               pers:description  "key004829" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "nach 1662" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008358> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:residence       [ pers:date       "1662" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009985> ;
+                               pers:occurence  "SG III/4"
+                             ] .

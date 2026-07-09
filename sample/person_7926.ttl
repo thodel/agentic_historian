@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008624>
+        a                    pers:person ;
+        rdfs:label           "J. H. Steiner"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1838" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1838" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-17 13:05:43.566873" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "J. H." ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008624a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000704> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1838" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1838" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000704> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

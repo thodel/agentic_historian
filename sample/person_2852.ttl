@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003298>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Rümlang"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:54:42.048415" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001313.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003298a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003298a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001313> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1382" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001313> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

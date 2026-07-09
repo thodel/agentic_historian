@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003601>
+        a                    pers:person ;
+        rdfs:label           "Burkard Volkrat"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1397" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:24:11.508672" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Burkart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "22" ;
+                                                                   pers:line     "33" ;
+                                                                   pers:page     "61"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001441.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003601a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Burkard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003601a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "22" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "62"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001441> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1397-1417" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1397" ;
+                                                                        pers:to    "1417"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001334>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001441> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

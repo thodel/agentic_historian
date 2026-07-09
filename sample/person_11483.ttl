@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per012376>
+        a                         pers:person ;
+        rdfs:label                "Pierre Boczel"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1438" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-03 16:12:42.055922" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1458" ;
+                                    pers:occurence     "pascale"
+                                  ] ;
+        pers:memberOf             [ pers:occurence      "gortega" ;
+                                    pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004150>
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004742.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012376a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Pierre" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012376a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004742> ;
+                                    pers:rolenames         [ pers:occurence  "gortega" ;
+                                                             pers:rolename   "Bruder/frère"
+                                                           ] ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename          "Petrus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012376a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004742> ;
+                                    pers:rolenames         [ pers:occurence  "gortega" ;
+                                                             pers:rolename   "Bruder/frère"
+                                                           ] ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "1438" ;
+                                    pers:description  "key000988" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004025>
+                                  ] ;
+        pers:occupation           [ pers:date         "19.04.1458" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004742> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Modestin 1999, p. 329" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011863> ;
+                                    pers:occurence  "gortega"
+                                  ] .

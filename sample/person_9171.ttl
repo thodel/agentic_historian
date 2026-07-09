@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per009916>
+        a                    pers:person ;
+        rdfs:label           "Adrian Ziegler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1630" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-06 15:35:19.332344" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1667" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Adrian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009916a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000735> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "der jünger" ;
+                                                  pers:occurence  "pascale"
+                                                ] ;
+                               pers:forename    "Adrian" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000735.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009916a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1660, 1661, 1667" ;
+                               pers:description  "key000320" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date         "1667" ;
+                               pers:description  "key000224" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000735> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1667" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

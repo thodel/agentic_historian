@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per003059>
+        a                    pers:person ;
+        rdfs:label           "Josef Anton Kolb"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1784" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1784" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1795" ] ] ;
+                               pers:last_mention  "1795" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000534.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003059a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003059a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "360" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "1192"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "373" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1220"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000534> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1784-1795" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1784" ;
+                                                                        pers:to    "1795"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000534> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

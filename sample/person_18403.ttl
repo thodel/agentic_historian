@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per019611>
+        a                pers:person ;
+        rdfs:label       "Johannes Uffleger"@fra , "Johannes Uffleger"@deu ;
+        pers:births      [ pers:birth      "1601" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1654" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-18 07:42:08.185406" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019611a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007376> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019611a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007376> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019611a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007376> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007376.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019611a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1632-1654" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:description  "key003583" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence    "rita"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org007376> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VI, p. 722" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

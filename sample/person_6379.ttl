@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per007009>
+        a                    pers:person ;
+        rdfs:label           "Christian Niederer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1599" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-03 17:38:31.008289" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007009a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002148> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Christen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "163" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "725"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002148.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007009a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002148> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

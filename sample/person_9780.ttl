@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per010551>
+        a                pers:person ;
+        rdfs:label       "Johannes von Waldburg-Wolfegg"@deu ;
+        pers:births      [ pers:birth      "26.03.1598" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "15.12.1644" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-13 17:36:31.494588" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Johannes" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010551a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "stadtasg"
+                                                  ] ;
+                           pers:occurence         "stadtasg" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003927> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1627-1644" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "stadtasg" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003927> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "26351" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "I/2,1, S. 427-429" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:refs        [ pers:id    "104081244" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

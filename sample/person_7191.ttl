@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007864>
+        a                pers:person ;
+        rdfs:label       "Josef Anton Heinrich"@deu ;
+        pers:births      [ pers:birth         "04.08.1702" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1702-08-04" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "23.10.1784" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1784-10-23" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-22 18:24:02.948655" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph Antoni" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "265" ;
+                                                               pers:line     "24" ;
+                                                               pers:page     "1172"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001152.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007864a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Josef Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007864a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001152> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1732" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1732" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001152> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26752" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

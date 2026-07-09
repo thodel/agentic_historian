@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per013101>
+        a                    pers:person ;
+        rdfs:label           "Abraham Matthey"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1800" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-16 11:02:03.339731" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013101a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003250> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Abraham" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003250.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013101a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1800" ;
+                               pers:description  "key005103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003250> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

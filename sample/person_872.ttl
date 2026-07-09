@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per000948>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Kainzmeyer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "16. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1501" ;
+                                                                         pers:to    "1600"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Rudolfus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000510.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000948a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000948a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "76" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "255"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000510> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000510> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

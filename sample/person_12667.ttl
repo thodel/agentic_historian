@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per013632>
+        a                    pers:person ;
+        rdfs:label           "Peter Rumy"@deu ;
+        pers:deaths          [ pers:death      "1651" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1645" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-26 11:52:57.936285" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005534.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013632a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013632a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005534> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005534.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013632a.02>
+                             ] ;
+        pers:occupation      [ pers:date         "1645-1651" ;
+                               pers:description  "key000547" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005534> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

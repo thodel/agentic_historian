@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020292>
+        a               pers:person ;
+        rdfs:label      "Peter Balmer"@deu ;
+        pers:deaths     [ pers:death      "vor 1651" ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020291> ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:hist       [ pers:date      "2020-11-03 08:11:10.930484" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Petter" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "rita" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003666.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020292a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per020292a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "rita" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003666> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003666> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008058> ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:sex        "1" .

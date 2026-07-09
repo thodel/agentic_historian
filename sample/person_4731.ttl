@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per005281>
+        a                    pers:person ;
+        rdfs:label           "Jörg Brenner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1471" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1471" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-15 11:51:34.242515" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Joͤrg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "47" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "127"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001917.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005281a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jerg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "89" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "322"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001917.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005281a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005281a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001917> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1471" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1471" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001917> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006277> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

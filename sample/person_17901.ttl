@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per019091>
+        a                    pers:person ;
+        rdfs:label           "Jakob Parli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-12 10:37:06.530529" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1786" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019091a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006975> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "jünger" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006975.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019091a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006975> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000227> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

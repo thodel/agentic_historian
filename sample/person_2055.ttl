@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per002464>
+        a                pers:person ;
+        rdfs:label       "Johann Melchior Leuw"@deu ;
+        pers:births      [ pers:birth         "28.08.1598" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1598-08-28" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "16.03.1675" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1675-03-16" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Melchior" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000975.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002464a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Melchior" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002464a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "245" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "898"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000975> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1658" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000975> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "23164" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per009615>
+        a                   pers:person ;
+        rdfs:label          "François Marron"@fra ;
+        pers:hist           [ pers:date      "2021-02-25 08:03:24.273827" ;
+                              pers:username  "lionel"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1620" ] ] ;
+                              pers:last_mention  "1620" ;
+                              pers:occurence     "FR I/2/8"
+                            ] ;
+        pers:name           [ pers:forename    "Francey" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "FR I/2/8" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003579.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009615a.01>
+                            ] ;
+        pers:name           [ pers:forename   "François" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per009615a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "FR I/2/8" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003579> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:description  "key000603" ;
+                              pers:occurence    "lionel"
+                            ] ;
+        pers:occupation     [ pers:description  "key004437" ;
+                              pers:occurence    "lionel"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003579> ;
+        pers:project        "SSRQ" ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007851> ;
+                              pers:occurence  "FR I/2/8"
+                            ] ;
+        pers:sex            "1" .

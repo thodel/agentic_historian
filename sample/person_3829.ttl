@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per004310>
+        a                    pers:person ;
+        rdfs:label           "Andreas Kaiser"@deu ;
+        pers:deaths          [ pers:death         "vor 18.03.1603" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1603-03-18" ;
+                                                                        pers:notBefore  "1553-03-18" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "andreas"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1588" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1588" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-19 12:12:21.146194" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Andres" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "139" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "515"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001521.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004310a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004310a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "137b" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "496"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001521> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000547" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001521> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "E_1603.05.21" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001504> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

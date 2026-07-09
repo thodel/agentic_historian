@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003911>
+        a                    pers:person ;
+        rdfs:label           "Barbara Gartenmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1575" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-24 15:58:15.098101" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Barbara" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003911a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001561> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Barbara" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "111c" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "404"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001561.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003911a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001561> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" .

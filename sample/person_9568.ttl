@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010329>
+        a                    pers:person ;
+        rdfs:label           "Hans Auer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-12 12:10:28.434703" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010329a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001771> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1735" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001771> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1735" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000950> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

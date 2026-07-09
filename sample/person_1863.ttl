@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per002265>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Ludwig Segesser von Brunegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1719" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1719" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1721" ] ] ;
+                               pers:last_mention  "1721" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000962.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002265a.01>
+                             ] ;
+        pers:name            [ pers:forename    "H. L." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000962.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002265a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002265a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "292" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "1026"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "198b" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "757"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000962> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1719-1721" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1719" ;
+                                                                        pers:to    "1721"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000962> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

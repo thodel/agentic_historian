@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per015902>
+        a                pers:person ;
+        rdfs:label       "Konrad Armbruster"@deu ;
+        pers:births      [ pers:birth      "um 1431" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1483" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-02 16:56:39.299687" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Conradus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006375.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015902a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Konrad" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per015902a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "fahe"
+                                                  ] ;
+                           pers:occurence         "fahe" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006375> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000562" ;
+                           pers:occurence    "fahe"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006375> ;
+        pers:project     "Königsfelden" , "SSRQ" ;
+        pers:refs        [ pers:id    "14722" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004646>
+        a                    pers:person ;
+        rdfs:label           "Klaus Walser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1456" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-12-01 16:16:14.649479" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Clâs" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000615.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004646a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Clas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000615.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004646a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004646a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000615> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000615> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1456" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1456" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

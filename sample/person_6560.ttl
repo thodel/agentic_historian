@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per007200>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Pfändler"@deu ;
+        pers:deaths          [ pers:death         "19.09.1630" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1630-09-19" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1615" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1615" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-25 10:49:48.298252" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "186a" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "832"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "184" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "821"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "185" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "829"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000923.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007200a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007200a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000923> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1626, 1628" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1628" ] ;
+                                         pers:format_date  [ pers:when  "1626" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:occupation      [ pers:date          "1626, 1628" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1628" ] ;
+                                         pers:format_date  [ pers:when  "1626" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000923> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18016" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

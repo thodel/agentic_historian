@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000333>
+        a                    pers:person ;
+        rdfs:label           "NN Gottschalk"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1265" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1265" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Sargans" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000333a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "18" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "31"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000147> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000147> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

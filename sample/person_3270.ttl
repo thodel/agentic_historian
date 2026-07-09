@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003726>
+        a                    pers:person ;
+        rdfs:label           "Claus von Büttikon"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:52:21.711325" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "42" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "114"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000479.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003726a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Claus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003726a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000479> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1437" ;
+                               pers:description   "key003721" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1437" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000479> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 34" ;
+                               pers:title  "SSRQ LU I/2" ;
+                               pers:type   "biblio" ;
+                               pers:url    "https://www.ssrq-sds-fds.ch/online/LU_I_2/index.html#p_III"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

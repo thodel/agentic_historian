@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per002088>
+        a                    pers:person ;
+        rdfs:label           "This Vils"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "This" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002088a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "176a" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "632"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000502> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Thys" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000502.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002088a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Dhys" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000502.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002088a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000502> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

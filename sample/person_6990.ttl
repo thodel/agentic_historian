@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per007654>
+        a                    pers:person ;
+        rdfs:label           "Johann Leonhard Janser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1687" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1687" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 07:35:13.722942" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007654a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002842> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johan Lienhardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "235a" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "1054"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002842.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007654a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1687" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1687" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:date          "1687" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1687" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002842> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "https://hls-dhs-dss.ch/de/articles/022893/2008-01-29/" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

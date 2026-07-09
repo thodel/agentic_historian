@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008946>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Spiess"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1570" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1570" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-07 15:16:15.176162" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Fridolin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008946a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000875> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000875.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008946a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1570" ;
+                               pers:description   "key005061" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1570" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000875> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Vormund von Mattäus Liederlichs hinterlassenem Kind." ;
+        pers:residence       [ pers:date          "1570" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1570" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

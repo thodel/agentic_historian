@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per022099>
+        a                    pers:person ;
+        rdfs:label           "Ursula vom Land"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 11:34:31.462748" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Ursula" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022099a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008013> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Ursula" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per022099b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org008017> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ursula" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008013.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022099a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008013> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010934> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022112> ;
+                               pers:occurence  "pascale"
+                             ] .

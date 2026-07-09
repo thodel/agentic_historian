@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016998>
+        a               pers:person ;
+        rdfs:label      "Hans Raeber"@deu ;
+        pers:deaths     [ pers:death      "ca. 1646" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016996> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-04 07:25:24.573638" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016998a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006716> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hannß" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006716.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016998a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006716> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010970> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per005167>
+        a                    pers:person ;
+        rdfs:label           "Jakob von Waldburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1444" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1444" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-15 13:17:51.254712" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005167a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000359> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Truchsaͤß" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "30" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "75"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000359.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005167a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1444" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1444" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000359> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "1112558640" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

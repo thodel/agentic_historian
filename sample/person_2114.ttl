@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per002523>
+        a                    pers:person ;
+        rdfs:label           "Jakob Paul Natsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1766" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1766" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:last_mention  "1788" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob Paul" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002523a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "366c" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1205"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "342b" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "1141"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "360" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "1192"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "353" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "1178"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000724> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Paulus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000724.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002523a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Jacob Paulus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000724.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002523a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1766, 1780, 1784" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1780" ] ;
+                                         pers:format_date  [ pers:when  "1766" ] ;
+                                         pers:format_date  [ pers:when  "1784" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1766" ;
+                               pers:description   "key000977" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1766" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1788" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000724> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

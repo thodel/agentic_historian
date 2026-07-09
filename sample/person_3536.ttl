@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004008>
+        a                    pers:person ;
+        rdfs:label           "Lorenz Marbacher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1573" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1573" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-01 10:22:39.692017" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Lorentzs" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "120a" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "434"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001560.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004008a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lorenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004008a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "107" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "393"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001560> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001560> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001602> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

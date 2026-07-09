@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002964>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Spreng"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1612" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1612" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002964a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "1148"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "343" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "1146"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001109> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001109.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002964a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000029" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002666>
+                             ] ;
+        pers:occupation      [ pers:date          "1612-" ;
+                               pers:description   "key003713" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1662" ;
+                                                                        pers:notBefore  "1612" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001109> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

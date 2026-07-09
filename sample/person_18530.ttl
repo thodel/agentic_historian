@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per019742>
+        a                    pers:person ;
+        rdfs:label           "Nut Rinalt"@deu ;
+        pers:deaths          [ pers:death      "vor 1529" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019870> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1507" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-18 10:26:28.255228" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Nut" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019742a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007332> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Nut" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007332.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019742a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007332> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008962> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

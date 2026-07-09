@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002563>
+        a                pers:person ;
+        rdfs:label       "Ulrich Tschudi"@deu ;
+        pers:births      [ pers:birth         "03.07.1601" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1601-07-03" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "09.1666" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1666-09" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002563a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "245" ;
+                                                              pers:line     "30" ;
+                                                              pers:page     "898"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1658" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                         ] ;
+        pers:occupation  [ pers:date          "1657-1658" ;
+                           pers:description   "key000607" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1657" ;
+                                                                    pers:to    "1658"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18038" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

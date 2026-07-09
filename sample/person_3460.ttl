@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003928>
+        a                    pers:person ;
+        rdfs:label           "Andres Neiger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1478" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1478" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-25 15:35:27.414041" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Andres" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003928a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "64b" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "189"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001567> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003628" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001567> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

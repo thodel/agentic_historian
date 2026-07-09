@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002998>
+        a                    pers:person ;
+        rdfs:label           "NN Albrecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1769" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1769" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002998a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343b" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "1152"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000898" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000350> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

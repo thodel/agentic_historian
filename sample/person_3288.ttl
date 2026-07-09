@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003744>
+        a                    pers:person ;
+        rdfs:label           "Hans Ebener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:58:32.495731" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003744a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "141" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "522"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001502> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1599" ;
+                               pers:description   "key003723" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005901> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001502> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

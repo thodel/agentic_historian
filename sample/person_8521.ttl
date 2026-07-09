@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per009255>
+        a                pers:person ;
+        rdfs:label       "François d’ Affry"@fra ;
+        pers:births      [ pers:birth         "1590" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1590" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death         "1645" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1645" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018134> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-03 10:56:35.698773" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "François" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009255a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003422> ;
+                           pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1618-1645" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003422> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14941" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

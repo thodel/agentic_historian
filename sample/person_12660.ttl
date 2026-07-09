@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per013623>
+        a                    pers:person ;
+        rdfs:label           "Bernhard Reinhart"@deu ;
+        pers:deaths          [ pers:death      "1531" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1527" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-03 15:44:56.019641" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Bernhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013623a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005531> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bernhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005531.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013623a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Bernnhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005531.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013623a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005531> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

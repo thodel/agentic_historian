@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per011539>
+        a                    pers:person ;
+        rdfs:label           "Werner Täschler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1449" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-16 10:32:10.527265" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Werna" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004391.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011539b.01>
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011539b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004391> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1449" ;
+                               pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001156>
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "1453" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000121> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

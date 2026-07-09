@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010424>
+        a                    pers:person ;
+        rdfs:label           "Jeanne Guye"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1632" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-01 08:58:26.847778" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename          "Jeanne" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010424b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003870> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Jeanne" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010424a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003869> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003869> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010423> ;
+                               pers:occurence  "NE 3"
+                             ] .

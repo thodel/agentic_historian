@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per022612>
+        a               pers:person ;
+        rdfs:label      "Johannes Fricker"@deu ;
+        pers:deaths     [ pers:death      "spätestens 1378" ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022614> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022611> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-29 23:16:23.495720" ;
+                          pers:username  "sabine"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "von Schinznach" ;
+                                            pers:occurence  "sabine"
+                                          ] ;
+                          pers:forename   "Johannes" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per022612a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "sabine" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004226> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hans" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "sabine" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004226.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022612a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004226> ;
+        pers:project    "Königsfelden" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022613> ;
+                          pers:occurence  "sabine"
+                        ] .

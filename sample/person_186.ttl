@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per000239>
+        a                    pers:person ;
+        rdfs:label           "Rutschman Kilchmatter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1472" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦtschman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000037.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000239a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rutschman" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000239a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "101" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "334"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "62b" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "198"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000037> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1472" ;
+                               pers:description   "key000409" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1472" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000827> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000037> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

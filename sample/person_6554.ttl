@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per007194>
+        a                    pers:person ;
+        rdfs:label           "Bonaventura Hölderlin"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1625" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1625" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 14:38:38.907798" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Bonaventura" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007194a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002715> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bonavetura" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "182" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "817"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002715.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007194a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1625" ;
+                               pers:description   "key000692" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1625" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1625" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1625" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1625" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1625" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002715> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

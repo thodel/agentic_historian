@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009177>
+        a                    pers:person ;
+        rdfs:label           "Melchior Stulz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1529" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 09:04:06.666845" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1557" ] ] ;
+                               pers:last_mention  "1557" ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002014.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009177a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009177a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002014> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009177a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002014> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002014> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "23197" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

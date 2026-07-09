@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003227>
+        a                    pers:person ;
+        rdfs:label           "Jost Schönerler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:29:52.855902" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003227a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "34" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "80"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001269> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1427" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1427" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001269> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005876> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

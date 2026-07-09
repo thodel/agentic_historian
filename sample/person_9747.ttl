@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per010517>
+        a                   pers:person ;
+        rdfs:label          "Jacob Vallier"@fra ;
+        pers:births         [ pers:birth      "30.06.1555" ;
+                              pers:occurence  "NE 3"
+                            ] ;
+        pers:hist           [ pers:date      "2019-07-18 14:03:03.826927" ;
+                              pers:username  "NE 3"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "16.07.1623" ;
+                              pers:occurence     "NE 3"
+                            ] ;
+        pers:name           [ pers:forename    "Jacob" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "NE 3" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003911.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010517a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Jacob" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per010517a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "NE 3" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003911> ;
+                              pers:rolenames  [ pers:occurence  "NE 3" ;
+                                                pers:rolename   "Knappe/écuyer"
+                                              ] ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date         "1603" ;
+                              pers:description  "key005226" ;
+                              pers:location     <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                              pers:occurence    "NE 3"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003911> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:id    "1075708419" ;
+                              pers:type  "GND"
+                            ] ;
+        pers:refs           [ pers:id    "15755" ;
+                              pers:type  "HLS"
+                            ] ;
+        pers:sex            "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per027777>
+        a                    pers:person ;
+        rdfs:label           "Anna Ehinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1475" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-27 08:06:16.043100" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per027777a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "ssrq-zh" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002247> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Annen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002247.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027777a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per027777b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000536> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002247> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027339> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

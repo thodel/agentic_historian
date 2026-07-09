@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per002967>
+        a                    pers:person ;
+        rdfs:label           "Jakob Good"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002645> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1654" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1654" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1671" ] ] ;
+                               pers:last_mention  "1671" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002967a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "1146"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1654-1671" ;
+                               pers:description   "key003713" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1654" ;
+                                                                        pers:to    "1671"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per004498>
+        a                    pers:person ;
+        rdfs:label           "Ruef Gully"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1419" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1419" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-07 14:41:44.323778" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ruef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004498a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001819> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001819.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004498a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001819> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

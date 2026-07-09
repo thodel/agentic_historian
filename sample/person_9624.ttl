@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010387>
+        a                    pers:person ;
+        rdfs:label           "David Jacot"@fra ;
+        pers:citizenOf       [ pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 08:04:45.106072" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010387a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003231> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1696" ;
+                               pers:description  "key000275" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003231> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

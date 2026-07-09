@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per009350>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Wysshan"@deu ;
+        pers:deaths          [ pers:death         "1577" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1577" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1548" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1548" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 13:20:47.287346" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009350a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003465> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003465.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009350a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1548" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003465> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VII, S. 614" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

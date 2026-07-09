@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010385>
+        a                    pers:person ;
+        rdfs:label           "Frick Köbili"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-29 12:02:00.800367" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Frik" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003856.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010385a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Frick" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010385a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003856> ;
+                               pers:type       "std"
+                             ] ;
+        pers:nationalOf      [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001889>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003856> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

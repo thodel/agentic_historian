@@ -1,0 +1,81 @@
+<http://ssrq-sds-fds.ch/Register/#per002693>
+        a                pers:person ;
+        rdfs:label       "Ulrich von Federspiel"@deu ;
+        pers:births      [ pers:birth         "07.05.1657" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1657-05-07" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "11.10.1728" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1728-10-11" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-02 15:14:25.150795" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Ulrich" ;
+                           pers:gennames          [ pers:genname    "VII." ;
+                                                    pers:occurence  "SG III/2"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002693a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "272" ;
+                                                                     pers:line     "5" ;
+                                                                     pers:page     "975"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Ulrich" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per002693b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "272" ;
+                                                                     pers:line     "5" ;
+                                                                     pers:page     "975"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001069> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Ulrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002693a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Udalricus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001069.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002693b.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1692-1728" ;
+                           pers:description   "key000015" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1692" ;
+                                                                    pers:to    "1728"
+                                                                  ] ] ;
+                           pers:occurence     "pascale" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000053> , <http://ssrq-sds-fds.ch/Register/#org001069> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "140338551" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "26308" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

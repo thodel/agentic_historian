@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009642>
+        a                pers:person ;
+        rdfs:label       "Stephan Schwaller"@deu ;
+        pers:births      [ pers:birth         "um 1535" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1545" ;
+                                                                    pers:notBefore  "1525" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "1595" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1595" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-18 12:42:54.264165" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Stäphan" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003530.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009642a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Stephan" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009642a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003530> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1586" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003220>
+                         ] ;
+        pers:occupation  [ pers:date          "1586" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003530> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17498" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

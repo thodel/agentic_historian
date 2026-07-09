@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per002907>
+        a                pers:person ;
+        rdfs:label       "Herkules Pestalozzi"@deu ;
+        pers:births      [ pers:birth         "09.04.1695" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1695-04-09" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "22.05.1768" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1768-05-22" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Herkules" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002907a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "325" ;
+                                                              pers:line     "11" ;
+                                                              pers:page     "1094"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001099> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Herkules" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001099.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002907a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1752" ;
+                           pers:description   "key000133" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1752" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002900>
+                         ] ;
+        pers:occupation  [ pers:date          "1752" ;
+                           pers:description   "key003616" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1752" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001099> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16906" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

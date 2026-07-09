@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per017142>
+        a                    pers:person ;
+        rdfs:label           "Hans Frey"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017141> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1505" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-20 13:47:23.370139" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017142a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001401> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004581>
+                             ] ;
+        pers:occupation      [ pers:date         "1513" ;
+                               pers:description  "key000623" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004581>
+                             ] ;
+        pers:occupation      [ pers:description  "key000028" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001401> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000504> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per006703>
+        a                    pers:person ;
+        rdfs:label           "Michael Köppel"@deu ;
+        pers:deaths          [ pers:death         "vor 06.01.1662" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1662-01-06" ;
+                                                                        pers:notBefore  "1612-01-06" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1662" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1662" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 11:34:31.727401" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006703a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "135" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "583"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002425> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 06.01.1662" ;
+                               pers:description   "key004963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1662-01-06" ;
+                                                                        pers:notBefore  "1612-01-06" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002964>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002425> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

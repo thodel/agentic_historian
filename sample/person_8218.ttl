@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per008935>
+        a                    pers:person ;
+        rdfs:label           "Gabriel Streuli"@deu ;
+        pers:deaths          [ pers:death         "1583" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1583" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1573" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1573" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-07 13:56:43.911008" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Gabriel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008935a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003292> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gabriel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003292.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008935a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1573" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1573" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1573" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1573" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003292> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, S. 576" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

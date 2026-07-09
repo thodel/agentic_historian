@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010503>
+        a                    pers:person ;
+        rdfs:label           "Giovanni Cho"@ita ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 15:18:56.406686" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Giovanni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010503a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003903> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Giovan" ;
+                               pers:lang        "ita" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003903.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010503a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003903> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008336> ;
+                               pers:occurence  "FDS TI"
+                             ] ;
+        pers:sex             "1" .

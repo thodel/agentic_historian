@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per014330>
+        a               pers:person ;
+        rdfs:label      "Heinrich Brennwald"@deu ;
+        pers:births     [ pers:birth      "1478" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "04.1551" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:hist       [ pers:date      "2020-03-25 09:18:03.337904" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Heinrich" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000641.08> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014330a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Heinrich" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per014330a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000641> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000641> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "118659987" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:id    "018691" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

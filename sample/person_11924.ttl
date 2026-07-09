@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012825>
+        a                    pers:person ;
+        rdfs:label           "Pilgrim NN"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000335> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1360" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-10 07:56:56.594814" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Strewn" ;
+                                                 pers:occurence  "sabine"
+                                               ] ;
+                               pers:forename   "Pilgrim" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012825a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005651" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Baum, Wilhelm: Rudolf IV. der Stifter. Seine Welt und seine Zeit, Graz, Wien, Köln 1996, S. 127." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Hofmarschall von Rudolf IV. von Habsburg-Österreich" ;
+        pers:sex             "1" .

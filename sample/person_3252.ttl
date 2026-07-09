@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per003708>
+        a                    pers:person ;
+        rdfs:label           "Petermann von Meggen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1481" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:48:02.515892" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "70b" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "211"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001483.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003708a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Petermann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003708a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001483> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petterman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "56a" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "159"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001483.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003708a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1481, 1483, 1487" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ;
+                                         pers:format_date  [ pers:when  "1481" ] ;
+                                         pers:format_date  [ pers:when  "1487" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001483> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14240" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

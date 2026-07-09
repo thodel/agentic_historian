@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per002923>
+        a                    pers:person ;
+        rdfs:label           "Joseph Leonz Arnold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1753" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1753" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-15 14:26:53.612752" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1755" ] ] ;
+                               pers:last_mention  "1755" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Spriringen" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Joseph Leonz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002923a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "331" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "1112"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "332" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "1114"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "330" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "1111"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000123> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Leonti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000123.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002923a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:occupation      [ pers:date          "1753-1755" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1753" ;
+                                                                        pers:to    "1755"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000934" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000123> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

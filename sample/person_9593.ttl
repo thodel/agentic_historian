@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010356>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Zwick"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-29 12:00:46.912173" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001996.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010356a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Alte" ;
+                                                 pers:occurence  "stadtasg"
+                                               ] ;
+                               pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010356a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001996> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001996> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

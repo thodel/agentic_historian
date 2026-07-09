@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006912>
+        a                    pers:person ;
+        rdfs:label           "Johannes Schreiber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1775" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1775" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 14:40:16.270463" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006912a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "154d" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "678"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002099> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002099> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006661> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

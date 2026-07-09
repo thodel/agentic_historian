@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per011263>
+        a                pers:person ;
+        rdfs:label       "Felix Frei"@deu ;
+        pers:births      [ pers:birth      "ca. 1482" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "19.04.1555" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-05-14 09:42:48.149335" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Felix" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per011263a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "ssrq-zh"
+                                                  ] ;
+                           pers:occurence         "ssrq-zh" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Felix" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011263a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1518-1555" ;
+                           pers:description  "key003448" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "12624" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Michael Nadig: Meist als Felix Fry bezeichnet." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

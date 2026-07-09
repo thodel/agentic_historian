@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002409>
+        a                    pers:person ;
+        rdfs:label           "Hans Ramer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1640" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1640" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002409a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "228" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "851"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000748> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000501" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000748> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000130> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

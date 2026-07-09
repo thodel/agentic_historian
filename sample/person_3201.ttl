@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per003655>
+        a                    pers:person ;
+        rdfs:label           "Hans Lustenberger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:40:45.720315" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133b" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "477"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001248.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003655a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003655a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "138" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "513"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001248> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "518"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001248.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003655a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1593, 1598, 1602" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1593" ] ;
+                                         pers:format_date  [ pers:when  "1602" ] ;
+                                         pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001248> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "E_1602.12.28, E_1603.05.21 gest. nach PB gest. 1635" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

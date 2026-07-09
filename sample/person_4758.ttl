@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per005307>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Benz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1668" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1668" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 15:21:29.235720" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Lenhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "47" ;
+                                                                   pers:line     "42" ;
+                                                                   pers:page     "138"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000517.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005307a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005307a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000517> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1668" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1668" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:occupation      [ pers:date          "1668" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1668" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000517> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

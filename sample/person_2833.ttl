@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per003283>
+        a               pers:person ;
+        rdfs:label      "Wilhelm von Habsburg-Österreich"@deu ;
+        pers:births     [ pers:birth         "1370" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1370" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:deaths     [ pers:death         "1406" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2021-03-16 15:16:40.502168" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:forename    "Wilhalm" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   [ pers:articles  [ pers:article  "17" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "49"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                          pers:occurence   [ pers:articles  [ pers:article  "30" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "74"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "1n" ;
+                                                              pers:line     "21" ;
+                                                              pers:page     "9"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000088.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003283a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Wilhelm" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003283a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "18" ;
+                                                             pers:line     "10" ;
+                                                             pers:page     "52"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project    "SSRQ" ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003284> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000387> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000346> ;
+                          pers:occurence  "mina"
+                        ] .

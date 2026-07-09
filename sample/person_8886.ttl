@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per009628>
+        a                pers:person ;
+        rdfs:label       "Remigius Faesch"@deu ;
+        pers:births      [ pers:birth         "06.02.1541" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541-02-06" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "22.12.1610" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1610-12-22" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-10 11:45:52.981382" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Remigius" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009628a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003585> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Romius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003585.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009628a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Remigius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003585.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009628a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1586" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003510>
+                         ] ;
+        pers:occupation  [ pers:date          "1586, 1589" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:occupation  [ pers:date          "1577, 1589" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1577" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003585> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19211" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

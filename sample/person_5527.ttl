@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006109>
+        a                    pers:person ;
+        rdfs:label           "Klaus Schelling"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1526" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1526" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 18:09:06.330801" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006109a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002392> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Clouß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "110" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "418"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002392.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006109a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1526" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1526" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002392> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

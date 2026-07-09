@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per016183>
+        a                    pers:person ;
+        rdfs:label           "Pierre Cuanet"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016182> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1482" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-27 14:37:03.490027" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016183a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006471> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Petrus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016183a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006471> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006471.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016183a.01>
+                             ] ;
+        pers:neighbourOf     [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015891> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006471> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Maier 1996, p. 403" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009099> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

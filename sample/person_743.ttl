@@ -1,0 +1,84 @@
+<http://ssrq-sds-fds.ch/Register/#per000818>
+        a                pers:person ;
+        rdfs:label       "Walter In der Gass"@deu ;
+        pers:births      [ pers:birth         "1. Hälfte 15. Jh." ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1401" ;
+                                                                    pers:to    "1450"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001157>
+                         ] ;
+        pers:deaths      [ pers:death         "nach 1503" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1503" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-12 14:49:42.425181" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Walther" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "52" ;
+                                                               pers:line     "34" ;
+                                                               pers:page     "167"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000428.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000818a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Walter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000818a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "61" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "195"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000428> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Walther" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000428.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000818a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1473" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:occupation  [ pers:date          "1474" ;
+                           pers:description   "key003833" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1474" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:occupation  [ pers:date          "1483" ;
+                           pers:description   "key003833" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:occupation  [ pers:date          "1473" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000428> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15543" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001059> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

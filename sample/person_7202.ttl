@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per007877>
+        a                    pers:person ;
+        rdfs:label           "Bernhard Keller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1737" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1737" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-23 14:48:20.939195" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bernhardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "268" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "1179"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007877a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bernhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007877a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1737" ;
+                               pers:description   "key003669" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1737" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007183> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1737" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1737" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002475>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

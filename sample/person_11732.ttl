@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per012632>
+        a                pers:person ;
+        rdfs:label       "Johann Jakob Breitinger"@deu ;
+        pers:births      [ pers:birth      "19.04.1575" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "01.04.1645" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 10:18:32.368844" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012632a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005157> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005157.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012632a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1613-1645" ;
+                           pers:description  "key005634" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date         "1613-1645" ;
+                           pers:description  "key004007" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:occupation  [ pers:date         "1611-1613" ;
+                           pers:description  "key004007" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005051>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005157> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118659952" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "10449" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

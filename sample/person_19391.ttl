@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per020622>
+        a                    pers:person ;
+        rdfs:label           "Jakob Lorenz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1559" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-01 07:57:32.511645" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020622a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001001> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001001.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020622a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001001> ;
+        pers:project         "SSRQ" ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020474> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020623> ;
+                               pers:occurence  "pascale"
+                             ] .

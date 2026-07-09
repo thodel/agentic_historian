@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per005290>
+        a                    pers:person ;
+        rdfs:label           "David Schlumpf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1641" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1641" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-24 11:26:17.889967" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005290a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000271> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Davidt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "47" ;
+                                                                   pers:line     "46" ;
+                                                                   pers:page     "136"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000271.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005290a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1641" ;
+                               pers:description   "key004808" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:occupation      [ pers:date          "1641" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001876>
+                             ] ;
+        pers:occupation      [ pers:date          "1641" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000271> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

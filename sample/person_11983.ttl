@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per012886>
+        a                        pers:person ;
+        rdfs:label               "Nicolet de Miéville"@fra ;
+        pers:births              [ pers:birth      "ca. 1448" ;
+                                   pers:occurence  "pascale"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-11-30 13:11:44.546035" ;
+                                   pers:username  "pascale"
+                                 ] ;
+        pers:last_mentions       [ pers:last_mention  "1498" ;
+                                   pers:occurence     "pascale"
+                                 ] ;
+        pers:name                [ pers:forename    "Nycolletus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005252.03> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012886a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Nicolet" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012886a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005252> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Nycolletus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012886a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005252> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:neighbourOf         [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012774> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:neighbourOf         [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012745> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:occupation          [ pers:date         "1495" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:occupation          [ pers:date         "26.10.1498" ;
+                                   pers:description  "key005588" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org005252> ;
+        pers:project             "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs                [ pers:title  "Pfister 1997, p. 297" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010907> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                                   pers:occurence  "gortega"
+                                 ] .

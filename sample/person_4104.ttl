@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per004598>
+        a                    pers:person ;
+        rdfs:label           "Hans Schärli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-22 15:08:06.228555" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004598a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001850> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001850.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004598a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001850> ;
+        pers:project         "SSRQ" ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004599> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Die Verwandtschaftsbeziehung ist unklar, sie werden in der Quelle als Hans und Jörg, die Schärli, bezeichnet. Wahrscheinlich sind es Brüder." ;
+        pers:residence       [ pers:date          "1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per010530>
+        a                    pers:person ;
+        rdfs:label           "Jacques de Chambrier"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1594" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-29 10:07:16.696540" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1595" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010530a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003190> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003190.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010530a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jacques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003190.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010530a.02>
+                             ] ;
+        pers:occupation      [ pers:date         "1595" ;
+                               pers:description  "key000275" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003190> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010532> ;
+                               pers:occurence  "pascale"
+                             ] .

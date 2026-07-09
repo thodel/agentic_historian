@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020424>
+        a               pers:person ;
+        rdfs:label      "Jakob Gilli"@deu ;
+        pers:deaths     [ pers:death      "vor 1557" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-06-26 07:26:51.430867" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Jakob" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per020424a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006309> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Jacob" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006309.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020424a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006309> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020425> ;
+                          pers:occurence  "pascale"
+                        ] .

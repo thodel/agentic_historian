@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per009049>
+        a                    pers:person ;
+        rdfs:label           "Claudy Lardy"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009048> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1695" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1695" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-16 10:25:57.915431" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Claudy" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009049a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003091> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003091> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007815> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per009178>
+        a                    pers:person ;
+        rdfs:label           "Oswald Toss"@deu ;
+        pers:deaths          [ pers:death         "17.01.1541" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1541-01-17" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1522" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1522" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 09:05:12.449059" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009178a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003379> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003379.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009178a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009178a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003379> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key004964" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003379> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26809" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

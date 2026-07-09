@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per013786>
+        a                pers:person ;
+        rdfs:label       "Felix Brennwald"@deu ;
+        pers:births      [ pers:birth      "1441" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "26.03.1492" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014330> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-20 10:16:15.434925" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Felix" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000641.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013786a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Felix" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013786a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000641> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1490-1492" ;
+                           pers:description  "key000133" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000641> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "143206613" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "018065" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

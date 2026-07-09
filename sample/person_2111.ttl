@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002520>
+        a                    pers:person ;
+        rdfs:label           "Jakob Natsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1700" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1700" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1755" ] ] ;
+                               pers:last_mention  "1755" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002520a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "331" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "1111"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "278" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "990"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000724> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000724.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002520a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1755" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1755" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000547" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000724> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per004340>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Fürstenberg"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000505> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1399" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1399" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-09-20 10:14:39.847558" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004340a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000255> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000255> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

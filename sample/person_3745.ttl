@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per004224>
+        a                    pers:person ;
+        rdfs:label           "Oswald Schlachter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:08:16.894636" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004224a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "103b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "375"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001702> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1575" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005808> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001702> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per013447>
+        a                    pers:person ;
+        rdfs:label           "NN Hopp"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1645" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-21 13:15:23.709014" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1679" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013447a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000728> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Doctor" ;
+                                                  pers:occurence  "rita"
+                                                ] ;
+                               pers:forename    "NNho" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000728.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013447a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1645-1679" ;
+                               pers:description  "key005635" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000728> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Bosson Alain, Dictionnaire des médecins fribourgeois 1311-1960, Fribourg 2009, p. 458." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

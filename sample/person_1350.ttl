@@ -1,0 +1,104 @@
+<http://ssrq-sds-fds.ch/Register/#per001757>
+        a                pers:person ;
+        rdfs:label       "Hans Heinrich Lochmann"@deu ;
+        pers:births      [ pers:birth         "05.02.1538" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1538-02-05" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "02.06.1589" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589-06-02" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001757a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "133" ;
+                                                              pers:line     "22" ;
+                                                              pers:page     "443"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "153b" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "549"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "153c" ;
+                                                              pers:line     "4" ;
+                                                              pers:page     "551"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "179" ;
+                                                              pers:line     "10" ;
+                                                              pers:page     "644"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "153a" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "546"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "1148"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "156" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "571"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000778> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hans Hinerichen!" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000778.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001757a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000778.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001757a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1567, 1578, 1582" ;
+                           pers:description   "key000824" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1578" ] ;
+                                     pers:format_date  [ pers:when  "1567" ] ;
+                                     pers:format_date  [ pers:when  "1582" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1567, 1578, 1582" ;
+                           pers:description   "key000824" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ;
+                                     pers:format_date  [ pers:when  "1567" ] ;
+                                     pers:format_date  [ pers:when  "1578" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000778> ;
+        pers:ownerOf     [ pers:date           "1545, 1549, 1550, 1567" ;
+                           pers:format_dates   [ pers:format_date  [ pers:when
+                                                       "1545" ] ;
+                                     pers:format_date  [ pers:when  "1550" ] ;
+                                     pers:format_date  [ pers:when  "1549" ] ;
+                                     pers:format_date  [ pers:when  "1567" ] ] ;
+                           pers:location       <http://ssrq-sds-fds.ch/Register/#loc000317> ;
+                           pers:occurence      "SG III/2" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                         ] ;
+        pers:ownerOf     [ pers:date           "1545, 1549, 1550, 1567" ;
+                           pers:format_dates   [ pers:format_date  [ pers:when
+                                                       "1549" ] ;
+                                     pers:format_date  [ pers:when  "1550" ] ;
+                                     pers:format_date  [ pers:when  "1545" ] ;
+                                     pers:format_date  [ pers:when  "1567" ] ] ;
+                           pers:location       <http://ssrq-sds-fds.ch/Register/#loc000317> ;
+                           pers:occurence      "SG III/2" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                         ] ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18167" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

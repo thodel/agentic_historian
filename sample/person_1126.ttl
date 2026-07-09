@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per001523>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Zwingli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1484" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1484" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1499" ] ] ;
+                               pers:last_mention  "1499" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001523a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "111" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "379"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000675> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1499" ;
+                               pers:description   "key003642" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1499" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1499" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1499" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000833> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000675> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

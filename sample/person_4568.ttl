@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per005099>
+        a                    pers:person ;
+        rdfs:label           "Konrad Ulrich Inderbund"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1433" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-12 14:00:21.224229" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Rüll" ;
+                                                  pers:occurence  "pascale"
+                                                ] ;
+                               pers:forename    "Cuenrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "StadtASG" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002022.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005099a.02>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Rull" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Konrad Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005099a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002022> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Rull" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Connratt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "16" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "41"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002022.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005099a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1433" ;
+                               pers:description   "key000256" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1433" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001936>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002022> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

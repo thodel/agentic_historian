@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per009728>
+        a                pers:person ;
+        rdfs:label       "Baldassare Franzoni"@ita , "Baldassare Franzoni"@deu ;
+        pers:deaths      [ pers:death         "vor 1642" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1642" ;
+                                                                    pers:notBefore  "1592" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-30 09:39:03.239318" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Baldassare" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009728a> ;
+                           pers:lang       "ita" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003490> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Balisar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009728a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Balisar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003490.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009728a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Baldassare" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009728a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003490> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1592" ;
+                           pers:description   "key005126" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1592" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc006141> ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003490> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15352" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

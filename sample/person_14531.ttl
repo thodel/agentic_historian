@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per015582>
+        a                pers:person ;
+        rdfs:label       "NN Schmid"@deu ;
+        <http://ssrq-sds-fds.ch/Register/schemas/persons/:cousinOf>
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015576> ;
+                  pers:occurence  "pascale"
+                ] ;
+        pers:cousinOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015521> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "vor 1558" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015580> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-08 08:50:21.354491" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "NN" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015582a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.13> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015582a.02>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015582a.01>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015582a.03>
+                         ] ;
+        pers:occupation  [ pers:description  "key005487" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:sex         "1" .

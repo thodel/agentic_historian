@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per006615>
+        a                    pers:person ;
+        rdfs:label           "NN Hans"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-09 17:14:30.707978" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "jung" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134a" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "563"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001368.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006615a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Junge" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006615a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001368> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001368> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: unsicher, ob Name oder Vorname" ;
+        pers:sex             "1" .

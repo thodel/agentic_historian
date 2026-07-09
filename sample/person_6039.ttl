@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per006644>
+        a                    pers:person ;
+        rdfs:label           "Agatha Mäser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-12 11:28:23.708877" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Agatha" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006644a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002351> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Agta" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134f" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "567"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002351.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006644a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002351> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

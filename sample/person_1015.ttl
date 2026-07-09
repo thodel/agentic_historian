@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per001105>
+        a                    pers:person ;
+        rdfs:label           "Jakob Arnold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1468" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1468" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-15 15:13:41.939890" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1499" ] ] ;
+                               pers:last_mention  "1499" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001105a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "101" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "334"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000123> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000123.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001105a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1488" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000123> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15482" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

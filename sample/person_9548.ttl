@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per010309>
+        a                    pers:person ;
+        rdfs:label           "Brunoro della Scala"@ita ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000712> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1424" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-29 12:09:21.968289" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Brunoro" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010309a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003810> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Brunorius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003810.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010309a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1424" ;
+                               pers:description  "key000634" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008425> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:occupation      [ pers:date         "1424" ;
+                               pers:description  "key000634" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008424> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003810> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.treccani.it/enciclopedia/brunoro-della-scala_(Dizionario-Biografico)/"
+                             ] ;
+        pers:sex             "1" .

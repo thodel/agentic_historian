@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per020092>
+        a                    pers:person ;
+        rdfs:label           "Anna Albrecht"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1358" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-22 09:07:47.858974" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020091> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Albrechtin" ;
+                                                 pers:occurence  "sabine"
+                                               ] ;
+                               pers:forename   "Anna" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020092a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1358" ;
+                               pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000350> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "2" .

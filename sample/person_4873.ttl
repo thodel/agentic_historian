@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per005432>
+        a                    pers:person ;
+        rdfs:label           "Stefan Grübel"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1477" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-17 18:26:55.234477" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1481" ] ] ;
+                               pers:last_mention  "1481" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename    "Steffan" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "58" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "198"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001987.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005432a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Stefan" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005432a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001987> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1477, 1481" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "SG III/3" , "claudia" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001876>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001987> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per022881>
+        a               pers:person ;
+        rdfs:label      "Kuno Kropf"@deu ;
+        pers:deaths     [ pers:death      "vor 1607" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-08-04 08:12:24.407390" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Kuno" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per022881a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007007> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Chuno" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007007.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022881a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007007> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022882> ;
+                          pers:occurence  "pascale"
+                        ] .

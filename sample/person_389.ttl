@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per000440>
+        a               pers:person ;
+        rdfs:label      "Sigismund (Hl.)"@deu ;
+        pers:feast_day  "01.05." ;
+        pers:name       [ pers:forename    "Sigmund" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org999999.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000440a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Sigismund" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per000440a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "32" ;
+                                                             pers:line     "6" ;
+                                                             pers:page     "60"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+        pers:project    "SSRQ" ;
+        pers:sex        "1" .

@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per005333>
+        a                    pers:person ;
+        rdfs:label           "Lenz Pfiffer"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1474" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1474" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 15:40:44.935443" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Lenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005333a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001151> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lentz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "51" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "160"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001151.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005333a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1474" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1474" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001151> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006006> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

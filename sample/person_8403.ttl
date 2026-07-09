@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009132>
+        a                    pers:person ;
+        rdfs:label           "Anton Thormann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1607" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-26 12:04:31.681621" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Anth" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003361.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009132a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009132a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003361> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1587-1615" ;
+                               pers:description   "key001010" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1587" ;
+                                                                        pers:to    "1615"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003361> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

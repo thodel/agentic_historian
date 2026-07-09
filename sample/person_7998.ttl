@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per008699>
+        a                    pers:person ;
+        rdfs:label           "Jean-Pierre Droz"@fra ;
+        pers:births          [ pers:birth         "17.03.1709" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1709-03-17" ] ] ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:deaths          [ pers:death         "04.06.1780" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1780-06-04" ] ] ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1764" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1764" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-11 17:10:03.868033" ;
+                               pers:username  "sds_ne"
+                             ] ;
+        pers:name            [ pers:forename    "Jean Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "sds_ne" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003173.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008699a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008699a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003173> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1764" ;
+                               pers:description   "key005087" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1764" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003173> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "1056945184" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "29097" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date          "1764" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1764" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008698> ;
+                               pers:occurence  "NE 3"
+                             ] .

@@ -1,0 +1,86 @@
+<http://ssrq-sds-fds.ch/Register/#per001960>
+        a                    pers:person ;
+        rdfs:label           "Johann Christoph Elmer"@deu ;
+        pers:deaths          [ pers:death         "16.04.1603" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603-04-16" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2019-12-30 16:10:46.313230" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes Christophorus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001960a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000102> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes Christophorus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000102.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001960a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000102.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001960a.04>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001960a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "178a" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "640"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "154b" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "561"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000102> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000102.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001960a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000102.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001960a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1581-1584" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1581" ;
+                                                                        pers:to    "1584"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/2" , "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000102> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 19" ;
+                               pers:title  "Kubly-Müller 1927" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000139748"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Die Angaben von Kubly-Müller sind ungenau. Bis Mai 1581 ist Wolfang Blumer als Landvogt belegt. Johann Christoph Elmer ist von Mai 1581 bis Mai 1584 Landvogt in Werdenberg." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

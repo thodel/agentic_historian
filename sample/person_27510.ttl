@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per028921>
+        a               pers:person ;
+        rdfs:label      "Andreas Schuhmacher"@deu ;
+        pers:deaths     [ pers:death      "vor 1743" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2021-02-22 10:21:35.850519" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Andreas" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per028921a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006508> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Anderis" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006508.05> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028921a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006508> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000651> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

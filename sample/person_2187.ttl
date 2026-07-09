@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per002588>
+        a                    pers:person ;
+        rdfs:label           "Anton Langenstein"@deu ;
+        pers:deaths          [ pers:death         "24.08.1692" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1692-08-24" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1649" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1649" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Antonius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001046.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002588a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Stans" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002588a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "249" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "908"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001046> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Pater/pater"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1657-1660, 1665-1667" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1665" ;
+                                                                        pers:to    "1667"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1657" ;
+                                                             pers:to    "1660"
+                                                           ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key003652" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1660" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1660" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001046> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

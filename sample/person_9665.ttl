@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per010428>
+        a                    pers:person ;
+        rdfs:label           "Guillaume Tribolet"@fra ;
+        pers:births          [ pers:birth      "1584" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:deaths          [ pers:death      "21.08.1669" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1629" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-01 15:09:09.943392" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Guillaume" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010428a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010428a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1629" ;
+                               pers:description  "key005212" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007789> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15749" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "1075707994" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

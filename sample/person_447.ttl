@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000494>
+        a             pers:person ;
+        rdfs:label    "Ulrich Beringer"@deu ;
+        pers:deaths   [ pers:death         "1411" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1411" ] ] ;
+                        pers:occurence     "SG III/2"
+                      ] ;
+        pers:name     [ pers:forename    "Uͦlrich" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000244.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000494a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Ulrich" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per000494a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "39a" ;
+                                                           pers:line     "3" ;
+                                                           pers:page     "79"
+                                                         ] ;
+                                          pers:vol       "SG III/2"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000244> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000244> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

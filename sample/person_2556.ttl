@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per002981>
+        a                pers:person ;
+        rdfs:label       "Joseph Rudolf Valentin Meyer von Schauensee"@deu ;
+        pers:births      [ pers:birth         "25.07.1725" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1725-07-25" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "05.12.1808" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1808-12-05" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "Wallenstein" ;
+                                              pers:occurence  "SG III/2"
+                                            ] ;
+                           pers:forename    "Joseph Rudolf Vallentin" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001114.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002981a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Joseph Rudolf Valentin" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002981a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "1150"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001114> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1767" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1767" ;
+                           pers:description   "key003676" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001114> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14250" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per010193>
+        a                    pers:person ;
+        rdfs:label           "Hans Beusch"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010194> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1661" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-23 12:05:44.735516" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Schnyders Hanß" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001808.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010193a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Schneiders Hans" ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010193a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001808> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001808> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1661" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000691> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

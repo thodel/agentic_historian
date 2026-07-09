@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010330>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Leuener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-15 14:12:30.851298" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Uli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001856.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010330a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010330a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001856> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1735" ;
+                               pers:description  "key000276" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000950> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001856> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1735" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008431> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

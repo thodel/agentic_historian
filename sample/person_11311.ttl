@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012202>
+        a                   pers:person ;
+        rdfs:label          "Henri Coinchely"@fra ;
+        pers:deaths         [ pers:death      "avant 1595" ;
+                              pers:occurence  "NE 3"
+                            ] ;
+        pers:hist           [ pers:date      "2019-09-16 13:38:20.989497" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1595" ;
+                              pers:occurence     "NE 3"
+                            ] ;
+        pers:name           [ pers:forename    "Henry" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "NE 3" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003991.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012202a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Henri" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per012202a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "NE 3" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003991> ;
+                              pers:type       "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003991> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "1" ;
+        pers:spouseOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012203> ;
+                              pers:occurence  "pascale"
+                            ] .

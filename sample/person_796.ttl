@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000875>
+        a                    pers:person ;
+        rdfs:label           "Bernhard Spangolf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1460" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1460" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Bernhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000352.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000875a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bernhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000875a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "63" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "208"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000352> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1460" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1460" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007739> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000352> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

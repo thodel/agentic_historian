@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010303>
+        a                    pers:person ;
+        rdfs:label           "NN Spiser"@deu ;
+        pers:deaths          [ pers:death      "vor 10.09.1422" ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1422" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-09 11:42:15.624420" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010303a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003808> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003808> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010304> ;
+                               pers:occurence  "stadtasg"
+                             ] .

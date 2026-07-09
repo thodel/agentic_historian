@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004123>
+        a                    pers:person ;
+        rdfs:label           "NN Haas"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1472" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-08 17:19:39.339524" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004123a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "83" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "314"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000455> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000455> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

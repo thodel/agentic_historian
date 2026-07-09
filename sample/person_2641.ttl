@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per003071>
+        a                    pers:person ;
+        rdfs:label           "Bartolome Zeller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1786" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1786" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Bartli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001003.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003071a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bartolome" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003071a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "364" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "1200"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001003> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1786" ;
+                               pers:description   "key000782" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1786" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001003> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

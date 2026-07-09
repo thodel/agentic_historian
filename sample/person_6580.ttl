@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007222>
+        a                    pers:person ;
+        rdfs:label           "Johann Weingartner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1643" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1643" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-25 14:04:33.817199" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "184" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "825"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002414.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007222a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007222a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002414> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1643" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:occupation      [ pers:date          "1643" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:occupation      [ pers:date          "1643" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002414> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

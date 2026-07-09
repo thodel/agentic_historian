@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009181>
+        a                    pers:person ;
+        rdfs:label           "Ulman Techtermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1529" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-18 07:19:27.820792" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Ulman" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009181a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003381> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Ulman" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009181a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003381> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Voolman" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003381.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009181a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1529" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1529" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003381> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004923>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1287" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1287" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-29 07:07:39.980000" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004923a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1f" ;
+                                                                         pers:line     "19" ;
+                                                                         pers:page     "4"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, Nr. 2184" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:residence       [ pers:date          "1287" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1287" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006348> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:sex             "2" .

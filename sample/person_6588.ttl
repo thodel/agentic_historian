@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007232>
+        a                pers:person ;
+        rdfs:label       "Wilhelm Heinrich"@deu ;
+        pers:births      [ pers:birth         "um 1591" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1601" ;
+                                                                    pers:notBefore  "1581" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "19.08.1667" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1667-08-19" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-25 14:15:09.310765" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Wilhelm" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007232a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "184" ;
+                                                              pers:line     "40" ;
+                                                              pers:page     "825"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001152> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1643" ;
+                           pers:description   "key000639" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                         ] ;
+        pers:occupation  [ pers:date          "1643" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1643" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001152> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26764" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019505>
+        a                    pers:person ;
+        rdfs:label           "Rudolf NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1333" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-13 09:09:16.911225" ;
+                               pers:username  "fahe"
+                             ] ;
+        pers:name            [ pers:forename          "Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per019505a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003661" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org007341>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc012450> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

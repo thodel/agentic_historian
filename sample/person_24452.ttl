@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per025801>
+        a                    pers:person ;
+        rdfs:label           "Konrad Meier"@deu ;
+        pers:deaths          [ pers:death      "vor 1457" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1430" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-04 18:46:48.645527" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025801a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.e-periodica.ch/digbib/view?pid=arg-001%3A1961%3A73#75"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025800> ;
+                               pers:occurence  "sabine"
+                             ] .

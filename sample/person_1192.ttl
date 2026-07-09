@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per001594>
+        a                    pers:person ;
+        rdfs:label           "Hans ab Pals"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1503" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1503" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "walser" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000715.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001594a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Walser" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001594a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "119" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "400"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000715> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000715> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

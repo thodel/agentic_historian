@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per003150>
+        a                pers:person ;
+        rdfs:label       "Hans Melchior Locher"@deu ;
+        pers:deaths      [ pers:death         "1614" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1614" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-22 14:32:53.109015" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Melchior" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003150a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "140" ;
+                                                              pers:line     "21" ;
+                                                              pers:page     "520"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000338> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1597-1599" ;
+                           pers:description   "key000051" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1597" ;
+                                                                    pers:to    "1599"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1597-1599" ;
+                           pers:description   "key000051" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1597" ;
+                                                                    pers:to    "1599"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1605-1614" ;
+                           pers:description   "key000540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1605" ;
+                                                                    pers:to    "1614"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002962>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000338> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:date          "1597-1599" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1597" ;
+                                                                    pers:to    "1599"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:residence   [ pers:date          "1605-1614" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1605" ;
+                                                                    pers:to    "1614"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000282> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000282> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

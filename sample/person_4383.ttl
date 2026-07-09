@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per004906>
+        a                    pers:person ;
+        rdfs:label           "Hans Grepper"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1493" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1493" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 07:56:01.597020" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004906a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001489> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1493" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1493" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001489> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000972> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

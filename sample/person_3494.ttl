@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003966>
+        a                pers:person ;
+        rdfs:label       "Hans Kiel"@deu ;
+        pers:deaths      [ pers:death         "1505" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1505" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-27 17:24:00.838257" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003966a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "73" ;
+                                                              pers:line     "28" ;
+                                                              pers:page     "216"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "79" ;
+                                                              pers:line     "24" ;
+                                                              pers:page     "299"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001590> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001590> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

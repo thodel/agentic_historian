@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009721>
+        a                pers:person ;
+        rdfs:label       "Gredi du Riaulx"@fra ;
+        pers:deaths      [ pers:death         "1520" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2020-05-14 09:44:01.459336" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename          "Gredi" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per009721a> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "FR I/2/8"
+                                                  ] ;
+                           pers:occurence         "FR I/2/8" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003605> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Gredi" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per009721b> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                    pers:occurence       "FR I/2/8"
+                                                  ] ;
+                           pers:occurence         "FR I/2/8" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003606> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000945" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003605> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "2" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009722> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

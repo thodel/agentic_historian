@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per019259>
+        a                    pers:person ;
+        rdfs:label           "Johann Stieber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1357" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1359" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-20 08:33:50.065112" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1374" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019259a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001029> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1359-1374" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001156>
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001156>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001029> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Oelhafen, Christian: Chronik der Stadt Aarau: von deren Ursprung bis 1798, Aarau 1840, S. 212." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

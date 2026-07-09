@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per014150>
+        a                pers:person ;
+        rdfs:label       "Ulrich Pfefferhard"@deu ;
+        pers:births      [ pers:birth      "um 1279" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "25.11.1351" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-17 09:03:55.287387" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Ulrich" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per014150a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "fahe"
+                                                  ] ;
+                           pers:occurence         "fahe" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005771> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1344" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "fahe" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005771> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "139112197" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "12879" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

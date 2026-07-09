@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per009026>
+        a                    pers:person ;
+        rdfs:label           "NN Bergeon"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1684" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1684" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-27 20:22:14.817841" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009026a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003328> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "avant 1684" ;
+                               pers:description   "key005103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1684" ;
+                                                                        pers:notBefore  "1634" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003328> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Peut être la même personne que per009024" ;
+        pers:sex             "1" .

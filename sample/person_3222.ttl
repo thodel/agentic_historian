@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003677>
+        a                    pers:person ;
+        rdfs:label           "Toni von Mündris"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:44:21.031792" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Toni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003677a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001475> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Toͤnie" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "36" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "84"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001475.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003677a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1432" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1432" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001475> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 349" ;
+                               pers:title  "SSRQ LU I/2" ;
+                               pers:type   "biblio" ;
+                               pers:url    "https://www.ssrq-sds-fds.ch/online/LU_I_2/index.html#p_III"
+                             ] ;
+        pers:remark          "Mündris wohl = Mendrisio TI" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

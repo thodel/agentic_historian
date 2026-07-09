@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004861>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Montforter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1472" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:halfBrotherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000884> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-28 09:46:05.540080" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1492" ] ] ;
+                               pers:last_mention  "1492" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004861a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001934> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hain." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001934.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004861a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001934> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 25" ;
+                               pers:title  "Burmeister 1991" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000141029"
+                             ] ;
+        pers:sex             "1" .

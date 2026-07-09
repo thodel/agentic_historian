@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per012666>
+        a               pers:person ;
+        rdfs:label      "Jean Pierre Pury"@deu ;
+        pers:births     [ pers:birth      "1675" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "17.08.1736" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2019-11-27 15:17:08.350302" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "von Neuenburg" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "Jean Pierre" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012666a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003111> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003111> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "15909" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:refs       [ pers:id    "124160530" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:residence  [ pers:date       "-1713" ;
+                          pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:residence  [ pers:date       "1730-" ;
+                          pers:location   <http://ssrq-sds-fds.ch/Register/#loc010636> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

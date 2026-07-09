@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per003650>
+        a                    pers:person ;
+        rdfs:label           "Hänsli Nidkilchen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1427" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-30 09:14:47.031250" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "32b" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "77"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001463.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003650a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "32b" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "76"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001463.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003650a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003650a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001463> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001463> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 407 (Grossrat)" ;
+                               pers:title  "SSRQ LU I/1" ;
+                               pers:type   "biblio" ;
+                               pers:url    "https://www.ssrq-sds-fds.ch/online/LU_I_1/index.html#p_III"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

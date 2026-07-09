@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per009328>
+        a             pers:person ;
+        rdfs:label    "Francesco Sforza"@ita , "Francesco Sforza"@deu ;
+        pers:births   [ pers:birth         "23.07.1401" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1401-07-23" ] ] ;
+                        pers:occurence     "FDS TI"
+                      ] ;
+        pers:deaths   [ pers:death         "08.03.1466" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1466-03-08" ] ] ;
+                        pers:occurence     "FDS TI"
+                      ] ;
+        pers:hist     [ pers:date      "2018-10-30 09:19:02.765117" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Francesco" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per009328a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "pascale" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003457> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Franciscus" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "FDS TI" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003457.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009328a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Francesco" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per009328a> ;
+                        pers:lang       "ita" ;
+                        pers:occurence  "FDS TI" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003457> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org003457> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "29253" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

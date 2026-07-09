@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per006991>
+        a                pers:person ;
+        rdfs:label       "Georg Ringg [von Baldenstein]"@deu ;
+        pers:births      [ pers:birth         "1543" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1604" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1604" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 08:13:01.147988" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "vonn Baldenstein" ;
+                                              pers:occurence  "SG III/3"
+                                            ] ;
+                           pers:forename    "Georg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "162a" ;
+                                                               pers:line     "26" ;
+                                                               pers:page     "719"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "162b" ;
+                                                               pers:line     "23" ;
+                                                               pers:page     "720"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001622.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006991a.01>
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "vonn Baldenstein" ;
+                                              pers:occurence  "SG III/3"
+                                            ] ;
+                           pers:forename    "Georg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "162b" ;
+                                                               pers:line     "12" ;
+                                                               pers:page     "723"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "162a" ;
+                                                               pers:line     "19" ;
+                                                               pers:page     "717"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001622.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006991a.02>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Baldenstein" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Georg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006991a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001622> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1598" ;
+                           pers:description   "key003580" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007177> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001622> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

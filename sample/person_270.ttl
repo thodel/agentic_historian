@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000328>
+        a                    pers:person ;
+        rdfs:label           "Donat von Toggenburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1353" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1353" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-19 15:09:24.969470" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1400" ] ] ;
+                               pers:last_mention  "1400" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Donat" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000328a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "17" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "31"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000144> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000144> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013548> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013547> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:uncleOf         [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000327> ;
+                               pers:occurence  "SG III/2"
+                             ] .

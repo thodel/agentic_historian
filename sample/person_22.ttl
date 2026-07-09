@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per000023>
+        a                    pers:person ;
+        rdfs:label           "Volkard von Neuburg"@deu ;
+        pers:deaths          [ pers:death         "16.10.1251" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1251-10-16" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1219" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1219" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 13:33:20.045416" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Volkard" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000023b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "3a" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "2"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000061> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Volkard" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000023a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "3a" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "2"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1237-1251" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1237" ;
+                                                                        pers:to    "1251"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" , "GR B III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000053> , <http://ssrq-sds-fds.ch/Register/#org000061> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12860" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

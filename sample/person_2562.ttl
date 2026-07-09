@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per002987>
+        a                    pers:person ;
+        rdfs:label           "Peter Anton Wirz"@deu ;
+        pers:deaths          [ pers:death         "25.11.1784" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1784-11-25" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1696" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Peter Anton" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000429.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002987a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Rudenz" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Peter Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002987a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1150"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000429> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1767" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001213>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000429> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15478" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000637> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

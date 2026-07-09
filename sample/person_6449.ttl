@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per007080>
+        a                    pers:person ;
+        rdfs:label           "Pelagius Hasler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1612" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1612" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-01 16:11:50.472745" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Polay" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "176" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "795"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001638.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007080a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Pelagius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007080a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001638> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001638> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Pascale Sutter: Nach Idiotikon Polei (I) N. 4,1160 Polai = Pelagius." ;
+        pers:sex             "1" .

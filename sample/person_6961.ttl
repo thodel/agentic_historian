@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007624>
+        a                    pers:person ;
+        rdfs:label           "Jakob Walt"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002954>
+                             ] ;
+        pers:deaths          [ pers:death         "vor 09.12.1682" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1682-12-09" ;
+                                                                        pers:notBefore  "1632-12-09" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007623> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1682" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1682" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 15:35:22.151989" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007624a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "228" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "1035"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002126> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002126> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006307> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007626> ;
+                               pers:occurence  "SG III/3"
+                             ] .

@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per004148>
+        a                    pers:person ;
+        rdfs:label           "Jakob Achermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1549" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1549" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-09 15:00:04.990337" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Jackob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "91a" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "339"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001593.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004148a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "91b" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "340"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "91a" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "339"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001593.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004148a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004148a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "338"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001593> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001593> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

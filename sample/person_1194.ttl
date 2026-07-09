@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per001596>
+        a                    pers:person ;
+        rdfs:label           "NN Vetsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1836" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 13:52:33.075713" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1849" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000717.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001596a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001596a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "119" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "401"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000717> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1836" ;
+                               pers:description   "key000387" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1836" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1849" ;
+                               pers:description   "key003601" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1849" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001828>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000717> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

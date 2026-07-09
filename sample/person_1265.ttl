@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per001673>
+        a                    pers:person ;
+        rdfs:label           "Klaus Tischhauser"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1511" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1511" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-08 15:42:54.784982" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1544" ] ] ;
+                               pers:last_mention  "1544" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001673a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001673a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001673a.02>
+                             ] ;
+        pers:name            [ pers:forename          "Klaus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001673a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "123" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "408"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000733> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1536" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1536" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000733> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:residence       [ pers:date          "1536" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1536" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008823> ;
+                               pers:occurence  "SG III/4"
+                             ] .

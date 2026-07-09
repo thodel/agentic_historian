@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per012222>
+        a                    pers:person ;
+        rdfs:label           "Hartmann Hofmann"@deu ;
+        pers:citizenOf       [ pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1487" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-30 16:48:35.491809" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hartmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012222a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000541> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1487" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005784> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000541> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

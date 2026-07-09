@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004557>
+        a                    pers:person ;
+        rdfs:label           "Hans Forrer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-30 16:48:33.610836" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000462.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004557a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004557a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000462> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000462> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004640> ;
+                               pers:occurence  "SG III/4"
+                             ] .

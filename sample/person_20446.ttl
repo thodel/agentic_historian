@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per021709>
+        a                    pers:person ;
+        rdfs:label           "Christian Ruch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 08:21:59.991058" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Christen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000460.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021709a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021709a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000460> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000460> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009740> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021704> ;
+                               pers:occurence  "pascale"
+                             ] .

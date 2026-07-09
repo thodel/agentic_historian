@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per003119>
+        a                    pers:person ;
+        rdfs:label           "Anton von Hettlingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1798" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1798" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-21 09:04:54.223409" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003119a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "377" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1235"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001144> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ant." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "329" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "1416"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001144.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003119a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1798" ;
+                               pers:description   "key003659" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001144> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

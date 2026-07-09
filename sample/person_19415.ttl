@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per020647>
+        a                    pers:person ;
+        rdfs:label           "Fritschmann Weibel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1317" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-01 12:20:24.326880" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Fritschmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020647a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000031> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1317" ;
+                               pers:description  "key005731" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010685> ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org007643>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000031> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010685> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

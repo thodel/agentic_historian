@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004126>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Ruoff"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1524" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:48:15.735882" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004126a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "85b" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "318"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001653> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1524-1528" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1524" ;
+                                                                        pers:to    "1528"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001334>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001653> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009053>
+        a                    pers:person ;
+        rdfs:label           "Gregor Füress"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1538" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1538" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-19 12:09:46.968104" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Gregor" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009053a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003332> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gorgis" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003332.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009053a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1538" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1538" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003332> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

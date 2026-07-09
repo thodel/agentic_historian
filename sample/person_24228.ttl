@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per025574>
+        a                pers:person ;
+        rdfs:label       "David Werdmüller"@deu ;
+        pers:births      [ pers:birth      "1616" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1675" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-11 07:40:58.766741" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "zum Kindli" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "David" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per025574a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001036> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1657-1664" ;
+                           pers:description  "key000778" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001036> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089547625" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:title  "Leo Weisz, Die Werdmüller, Bd. 3, Zürich 1949, Anhang, S. 5" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

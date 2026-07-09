@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004111>
+        a                    pers:person ;
+        rdfs:label           "Johann Lussi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:44:34.918131" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "308"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000422.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004111a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004111a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000422> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1513" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000422> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "23169" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

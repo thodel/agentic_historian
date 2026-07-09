@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011900>
+        a                    pers:person ;
+        rdfs:label           "Antoine Jequier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1628" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-30 11:23:11.790516" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Antoine" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003191.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011900a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Antoine" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011900a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003191> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003191> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009312> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

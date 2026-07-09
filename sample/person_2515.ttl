@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per002936>
+        a                pers:person ;
+        rdfs:label       "Stanislaus Alois Christen"@deu ;
+        pers:births      [ pers:birth         "13.05.1715" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1715-05-13" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "16.10.1787" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1787-10-16" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Stanislaus Aloysius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000329.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002936a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Stanislaus Aloisius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000329.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002936a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Stanislaus Alois" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002936a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "338" ;
+                                                              pers:line     "10" ;
+                                                              pers:page     "1129"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000329> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1759-1761" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1759" ;
+                                                                    pers:to    "1761"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1753-1760" ;
+                           pers:description   "key003656" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1753" ;
+                                                                    pers:to    "1760"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001223>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000329> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "23151" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

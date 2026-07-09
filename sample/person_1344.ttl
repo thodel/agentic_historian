@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per001750>
+        a                pers:person ;
+        rdfs:label       "Jakob Schindler"@deu ;
+        pers:births      [ pers:birth         "29.07.1729" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1729-07-29" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "04.02.1791" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1791-02-04" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001750a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "355" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "1182"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "353" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "1178"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "270" ;
+                                                              pers:line     "42" ;
+                                                              pers:page     "972"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000227> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000227.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001750a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1780" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1780" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                         ] ;
+        pers:occupation  [ pers:date          "1780" ;
+                           pers:description   "key003658" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1780" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1778-1780" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1778" ;
+                                                                    pers:to    "1780"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000227> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "S. 57" ;
+                           pers:title  "Kubly-Müller 1927" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000139748"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

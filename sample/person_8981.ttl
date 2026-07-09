@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per009723>
+        a                    pers:person ;
+        rdfs:label           "Nicod Perrottet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1521" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1521" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 12:05:42.239545" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Grand" ;
+                                                  pers:occurence  "FR I/2/8"
+                                                ] ;
+                               pers:forename    "Nicco" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003607.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009723a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "le grand" ;
+                                                 pers:occurence  "FR I/2/8"
+                                               ] ;
+                               pers:forename   "Nicod" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009723a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003607> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Grand" ;
+                                                  pers:occurence  "FR I/2/8"
+                                                ] ;
+                               pers:forename    "Nicco" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003607.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009723a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003607> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008148> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009725> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009724> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

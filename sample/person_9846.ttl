@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per010619>
+        a                    pers:person ;
+        rdfs:label           "Pierre de Chambrier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-06 08:54:25.085532" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010619a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003190> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "le jeune" ;
+                                                  pers:occurence  "pascale"
+                                                ] ;
+                               pers:forename    "Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003190.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010619a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003190> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Adrien Wyssbrod: Il est sûr qu'il ne s'agit pas de per010696, car en 1582 il est nommé Pierre Chambrier le jeune. En revanche, il s'agit peut-être du fils de per010696." ;
+        pers:sex             "1" .

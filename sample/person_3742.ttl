@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004221>
+        a                    pers:person ;
+        rdfs:label           "Zacharias Risi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1571" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:07:26.840362" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Zacharias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004221a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "103a" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "374"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001700> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1571-1575" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1571" ;
+                                                                        pers:to    "1575"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005808> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001700> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

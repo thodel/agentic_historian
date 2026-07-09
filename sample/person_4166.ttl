@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004675>
+        a             pers:person ;
+        rdfs:label    "Maximilian von Habsburg-Österreich"@deu ;
+        pers:births   [ pers:birth         "1527" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1527" ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:deaths   [ pers:death         "1576" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1576" ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2017-03-16 15:41:18.262361" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Maximilian" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "SG III/4"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004675a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                        pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                          pers:rolename   "Kaiser/empereur"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "11857938X" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

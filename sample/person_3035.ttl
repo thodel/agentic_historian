@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003477>
+        a                    pers:person ;
+        rdfs:label           "Greta in Twären"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-06 14:56:10.605494" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Greth" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "LU II/3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001381.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003477a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Greta" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003477a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "43a" ;
+                                                                         pers:line     "19" ;
+                                                                         pers:page     "118"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001381> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001381> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003476> ;
+                               pers:occurence  "LU II/3"
+                             ] .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003632>
+        a                pers:person ;
+        rdfs:label       "Ulrich von Hertenstein"@deu ;
+        pers:deaths      [ pers:death         "15.10.1454" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1454-10-15" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-05 17:13:09.391224" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003632a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "30a" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "73"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000859> ;
+                           pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1424" ;
+                           pers:description   "key003720" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1424" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000859> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14152" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

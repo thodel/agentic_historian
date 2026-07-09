@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per011912>
+        a                    pers:person ;
+        rdfs:label           "Werner von Habsburg, Truchsessen"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028690> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1339" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-09 01:33:42.760231" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1359" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011912a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004058> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wernher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004058.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011912a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1353" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004641>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004058> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Merz, Walther, and Historische Gesellschaft Des Kantons Aargau. Die Mittelalterlichen Burganlagen Und Wehrbauten Des Kantons Aargau. BD 1. Arau: H. R. Sauerländer, 1905, S. 204f." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018944> ;
+                               pers:occurence  "sabine"
+                             ] .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006283>
+        a                    pers:person ;
+        rdfs:label           "Anna von Grünenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1546" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1546" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-30 18:43:05.860636" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006283a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "126" ;
+                                                                         pers:line     "34" ;
+                                                                         pers:page     "508"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001978> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001978> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

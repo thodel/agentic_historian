@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per001935>
+        a                    pers:person ;
+        rdfs:label           "Melchior Wildrich"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1541" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1541" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-06 16:38:21.672130" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Melchior" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000840.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001935a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001935a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "153b" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "548"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000840> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1541" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:occupation      [ pers:date          "1550" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1550" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:occupation      [ pers:date          "1541" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000840> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

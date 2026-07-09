@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per012326>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1526" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-21 09:42:38.222749" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012326a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012326a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000303" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009219> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009219> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

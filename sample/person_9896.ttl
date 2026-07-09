@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per010670>
+        a                    pers:person ;
+        rdfs:label           "Guillaume Taillard"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010693> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010691> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011079> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1559" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-03 16:19:32.496871" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010670a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003981> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003981> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010671> ;
+                               pers:occurence  "pascale"
+                             ] .

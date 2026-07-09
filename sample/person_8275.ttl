@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008996>
+        a                    pers:person ;
+        rdfs:label           "Daniel Dubois"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1692" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1692" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 10:20:19.059015" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Daniel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008996a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003101> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Daniel" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003101.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008996a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003101> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1692" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007938> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

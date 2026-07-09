@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020560>
+        a              pers:person ;
+        rdfs:label     "Peter Hösli"@deu ;
+        pers:deaths    [ pers:death      "vor 13.02.1598" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-07-22 19:38:49.209504" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename    "Petter" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000893.04> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020560a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Peter" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per020560a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000893> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000893> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020558> ;
+                         pers:occurence  "GR B III/2"
+                       ] .

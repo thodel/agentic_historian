@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per020529>
+        a                    pers:person ;
+        rdfs:label           "Simon Widmer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1594" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-29 12:40:48.185352" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Simen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000058.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020529a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020529a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000058> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000301" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010168> ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000058> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Truog 1935, S. 97." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

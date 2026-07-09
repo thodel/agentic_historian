@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002391>
+        a                    pers:person ;
+        rdfs:label           "Johann Nigg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1638" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1638" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002391a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "223" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "839"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000981> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000981.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002391a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000981> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

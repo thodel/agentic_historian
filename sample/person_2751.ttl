@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per003187>
+        a                    pers:person ;
+        rdfs:label           "Leopold Feer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1485" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 13:10:44.764703" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Leopold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003187a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000592> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lu̍ty" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "68" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "205"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000592.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003187a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Lupold" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "69" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "207"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000592.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003187a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1487" ;
+                               pers:description   "key003712" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1487" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1485-1487" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1485" ;
+                                                                        pers:to    "1487"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000592> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 117" ;
+                               pers:title  "Feer 1964" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000139904"
+                             ] ;
+        pers:remark          "Lüti=Lüpold vgl. Eduard A. Feer, Die Familie Feer, 1964, S. 117" ;
+        pers:sex             "1" .

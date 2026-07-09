@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per002454>
+        a                    pers:person ;
+        rdfs:label           "Gabriel Thür"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1591" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1591" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Gabriel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002454a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "236" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "870"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000883> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000883> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000774> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

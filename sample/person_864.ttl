@@ -1,0 +1,97 @@
+<http://ssrq-sds-fds.ch/Register/#per000941>
+        a                pers:person ;
+        rdfs:label       "Peter Tammann"@deu ;
+        pers:births      [ pers:birth         "um 1425" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1435" ;
+                                                                    pers:notBefore  "1415" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001164>
+                         ] ;
+        pers:deaths      [ pers:death         "um 1491" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1501" ;
+                                                                    pers:notBefore  "1481" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003922> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-08 09:39:43.572099" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/3" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000506.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000941a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000506.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000941a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000941a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "75b" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "252"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000506> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "64a" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "188"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000506.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000941a.03>
+                         ] ;
+        pers:occupation  [ pers:date          "1468" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1468" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1462" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1454-" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1454" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1462" ;
+                           pers:description   "key003833" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000506> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14512" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

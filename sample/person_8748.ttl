@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per009487>
+        a               pers:person ;
+        rdfs:label      "Michiere Challant"@fra ;
+        pers:deaths     [ pers:death         "1623" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1623" ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2019-06-12 15:25:30.784470" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Mischiere" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "FR I/2/8" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003520.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009487a.01>
+                        ] ;
+        pers:name       [ pers:addnames    [ pers:addname    "la Walleisanna" ;
+                                             pers:occurence  "pascale"
+                                           ] ;
+                          pers:forename    "Michiere" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003520.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009487a.02>
+                        ] ;
+        pers:name       [ pers:forename          "Michiere" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per009487b> ;
+                          pers:lang              "fra" ;
+                          pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                   pers:occurence       "FR I/2/8"
+                                                 ] ;
+                          pers:occurence         "FR I/2/8" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003519> ;
+                          pers:type              "std"
+                        ] ;
+        pers:name       [ pers:addnames          [ pers:addname    "Valeisanna" ;
+                                                   pers:occurence  "FR I/2/8"
+                                                 ] ;
+                          pers:forename          "Michiere" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per009487a> ;
+                          pers:lang              "fra" ;
+                          pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                   pers:occurence       "FR I/2/8"
+                                                 ] ;
+                          pers:occurence         "FR I/2/8" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003520> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003520> ;
+        pers:origin     [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005954> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007965> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "2" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009486> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

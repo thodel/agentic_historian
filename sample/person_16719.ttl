@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per017862>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth von Schauenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 14:08:05.212580" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per017862b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000278> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Ehrenfels" ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:forename   "Elisabeth" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017862a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000078> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Erenfelß" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Elizabett" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000078.19> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017862a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000078> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017861> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

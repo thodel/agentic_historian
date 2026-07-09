@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017124>
+        a               pers:person ;
+        rdfs:label      "Claude Morand"@fra ;
+        pers:deaths     [ pers:death      "vor 1646" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017125> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-06 16:05:23.911900" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename    "Claude" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006766.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017124a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Claude" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017124a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006766> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006766> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007922> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" .

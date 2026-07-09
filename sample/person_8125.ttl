@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008833>
+        a                    pers:person ;
+        rdfs:label           "Daniel Bonvèpre"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1722" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1722" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-28 08:09:32.465479" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1723" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Daniel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008833a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003197> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "D." ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003197.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008833a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1722-1723" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1722" ;
+                                                                        pers:to    "1723"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003197> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Faisant les fonctions de secrétaire 1722-1723, mais le secrétaire de la Ville est Jean-Jacques Pury (per008827)" ;
+        pers:sex             "1" .

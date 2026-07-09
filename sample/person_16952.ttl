@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018104>
+        a                    pers:person ;
+        rdfs:label           "Antoninus Schorsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-25 07:44:12.523010" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Antoninus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018104a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002920> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anthonines" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002920.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018104a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002920> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024228> ;
+                               pers:occurence  "pascale"
+                             ] .

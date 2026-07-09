@@ -1,0 +1,87 @@
+<http://ssrq-sds-fds.ch/Register/#per000897>
+        a                pers:person ;
+        rdfs:label       "Thüring von Ringoltingen"@deu ;
+        pers:births      [ pers:birth         "um 1415" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1425" ;
+                                                                    pers:notBefore  "1405" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                         ] ;
+        pers:deaths      [ pers:death         "nach 08.03.1483" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1533-03-08" ;
+                                                                    pers:notBefore  "1483-03-08" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-04-21 10:33:32.639887" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Thûring" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000474.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000897a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Thu̇ring" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "40" ;
+                                                               pers:line     "4" ;
+                                                               pers:page     "108"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000474.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000897a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Thu̍ring" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "59" ;
+                                                               pers:line     "15" ;
+                                                               pers:page     "167"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000474.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000897a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Thüring" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000897a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "67" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "218"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000474> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1462" ;
+                           pers:description   "key000623" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001159>
+                         ] ;
+        pers:occupation  [ pers:date          "1462" ;
+                           pers:description   "key003833" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000474> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21527" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

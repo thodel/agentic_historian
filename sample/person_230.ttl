@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001537>
+        a                    pers:person ;
+        rdfs:label           "Dietrich Schorand"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1344" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1344" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Dietrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000107.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001537a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Dietrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001537a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "15" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "22"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000107> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000107> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000284> ;
+                               pers:occurence  "SG III/2"
+                             ] .

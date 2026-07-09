@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per013158>
+        a                    pers:person ;
+        rdfs:label           "Hans Lütschg"@deu ;
+        pers:deaths          [ pers:death      "1532" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-21 10:39:49.296457" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005080>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013158a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005372> ;
+                               pers:rolenames  [ pers:occurence  "sabine" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005372.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013158a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1531" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009834> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1522-1531" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005372> ;
+        pers:project         "Königsfelden, SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://suche.staatsarchiv.djiktzh.ch/detail.aspx?ID=259344"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

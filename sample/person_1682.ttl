@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per002083>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Schedler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1578" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1578" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-28 11:41:54.192032" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Willhellm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000880.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002083a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002083a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "175" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "629"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000880> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1578" ;
+                               pers:description   "key000043" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1578" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000880> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "SSRQ SG III/2: Profess (1577)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

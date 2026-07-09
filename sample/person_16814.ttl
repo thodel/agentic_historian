@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per017964>
+        a                    pers:person ;
+        rdfs:label           "Johannes Walser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1497" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 18:33:49.979861" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1515" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000615.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017964a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017964a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000615> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1497-1515" ;
+                               pers:description  "key000001" ;
+                               pers:occurence    "pascale" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005715>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000615> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "HS IV/3, S. 253" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007992> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

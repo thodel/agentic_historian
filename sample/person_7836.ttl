@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per008524>
+        a                    pers:person ;
+        rdfs:label           "Franz Joseph"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008523> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 14:43:45.396768" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008524a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328k" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "1410"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003056> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1797" ;
+                               pers:description   "key004949" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1797" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007248> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003056> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Familienname evtl. zweiter Vorname" ;
+        pers:sex             "1" .

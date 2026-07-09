@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per007614>
+        a                pers:person ;
+        rdfs:label       "Paul Müller"@deu ;
+        pers:births      [ pers:birth         "17.07.1620" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1620-07-17" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "13.01.1699" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1699-01-13" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-08 11:41:49.668745" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Paul" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007614a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "225" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "1024"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1676" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1676" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26650" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000215> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

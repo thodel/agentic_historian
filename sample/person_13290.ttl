@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per014301>
+        a                    pers:person ;
+        rdfs:label           "Jann Prätsch"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013556> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1443" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-19 14:52:23.779677" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005512.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014301a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014301a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005512> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005512> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

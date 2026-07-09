@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007014>
+        a             pers:person ;
+        rdfs:label    "Franz Rudolf von Hohenems"@deu ;
+        pers:births   [ pers:birth         "1686" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "21.04.1756" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1756-04-21" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-10-26 13:56:03.187315" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Franz Rudolf" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per007014a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "165" ;
+                                                           pers:line     "32" ;
+                                                           pers:page     "729"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000103> ;
+                        pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                          pers:rolename   "Graf/comte"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Franz Rudolph" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "159a" ;
+                                                            pers:line     "4" ;
+                                                            pers:page     "692"
+                                                          ] ;
+                                           pers:articles  [ pers:article  "165" ;
+                                                            pers:line     "11" ;
+                                                            pers:page     "730"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000103.17> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007014a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000103> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:title  "Welti, Hohenems, Beilage Stammtafel" ;
+                        pers:type   "biblio"
+                      ] ;
+        pers:sex      "1" .

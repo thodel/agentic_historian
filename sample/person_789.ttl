@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per000868>
+        a                    pers:person ;
+        rdfs:label           "Johann Baptista Jost"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1737" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1737" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:last_mention  "1745" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jo. Baptta." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000459.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000868a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Baptista" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000868a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "311" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "1066"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "62c" ;
+                                                                  pers:line     "42" ;
+                                                                  pers:page     "204"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000459> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1745" ;
+                               pers:description   "key000825" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:occupation      [ pers:date          "1737" ;
+                               pers:description   "key000051" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1737" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000459> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

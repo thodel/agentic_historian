@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008362>
+        a              pers:person ;
+        rdfs:label     "Felix Wilhelm Kubly"@deu ;
+        pers:births    [ pers:birth         "03.07.1802" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1802-07-03" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "26.10.1872" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1872-10-26" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-18 17:18:07.672829" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename   "Felix Wilhelm" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008362a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                            pers:line     "22" ;
+                                                            pers:page     "1399"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003038> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003038> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:page   "S. 330" ;
+                         pers:title  "Kuster et al. 1998" ;
+                         pers:type   "biblio" ;
+                         pers:url    "http://permalink.snl.ch/bib/chbsg000065568"
+                       ] ;
+        pers:refs      [ pers:id    "19884" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:sex       "1" .

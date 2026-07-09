@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per000115>
+        a                    pers:person ;
+        rdfs:label           "Hartmann von Werdenberg-Sargans"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1324" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1324" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-16 08:59:16.945260" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1354" ] ] ;
+                               pers:last_mention  "1354" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hartman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000008.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000115a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hartmann" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000115a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "12" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "19"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "14" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "21"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "9" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "13"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "17" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "27"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000008> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000008> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "137463685" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

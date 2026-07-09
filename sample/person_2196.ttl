@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per002594>
+        a                    pers:person ;
+        rdfs:label           "Hans Peter Rosenkranz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1710" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1710" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002594a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "255a" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "921"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "255b" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "929"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000889> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000889.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002594a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000209" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000889> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

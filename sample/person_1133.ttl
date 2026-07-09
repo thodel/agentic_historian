@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001530>
+        a                    pers:person ;
+        rdfs:label           "G. Grünenfelder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1857" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1857" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "G." ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001530a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "62a" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "198"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "189b" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "677"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000442> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000276" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000442> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

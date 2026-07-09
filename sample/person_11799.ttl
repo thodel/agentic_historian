@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per012700>
+        a                         pers:person ;
+        rdfs:label                "Henri Pêcheur"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1461" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-05 09:11:09.403479" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Henricus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005174.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012700a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Henricus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012700a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005174> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename   "Henri" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012700a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005174> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:description  "key000042" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "13.10.1461" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005174> ;
+        pers:project              "SSRQ" ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012368> ;
+                                    pers:occurence  "gortega"
+                                  ] .

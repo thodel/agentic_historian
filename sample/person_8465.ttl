@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per009198>
+        a                    pers:person ;
+        rdfs:label           "Marguerite Tardy"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-05-25 09:02:09.561918" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename          "Marguerite" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009198a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003389> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003389> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008114> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "2" .

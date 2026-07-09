@@ -1,0 +1,82 @@
+<http://ssrq-sds-fds.ch/Register/#per002200>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Jakob"@deu ;
+        pers:deaths          [ pers:death         "27.12.1605" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1605-12-27" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1564" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1564" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-24 15:13:25.502790" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002200a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "193" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "689"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000933> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "154b" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "674"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000933.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002200a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1594" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:occupation      [ pers:date          "1598" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1584-" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1634" ;
+                                                                        pers:notBefore  "1584" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1594" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1598" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001192>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000933> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21177" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

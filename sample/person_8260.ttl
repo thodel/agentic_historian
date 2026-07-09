@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008980>
+        a                    pers:person ;
+        rdfs:label           "NN Waser"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1695" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1695" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 09:26:45.732458" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008980a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000934> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1695" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1695" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000934> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

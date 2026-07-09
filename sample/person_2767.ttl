@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003209>
+        a             pers:person ;
+        rdfs:label    "Walter von Grünenberg"@deu ;
+        pers:deaths   [ pers:death         "1390" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1390" ] ] ;
+                        pers:occurence     "HBLS"
+                      ] ;
+        pers:name     [ pers:forename   "Walter" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per003209a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "3" ;
+                                                           pers:line     "13" ;
+                                                           pers:page     "7"
+                                                         ] ;
+                                          pers:vol       "LU II/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001238> ;
+                        pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                          pers:rolename   "Freiherr (Baron)/baron"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Walther" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "3" ;
+                                                            pers:line     "42" ;
+                                                            pers:page     "7"
+                                                          ] ;
+                                           pers:vol       "LU II/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001238.05> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003209a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001238> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

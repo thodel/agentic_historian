@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per000523>
+        a                    pers:person ;
+        rdfs:label           "Friedrich Sattler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1446" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1446" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000523a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41b" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "87"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000264> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000523b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41b" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "87"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000267> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000267.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000523b.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1446" ;
+                               pers:description   "key000254" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1446" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000264> , <http://ssrq-sds-fds.ch/Register/#org000267> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per002812>
+        a                    pers:person ;
+        rdfs:label           "Anton Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1775" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1775" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:last_mention  "1779" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002812a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002812a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "347b" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "1166"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "308d" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "1056"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002812a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1779" ;
+                               pers:description   "key003615" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001182>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

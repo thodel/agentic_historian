@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007050>
+        a                pers:person ;
+        rdfs:label       "Kaspar Lussi"@deu ;
+        pers:births      [ pers:birth         "1562" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1608" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1608" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-05 15:05:24.938314" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007050a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000422> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "169" ;
+                                                               pers:line     "24" ;
+                                                               pers:page     "759"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000422.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007050a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1606" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:occupation  [ pers:date          "1606" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000422> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "23177" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

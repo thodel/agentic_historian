@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per016483>
+        a                        pers:person ;
+        rdfs:label               "Claude Carra"@fra ;
+        pers:first_mentions      [ pers:first_mention  "1524" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-04-23 09:52:48.817724" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename   "Claude" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per016483a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003617> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename    "Glaude" ;
+                                   pers:lang        "fra" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003617.01> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016483a.01>
+                                 ] ;
+        pers:occupation          [ pers:date         "1522" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org003617> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Choffat 1989, p. 192" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010906> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                   pers:occurence  "gortega"
+                                 ] .

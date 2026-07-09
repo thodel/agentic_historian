@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per016736>
+        a                         pers:person ;
+        rdfs:label                "Pierre Clavel"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1528" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-05-09 14:54:51.283091" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename          "Pierre" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per016736a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005178> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005178.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016736a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Petrus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per016736a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005178> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "01.10.1528" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:description  "key000254" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004033>
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005178> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Choffat 1989, p. 192" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Il est conseiller de Françoise Gilliéron pour son procès." ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016717> ;
+                                    pers:occurence  "gortega"
+                                  ] .

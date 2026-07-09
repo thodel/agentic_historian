@@ -1,0 +1,81 @@
+<http://ssrq-sds-fds.ch/Register/#per001856>
+        a                    pers:person ;
+        rdfs:label           "Christoph Stucki"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002380> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1735" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1751" ] ] ;
+                               pers:last_mention  "1751" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Christoph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001856a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001856a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "323a" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1089"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "219" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "831"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "144g" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "505"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Christoph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001856a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1746, 1751" ;
+                               pers:description   "key003622" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1751" ] ;
+                                         pers:format_date  [ pers:when  "1746" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "-1746" ;
+                               pers:description   "key004906" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1746" ;
+                                                                        pers:notBefore  "1736" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000927> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1735" ;
+                               pers:description   "key000515" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1735" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1746, 1751" ;
+                               pers:description   "key003622" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1751" ] ;
+                                         pers:format_date  [ pers:when  "1746" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000395> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

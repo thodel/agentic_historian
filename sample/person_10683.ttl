@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per011521>
+        a                    pers:person ;
+        rdfs:label           "Christoffel Heilmann"@deu ;
+        pers:deaths          [ pers:death      "1648" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1614" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-26 15:21:14.916149" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Christoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004384.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011521a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christoffel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011521a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004384> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1614-1648" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004384> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

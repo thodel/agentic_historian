@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per002235>
+        a                    pers:person ;
+        rdfs:label           "Sebastian von Büren"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1604" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-27 07:26:03.052684" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                               pers:last_mention  "1611" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002235a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "171" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "762"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "716"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "201" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "761"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000953> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1607" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1607" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                             ] ;
+        pers:occupation      [ pers:description  "key003718" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1604, 1607" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1607" ] ;
+                                         pers:format_date  [ pers:when  "1604" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001223>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000953> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000566> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,73 @@
+<http://ssrq-sds-fds.ch/Register/#per003117>
+        a                pers:person ;
+        rdfs:label       "Hans Jakob Pestalozzi"@deu ;
+        pers:births      [ pers:birth         "08.10.1749" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1749-10-08" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "08.10.1831" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1831-10-08" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-21 09:00:06.126642" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Hs. Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "329" ;
+                                                               pers:line     "9" ;
+                                                               pers:page     "1416"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001099.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003117a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003117a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "377" ;
+                                                              pers:line     "5" ;
+                                                              pers:page     "1234"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001099> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001099.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003117a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1798" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date          "1788-1798" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1788" ;
+                                                                    pers:to    "1798"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1798" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001099> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "7321" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

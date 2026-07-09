@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per025201>
+        a                    pers:person ;
+        rdfs:label           "Felix Appenzeller"@deu ;
+        pers:deaths          [ pers:death      "1604" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-03 11:15:21.730750" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Felix" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025201a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002128> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1582-1604" ;
+                               pers:description  "key000002" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc012687> ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002128> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009768> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

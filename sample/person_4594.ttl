@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005131>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Steinach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1432" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 10:00:45.496807" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005131a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhelm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "23" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "59"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005131a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1432" ;
+                               pers:description   "key000068" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1432" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000286> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002033> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per006078>
+        a                    pers:person ;
+        rdfs:label           "Gregorius Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1523" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1523" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-26 09:32:00.296767" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Gregorius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006078a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Goriuss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "105" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "404"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006078a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

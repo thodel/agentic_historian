@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per002986>
+        a                    pers:person ;
+        rdfs:label           "Johann Peter von Flüe"@deu ;
+        pers:deaths          [ pers:death         "11.01.1783" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1783-01-11" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1709" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1709" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 08:17:56.967319" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000884.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002986a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002986a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1150"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000884> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joh. Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000884.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002986a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1769" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:description  "key003718" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000884> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21154" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Werner Kuster: per002986a.02 wohl identisch, aber Abweichung der Landammannszeit." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

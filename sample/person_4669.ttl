@@ -1,0 +1,93 @@
+<http://ssrq-sds-fds.ch/Register/#per005215>
+        a                pers:person ;
+        rdfs:label       "Hermann Grunder"@deu ;
+        pers:births      [ pers:birth         "vor 1435" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1435" ;
+                                                                    pers:notBefore  "1385" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "vor 1479" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1479" ;
+                                                                    pers:notBefore  "1429" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-04-27 17:19:44.981625" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Hermmann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "193"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001263.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005215a.03>
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "Hennslishannsen" ;
+                                              pers:occurence  "SG III/3"
+                                            ] ;
+                           pers:forename    "Herman" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "38b" ;
+                                                               pers:line     "10" ;
+                                                               pers:page     "98"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001263.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005215a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Hänslishans" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Hermann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005215a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001263> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Herman" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                               pers:line     "41" ;
+                                                               pers:page     "190"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001263.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005215a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1477" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1460" ;
+                           pers:description   "key000135" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1460" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1477" ;
+                           pers:description   "key000639" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001263> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18870" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006980> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

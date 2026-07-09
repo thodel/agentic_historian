@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008903>
+        a                    pers:person ;
+        rdfs:label           "Jean Petitpierre"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-09-24 18:03:09.359466" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1700" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008903a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003121> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1700" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1700" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007787> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003121> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

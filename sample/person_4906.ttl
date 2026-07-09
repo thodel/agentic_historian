@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per005466>
+        a                    pers:person ;
+        rdfs:label           "Hans Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1483" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1483" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-03 11:03:26.676311" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005466a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005466a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006005> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

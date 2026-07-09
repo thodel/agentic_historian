@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per000593>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Schriber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1428" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1428" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000593a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000287> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000287> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

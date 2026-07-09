@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per014345>
+        a             pers:person ;
+        rdfs:label    "Desiderius Erasmus"@deu ;
+        pers:births   [ pers:birth      "28.10.1466" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "11./12.07.1536" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-25 09:24:22.433790" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "von Rotterdam" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Desiderius" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per014345a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005861> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org005861> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "010590" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "118530666" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:remark   "Geburtsdatum unsicher." ;
+        pers:sex      "1" .

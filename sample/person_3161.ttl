@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003613>
+        a                    pers:person ;
+        rdfs:label           "Peter im Wald"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1422" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1422" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-28 17:18:31.300671" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003613a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "27" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "68"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001450> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001450> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005930> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per015005>
+        a                    pers:person ;
+        rdfs:label           "Jäkli Trüb"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 16:10:51.008439" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Jäkli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015005a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001410> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jagli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001410.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015005a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001410> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008704> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

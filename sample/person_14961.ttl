@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per016030>
+        a                    pers:person ;
+        rdfs:label           "Antoine de Vernex"@fra ;
+        pers:deaths          [ pers:death      "ap. 24.04.1482" ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1482" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-28 08:42:25.177132" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Antonius" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006430.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016030a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Antonius" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006430.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016030a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Antonius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016030a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006430> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Antoine" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016030a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006430> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "17.04.1482–24.04.1482" ;
+                               pers:description  "key005165" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006430> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Maier 1996, p. 428" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Son procès a été conservé (ACV, Ac 29, p. 313–332)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011107> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" ;
+        pers:sexPartnerOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016180> ;
+                               pers:occurence  "gortega"
+                             ] .

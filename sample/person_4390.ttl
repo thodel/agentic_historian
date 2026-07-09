@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004914>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Enne"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1322" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:34:43.009777" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004914a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1c" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001954> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1346–1347" ;
+                               pers:description   "key000659" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1346" ;
+                                                                        pers:to    "1347"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:occupation      [ pers:date          "1322–1359" ;
+                               pers:description   "key003448" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1322" ;
+                                                                        pers:to    "1359"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001954> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, Nr. 3984" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008993>
+        a                    pers:person ;
+        rdfs:label           "Pierre Jeanneret-dit-Brenot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1694" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1694" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 10:13:15.897929" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008993a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003315> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003315.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008993a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003315> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1694" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1694" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

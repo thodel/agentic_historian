@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005795>
+        a                    pers:person ;
+        rdfs:label           "Konrad Kupferschmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1404" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1404" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:53:04.579683" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ] ;
+                               pers:last_mention  "1406" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005795a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000312> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1404, 1406" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ;
+                                         pers:format_date  [ pers:when  "1404" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000312> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: In der Urkunde von 1406 ist der Vorname nicht mehr lesbar. Es ist jedoch anzunehmen, dass es sich bei dem Kupferschmid von Schwyz, Landammann von Appenzell, um Konrad Kupferschmid von Schwyz, ebenfalls Landammann von Appenzell, belegt 1404, handelt." ;
+        pers:residence       [ pers:date          "1404, 1406" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1404" ] ;
+                                         pers:format_date  [ pers:when  "1406" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000730> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

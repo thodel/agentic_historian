@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per003344>
+        a                    pers:person ;
+        rdfs:label           "Anna Rust"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1411" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-02 10:05:01.978419" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003343> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003344a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "22" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "61"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001335> ;
+                               pers:rolenames         [ pers:occurence  "LU II/3" ;
+                                                        pers:rolename   "Frau/dame"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003344b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         "LU II/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001337> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anna" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "22" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "61"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001335.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003344a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001335> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003349> ;
+                               pers:occurence  "LU II/3"
+                             ] .

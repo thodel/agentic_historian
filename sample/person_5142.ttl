@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per005718>
+        a                    pers:person ;
+        rdfs:label           "NN Keller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1566" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1566" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-09 10:37:20.795181" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005718a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "72f" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "261"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

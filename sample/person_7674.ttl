@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008361>
+        a              pers:person ;
+        rdfs:label     "Johann Jakob Schneider"@deu ;
+        pers:births    [ pers:birth         "1787" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1787" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "1844" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1844" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-18 17:35:07.698539" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename   "Johann Jakob" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008361a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "SG III/3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002228> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Johann Jacob" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                             pers:line     "21" ;
+                                                             pers:page     "1399"
+                                                           ] ;
+                                            pers:vol       "SG III/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002228.01> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008361a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org002228> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:page   "S. 330" ;
+                         pers:title  "Kuster et al. 1998" ;
+                         pers:type   "biblio" ;
+                         pers:url    "http://permalink.snl.ch/bib/chbsg000065568"
+                       ] ;
+        pers:sex       "1" .

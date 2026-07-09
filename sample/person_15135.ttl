@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per016213>
+        a                       pers:person ;
+        rdfs:label              "Jean Colin"@fra ;
+        pers:first_mentions     [ pers:first_mention  "1480" ;
+                                  pers:occurence      "gortega"
+                                ] ;
+        pers:hist               [ pers:date      "2020-04-24 07:57:32.058629" ;
+                                  pers:username  "gortega"
+                                ] ;
+        pers:judgeAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015156> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:name               [ pers:forename    "Johannes" ;
+                                  pers:lang        "lat" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004243.05> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016213a.01>
+                                ] ;
+        pers:name               [ pers:forename          "Johannes" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per016213a> ;
+                                  pers:lang              "lat" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004243> ;
+                                  pers:type              "std"
+                                ] ;
+        pers:name               [ pers:forename          "Jean" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per016213a> ;
+                                  pers:lang              "fra" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004243> ;
+                                  pers:type              "std"
+                                ] ;
+        pers:occupation         [ pers:date         "14.11.480, 15.11.1480" ;
+                                  pers:description  "key005586" ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:org_id             <http://ssrq-sds-fds.ch/Register/#org004243> ;
+        pers:project            "SSRQ" ;
+        pers:refs               [ pers:title  "Maier 1996, p. 401" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:refs               [ pers:title  "Reymond 1912, p. 249" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:sex                "1" .

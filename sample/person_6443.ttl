@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per007074>
+        a                    pers:person ;
+        rdfs:label           "Hans Beat Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1599" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-24 09:19:11.307325" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:last_mention  "1612" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Beath" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "176" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "791"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007074a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Beat" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007074a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1599" ;
+                               pers:description   "key005093" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1599" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:occupation      [ pers:date          "1612" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007069> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

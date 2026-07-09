@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per002130>
+        a                    pers:person ;
+        rdfs:label           "Cäcilia Furrer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1595" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1595" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Cäcilia" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002130b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "184" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "660"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000916> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Cäcilia" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002130a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "184" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "660"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000755> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Cilia" ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         "SG III/2" ;
+                               pers:org_var_id        <http://ssrq-sds-fds.ch/Register/#org000916.02> ;
+                               pers:type              "orig" ;
+                               pers:var_id            <http://ssrq-sds-fds.ch/Register/#per002130b.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000820" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000755> , <http://ssrq-sds-fds.ch/Register/#org000916> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002129> ;
+                               pers:occurence  "SG III/2"
+                             ] .

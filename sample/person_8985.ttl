@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009727>
+        a                pers:person ;
+        rdfs:label       "Christoph Imhof"@deu ;
+        pers:deaths      [ pers:death         "1590" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1590" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-24 11:18:20.929916" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Christoffel" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000365.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009727a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Christoph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009727a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000365> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000365> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "IV, S. 339" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:sex         "1" .

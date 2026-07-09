@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HBLS MCP — Historisch-Biographisches Lexikon der Schweiz</title>
+  <meta name="description" content="HBLS (Historisch-Biographisches Lexikon der Schweiz | Dictionnaire Historique et Biographique de la Suisse): 8 Bände (1921–1934), 18 244 Artikel (davon 3 718 biographische), herausgegeben von der Allgemeinen Geschichtsforschenden Gesellschaft der Schweiz. Vorgängerwerk des Historischen Lexikons der Schweiz (HLS)." />
+  <style>
+    :root { --bg:#f7f5f0; --surface:#fff; --border:#d8d0c4; --accent:#2c4a7c; --accent2:#c47d34; --text:#1e1e1e; --muted:#666; --code-bg:#ede9e1; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+    a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
+    header{background:var(--accent);color:#fff;padding:1.75rem 2rem;display:flex;align-items:baseline;gap:1.5rem;flex-wrap:wrap}
+    header h1{font-size:1.35rem;font-weight:600}
+    .badge{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:var(--accent2);color:#fff;padding:0.15em 0.6em;border-radius:3px;vertical-align:middle}
+    header .tagline{font-size:0.9rem;opacity:0.82}
+    .lang-note{font-size:0.8rem;opacity:0.75;margin-top:0.15rem}
+    main{max-width:900px;margin:0 auto;padding:2.5rem 2rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:1.75rem}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card.full{grid-column:1/-1}
+    .card.info{background:#eef2f7;border-color:#c5d3e8}
+    .card h2{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;border-bottom:1px solid var(--border);padding-bottom:0.5rem}
+    .endpoint-url{font-family:'Courier New',monospace;font-size:0.92rem;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:0.75rem 1rem;margin-bottom:0.75rem;word-break:break-all;user-select:all}
+    .copy-btn{display:inline-block;font-size:0.78rem;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:3px;padding:0.3em 0.8em;cursor:pointer;transition:background 0.15s}
+    .copy-btn:hover{background:var(--accent2)}
+    .copy-hint{font-size:0.8rem;color:var(--muted);margin-top:0.4rem}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1rem}
+    .stat{background:var(--code-bg);border-radius:4px;padding:0.65rem 0.75rem;text-align:center}
+    .stat .val{display:block;font-size:1.4rem;font-weight:700;color:var(--accent);line-height:1.1}
+    .stat .lbl{display:block;font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em}
+    table.tools{width:100%;border-collapse:collapse;font-size:0.875rem}
+    table.tools th{font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);padding:0.3rem 0.5rem;border-bottom:1px solid var(--border)}
+    table.tools td{padding:0.45rem 0.5rem;border-bottom:1px solid var(--border);vertical-align:top}
+    .tool-name{font-family:'Courier New',monospace;font-size:0.82rem;color:var(--accent);font-weight:600}
+    pre.example{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:1rem;font-family:'Courier New',monospace;font-size:0.8rem;white-space:pre-wrap;word-break:break-word;overflow-x:auto}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;font-size:0.87rem}
+    .info-row{display:flex;gap:0.5rem}
+    .info-label{font-weight:600;color:var(--accent);min-width:130px}
+    .info-value{color:var(--text)}
+    .successor-note{margin-top:1rem;padding:0.75rem;background:#f0f4f8;border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:0.87rem}
+    .successor-note a{color:var(--accent2)}
+    footer{max-width:900px;margin:0 auto 3rem;padding:0 2rem;display:flex;gap:1.5rem;flex-wrap:wrap}
+    footer a{font-size:0.85rem;color:var(--muted);display:flex;align-items:center;gap:0.35rem}
+    footer a:hover{color:var(--accent2);text-decoration:none}
+    @media(max-width:620px){main{grid-template-columns:1fr};.info-grid{grid-template-columns:1fr};.stats-grid{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+<header>
+  <h1>HBLS MCP Server</h1>
+  <span class="badge">Live</span>
+  <div>
+    <div class="tagline">Historisch-Biographisches Lexikon der Schweiz</div>
+    <div class="tagline">Dictionnaire Historique et Biographique de la Suisse</div>
+  </div>
+</header>
+<main>
+  <div class="card info full">
+    <div class="info-grid">
+      <div class="info-row"><span class="info-label">Herausgeber</span><span class="info-value">Allgemeine Geschichtsforschende Gesellschaft der Schweiz (SGG)</span></div>
+      <div class="info-row"><span class="info-label">Erscheinungsjahre</span><span class="info-value">1921–1934</span></div>
+      <div class="info-row"><span class="info-label">Bände</span><span class="info-value">8 Bände (deutsch &amp; französisch parallel)</span></div>
+      <div class="info-row"><span class="info-label">Nachfolger</span><span class="info-value"><a href="https://hls-dhs-dhsdsgg.ch/" target="_blank" rel="noopener">Historisches Lexikon der Schweiz (HLS)</a></span></div>
+    </div>
+    <div class="successor-note">
+      <strong>Hinweis:</strong> Das HBLS ist das <strong>Vorgängerwerk</strong> des heutigen Historischen Lexikons der Schweiz (HLS). Es enthält besonders viele biographische Artikel und ist vor allem für den Kanton Bern ein unverzichtbares Nachschlagewerk zu Personen, Familien und Ortschaften.
+    </div>
+  </div>
+  <div class="card">
+    <h2>Endpoint</h2>
+    <div class="endpoint-url" id="ep-url">https://tei.dh.unibe.ch/mcp/hbls</div>
+    <button class="copy-btn" onclick="copyUrl()">Copy URL</button>
+    <p class="copy-hint">Für OpenClaw, Claude Desktop u. a. MCP‑Clients</p>
+  </div>
+  <div class="card">
+    <h2>Corpus</h2>
+    <div class="stats-grid">
+      <div class="stat"><span class="val" id="n-articles">18 244</span><span class="lbl">Artikel</span></div>
+      <div class="stat"><span class="val" id="n-members">19 707</span><span class="lbl">Personen</span></div>
+      <div class="stat"><span class="val">8</span><span class="lbl">Bände</span></div>
+      <div class="stat"><span class="val">3 718</span><span class="lbl">Bio‑Artikel</span></div>
+    </div>
+    <p style="font-size:0.82rem;color:var(--muted)">Quellen: <a href="https://www.digibern.ch/katalog/historisch-biographisches-lexikon-der-schweiz" target="_blank" rel="noopener">digibern.ch</a></p>
+  </div>
+  <div class="card full">
+    <h2>Available tools</h2>
+    <table class="tools">
+      <thead><tr><th>Tool</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="tool-name">hbls_corpus_stats</td><td>Corpus summary: article/member counts, text size, volumes</td></tr>
+        <tr><td class="tool-name">hbls_search</td><td>FTS‑5 full‑text search across headwords + article text</td></tr>
+        <tr><td class="tool-name">hbls_get_article</td><td>Full article by headword + volume</td></tr>
+        <tr><td class="tool-name">hbls_get_family_members</td><td>All persons listed in a family article</td></tr>
+        <tr><td class="tool-name">hbls_get_pdf_url</td><td>Direct PDF URL for a given headword/volume/page</td></tr>
+        <tr><td class="tool-name">hbls_search_persons</td><td>Search persons by given name across all family articles</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h2>Quick example</h2>
+    <pre class="example">→ hbls_search(query="Schmidt", limit=5)
+← [{headword:"GAILLE", volume:3, page:7, …},
+   {headword:"ADELPHI", volume:1, page:125, …},
+   …]</pre>
+  </div>
+</main>
+<footer>
+  <a href="https://www.digibern.ch/katalog/historisch-biographisches-lexikon-der-schweiz" target="_blank">digibern.ch ↗</a>
+  <a href="https://tei.dh.unibe.ch">tei.dh.unibe.ch</a>
+</footer>
+<script>
+  function copyUrl(){
+    navigator.clipboard.writeText(document.getElementById('ep-url').textContent.trim())
+      .then(()=>{document.querySelector('.copy-btn').textContent='Copied!';setTimeout(()=>document.querySelector('.copy-btn').textContent='Copy URL',1500);});
+  }
+</script>
+</body>
+</html>

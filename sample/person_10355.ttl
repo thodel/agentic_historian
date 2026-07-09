@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per011174>
+        a                    pers:person ;
+        rdfs:label           "Leonhard von Buol"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1760" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-02 10:31:56.965296" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011174a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002850> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002850.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011174a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002850> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1760" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009002> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025056> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

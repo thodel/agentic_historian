@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004876>
+        a                    pers:person ;
+        rdfs:label           "Hans Brunner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1539" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1539" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 07:27:52.280874" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                               pers:last_mention  "1541" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004876a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001627> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johanis" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001627.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004876a.01>
+                             ] ;
+        pers:nationalOf      [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001163>
+                             ] ;
+        pers:occupation      [ pers:date         "1540, 1541" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:occupation      [ pers:date         "1539, 1540, 1541" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001627> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

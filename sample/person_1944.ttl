@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per002348>
+        a                pers:person ;
+        rdfs:label       "Joseph Amrhyn"@deu ;
+        pers:births      [ pers:birth         "09.09.1589" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589-09-09" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "06.09.1645" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1645-09-06" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Joseph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000994.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002348a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002348a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "209b" ;
+                                                              pers:line     "28" ;
+                                                              pers:page     "786"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "209a" ;
+                                                              pers:line     "28" ;
+                                                              pers:page     "785"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000994> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1620" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1620" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1619-1621" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1619" ;
+                                                                    pers:to    "1621"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key004803" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000994> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "23252" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

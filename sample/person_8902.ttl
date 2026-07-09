@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per009644>
+        a                    pers:person ;
+        rdfs:label           "Jean Monnin"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1680" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1680" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-18 13:57:23.312566" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009644a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003592> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003592> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1680" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1680" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000740> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

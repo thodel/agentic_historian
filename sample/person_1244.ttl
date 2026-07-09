@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001650>
+        a                    pers:person ;
+        rdfs:label           "Paul Lifer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1511" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1511" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Paul" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001650a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "123" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "408"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000734> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pali" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000734.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001650a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000734> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000579> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

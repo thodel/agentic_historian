@@ -1,0 +1,73 @@
+<http://ssrq-sds-fds.ch/Register/#per001955>
+        a                    pers:person ;
+        rdfs:label           "Ambros Jauch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1550" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1550" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:last_mention  "1565" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ambros" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001955a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "162" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "589"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "153b" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "550"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "570"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000579> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ambrosius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000579.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001955a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Ambros" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000579.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001955a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1565" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1551, 1565" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ;
+                                         pers:format_date  [ pers:when  "1551" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:occupation      [ pers:date          "1550-1552" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1550" ;
+                                                                        pers:to    "1552"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000579> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

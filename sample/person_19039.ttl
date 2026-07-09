@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020257>
+        a               pers:person ;
+        rdfs:label      "Jacob Clerc"@fra ;
+        pers:deaths     [ pers:death      "ca. 1650" ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:hist       [ pers:date      "2020-06-23 10:01:55.366995" ;
+                          pers:username  "rita"
+                        ] ;
+        pers:name       [ pers:forename    "Jacob" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "rita" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003467.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020257a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Jacob" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per020257a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "rita" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003467> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003467> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011036> ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020256> ;
+                          pers:occurence  "rita"
+                        ] .

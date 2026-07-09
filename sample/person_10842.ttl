@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011692>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Ach"@deu ;
+        pers:citizenOf       [ pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004474>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1344" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-08 10:51:21.749667" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004475.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011692a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011692a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004475> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004475> ;
+        pers:project         "Claudia Sutter" ;
+        pers:sex             "1" .

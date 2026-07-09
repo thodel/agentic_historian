@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009195>
+        a                    pers:person ;
+        rdfs:label           "Claude de Delley"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1609" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1609" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-04 17:20:57.978344" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Claude" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009195a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003387> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Clode" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003387.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009195a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003387> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009194> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

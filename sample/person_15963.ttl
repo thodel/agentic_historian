@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per017072>
+        a                               pers:person ;
+        rdfs:label                      "NN Picard"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1524" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-05-05 09:36:41.700527" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:addnames    [ pers:addname    "le Piccard" ;
+                                                             pers:occurence  "gortega"
+                                                           ] ;
+                                          pers:forename    "NN" ;
+                                          pers:lang        "fra" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005566.03> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017072a.01>
+                                        ] ;
+        pers:name                       [ pers:addnames   [ pers:addname    "le Piccard" ;
+                                                            pers:occurence  "gortega"
+                                                          ] ;
+                                          pers:forename   "NN" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017072a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005566> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "01.10.1524" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org005566> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Choffat 1989, p. 195" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010902> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per005191>
+        a                    pers:person ;
+        rdfs:label           "Hans Lippis"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1458" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1458" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 19:13:26.879977" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005191a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "34" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "83"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002067> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002067> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

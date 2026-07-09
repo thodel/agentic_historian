@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per015583>
+        a                         pers:person ;
+        rdfs:label                "Pierre de Vinopia"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1479" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-04-08 10:01:17.831348" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006259.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015583a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Pierre" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per015583a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006259> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename          "Petrus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per015583a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006259> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:description  "key000042" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "04.11.1479" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org006259> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Maier 1996, p. 429" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011379> ;
+                                    pers:occurence  "gortega"
+                                  ] .

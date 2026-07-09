@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per012384>
+        a                       pers:person ;
+        rdfs:label              "Pierre Borelli"@fra ;
+        pers:first_mentions     [ pers:first_mention  "1456" ;
+                                  pers:occurence      "gortega"
+                                ] ;
+        pers:hist               [ pers:date      "2020-03-03 16:21:16.053584" ;
+                                  pers:username  "gortega"
+                                ] ;
+        pers:judgeAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011863> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:last_mentions      [ pers:last_mention  "1458" ;
+                                  pers:occurence     "pascale"
+                                ] ;
+        pers:memberOf           [ pers:occurence      "gortega" ;
+                                  pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004150>
+                                ] ;
+        pers:name               [ pers:forename    "Petrus" ;
+                                  pers:lang        "lat" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004748.02> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012384a.01>
+                                ] ;
+        pers:name               [ pers:forename          "Pierre" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per012384a> ;
+                                  pers:lang              "fra" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004748> ;
+                                  pers:rolenames         [ pers:occurence  "gortega" ;
+                                                           pers:rolename   "Bruder/frère"
+                                                         ] ;
+                                  pers:type              "std"
+                                ] ;
+        pers:name               [ pers:forename          "Petrus" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per012384a> ;
+                                  pers:lang              "lat" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004748> ;
+                                  pers:rolenames         [ pers:occurence  "gortega" ;
+                                                           pers:rolename   "Bruder/frère"
+                                                         ] ;
+                                  pers:type              "std"
+                                ] ;
+        pers:occupation         [ pers:date         "15.04.1458, 20.04.1458, 21.04.1458, 22.04.1458" ;
+                                  pers:description  "key005585" ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:occupation         [ pers:date         "1458" ;
+                                  pers:description  "key003603" ;
+                                  pers:occurence    "gortega" ;
+                                  pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001749>
+                                ] ;
+        pers:occupation         [ pers:date         "1456" ;
+                                  pers:description  "key005442" ;
+                                  pers:location     <http://ssrq-sds-fds.ch/Register/#loc010228> ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:org_id             <http://ssrq-sds-fds.ch/Register/#org004748> ;
+        pers:project            "SSRQ" ;
+        pers:refs               [ pers:title  "Modestin 1999, p. 324" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:remark             "Il dirige comme vicaire de l'inquisiteur Raymond de Rue les séances des 15, 20, 21 et 22 avril 1458 contre Pierre douz Chanoz." ;
+        pers:residence          [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:residence          [ pers:date       "1456" ;
+                                  pers:location   <http://ssrq-sds-fds.ch/Register/#loc010229> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:sex                "1" .

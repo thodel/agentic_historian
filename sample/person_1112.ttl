@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per001507>
+        a                pers:person ;
+        rdfs:label       "Felix Keller"@deu ;
+        pers:births      [ pers:birth      "1432" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1507" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 12:17:03.728902" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Felix" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001507a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "109" ;
+                                                              pers:line     "31" ;
+                                                              pers:page     "369"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "115" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "388"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000349> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "der ellter" ;
+                                              pers:occurence  "ssrq-zh"
+                                            ] ;
+                           pers:forename    "Felix" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001507a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Felix" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000349.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001507a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1463-1488, 1494-1507" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" , "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000349> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

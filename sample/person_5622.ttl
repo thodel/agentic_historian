@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per006214>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Jägli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1540" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1540" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-24 15:35:57.476856" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bastionn" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "115" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "470"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002430.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006214a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006214a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002430> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002430> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006396> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

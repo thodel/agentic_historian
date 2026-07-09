@@ -1,0 +1,81 @@
+<http://ssrq-sds-fds.ch/Register/#per005787>
+        a                pers:person ;
+        rdfs:label       "Jakob Glenter"@deu ;
+        pers:births      [ pers:birth         "vor 1393" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1393" ;
+                                                                    pers:notBefore  "1343" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death         "17.04.1430" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1430-04-17" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-20 09:54:37.203084" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob der" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002308.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005787a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Jung" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005787a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002308> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002308.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005787a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Jakob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002308.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005787a.04>
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002308.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005787a.02>
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1422-1430" ;
+                           pers:description  "key000133" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002406>
+                         ] ;
+        pers:occupation  [ pers:date          "1406" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002308> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18070" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:date          "1406" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1406" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per013304>
+        a               pers:person ;
+        rdfs:label      "NN Gupfer"@deu ;
+        pers:deaths     [ pers:death      "1444" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2020-01-31 11:33:29.827991" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "Niklaus (?)" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "NN" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per013304a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000820> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "NN" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000820.04> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013304a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000820> ;
+        pers:project    "SSRQ" ;
+        pers:remark     "rhr: Die Quelle nennt 'N. Gupfer', also entweder Niklaus oder unbekannter Vorname; enthauptet auf der Bluetmatt in Nänikon 1444." ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

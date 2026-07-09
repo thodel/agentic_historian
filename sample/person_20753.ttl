@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per022025>
+        a              pers:person ;
+        rdfs:label     "Marguerite Marquet"@fra ;
+        pers:deaths    [ pers:death      "av. 1498" ;
+                         pers:occurence  "gortega"
+                       ] ;
+        pers:hist      [ pers:date      "2020-07-21 09:36:44.112901" ;
+                         pers:username  "gortega"
+                       ] ;
+        pers:name      [ pers:forename    "Margarita" ;
+                         pers:lang        "lat" ;
+                         pers:occurence   "gortega" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003548.04> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022025a.01>
+                       ] ;
+        pers:name      [ pers:forename          "Marguerite" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per022025a> ;
+                         pers:lang              "fra" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "gortega"
+                                                ] ;
+                         pers:occurence         "gortega" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003548> ;
+                         pers:type              "std"
+                       ] ;
+        pers:name      [ pers:forename          "Margarita" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per022025a> ;
+                         pers:lang              "lat" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "gortega"
+                                                ] ;
+                         pers:occurence         "gortega" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003548> ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003548> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "2" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012890> ;
+                         pers:occurence  "gortega"
+                       ] .

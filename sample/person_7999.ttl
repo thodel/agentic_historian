@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008701>
+        a                    pers:person ;
+        rdfs:label           "Jean-Georges Bourquin"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1765" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1765" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-17 12:06:29.530315" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Georges" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008701a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003175> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean George" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003175.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008701a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1765" ;
+                               pers:description   "key005005" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1765" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003105>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003175> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1765" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1765" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007792> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,81 @@
+<http://ssrq-sds-fds.ch/Register/#per007291>
+        a                pers:person ;
+        rdfs:label       "Sebastian Peregrin Zwyer von Evibach"@deu ;
+        pers:births      [ pers:birth         "1597" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1597" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "15.02.1661" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1661-02-15" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-02 14:25:50.442636" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "von Effebach" ;
+                                              pers:occurence  "SG III/3"
+                                            ] ;
+                           pers:forename    "Sebastian Pilgerin" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "186b" ;
+                                                               pers:line     "3" ;
+                                                               pers:page     "837"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002739.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007291a.02>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Evibach" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Sebastian Peregrin" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007291a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002739> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "184" ;
+                                                               pers:line     "11" ;
+                                                               pers:page     "827"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002739.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007291a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1648" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:occupation  [ pers:date          "1648, 1653" ;
+                           pers:description   "key001104" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ;
+                                     pers:format_date  [ pers:when  "1653" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1648" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002739> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "119100142" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "15530" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

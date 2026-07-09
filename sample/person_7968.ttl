@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008667>
+        a                    pers:person ;
+        rdfs:label           "François Gaudot"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1739" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1739" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-08 22:12:11.957013" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008667a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003148> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1736" ;
+                               pers:description   "key004007" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1736" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007800> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003148> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per005910>
+        a                pers:person ;
+        rdfs:label       "Johann Heinrich Marti"@deu ;
+        pers:births      [ pers:birth         "28.10.1684" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1684-10-28" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "03.01.1748" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1748-01-03" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-07 09:01:24.322365" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "94" ;
+                                                               pers:line     "15" ;
+                                                               pers:page     "343"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000617.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005910a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Jo. Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "195" ;
+                                                               pers:line     "46" ;
+                                                               pers:page     "873"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000617.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005910a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005910a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000617> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1710" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1710" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1710" ;
+                           pers:description   "key003015" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1710" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:occupation  [ pers:date          "1710" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1710" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000617> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18012" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

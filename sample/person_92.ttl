@@ -1,0 +1,100 @@
+<http://ssrq-sds-fds.ch/Register/#per000200>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth von Kraiburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1271" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1271" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-29 16:32:01.693279" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000105> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         "SG III/2" ;
+                               pers:org_var_id        <http://ssrq-sds-fds.ch/Register/#org000098.02> ;
+                               pers:type              "orig" ;
+                               pers:var_id            <http://ssrq-sds-fds.ch/Register/#per000200b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Elizabet" ;
+                               pers:lang              "lat" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         "SG III/2" ;
+                               pers:org_var_id        <http://ssrq-sds-fds.ch/Register/#org000008.10> ;
+                               pers:type              "orig" ;
+                               pers:var_id            <http://ssrq-sds-fds.ch/Register/#per000200a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000200b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "6" ;
+                                                                         pers:line     "29" ;
+                                                                         pers:page     "5"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "7" ;
+                                                                         pers:line     "8" ;
+                                                                         pers:page     "6"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000098> ;
+                               pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                        pers:rolename   "Gräfin/comtesse"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Elizabet" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000200a> ;
+                               pers:lang              "lat" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000008> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000200a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "6" ;
+                                                                         pers:line     "29" ;
+                                                                         pers:page     "5"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "7" ;
+                                                                         pers:line     "8" ;
+                                                                         pers:page     "6"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000008> ;
+                               pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                        pers:rolename   "Gräfin/comtesse"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000008> , <http://ssrq-sds-fds.ch/Register/#org000098> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000097> ;
+                               pers:occurence  "SG III/2"
+                             ] .

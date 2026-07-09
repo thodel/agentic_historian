@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per014315>
+        a                    pers:person ;
+        rdfs:label           "NN Rufer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-12 15:16:04.641344" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1470" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014315a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005840> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005840.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014315a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000304" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key004964" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005840> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006418> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

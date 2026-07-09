@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per008666>
+        a               pers:person ;
+        rdfs:label      "Frédéric-Guillaume de Hohenzollern"@fra , "Friedrich-Wilhelm von Hohenzollern"@deu ;
+        pers:births     [ pers:birth         "14.08.1688" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1688-08-14" ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:deaths     [ pers:death         "31.05.1740" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1740-05-31" ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:hist       [ pers:date      "2018-03-12 12:28:24.847087" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Friedrich-Wilhelm" ;
+                          pers:gennames   [ pers:genname    "I." ;
+                                            pers:occurence  "pascale"
+                                          ] ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per008666b> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "pascale" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001983> ;
+                          pers:rolenames  [ pers:occurence  "pascale" ;
+                                            pers:rolename   "König/roi"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename   "Frédéric-Guillaume" ;
+                          pers:gennames   [ pers:genname    "1er" ;
+                                            pers:occurence  "NE 3"
+                                          ] ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per008666a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001983> ;
+                          pers:rolenames  [ pers:occurence  "NE 3" ;
+                                            pers:rolename   "König/roi"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001983> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "118535978" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000627> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:sex        "1" .

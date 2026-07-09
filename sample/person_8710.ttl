@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per009449>
+        a                pers:person ;
+        rdfs:label       "Hans Jörg Vögeli"@deu ;
+        pers:births      [ pers:birth         "1585" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1585" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death         "1625" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1625" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-07 14:26:36.184787" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jörg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009449a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003357> ;
+                           pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hans Jörg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003357.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009449a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1622-1625" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1622" ;
+                                                                    pers:to    "1625"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003357> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

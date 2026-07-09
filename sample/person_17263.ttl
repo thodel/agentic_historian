@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per018429>
+        a                    pers:person ;
+        rdfs:label           "Barbara Risch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1656" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 10:02:36.022088" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Barbara" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018429a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006201> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Barbara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018429b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001100> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Barbla" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006201.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018429a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006201> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007691> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018428> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

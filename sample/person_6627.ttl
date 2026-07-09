@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per007277>
+        a                pers:person ;
+        rdfs:label       "Beatrix Summerau"@deu ;
+        pers:deaths      [ pers:death      "vor 1508" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:hist        [ pers:date      "2020-07-20 23:05:03.184393" ;
+                           pers:username  "sabine"
+                         ] ;
+        pers:name        [ pers:forename          "Beatrix" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007277a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "lukas"
+                                                  ] ;
+                           pers:occurence         "lukas" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002746> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004102" ;
+                           pers:occurence    "sabine" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002746> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:title  "Teuscher, Simon. Königsfelden : Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 259." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007279> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007278> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:sex         "2" .

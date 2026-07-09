@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007339>
+        a                    pers:person ;
+        rdfs:label           "Georg Kuhn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1650" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-26 17:32:11.609899" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007339a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001587> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Georg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134a" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "559"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "189b" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "851"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001587.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007339a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1650" ;
+                               pers:description   "key003624" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1650" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001587> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

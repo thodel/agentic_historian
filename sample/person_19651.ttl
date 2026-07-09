@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020887>
+        a               pers:person ;
+        rdfs:label      "Jakob Christoffel"@deu ;
+        pers:deaths     [ pers:death      "vor 1604" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-03 07:23:29.215567" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Jakob" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per020887a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005807> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Jacob" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005807.09> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020887a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005807> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

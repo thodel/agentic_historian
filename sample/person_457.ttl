@@ -1,0 +1,110 @@
+<http://ssrq-sds-fds.ch/Register/#per000500>
+        a                    pers:person ;
+        rdfs:label           "Georg von Erolzheim"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1480" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                               pers:last_mention  "1488" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joͤrg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000250.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000500b.01>
+                             ] ;
+        pers:name            [ pers:forename    "Joͤrg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000500a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Georg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000500a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "62c" ;
+                                                                         pers:line     "17" ;
+                                                                         pers:page     "206"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "100" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "333"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "99" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "329"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "39c" ;
+                                                                         pers:line     "23" ;
+                                                                         pers:page     "81"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000500a.02>
+                             ] ;
+        pers:name            [ pers:forename          "Georg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000500b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "62c" ;
+                                                                         pers:line     "17" ;
+                                                                         pers:page     "206"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "39c" ;
+                                                                         pers:line     "23" ;
+                                                                         pers:page     "81"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "100" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "333"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "99" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "329"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000250> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1480" ;
+                               pers:description   "key000043" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1480" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:occupation      [ pers:date          "1483-1488" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1483" ;
+                                                                        pers:to    "1488"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000250> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.sg.ch/content/kanton_st__gallen/home/kultur/stiftsarchiv/geschichte/abtei_pfaefers/aebte/georg_von_erolzheim.popup.html"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per003932>
+        a                pers:person ;
+        rdfs:label       "Sixtus IV. (Papst)"@deu ;
+        pers:births      [ pers:birth      "1414" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death         "12.08.1484" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1484-08-12" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-21 08:09:09.218112" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Sixtus" ;
+                           pers:gennames   [ pers:genname    "IV." ;
+                                             pers:occurence  "LU II/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003932a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "65b" ;
+                                                              pers:line     "9" ;
+                                                              pers:page     "196"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "65a" ;
+                                                              pers:line     "17" ;
+                                                              pers:page     "194"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "65" ;
+                                                              pers:line     "2" ;
+                                                              pers:page     "194"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1471-1484" ;
+                           pers:description   "key000014" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1471" ;
+                                                                    pers:to    "1484"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118797476" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

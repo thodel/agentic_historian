@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002180>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Custor"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1739" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1739" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1753" ] ] ;
+                               pers:last_mention  "1753" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002180b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "191a" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "679"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000583> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename          "Johann Jakob" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002180a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "191a" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "679"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000825" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000583> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

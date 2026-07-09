@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per010549>
+        a                pers:person ;
+        rdfs:label       "Johann Jakob Fugger"@deu ;
+        pers:births      [ pers:birth      "18.10.1567" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "24.01.1626" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-13 17:33:05.508105" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Johann Jakob" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010549a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "stadtasg"
+                                                  ] ;
+                           pers:occurence         "stadtasg" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003925> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1604-1626" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "stadtasg" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003925> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "26328" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118703498" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:page   "I/2,1, S. 421–426" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per005022>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Wagg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1411" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-05 15:17:04.190877" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005022a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001990> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "9" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "16"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001990.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005022a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001990> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1411" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1411" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006320> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:sex             "1" .

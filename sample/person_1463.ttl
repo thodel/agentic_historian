@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per001865>
+        a                pers:person ;
+        rdfs:label       "Jost Dietrich Balthasar"@deu ;
+        pers:births      [ pers:birth         "25.05.1634" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1634-05-25" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "11.06.1704" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1704-06-11" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Jost Dietrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001865a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "198b" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "740"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "263" ;
+                                                              pers:line     "7" ;
+                                                              pers:page     "958"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "144i" ;
+                                                              pers:line     "21" ;
+                                                              pers:page     "507"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000811> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1676" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1676" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "24.02.1675-23.06.1677" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1675-02-24" ;
+                                                                    pers:to    "1677-06-23"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key004803" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000811> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14094" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

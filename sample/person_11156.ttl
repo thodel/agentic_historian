@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per012029>
+        a                    pers:person ;
+        rdfs:label           "Hans Stapfer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-18 15:57:38.192369" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1477" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012029b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004555> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Zulauf" ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012029a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001321> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001321> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit Hans Zulauf aus Mülligen (per012033)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009651> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

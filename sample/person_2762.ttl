@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per003199>
+        a                    pers:person ;
+        rdfs:label           "Hans Jost Zemp"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1761" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 13:18:39.071506" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003199a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "78b" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "299"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "73" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "218"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001257> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1783-" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1783" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                             ] ;
+        pers:occupation      [ pers:date          "1761" ;
+                               pers:description   "key000826" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1761" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001257> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

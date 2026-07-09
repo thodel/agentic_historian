@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016999>
+        a               pers:person ;
+        rdfs:label      "Hans Obertoos"@deu ;
+        pers:deaths     [ pers:death      "ca. 1644" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-04 07:30:54.413734" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename    "Häntzo" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006717.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016999a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Hans" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016999a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006717> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006717> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007857> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016996> ;
+                          pers:occurence  "lionel"
+                        ] .

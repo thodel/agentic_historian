@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per004973>
+        a                pers:person ;
+        rdfs:label       "Heinrich von Ramstein"@deu ;
+        pers:births      [ pers:birth         "vor 1230" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1230" ;
+                                                                    pers:notBefore  "1180" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "22.07.1318" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1318-07-22" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-03 12:29:01.153955" ;
+                           pers:username  "stadtasg"
+                         ] ;
+        pers:name        [ pers:forename          "Heinrich" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per004973b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "1n" ;
+                                                                     pers:line     "17" ;
+                                                                     pers:page     "9"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "1c" ;
+                                                                     pers:line     "3" ;
+                                                                     pers:page     "3"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "1m" ;
+                                                                     pers:line     "40" ;
+                                                                     pers:page     "8"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Heinrich" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per004973a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001968> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1301–1318" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1301" ;
+                                                                    pers:to    "1318"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001968> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III/1,2, S. 1308-1309" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:refs        [ pers:id    "46205" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

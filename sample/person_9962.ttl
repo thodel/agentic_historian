@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per010737>
+        a                    pers:person ;
+        rdfs:label           "George Schæffer"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001158>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1628" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-05 13:33:14.193680" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "George" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010737a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004004> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004004> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010738> ;
+                               pers:occurence  "pascale"
+                             ] .

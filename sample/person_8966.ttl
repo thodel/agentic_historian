@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per009708>
+        a               pers:person ;
+        rdfs:label      "Marmet Fallewo"@fra ;
+        pers:deaths     [ pers:death         "ca. 1502" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1512" ;
+                                                                   pers:notBefore  "1492" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-07 13:21:33.887449" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Marmet" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009708a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003600> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003600> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007645> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009709> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

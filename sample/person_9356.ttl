@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010105>
+        a                   pers:person ;
+        rdfs:label          "Abraham Courvoisier"@fra ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010104> ;
+                              pers:occurence  "NE 3"
+                            ] ;
+        pers:hist           [ pers:date      "2021-01-28 08:30:03.551596" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "avant 1672" ;
+                              pers:occurence     "NE 3"
+                            ] ;
+        pers:name           [ pers:forename   "Abraham" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per010105a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "NE 3" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003753> ;
+                              pers:type       "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003753> ;
+        pers:project        "SSRQ" ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007897> ;
+                              pers:occurence  "NE 3"
+                            ] ;
+        pers:sex            "1" ;
+        pers:spouseOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010157> ;
+                              pers:occurence  "pascale"
+                            ] .

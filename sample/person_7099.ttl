@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007770>
+        a                    pers:person ;
+        rdfs:label           "Paulus Baumgartner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1713" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1713" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-16 09:38:28.367067" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Paullus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250e" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "1115"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001672.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007770a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Paulus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007770a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001672> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001672> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006006> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

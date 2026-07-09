@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per002228>
+        a                    pers:person ;
+        rdfs:label           "Hans von Fari"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1689" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1689" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:doubtful_reading  "1" ;
+                               pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002228a> ;
+                               pers:lang              "deu" ;
+                               pers:occurence         [ pers:articles  [ pers:article  "196e" ;
+                                                                         pers:line     "18" ;
+                                                                         pers:page     "714"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000948> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000948> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000034> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

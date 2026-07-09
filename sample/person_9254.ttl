@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010001>
+        a                    pers:person ;
+        rdfs:label           "NN Kessler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1638" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-09-25 11:17:26.985335" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010001a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000164> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1638" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001881>
+                             ] ;
+        pers:occupation      [ pers:date         "1638" ;
+                               pers:description  "key000029" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc006040> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000164> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

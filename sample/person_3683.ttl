@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per004159>
+        a               pers:person ;
+        rdfs:label      "Peter Limacher"@deu ;
+        pers:deaths     [ pers:death         "1556" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1556" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2015-09-10 09:15:46.613077" ;
+                          pers:username  "andreas"
+                        ] ;
+        pers:name       [ pers:forename    "NN" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   [ pers:articles  [ pers:article  "97b" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "352"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "97a" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "350"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001669.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004159a.02>
+                        ] ;
+        pers:name       [ pers:forename   "Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per004159a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "97a" ;
+                                                             pers:line     "35" ;
+                                                             pers:page     "351"
+                                                           ] ;
+                                            pers:articles  [ pers:article  "97" ;
+                                                             pers:line     "16" ;
+                                                             pers:page     "349"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001669> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Petter" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   [ pers:articles  [ pers:article  "97b" ;
+                                                              pers:line     "20" ;
+                                                              pers:page     "352"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "97a" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "349"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "97c" ;
+                                                              pers:line     "15" ;
+                                                              pers:page     "353"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001669.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004159a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001669> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

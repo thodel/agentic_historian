@@ -1,0 +1,85 @@
+<http://ssrq-sds-fds.ch/Register/#per000739>
+        a                    pers:person ;
+        rdfs:label           "Johannes Schwend"@deu ;
+        pers:deaths          [ pers:death         "17.02.1477" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1477-02-17" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014216> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004700> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1417" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1417" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-11 11:24:42.930908" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Johanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "40" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "108"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000377.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000739a.02>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Junge" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "Johannes" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000739a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "50" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "141"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000377> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000377.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000739a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1462" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000377> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18103" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023500> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014222> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

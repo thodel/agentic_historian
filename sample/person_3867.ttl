@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004355>
+        a                    pers:person ;
+        rdfs:label           "Thüring von Attinghausen"@deu ;
+        pers:deaths          [ pers:death         "03.11.1353" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1353-11-03" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1314" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1314" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 08:29:44.768114" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Thiring" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001759.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004355a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Thüring" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004355a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001759> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1327-1353" ;
+                               pers:description  "key000001" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000087>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001759> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12488" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "135827892" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

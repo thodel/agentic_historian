@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008084>
+        a                    pers:person ;
+        rdfs:label           "Maria Schmalz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 16:20:49.443791" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Maria" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008084a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002973> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marey" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "278" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "1232"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002973.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008084a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002973> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Nachname unsicher (evtl. Zuname)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007305> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

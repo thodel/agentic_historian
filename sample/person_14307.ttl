@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per015345>
+        a                    pers:person ;
+        rdfs:label           "Christian Lorenz Schreiber"@deu ;
+        pers:deaths          [ pers:death      "vor 1789" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014278> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1728" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-25 10:42:45.694520" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Christian Lorenz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002099.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015345a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Christianus Laurentius" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002099.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015345a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Christian Lorenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015345a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002099> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005671" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:date         "1728" ;
+                               pers:description  "key000825" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002099> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015843> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

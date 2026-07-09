@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004316>
+        a                    pers:person ;
+        rdfs:label           "Jost Lauber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1575" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-21 12:08:25.552261" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004316a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001503> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jost" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "521"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "138" ;
+                                                                   pers:line     "5" ;
+                                                                   pers:page     "500"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001503.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004316a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001503> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005965> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

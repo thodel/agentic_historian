@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per005223>
+        a                pers:person ;
+        rdfs:label       "Ital Reding"@deu ;
+        pers:births      [ pers:birth         "um 1410" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1420" ;
+                                                                    pers:notBefore  "1400" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "13.08.1466" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1466-08-13" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-01-29 16:05:43.442097" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Ytal" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "38b" ;
+                                                               pers:line     "5" ;
+                                                               pers:page     "100"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000288.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005223a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Ital" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005223a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000288> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Yttal" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "40" ;
+                                                               pers:line     "7" ;
+                                                               pers:page     "108"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000288.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005223a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1447-1464" ;
+                           pers:description  "key003718" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:occupation  [ pers:date          "1462" ;
+                           pers:description   "key003833" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000288> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19008" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

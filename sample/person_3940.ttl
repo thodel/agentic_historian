@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per004679>
+        a                    pers:person ;
+        rdfs:label           "Johann Ulrich von Sax-Hohensax"@deu ;
+        pers:deaths          [ pers:death         "1592" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1592" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1560" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1560" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:halfBrotherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004677> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 17:34:29.011503" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004679a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000384> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Freiherr (Baron)/baron"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000384> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 176" ;
+                               pers:title  "Deplazes-Haefliger 1976" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000080293"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004582> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004678> ;
+                               pers:occurence  "SG III/4"
+                             ] .

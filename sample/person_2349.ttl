@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per002752>
+        a                    pers:person ;
+        rdfs:label           "Johann Rudolf Good"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002747> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1723" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1723" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:last_mention  "1745" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joan Ruodolph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002752a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002752a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "314" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "1070"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "312" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "1067"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "289b" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "1018"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "294" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "1029"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000427" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1724, 1738, 1745, 1746" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1724" ] ;
+                                         pers:format_date  [ pers:when  "1745" ] ;
+                                         pers:format_date  [ pers:when  "1738" ] ;
+                                         pers:format_date  [ pers:when  "1746" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

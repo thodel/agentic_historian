@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002650>
+        a                    pers:person ;
+        rdfs:label           "Johann Kaspar Balthasar"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jo. C." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000811.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002650a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002650a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "261" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "954"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000811> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000811> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

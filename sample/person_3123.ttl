@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per003573>
+        a                    pers:person ;
+        rdfs:label           "Heinzmann Vogt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1398" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:15:44.194468" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Heintzman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "15" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "45"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001336.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003573a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinzmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003573a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001336> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1398" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1398" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001336> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, S. 291 (=Heinrich)" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

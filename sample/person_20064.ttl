@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per021320>
+        a                    pers:person ;
+        rdfs:label           "Gottfried Mülner"@deu ;
+        pers:deaths          [ pers:death      "1336" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023606> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1291" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-11 14:46:10.650251" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Gottfried" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021320a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004102> ;
+                               pers:rolenames  [ pers:occurence  "mina" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1325-1335" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004102> ;
+        pers:project         "Königsfelden" , "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

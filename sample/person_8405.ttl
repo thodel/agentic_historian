@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per009134>
+        a                   pers:person ;
+        rdfs:label          "Georges von Diesbach"@deu ;
+        pers:births         [ pers:birth         "1575" ;
+                              pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                              pers:occurence     "FR I/2/8"
+                            ] ;
+        pers:deaths         [ pers:death      "06.11.1646" ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018655> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:grandfatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027618> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:hist           [ pers:date      "2020-11-18 14:13:40.140500" ;
+                              pers:username  "rita"
+                            ] ;
+        pers:name           [ pers:forename    "George" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "pascale" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002518.05> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009134a.02>
+                            ] ;
+        pers:name           [ pers:forename    "NN" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "pascale" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002518.04> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009134a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Georges" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per009134a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "pascale" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002518> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename   "Georges" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per009134a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "FR I/2/8" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002518> ;
+                              pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                                pers:rolename   "Junker/donzel"
+                                              ] ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date         "1602-1646" ;
+                              pers:description  "key000181" ;
+                              pers:occurence    "rita" ;
+                              pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org002518> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:page   "II, p. 673" ;
+                              pers:title  "DHBS" ;
+                              pers:type   "biblio" ;
+                              pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                            ] ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                              pers:occurence  "FR I/2/8"
+                            ] ;
+        pers:sex            "1" .

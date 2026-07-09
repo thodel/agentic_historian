@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per012446>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Miguet"@fra ;
+        pers:deaths                     [ pers:death      "1473" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011218> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1461" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-08 15:29:21.705687" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004788.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012446a.01>
+                                        ] ;
+        pers:name                       [ pers:forename          "Pierre" ;
+                                          pers:id                <http://ssrq-sds-fds.ch/Register/#per012446a> ;
+                                          pers:lang              "fra" ;
+                                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                                   pers:occurence       "gortega"
+                                                                 ] ;
+                                          pers:occurence         "gortega" ;
+                                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004788> ;
+                                          pers:type              "std"
+                                        ] ;
+        pers:name                       [ pers:forename          "Petrus" ;
+                                          pers:id                <http://ssrq-sds-fds.ch/Register/#per012446a> ;
+                                          pers:lang              "lat" ;
+                                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                                   pers:occurence       "gortega"
+                                                                 ] ;
+                                          pers:occurence         "gortega" ;
+                                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004788> ;
+                                          pers:type              "std"
+                                        ] ;
+        pers:neighbourOf                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012430> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:occupation                 [ pers:date         "30.10.1461" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004788> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Modestin 1999, p. 355" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007926> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

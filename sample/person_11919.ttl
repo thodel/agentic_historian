@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per012820>
+        a                pers:person ;
+        rdfs:label       "Ulrich von Württemberg"@deu ;
+        pers:births      [ pers:birth      "1413" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "01.09.1480" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2020-01-10 07:53:33.065194" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ulrich" ;
+                           pers:gennames   [ pers:genname    "V." ;
+                                             pers:occurence  "stadtasg"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012820a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "stadtasg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005232> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000019" ;
+                           pers:occurence    "stadtasg"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005232> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "121765482" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

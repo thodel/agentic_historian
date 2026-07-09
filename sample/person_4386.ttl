@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per004910>
+        a                    pers:person ;
+        rdfs:label           "Hermann von Bonstetten"@deu ;
+        pers:deaths          [ pers:death         "23.08.1360" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1360-08-23" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1314" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1314" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:39:39.174967" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Hermann" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004910a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000928> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Hermann" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004910b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1l" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "8"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1c" ;
+                                                                         pers:line     "6" ;
+                                                                         pers:page     "3"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "1k" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "8"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1333–1360" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1333" ;
+                                                                        pers:to    "1360"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000928> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12517" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1311-1312" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per016273>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Effinger"@deu ;
+        pers:deaths          [ pers:death      "1513" ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1495" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-20 14:13:06.496378" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016273a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002421> ;
+                               pers:rolenames  [ pers:occurence  "fahe" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Wildegg" ;
+                                                  pers:occurence  "GR B III/2"
+                                                ] ;
+                               pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002421.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016273a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002421> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "019669" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "1052896804" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per006161>
+        a                    pers:person ;
+        rdfs:label           "Bernhard Schiesser"@deu ;
+        pers:deaths          [ pers:death         "1532" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1512" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1512" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 14:13:00.135608" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bernhartt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113g" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "455"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002417.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006161a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Bernhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006161a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002417> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bernhardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113d" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "444"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002417.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006161a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002417> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "17950" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

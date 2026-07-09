@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per009441>
+        a                    pers:person ;
+        rdfs:label           "Giacomo Roma"@ita , "Jacob Romer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1540" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1540" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-01 12:05:10.927087" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von der Matten" ;
+                                                  pers:occurence  "FDS TI"
+                                                ] ;
+                               pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003493.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009441a.02>
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "da Prato" ;
+                                                  pers:occurence  "FDS TI"
+                                                ] ;
+                               pers:forename    "Giacomo" ;
+                               pers:lang        "ita" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003493.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009441a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Giacomo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009441a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003493> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Jacob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009441a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003493> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1540" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1540" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003496>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003493> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1540" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008270> ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:sex             "1" .

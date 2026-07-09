@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per002334>
+        a                    pers:person ;
+        rdfs:label           "Anton von Zuben"@deu ;
+        pers:deaths          [ pers:death         "24.10.1629" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1629-10-24" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "um 1554" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1564" ;
+                                                                         pers:notBefore  "1544" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002334a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "208a" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "780"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000339> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anthoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000339.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002334a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1611, 1615, 1625, 1629" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ;
+                                         pers:format_date  [ pers:when  "1615" ] ;
+                                         pers:format_date  [ pers:when  "1625" ] ;
+                                         pers:format_date  [ pers:when  "1629" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1617" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000339> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003519>
+        a                    pers:person ;
+        rdfs:label           "Heini Suter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1392" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1392" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-03 15:12:21.810894" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Heini" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003519a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "10" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "31"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000273> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "34" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "80"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000273.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003519a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000273> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

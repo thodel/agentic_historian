@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per003582>
+        a                pers:person ;
+        rdfs:label       "Johann Münch von Landskron"@deu ;
+        pers:deaths      [ pers:death         "26.04.1410" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1410-04-26" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-14 11:52:10.168894" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Johannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "16" ;
+                                                               pers:line     "2" ;
+                                                               pers:page     "47"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001434.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003582a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003582a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "16" ;
+                                                              pers:line     "16" ;
+                                                              pers:page     "46"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001434> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1401" ;
+                           pers:description   "key000015" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1401" ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001749>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001434> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "12853" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

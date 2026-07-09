@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per015724>
+        a                    pers:person ;
+        rdfs:label           "Walter Bullin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1311" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-25 11:03:34.913639" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1333" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Walter" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per015724a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005342> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005654" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc012335> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:occupation      [ pers:description  "key003661" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005613>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005342> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per010101>
+        a                    pers:person ;
+        rdfs:label           "Abraham Jaquet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1681" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-22 08:41:27.791138" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010101a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003215> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003215> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Même personne que per009036?" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009036> ;
+                               pers:occurence  "NE 3"
+                             ] .

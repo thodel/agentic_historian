@@ -1,0 +1,75 @@
+<http://ssrq-sds-fds.ch/Register/#per002255>
+        a                pers:person ;
+        rdfs:label       "Karl Betschart"@deu ;
+        pers:births      [ pers:birth         "24.03.1618" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1618-03-24" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "07.06.1671" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1671-06-07" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-25 09:56:43.187706" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Karl" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002255a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "197c" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "724"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000828> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carl" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "182" ;
+                                                               pers:line     "1" ;
+                                                               pers:page     "820"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000828.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002255a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Carl" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000828.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002255a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1657" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1644-1656, 1658-1671" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1658" ;
+                                                                    pers:to    "1671"
+                                                                  ] ;
+                                     pers:format_date  [ pers:from  "1644" ;
+                                                         pers:to    "1656"
+                                                       ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1657" ;
+                           pers:description   "key004803" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000828> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18952" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

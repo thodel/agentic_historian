@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per003061>
+        a                   pers:person ;
+        rdfs:label          "Martin Schicker"@deu ;
+        pers:births         [ pers:birth         "04.04.1741" ;
+                              pers:format_dates  [ pers:format_date  [ pers:when  "1741-04-04" ] ] ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1792" ] ] ;
+                              pers:last_mention  "1792" ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:name           [ pers:addnames   [ pers:addname    "von Baar" ;
+                                                pers:occurence  "SG III/2"
+                                              ] ;
+                              pers:forename   "Martin" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per003061a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  [ pers:articles  [ pers:article  "363" ;
+                                                                 pers:line     "14" ;
+                                                                 pers:page     "1196"
+                                                               ] ;
+                                                pers:vol       "SG III/2"
+                                              ] ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001129> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "Martini" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "SG III/2" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001129.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003061a.01>
+                            ] ;
+        pers:occupation     [ pers:date          "1767-1769" ;
+                              pers:description   "key000301" ;
+                              pers:format_dates  [ pers:format_date  [ pers:from  "1767" ;
+                                                                       pers:to    "1769"
+                                                                     ] ] ;
+                              pers:location      <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:occupation     [ pers:date          "1785" ;
+                              pers:description   "key003660" ;
+                              pers:format_dates  [ pers:format_date  [ pers:when  "1785" ] ] ;
+                              pers:occurence     "SG III/2" ;
+                              pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                            ] ;
+        pers:occupation     [ pers:date          "1785-1792" ;
+                              pers:description   "key000301" ;
+                              pers:format_dates  [ pers:format_date  [ pers:from  "1785" ;
+                                                                       pers:to    "1792"
+                                                                     ] ] ;
+                              pers:location      <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:occupation     [ pers:date          "1779-1783" ;
+                              pers:description   "key000301" ;
+                              pers:format_dates  [ pers:format_date  [ pers:from  "1779" ;
+                                                                       pers:to    "1783"
+                                                                     ] ] ;
+                              pers:location      <http://ssrq-sds-fds.ch/Register/#loc000630> ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:occupation     [ pers:date          "1769-1771" ;
+                              pers:description   "key000301" ;
+                              pers:format_dates  [ pers:format_date  [ pers:from  "1769" ;
+                                                                       pers:to    "1771"
+                                                                     ] ] ;
+                              pers:location      <http://ssrq-sds-fds.ch/Register/#loc000037> ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org001129> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "1" .

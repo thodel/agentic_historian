@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per009236>
+        a                    pers:person ;
+        rdfs:label           "Dietrich Streuli"@deu ;
+        pers:deaths          [ pers:death         "09.07.1617" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617-07-09" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1613" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-07 13:58:51.632609" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Diethrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003292.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009236a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Dietrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009236a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003292> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1613" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1613" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003292> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, S. 576" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

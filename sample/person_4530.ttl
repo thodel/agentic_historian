@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per005064>
+        a                    pers:person ;
+        rdfs:label           "Hans Berger"@deu ;
+        pers:births          [ pers:birth         "um 1460" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1470" ;
+                                                                        pers:notBefore  "1450" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:deaths          [ pers:death         "Mitte 1529" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1529-07" ;
+                                                                        pers:notBefore  "1529-06" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1517" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1517" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-29 14:46:30.691549" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005075>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005064a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000448> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1513-1523" ;
+                               pers:description  "key000607" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date          "1517" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001189>
+                             ] ;
+        pers:occupation      [ pers:date         "1524-28" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000448> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18120" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date          "1517" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000066> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

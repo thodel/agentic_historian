@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009230>
+        a                    pers:person ;
+        rdfs:label           "Hans Zogg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1613" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 15:54:43.316337" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000992.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009230a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009230a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000992> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000992> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Angehöriger des Kirchspielrechts von Buchs und sogenannter Halbteiler (Recht auf den halben Anteil oder die Hälfte der Nutzungsrechte der Angehörigen des Kirchspiels Sevelen)." ;
+        pers:residence       [ pers:date          "1613" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1613" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006100> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:residence       [ pers:date          "1613" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1613" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000428> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009245> ;
+                               pers:occurence  "SG III/4"
+                             ] .

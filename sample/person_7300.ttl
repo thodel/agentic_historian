@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per007978>
+        a                    pers:person ;
+        rdfs:label           "Johannes Schawalder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1740" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1740" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-30 17:20:46.147285" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007978a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "274a" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "1204"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002223> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johanes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "270" ;
+                                                                   pers:line     "21" ;
+                                                                   pers:page     "1196"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002223.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007978a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1740, 1747" ;
+                               pers:description   "key003987" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ;
+                                         pers:format_date  [ pers:when  "1740" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:occupation      [ pers:date          "1740, 1747" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1747" ] ;
+                                         pers:format_date  [ pers:when  "1740" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002951>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002223> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

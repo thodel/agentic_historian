@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003523>
+        a                    pers:person ;
+        rdfs:label           "Peter Frey"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1480" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-11-09 08:54:06.758117" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003523a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "13b" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "41"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001401> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001401> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001488> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

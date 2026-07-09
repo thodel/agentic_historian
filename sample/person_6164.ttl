@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006782>
+        a                    pers:person ;
+        rdfs:label           "Meinrad in der Vorburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1562" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1562" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-01 16:28:28.888432" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Menrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "600"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002254.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006782a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Meinrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006782a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002254> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1562" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002254> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

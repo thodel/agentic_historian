@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per007053>
+        a                    pers:person ;
+        rdfs:label           "Lienhard Bossard"@deu ;
+        pers:deaths          [ pers:death         "02.07.1628" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1628-07-02" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1590" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1590" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-24 12:25:18.356422" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Lienhardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "799"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000955.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007053a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Lienhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "169" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "759"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000955.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007053a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lienhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007053a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000955> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1606" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:occupation      [ pers:date          "1606, 1611" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ;
+                                         pers:format_date  [ pers:when  "1611" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1611" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000955> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26715" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Werner Kuster: In HLS Vorname Leonhard, aber hier eindeutig zweimal Lienhard." ;
+        pers:sex             "1" .

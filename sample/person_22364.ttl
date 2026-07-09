@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per023672>
+        a                    pers:person ;
+        rdfs:label           "Martin von Vals"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019585> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-11 18:29:33.294508" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per023672a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008292> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Martin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008292.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023672a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008292> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008691> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

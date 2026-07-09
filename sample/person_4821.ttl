@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per005378>
+        a                    pers:person ;
+        rdfs:label           "Hans Ritz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1567" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1567" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 18:05:11.906674" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "153" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "664"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "54" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "188"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002160.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005378a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005378a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002160> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "151" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "658"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002160.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005378a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1567, 1580" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1567" ] ;
+                                         pers:format_date  [ pers:when  "1580" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:occupation      [ pers:date          "1567, 1575, 1580" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1580" ] ;
+                                         pers:format_date  [ pers:when  "1575" ] ;
+                                         pers:format_date  [ pers:when  "1567" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002160> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex             "1" .

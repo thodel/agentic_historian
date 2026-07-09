@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per006255>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Holenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1547" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1547" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-30 11:42:24.721772" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "123" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "502"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002438.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006255a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006255a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002438> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1547" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002438> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

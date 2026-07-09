@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per014900>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Leu"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1643" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-27 15:34:29.932352" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014900a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005704> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1643" ;
+                               pers:description  "key000607" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005704> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

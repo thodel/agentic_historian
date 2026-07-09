@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per026117>
+        a                pers:person ;
+        rdfs:label       "Johannes Müller"@deu ;
+        pers:births      [ pers:birth      "04.01.1629" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "12.1684" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:41:36.183323" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026117a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johanes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026117a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1655-" ;
+                           pers:description  "key004942" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005023>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "122584732" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "026074" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

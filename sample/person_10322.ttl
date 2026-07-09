@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per011141>
+        a                pers:person ;
+        rdfs:label       "Sebastian Zuber"@deu , "Sébastien Zuber"@fra ;
+        pers:births      [ pers:birth      "um 1570" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "05.1639" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-04-12 08:39:21.334122" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Sebastian" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004187.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011141a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Sébastien" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011141a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004187> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Sebastian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011141a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004187> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000310" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org004187> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21475" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

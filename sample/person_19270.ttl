@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per020495>
+        a                    pers:person ;
+        rdfs:label           "Jean Monet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-29 10:14:40.628040" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005212.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020495a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020495a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005212> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020495a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005212> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "15.11.1480" ;
+                               pers:description  "key005165" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005212> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Maier 1996, p. 416" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007851> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

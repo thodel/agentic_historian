@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010443>
+        a                    pers:person ;
+        rdfs:label           "Pierre Baudiere"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1623" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-30 11:07:28.602287" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010443a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003879> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1623" ;
+                               pers:description  "key000907" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003879> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1623" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

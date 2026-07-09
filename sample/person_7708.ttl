@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per008395>
+        a               pers:person ;
+        rdfs:label      "Johannes Ritter"@deu ;
+        pers:births     [ pers:birth         "1813" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1813" ] ] ;
+                          pers:occurence     "SG III/3"
+                        ] ;
+        pers:deaths     [ pers:death         "1856" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1856" ] ] ;
+                          pers:occurence     "SG III/3"
+                        ] ;
+        pers:hist       [ pers:date      "2017-09-19 14:06:28.273653" ;
+                          pers:username  "werner"
+                        ] ;
+        pers:memberOf   [ pers:occurence      "SG III/3" ;
+                          pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                        ] ;
+        pers:name       [ pers:forename    "J." ;
+                          pers:lang        "deu" ;
+                          pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "1399"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002117.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008395a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Johannes" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per008395a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "SG III/3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002117> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002117> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:title  "Rohner, Geschlechter und Wappen, S. 105" ;
+                          pers:type   "biblio"
+                        ] ;
+        pers:remark     "Werner Kuster: Identität sehr wahrscheinlich" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006870> ;
+                          pers:occurence  "SG III/3"
+                        ] ;
+        pers:sex        "1" .

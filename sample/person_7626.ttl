@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per008312>
+        a                    pers:person ;
+        rdfs:label           "Jakob Lüchinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1793" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1793" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-21 08:48:01.058878" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "325d" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "1386"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002217.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008312a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "329" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "1415"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002217.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008312a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008312a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002217> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1798" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003060>
+                             ] ;
+        pers:occupation      [ pers:date          "1793, 1798" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ;
+                                         pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002947>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002217> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Identität wahrscheinlich (’Luchsinger’ offenbar Verschrieb für ’Lüchinger’)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007063> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

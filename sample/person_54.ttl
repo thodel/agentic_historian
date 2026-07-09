@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000054>
+        a                    pers:person ;
+        rdfs:label           "Albert von Grünenfels"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1278" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1278" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 07:23:51.533247" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1321" ] ] ;
+                               pers:last_mention  "1321" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Albert" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000054a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000076> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000076> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "https://hls-dhs-dss.ch/de/articles/019625/2009-12-16/" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per002167>
+        a                    pers:person ;
+        rdfs:label           "Jakob Wolf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1596" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1596" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-19 14:57:42.613666" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:last_mention  "1598" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000900.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002167a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002167a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "185" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "661"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "187" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "669"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "186" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "662"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000900> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1603" ;
+                               pers:description   "key004506" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "andreas"
+                             ] ;
+        pers:occupation      [ pers:date          "1596-1598" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1596" ;
+                                                                        pers:to    "1598"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1597, 1598" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1597" ] ;
+                                         pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002652>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000900> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Anderas Ineichen: E_1621.05.21, nach HBLS Landesweibel 1580, Landvogt Sargans 1596, gest. 1610" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005685> ;
+                               pers:occurence  "andreas"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008530>
+        a             pers:person ;
+        rdfs:label    "Johann Ludwig Ambühl"@deu ;
+        pers:births   [ pers:birth         "13.02.1750" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1750-02-13" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "22.04.1800" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1800-04-22" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-09-20 15:01:24.456069" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Johann Ludwig" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per008530a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "329" ;
+                                                           pers:line     "25" ;
+                                                           pers:page     "1413"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000802> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000802> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "11470" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

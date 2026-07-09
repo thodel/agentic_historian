@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per013432>
+        a                    pers:person ;
+        rdfs:label           "Adam Stutz"@deu ;
+        pers:deaths          [ pers:death      "1668" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1617" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-21 13:07:46.666881" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Adam" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013432a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005460> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005460.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013432a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1617-1668" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005460> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, p. 403" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

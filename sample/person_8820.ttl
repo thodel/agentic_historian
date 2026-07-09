@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per009560>
+        a                    pers:person ;
+        rdfs:label           "Simon Chevalier"@fra ;
+        pers:deaths          [ pers:death         "08.10.1711" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1711-10-08" ] ] ;
+                               pers:occurence     "sds_ne "
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1650" ] ] ;
+                               pers:occurence      "sds_ne "
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-22 16:11:46.389129" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003098>
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009560a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003553> ;
+                               pers:rolenames  [ pers:occurence  "NE 3" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "le docteur" ;
+                                                  pers:occurence  "pascale"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003553.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009560a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1681" ;
+                               pers:description   "key005092" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1681" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007878> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003553> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15669" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

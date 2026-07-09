@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008978>
+        a                    pers:person ;
+        rdfs:label           "François Lambelet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1696" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-15 09:10:55.099286" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008978a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003120> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1696" ;
+                               pers:description   "key005061" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1696" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003120> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1696" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007799> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

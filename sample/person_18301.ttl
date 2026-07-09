@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per019504>
+        a                    pers:person ;
+        rdfs:label           "Werner von Wohlen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1333" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1323" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-26 10:20:28.518605" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1366" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019504a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001395> ;
+                               pers:rolenames  [ pers:occurence  "fahe" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1332-1351" ;
+                               pers:description  "key000196" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008723> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001395> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Merz, Walther: Die Mittelalterlichen Burganlagen Und Wehrbauten Des Kantons Aargau. Bd 2, 1906, S. 587." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003512> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028501> ;
+                               pers:occurence  "sabine"
+                             ] .

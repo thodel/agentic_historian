@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009502>
+        a                    pers:person ;
+        rdfs:label           "Estievena Violet"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1624" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1624" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-03 16:01:29.290224" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Thyvina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003528.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009502a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Estievena" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009502a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000945" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003528> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007983> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "2" .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per013421>
+        a                    pers:person ;
+        rdfs:label           "Collar Moyreux"@fra ;
+        pers:deaths          [ pers:death      "avant 1602" ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013420> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1602" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-07 17:31:14.823351" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Collar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013421a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005458> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005458> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc012043> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013422> ;
+                               pers:occurence  "pascale"
+                             ] .

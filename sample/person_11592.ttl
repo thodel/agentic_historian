@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per012489>
+        a                    pers:person ;
+        rdfs:label           "Hans Rudolf  Segesser von Brunegg"@deu ;
+        pers:citizenOf       [ pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004581>
+                             ] ;
+        pers:deaths          [ pers:death      "1523" ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1522" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-04 11:01:27.807833" ;
+                               pers:username  "fahe"
+                             ] ;
+        pers:name            [ pers:forename    "Hannsruͦdolph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000962.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012489b.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012489b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000962> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1478-1518" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004581>
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "019635" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

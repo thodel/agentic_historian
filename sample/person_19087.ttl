@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020306>
+        a                    pers:person ;
+        rdfs:label           "Walter Meier"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020308> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1365" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-24 09:20:46.985438" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020306a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020307> ;
+                               pers:occurence  "sabine"
+                             ] .

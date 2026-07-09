@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per008794>
+        a                pers:person ;
+        rdfs:label       "Peter Imhag"@deu ;
+        pers:births      [ pers:birth         "um 1490" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1500" ;
+                                                                    pers:notBefore  "1480" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death         "03.10.1564" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1564-10-03" ] ] ;
+                           pers:occurence     "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2018-03-12 15:52:25.192989" ;
+                           pers:username  "SG III/4"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008794a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001875> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001875.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008794a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1541" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                         ] ;
+        pers:occupation  [ pers:date          "1541" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1541" ;
+                           pers:description   "key000824" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                           pers:occurence     "SG III/4" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001875> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16736" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

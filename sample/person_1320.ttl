@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per001726>
+        a                    pers:person ;
+        rdfs:label           "Johann Kaspar"@deu ;
+        pers:first_mentions  [ pers:first_mention  "nach 1518" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore
+                                                           "1518" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001726a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "129c" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "431"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000766> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000766> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per003002>
+        a                    pers:person ;
+        rdfs:label           "Ambros Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1695" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1695" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ambros" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003002a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "345" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "1162"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

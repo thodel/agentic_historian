@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per012431>
+        a                               pers:person ;
+        rdfs:label                      "Jean Morel"@fra ;
+        pers:deaths                     [ pers:death      "av. 1457" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011218> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-08 15:01:23.051495" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Johannes" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004775.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012431a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Johannes" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012431a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004775> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Jean" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012431a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004775> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Johannes" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004775.03> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012431a.02>
+                                        ] ;
+        pers:occupation                 [ pers:date         "24.10.1461, 30.10.1461" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004775> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Modestin 1999, p. 356–357" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007662> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018901>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Notstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1337" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-19 08:51:20.330021" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018901a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006115> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1339" ;
+                               pers:description  "key003661" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc012914> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1337" ;
+                               pers:description  "key003661" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006115> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

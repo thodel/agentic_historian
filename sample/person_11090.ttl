@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per011959>
+        a                    pers:person ;
+        rdfs:label           "Hänsli Kost"@deu ;
+        pers:deaths          [ pers:death      "vor 23.05.1515" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024515> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "22.04.1473" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-26 15:01:11.935209" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011959a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004587> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004587> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001483> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

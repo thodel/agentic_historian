@@ -1,0 +1,77 @@
+<http://ssrq-sds-fds.ch/Register/#per008186>
+        a                pers:person ;
+        rdfs:label       "Franz Anton Wyrsch"@deu ;
+        pers:births      [ pers:birth         "07.05.1737" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1737-05-07" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "05.02.1814" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1814-02-05" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-06 15:22:39.604766" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Frantz Anton" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "315" ;
+                                                               pers:line     "1" ;
+                                                               pers:page     "1354"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "297c" ;
+                                                               pers:line     "37" ;
+                                                               pers:page     "1288"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000849.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008186a.02>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "289" ;
+                                                               pers:line     "33" ;
+                                                               pers:page     "1260"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000849.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008186a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008186a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000849> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1782, 1783" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ;
+                                     pers:format_date  [ pers:when  "1783" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1782, 1783" ;
+                           pers:description   "key000427" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ;
+                                     pers:format_date  [ pers:when  "1783" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:occupation  [ pers:date          "1782, 1783" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ;
+                                     pers:format_date  [ pers:when  "1783" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000849> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "5210" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: Die rheintalische Landvogtszeit im HLS (1781–1782) ist falsch. Sie dauerte von 1782 bis 1784." ;
+        pers:sex         "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004252>
+        a                    pers:person ;
+        rdfs:label           "Christina Stäubli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1579" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:15:43.842194" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Christina" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004252a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001717> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cristina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "115b" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "417"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001717.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004252a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Margi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "115a" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "415"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001717.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004252a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1579" ;
+                               pers:description   "key003741" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1579" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001717> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

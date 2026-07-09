@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per027422>
+        a                    pers:person ;
+        rdfs:label           "Hans Huser"@deu ;
+        pers:deaths          [ pers:death      "24.02.1550" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1487" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-12 07:17:17.833575" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002890.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027422a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hansen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002890.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027422a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027422a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002890> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1523-1549" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000849> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002890> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "018162" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "1089376820" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:page   "IV, S. 92, Nr. 2" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:refs            [ pers:title  "Ziegler 1919, Nr. 41" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007620>
+        a                    pers:person ;
+        rdfs:label           "Konrad Mösli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1680" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1680" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-09 11:52:02.341697" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007620a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002831> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Conrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "226" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "1031"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002831.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007620a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1680" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1680" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005988> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002831> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

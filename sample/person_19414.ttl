@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per020646>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Wollebe"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1317" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-01 12:18:57.081416" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020646a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007651> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org007643>
+                             ] ;
+        pers:occupation      [ pers:date         "1317" ;
+                               pers:description  "key004860" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010685> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007651> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010685> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

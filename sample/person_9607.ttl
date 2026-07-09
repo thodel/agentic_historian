@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per010370>
+        a                    pers:person ;
+        rdfs:label           "Jakob Bart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1408" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-31 13:25:27.649109" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1431" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Jakob" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010370a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003839> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1408-1431" ;
+                               pers:description  "key000170" ;
+                               pers:occurence    "stadtasg" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003843>
+                             ] ;
+        pers:occupation      [ pers:date         "1431" ;
+                               pers:description  "key000562" ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003839> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:title  "Maurer, Helmut: Das Stift St. Stephan in Konstanz, Berlin / New York, Walter de Gruyter, 1981 (Germania Sacra, NF 15: Die Bistümer der Kirchenprovinz Mainz, Das Bistum Konstanz, Bd. 1), S. 333. https://rep.adw-goe.de/handle/11858/00-001S-0000-0003-16E5-0" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://germania-sacra-datenbank.uni-goettingen.de/index/gsn/023-01769-001"
+                             ] ;
+        pers:sex             "1" .

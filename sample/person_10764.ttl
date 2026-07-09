@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per011607>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Gachet"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011508> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1420" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-03 10:11:16.820809" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:last_mentions              [ pers:last_mention  "1449" ;
+                                          pers:occurence     "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011607a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004038> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011607a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004038> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004038.04> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011607a.01>
+                                        ] ;
+        pers:occupation                 [ pers:date         "03.11.1449" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004038> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Wirz 1997, p. 175 et 211" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:refs                       [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 115" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:remark                     "Pierre Gachet est interrogé lors de l’enquête menée suite à la révolte de la commune de Payerne face à son prieuré en 1420. Voir Wirz 1997, p. 175 et 211." ;
+        pers:sex                        "1" .

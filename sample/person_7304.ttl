@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007982>
+        a                pers:person ;
+        rdfs:label       "Franz Michael Xaver Reichmuth"@deu ;
+        pers:births      [ pers:birth         "09.12.1707" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1707-12-09" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "15.07.1756" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1756-07-15" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-29 14:39:04.744972" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Franz Michael Xaver" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007982a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000776> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Franz Michel Xaverius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "270" ;
+                                                               pers:line     "25" ;
+                                                               pers:page     "1197"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007982a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1740" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1740" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                         ] ;
+        pers:occupation  [ pers:date          "1740" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1740" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000776> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19030" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

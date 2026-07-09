@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per005007>
+        a                    pers:person ;
+        rdfs:label           "Hans Büchel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1394" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1394" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-04 17:44:42.676647" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005007a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1f" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "4"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001986> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1394" ;
+                               pers:description   "key004139" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1394" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001986> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "XIII, Nachtrag, Nr. 6682a" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006348> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005005> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005006> ;
+                               pers:occurence  "SG III/3"
+                             ] .

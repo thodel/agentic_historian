@@ -1,0 +1,68 @@
+<http://ssrq-sds-fds.ch/Register/#per006898>
+        a                    pers:person ;
+        rdfs:label           "Melchior von Flüe"@deu ;
+        pers:deaths          [ pers:death         "1608" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1608" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-29 18:28:19.222750" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Melchior" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "154b" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "675"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000884.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006898a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006898a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "154c" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "677"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000884> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1594, 1595" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ;
+                                         pers:format_date  [ pers:when  "1595" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1594" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001213>
+                             ] ;
+        pers:occupation      [ pers:date          "1594, 1595" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ;
+                                         pers:format_date  [ pers:when  "1595" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000884> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "45114" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

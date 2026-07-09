@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008933>
+        a                    pers:person ;
+        rdfs:label           "NN Lorenz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-05 15:09:39.861999" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008933a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001001> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key004827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001001> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1531" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006035> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

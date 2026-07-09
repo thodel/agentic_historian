@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per015469>
+        a                pers:person ;
+        rdfs:label       "Peter Simmler"@deu ;
+        pers:births      [ pers:birth      "1486" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1534" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-06 10:18:13.730981" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006210.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015469a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Hans Peter" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015469a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006210> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000468> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006210> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

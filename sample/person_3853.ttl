@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per004339>
+        a                    pers:person ;
+        rdfs:label           "Hans Burrach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1543" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:33:32.548183" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001413.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004339a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004339a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "andreas" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001413> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1543" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:occupation      [ pers:description  "key000636" ;
+                               pers:occurence    "andreas"
+                             ] ;
+        pers:occupation      [ pers:date          "1543" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002652>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001413> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "II, S. 436" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:remark          "E_1601.05.21 Säckelmeister Obwalden; Fam. im HBLS unter «Burch (Burrach)»; in Omlin, Landammänner, ist Hans nicht enthalten" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "andreas"
+                             ] ;
+        pers:sex             "1" .

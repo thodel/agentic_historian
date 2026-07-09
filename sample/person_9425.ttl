@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010181>
+        a                    pers:person ;
+        rdfs:label           "NN Favre"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1661" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-23 11:38:32.665878" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010181a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003131> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003131> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007792> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010180> ;
+                               pers:occurence  "NE 3"
+                             ] .

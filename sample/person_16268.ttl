@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per017390>
+        a                    pers:person ;
+        rdfs:label           "Valentin Gartmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1551" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-25 08:52:21.099832" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1557" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Valentin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017390a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000902> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Vallatin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000902.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017390a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1551" ;
+                               pers:description  "key003587" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:date         "1557" ;
+                               pers:description  "key000224" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000902> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

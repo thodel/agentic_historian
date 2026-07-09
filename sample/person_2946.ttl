@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per003389>
+        a                    pers:person ;
+        rdfs:label           "Thomas im Bach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-01 10:17:43.380385" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Toman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "118"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001318.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003389a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Germans" ;
+                                                 pers:occurence  "LU II/3"
+                                               ] ;
+                               pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003389a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001318> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Thoman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43b" ;
+                                                                   pers:line     "27" ;
+                                                                   pers:page     "119"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "53" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "150"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001318.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003389a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001318> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003390> ;
+                               pers:occurence  "LU II/3"
+                             ] .

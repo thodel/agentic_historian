@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per014449>
+        a                    pers:person ;
+        rdfs:label           "Hartmann Salzmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1403" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-03 17:30:10.256962" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1404" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hartmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014449a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002047> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Salzmann" ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:forename   "Hartmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014449b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008864> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005895>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002047> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

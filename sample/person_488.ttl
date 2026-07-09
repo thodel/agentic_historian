@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per000576>
+        a                    pers:person ;
+        rdfs:label           "Walter Suter"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:deaths          [ pers:death         "vor 1487" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1487" ;
+                                                                        pers:notBefore  "1437" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1474" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1474" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Walter" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000576a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "83" ;
+                                                                         pers:line     "39" ;
+                                                                         pers:page     "283"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "41c" ;
+                                                                         pers:line     "26" ;
+                                                                         pers:page     "91"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000273> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Welti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000273.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000576a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Weͣlti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000273.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000576a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000273> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per026804>
+        a                    pers:person ;
+        rdfs:label           "Albrecht von Bussnang"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1150" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-27 16:20:37.893522" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1180" ;
+                               pers:occurence     "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Albertus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001967.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026804a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Albertus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026804a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001967> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Albrecht" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026804a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001967> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000078" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001967> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "GHS 4, 53-54, Nr. 1" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:page   "II, S. 460, Nr. 1" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per008561>
+        a                    pers:person ;
+        rdfs:label           "NN von Flüe"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1770" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1770" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-19 15:23:07.347829" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008561a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "274e" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "1218"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000884> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000884> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

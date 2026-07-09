@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per005926>
+        a                    pers:person ;
+        rdfs:label           "Hansjörg Kaufmann"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1750" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1750" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 15:22:53.376781" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Jerg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95a" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "345"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001664.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005926a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Hansjörg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005926a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001664> ;
+                               pers:rolenames         [ pers:occurence  "SG III/3" ;
+                                                        pers:rolename   "Meister/maître"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1750" ;
+                               pers:description   "key000966" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1750" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001664> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006943> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005927> ;
+                               pers:occurence  "SG III/3"
+                             ] .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per012670>
+        a                pers:person ;
+        rdfs:label       "Jakob Ruf"@deu ;
+        pers:births      [ pers:birth      "um 1505" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "20.02.1558" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 11:08:41.433741" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "aus Konstanz" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012670a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000683> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1532-" ;
+                           pers:description  "key005548" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000683> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14609" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118791516" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:date       "1532-" ;
+                           pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

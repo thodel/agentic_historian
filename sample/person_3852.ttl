@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per004333>
+        a                    pers:person ;
+        rdfs:label           "Werner von Brandis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1357" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:33:06.469809" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004333a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "16" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "46"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000217> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1357-1390" ;
+                               pers:description   "key003314" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1357" ;
+                                                                        pers:to    "1390"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001748>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000217> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

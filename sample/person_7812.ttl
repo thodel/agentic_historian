@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008500>
+        a                    pers:person ;
+        rdfs:label           "Samuel Pfeiffer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-21 10:02:40.440888" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Samuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328i" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "1408"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002523.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008500a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008500a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002523> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1796/97" ;
+                               pers:description   "key003679" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1796" ;
+                                                                        pers:to    "1797"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002523> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per020303>
+        a                    pers:person ;
+        rdfs:label           "Walter von Elsass"@deu ;
+        pers:deaths          [ pers:death      "spätestens 1376" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1364" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-25 09:09:52.841414" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1376" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1367" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020303a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007557> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1364, 1367" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000857> ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005371>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007557> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028414> ;
+                               pers:occurence  "sabine"
+                             ] .

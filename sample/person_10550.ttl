@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per011384>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Quibolaz"@fra ;
+        pers:citizenOf                  [ pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003287>
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1448" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2021-02-05 09:51:14.464917" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:last_mentions              [ pers:last_mention  "1458" ;
+                                          pers:occurence     "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011384a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004315> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011384a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004315> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004315.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011384a.01>
+                                        ] ;
+        pers:neighbourOf                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011597> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:occupation                 [ pers:date         "13.04.1448" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004315> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 55, 160" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:remark                     "Pierre Quibolaz est attesté dans une reconnaissance de 1458. Il survit donnc à la dénonciation proférée contre lui par Pierre Chavaz (ACV, Ac 29, p. 62)." ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008005> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

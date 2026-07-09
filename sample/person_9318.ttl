@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per010066>
+        a                    pers:person ;
+        rdfs:label           "Heintz Lary"@deu ;
+        pers:deaths          [ pers:death      "1514" ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1488" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 09:00:50.376675" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Heintz" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002589.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010066a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heintz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010066a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002589> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1502-1514" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002589> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 455-456" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

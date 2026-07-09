@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002733>
+        a                    pers:person ;
+        rdfs:label           "Jakob Broder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1710" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1710" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002733a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "283" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "1001"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000453> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1710, 1712, 1713, 1714, 1715, 1716" ;
+                               pers:description   "key000515" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1714" ] ;
+                                         pers:format_date  [ pers:when  "1712" ] ;
+                                         pers:format_date  [ pers:when  "1713" ] ;
+                                         pers:format_date  [ pers:when  "1710" ] ;
+                                         pers:format_date  [ pers:when  "1715" ] ;
+                                         pers:format_date  [ pers:when  "1716" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1710, 1712, 1713, 1714, 1715, 1716" ;
+                               pers:description   "key000515" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1715" ] ;
+                                         pers:format_date  [ pers:when  "1714" ] ;
+                                         pers:format_date  [ pers:when  "1713" ] ;
+                                         pers:format_date  [ pers:when  "1716" ] ;
+                                         pers:format_date  [ pers:when  "1712" ] ;
+                                         pers:format_date  [ pers:when  "1710" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000453> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000158> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

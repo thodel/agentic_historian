@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per001748>
+        a                    pers:person ;
+        rdfs:label           "Johann Merz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1521" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1521" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001748a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "132" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "438"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000773> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000773.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001748a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1521" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1521" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:date          "1521" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1521" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000773> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

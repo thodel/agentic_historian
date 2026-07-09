@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per002931>
+        a                    pers:person ;
+        rdfs:label           "Jöri Jäger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1743" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1743" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1766" ] ] ;
+                               pers:last_mention  "1766" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jeri" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002931a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jöri" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002931a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Jöri" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002931a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "333" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "1115"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001033> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003498" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1756-1766" ;
+                               pers:description   "key000123" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1756" ;
+                                                                        pers:to    "1766"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007736> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000037> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

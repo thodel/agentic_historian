@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per012973>
+        a                    pers:person ;
+        rdfs:label           "Pierre de Granges"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-30 15:50:48.341847" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012973a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005296> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005296.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012973a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Petrus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012973a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005296> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "05.11.1489" ;
+                               pers:description  "key005165" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005296> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Pfister 1997, p. 293" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011138> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" ;
+        pers:sexPartnerOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011509> ;
+                               pers:occurence  "gortega"
+                             ] .

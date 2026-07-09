@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per000400>
+        a                    pers:person ;
+        rdfs:label           "Peter Gugg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1476" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1476" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                               pers:last_mention  "1490" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000400a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "104" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "349"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "28" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "50"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000181> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1476" ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000063> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000181> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

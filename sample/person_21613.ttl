@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per022908>
+        a                    pers:person ;
+        rdfs:label           "Benedikt Dolf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-03 16:13:38.709278" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Benedikt" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022908a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008201> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Banadecht" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008201.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022908a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008201> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011022> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

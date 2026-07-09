@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per026843>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Winterthur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1180" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 16:36:10.159627" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolfus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026843a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008879> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Rǒdolfus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008879.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026843a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026843a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008879> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000078" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008879> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008882> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per015051>
+        a                pers:person ;
+        rdfs:label       "Georg Müller"@deu ;
+        pers:births      [ pers:birth      "20.04.1504" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "22.11.1567" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 09:00:09.989601" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Georg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015051a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Joͤrg" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.14> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015051a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1532-1556" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1532-1556" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:occupation  [ pers:date         "1533-1554" ;
+                           pers:description  "key000265" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1557-1567" ;
+                           pers:description  "key000133" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002406>
+                         ] ;
+        pers:occupation  [ pers:description  "key005684" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "018095" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "143657992" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

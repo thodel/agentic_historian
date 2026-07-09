@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per000140>
+        a                    pers:person ;
+        rdfs:label           "Gunthelm von Schwarzenhorn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1299" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1299" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Gunthelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000140a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "8" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "11"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000096> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000096> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

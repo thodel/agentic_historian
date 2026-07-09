@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per012607>
+        a                    pers:person ;
+        rdfs:label           "Guillaume Trochon"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1461" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-08 15:50:15.182482" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Guillelmus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005037.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012607a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Guillelmus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012607a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005037> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012607a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005037> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "10.1461" ;
+                               pers:description  "key005588" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005037> ;
+        pers:project         "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012368> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs            [ pers:title  "Modestin 1999, p. 369" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

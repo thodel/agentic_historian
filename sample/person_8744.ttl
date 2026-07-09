@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per009483>
+        a                pers:person ;
+        rdfs:label       "Jost Freitag"@deu ;
+        pers:deaths      [ pers:death         "05.08.1562" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1562-08-05" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-17 15:18:37.645060" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "Joßt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000258.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009483a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000258.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009483a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jost" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009483a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000258> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1555" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date          "1555" ;
+                           pers:description   "key003719" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:occupation  [ pers:date          "1553" ;
+                           pers:description   "key005669" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date          "1553, 1555" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002638>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000258> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III, S. 316" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

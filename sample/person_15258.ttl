@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per016340>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Décimator"@fra ;
+        pers:deaths                     [ pers:death      "av. 02.1484" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016293> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-04-22 10:39:18.195098" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006513.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016340a.01>
+                                        ] ;
+        pers:name                       [ pers:addnames   [ pers:addname    "le petit" ;
+                                                            pers:occurence  "gortega"
+                                                          ] ;
+                                          pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016340a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006513> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:addnames   [ pers:addname    "pravus" ;
+                                                            pers:occurence  "gortega"
+                                                          ] ;
+                                          pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016340a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006513> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "26.02.1484" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org006513> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Maier 1996, p. 134" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008152> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

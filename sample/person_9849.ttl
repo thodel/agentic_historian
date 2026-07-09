@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010622>
+        a                    pers:person ;
+        rdfs:label           "Blaise Bonhôte"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1581" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-10 17:20:58.752602" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Blaise" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003180.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010622a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Blaise" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010622a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003180> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000275" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003180> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007879> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

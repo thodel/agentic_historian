@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002606>
+        a                    pers:person ;
+        rdfs:label           "Peter Bless"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1669" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1669" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000645.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002606a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002606a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "258" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "932"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000645> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000645> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

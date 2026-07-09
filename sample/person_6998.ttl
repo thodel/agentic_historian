@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007664>
+        a                pers:person ;
+        rdfs:label       "Heinrich Escher"@deu ;
+        pers:births      [ pers:birth         "26.07.1626" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1626-07-26" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "20.04.1710" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1710-04-20" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-11 14:34:56.115838" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "vom Glas" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007664a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "238" ;
+                                                              pers:line     "17" ;
+                                                              pers:page     "1060"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1692" ;
+                           pers:description   "key000133" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:occupation  [ pers:date          "1692" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18056" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

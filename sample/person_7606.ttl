@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008291>
+        a                    pers:person ;
+        rdfs:label           "Joseph Zäch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1793" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1793" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 14:03:33.805081" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008291a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "325a" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "1382"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "325d" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1386"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002238> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1793" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003030>
+                             ] ;
+        pers:occupation      [ pers:date          "1793" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002947>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002238> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006008> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

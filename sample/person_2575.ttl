@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003001>
+        a                    pers:person ;
+        rdfs:label           "Hans Gauer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1603" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1603" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003001a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "345" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "1162"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001122> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001122.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003001a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001122> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000123> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

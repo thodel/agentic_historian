@@ -1,0 +1,45 @@
+## Summary
+
+Implements **P3-2** (issue #247): adds a version-controlled systemd drop-in that enables automatic restart on crash.
+
+## What changed
+
+### `deploy/systemd/agentic-historian.service.d/restart.conf`
+
+```ini
+[Service]
+Restart=always
+RestartSec=2
+```
+
+Placed under `/etc/systemd/system/agentic-historian.service.d/restart.conf` on the server, this drop-in inherits all existing unit settings and adds only restart behaviour. A clean `sys.exit(0)` (P3-3) now triggers a restart instead of a stop, and crash-resilience is restored.
+
+### `agentic_historian/tests/test_ah_247_systemd_restart.py`
+
+5 offline tests (no runtime needed):
+- File exists at expected path
+- `configparser` (strict=False) parses it as a valid systemd unit
+- `Restart=always` is set
+- `RestartSec` is a positive integer
+- Only the `[Service]` section is present
+
+## Live verification (on tei)
+
+```bash
+# Apply the drop-in
+sudo mkdir -p /etc/systemd/system/agentic-historian.service.d
+sudo cp deploy/systemd/agentic-historian.service.d/restart.conf \
+        /etc/systemd/system/agentic-historian.service.d/
+sudo systemctl daemon-reload
+sudo systemctl restart agentic-historian
+
+# Confirm
+systemctl show agentic-historian.service -p Restart   # → Restart=always
+
+# Simulate crash
+sudo systemctl kill agentic-historian.service
+sleep 5
+systemctl status agentic-historian.service   # should show new PID
+```
+
+Closes #247

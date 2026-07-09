@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008797>
+        a                    pers:person ;
+        rdfs:label           "Jakob Wohlwend"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1541" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1541" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-07 08:21:04.224693" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000991.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008797a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008797a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000991> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000991> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1541" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000691> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

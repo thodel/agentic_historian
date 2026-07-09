@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per003027>
+        a                pers:person ;
+        rdfs:label       "Klemens Franz Xaver Damian Weber"@deu ;
+        pers:births      [ pers:birth         "13.02.1745" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1745-02-13" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "14.09.1830" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1830-09-14" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Klemens Franz Xaver Damian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003027a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "350" ;
+                                                              pers:line     "28" ;
+                                                              pers:page     "1171"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000230> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Clemens Xaveri" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000230.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003027a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1777-1779" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1777" ;
+                                                                    pers:to    "1779"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000230> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26820" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

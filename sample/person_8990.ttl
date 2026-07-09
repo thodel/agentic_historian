@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per009732>
+        a              pers:person ;
+        rdfs:label     "Michel Gabet"@fra ;
+        pers:deaths    [ pers:death         "ca. 1540" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1550" ;
+                                                                  pers:notBefore  "1530" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "FR I/2/8"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009733> ;
+                         pers:occurence  "FR I/2/8"
+                       ] ;
+        pers:hist      [ pers:date      "2018-08-06 08:59:25.153617" ;
+                         pers:username  "lionel"
+                       ] ;
+        pers:name      [ pers:forename   "Michel" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per009732a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "FR I/2/8" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003609> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Michiel" ;
+                         pers:lang        "fra" ;
+                         pers:occurence   "FR I/2/8" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003609.01> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009732a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003609> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

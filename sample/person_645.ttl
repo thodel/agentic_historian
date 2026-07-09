@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000734>
+        a                    pers:person ;
+        rdfs:label           "Jo Wender"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1438" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1438" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jo" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000734a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "50" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "132"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000373> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000373> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,22 @@
+<http://ssrq-sds-fds.ch/Register/#per020712>
+        a                    pers:person ;
+        rdfs:label           "NN von Ei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1314" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-01 11:14:17.847190" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020712a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007687> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007687> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "2" .

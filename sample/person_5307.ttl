@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per005885>
+        a                    pers:person ;
+        rdfs:label           "Gregorius Gerung"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1511" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1511" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-18 07:25:58.776156" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Gregorius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005885a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "89" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "322"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001915> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1511" ;
+                               pers:description   "key004816" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1511" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001915> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

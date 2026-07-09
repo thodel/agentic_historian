@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per028333>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Josef Karl Gottrau"@fra , "Heinrich Josef Karl Gottrau"@deu ;
+        pers:deaths          [ pers:death      "06.01.1744" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1709" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-05 13:04:57.449669" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "de Billens" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                               pers:forename   "Heinrich Josef Karl" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028333a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "de Billens" ;
+                                                 pers:occurence  "pascale"
+                                               ] ;
+                               pers:forename   "Heinrich Josef Karl" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028333a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028333a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1731-1736" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007886> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:occupation      [ pers:date         "1709-1744" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Gehört zur Linie Gottrau de Billens." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per008735>
+        a                    pers:person ;
+        rdfs:label           "David Hilty"@deu ;
+        pers:births          [ pers:birth      "1660" ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008734> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:deaths          [ pers:death      "1711" ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 07:45:17.292083" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "David" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000305.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008735a.01>
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008735a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000305> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1697" ;
+                               pers:description  "key000133" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:occupation      [ pers:date          "1706" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1706" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000305> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 66" ;
+                               pers:title  "Heeb-Hilty 1987" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000077518"
+                             ] ;
+        pers:remark          "Sibylle Malamud: David Hilty ist Besitzer der Färberei in Werdenberg, die er 1706 zusamen mit seinem Haus und der Mange seinem Schwager verkauft. Nach den Angaben von Heeb-Hilty 1987, S. 66 soll er in Glarner Gefangenschaft in Folge des Werdenberger Landhandels gestorben sein. Landeshauptmann David Hilty stirbt jedoch bereits 1711 (LAGL AG III.2442:021). Sein Nachfolger wird Johannes Hilty, Neffe von Bürgermeister Hilty. Er ist es, der 1721 in Glarner Gefangenschaft stirbt (Tschirky 2005, S. 86) und nicht David Hilty (so z. B. Thürer 1991, S. 76)." ;
+        pers:sex             "1" .

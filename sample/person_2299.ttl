@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per002695>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Rütiner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1482" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1482" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1502" ] ] ;
+                               pers:last_mention  "1502" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002695a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "276" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "988"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001070> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1482, 1486, 1497, 1498, 1502" ;
+                               pers:description   "key000303" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ;
+                                         pers:format_date  [ pers:when  "1486" ] ;
+                                         pers:format_date  [ pers:when  "1502" ] ;
+                                         pers:format_date  [ pers:when  "1482" ] ;
+                                         pers:format_date  [ pers:when  "1498" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1482, 1486, 1497, 1498, 1502" ;
+                               pers:description   "key000303" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ;
+                                         pers:format_date  [ pers:when  "1502" ] ;
+                                         pers:format_date  [ pers:when  "1497" ] ;
+                                         pers:format_date  [ pers:when  "1498" ] ;
+                                         pers:format_date  [ pers:when  "1482" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001070> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "SSRQ SG III/1" ;
+                               pers:type   "biblio" ;
+                               pers:url    "https://www.ssrq-sds-fds.ch/online/SG_III_1/index.html#p_III"
+                             ] ;
+        pers:sex             "1" .

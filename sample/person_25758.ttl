@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per027143>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Kortelangen"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000439> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1379" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-09 07:59:22.248422" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027143a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008961> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhelmus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008961.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027143a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005689" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008961> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Registrator in der Kanzlei von König Wenzel." ;
+        pers:sex             "1" .

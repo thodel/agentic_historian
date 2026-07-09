@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003247>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Geiss"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1363" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "2a" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "4"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001280.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003247a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003247a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001280> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001280> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per026517>
+        a                pers:person ;
+        rdfs:label       "Hans Conrad Lochmann"@deu ;
+        pers:births      [ pers:birth      "06.03.1737" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "08.03.1815" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-09 08:05:07.310421" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Hans Conrad" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000778.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026517a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Conrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026517a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000778> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Meister/maître"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1778-1798" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1778-1798" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005611>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000778> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18166" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1074360389" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

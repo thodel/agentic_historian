@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per000517>
+        a                    pers:person ;
+        rdfs:label           "Margret Schnetzer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1419" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1419" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Gret" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000261.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000517b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Margret" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000517b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "41a" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "85"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000261> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Greta" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000261.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000517b.02>
+                             ] ;
+        pers:name            [ pers:forename          "Margret" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000517a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "41a" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "85"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000260> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000260> , <http://ssrq-sds-fds.ch/Register/#org000261> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000516> ;
+                               pers:occurence  "SG III/2"
+                             ] .

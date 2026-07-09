@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per010535>
+        a                    pers:person ;
+        rdfs:label           "Martin Dorn"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1436" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-04 16:25:38.411741" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Marti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003918.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010535a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010535a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003918> ;
+                               pers:rolenames  [ pers:occurence  "stadtasg" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1436" ;
+                               pers:description  "key000181" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000486> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003918> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

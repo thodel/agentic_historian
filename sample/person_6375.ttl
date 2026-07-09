@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per007005>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Künzler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-03 16:48:39.329041" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007005a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002012> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "162b" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "721"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002012.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007005a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1598" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006329> ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002640>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002012> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: geografische Zuordnung gemäss Folgerung aus HLS-Artikel ’Walzenhausen’" ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004099>
+        a                    pers:person ;
+        rdfs:label           "Andreas Zunhofen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:44:11.580971" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Andris" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001637.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004099a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004099a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001637> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1513" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1513" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001637> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Vgl. Omliin, Landammänner, S. 100: wenn Angaben stimmen, wäre er 1513 nicht amtierend gewesen." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

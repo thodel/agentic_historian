@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006889>
+        a                    pers:person ;
+        rdfs:label           "Moritz Schachtler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 07:53:50.555025" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Moritz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006889a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "153" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "665"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002130> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002130> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

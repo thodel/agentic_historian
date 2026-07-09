@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004158>
+        a                    pers:person ;
+        rdfs:label           "Hans Süess"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1679" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1679" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-17 14:54:59.530469" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004158a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "131" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "471"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "96" ;
+                                                                  pers:line     "48" ;
+                                                                  pers:page     "348"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001468> ;
+                               pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001468> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005871> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

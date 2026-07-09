@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per001009>
+        a                    pers:person ;
+        rdfs:label           "Peter Kolb"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1477" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1477" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001009a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "88" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "302"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000534> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000534> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

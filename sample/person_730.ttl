@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per000805>
+        a                    pers:person ;
+        rdfs:label           "Peter Heini"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1468" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1468" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000423.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000805a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Peter" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000805a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "56b" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "182"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000423> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003498" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000423> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000804> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000808> ;
+                               pers:occurence  "SG III/2"
+                             ] .

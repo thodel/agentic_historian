@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000391>
+        a                    pers:person ;
+        rdfs:label           "Hans Sümri"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1394" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1394" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000174.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000391a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000391a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "27" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "47"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000174> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003498" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000174> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000392> ;
+                               pers:occurence  "SG III/2"
+                             ] .

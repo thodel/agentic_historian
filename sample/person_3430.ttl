@@ -1,0 +1,73 @@
+<http://ssrq-sds-fds.ch/Register/#per003896>
+        a                    pers:person ;
+        rdfs:label           "Hans Wespi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:20:07.923660" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003896a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001553> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "111a" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "401"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001553.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003896a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "120a" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "431"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001553.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003896a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hanss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "117b" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "420"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001553.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003896a.03>
+                             ] ;
+        pers:occupation      [ pers:description  "key000356" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1575, 1584" ;
+                               pers:description   "key000827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ;
+                                         pers:format_date  [ pers:when  "1584" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1575, 1584" ;
+                               pers:description   "key000827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ;
+                                         pers:format_date  [ pers:when  "1584" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001553> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

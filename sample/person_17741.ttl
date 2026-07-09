@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per018923>
+        a                    pers:person ;
+        rdfs:label           "Anna von Wartenfels"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1337" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-09 13:36:50.382877" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018923a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "sabine"
+                                                      ] ;
+                               pers:occurence         "sabine" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004021> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018923b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "sabine"
+                                                      ] ;
+                               pers:occurence         "sabine" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org007193> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004021> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018924> ;
+                               pers:occurence  "sabine"
+                             ] .

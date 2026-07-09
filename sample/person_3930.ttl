@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per004417>
+        a                    pers:person ;
+        rdfs:label           "Walter Buchser"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004418> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1397" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1397" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-09-27 15:56:42.880204" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004417a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001779> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Waͤlti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001779.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004417a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001779> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

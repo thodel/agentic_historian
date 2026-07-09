@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per001598>
+        a                pers:person ;
+        rdfs:label       "Carl Georg Jakob Sailer"@deu ;
+        pers:births      [ pers:birth         "10.03.1817" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1817-03-10" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "03.10.1870" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1870-10-03" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-11-20 18:20:48.345626" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "C." ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000719.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001598a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Carl Georg Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001598a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "119" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "401"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000719> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1859" ;
+                           pers:description   "key004893" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1859" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002793>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000719> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "http://www.wilnet.ch/Default.aspx?Command=PrdtDetail&prdtName=c12ee9bd-1730-4678-b640-b8ee81b8c6b6"
+                         ] ;
+        pers:refs        [ pers:id    "4013" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

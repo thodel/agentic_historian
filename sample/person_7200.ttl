@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per007875>
+        a                pers:person ;
+        rdfs:label       "Ulrich Franz Joseph Segesser von Brunegg"@deu ;
+        pers:births      [ pers:birth         "21.11.1698" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1698-11-21" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "08.12.1767" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767-12-08" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-23 14:27:34.055623" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Ulrich Franz Joseph" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "267b" ;
+                                                               pers:line     "11" ;
+                                                               pers:page     "1179"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000962.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007875a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Brunegg" ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:forename   "Ulrich Franz Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007875a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000962> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1734" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1734" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1734" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1734" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000962> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14502" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004437>
+        a              pers:person ;
+        rdfs:label     "Ulrich Gamser"@deu ;
+        pers:deaths    [ pers:death         "vor 1400" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1400" ;
+                                                                  pers:notBefore  "1350" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "SG III/4"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004439> ;
+                         pers:occurence  "SG III/4"
+                       ] ;
+        pers:hist      [ pers:date      "2016-10-06 11:37:43.568672" ;
+                         pers:username  "SG III/4"
+                       ] ;
+        pers:name      [ pers:forename    "Uͤli" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "SG III/4" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000501.03> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004437a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Ulrich" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per004437a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "SG III/4" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000501> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000501> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

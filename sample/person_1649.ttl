@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002053>
+        a                    pers:person ;
+        rdfs:label           "Joseph Ulrich Ignaz [von] Sonnenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1751" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1751" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1753" ] ] ;
+                               pers:last_mention  "1753" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Ullrich Ignatzi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000640.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002053a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Ulrich Ignaz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002053a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "322a" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "1086"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "331" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "1111"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000640> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1751-1753" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1751" ;
+                                                                        pers:to    "1753"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1751" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1751" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000640> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per005204>
+        a                    pers:person ;
+        rdfs:label           "Johann Spieler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1459" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1459" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-20 08:05:10.650380" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Pistor" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005204a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "36" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "90"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002073> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1459" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1459" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001064> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002073> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

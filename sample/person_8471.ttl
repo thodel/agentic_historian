@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per009204>
+        a                    pers:person ;
+        rdfs:label           "Laurent de Boccard"@fra ;
+        pers:deaths          [ pers:death         "1619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009253> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009506> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-03 11:44:54.320014" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Lorenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009204a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lor" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003395.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009204a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Laurent" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009204a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1582-1619" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003395> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "II, p. 215" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per002496>
+        a                    pers:person ;
+        rdfs:label           "Jakob Schlegel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1657" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1657" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1673" ] ] ;
+                               pers:last_mention  "1673" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000714.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002496a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002496a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "241b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "886"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "241a" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "885"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000714> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1657, 1673" ;
+                               pers:description   "key003688" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ;
+                                         pers:format_date  [ pers:when  "1673" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000714> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

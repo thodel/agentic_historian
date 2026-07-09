@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per000036>
+        a                    pers:person ;
+        rdfs:label           "Konrad NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1288" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1288" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Chuonrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000036a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000036a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "21a" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "38"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "2"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000025> ;
+                               pers:occurence  "SG III/2"
+                             ] .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per002739>
+        a                    pers:person ;
+        rdfs:label           "NN Giger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1715" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1715" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002739a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "283" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "1003"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000518> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1715" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1715" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002937>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000518> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000158> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

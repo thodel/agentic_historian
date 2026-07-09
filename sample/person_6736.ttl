@@ -1,0 +1,84 @@
+<http://ssrq-sds-fds.ch/Register/#per007388>
+        a                pers:person ;
+        rdfs:label       "Konrad Meyer"@deu ;
+        pers:births      [ pers:birth         "11.05.1604" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1604-05-11" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "vor 1671" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1671" ;
+                                                                    pers:notBefore  "1621" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-07 09:49:59.587642" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Cûnradt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "196" ;
+                                                               pers:line     "42" ;
+                                                               pers:page     "878"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007388a.03>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "196" ;
+                                                               pers:line     "1" ;
+                                                               pers:page     "877"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007388a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007388a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001539> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Conradt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "196" ;
+                                                               pers:line     "12" ;
+                                                               pers:page     "876"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007388a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1649" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1649" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002381>
+                         ] ;
+        pers:occupation  [ pers:date          "1649" ;
+                           pers:description   "key000320" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1649" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002174>
+                         ] ;
+        pers:occupation  [ pers:date          "1649" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1649" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001539> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15113" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

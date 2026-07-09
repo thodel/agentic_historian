@@ -1,0 +1,83 @@
+<http://ssrq-sds-fds.ch/Register/#per007155>
+        a                pers:person ;
+        rdfs:label       "Johannes Schiess"@deu ;
+        pers:births      [ pers:birth         "um 1562" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1572" ;
+                                                                    pers:notBefore  "1552" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "um 1630" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1640" ;
+                                                                    pers:notBefore  "1620" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-07-24 15:38:22.411658" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007155a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002700> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                               pers:line     "19" ;
+                                                               pers:page     "798"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002700.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007155a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Hanns" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                               pers:line     "27" ;
+                                                               pers:page     "800"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002700.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007155a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Johann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                               pers:line     "4" ;
+                                                               pers:page     "800"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002700.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007155a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1611, 1612" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1612" ] ;
+                                     pers:format_date  [ pers:when  "1611" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                         ] ;
+        pers:occupation  [ pers:date          "1611, 1612" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ;
+                                     pers:format_date  [ pers:when  "1612" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002700> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15119" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

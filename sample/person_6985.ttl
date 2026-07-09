@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per007649>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Lutz"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007648> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1686" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1686" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-10 14:38:05.482277" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007649a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "234" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1052"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000771> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000771> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006318> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

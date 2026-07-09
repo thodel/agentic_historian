@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008248>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Schmitter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-13 11:07:13.374821" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "312" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "1343"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002229.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008248a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008248a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002229> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1779" ;
+                               pers:description   "key003625" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:occupation      [ pers:date          "1779" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002229> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

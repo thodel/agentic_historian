@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per019721>
+        a                    pers:person ;
+        rdfs:label           "Giovanni del Piceno"@ita , "Johannes del Piceno"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1493" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-17 12:06:15.471381" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Giovanni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019721a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007409> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johanne" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007409.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019721a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019721a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007409> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1493" ;
+                               pers:description  "key000275" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007409> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009721> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

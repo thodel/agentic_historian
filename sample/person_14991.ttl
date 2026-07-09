@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per016060>
+        a                       pers:person ;
+        rdfs:label              "Etienne Ginod"@fra ;
+        pers:first_mentions     [ pers:first_mention  "1482" ;
+                                  pers:occurence      "gortega"
+                                ] ;
+        pers:hist               [ pers:date      "2020-04-28 08:57:53.187575" ;
+                                  pers:username  "gortega"
+                                ] ;
+        pers:judgeAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016030> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:name               [ pers:forename    "Stephanus" ;
+                                  pers:lang        "lat" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004832.02> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016060a.01>
+                                ] ;
+        pers:name               [ pers:forename          "Stephanus" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per016060a> ;
+                                  pers:lang              "lat" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004832> ;
+                                  pers:rolenames         [ pers:occurence  "gortega" ;
+                                                           pers:rolename   "Bruder/frère"
+                                                         ] ;
+                                  pers:type              "std"
+                                ] ;
+        pers:name               [ pers:forename          "Etienne" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per016060a> ;
+                                  pers:lang              "fra" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004832> ;
+                                  pers:rolenames         [ pers:occurence  "gortega" ;
+                                                           pers:rolename   "Bruder/frère"
+                                                         ] ;
+                                  pers:type              "std"
+                                ] ;
+        pers:occupation         [ pers:date         "20.04.1482" ;
+                                  pers:description  "key005586" ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:org_id             <http://ssrq-sds-fds.ch/Register/#org004832> ;
+        pers:project            "SSRQ" ;
+        pers:refs               [ pers:title  "Maier 1996, p. 406" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:sex                "1" .

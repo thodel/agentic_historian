@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003406>
+        a                    pers:person ;
+        rdfs:label           "Elsa zum Witt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-02 10:11:22.125356" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Elsa" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003406a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         "LU II/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001359> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Elsa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "117"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001359.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003406a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001359> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

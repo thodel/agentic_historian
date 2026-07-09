@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006361>
+        a                    pers:person ;
+        rdfs:label           "Stefan Büchel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1675" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1675" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 18:26:05.454914" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Stefan" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006361a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001986> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Steffen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128a" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "517"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001986.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006361a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1675" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1675" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002953>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001986> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per009905>
+        a                    pers:person ;
+        rdfs:label           "Verena Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1471" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-09-07 11:55:19.761174" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/4" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003218>
+                             ] ;
+        pers:name            [ pers:forename    "Fren" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009905a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Verena" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009905a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009904> ;
+                               pers:occurence  "SG III/4"
+                             ] .

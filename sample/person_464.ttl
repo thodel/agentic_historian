@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per000509>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Thierstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1438" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1438" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000509a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "52" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "173"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "53" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "174"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000256> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Friderich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000256.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000509a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000256> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

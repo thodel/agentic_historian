@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per011091>
+        a                    pers:person ;
+        rdfs:label           "Hans Rot"@deu ;
+        pers:deaths          [ pers:death      "1452" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-26 15:22:11.042171" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011091a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000307> ;
+                               pers:rolenames  [ pers:occurence  "stadtasg" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000307> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:id    "19271" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "103127194" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000161> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

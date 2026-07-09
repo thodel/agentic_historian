@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per002225>
+        a                    pers:person ;
+        rdfs:label           "Kurt Rupp"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1689" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1689" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Cuort" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000945.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002225a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Cuortt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000945.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002225a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Kurt" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002225a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "196e" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "714"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000945> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1689" ;
+                               pers:description   "key000226" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1689" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001171>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000945> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000034> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

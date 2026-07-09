@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007630>
+        a                    pers:person ;
+        rdfs:label           "Hermann Flügel"@deu ;
+        pers:engagedTo       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007629> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1694" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1694" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-18 13:10:57.329749" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hermann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007630a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002834> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Herman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "228" ;
+                                                                   pers:line     "44" ;
+                                                                   pers:page     "1036"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002834.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007630a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002834> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006787> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

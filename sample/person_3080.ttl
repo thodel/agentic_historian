@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003528>
+        a                pers:person ;
+        rdfs:label       "Peter von Moos"@deu ;
+        pers:deaths      [ pers:death         "1421" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1421" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-07-09 12:20:11.920244" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003528a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000284> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peterman" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "23" ;
+                                                               pers:line     "30" ;
+                                                               pers:page     "63"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000284.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003528a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1416" ;
+                           pers:description   "key003712" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1416" ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000284> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

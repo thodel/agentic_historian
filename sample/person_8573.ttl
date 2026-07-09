@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009309>
+        a                    pers:person ;
+        rdfs:label           "André Jaccoud"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1626" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1626" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-04 06:55:24.494178" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "André" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009309a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003449> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Andrey" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003449.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009309a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003449> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007608> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009308> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

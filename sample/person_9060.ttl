@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per009805>
+        a                    pers:person ;
+        rdfs:label           "Claudo Ribotel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-15 09:42:30.041403" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Claudo" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009805a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003643> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claudo" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003643.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009805a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003643> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007600> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009803> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

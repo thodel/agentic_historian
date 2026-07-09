@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008584>
+        a                    pers:person ;
+        rdfs:label           "Anna Zaugg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-11 09:37:07.145187" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008584a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003083> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003083> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1486" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006121> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008583> ;
+                               pers:occurence  "SG III/4"
+                             ] .

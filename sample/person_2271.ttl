@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per002665>
+        a                    pers:person ;
+        rdfs:label           "Adam Wildhaber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1677" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1677" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1682" ] ] ;
+                               pers:last_mention  "1682" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Adam" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000750.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002665a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Adam" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002665a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "264" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "960"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "265" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "961"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000750> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1682" ;
+                               pers:description   "key000356" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1682" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1677, 1682" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1682" ] ;
+                                         pers:format_date  [ pers:when  "1677" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000750> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

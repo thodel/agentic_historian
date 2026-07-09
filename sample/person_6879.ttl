@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per007542>
+        a                    pers:person ;
+        rdfs:label           "Hug von Watt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1667" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1667" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-04 11:31:32.453701" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hug" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007542a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "214" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "987"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001980> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001980> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

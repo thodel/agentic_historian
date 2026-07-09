@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per019358>
+        a                pers:person ;
+        rdfs:label       "Johannes Ambundii"@deu ;
+        pers:births      [ pers:birth      "1365" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "1424" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-25 13:24:47.914977" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Johanns" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019358b.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019358a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007295> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:gennames   [ pers:genname    "III." ;
+                                             pers:occurence  "GR B III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019358b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1416–1418" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000053>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org007295> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "13412474X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "http://personendatenbank.germania-sacra.de/index/gsn/059-00072-001"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:sex         "1" .

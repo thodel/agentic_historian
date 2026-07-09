@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per008556>
+        a                    pers:person ;
+        rdfs:label           "Peter NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1323" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1323" ] ] ;
+                               pers:occurence      "lukas"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-17 09:13:46.023888" ;
+                               pers:username  "lukas"
+                             ] ;
+        pers:name            [ pers:forename          "Peter" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008556a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003654" ;
+                               pers:occurence    "lukas"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008761>
+        a                    pers:person ;
+        rdfs:label           "David François Vuagneux"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1801" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1801" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-02 21:40:04.329172" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "David François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008761a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003110> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003110> ;
+        pers:origin          [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007795> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1801" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1801" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007815> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

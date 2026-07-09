@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per002780>
+        a                pers:person ;
+        rdfs:label       "Hieronymus Thormann"@deu ;
+        pers:births      [ pers:birth         "17.12.1658" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1658-12-17" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "01.02.1733" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1733-02-01" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-06-20 17:43:22.694819" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Hieronimus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "147" ;
+                                                               pers:line     "17" ;
+                                                               pers:page     "632"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000621.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002780a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hieronymus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002780a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "300" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "1040"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000621> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1711" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1711-1714" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1711" ;
+                                                                    pers:to    "1714"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1711" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000621> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17260" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

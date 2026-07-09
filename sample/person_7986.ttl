@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per008686>
+        a                    pers:person ;
+        rdfs:label           "NN Rognon"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1750" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1750" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-16 21:13:57.643146" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008686a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003136> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1750" ;
+                               pers:description   "key000907" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1750" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003136> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1750" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1750" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

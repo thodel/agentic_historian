@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per011941>
+        a                    pers:person ;
+        rdfs:label           "Hans Wagner"@deu ;
+        pers:citizenOf       [ pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004576>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "01.02.1471" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-15 11:55:47.413699" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011941a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000702> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1471" ;
+                               pers:description  "key004816" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004615>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000702> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

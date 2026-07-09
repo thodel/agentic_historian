@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000714>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Isenhofer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000714a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "116"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000357> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1437" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1437" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001162>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000357> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

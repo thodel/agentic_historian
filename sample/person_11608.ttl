@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per012507>
+        a                    pers:person ;
+        rdfs:label           "Peter von Stoffeln"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1351" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-03 10:32:16.794920" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012507a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001974> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003314" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010718> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1327" ;
+                               pers:description  "key003314" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007712> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001974> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

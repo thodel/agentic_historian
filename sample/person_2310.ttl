@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002707>
+        a                    pers:person ;
+        rdfs:label           "Joseph Anton Pfiffner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "18. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1701" ;
+                                                                         pers:to    "1800"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002707a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "279b" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "994"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000220> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "18. Jh." ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1701" ;
+                                                                        pers:to    "1800"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000630> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000220> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000630> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

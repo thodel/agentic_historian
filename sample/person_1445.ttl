@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per001845>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Töngi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Dietrich genannt" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001845a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "145a" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "509"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000764> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heynrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000764.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001845a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000764> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

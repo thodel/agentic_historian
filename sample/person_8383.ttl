@@ -1,0 +1,58 @@
+<http://ssrq-sds-fds.ch/Register/#per009112>
+        a                    pers:person ;
+        rdfs:label           "Person Thévoz"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-18 14:42:28.122197" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Person" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003352.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009112b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Person" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009112b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003352> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Person" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003351.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009112a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Person" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009112a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003351> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key000945" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003351> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008095> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009111> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

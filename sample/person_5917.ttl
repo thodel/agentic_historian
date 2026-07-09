@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per006519>
+        a                pers:person ;
+        rdfs:label       "Hans Progin"@deu ;
+        pers:births      [ pers:birth         "1584" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1584" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death         "1630" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1630" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-17 09:07:41.682184" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006519a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002508> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1608-1630" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002508> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "V, p. 348" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009254> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

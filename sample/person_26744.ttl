@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per028146>
+        a                pers:person ;
+        rdfs:label       "Karl Simon Odet"@deu ;
+        pers:births      [ pers:birth      "1701" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "04.06.1759" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-15 13:15:55.281760" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003442.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028146a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Karl Simon" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028146a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003442> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1725-1759" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1731-1736" ;
+                           pers:description  "key004837" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003442> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

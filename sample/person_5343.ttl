@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per005917>
+        a                    pers:person ;
+        rdfs:label           "Hans Thurnherr"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1562" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1562" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 07:38:16.117154" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "der Junge" ;
+                                                        pers:occurence  "SG III/3"
+                                                      ] ;
+                               pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per005917a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002232> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "der jung" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95a" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "345"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002232.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005917a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002232> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001402> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003571>
+        a                    pers:person ;
+        rdfs:label           "Buri Ennetegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1398" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1398" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-27 10:41:29.903560" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Buri" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "15" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "45"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001424.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003571a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Buri" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003571a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001424> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001424> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 59" ;
+                               pers:title  "Waser 1996" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://www.bsg.nb.admin.ch/lib/item?id=chamo:76854&theme=BSG"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001504> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per016280>
+        a                pers:person ;
+        rdfs:label       "Wilhelm von Diesbach"@deu ;
+        pers:births      [ pers:birth      "1442" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:deaths      [ pers:death      "28.12.1517" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-21 10:57:29.251431" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Wilhelm" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per016280a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "fahe" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003437> ;
+                           pers:rolenames  [ pers:occurence  "fahe" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1481-1492" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "fahe" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001159>
+                         ] ;
+        pers:occupation  [ pers:date         "1475" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "fahe" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001159>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003437> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "13573746X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "016671" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:sex         "1" .

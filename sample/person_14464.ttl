@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per015512>
+        a                    pers:person ;
+        rdfs:label           "Otto von Mont"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1705" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-24 07:55:56.214148" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Otto" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001063.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015512a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "jun." ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:forename   "Otto" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015512a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001063> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1705" ;
+                               pers:description  "key005671" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key005658" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001063> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per010819>
+        a                    pers:person ;
+        rdfs:label           "Adam Engler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1746" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-12 17:31:22.796910" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Adam" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010819a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1746" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000528> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1746" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000389> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

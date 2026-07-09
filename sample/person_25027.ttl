@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per026390>
+        a                pers:person ;
+        rdfs:label       "Johann Konrad Escher"@deu ;
+        pers:births      [ pers:birth      "1707" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1776" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-30 08:51:50.840042" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "vom Glas" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Johann Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026390a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Conrad" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026390a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1732-1752" ;
+                           pers:description  "key000051" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010140> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

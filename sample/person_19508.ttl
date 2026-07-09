@@ -1,0 +1,22 @@
+<http://ssrq-sds-fds.ch/Register/#per020741>
+        a                    pers:person ;
+        rdfs:label           "Rudolf vom Ofen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1314" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-01 13:41:30.485827" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020741a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007693> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007693> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

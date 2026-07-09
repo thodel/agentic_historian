@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per002182>
+        a                    pers:person ;
+        rdfs:label           "Johann Ulrich Hofmeister"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1795" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1795" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1795" ] ] ;
+                               pers:last_mention  "1795" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000279.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002182a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002182a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "375" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "1229"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000279> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1795-1797" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1795" ;
+                                                                        pers:to    "1797"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000279> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

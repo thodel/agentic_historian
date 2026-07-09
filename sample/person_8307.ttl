@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009033>
+        a                    pers:person ;
+        rdfs:label           "Jonas Petitpierre"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009760> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1674" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1674" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-22 15:53:38.387254" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1682" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jonas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009033a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003121> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jonas" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003121.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009033a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1674" ;
+                               pers:description  "key000103" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007794> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003121> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1682" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1682" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007787> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

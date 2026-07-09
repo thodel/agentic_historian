@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per001469>
+        a                    pers:person ;
+        rdfs:label           "Frick Mentler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1490" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1490" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Frick" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001469a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "104" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "350"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000636> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1490" ;
+                               pers:description   "key000641" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000636> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

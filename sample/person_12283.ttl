@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per013229>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Huber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1364" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:55:39.219179" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1366" ;
+                               pers:occurence     "fahe"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "sabine" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013229a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000309> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1364" ;
+                               pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000309> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per012703>
+        a                         pers:person ;
+        rdfs:label                "Pierre Prodhon"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1469" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-22 07:01:02.705342" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename          "Pierre" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012703a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005176> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005176.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012703a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Petrus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012703a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005176> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "10.12.1469" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "1469" ;
+                                    pers:description  "key000301" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc010256> ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005176> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Utz Tremp dans Ostorero et al. 2007, p. 227" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012687> ;
+                                    pers:occurence  "gortega"
+                                  ] .

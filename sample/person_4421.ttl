@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per004947>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Bussnang"@deu ;
+        pers:deaths          [ pers:death         "20.12.1239" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1239-12-20" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1221" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1221" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-26 17:38:51.881435" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦn" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004947b.01>
+                             ] ;
+        pers:name            [ pers:forename          "Konrad" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004947b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1j" ;
+                                                                         pers:line     "31" ;
+                                                                         pers:page     "6"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Konrad" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004947a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001967> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1226–1239" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1226" ;
+                                                                        pers:to    "1239"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001967> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III/1,2, S. 1299-1301" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:refs            [ pers:id    "12545" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003469>
+        a                    pers:person ;
+        rdfs:label           "Hänsli Stockmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-06 11:45:05.820504" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hänsli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003469a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001379> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hennsli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43b" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "119"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "43a" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "119"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001379.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003469a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001379> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Gericht Trub, Kirchhöre Lauperswil" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001428> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003470> ;
+                               pers:occurence  "LU II/3"
+                             ] .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008815>
+        a                    pers:person ;
+        rdfs:label           "Hans Tischhauser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1581" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1591" ;
+                                                                         pers:notBefore  "1571" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-08 10:11:44.940110" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000733.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008815a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008815a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000733> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000733> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Evtl. identisch mit dem Gesandten Hans Tischhauser (per005882) 1565." ;
+        pers:sex             "1" .

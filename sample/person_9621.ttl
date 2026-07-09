@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010384>
+        a                    pers:person ;
+        rdfs:label           "Hans Maier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-16 16:31:54.363898" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "genannt Schärrer" ;
+                                                 pers:occurence  "stadtasg"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010384a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003855> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003855.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010384a.01>
+                             ] ;
+        pers:nationalOf      [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001889>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003855> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

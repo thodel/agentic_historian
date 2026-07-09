@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per010071>
+        a                    pers:person ;
+        rdfs:label           "Ulman Vogt"@deu ;
+        pers:deaths          [ pers:death      "1537" ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1507" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 09:10:46.644186" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "Ulman" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010071a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003738> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ůlman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003738.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010071a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1518-1535" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1507-1517" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003738> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VII, p. 164" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

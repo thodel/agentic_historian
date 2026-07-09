@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per012659>
+        a               pers:person ;
+        rdfs:label      "Heinrich Nehracher"@deu ;
+        pers:births     [ pers:birth      "1764" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "1797" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2019-11-27 14:39:45.591266" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:memberOf   [ pers:occurence      "ssrq-zh" ;
+                          pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004967>
+                        ] ;
+        pers:name       [ pers:forename   "Heinrich" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012659a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005165> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005165> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "1089110189" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010923> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

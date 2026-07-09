@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008687>
+        a                    pers:person ;
+        rdfs:label           "Abraham Renaud"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1733" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 15:05:11.069389" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1765" ] ] ;
+                               pers:last_mention  "1765" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008687a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003140> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1750-1765" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1750" ;
+                                                                        pers:to    "1765"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003140> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Pas secrétaire du Petit Conseil en 1733, mais « faisant les fonctions de secrétaire »" ;
+        pers:residence       [ pers:date          "1733" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1733" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

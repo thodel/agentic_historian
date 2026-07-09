@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per025104>
+        a                    pers:person ;
+        rdfs:label           "Johannes Siegband"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-02 12:37:35.282312" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Plattner" ;
+                                                 pers:occurence  "GR B III/2"
+                                               ] ;
+                               pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025104a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008550> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johanessen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008550.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025104a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000196" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008550> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Simonet 1921, S. 140; Casutt 1983, S. 18." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008909> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

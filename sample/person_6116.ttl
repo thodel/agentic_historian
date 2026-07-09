@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per006730>
+        a                    pers:person ;
+        rdfs:label           "Mathias Mafli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1560" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1560" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-13 18:13:34.140227" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Mathiass" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "138" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "592"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002262.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006730a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Mathias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006730a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002262> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1560" ;
+                               pers:description   "key000135" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1560" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002262> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

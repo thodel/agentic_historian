@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001647>
+        a                    pers:person ;
+        rdfs:label           "Lienhart Besserer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1511" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1511" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Lienhart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001647a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "123" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "408"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000732> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lienhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000732.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001647a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000732> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

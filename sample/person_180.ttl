@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000233>
+        a                    pers:person ;
+        rdfs:label           "Peter Kilchmatter"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1415" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000233a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "36a" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "70"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "33" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "62"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000037> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000037> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000237> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:uncleOf         [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000234> ;
+                               pers:occurence  "SG III/2"
+                             ] .

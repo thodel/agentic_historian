@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per017603>
+        a                   pers:person ;
+        rdfs:label          "Johann Viktor Travers"@deu ;
+        pers:births         [ pers:birth      "05.09.1721" ;
+                              pers:occurence  "pascale"
+                            ] ;
+        pers:hist           [ pers:date      "2020-10-25 11:14:38.910488" ;
+                              pers:username  "GR B III/2"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "03.09.1776" ;
+                              pers:occurence     "pascale"
+                            ] ;
+        pers:name           [ pers:addnames   [ pers:addname    "von Ortenstein" ;
+                                                pers:occurence  "GR B III/2"
+                                              ] ;
+                              pers:forename   "Johann Viktor" ;
+                              pers:gennames   [ pers:genname    "III." ;
+                                                pers:occurence  "GR B III/2"
+                                              ] ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per017603a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "GR B III/2" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005374> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "Hans Victor" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "GR B III/2" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005374.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017603a.01>
+                            ] ;
+        pers:occupation     [ pers:description  "key004374" ;
+                              pers:occurence    "GR B III/2"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org005374> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:id    "1020197900" ;
+                              pers:type  "GND"
+                            ] ;
+        pers:refs           [ pers:id    "24339" ;
+                              pers:type  "HLS"
+                            ] ;
+        pers:sex            "1" .

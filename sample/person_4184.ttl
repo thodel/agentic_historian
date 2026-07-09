@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004699>
+        a             pers:person ;
+        rdfs:label    "Heinrich Ottonen"@deu ;
+        pers:births   [ pers:birth         "06.05.0973" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "0973-05-06" ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:deaths   [ pers:death         "13.07.1024" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1024-07-13" ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2019-11-26 15:30:21.517716" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Heinrich" ;
+                        pers:gennames   [ pers:genname    "II." ;
+                                          pers:occurence  "SG III/4"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004699a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001888> ;
+                        pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                          pers:rolename   "König/roi"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001888> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:type  "other" ;
+                        pers:url   "https://www.deutsche-biographie.de/gnd118548255.html#ndbcontent"
+                      ] ;
+        pers:refs     [ pers:type  "other" ;
+                        pers:url   "https://portal.dnb.de/opac.htm?method=simpleSearch&cqlMode=true&query=idn=118548255"
+                      ] ;
+        pers:refs     [ pers:id    "29194" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:remark   "Die Geburt ist unklar, evtl. auch 978?" ;
+        pers:sex      "1" .

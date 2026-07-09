@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per004058>
+        a                    pers:person ;
+        rdfs:label           "Bartlome Steiger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1513" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1513" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-03 12:18:03.245922" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Bartlome" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004058a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001515> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Barttlome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "306"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001515.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004058a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001515> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, S. 520" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:remark          "Gemäss HBLS, Bd. VI, S. 520, kämen 2 in Frage." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

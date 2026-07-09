@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007779>
+        a                pers:person ;
+        rdfs:label       "Hans Wilpert Zoller"@deu ;
+        pers:births      [ pers:birth         "1673" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1673" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1757" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1757" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 08:42:13.150172" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Hanß Wilperth" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "250f" ;
+                                                               pers:line     "23" ;
+                                                               pers:page     "1117"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002407.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007779a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Wilpert" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per007779a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002407> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1713" ;
+                           pers:description   "key004877" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002407> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1047791412" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

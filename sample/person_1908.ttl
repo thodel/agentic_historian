@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per002312>
+        a                    pers:person ;
+        rdfs:label           "Valentin Uehli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1645" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1645" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Valentin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002312a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "204b" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "774"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000978> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Falathin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000978.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002312a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1645" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1645" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002904>
+                             ] ;
+        pers:occupation      [ pers:description  "key000356" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000978> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000025> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per008205>
+        a                    pers:person ;
+        rdfs:label           "Joseph Anton Hungerbühler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1770" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1770" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 15:45:54.207080" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008205a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002986> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Josephus Ant." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "298a" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "1291"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002986.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008205a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1770" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002986> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

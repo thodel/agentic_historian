@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per006835>
+        a                   pers:person ;
+        rdfs:label          "Hans Hewer"@deu ;
+        pers:births         [ pers:birth         "um 1482" ;
+                              pers:format_dates  [ pers:format_date  [ pers:notAfter   "1492" ;
+                                                                       pers:notBefore  "1472" ;
+                                                                       pers:precision  "0.5"
+                                                                     ] ] ;
+                              pers:occurence     "SG III/4"
+                            ] ;
+        pers:hist           [ pers:date      "2017-06-20 17:28:38.495789" ;
+                              pers:username  "SG III/4"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                              pers:last_mention  "1532" ;
+                              pers:occurence     "SG III/4"
+                            ] ;
+        pers:name           [ pers:forename   "Hans" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per006835a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "SG III/4" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001790> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date          "1499–1532" ;
+                              pers:description   "key000301" ;
+                              pers:format_dates  [ pers:format_date  [ pers:from  "1499" ;
+                                                                       pers:to    "1532"
+                                                                     ] ] ;
+                              pers:location      <http://ssrq-sds-fds.ch/Register/#loc000827> ;
+                              pers:occurence     "SG III/4"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org001790> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:page   "S. 39" ;
+                              pers:title  "Gabathuler 2017" ;
+                              pers:type   "biblio" ;
+                              pers:url    "http://permalink.snl.ch/bib/chbsg000150288"
+                            ] ;
+        pers:remark         "Sibylle Malamud: Die Lebensdaten beruhen auf dem Artikel von Gabathuler 2017, S. 37–40." ;
+        pers:sex            "1" ;
+        pers:siblingOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006834> ;
+                              pers:occurence  "SG III/4"
+                            ] .

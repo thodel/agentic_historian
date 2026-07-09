@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per001517>
+        a                pers:person ;
+        rdfs:label       "Heinrich Tschudi"@deu ;
+        pers:births      [ pers:birth         "1461" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1461" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001163>
+                         ] ;
+        pers:deaths      [ pers:death         "26.02.1525" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1525-02-26" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-13 10:46:30.724458" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001517a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "82" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "308"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "109" ;
+                                                              pers:line     "7" ;
+                                                              pers:page     "375"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "128" ;
+                                                              pers:line     "22" ;
+                                                              pers:page     "423"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "127" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "420"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.09> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001517a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1509–1515" ;
+                           pers:description  "key003718" ;
+                           pers:occurence    "SG III/2" , "LU II/3" , "SG III/4" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18031" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006065> ;
+                           pers:occurence  "SG III/4"
+                         ] .

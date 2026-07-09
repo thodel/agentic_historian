@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per003081>
+        a                pers:person ;
+        rdfs:label       "Petrus Canisius"@deu ;
+        pers:births      [ pers:birth         "08.05.1521" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1521-05-08" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "21.12.1597" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1597-12-21" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:feast_day   "21.12." ;
+        pers:hist        [ pers:date      "2020-10-22 16:17:33.396133" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Petrus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003081a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "367" ;
+                                                              pers:line     "18" ;
+                                                              pers:page     "1207"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001134> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Petrus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003081a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001134> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:alias      "1" ;
+                           pers:forename   "Petrus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003081b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "367" ;
+                                                              pers:line     "18" ;
+                                                              pers:page     "1207"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Petrus" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001134.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003081a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key003680" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003646" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003691" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:description  "key003634" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001134> , <http://ssrq-sds-fds.ch/Register/#org999999> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.heiligenlexikon.de/BiographienP/Petrus_Canisius.htm"
+                         ] ;
+        pers:sex         "1" .

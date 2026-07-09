@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per017084>
+        a                        pers:person ;
+        rdfs:label               "NN Boudet"@fra ;
+        pers:first_mentions      [ pers:first_mention  "1524" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-05-05 10:31:45.769564" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename    "NN" ;
+                                   pers:lang        "fra" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006752.01> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017084a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "NN" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per017084a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006752> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "1520" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org006752> ;
+        pers:project             "SSRQ" ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011727> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016436> ;
+                                   pers:occurence  "gortega"
+                                 ] .

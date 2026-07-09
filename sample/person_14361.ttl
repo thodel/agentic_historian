@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per015403>
+        a                    pers:person ;
+        rdfs:label           "NN Melcher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015397> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-03 16:17:39.962069" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006186.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015403a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015403a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006186> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1545" ;
+                               pers:description  "key005061" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:occupation      [ pers:description  "key000636" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000049> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006186> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

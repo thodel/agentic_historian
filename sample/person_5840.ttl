@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per006438>
+        a                    pers:person ;
+        rdfs:label           "Johannes Walt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1758" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1758" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 17:04:27.810952" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johaneß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "132" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "552"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002126.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006438a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006438a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002126> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1758, 1762" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ;
+                                         pers:format_date  [ pers:when  "1758" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002954>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002126> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

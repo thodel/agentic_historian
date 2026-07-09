@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per006810>
+        a                    pers:person ;
+        rdfs:label           "Jakob Graf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1564" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1564" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-21 11:29:09.116911" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006810a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000235> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "148" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "633"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "142" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "607"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000235.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006810a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1571" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1571" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:occupation      [ pers:date          "1564, 1571" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1564" ] ;
+                                         pers:format_date  [ pers:when  "1571" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000782> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000235> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

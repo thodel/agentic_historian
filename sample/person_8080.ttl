@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008786>
+        a                    pers:person ;
+        rdfs:label           "NN Tribolet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1814" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1814" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-03 22:17:58.976952" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008786a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "avant 1814" ;
+                               pers:description   "key005005" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1814" ;
+                                                                        pers:notBefore  "1764" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007115>
+        a                    pers:person ;
+        rdfs:label           "Gregorius Jack"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1610" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1610" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 18:57:14.258266" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Gorius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                                   pers:line     "42" ;
+                                                                   pers:page     "797"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002663.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007115a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Gregorius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007115a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002663> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002663> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006307> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003883>
+        a                pers:person ;
+        rdfs:label       "Mauritz von Mettenwil"@deu ;
+        pers:deaths      [ pers:death         "1566" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1566" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-20 09:05:44.507073" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Mauritz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003883a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "82" ;
+                                                              pers:line     "11" ;
+                                                              pers:page     "309"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "93" ;
+                                                              pers:line     "19" ;
+                                                              pers:page     "344"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "62b" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "179"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "88a" ;
+                                                              pers:line     "11" ;
+                                                              pers:page     "330"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000710> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1551–1566" ;
+                           pers:description   "key000540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1551" ;
+                                                                    pers:to    "1566"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000710> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "Glauser, Schreiber, und Koni, SSRQ, lassen ihn als Mauritz auftreten." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

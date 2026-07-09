@@ -1,0 +1,73 @@
+<http://ssrq-sds-fds.ch/Register/#per003262>
+        a             pers:person ;
+        rdfs:label    "Johann Aarberg-Valangin"@deu ;
+        pers:births   [ pers:birth         "1334" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1334" ] ] ;
+                        pers:occurence     "HBLS"
+                      ] ;
+        pers:deaths   [ pers:death         "1383" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1383" ] ] ;
+                        pers:occurence     "HBLS"
+                      ] ;
+        pers:name     [ pers:forename    "Hans" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "6" ;
+                                                            pers:line     "41" ;
+                                                            pers:page     "20"
+                                                          ] ;
+                                           pers:articles  [ pers:article  "3" ;
+                                                            pers:line     "41" ;
+                                                            pers:page     "7"
+                                                          ] ;
+                                           pers:vol       "LU II/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001287.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003262a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Johann" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per003262a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "6" ;
+                                                           pers:line     "1" ;
+                                                           pers:page     "21"
+                                                         ] ;
+                                          pers:articles  [ pers:article  "3" ;
+                                                           pers:line     "13" ;
+                                                           pers:page     "7"
+                                                         ] ;
+                                          pers:articles  [ pers:article  "5" ;
+                                                           pers:line     "3" ;
+                                                           pers:page     "15"
+                                                         ] ;
+                                          pers:articles  [ pers:article  "9" ;
+                                                           pers:line     "17" ;
+                                                           pers:page     "30"
+                                                         ] ;
+                                          pers:vol       "LU II/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001287> ;
+                        pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                          pers:rolename   "Graf/comte"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Johans" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "6" ;
+                                                            pers:line     "20" ;
+                                                            pers:page     "20"
+                                                          ] ;
+                                           pers:articles  [ pers:article  "5" ;
+                                                            pers:line     "10" ;
+                                                            pers:page     "15"
+                                                          ] ;
+                                           pers:vol       "LU II/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001287.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003262a.02>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001287> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

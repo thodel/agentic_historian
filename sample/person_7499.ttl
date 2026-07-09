@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008180>
+        a                    pers:person ;
+        rdfs:label           "NN Specker"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1764" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1764" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 11:22:38.737407" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008180a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "289" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "1259"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002725> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1764" ;
+                               pers:description   "key000634" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1764" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002725> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

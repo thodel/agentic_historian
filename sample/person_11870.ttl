@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per012771>
+        a                         pers:person ;
+        rdfs:label                "Jean Monet"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1498" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-05-02 11:02:44.855801" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename          "Johannes" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012771a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005212> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005212.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012771a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Jean" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012771a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005212> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "05.11.1498" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "16.11.1498" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005212> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Pfister 1997, p. 298" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Assite le 5 novembre aux procès de François Marguet et d'Isabelle Perat, puis à la conclusion du procès  de Marguerite Diserens le 16 novembre 1498 (ACV, Ac 29, p. 362, 384). Domestique de Laurent Curvillon." ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012738> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011509> ;
+                                    pers:occurence  "gortega"
+                                  ] .

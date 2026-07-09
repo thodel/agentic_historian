@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per026624>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Landerset"@deu ;
+        pers:deaths          [ pers:death      "26.06.1693" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1668" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-21 07:18:41.115837" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026624a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007147> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007147.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026624a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1677-1693" ;
+                               pers:description  "key005735" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:occupation      [ pers:date         "1668-1693" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007147> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Hans Jakob Landerset war von 1677-1693 zusätzlich  Rathausammann (Abwart des Rathauses)." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

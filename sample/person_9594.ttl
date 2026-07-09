@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per010357>
+        a                    pers:person ;
+        rdfs:label           "Konrad Barter"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010358> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001176>
+                             ] ;
+        pers:deaths          [ pers:death      "nach 1523" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010526> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010569> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-07 15:40:39.135650" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Konrad" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010357a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003831> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuenrat" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003831.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010357a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003831> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:id    "21613" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

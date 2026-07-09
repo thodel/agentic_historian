@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per004664>
+        a                    pers:person ;
+        rdfs:label           "Hans Gubser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-16 11:01:56.437994" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "der Jüngere" ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004664a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000529> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "der jünger" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000529.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004664a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000529> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1462" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000235> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004663> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004666> ;
+                               pers:occurence  "SG III/4"
+                             ] .

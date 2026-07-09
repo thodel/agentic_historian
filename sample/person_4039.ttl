@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004531>
+        a                    pers:person ;
+        rdfs:label           "Arnold Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1465" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1465" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-15 09:45:43.843221" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Aͤrni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000050.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004531a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Arnold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004531a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1465" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1465" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

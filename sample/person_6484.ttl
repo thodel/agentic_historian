@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per007116>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Schreiber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1610" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1610" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 19:02:52.888823" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007116a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "177" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "797"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002099> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002099> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006010> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

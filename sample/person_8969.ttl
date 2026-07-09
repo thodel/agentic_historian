@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009711>
+        a                pers:person ;
+        rdfs:label       "Pierre Bolengé"@fra ;
+        pers:deaths      [ pers:death         "ca. 1505" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1515" ;
+                                                                    pers:notBefore  "1495" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 08:52:18.506992" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename    "Pierro" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003601.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009711a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Pierre" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009711a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003601> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key005165" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003601> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007659> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per012630>
+        a                pers:person ;
+        rdfs:label       "Werner Beyel"@deu ;
+        pers:births      [ pers:birth      "1488" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "07.10.1545" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 10:05:21.374927" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Werner" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005156.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012630a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Werner" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012630a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005156> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1529-1545" ;
+                           pers:description  "key000540" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005156> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18121" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1078319871" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

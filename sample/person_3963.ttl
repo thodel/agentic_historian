@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004443>
+        a                    pers:person ;
+        rdfs:label           "Heinrich NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1400" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1400" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-10-06 11:42:31.166952" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004443a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1400" ;
+                               pers:description   "key000562" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1400" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

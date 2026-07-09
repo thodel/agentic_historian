@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per028338>
+        a                pers:person ;
+        rdfs:label       "Nikolaus Maximilian Vögeli"@deu , "Nikolaus Maximilian de Fégely"@fra ;
+        pers:births      [ pers:birth      "1695" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1748" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 13:56:11.106476" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Nikolaus Maximilian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028338a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003357> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Nikolaus Maximilian" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028338a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003357> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Maximillien" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003357.09> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028338a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1717-1748" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003357> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

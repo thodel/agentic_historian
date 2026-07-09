@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per001871>
+        a                pers:person ;
+        rdfs:label       "Samuel [von] Mutach"@deu ;
+        pers:births      [ pers:birth         "24.12.1666" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1666-12-24" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "14.07.1735" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1735-07-14" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Samuel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001871a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "147a" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "522"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000816> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1724" ;
+                           pers:description   "key003582" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1724" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000816> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15783" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per008139>
+        a                    pers:person ;
+        rdfs:label           "Joseph Sartori"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1788" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1788" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 11:08:06.118376" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "280" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "1235"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002979.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008139a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008139a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002979> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1788, 1793" ;
+                               pers:description   "key004278" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ;
+                                         pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1788, 1793" ;
+                               pers:description   "key004278" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ;
+                                         pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002979> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

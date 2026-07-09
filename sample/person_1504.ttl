@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per001906>
+        a                    pers:person ;
+        rdfs:label           "Jakob Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1617" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1617" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001906a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "208a" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "780"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1617" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per012269>
+        a                pers:person ;
+        rdfs:label       "Martin V.  (Papst)"@deu ;
+        pers:births      [ pers:birth      "1368" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1431" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 13:56:33.923267" ;
+                           pers:username  "gortega"
+                         ] ;
+        pers:name        [ pers:forename          "Martin V." ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per012269a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "claudia"
+                                                  ] ;
+                           pers:occurence         "claudia" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename   "Martin" ;
+                           pers:gennames   [ pers:genname    "V" ;
+                                             pers:occurence  "pascale"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012269a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Martini" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012269a.01>
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "V" ;
+                                              pers:occurence  "gortega"
+                                            ] ;
+                           pers:forename    "Martinus" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "gortega" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000057.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012269a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1417-1431" ;
+                           pers:description  "key000014" ;
+                           pers:occurence    "claudia"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "Claudia Sutter" ;
+        pers:refs        [ pers:id    "118578286" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "012788" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

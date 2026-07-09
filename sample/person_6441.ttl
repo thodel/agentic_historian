@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per007072>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus Köppel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1627" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1627" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 15:23:28.835289" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007072a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002425> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Barthlime" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "175b" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "787"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002425.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007072a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000780" ;
+                               pers:occurence    "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002425> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

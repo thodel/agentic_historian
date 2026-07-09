@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per026193>
+        a                pers:person ;
+        rdfs:label       "Hans Conrad Heidegger"@deu ;
+        pers:births      [ pers:birth      "12.07.1649" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "30.08.1721" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-25 07:48:45.420890" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Conrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026193a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001112> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Conradt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001112.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026193a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Johann Konrad" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001112.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026193a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1700-1721" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "1700-1721" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1700-" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc009768> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001112> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18151" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1071011928" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

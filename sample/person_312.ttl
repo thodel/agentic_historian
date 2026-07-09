@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per000370>
+        a                    pers:person ;
+        rdfs:label           "Frick von Reichenbach"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000372> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1363" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Frick" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000370a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "24" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "43"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000159> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "der elter" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Frikk" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000159.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000370a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key003498" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000159> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

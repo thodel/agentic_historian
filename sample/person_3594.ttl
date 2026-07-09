@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per004068>
+        a                    pers:person ;
+        rdfs:label           "Klaus Kräulinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:42:15.783944" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004068a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "104b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "380"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001629> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "104b" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "380"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001629.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004068a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1580" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1580" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001629> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

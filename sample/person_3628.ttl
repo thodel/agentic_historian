@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per004102>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Hasler"@deu ;
+        pers:deaths          [ pers:death         "1515" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1515" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1478" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-12 15:27:08.898911" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001638.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004102a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004102a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "82" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "306"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001638> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "05.09.1489" ;
+                               pers:description  "key000209" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000215> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001638> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26674" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000215> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

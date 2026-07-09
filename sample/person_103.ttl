@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per000109>
+        a                    pers:person ;
+        rdfs:label           "Lütold von Regensberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1282" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1282" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Lütold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000109a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "7" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "6"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000090> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Freiherr (Baron)/baron"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000090> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

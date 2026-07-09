@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007311>
+        a                    pers:person ;
+        rdfs:label           "Katharina Litscher"@deu ;
+        pers:auntOf          [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007321> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1524" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 12:54:02.633427" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "sabine" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007311a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001975> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "Eintritt vor 1508, Austritt 1524" ;
+                               pers:description  "key004102" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001975> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Teuscher, Simon. Königsfelden : Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 260." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007305> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007306> ;
+                               pers:occurence  "sabine"
+                             ] .

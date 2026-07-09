@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per000052>
+        a                    pers:person ;
+        rdfs:label           "Johann von Vaz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1284" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1284" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:38:46.034528" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1299" ] ] ;
+                               pers:last_mention  "1299" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000052a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000024> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000024> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Vgl. Familienartikel http://www.hls-dhs-dss.ch/textes/d/D19791.php" ;
+        pers:sex             "1" .

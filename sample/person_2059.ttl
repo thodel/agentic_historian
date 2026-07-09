@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per002468>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Muheim"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1648" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1648" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-27 07:28:39.881391" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                               pers:last_mention  "1658" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002468a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "237" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "873"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "245" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "898"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000671> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Sebastian" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "186b" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "837"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000671.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002468a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1648, 1650, 1658" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ;
+                                         pers:format_date  [ pers:when  "1650" ] ] ;
+                               pers:occurence     "SG III/2" , "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:occupation      [ pers:date          "1648" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000671> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: evtl. identisch mit per007326" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

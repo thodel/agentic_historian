@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per015033>
+        a                pers:person ;
+        rdfs:label       "Samuel Egli"@deu ;
+        pers:births      [ pers:birth      "1627/29" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1666" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-01 15:05:15.739006" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005611>
+                         ] ;
+        pers:name        [ pers:forename   "Samuel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015033a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000622> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1662-1666" ;
+                           pers:description  "key000068" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000348> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000622> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

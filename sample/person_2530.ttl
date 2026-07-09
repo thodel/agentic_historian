@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per002951>
+        a                    pers:person ;
+        rdfs:label           "Justus Bless"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1765" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1765" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Justy" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000645.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002951a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Justus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000645.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002951a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Justus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002951a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "341b" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1137"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000645> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000636" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000645> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

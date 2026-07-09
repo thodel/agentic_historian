@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007852>
+        a                    pers:person ;
+        rdfs:label           "Johann Kaspar Thüringer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1727" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1727" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-22 16:27:13.750895" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "260" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "1157"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002819.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007852a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007852a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002819> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1727" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1727" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002819> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

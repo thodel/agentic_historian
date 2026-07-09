@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per010093>
+        a                    pers:person ;
+        rdfs:label           "Conrad Merz"@deu ;
+        pers:deaths          [ pers:death      "1529" ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1505" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-07 11:49:57.100583" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Cunrad" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003682.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010093a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Conrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010093a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003682> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cunrad" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003682.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010093a.02>
+                             ] ;
+        pers:occupation      [ pers:date         "1505-1524" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1525-1529" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003682> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 726" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

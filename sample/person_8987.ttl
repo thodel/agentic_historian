@@ -1,0 +1,85 @@
+<http://ssrq-sds-fds.ch/Register/#per009729>
+        a                pers:person ;
+        rdfs:label       "Hans Ziegler"@deu ;
+        pers:births      [ pers:birth         "13.04.1533" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1533-04-13" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "21.02.1609" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1609-02-21" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-03 16:47:43.040901" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005078>
+                         ] ;
+        pers:name        [ pers:forename    "Hanns" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000735.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009729a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Hans" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000735.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009729a.04>
+                         ] ;
+        pers:name        [ pers:forename    "Johann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000735.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009729a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Hanß" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000735.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009729a.03>
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009729a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000735> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "um 1562" ;
+                           pers:description  "key003669" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010356> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date          "1597" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1597" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:occupation  [ pers:date         "1568-1571, 1576-1583, 1594-1608" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005078>
+                         ] ;
+        pers:occupation  [ pers:date          "1597" ;
+                           pers:description   "key000607" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1597" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:occupation  [ pers:date          "1568-1571, 1576-1583, 1594-1608" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1597" ] ] ;
+                           pers:occurence     "FDS TI" , "ssrq-zh" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000735> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18212" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

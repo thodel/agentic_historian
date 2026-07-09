@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002097>
+        a                    pers:person ;
+        rdfs:label           "Noy Gartmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1613" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "jung" ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:forename    "Noy" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000902.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002097a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Noy" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002097a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "176b" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "634"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000902> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000902> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000227> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

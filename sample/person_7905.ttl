@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008603>
+        a                    pers:person ;
+        rdfs:label           "Charles-Frédéric DuPasquier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1845" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1845" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-13 21:18:01.548864" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1846" ] ] ;
+                               pers:last_mention  "1846" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Charles-Frédéric" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008603a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003088> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1843, 1845, 1846" ;
+                               pers:description   "key004971" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1845" ] ;
+                                         pers:format_date  [ pers:when  "1846" ] ;
+                                         pers:format_date  [ pers:when  "1843" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003088> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

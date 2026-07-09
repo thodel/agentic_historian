@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012294>
+        a               pers:person ;
+        rdfs:label      "Jean Verdon"@fra , "Jean Verdon"@deu ;
+        pers:deaths     [ pers:death      "ca. 1637" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2019-09-24 11:31:38.011996" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012294a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004700> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012294a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "pascale" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004700> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004700> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007648> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012293> ;
+                          pers:occurence  "lionel"
+                        ] .

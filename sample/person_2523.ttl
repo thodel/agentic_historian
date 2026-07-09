@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per002943>
+        a                    pers:person ;
+        rdfs:label           "Johann Gätzi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1762" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002943a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "339" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1131"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001038> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joaniß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001038.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002943a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002934>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001038> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000630> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008792>
+        a                    pers:person ;
+        rdfs:label           "Jonas-Pierre Boive"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1761" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1761" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-15 11:02:08.990892" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1763" ] ] ;
+                               pers:last_mention  "1763" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jonas Pierr" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003134.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008792a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jonas-Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008792a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003134> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1761-1763" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1761" ;
+                                                                        pers:to    "1763"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003134> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

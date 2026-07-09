@@ -1,0 +1,84 @@
+<http://ssrq-sds-fds.ch/Register/#per003865>
+        a                    pers:person ;
+        rdfs:label           "Jost Krepsinger"@deu ;
+        pers:deaths          [ pers:death         "1598" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003864> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1565" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1565" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-07 08:18:37.687445" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jost" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "154b" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "674"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000493.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003865a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003865a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "137b" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "495"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "138" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "510"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "172"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000493> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key001032" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:description  "key000898" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1594" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                             ] ;
+        pers:occupation      [ pers:date          "1594" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1594" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:occupation      [ pers:date          "1590-" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1590" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000493> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14168" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

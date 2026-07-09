@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per004168>
+        a                    pers:person ;
+        rdfs:label           "Hans Heid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1553" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1553" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-22 16:55:22.788455" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004168a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "97a" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "351"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "13b" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "42"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001385> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001385> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "In 2. H. des 16. Jh. sind mehrere Hans Heid aktiv, die oft kaum auseinandergehalten werden können." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per011277>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Zehender"@deu ;
+        pers:citizenOf       [ pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001156>
+                             ] ;
+        pers:deaths          [ pers:death      "1475" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-03 14:07:03.582791" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011277b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004263> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1449, 1458, 1472" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:occupation      [ pers:date         "1465" ;
+                               pers:description  "key000623" ;
+                               pers:occurence    "saeg"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Historisch-biografisches Lexikon der Schweiz Bd. 7, S. 630." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000121> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

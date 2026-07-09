@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per003660>
+        a                    pers:person ;
+        rdfs:label           "Peter Dahinden"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1427" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-03 11:55:43.782696" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "34" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "80"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001467.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003660a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "51" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "146"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001467.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003660a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003660a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "38" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "88"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001467> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1433" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1433" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001467> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Im zuerst Familien-, dann Vorname." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005964> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

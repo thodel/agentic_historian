@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004752>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Schwiggli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1476" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1476" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 13:10:24.024115" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1489" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004752a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000190> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinerich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000190.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004752a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1476" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001911>
+                             ] ;
+        pers:occupation      [ pers:date          "1489" ;
+                               pers:description   "key004172" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1489" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006039> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000190> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

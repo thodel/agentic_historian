@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010095>
+        a                pers:person ;
+        rdfs:label       "Kaspar Schmid"@deu ;
+        pers:births      [ pers:birth      "01.11.1618" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death      "06.03.1695" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-14 10:33:09.676311" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010095a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.11> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010095a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1653–1656, 1677–1680" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18022" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Sibylle Malamud: Die Angaben zur Regierungszeit als Landvogt in Werdenberg-Wartau im HLS stimmen nicht ganz. Obige Angaben beruhen auf den Erwähnungen in den Quellen." ;
+        pers:sex         "1" .

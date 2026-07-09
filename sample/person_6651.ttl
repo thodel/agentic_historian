@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per007302>
+        a                    pers:person ;
+        rdfs:label           "Magdalena von Thürna"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1487" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1507" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 10:56:58.844103" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Magdalena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007302a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002753> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Magdalena" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002753.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007302a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1507" ;
+                               pers:description  "key003740" ;
+                               pers:occurence    "lukas" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:occupation      [ pers:date         "Eintritt um 1487" ;
+                               pers:description  "key004102" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:occupation      [ pers:date         "1501" ;
+                               pers:description  "key005528" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002753> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Teuscher, Simon. Königsfelden: Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 260." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:page   "V/1, S. 575" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:remark          "Pascale Sutter: In HS als Magdalena von Turnheim normalisiert." ;
+        pers:sex             "2" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per001919>
+        a                    pers:person ;
+        rdfs:label           "Johann Leonard Spörly"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1676" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1676" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Leonard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001919a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "152" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "545"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000830> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1676" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1676" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001076> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1676" ;
+                               pers:description   "key003682" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1676" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000830> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

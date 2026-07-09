@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006421>
+        a                    pers:person ;
+        rdfs:label           "Hans Hasler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1552" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1552" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 15:04:02.427165" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006421a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "132" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "551"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001638> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1552" ;
+                               pers:description   "key000387" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:date          "1552" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006307> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001638> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: evtl. identisch mit per006790; gemäss Kontext und Rohner, Geschlechter, S. 61, Gerichtsammann; gemäss ebda. Vater von per006820" ;
+        pers:sex             "1" .

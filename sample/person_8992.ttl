@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per009734>
+        a                pers:person ;
+        rdfs:label       "Claude Chauderon"@fra ;
+        pers:deaths      [ pers:death         "1541" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 13:16:01.653906" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename    "Claude" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003610.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009734a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Claude" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009734a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003610> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Claude" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003610.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009734a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key005165" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003610> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008183> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

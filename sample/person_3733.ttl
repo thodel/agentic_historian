@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per004212>
+        a                    pers:person ;
+        rdfs:label           "Melchior Stadelmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1565" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:06:14.233146" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004212a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001417> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "101b" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "368"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001417.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004212a.03>
+                             ] ;
+        pers:name            [ pers:forename    "Mellcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "101a" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "367"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001417.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004212a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "117b" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "420"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001417.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004212a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1565" ;
+                               pers:description   "key000827" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1565" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001417> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005900> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

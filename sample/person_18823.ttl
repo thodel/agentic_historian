@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per020040>
+        a                    pers:person ;
+        rdfs:label           "Hans Tester"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1519" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-19 10:43:17.889867" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020040a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006691> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006691> ;
+        pers:project         "SSRQ" ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018001> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008915> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

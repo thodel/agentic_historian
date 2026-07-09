@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per002600>
+        a                    pers:person ;
+        rdfs:label           "Mathias Good"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1666" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1666" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Mathis" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002600a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Mathias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002600a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "253b" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "916"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1666" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1666" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key003597" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

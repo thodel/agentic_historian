@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003347>
+        a                    pers:person ;
+        rdfs:label           "Kueni Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1383" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:05:47.867363" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Kueni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003347a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͤni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "7" ;
+                                                                   pers:line     "35" ;
+                                                                   pers:page     "21"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003347a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1383" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1383" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per010060>
+        a                pers:person ;
+        rdfs:label       "Frantz Arsent"@deu ;
+        pers:births      [ pers:birth      "ca. 1457" ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death      "18.03.1511" ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010094> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 08:38:14.471075" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename   "François" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010060a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "lionel" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003732> ;
+                           pers:rolenames  [ pers:occurence  "lionel" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Frantz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010060a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003732> ;
+                           pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1508-1510" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "lionel" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1494-1510" ;
+                           pers:description  "key003647" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003732> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14951" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "I, p. 427-428" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

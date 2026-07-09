@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003714>
+        a                    pers:person ;
+        rdfs:label           "NN Hechler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1437" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-06 09:35:24.166742" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003714a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "110"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001486> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001486> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 864" ;
+                               pers:title  "SSRQ BE II/8.2" ;
+                               pers:type   "biblio" ;
+                               pers:url    "https://www.ssrq-sds-fds.ch/online/BE_II_8/index.html#p_I"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005900> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

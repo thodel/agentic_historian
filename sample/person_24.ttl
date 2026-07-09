@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008724>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Sax-Hohensax"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005103> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1280" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1280" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 16:57:26.993126" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1282" ] ] ;
+                               pers:last_mention  "1282" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "Ulrich" ;
+                               pers:gennames          [ pers:genname    "V." ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008724a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000384> ;
+                               pers:rolenames         [ pers:occurence  "SG III/4" ;
+                                                        pers:rolename   "Freiherr (Baron)/baron"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000384> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004649> ;
+                               pers:occurence  "SG III/4"
+                             ] .

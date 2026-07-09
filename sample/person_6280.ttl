@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per006904>
+        a                    pers:person ;
+        rdfs:label           "Thomas Auer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1521" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1521" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 10:44:51.040304" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Thoman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001771.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006904a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006904a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001771> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1521" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1521" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001771> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

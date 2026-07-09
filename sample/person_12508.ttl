@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per013465>
+        a                         pers:person ;
+        rdfs:label                "Germain d' Aclin"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1477" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-12 12:56:42.111338" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:memberOf             [ pers:occurence      "gortega" ;
+                                    pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004150>
+                                  ] ;
+        pers:name                 [ pers:forename          "Germanus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per013465a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005476> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename          "Germain" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per013465a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005476> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Germanus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005476.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013465a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "09.09.1477, 11.09.1477, 12.09.1477" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:description  "key003069" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004025>
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org005476> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Maier 1996, p. 299" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Germain d'Aclin est présent pour les mêmes dates aux procès de Jordane de Baulmes et de Jaquet Panissère." ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013449> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013440> ;
+                                    pers:occurence  "gortega"
+                                  ] .

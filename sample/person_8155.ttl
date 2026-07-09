@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per008867>
+        a                    pers:person ;
+        rdfs:label           "David Willier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1711" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1711" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 11:35:44.759650" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008867a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003252> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003252> ;
+        pers:origin          [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007906> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1711" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1711" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007906> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

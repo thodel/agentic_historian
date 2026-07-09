@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per016718>
+        a                         pers:person ;
+        rdfs:label                "Jean Vyret"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1528" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-05-09 16:53:29.092635" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Jehan" ;
+                                    pers:lang        "fra" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006634.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016718a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per016718a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006634> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org006634> ;
+        pers:project              "SSRQ" ;
+        pers:remark               "Son nom figure au début du procès de Françoise Gilliéron, mais n'est pas mentionné ensuite dans la liste des témoins aux audiences du 24 septembre et du 1er octobre 1528." ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016717> ;
+                                    pers:occurence  "gortega"
+                                  ] .

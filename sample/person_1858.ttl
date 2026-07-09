@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per002259>
+        a                    pers:person ;
+        rdfs:label           "Bartholomäus von Deschwanden"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1611" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1611" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:last_mention  "1641" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Bartholomäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002259a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "226" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "848"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "198b" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "736"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "231" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "859"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000960> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartholome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000960.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002259a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1611-1613, 1639-1641" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1611" ;
+                                                                        pers:to    "1613"
+                                                                      ] ;
+                                         pers:format_date  [ pers:from  "1639" ;
+                                                             pers:to    "1641"
+                                                           ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000960> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

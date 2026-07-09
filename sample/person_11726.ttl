@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per012626>
+        a                    pers:person ;
+        rdfs:label           "Jacques d' Estavayer"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1458" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-08 15:48:56.595135" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1461" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012626a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003980> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacobus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003980.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012626a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jacobus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012626a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003980> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1458, 1461" ;
+                               pers:description  "key005092" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008331> ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:occupation      [ pers:date         "10.1461" ;
+                               pers:description  "key005588" ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003980> ;
+        pers:project         "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012368> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs            [ pers:title  "Modestin 1999, p. 369" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:title  "Koheler 1922, p. 50" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

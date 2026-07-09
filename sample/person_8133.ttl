@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008841>
+        a                    pers:person ;
+        rdfs:label           "Charles Gicot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1725" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1725" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 16:07:06.395194" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Charles" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008841a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003237> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key005005" ;
+                               pers:occurence    "NE 3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003237> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1725" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1725" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007792> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

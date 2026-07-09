@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per022079>
+        a                    pers:person ;
+        rdfs:label           "Heinz von Haldenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-18 15:27:28.685812" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Haintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000080.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022079a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022079a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000080> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000080> ;
+        pers:project         "SSRQ" ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028751> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

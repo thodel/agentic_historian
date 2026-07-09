@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+<Configure id="server" class="org.eclipse.jetty.server.Server">
+
+  <Call name="addBean">
+    <Arg>
+      <New class="org.eclipse.jetty.deploy.DeploymentManager">
+        <Set name="contexts">
+          <Ref id="Contexts"/>
+        </Set>
+        <Set name="contextProvider">
+          <New class="org.eclipse.jetty.deploy.providers.WebAppProvider">
+            <Set name="monitoredDirName">/home/dh/voyant/VoyantServer2_4-M45/_app</Set>
+            <Set name="defaultsDescriptor">/home/dh/voyant/jetty-home/etc/webdefault.xml</Set>
+            <Set name="scanInterval">0</Set>
+            <Call name="addApp">
+              <Arg>
+                <New class="org.eclipse.jetty.webapp.WebAppContext">
+                  <Set name="contextPath">/</Set>
+                  <Set name="war">/home/dh/voyant/VoyantServer2_4-M45/_app</Set>
+                  <Set name="extractWAR">true</Set>
+                  <Set name="copyWebDir">false</Set>
+                </New>
+              </Arg>
+            </Call>
+          </New>
+        </Set>
+      </New>
+    </Arg>
+  </Call>
+
+</Configure>

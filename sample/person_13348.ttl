@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per014360>
+        a                    pers:person ;
+        rdfs:label           "Johannes Brümsy"@deu ;
+        pers:deaths          [ pers:death      "spätestens 1420" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1381" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-16 12:16:55.336288" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1420" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per014360a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005863> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1381" ;
+                               pers:description  "key005621" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005849>
+                             ] ;
+        pers:occupation      [ pers:description  "key000196" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc011207> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005863> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000701> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026725> ;
+                               pers:occurence  "sabine"
+                             ] .

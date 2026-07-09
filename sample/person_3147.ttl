@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per003599>
+        a                pers:person ;
+        rdfs:label       "Johann von Habsburg-Laufenburg"@deu ;
+        pers:births      [ pers:birth      "1355" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "18.05.1408" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-03 10:06:21.209632" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename    "Hans" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "20" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "58"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001440.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003599a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003599a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "20" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "58"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001440> ;
+                           pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                             pers:rolename   "Graf/comte"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003071" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1405" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1405" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001440> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "137459726" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:page   "S. 146" ;
+                           pers:title  "Meier 2008" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000049448"
+                         ] ;
+        pers:refs        [ pers:title  "Merz, Walther: Argauische Amtslisten. In: Argovia. Jahresschrift der Historischen Gesellschaft des Kantons Aargau, Bd. 46, 1934, Link: http://dx.doi.org/10.5169/seals-48912, S. 256" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:sex         "1" .

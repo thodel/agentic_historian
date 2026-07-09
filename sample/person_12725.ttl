@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per013693>
+        a                    pers:person ;
+        rdfs:label           "Sigmund von Hohenlohe"@deu ;
+        pers:births          [ pers:birth      "1485" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001638> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:deaths          [ pers:death      "1534" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-03 10:06:12.517092" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Sigmund" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013693a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005554> ;
+                               pers:rolenames  [ pers:occurence  "sabine" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005554> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "121233138" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://de.wikisource.org/wiki/ADB:Hohenlohe,_Sigmund_Graf_zu"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.deutsche-biographie.de/sfz33361.html"
+                             ] ;
+        pers:sex             "1" .

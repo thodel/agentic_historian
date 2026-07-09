@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per017045>
+        a                pers:person ;
+        rdfs:label       "Ulrich Andacher"@deu ;
+        pers:deaths      [ pers:death      "01.05.1519" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:hist        [ pers:date      "2020-05-04 15:51:26.346217" ;
+                           pers:username  "fahe"
+                         ] ;
+        pers:name        [ pers:forename   "Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per017045a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "fahe" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006737> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1510, 1515, 1517, 1518" ;
+                           pers:description  "key005658" ;
+                           pers:occurence    "fahe" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:occupation  [ pers:date         "1507" ;
+                           pers:description  "key000636" ;
+                           pers:occurence    "fahe" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001194>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006737> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "23142" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000989> ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:sex         "1" .

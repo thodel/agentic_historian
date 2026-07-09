@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020264>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Gredig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1789" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-23 10:39:51.769930" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020264a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006125> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006125.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020264a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000782" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006125> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010701> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

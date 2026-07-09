@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per021984>
+        a               pers:person ;
+        rdfs:label      "Nikolaus Sattler"@deu ;
+        pers:deaths     [ pers:death      "vor 1477" ;
+                          pers:occurence  "claudia"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per021983> ;
+                          pers:occurence  "claudia"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-17 16:19:14.895705" ;
+                          pers:username  "claudia"
+                        ] ;
+        pers:name       [ pers:forename    "Nyclaus" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "claudia" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000267> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021984a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Nikolaus" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per021984a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "claudia" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000267> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000267> ;
+        pers:project    "Claudia Sutter" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                          pers:occurence  "claudia"
+                        ] ;
+        pers:sex        "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per005350>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Tobler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1474" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1474" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-28 18:13:19.039753" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005350a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000566> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heine" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "52" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "169"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000566.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005350a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000566> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per005411" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006723> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

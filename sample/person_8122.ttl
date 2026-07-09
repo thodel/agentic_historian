@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008830>
+        a                pers:person ;
+        rdfs:label       "Jacques-François Boive"@fra ;
+        pers:births      [ pers:birth         "05.08.1692" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692-08-05" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death      "12.1771" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 13:03:02.315476" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Jacques-François" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008830a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003134> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1722" ;
+                           pers:description   "key004957" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1722" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003134> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16272" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

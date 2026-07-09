@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007447>
+        a                    pers:person ;
+        rdfs:label           "Hans Georg Herzog"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1769" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1769" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 14:47:29.958867" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199c" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "919"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001430.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007447a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007447a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001430> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1769" ;
+                               pers:description   "key003935" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001430> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

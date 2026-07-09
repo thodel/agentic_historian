@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per001836>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Tschudi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1629" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1629" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1651" ] ] ;
+                               pers:last_mention  "1651" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001836a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "209a" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "785"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "181" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "654"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001836a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1629-1651" ;
+                               pers:description   "key003071" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1629" ;
+                                                                        pers:to    "1651"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000017> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001839> ;
+                               pers:occurence  "SG III/2"
+                             ] .

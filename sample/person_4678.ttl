@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per005224>
+        a                    pers:person ;
+        rdfs:label           "Jost Spiller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1428" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1428" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-27 07:47:39.578030" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1465" ] ] ;
+                               pers:last_mention  "1465" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Jost" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005224a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "38b" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "100"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000432> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1437" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date          "1460" ;
+                               pers:description   "key000639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1460" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000432> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26799" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

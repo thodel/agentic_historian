@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per002127>
+        a                    pers:person ;
+        rdfs:label           "Melchior Vögtli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1592" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1592" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:last_mention  "1598" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:memberOf        [ pers:date           "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000914.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002127a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000914.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002127a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Melchior" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002127a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "183" ;
+                                                                         pers:line     "14" ;
+                                                                         pers:page     "658"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "187" ;
+                                                                         pers:line     "1" ;
+                                                                         pers:page     "666"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000914> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000914.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002127a.03>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000914> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002126> ;
+                               pers:occurence  "SG III/2"
+                             ] .

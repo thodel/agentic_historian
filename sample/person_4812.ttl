@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per005369>
+        a                    pers:person ;
+        rdfs:label           "Gallus Buschor"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1644" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1644" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-04 17:48:54.673466" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Gallus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "194" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "866"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002150.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005369a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005369a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002150> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gallus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "53d" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "178"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002150.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005369a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1644, 1659" ;
+                               pers:description   "key000387" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1659" ] ;
+                                         pers:format_date  [ pers:when  "1644" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002150> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Rohner, Geschlechter und Wappen, S. 22" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per022173>
+        a               pers:person ;
+        rdfs:label      "Konrad von Patzen"@deu ;
+        pers:deaths     [ pers:death      "vor 1446" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022170> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022171> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-23 08:33:13.803017" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Cuͦnrat" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000079.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022173a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Konrad" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per022173a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000079> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000079> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

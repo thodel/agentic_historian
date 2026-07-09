@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002186>
+        a                    pers:person ;
+        rdfs:label           "Johann Rudolf Bernold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1743" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1743" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Joh. Rud." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000929.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002186a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Johan Rudolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000929.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002186a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002186a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "308a" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "1052"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "312" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "1067"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1745" ;
+                               pers:description   "key000623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1743" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1743" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001219>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000929> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

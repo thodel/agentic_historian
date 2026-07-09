@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011332>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Bind"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1451" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "21.02.1453" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-26 11:48:38.914262" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011332b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004284> ;
+                               pers:type       "std"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "21.02.1453" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009219> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:residence       [ pers:date       "1451" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009219> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

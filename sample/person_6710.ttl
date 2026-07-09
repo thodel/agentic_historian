@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per007361>
+        a                pers:person ;
+        rdfs:label       "Michael de Cesena"@deu ;
+        pers:deaths      [ pers:death         "1342" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1342" ] ] ;
+                           pers:occurence     "colette"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-09 07:49:13.938783" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "colette" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org002768>
+                         ] ;
+        pers:name        [ pers:forename          "Michael" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007361a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "colette"
+                                                  ] ;
+                           pers:occurence         "colette" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002769> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004871" ;
+                           pers:occurence    "colette"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002769> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "118783718" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per001047>
+        a                    pers:person ;
+        rdfs:label           "Matthias Kardell"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1491" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Matis" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000245.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001047a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Matthias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001047a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "315"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000245> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Mathyas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000245.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001047a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1491" ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1491" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000679> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000245> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001048> ;
+                               pers:occurence  "SG III/2"
+                             ] .

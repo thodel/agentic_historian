@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per001041>
+        a              pers:person ;
+        rdfs:label     "Lienhart Karlett"@deu ;
+        pers:deaths    [ pers:death         "vor 23.09.1480" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1480-09-23" ;
+                                                                  pers:notBefore  "1430-09-23" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "SG III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001040> ;
+                         pers:occurence  "SG III/2"
+                       ] ;
+        pers:name      [ pers:forename    "Lienhart" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "SG III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000248.05> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001041a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Lienhart" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per001041a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                            pers:line     "20" ;
+                                                            pers:page     "313"
+                                                          ] ;
+                                           pers:vol       "SG III/2"
+                                         ] ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000248> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000248> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

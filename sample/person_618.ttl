@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per000706>
+        a                    pers:person ;
+        rdfs:label           "Hans Vittler"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:deaths          [ pers:death         "vor 1473" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1473" ;
+                                                                        pers:notBefore  "1423" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-09-11 08:51:10.428889" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Füllengast" ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000706a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "46" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "107"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000353> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Fu̍llengast" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000353.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000706a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000353> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Hans Vittler als Bürger von Werdenberg erscheint 1434 noch nicht mit dem Zunamen Füllengast. Erst in den Urkunden von 1439 und 1440 wird er Füllengast genannt (GA Triesen U 47; PfarrA Triesen U 2). In der Urkunde von 1473 ist von Hans Füllengasts Erben die Rede (OGA Gams Nr. 5). Wahrscheinlich handelt es sich hier um den Vater des Hans Vittler, genannt Füllengast, der 1476 Vogt in Werdenberg ist." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000707> ;
+                               pers:occurence  "SG III/2"
+                             ] .

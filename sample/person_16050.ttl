@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017164>
+        a                    pers:person ;
+        rdfs:label           "François Grivet"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017161> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1647" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-07 11:18:46.417421" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Franceois" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006786.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017164a.01>
+                             ] ;
+        pers:name            [ pers:forename   "François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017164a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006786> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006786> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007605> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" .

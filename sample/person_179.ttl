@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per000232>
+        a                    pers:person ;
+        rdfs:label           "Arnold Bruchi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1391" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1391" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Arnold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000232a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "10a" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "14"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000105> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1391" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1391" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002966>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000105> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per015701>
+        a                    pers:person ;
+        rdfs:label           "Melchior Schänni"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1574" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-09 09:10:30.171117" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015701a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005625> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Melcher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005625.11> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015701a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005625> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1574–" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

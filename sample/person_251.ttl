@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per000308>
+        a                    pers:person ;
+        rdfs:label           "Werner von Sansch"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000309> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1342" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1342" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1351" ] ] ;
+                               pers:last_mention  "1351" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000308a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "17" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "28"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "11b" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "16"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000131> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wernher" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000131.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000308a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1342, 1351" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1351" ] ;
+                                         pers:format_date  [ pers:when  "1342" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001165>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000131> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000032> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

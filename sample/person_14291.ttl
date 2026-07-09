@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per015327>
+        a               pers:person ;
+        rdfs:label      "Peter Meier"@deu ;
+        pers:deaths     [ pers:death      "vor 1447" ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015329> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:hist       [ pers:date      "2020-04-02 14:24:06.476677" ;
+                          pers:username  "sabine"
+                        ] ;
+        pers:name       [ pers:forename   "Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per015327a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "sabine" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project    "Königsfelden" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008684> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015328> ;
+                          pers:occurence  "sabine"
+                        ] .

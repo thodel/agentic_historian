@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per005695>
+        a                    pers:person ;
+        rdfs:label           "Christian Mannshuber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1514–1529" ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1514" ;
+                                                                         pers:to    "1529"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-08 18:02:43.434065" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Crist" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "72c" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "258"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002271.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005695a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005695a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002271> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002271> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

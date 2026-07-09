@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009029>
+        a                    pers:person ;
+        rdfs:label           "Moïse Janin"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1683" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1683" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-24 19:26:52.693960" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Moïse" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009029a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003330> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Moyse" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003330.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009029a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003330> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Probablement le frère de Isaac Janin per009028" ;
+        pers:residence       [ pers:date          "1683" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1683" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007799> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

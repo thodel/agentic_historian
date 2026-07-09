@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008601>
+        a               pers:person ;
+        rdfs:label      "Hans Rudolf Hetzel"@fra ;
+        pers:deaths     [ pers:death         "avant 1529" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1529" ;
+                                                                   pers:notBefore  "1479" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:hist       [ pers:date      "2019-05-03 17:02:03.370510" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Hanß Rudolff" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "NE 3" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000473.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008601a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Hans Rudolf" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per008601a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000473> ;
+                          pers:rolenames  [ pers:occurence  "NE 3" ;
+                                            pers:rolename   "Knappe/écuyer"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000473> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "137565887" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:type  "other" ;
+                          pers:url   "https://thesaurus.cerl.org/record/cnp01168093"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008602> ;
+                          pers:occurence  "NE 3"
+                        ] .

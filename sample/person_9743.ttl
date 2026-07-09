@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per010512>
+        a                    pers:person ;
+        rdfs:label           "Abraham Tribolet"@fra ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010448> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:deaths          [ pers:death      "1627" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010428> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-04-05 14:58:39.292651" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Abram" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010512a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Abraham" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010512a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010512a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000988" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date         "avant 1604" ;
+                               pers:description  "key005092" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007878> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15747" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" ;
+        pers:uncleOf         [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010460> ;
+                               pers:occurence  "NE 3"
+                             ] .

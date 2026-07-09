@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per002597>
+        a                    pers:person ;
+        rdfs:label           "Stefan Schmon"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002593> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1666" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1666" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Steffa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001018.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002597a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Stefan" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002597a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "253" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "915"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "253a" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "915"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "253b" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "916"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001018> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001018> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002598> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002596> ;
+                               pers:occurence  "SG III/2"
+                             ] .

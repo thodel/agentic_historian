@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003486>
+        a                    pers:person ;
+        rdfs:label           "Florian zu Brandösch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-06 16:14:51.527701" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Florian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003486a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001347> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Flori" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "43b" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "120"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001347.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003486a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001347> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005911> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

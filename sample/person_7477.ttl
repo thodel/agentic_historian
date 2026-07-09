@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008157>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Hutter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1762" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 15:51:45.510226" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008157a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000711> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287b" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "1249"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000711.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008157a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1762" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002956>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000711> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Gesandter von Diepoldsau und Schmitter" ;
+        pers:sex             "1" .

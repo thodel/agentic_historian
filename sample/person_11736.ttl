@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per012636>
+        a               pers:person ;
+        rdfs:label      "Johannes Chrysostomos"@deu ;
+        pers:births     [ pers:birth      "349 n. Chr." ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "407 n. Chr." ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2019-11-28 10:24:52.986760" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "von Antiochia" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "Johannes" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012636a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005158> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "NN" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005158.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012636a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005158> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "118557831" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:remark     "GND: Lebensdaten: 344-407 (Geburtsjahr ca., evtl. 354)" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010370> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

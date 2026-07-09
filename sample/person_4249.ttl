@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004764>
+        a                    pers:person ;
+        rdfs:label           "Hans Kaspar"@deu ;
+        pers:first_mentions  [ pers:first_mention  "16. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1501" ;
+                                                                         pers:to    "1600"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-02-06 09:14:04.816193" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004764a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000766> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000766> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "16. Jh." ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1501" ;
+                                                                        pers:to    "1600"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006039> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

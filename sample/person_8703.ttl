@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per009442>
+        a                    pers:person ;
+        rdfs:label           "Catry Hans"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1620" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1620" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-25 08:33:48.435054" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "La Catta / Ponsetta" ;
+                                                 pers:occurence  "lionel"
+                                               ] ;
+                               pers:forename   "Catry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009442a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003494> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Ponsetta" ;
+                                                  pers:occurence  "FR I/2/8"
+                                                ] ;
+                               pers:forename    "Cathry" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003494.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009442a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "La Catta" ;
+                                                 pers:occurence  "FR I/2/8"
+                                               ] ;
+                               pers:addnames   [ pers:addname    "Ponsetta" ;
+                                                 pers:occurence  "FR I/2/8"
+                                               ] ;
+                               pers:forename   "Catry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009442a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003494> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004437" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:occupation      [ pers:description  "key000945" ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003494> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007937> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "2" .

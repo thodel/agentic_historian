@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per016294>
+        a                        pers:person ;
+        rdfs:label               "Rodolphe Macri"@fra ;
+        pers:citizenOf           [ pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005514>
+                                 ] ;
+        pers:first_mentions      [ pers:first_mention  "1484" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-04-28 10:13:36.708044" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename    "Rodulphus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006499.02> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016294a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Rodulphus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per016294a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006499> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Rodolphe" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per016294a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006499> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:notaryAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016293> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:occupation          [ pers:date         "21.02.1484–06.03.1484" ;
+                                   pers:description  "key000275" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org006499> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Maier 1996, p. 363" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008151> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" .

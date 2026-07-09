@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per024914>
+        a                pers:person ;
+        rdfs:label       "Kaspar Deodat de Latour"@deu ;
+        pers:births      [ pers:birth      "22.11.1677" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "15.01.1750" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-11 16:48:26.840839" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar Deodat" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024914a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005916> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar Deodat" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005916.09> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024914a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005487" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005916> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1074354478" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "16863" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

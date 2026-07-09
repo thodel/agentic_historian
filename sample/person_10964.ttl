@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011823>
+        a                    pers:person ;
+        rdfs:label           "Blaise Hory"@fra ;
+        pers:deaths          [ pers:death      "avant 1606" ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1575" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-27 13:16:59.079758" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Blaise" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003871.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011823a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Blaise" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011823a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003871> ;
+                               pers:rolenames  [ pers:occurence  "NE 3" ;
+                                                 pers:rolename   "Hauptmann/capitaine"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003871> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "015870" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

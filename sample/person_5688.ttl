@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per006282>
+        a                    pers:person ;
+        rdfs:label           "Helena von Grünenstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1545" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-31 10:29:14.482820" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1550" ] ] ;
+                               pers:last_mention  "1550" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006287> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename          "Helena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006282a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "126" ;
+                                                                         pers:line     "32" ;
+                                                                         pers:page     "508"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001978> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Platsch" ;
+                                                        pers:occurence  "SG III/3"
+                                                      ] ;
+                               pers:forename          "Helena" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006282b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002449> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Helena" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "126" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "509"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001978.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006282a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001978> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006281> ;
+                               pers:occurence  "SG III/3"
+                             ] .

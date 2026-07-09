@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005836>
+        a                    pers:person ;
+        rdfs:label           "NN Ritter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1508" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1508" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-07 11:32:05.688256" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005836a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "84" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "306"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002117> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1508" ;
+                               pers:description   "key000256" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:date          "1508" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1508" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002117> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: wohl identisch mit dem in Rohner, Geschlechter, S. 104, genannten Hans Ritter" ;
+        pers:sex             "1" .

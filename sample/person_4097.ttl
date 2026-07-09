@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per004591>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth Tauer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1442" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-02-24 13:11:08.239376" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Elsi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001839.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004591a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Elisabeth" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004591a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001839> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001839> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006042> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004590> ;
+                               pers:occurence  "SG III/4"
+                             ] .

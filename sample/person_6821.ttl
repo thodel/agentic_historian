@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per007481>
+        a                    pers:person ;
+        rdfs:label           "Samuel Schoch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1654" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1654" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-03 10:19:56.623751" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Samuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007481a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "203a" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "952"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001586> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1654" ;
+                               pers:description   "key000304" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1654" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001586> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

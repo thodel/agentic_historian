@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007688>
+        a                    pers:person ;
+        rdfs:label           "Hans Ulrich Moser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1773" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1773" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 14:55:14.992364" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007688a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "301" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "1306"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000563> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hß. Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "245" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "1083"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000563.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007688a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1773, 1778" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1773" ] ;
+                                         pers:format_date  [ pers:when  "1778" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000563> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

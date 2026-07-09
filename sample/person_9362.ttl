@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per010111>
+        a                    pers:person ;
+        rdfs:label           "Burkard d’Erlach"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1671" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-08 19:49:43.954540" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Burkard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010111a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003527> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1671" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "pascale" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003527> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+## Summary
+
+Implements HITL-3b (issue #152): after Agent C runs, any PERSON/PLACE entity with low confidence (`link_method in {none, hls_dhs}` or `hub_confidence in {unverified, low}`) is surfaced for a one-click link confirmation. The click writes the observed document spelling back into the hub as a variant of the authority record.
+
+This is the **compounding loop**: every confirmed link permanently improves future `hub_exact` hits, so the same person/place needs zero interaction on subsequent documents.
+
+## Changes
+
+### New module: `gate3_entity_review.py`
+
+| Function | Role |
+|---|---|
+| `gate3_entities(state)` | Extracts entities needing review from `state.artifacts["agent_c"]` |
+| `write_variants(state, choices)` | Confirms link + writes observed spelling as hub variant |
+| `render_gate3_card(state, entities)` | Discord markdown card (pure) |
+| `build_gate3_view(state, entities)` | py-cord View: one Select per entity (≤5) + "✅ Verlinkung bestätigen" apply button |
+
+### Design decisions
+
+- **Non-blocking by design** (per HITL plan §gating rules) — renders as an optional review card; the pipeline proceeds regardless.
+- **Variant write-back**: canonical hub name comes from the authority (`choice["name"]`); the observed document spelling goes into `variants[]`. This means `hub_exact` will match the next document immediately.
+- **Preserve existing hub ids**: when a hub record already exists, its authority IDs are kept; candidate IDs override only when non-empty (prevents overwriting a known GND with an empty string from an incomplete candidate).
+- **Max 5 entities** per card (matches the existing gate design in the HITL plan).
+
+### Test: `tests/test_ah_152_gate3_variant_writeback.py`
+
+18 offline tests covering entity extraction, variant construction, write-back logic, id preservation, and rendering. No VPN/GPUStack required.
+
+## Verification
+
+```bash
+cd agentic_historian && source .venv/bin/activate
+pytest tests/test_ah_152_gate3_variant_writeback.py -v
+# → 18 passed
+```
+
+## Acceptance criterion
+
+After clicking a candidate in Gate 3, re-processing the same document spelling should result in `link_method: hub_exact` with zero interaction (to be validated in Phase 9 real-doc testing).
+
+Closes #152

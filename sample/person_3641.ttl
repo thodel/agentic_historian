@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004115>
+        a                    pers:person ;
+        rdfs:label           "Fridli Wattmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1536" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1536" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-08 12:13:03.426975" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Fridli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "310"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001646.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004115a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Fridli" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004115a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "82" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "310"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001646> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001646> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

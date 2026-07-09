@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010746>
+        a                    pers:person ;
+        rdfs:label           "Ève Sagne"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1696" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-02 16:00:04.846633" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:motherInLawOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008910> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:motherInLawOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008911> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename          "Ève" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010746a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004009> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Eve" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004009.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010746a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004009> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008912> ;
+                               pers:occurence  "NE 3"
+                             ] .

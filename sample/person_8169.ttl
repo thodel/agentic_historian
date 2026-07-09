@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per008881>
+        a                   pers:person ;
+        rdfs:label          "Charles de Montmollin"@fra ;
+        pers:cousinOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008880> ;
+                              pers:occurence  "NE 3"
+                            ] ;
+        pers:hist           [ pers:date      "2018-03-12 16:25:23.557389" ;
+                              pers:username  "NE 3"
+                            ] ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1706" ] ] ;
+                              pers:last_mention  "mort en 1706" ;
+                              pers:occurence     "NE 3"
+                            ] ;
+        pers:name           [ pers:forename   "Charles" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per008881a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "NE 3" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003147> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:description  "key001104" ;
+                              pers:occurence    "NE 3"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003147> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "1" .

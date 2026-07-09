@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per007359>
+        a                    pers:person ;
+        rdfs:label           "Jörg Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1610" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1610" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-27 11:12:59.387372" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Freien Hansen" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007359a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Fyen Hansen" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Jörgi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "177" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "797"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007359a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Interpretation des Namens unsicher" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006705> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

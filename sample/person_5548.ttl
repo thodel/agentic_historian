@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per006131>
+        a                pers:person ;
+        rdfs:label       "Jakob Frei"@deu ;
+        pers:births      [ pers:birth         "1480/1490" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1480" ;
+                                                                    pers:to    "1490"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:deaths      [ pers:death         "24.10.1531" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1531-10-24" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-05 10:14:44.121805" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006131a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "113a" ;
+                                                              pers:line     "17" ;
+                                                              pers:page     "429"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "113e" ;
+                                                              pers:line     "7" ;
+                                                              pers:page     "447"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "113e" ;
+                                                               pers:line     "13" ;
+                                                               pers:page     "447"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006131a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1528–1530" ;
+                           pers:description   "key003995" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1528" ;
+                                                                    pers:to    "1530"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000083> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "23694" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

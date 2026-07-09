@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per004275>
+        a                pers:person ;
+        rdfs:label       "Niklaus Schöpfer"@deu ;
+        pers:deaths      [ pers:death         "1799" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1799" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-17 09:20:11.377478" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Niklaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004275a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "119b" ;
+                                                              pers:line     "16" ;
+                                                              pers:page     "426"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001726> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003207" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001726> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005900> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

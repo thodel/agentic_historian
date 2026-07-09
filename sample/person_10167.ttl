@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per010971>
+        a                pers:person ;
+        rdfs:label       "Johann Georg Bachmann"@deu ;
+        pers:births      [ pers:birth      "11.10.1621" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:deaths      [ pers:death      "1703" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2019-03-25 15:10:00.898047" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000741.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010971a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Georg" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010971a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/4" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000741> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1671–1673" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000741> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17971" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.ssrq-sds-fds.ch/online/SG_III_2/index.html#p_CXXII"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:sex         "1" .

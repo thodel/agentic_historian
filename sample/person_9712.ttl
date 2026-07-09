@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per010477>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Sax"@deu ;
+        pers:deaths          [ pers:death      "23.09.1220" ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1204" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-12 17:07:22.320653" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename          "Ulrich" ;
+                               pers:gennames          [ pers:genname    "II." ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010477a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002592> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1204-1220" ;
+                               pers:description  "key000001" ;
+                               pers:occurence    "stadtasg" , "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002592> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:id    "12944" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:page   "III/1,2, S. 1296-1297" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006537> ;
+                               pers:occurence  "SG III/4"
+                             ] .

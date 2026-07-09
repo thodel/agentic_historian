@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per020775>
+        a                    pers:person ;
+        rdfs:label           "Christoph Schorsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1743" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-26 13:12:14.040228" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1746" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020775a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002920> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Christoffell" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002920.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020775a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key005175" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:occupation      [ pers:date         "1743" ;
+                               pers:description  "key000607" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000651> ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002920> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Collenberg 1999, S. 79." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

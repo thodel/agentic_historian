@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per002181>
+        a                    pers:person ;
+        rdfs:label           "Johann Hartmann Hofmeister"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1659" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1659" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1661" ] ] ;
+                               pers:last_mention  "1661" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Hartmann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002181a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "192a" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "683"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000279> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1659-1661" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1659" ;
+                                                                        pers:to    "1661"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000279> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

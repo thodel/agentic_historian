@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per004134>
+        a                    pers:person ;
+        rdfs:label           "Burkhard Leimer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1530" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1530" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-09 10:56:52.409512" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004134a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001659> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Burckhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "87" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "327"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001659.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004134a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001659> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

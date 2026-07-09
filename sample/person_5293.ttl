@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per005872>
+        a                    pers:person ;
+        rdfs:label           "Hans Gerbrecht"@deu ;
+        pers:deaths          [ pers:death         "06.12.1511" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1511-12-06" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1492" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1492" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 11:18:05.112493" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "87" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "317"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002341.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005872a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005872a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002341> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1510" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:occupation      [ pers:date          "1510" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002341> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18977" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per003092>
+        a                    pers:person ;
+        rdfs:label           "Oswald Sulser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1792" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1792" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ] ;
+                               pers:last_mention  "1798" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003092a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "377" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "1233"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "371" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "1214"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000532> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1792, 1798" ;
+                               pers:description   "key000977" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ;
+                                         pers:format_date  [ pers:when  "1792" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001835>
+                             ] ;
+        pers:occupation      [ pers:date          "1792" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1792" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000828> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

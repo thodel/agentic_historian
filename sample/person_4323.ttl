@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004838>
+        a                    pers:person ;
+        rdfs:label           "Sigmund Grässli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1485" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1485" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-02-28 14:53:37.490209" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Sigmund" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001929.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004838a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Sigmund" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004838a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001929> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1485" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000198> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

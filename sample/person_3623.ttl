@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004097>
+        a                    pers:person ;
+        rdfs:label           "Hans Küng"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1572" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1572" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-07 14:20:23.392389" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004097a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106b" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "389"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000419> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000419> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

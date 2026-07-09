@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per018163>
+        a                    pers:person ;
+        rdfs:label           "Barbara Jakob"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1545" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-04 07:58:06.037750" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Barbara" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018163a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000933> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Barbla" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000933.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018163a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Barbara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per018163b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "pascale"
+                                                      ] ;
+                               pers:occurence         "pascale" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000334> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000933> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000227> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018162> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

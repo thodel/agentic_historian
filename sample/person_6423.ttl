@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per007051>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Stocker"@deu ;
+        pers:deaths          [ pers:death         "1610" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1610" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1579" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1579" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-08 09:36:21.872434" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007051a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000854> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "169" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "759"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000854.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007051a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1606" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:occupation      [ pers:date          "1606" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000854> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26807" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

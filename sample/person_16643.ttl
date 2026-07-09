@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017782>
+        a                    pers:person ;
+        rdfs:label           "Marquard Buchli"@deu ;
+        pers:deaths          [ pers:death      "vor 1514" ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020038> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1512" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-19 10:38:39.361591" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Marquard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017782a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000915> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marquart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000915.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017782a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000915> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

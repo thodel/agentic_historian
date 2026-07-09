@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per012681>
+        a                pers:person ;
+        rdfs:label       "Johannes von Muralt"@deu ;
+        pers:births      [ pers:birth      "18.02.1645" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "12.01.1733" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 11:28:31.210713" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012681a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000813> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1688-1733" ;
+                           pers:description  "key005635" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:occupation  [ pers:date         "1691-1733" ;
+                           pers:description  "key004942" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005023>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000813> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14565" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118585819" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

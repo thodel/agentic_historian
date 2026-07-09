@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003803>
+        a                    pers:person ;
+        rdfs:label           "Kueni zu Wissenbach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-12 08:54:34.208217" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Kueni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003803a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001523> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "53" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "151"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001523.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003803a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001523> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005977> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

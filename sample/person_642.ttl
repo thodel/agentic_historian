@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per000731>
+        a                    pers:person ;
+        rdfs:label           "Johannes Kummer"@deu ;
+        pers:deaths          [ pers:death         "16.03.1444" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1444-03-16" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1415" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1415" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000370.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000731a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000731b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "50" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "125"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000371> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000731a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "50" ;
+                                                                         pers:line     "20" ;
+                                                                         pers:page     "125"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000370> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1434-1441" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1434" ;
+                                                                        pers:to    "1441"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000370>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000370> , <http://ssrq-sds-fds.ch/Register/#org000371> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12747" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000981> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

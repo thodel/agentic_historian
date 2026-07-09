@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per027733>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Sonnenberger"@deu ;
+        pers:deaths          [ pers:death      "1469" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000794> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-27 07:52:29.497485" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Ulricus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000310.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027733a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027733a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000310> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date         "1453-1469" ;
+                               pers:description  "key000015" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000310> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "1075553563" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:remark          "Schreiber in der Kanzlei Friedrichs III." ;
+        pers:sex             "1" .

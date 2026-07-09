@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per001082>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Rechberg"@deu ;
+        pers:deaths          [ pers:death         "01.09.1526" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1526-09-01" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1440" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1440" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename          "Konrad" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001082b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "94" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "321"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000577> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Konrad" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001082a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "94" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "321"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000180> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1480-1526" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1480" ;
+                                                                        pers:to    "1526"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000577>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000180> , <http://ssrq-sds-fds.ch/Register/#org000577> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12705" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

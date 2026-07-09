@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003843>
+        a                    pers:person ;
+        rdfs:label           "Matthias vor der Burg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1456" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-17 15:10:45.172370" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Mathys" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "51" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "145"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001535.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003843a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Matthias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003843a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001535> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001535> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005750> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

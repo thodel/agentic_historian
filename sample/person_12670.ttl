@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per013635>
+        a                    pers:person ;
+        rdfs:label           "Johann von Erlach"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007303> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-26 16:05:15.993607" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003527.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013635a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013635a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003527> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003527> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "1074070585" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "16676" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

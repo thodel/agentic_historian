@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003867>
+        a                pers:person ;
+        rdfs:label       "Hans Ulrich Moser"@deu ;
+        pers:deaths      [ pers:death         "1586" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-18 12:36:12.558631" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003867a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "120b" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "435"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000563> ;
+                           pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003628" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000563> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "S. 253" ;
+                           pers:title  "Messmer/Hoppe 1976" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000092195"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

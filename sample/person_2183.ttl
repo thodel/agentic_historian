@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per002584>
+        a                    pers:person ;
+        rdfs:label           "Jakob Sulser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1777" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1777" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1781" ] ] ;
+                               pers:last_mention  "1781" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002584a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "355" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "1182"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "349" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "1168"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "328c" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "1104"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "353" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "1178"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000532> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1780" ;
+                               pers:description   "key000088" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1780" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1777" ;
+                               pers:description   "key000977" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1777" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001835>
+                             ] ;
+        pers:occupation      [ pers:date          "1777" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1777" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000123> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

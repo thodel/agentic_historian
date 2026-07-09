@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per005945>
+        a                    pers:person ;
+        rdfs:label           "Bernhard Christof Giel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1639" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1639" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-05 15:41:10.573952" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Bernhart Cristoff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95h" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "356"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001916.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005945a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bernhard Christof" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005945a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001916> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1639" ;
+                               pers:description   "key004820" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1639" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1639" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1639" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:occupation      [ pers:date          "1639" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1639" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007183> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001916> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.30jaehrigerkrieg.de/giel-von-glattburg-und-gielsberg-guell-bernhard/"
+                             ] ;
+        pers:sex             "1" .

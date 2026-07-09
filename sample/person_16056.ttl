@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per017170>
+        a               pers:person ;
+        rdfs:label      "François Favre"@fra ;
+        pers:deaths     [ pers:death      "vor 1647" ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017167> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-07 11:55:07.977341" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename   "François" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017170a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "lionel" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006790> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Franceois" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "lionel" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006790.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017170a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006790> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010536> ;
+                          pers:occurence  "lionel"
+                        ] ;
+        pers:sex        "1" .

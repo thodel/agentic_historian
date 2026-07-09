@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per012456>
+        a                    pers:person ;
+        rdfs:label           "NN Strub"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001179>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "12.07.1447" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-09-19 10:20:36.995390" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Züberwangen" ;
+                                                 pers:occurence  "stadtasg"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012456a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000509> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000509> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

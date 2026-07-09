@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per026331>
+        a                pers:person ;
+        rdfs:label       "Johannes NN"@deu ;
+        pers:deaths      [ pers:death      "vor 17.12.1298" ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026332> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-29 09:46:57.625689" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026331a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "mina" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004827" ;
+                           pers:occurence    "mina"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project     "Königsfelden" ;
+        pers:remark      "Aus der Region Soultz-Haut-Rhin" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000140> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:sex         "1" .

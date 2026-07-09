@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per012377>
+        a                         pers:person ;
+        rdfs:label                "Pierre de Pampigny"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1451" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-03 16:15:18.442293" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1458" ;
+                                    pers:occurence     "pascale"
+                                  ] ;
+        pers:memberOf             [ pers:occurence      "gortega" ;
+                                    pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004807>
+                                  ] ;
+        pers:name                 [ pers:forename   "Petrus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012377a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004744> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename   "Pierre" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012377a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004744> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004744.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012377a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "1451" ;
+                                    pers:description  "key000170" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004824>
+                                  ] ;
+        pers:occupation           [ pers:date         "1451" ;
+                                    pers:description  "key000301" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc007656> ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "1453" ;
+                                    pers:description  "key005622" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc007885> ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004824>
+                                  ] ;
+        pers:occupation           [ pers:date         "19.04.1458" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "1453" ;
+                                    pers:description  "key000301" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc007868> ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004744> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Wildermann 1993, II, p. 262-263" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:refs                 [ pers:title  "Modestin 1999, p. 331" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011863> ;
+                                    pers:occurence  "gortega"
+                                  ] .

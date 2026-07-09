@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per024500>
+        a              pers:person ;
+        rdfs:label     "Christian Veraguth"@deu ;
+        pers:deaths    [ pers:death      "vor 23.04.1767" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024497> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-08-26 13:10:02.811854" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename    "Christen" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "GR B III/2" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006894.22> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024500a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Christian" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per024500a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006894> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org006894> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

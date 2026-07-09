@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per000510>
+        a                    pers:person ;
+        rdfs:label           "Hans von Thierstein"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1438" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1438" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-08 00:56:10.282746" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000256.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000510a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:gennames   [ pers:genname    "II." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000510a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "53" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "174"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000256> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1438" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1438" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001835>
+                             ] ;
+        pers:occupation      [ pers:date         "1423, 1428" ;
+                               pers:description  "key000180" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000088>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000256> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

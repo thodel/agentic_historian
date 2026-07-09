@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per015498>
+        a                pers:person ;
+        rdfs:label       "Heinrich Thomann"@deu ;
+        pers:births      [ pers:birth      "1544" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1618/19" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-06 12:24:25.775380" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005083>
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015498a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000887> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005684" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1593-1614" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000887> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089626738" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:remark      "tke: in Ratslisten Tod 1618, in GND 1619" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

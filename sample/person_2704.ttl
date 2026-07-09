@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per003135>
+        a                    pers:person ;
+        rdfs:label           "Kaspar vom Fröwis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1436" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1436" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003135a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "116"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000351> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1436" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1436" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000351> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per025049>
+        a                    pers:person ;
+        rdfs:label           "Risch Sepp"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024950> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1732" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-06 17:56:58.280193" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Risch" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002297.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025049a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Risch" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025049a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002297> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002297> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000930> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

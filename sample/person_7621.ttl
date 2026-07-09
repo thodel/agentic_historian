@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per008307>
+        a                    pers:person ;
+        rdfs:label           "Joseph Stieger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1793" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1793" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-18 10:18:21.760947" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "schriners" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "325a" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "1382"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002243.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008307a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Schreiners" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008307a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002243> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1793" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1793" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003028>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002243> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

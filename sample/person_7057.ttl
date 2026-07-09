@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per007728>
+        a                    pers:person ;
+        rdfs:label           "Johann Heinrich Denzler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 10:00:18.250535" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250b" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "1093"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002858.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007728a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007728a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "250b" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "1095"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002858> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key004007" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005988> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002858> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

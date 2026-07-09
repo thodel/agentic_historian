@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per027483>
+        a                    pers:person ;
+        rdfs:label           "Hans Meyer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1481" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-10 16:15:05.235055" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Stolysen" ;
+                                                  pers:occurence  "ssrq-zh"
+                                                ] ;
+                               pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027483a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Stolleisen" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027483a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001539> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001539> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc011172> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

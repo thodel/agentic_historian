@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per003065>
+        a                    pers:person ;
+        rdfs:label           "NN Jäger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1785" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1785" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003065a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "363" ;
+                                                                         pers:line     "4" ;
+                                                                         pers:page     "1199"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001033> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001033> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

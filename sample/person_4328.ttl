@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004844>
+        a                    pers:person ;
+        rdfs:label           "Burkhard Scherrer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1485" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1485" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-04 11:40:56.498177" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Burckart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000301.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004844a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004844a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000301> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000301> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1485" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000198> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

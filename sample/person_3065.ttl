@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003513>
+        a                    pers:person ;
+        rdfs:label           "Mechtild von Gloten"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1376" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1376" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-12 08:04:28.132472" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Mechthilt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "10" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "31"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001396.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003513a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Mechtild" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003513a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001396> ;
+                               pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                                 pers:rolename   "Frau/dame"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001396> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003514> ;
+                               pers:occurence  "LU II/3"
+                             ] .

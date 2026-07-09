@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per005812>
+        a                    pers:person ;
+        rdfs:label           "Lenz Zumhof"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1505" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1505" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-10 17:39:22.716572" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Lenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005812a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002317> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Léntz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                                   pers:line     "6" ;
+                                                                   pers:page     "301"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002317.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005812a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002317> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

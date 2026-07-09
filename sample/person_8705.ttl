@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009444>
+        a                    pers:person ;
+        rdfs:label           "Jonas Tribolet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "18.10.1689" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1689-10-18" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 10:28:25.283154" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1692-01-19" ] ] ;
+                               pers:last_mention  "19.01.1692" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "J." ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009444a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jonas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009444a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "18.10.1689-19.01.1692" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1689-10-18" ;
+                                                                        pers:to    "1692-01-19"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

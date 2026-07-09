@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per004737>
+        a                    pers:person ;
+        rdfs:label           "Jörg Müntener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1476" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1476" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-01-30 11:52:35.813005" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:last_mention  "1483" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004737a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001907> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1483" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001816>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001907> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1483" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:residence       [ pers:date          "1476" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1476" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000428> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

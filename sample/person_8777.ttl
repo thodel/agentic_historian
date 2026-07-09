@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009517>
+        a              pers:person ;
+        rdfs:label     "Aymo Cardinaux"@fra ;
+        pers:deaths    [ pers:death         "avant 1623" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1623" ;
+                                                                  pers:notBefore  "1573" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "FR I/2/8"
+                       ] ;
+        pers:hist      [ pers:date      "2019-04-30 08:01:08.653066" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename   "Aymo" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per009517a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "FR I/2/8" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003537> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename   "Aymo" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per009517a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "FR I/2/8" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003537> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Aimo" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "FR I/2/8" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003537.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009517a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003537> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009553> ;
+                         pers:occurence  "FR I/2/8"
+                       ] .

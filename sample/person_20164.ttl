@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per021421>
+        a             pers:person ;
+        rdfs:label    "Johann Anton Grass"@deu ;
+        pers:births   [ pers:birth      "25.05.1684" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "02.10.1770" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-07-24 07:47:37.379227" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Johann Anton" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per021421a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007305> ;
+                        pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                          pers:rolename   "Dr./dr."
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org007305> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "014387" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "104760924X" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

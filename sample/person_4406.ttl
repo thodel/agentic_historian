@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per004931>
+        a                    pers:person ;
+        rdfs:label           "Adelheid von Bregenz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1164" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1164" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-19 16:31:35.233595" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004928> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004931a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1h" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "5"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001953> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004931b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001961> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001953> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III, Nr. 923" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "2" .

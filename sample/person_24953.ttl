@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per026315>
+        a                pers:person ;
+        rdfs:label       "Rudolf Techtermann"@deu ;
+        pers:births      [ pers:birth      "24.08.1630" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "27.07.1700" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-28 15:24:08.969952" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026315a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003381> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003381.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026315a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1663-1700" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003381> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VI, p. 470" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

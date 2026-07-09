@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per005909>
+        a                    pers:person ;
+        rdfs:label           "Anton Joseph Forster"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1710" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1710" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 15:21:47.030193" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Anton Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005909a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "94" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "343"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002311> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anthony Joseph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "94" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "343"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002311.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005909a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1710" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1710" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002311> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009333>
+        a                pers:person ;
+        rdfs:label       "Bernhard Meyer"@deu ;
+        pers:births      [ pers:birth         "1488" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "1558" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1558" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-06-26 17:51:30.543066" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Bernhard" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009333a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001539> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Bernhart" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001539.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009333a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1543" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001539> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19251" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

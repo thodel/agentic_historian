@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per008997>
+        a                    pers:person ;
+        rdfs:label           "Abraham Brandt"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1701" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1701" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010951> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-16 14:48:51.310283" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:last_mention  "1713" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003098>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008997a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003171> ;
+                               pers:rolenames  [ pers:occurence  "NE 3" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Abram" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003171.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008997a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1701" ;
+                               pers:description   "key004957" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1701" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "1713" ;
+                               pers:description   "key005149" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007785> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003171> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

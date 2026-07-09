@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000237>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Kilchmatter"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:deaths          [ pers:death         "vor 03.07.1415" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1415-07-03" ;
+                                                                        pers:notBefore  "1365-07-03" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1406" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1406" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-10 11:53:20.874069" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000237a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "36a" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "69"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000037> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000037> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000233> ;
+                               pers:occurence  "SG III/2"
+                             ] .

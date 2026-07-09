@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per015475>
+        a                    pers:person ;
+        rdfs:label           "Johannes Nägeli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1425" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-19 22:05:59.334689" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1427" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015475a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001061> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1423" ;
+                               pers:description  "key000808" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001061> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000463> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

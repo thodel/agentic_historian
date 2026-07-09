@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000922>
+        a                    pers:person ;
+        rdfs:label           "Burkart Krepsinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1463" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1463" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Burkart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000922a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "70" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "237"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000493> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Burkart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000493.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000922a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000493> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000568> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

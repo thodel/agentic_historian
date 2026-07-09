@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per009467>
+        a                pers:person ;
+        rdfs:label       "Caspar Krug"@deu ;
+        pers:births      [ pers:birth         "1518" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1518" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "11.01.1579" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1579-01-11" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-06-28 17:42:29.529991" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Caspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009467a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003511> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003511.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009467a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1552, 1553" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ;
+                                     pers:format_date  [ pers:when  "1552" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003510>
+                         ] ;
+        pers:occupation  [ pers:date          "1552" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003511> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19245" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

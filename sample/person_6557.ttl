@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per007197>
+        a                    pers:person ;
+        rdfs:label           "Johann Andreas Pappus"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1657" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1657" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-25 09:41:38.454262" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Trazberg" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Johann Andreas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "182" ;
+                                                                   pers:line     "48" ;
+                                                                   pers:page     "819"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002620.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007197a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Tratzberg" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Johann Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007197a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002620> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1657" ;
+                               pers:description   "key004803" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1657" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006605> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002620> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

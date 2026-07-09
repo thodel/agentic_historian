@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per000089>
+        a                pers:person ;
+        rdfs:label       "Rudolf von Habsburg-Österreich"@deu ;
+        pers:births      [ pers:birth         "01.05.1218" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1218-05-01" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "15.07.1291" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1291-07-15" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-12-07 07:55:44.930882" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Rudolf" ;
+                           pers:gennames   [ pers:genname    "I." ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000089a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "1j" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "6"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "4" ;
+                                                              pers:line     "3" ;
+                                                              pers:page     "5"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "König/roi"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1273–15.07.1291" ;
+                           pers:description   "key000229" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1273" ;
+                                                                    pers:to    "1291-07-15"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29461" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

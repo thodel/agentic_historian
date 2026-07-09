@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per011298>
+        a                    pers:person ;
+        rdfs:label           "Hans Käser"@deu ;
+        pers:citizenOf       [ pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "17.05.1467" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-15 12:03:41.182716" ;
+                               pers:username  "saeg"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011298b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004271> ;
+                               pers:type       "std"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "17.05.1467" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

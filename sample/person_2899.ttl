@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003345>
+        a                    pers:person ;
+        rdfs:label           "Augustin von Luternau"@deu ;
+        pers:deaths          [ pers:death         "1563" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1563" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1527" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1527" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-06-30 17:26:37.385052" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Augustin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003345a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "7" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "22"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001335> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001335> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "46007" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

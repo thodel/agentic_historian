@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per007131>
+        a                    pers:person ;
+        rdfs:label           "Adrian Vetsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1765" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1765" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-13 10:39:17.116864" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Adrian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007131a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000717> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Adrian" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000717.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007131a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000717> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

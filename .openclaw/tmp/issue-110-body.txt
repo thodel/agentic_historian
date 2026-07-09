@@ -1,0 +1,25 @@
+## ✅ Fixed — PR #161 merged
+
+The kraken registry is now populated at pipeline startup via the ATR gateway client.
+
+### What was done
+- **`KrakenModel`** (`agent_a/models.py`): added `scripts: list[str]` and `languages: list[str]` fields
+- **`KRAKEN_MODELS_LIVE`** (`agent_a/model_selector.py`): new module-level live registry, populated at startup
+- **`refresh_kraken_registry(client)`** (`agent_a/model_selector.py`): fetches `client.list_models()` → `list[ModelInfo dict]`, converts each to `KrakenModel`, updates `KRAKEN_MODELS_LIVE` in-place
+- **`select_kraken_model()`**: merged static `KRAKEN_MODELS` + live `KRAKEN_MODELS_LIVE` overlay (live wins on key collision)
+- **`orchestrator.run_full_pipeline()`** (`orchestrator.py`): Phase 0 call inside `with KrakenHTTPClient() as client:`; non-fatal (`KrakenClientError` caught and logged)
+
+### First-attempt pitfalls avoided (v2)
+| Pitfall | Wrong | Correct |
+|---|---|---|
+| Client class | `KrakenClient` | `KrakenHTTPClient` |
+| `list_models()` return type | `list[str]` | `list[dict]` (each dict has `id`, `name`, etc.) |
+| Variable name | `KRACKEN_MODELS_LIVE` (typo) | `KRAKEN_MODELS_LIVE` |
+| Call context | outside context manager | inside `with KrakenHTTPClient() as client:` |
+
+### Test
+`test_ah_110_kraken_registry_from_gateway.py` — offline tests covering: empty gateway, duplicate IDs, scripts/languages fields, overlay precedence, non-fatal error handling.
+
+---
+
+*Fixed by @tobias-hodel — fix/ah-110-kraken-registry-from-gateway-v2 → PR #161*

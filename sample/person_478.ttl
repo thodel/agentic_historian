@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per000521>
+        a                    pers:person ;
+        rdfs:label           "Burkhard Lässer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1446" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1446" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000521b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41b" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "87"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000265> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000521a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "41b" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "87"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000264> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Herr/monsieur"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Burkhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000265.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000521b.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1446" ;
+                               pers:description   "key000255" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1446" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1446" ;
+                               pers:description   "key000254" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1446" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000264> , <http://ssrq-sds-fds.ch/Register/#org000265> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

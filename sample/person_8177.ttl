@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per008890>
+        a              pers:person ;
+        rdfs:label     "David Comtesse"@fra ;
+        pers:deaths    [ pers:death         "avant 1704" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1704" ;
+                                                                  pers:notBefore  "1694" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "NE 3"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008891> ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:hist      [ pers:date      "2018-02-22 21:28:54.959368" ;
+                         pers:username  "NE 3"
+                       ] ;
+        pers:name      [ pers:forename   "David" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008890a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "NE 3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003273> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003273> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

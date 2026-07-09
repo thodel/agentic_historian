@@ -1,0 +1,76 @@
+<http://ssrq-sds-fds.ch/Register/#per002204>
+        a                    pers:person ;
+        rdfs:label           "Petrus von Pontaningen"@deu ;
+        pers:deaths          [ pers:death         "17.12.1438" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1438-12-17" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1398" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1398" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-07 15:09:08.619441" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Petrus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002204a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "194" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "693"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000087> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001145.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002204b.01>
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001145.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002204b.02>
+                             ] ;
+        pers:name            [ pers:forename          "Petrus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002204b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "194" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "693"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001145> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1402-1438" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1402" ;
+                                                                        pers:to    "1438"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000087>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000087> , <http://ssrq-sds-fds.ch/Register/#org001145> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "16918" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000050> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

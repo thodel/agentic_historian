@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004297>
+        a                    pers:person ;
+        rdfs:label           "Johannes Schürmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "vor 1593" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:27:59.420726" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133b" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "477"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001734.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004297a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004297a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001734> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 1593" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1593" ;
+                                                                        pers:notBefore  "1543" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001734> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

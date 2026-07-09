@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per002932>
+        a                    pers:person ;
+        rdfs:label           "Josef Propst"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1778" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1778" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Josef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002932a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "333" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "1116"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000218> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003498" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1778-" ;
+                               pers:description   "key000123" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1828" ;
+                                                                        pers:notBefore  "1778" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007736> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000218> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000037> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

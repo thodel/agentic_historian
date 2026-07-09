@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per004021>
+        a                pers:person ;
+        rdfs:label       "Ulrich Renggli"@deu ;
+        pers:deaths      [ pers:death         "1755" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1755" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004018> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-02 08:48:14.593279" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004021a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "73" ;
+                                                              pers:line     "23" ;
+                                                              pers:page     "284"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001352> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1715-1751" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1715" ;
+                                                                    pers:to    "1751"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001352> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

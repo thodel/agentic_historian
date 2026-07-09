@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per003210>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Hartmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1626" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:20:50.781737" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003210a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "1" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "18" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "55"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "61" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "177"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000841> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1626-1673" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1626" ;
+                                                                        pers:to    "1673"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000841> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

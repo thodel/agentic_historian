@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003300>
+        a                    pers:person ;
+        rdfs:label           "Matthias von Büttikon"@deu ;
+        pers:deaths          [ pers:death      "spätestens 1402" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1359" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-29 10:39:05.128500" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Matthias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003300a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000479> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Matys" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "18"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000479.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003300a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1382" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000479> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Merz, Walther: Die mittelalterlichen Burganlagen und Wehrbauten des Kantons Aargau, Bd. 1, 1905, S. 176f." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022292> ;
+                               pers:occurence  "sabine"
+                             ] .

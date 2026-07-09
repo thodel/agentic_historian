@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per008756>
+        a                    pers:person ;
+        rdfs:label           "NN Godot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1795" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1795" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-02 21:14:39.121074" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1801" ] ] ;
+                               pers:last_mention  "1801" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008756a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003198> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1795-1801" ;
+                               pers:description   "key004957" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1795" ;
+                                                                        pers:to    "1801"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:occupation      [ pers:date          "1801" ;
+                               pers:description   "key000133" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1801" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007813> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003198> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

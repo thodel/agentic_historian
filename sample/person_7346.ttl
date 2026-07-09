@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008025>
+        a                    pers:person ;
+        rdfs:label           "Emanuel Steck"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1749" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1749" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-04 08:49:01.916403" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Emanuel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008025a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002971> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Emanuel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "277" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "1227"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002971.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008025a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1749" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1749" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002971> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

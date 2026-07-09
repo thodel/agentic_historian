@@ -1,0 +1,82 @@
+<http://ssrq-sds-fds.ch/Register/#per000214>
+        a                pers:person ;
+        rdfs:label       "Jost Tschudi"@deu ;
+        pers:births      [ pers:birth         "um 1380" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1390" ;
+                                                                    pers:notBefore  "1370" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001163>
+                         ] ;
+        pers:deaths      [ pers:death         "um 1456" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1466" ;
+                                                                    pers:notBefore  "1446" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000214a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Joss" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000214a.01>
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:forename   "Jost" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000214a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "37b" ;
+                                                              pers:line     "26" ;
+                                                              pers:page     "74"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "51a" ;
+                                                              pers:line     "4" ;
+                                                              pers:page     "148"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "44" ;
+                                                              pers:line     "30" ;
+                                                              pers:page     "99"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jost" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000214a.03>
+                         ] ;
+        pers:occupation  [ pers:date          "1419?-1456" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from       "1419" ;
+                                                                    pers:precision  "0.5" ;
+                                                                    pers:to         "1456"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17986" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

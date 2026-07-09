@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per013604>
+        a                    pers:person ;
+        rdfs:label           "Georg Hofmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1514" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-21 12:11:21.495040" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Georgius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000541.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013604a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013604a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000541> ;
+                               pers:rolenames  [ pers:occurence  "sabine" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004872" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002768>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000541> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

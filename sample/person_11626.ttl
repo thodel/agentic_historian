@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per012526>
+        a                       pers:person ;
+        rdfs:label              "Pierre Ginod"@fra ;
+        pers:first_mentions     [ pers:first_mention  "1459" ;
+                                  pers:occurence      "gortega"
+                                ] ;
+        pers:hist               [ pers:date      "2020-03-04 08:40:04.294497" ;
+                                  pers:username  "gortega"
+                                ] ;
+        pers:judgeAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012525> ;
+                                  pers:occurence  "gortega"
+                                ] ;
+        pers:memberOf           [ pers:occurence      "gortega" ;
+                                  pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004150>
+                                ] ;
+        pers:name               [ pers:forename    "Petrus" ;
+                                  pers:lang        "lat" ;
+                                  pers:occurence   "gortega" ;
+                                  pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004832.02> ;
+                                  pers:type        "orig" ;
+                                  pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012526a.01>
+                                ] ;
+        pers:name               [ pers:forename          "Petrus" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per012526a> ;
+                                  pers:lang              "lat" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004832> ;
+                                  pers:type              "std"
+                                ] ;
+        pers:name               [ pers:forename          "Pierre" ;
+                                  pers:id                <http://ssrq-sds-fds.ch/Register/#per012526a> ;
+                                  pers:lang              "fra" ;
+                                  pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                           pers:occurence       "gortega"
+                                                         ] ;
+                                  pers:occurence         "gortega" ;
+                                  pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004832> ;
+                                  pers:type              "std"
+                                ] ;
+        pers:occupation         [ pers:description  "key003646" ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:occupation         [ pers:date         "25.04.1459–10.05.1459" ;
+                                  pers:description  "key005585" ;
+                                  pers:occurence    "gortega"
+                                ] ;
+        pers:org_id             <http://ssrq-sds-fds.ch/Register/#org004832> ;
+        pers:project            "SSRQ" ;
+        pers:refs               [ pers:title  "Modestin dans Ostorero et al. 2007, p. 361–363" ;
+                                  pers:type   "biblio"
+                                ] ;
+        pers:sex                "1" .

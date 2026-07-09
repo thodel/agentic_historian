@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per027805>
+        a                pers:person ;
+        rdfs:label       "Ulrich Molitor"@deu ;
+        pers:births      [ pers:birth      "ca. 1442" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1507" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-07 08:39:02.924806" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Ulrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027805a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008224> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Ulrici" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008224.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027805a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org008224> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://swb.bsz-bw.de/DB=2.104/SET=12/TTL=1/SHW?FRST=1&ADI_LND=&retrace=0"
+                         ] ;
+        pers:refs        [ pers:id    "021570" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "118784501" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:remark      "Anderes Todesdatum 1508" ;
+        pers:sex         "1" .

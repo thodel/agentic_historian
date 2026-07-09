@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per001754>
+        a                    pers:person ;
+        rdfs:label           "Gotthart Reichmuth"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1544" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1544" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1545" ] ] ;
+                               pers:last_mention  "1545" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Gotthart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001754a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "153a" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "546"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1148"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "133" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "443"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000776> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gothardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001754a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000776> ;
+        pers:ownerOf         [ pers:date           "1544, 1545" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1544" ] ;
+                                         pers:format_date  [ pers:when  "1545" ] ] ;
+                               pers:location       <http://ssrq-sds-fds.ch/Register/#loc000317> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                             ] ;
+        pers:ownerOf         [ pers:date           "1544, 1545" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1545" ] ;
+                                         pers:format_date  [ pers:when  "1544" ] ] ;
+                               pers:location       <http://ssrq-sds-fds.ch/Register/#loc000317> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

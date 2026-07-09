@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per005263>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Ambrand"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1464" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1464" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-28 14:40:42.240903" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "42" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "114"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002102.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005263a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Haini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "42" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "115"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002102.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005263a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005263a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002102> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1464, 1465" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1464" ] ;
+                                         pers:format_date  [ pers:when  "1465" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002102> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005996> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per000811>
+        a             pers:person ;
+        rdfs:label    "Albrecht von Habsburg-Österreich"@deu ;
+        pers:births   [ pers:birth         "18.12.1418" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1418-12-18" ] ] ;
+                        pers:occurence     "HLS"
+                      ] ;
+        pers:deaths   [ pers:death         "02.12.1463" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1463-12-02" ] ] ;
+                        pers:occurence     "HLS"
+                      ] ;
+        pers:name     [ pers:forename   "Albrecht" ;
+                        pers:gennames   [ pers:genname    "VI." ;
+                                          pers:occurence  "SG III/2"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per000811a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "57" ;
+                                                           pers:line     "20" ;
+                                                           pers:page     "184"
+                                                         ] ;
+                                          pers:vol       "SG III/2"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                        pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                          pers:rolename   "Herzog/duc"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "29221" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:sex      "1" .

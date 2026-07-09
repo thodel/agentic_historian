@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009219>
+        a                    pers:person ;
+        rdfs:label           "Isabelle Paris"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1607" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1607" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-26 12:05:08.270014" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Isabelle" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per009219a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "FR I/2/8"
+                                                      ] ;
+                               pers:occurence         "FR I/2/8" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003404> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Isabel" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003404.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009219a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003404> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009218> ;
+                               pers:occurence  "FR I/2/8"
+                             ] .

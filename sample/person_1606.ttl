@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002009>
+        a                    pers:person ;
+        rdfs:label           "Oswald Schön"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1590" ;
+                                                                         pers:notBefore  "1570" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Oswald" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002009a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "178a" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "638"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000869> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Oßwald" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000869.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002009a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000869> ;
+        pers:ownerOf         [ pers:location       <http://ssrq-sds-fds.ch/Register/#loc000827> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

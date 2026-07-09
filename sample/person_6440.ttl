@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007071>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Torgler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1627" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1627" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-06 15:22:16.197822" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhelm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "175b" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "787"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002394.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007071a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007071a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002394> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1627" ;
+                               pers:description   "key000780" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1627" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002394> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per007060" ;
+        pers:sex             "1" .

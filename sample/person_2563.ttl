@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per002988>
+        a                pers:person ;
+        rdfs:label       "Karl Kaspar Niklaus Kolin"@deu ;
+        pers:births      [ pers:birth         "01.04.1734" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1734-04-01" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "09.02.1801" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1801-02-09" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Karl Kaspar Niklaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002988a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "1150"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000294> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carl Casper Niklaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000294.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002988a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1767" ;
+                           pers:description   "key000029" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000294> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26775" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

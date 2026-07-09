@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003809>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Messer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1461" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 19:59:53.450845" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "155"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001525.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003809a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003809a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001525> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1461-1485" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1461" ;
+                                                                        pers:to    "1485"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001334>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001525> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

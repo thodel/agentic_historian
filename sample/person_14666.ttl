@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per015723>
+        a                    pers:person ;
+        rdfs:label           "Martin Brunner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1602" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-09 09:55:39.481112" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015723a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001627> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Martti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001627.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015723a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001627> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1602–" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

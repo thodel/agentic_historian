@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per003887>
+        a                    pers:person ;
+        rdfs:label           "Raphael Hoffhalter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:18:14.967852" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Raffahel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "62b" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "179"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001548.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003887a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Raphael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003887a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001548> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key003714" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001548> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Polnischer Name, da aus Posen. Mit einer Göldi ZH verheiratet, Stampfer war Pate der Tochter." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

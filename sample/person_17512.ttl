@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018686>
+        a                    pers:person ;
+        rdfs:label           "Hans Schnider"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1660" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-04 14:04:06.680011" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018686a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000570> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Gion" ;
+                               pers:lang        "roh" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000570.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018686a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000570> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007691> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

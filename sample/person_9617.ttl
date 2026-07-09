@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per010380>
+        a                    pers:person ;
+        rdfs:label           "Frick Ledler"@deu ;
+        pers:citizenOf       [ pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003852>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1432" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-16 16:00:58.953284" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Junge" ;
+                                                 pers:occurence  "stadtasg"
+                                               ] ;
+                               pers:forename   "Frick" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010380a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003851> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003851> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

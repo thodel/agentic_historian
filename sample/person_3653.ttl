@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per004127>
+        a                    pers:person ;
+        rdfs:label           "Hans von Ruoff"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1617" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:48:38.452757" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hanss" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "118e" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "424"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001656.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004127a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004127a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "118e" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "424"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001656> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1617" ;
+                               pers:description   "key003498" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001656> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1617" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005659> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

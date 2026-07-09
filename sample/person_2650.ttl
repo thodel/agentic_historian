@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003080>
+        a                    pers:person ;
+        rdfs:label           "Johann Melchior Lussmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1787" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1787" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1789" ] ] ;
+                               pers:last_mention  "1789" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Melchior" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003080a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "366b" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "1204"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "366c" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "1205"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001133> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1788" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:occupation      [ pers:date          "1787-1789" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1787" ;
+                                                                        pers:to    "1789"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001133> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

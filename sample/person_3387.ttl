@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003851>
+        a                pers:person ;
+        rdfs:label       "Gabriel Zur Gilgen"@deu ;
+        pers:deaths      [ pers:death         "1541" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1541" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-17 16:46:22.767235" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Gabriel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003851a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                              pers:line     "35" ;
+                                                              pers:page     "171"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000983> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1537-" ;
+                           pers:description   "key000540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1537" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000983> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

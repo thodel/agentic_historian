@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003926>
+        a                pers:person ;
+        rdfs:label       "Leodegar Ritzi"@deu ;
+        pers:deaths      [ pers:death         "1588" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1588" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-25 11:54:38.433799" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "LU II/3" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001566>
+                         ] ;
+        pers:name        [ pers:forename   "Leodegar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003926a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "104b" ;
+                                                              pers:line     "29" ;
+                                                              pers:page     "379"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000402> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000301" ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000402> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "S. 55" ;
+                           pers:title  "Kälin-Pittier 1999" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000011079"
+                         ] ;
+        pers:sex         "1" .

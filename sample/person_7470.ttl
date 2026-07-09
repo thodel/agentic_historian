@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per008150>
+        a                    pers:person ;
+        rdfs:label           "Anton Frei"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1760" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1760" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-05 15:54:56.978500" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008150a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000386> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anthony" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "287a" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "1246"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "287b" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "1249"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000386.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008150a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1762" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002956>
+                             ] ;
+        pers:occupation      [ pers:date          "1760" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1760" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000386> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Wohnort Diepoldsau oder Schmitter; Gesandter von Diepoldsau und Schmitter; Identität wahrscheinlich" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006542> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

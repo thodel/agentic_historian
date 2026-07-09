@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per008347>
+        a              pers:person ;
+        rdfs:label     "Johann Heinrich Custer"@deu ;
+        pers:births    [ pers:birth         "21.12.1757" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1757-12-21" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "24.10.1818" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1818-10-24" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-18 16:13:37.780109" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename   "Johann Heinrich" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008347a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                            pers:line     "17" ;
+                                                            pers:page     "1399"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003034> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003034> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "43698" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:sex       "1" .

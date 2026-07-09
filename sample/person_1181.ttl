@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per001583>
+        a                    pers:person ;
+        rdfs:label           "NN Widrig"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1861" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1861" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001583a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "116" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "394"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000708> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1861" ;
+                               pers:description   "key003590" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1861" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000708> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

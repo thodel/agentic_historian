@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per019590>
+        a                pers:person ;
+        rdfs:label       "Peter Schorsch"@deu ;
+        pers:births      [ pers:birth      "1641" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "1704" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-15 14:59:39.152358" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019590a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002920> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002920.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019590a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Peter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002920.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019590a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1682" ;
+                           pers:description  "key000203" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000032> ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002920> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "Collenberg 1999, S. 60" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003704>
+        a                    pers:person ;
+        rdfs:label           "Hans Schriber"@deu ;
+        pers:deaths          [ pers:death         "1478/79" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1478" ;
+                                                                        pers:to    "1479"
+                                                                      ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1434" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-12-15 16:01:54.108880" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003704a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "39b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "102"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "61" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "174"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000287> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000310" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000287> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21241" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Ersterwähnung 1434 i.O., obwohl nicht im HLS, inan." ;
+        pers:sex             "1" .

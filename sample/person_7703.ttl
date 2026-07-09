@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per008390>
+        a              pers:person ;
+        rdfs:label     "Viktor August Custer"@deu ;
+        pers:births    [ pers:birth         "1797" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1797" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "1872" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1872" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-19 10:56:28.345273" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename   "Viktor August" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008390a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "SG III/3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003034> ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Victor A." ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                             pers:line     "30" ;
+                                                             pers:page     "1399"
+                                                           ] ;
+                                            pers:vol       "SG III/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003034.01> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008390a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003034> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:title  "Rohner, Geschlechter und Wappen, S. 74" ;
+                         pers:type   "biblio"
+                       ] ;
+        pers:remark    "Werner Kuster: Identität wahrscheinlich" ;
+        pers:sex       "1" .

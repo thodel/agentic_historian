@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per003872>
+        a                    pers:person ;
+        rdfs:label           "Christoph Cloos"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1587" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:16:03.279852" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003872a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "137b" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "496"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "126" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "458"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "120a" ;
+                                                                  pers:line     "37" ;
+                                                                  pers:page     "427"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "172"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000898> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Christoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "124" ;
+                                                                   pers:line     "33" ;
+                                                                   pers:page     "455"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "138" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "510"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000898.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003872a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1587-1589" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1587" ;
+                                                                        pers:to    "1589"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000898> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "E2_1602.12.28: Statthalter (HBLS nicht), Messmer/Hoppe, S. 203" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

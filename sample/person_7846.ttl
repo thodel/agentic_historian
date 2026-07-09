@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008535>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Tränkle"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1377" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1387" ;
+                                                                         pers:notBefore  "1367" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-21 16:34:56.401290" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1414" ] ] ;
+                               pers:last_mention  "1414" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008535a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003062> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003062> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Chronist unter Rudolf V. von Montfort-Feldkirch sowie über dessen Tod hinaus bis 1412." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

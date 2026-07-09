@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per009429>
+        a                pers:person ;
+        rdfs:label       "Walter von Roll"@deu ;
+        pers:births      [ pers:birth         "um 1520" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1530" ;
+                                                                    pers:notBefore  "1510" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "04.1591" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1591-04" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-10 11:13:42.468250" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Walther" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000974.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009429a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Walter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009429a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000974> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Walther" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000974.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009429a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1548, 1549" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007734> ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000974> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089415826" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "15525" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:page   "V, S. 535–536" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:sex         "1" .

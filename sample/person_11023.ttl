@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per011886>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Birkendorf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "09.06.1468" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1452" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-16 14:26:00.308796" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011886a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004556> ;
+                               pers:rolenames  [ pers:occurence  "saeg" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004556> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "1452" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc010245> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016010> ;
+                               pers:occurence  "sabine"
+                             ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002806>
+        a                    pers:person ;
+        rdfs:label           "Jakob Stoffel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1771" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1771" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jogel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001092.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002806a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002806a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "308c" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "1055"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001092> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001092> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000517> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

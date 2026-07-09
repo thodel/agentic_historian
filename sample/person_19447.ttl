@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020679>
+        a               pers:person ;
+        rdfs:label      "Jakob Sumvitg"@deu ;
+        pers:deaths     [ pers:death      "vor 1557" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-02 21:58:26.597722" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Jakob" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per020679a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007677> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Jacu̍m" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007677.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020679a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007677> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000398> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020678> ;
+                          pers:occurence  "pascale"
+                        ] .

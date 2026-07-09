@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per019508>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Ostrach"@deu ;
+        pers:deaths          [ pers:death      "spätestens 1337" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022723> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1333" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-31 09:58:26.160739" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019508a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004632> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004632> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022724> ;
+                               pers:occurence  "sabine"
+                             ] .

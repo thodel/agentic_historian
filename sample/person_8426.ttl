@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per009157>
+        a                    pers:person ;
+        rdfs:label           "Martin Reichmuth"@deu ;
+        pers:deaths          [ pers:death         "1522" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1522" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1520" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 08:25:47.294904" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Martin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009157a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000776> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Marthy" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009157a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Martinus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009157a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000776> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1520" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:occupation      [ pers:date          "1520" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000776> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, S. 572–573" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

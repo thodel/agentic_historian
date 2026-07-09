@@ -1,0 +1,82 @@
+<http://ssrq-sds-fds.ch/Register/#per002170>
+        a                pers:person ;
+        rdfs:label       "Johann Peter Trinkler"@deu ;
+        pers:births      [ pers:birth         "14.07.1634" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1634-07-14" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "15.01.1673" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1673-01-15" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Jo. Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000430.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002170a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002170a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "257" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "931"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "189a" ;
+                                                              pers:line     "24" ;
+                                                              pers:page     "672"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000430> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jo. Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000430.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002170a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1669, 1670" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1670" ] ;
+                                     pers:format_date  [ pers:when  "1669" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                         ] ;
+        pers:occupation  [ pers:date          "1662-1664, 1671-1673" ;
+                           pers:description   "key000029" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1662" ;
+                                                                    pers:to    "1664"
+                                                                  ] ;
+                                     pers:format_date  [ pers:from  "1671" ;
+                                                         pers:to    "1673"
+                                                       ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001198>
+                         ] ;
+        pers:occupation  [ pers:date          "1669, 1670" ;
+                           pers:description   "key000639" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1670" ] ;
+                                     pers:format_date  [ pers:when  "1669" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1669-1671" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1669" ;
+                                                                    pers:to    "1671"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000430> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26811" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

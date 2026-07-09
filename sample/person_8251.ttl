@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008970>
+        a                    pers:person ;
+        rdfs:label           "Jakob Aebli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1590" ;
+                                                                         pers:notBefore  "1570" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 09:23:27.878454" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000234.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008970a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008970a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000234> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000234> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007765>
+        a                    pers:person ;
+        rdfs:label           "Lukas Graf"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1713" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1713" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 15:27:09.497803" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Lucas" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250e" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "1114"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000235.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007765a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Lukas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007765a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000235> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1713" ;
+                               pers:description   "key003639" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1713" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002948>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000235> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

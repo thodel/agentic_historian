@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009048>
+        a                    pers:person ;
+        rdfs:label           "Jean Henri Lardy"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1695" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1695" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-04-16 10:23:57.176024" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Jean Henry" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003091.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009048a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean Henri" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009048a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003091> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003091> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007815> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

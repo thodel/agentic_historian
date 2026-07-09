@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per001742>
+        a                    pers:person ;
+        rdfs:label           "Hans Gantner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1602" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1602" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1605" ] ] ;
+                               pers:last_mention  "1605" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000768.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001742a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001742a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "213b" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "799"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "130" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "435"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "195" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "705"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000768> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1602, 1604, 1605" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1605" ] ;
+                                         pers:format_date  [ pers:when  "1602" ] ;
+                                         pers:format_date  [ pers:when  "1604" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000768> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

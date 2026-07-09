@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per014125>
+        a                pers:person ;
+        rdfs:label       "Friedrich von Hohenzollern"@deu ;
+        pers:births      [ pers:birth      "1451" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "1505" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-05-11 14:03:29.545561" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Friderich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001983.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014125a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Friedrich" ;
+                           pers:gennames          [ pers:genname    "II." ;
+                                                    pers:occurence  "GR B III/2"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per014125a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "GR B III/2"
+                                                  ] ;
+                           pers:occurence         "GR B III/2" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001983> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1486–1505" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002894>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001983> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "104074809" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017318> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013677> ;
+                           pers:occurence  "pascale"
+                         ] .

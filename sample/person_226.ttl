@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per000281>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Werdenberg-Sargans"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1329" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1329" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-31 13:55:06.073041" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1358" ] ] ;
+                               pers:last_mention  "1358" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Ulrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000281b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "14" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "21"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000120> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Ulrich" ;
+                               pers:gennames          [ pers:genname    "III." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000281a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "14" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "21"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000008> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1337-1358" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1337" ;
+                                                                        pers:to    "1358"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000120>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000008> , <http://ssrq-sds-fds.ch/Register/#org000120> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   ", http://personendatenbank.germania-sacra.de/index/gsn/040-04445-001"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001000> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

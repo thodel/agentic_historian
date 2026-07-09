@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per000729>
+        a                pers:person ;
+        rdfs:label       "Hans Fründ"@deu ;
+        pers:births      [ pers:birth         "nach 1400" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1400" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "wohl 1468" ;
+                           pers:format_dates  [ pers:format_date  [ pers:precision  "0.5" ;
+                                                                    pers:when       "1468"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-02 17:33:31.939423" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000729a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "49" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "124"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "79a" ;
+                                                              pers:line     "25" ;
+                                                              pers:page     "300"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000368> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000051" ;
+                           pers:occurence    "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "-1437; 1461-" ;
+                           pers:description   "key000051" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1437" ;
+                                                                    pers:notBefore  "1427" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ;
+                                     pers:format_date  [ pers:notBefore  "1461" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000368> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14126" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

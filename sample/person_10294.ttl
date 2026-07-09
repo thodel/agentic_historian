@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per011112>
+        a                    pers:person ;
+        rdfs:label           "NN Escher"@deu ;
+        pers:births          [ pers:birth      "1566" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:deaths          [ pers:death      "1644" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1630" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-07 11:22:05.275445" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "pascale" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Conrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011112a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000690> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000690.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011112a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1630" ;
+                               pers:description  "key000607" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000690> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Pascale Sutter: Wahrscheinlich Hans Conrad Escher vom Glas, Schwiegervater von Hans Rudolf Rahn. Lebensdaten nach Zürcher Ratslisten." ;
+        pers:sex             "1" .

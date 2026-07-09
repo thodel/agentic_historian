@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per012656>
+        a                pers:person ;
+        rdfs:label       "Karl Franz Krauer"@deu ;
+        pers:births      [ pers:birth      "1691" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1745" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-27 14:22:45.143254" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Karl Franz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012656a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005119> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005119.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012656a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1737-1743" ;
+                           pers:description  "key001056" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc005996> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005119> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "tke: Evt. Todesdatum auch schon 1744." ;
+        pers:sex         "1" .

@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per009381>
+        a                    pers:person ;
+        rdfs:label           "Hieronymus Gottrau"@deu ;
+        pers:deaths          [ pers:death         "1641" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:employerOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009595> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1580" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1580" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-06-25 08:57:33.200977" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009381a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hieronymus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009381a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jerosme" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.11> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009381a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hyeronimus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009381a.03>
+                             ] ;
+        pers:name            [ pers:forename   "Jérôme" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009381a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1580-1641" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1580" ;
+                                                                        pers:to    "1641"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III, p. 502" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

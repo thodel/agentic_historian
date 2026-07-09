@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per011696>
+        a                    pers:person ;
+        rdfs:label           "Dietrich von Englisberg"@deu ;
+        pers:deaths          [ pers:death      "1635" ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-22 15:45:02.227158" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Dietrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011696a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003370> ;
+                               pers:rolenames  [ pers:occurence  "lionel" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1599-1635" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "lionel" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1626-1631" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007882> ;
+                               pers:occurence    "lionel"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003370> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" .

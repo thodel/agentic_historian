@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010800>
+        a                    pers:person ;
+        rdfs:label           "Hans Winnenwieser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-15 11:35:17.092112" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001897.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010800a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010800a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001897> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1733" ;
+                               pers:description  "key000408" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001897> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Zuständig für das Sechstel am vorderen Grabser Berg zur Einhaltung der Feuerordnung." ;
+        pers:residence       [ pers:date       "1733" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc006025> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

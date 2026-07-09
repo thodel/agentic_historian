@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per010887>
+        a                pers:person ;
+        rdfs:label       "Hans Georg Wohlgemut"@deu ;
+        pers:deaths      [ pers:death      "1732" ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:hist        [ pers:date      "2019-03-08 08:08:57.367424" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003413.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010887a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Hans Georg" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010887a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                    pers:occurence       "SG III/4"
+                                                  ] ;
+                           pers:occurence         "SG III/4" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003413> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1732" ;
+                           pers:description  "key000978" ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003413> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://www.ssrq-sds-fds.ch/fileadmin/user_upload/publikationen/WeGe_1_18_S._240_255min.pdf"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008632> ;
+                           pers:occurence  "SG III/4"
+                         ] ;
+        pers:sex         "1" .

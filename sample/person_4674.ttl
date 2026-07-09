@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per005220>
+        a                    pers:person ;
+        rdfs:label           "Hans Gmünder"@deu ;
+        pers:deaths          [ pers:death         "vor 1460" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1460" ;
+                                                                        pers:notBefore  "1410" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005219> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1431" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1431" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-05 15:46:19.154882" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "38b" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "98"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002082.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005220a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005220a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002082> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000029" ;
+                               pers:occurence    "SG III/3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002082> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18868" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

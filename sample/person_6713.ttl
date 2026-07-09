@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per007364>
+        a                    pers:person ;
+        rdfs:label           "Anna von Montfort"@deu ;
+        pers:first_mentions  [ pers:first_mention  "25.11.1310" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1310-11-25" ] ] ;
+                               pers:occurence      "lukas"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-18 01:49:25.090400" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020727> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020728> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007364a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000007> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per007364b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "mina"
+                                                      ] ;
+                               pers:occurence         "mina" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002693> ;
+                               pers:rolenames         [ pers:occurence  "mina" ;
+                                                        pers:rolename   "Gräfin/comtesse"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000007> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025853> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020725> ;
+                               pers:occurence  "mina"
+                             ] .

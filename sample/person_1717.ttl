@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per002117>
+        a                    pers:person ;
+        rdfs:label           "Bartholome Megnet"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1574" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1574" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-27 07:25:35.554634" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ] ;
+                               pers:last_mention  "1582" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Bartholome" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "150" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "654"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000908.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002117a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Bartholome" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002117a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "179" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "644"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000908> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartholme" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "47" ;
+                                                                   pers:line     "43" ;
+                                                                   pers:page     "134"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000908.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002117a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1574, 1575" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1574" ] ;
+                                         pers:format_date  [ pers:when  "1575" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002110>
+                             ] ;
+        pers:occupation      [ pers:date          "1574, 1575" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1574" ] ;
+                                         pers:format_date  [ pers:when  "1575" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000908> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

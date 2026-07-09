@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per009043>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Sulz"@deu ;
+        pers:deaths          [ pers:death         "05.05.1620" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1620-05-05" ] ] ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1582" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-11 15:05:58.640235" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009043a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000489> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003657" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000854> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000489> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "137544251" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

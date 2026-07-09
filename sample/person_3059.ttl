@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per003507>
+        a             pers:person ;
+        rdfs:label    "Enguerrand de Coucy"@deu ;
+        pers:births   [ pers:birth      "um 1340" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "1397" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-30 07:53:57.929512" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Enguerrand" ;
+                        pers:gennames   [ pers:genname    "VII." ;
+                                          pers:occurence  "pascale"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per003507a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "8b" ;
+                                                           pers:line     "23" ;
+                                                           pers:page     "29"
+                                                         ] ;
+                                          pers:vol       "LU II/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001392> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001392> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:title  "https://hls-dhs-dss.ch/de/articles/008731/2007-03-06/" ;
+                        pers:type   "biblio"
+                      ] ;
+        pers:refs     [ pers:id    "118638920" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,24 @@
+<http://ssrq-sds-fds.ch/Register/#per007126>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Burchweg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "24.01.1313" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:36:50.681967" ;
+                               pers:username  "tobias"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007126a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "tobias" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002687> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002687> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "24.01.1313" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1313-01-24" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005974> ;
+                               pers:occurence     "tobias"
+                             ] ;
+        pers:sex             "1" .

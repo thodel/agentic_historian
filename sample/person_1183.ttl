@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per001585>
+        a                    pers:person ;
+        rdfs:label           "Fridolin Gallati"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1516" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1516" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1521" ] ] ;
+                               pers:last_mention  "1521" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Fridolin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001585a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "129a" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "424"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "116" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "394"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "129b" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "427"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000490> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000490.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001585a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1516-1518" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1516" ;
+                                                                        pers:to    "1518"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1521" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1521" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000490> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

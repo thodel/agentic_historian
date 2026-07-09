@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per000845>
+        a                    pers:person ;
+        rdfs:label           "Heinz Freitag"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1491" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:last_mention  "1497" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000845a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "62c" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "207"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "92" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000258> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000258.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000845a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Heintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000258.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000845a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000258> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000123> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per000282>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Ried"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1342" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1342" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000282a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "14" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "21"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000121> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Friedrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000121.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000282a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000121> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

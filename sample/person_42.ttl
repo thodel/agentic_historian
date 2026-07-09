@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per000042>
+        a                    pers:person ;
+        rdfs:label           "Friedrich aus der Lacun"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1288" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1288" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Friderich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000021.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000042a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000042a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "2"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000021> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000021> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

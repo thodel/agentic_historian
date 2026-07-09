@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per010953>
+        a                pers:person ;
+        rdfs:label       "Frédéric de Hohenzollern"@fra ;
+        pers:births      [ pers:birth      "11.07.1657" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death      "25.02.1713" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2019-03-19 16:33:45.539900" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Frédéric" ;
+                           pers:gennames   [ pers:genname    "Ier" ;
+                                             pers:occurence  "NE 3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per010953a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001983> ;
+                           pers:rolenames  [ pers:occurence  "NE 3" ;
+                                             pers:rolename   "König/roi"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000229" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001983> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118535730" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000627> ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:sex         "1" .

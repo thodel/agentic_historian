@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000376>
+        a               pers:person ;
+        rdfs:label      "Heinz Tyg"@deu ;
+        pers:deaths     [ pers:death         "1384" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1384" ] ] ;
+                          pers:occurence     "SG III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Heinz" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per000376a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "24" ;
+                                                             pers:line     "2" ;
+                                                             pers:page     "44"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000163> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Heinz" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000163.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000376a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000163> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:sex        "1" .

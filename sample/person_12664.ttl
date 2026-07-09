@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per013628>
+        a                pers:person ;
+        rdfs:label       "Nikolaus Vonderweid"@deu ;
+        pers:births      [ pers:birth      "1610" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "1668" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-24 11:27:34.695857" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Nikolaus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013628a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002526> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002526.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013628a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1642-1668" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002526> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VII, p. 171" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

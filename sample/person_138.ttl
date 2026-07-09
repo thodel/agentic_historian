@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per001023>
+        a                    pers:person ;
+        rdfs:label           "Anna von Wildenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1320/22" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-13 08:42:02.494145" ;
+                               pers:username  "sibylle"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001023a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "90" ;
+                                                                         pers:line     "21" ;
+                                                                         pers:page     "312"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000019> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001023b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "90" ;
+                                                                         pers:line     "21" ;
+                                                                         pers:page     "312"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000020> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000019> , <http://ssrq-sds-fds.ch/Register/#org000020> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Erwähnt in BUB, Bd. 4, Nr. 2182; Nr. 2241 (1320, 1322)." ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001024> ;
+                               pers:occurence  "SG III/2"
+                             ] .

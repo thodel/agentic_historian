@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002155>
+        a                    pers:person ;
+        rdfs:label           "Katharina Hofmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1598" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1598" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Cathryna" ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         "SG III/2" ;
+                               pers:org_var_id        <http://ssrq-sds-fds.ch/Register/#org000541.04> ;
+                               pers:type              "orig" ;
+                               pers:var_id            <http://ssrq-sds-fds.ch/Register/#per002155a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Katharina" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002155a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "187" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "666"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000541> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000541> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

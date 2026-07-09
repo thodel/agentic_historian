@@ -1,0 +1,29 @@
+## Summary
+
+Fixes issue #17 by improving the LLM-based reconciliation of dual-path HTR outputs (VLM vs kraken).
+
+## Changes
+
+- **RECONCILE_SYSTEM prompt** (agent_a/reconcile.py): Expanded with TCK-Redaktor and Paleografie-Experte roles, Chain-of-Thought instruction, explicit ligature/abbreviation rules, [?UNCLEAR] marker for unreadable passages, and no-commentary rule.
+
+- **agreement_score** (agent_a/reconcile.py): Replaced raw `_token_diff()` (character-level) with `_line_disagreement_ratio()` (line-level). More stable and meaningful — not thrown off by minor character noise when line structure matches.
+
+- **Model routing** (agent_a/reconcile.py + dual_pipeline.py): `gs.chat_text()` now uses `model=config.GPUSTACK_MODEL_TEXT` explicitly instead of an implicit default. `RECONCILE_DEFAULT_MAX_TOKENS` is set to `GPUSTACK_TEXT_MAX_TOKENS` from config (≥ 4096, adequate for a reasoning model).
+
+- **Re-export** (agent_a/models.py): Added `from agent_a.reconcile import RECONCILE_SYSTEM, RECONCILE_DEFAULT_MAX_TOKENS` so the stable public interface works for downstream imports.
+
+- **Test** (tests/test_ah_17_reconciliation_prompt_tuning.py): 15 offline tests covering prompt content, score stability (line disagreement ratio), model selection, and token budget defaults. No VPN required.
+
+## Verification
+
+```bash
+cd agentic_historian && source .venv/bin/activate
+pytest tests/test_ah_17_reconciliation_prompt_tuning.py -v
+# → 15 passed
+```
+
+## Acceptance criterion
+
+Reconciled output ≥ best single-path CER on the GT set (to be validated in Phase 9 real-doc testing).
+
+Closes #17

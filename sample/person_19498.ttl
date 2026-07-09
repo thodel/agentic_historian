@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per020731>
+        a                    pers:person ;
+        rdfs:label           "Rudolf NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1314" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-01 12:45:13.984272" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020731a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1314" ;
+                               pers:description  "key000639" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001814>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000061> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per014523>
+        a                    pers:person ;
+        rdfs:label           "Walter Freitag"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1416" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-16 09:35:38.793842" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014523a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000258> ;
+                               pers:rolenames  [ pers:occurence  "fahe" ;
+                                                 pers:rolename   "Magister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1416" ;
+                               pers:description  "key000562" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000088>
+                             ] ;
+        pers:occupation      [ pers:date         "1416" ;
+                               pers:description  "key000562" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000482> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "ab 1416" ;
+                               pers:description  "key003661" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004257>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000258> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

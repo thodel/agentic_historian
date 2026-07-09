@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020637>
+        a               pers:person ;
+        rdfs:label      "Werner Walch"@deu ;
+        pers:deaths     [ pers:death      "vor 1329" ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020636> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:hist       [ pers:date      "2021-03-14 23:38:32.346234" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:name       [ pers:forename   "Werner" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per020637a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "mina" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003488> ;
+                          pers:rolenames  [ pers:occurence  "mina" ;
+                                            pers:rolename   "Ritter/chevalier"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003488> ;
+        pers:project    "Königsfelden" ;
+        pers:remark     "Möglicherweise identisch mit per029141" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010685> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:sex        "1" .

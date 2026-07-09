@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per006173>
+        a                    pers:person ;
+        rdfs:label           "Balthasar von Ramschwag"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1530" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1530" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-15 15:49:36.025171" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:last_mention  "1555" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Balthaßar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "121a" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "486"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "14" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "32"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "15" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "34"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "113e" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "453"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001966.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006173a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Balthaßar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001966.11> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006173a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Balthasar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006173a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001966> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000384> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1555" ;
+                               pers:description   "key004832" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1555" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000489>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001966> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

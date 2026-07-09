@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per020839>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Weisstanner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1776" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 10:44:17.530085" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1798" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020839a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007357> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lienhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007357.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020839a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Leonhard" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007357.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020839a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000310" ;
+                               pers:occurence    "GR B III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006296>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007357> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010168> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

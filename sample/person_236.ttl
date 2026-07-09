@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000292>
+        a                    pers:person ;
+        rdfs:label           "Jakob von Sardona"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1346" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1346" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jaͤcli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000125.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000292a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000292a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "16a" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "23"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000125> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000118" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000125> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000054> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

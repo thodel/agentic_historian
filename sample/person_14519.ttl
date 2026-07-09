@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per015570>
+        a                pers:person ;
+        rdfs:label       "Johannes Oigli"@deu ;
+        pers:hist        [ pers:date      "2020-04-07 17:22:05.191191" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per015570a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "mina" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006254> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1467" ;
+                           pers:description  "key000042" ;
+                           pers:occurence    "mina" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006254> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:title  "http://permalink.snl.ch/bib/chbsg000114883" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:refs        [ pers:title  "Meyer, Zürich und Rom, S. 395" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per013138>
+        a                    pers:person ;
+        rdfs:label           "Werner Schreiber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1329" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1335" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-13 18:19:52.388335" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1335" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013138a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002099> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002099> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "1335" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007770> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

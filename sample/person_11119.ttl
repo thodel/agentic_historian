@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per011990>
+        a                    pers:person ;
+        rdfs:label           "Jakob Schwarzmurer"@deu ;
+        pers:deaths          [ pers:death      "19.02.1479" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027609> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1425" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-19 08:00:21.538570" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011990a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004597> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004597> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "018101" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

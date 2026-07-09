@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per011881>
+        a                    pers:person ;
+        rdfs:label           "Klaus Widmer"@deu ;
+        pers:citizenOf       [ pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004554>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1447" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "09.06.1468" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-03 10:26:50.718869" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011881b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000058> ;
+                               pers:type       "std"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "09.06.1468" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000480> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

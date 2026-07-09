@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011792>
+        a                    pers:person ;
+        rdfs:label           "Guillaume de Baulmes"@fra ;
+        pers:citizenOf       [ pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004481>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1449" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2019-10-31 14:06:19.553202" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011792a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004518> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000275" ;
+                               pers:occurence    "gortega" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004481>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004518> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 103" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

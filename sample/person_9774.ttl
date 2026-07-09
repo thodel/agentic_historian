@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per010545>
+        a                pers:person ;
+        rdfs:label       "Christoph Metzler"@deu ;
+        pers:births      [ pers:birth      "um 1490" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "11.09.1561" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-13 15:34:20.461279" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Christoph" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010545a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "stadtasg"
+                                                  ] ;
+                           pers:occurence         "stadtasg" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002118> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1548-1561" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "stadtasg" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002118> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:id    "26335" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "116958820" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:page   "I/2,1, S. 398-401" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "1" .

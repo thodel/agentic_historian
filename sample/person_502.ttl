@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per000590>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Moos"@deu ;
+        pers:deaths          [ pers:death         "20.07.1430" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1430-07-20" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1387" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1387" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-09 12:28:22.802321" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000590a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "26" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "68"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "30b" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "74"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000284> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "26" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "67"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000284.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000590a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1420" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1420" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1428" ;
+                               pers:description   "key000623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000284> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14256" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Schultheiss 1420 abweichend vom HLS, aber in Übereinstimmung mit Schnellmann, Familie von Moos, S. 135." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

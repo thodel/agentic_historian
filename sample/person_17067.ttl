@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per018223>
+        a                    pers:person ;
+        rdfs:label           "Lienhart Öchein"@deu ;
+        pers:deaths          [ pers:death      "1489" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1466" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-20 10:10:51.515762" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:name            [ pers:forename   "Lienhart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018223a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006175> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lienharten" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006175.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018223a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1466-1473, 1477-1488" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:occupation      [ pers:date         "1466-1473" ;
+                               pers:description  "key000778" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005076>
+                             ] ;
+        pers:occupation      [ pers:date         "1477-1488" ;
+                               pers:description  "key000778" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#Zürich> ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005076>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006175> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

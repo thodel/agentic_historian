@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per002991>
+        a                pers:person ;
+        rdfs:label       "Josef Ignaz Xaver Pfyffer"@deu ;
+        pers:births      [ pers:birth         "29.07.1726" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1726-07-29" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "SG III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001164>
+                         ] ;
+        pers:deaths      [ pers:death         "26.12.1796" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1796-12-26" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Heidegg" ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:forename   "Josef Ignaz Xaver" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002991a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "1149"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001146> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Josef Ignaz Franz Xaver" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001146.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002991a.02>
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "von Heydegg" ;
+                                              pers:occurence  "SG III/2"
+                                            ] ;
+                           pers:forename    "Franz Xaver" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001146.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002991a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000181" ;
+                           pers:occurence    "SG III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1766-1768" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1766" ;
+                                                                    pers:to    "1768"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001146> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14465" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

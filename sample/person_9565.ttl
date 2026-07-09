@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per010326>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Göldi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1735" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-13 10:29:47.820673" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010326a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002470> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "alixen genannt" ;
+                                                  pers:occurence  "werner"
+                                                ] ;
+                               pers:forename    "Uli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002470.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010326a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1735" ;
+                               pers:description  "key000622" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002470> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1735" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008430> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

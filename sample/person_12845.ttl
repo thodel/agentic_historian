@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per013831>
+        a                    pers:person ;
+        rdfs:label           "Albert Müller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1445" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-03 14:09:07.928447" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Albert" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013831a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Albert" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per013831a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "GR B III/2"
+                                                      ] ;
+                               pers:occurence         "GR B III/2" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per027542>
+        a               pers:person ;
+        rdfs:label      "Christoph Müller"@deu ;
+        pers:deaths     [ pers:death      "vor 1540" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027553> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027543> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2020-11-18 08:43:15.128469" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:forename    "Cristoffell" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027542a.02>
+                        ] ;
+        pers:name       [ pers:forename    "Christoffell" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027542a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Christoph" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per027542a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000849> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

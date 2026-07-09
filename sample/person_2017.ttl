@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per002421>
+        a                    pers:person ;
+        rdfs:label           "Christoph Kramer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1547" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1547" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-27 07:28:14.176535" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                               pers:last_mention  "1548" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002421a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "231" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "858"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000427> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Stoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "114b" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "465"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000427.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002421a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1548" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1548" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:occupation      [ pers:date          "1547" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001218>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000427> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

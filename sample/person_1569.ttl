@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per001971>
+        a                    pers:person ;
+        rdfs:label           "Werner Babst"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1551" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1551" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Wernhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000855.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001971a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001971a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "570"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000855> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1551" ;
+                               pers:description   "key000761" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1551" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000855> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

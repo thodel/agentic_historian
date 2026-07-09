@@ -1,0 +1,46 @@
+
+    # ── HBLs MCP ────────────────────────────────────────
+    location /mcp/hbls {
+        if ($request_method = GET) { return 302 /mcp/hbls/landing; }
+        proxy_http_version 1.1;
+        proxy_set_header Connection '';
+        proxy_buffering off;
+        proxy_cache off;
+        chunked_transfer_encoding on;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        rewrite ^/mcp/hbls(/.*)?$ /sse$1 break;
+        proxy_pass http://127.0.0.1:8003;
+        proxy_redirect default;
+    }
+    location /mcp/hbls/landing {
+        alias /var/www/html/hbls-landing.html;
+        default_type text/html;
+    }
+    location /mcp/hbls/sse {
+        rewrite ^/mcp/hbls/sse(.*)$ /sse$1 break;
+        proxy_http_version 1.1;
+        proxy_set_header Connection '';
+        proxy_buffering off;
+        proxy_cache off;
+        chunked_transfer_encoding on;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:8003;
+        proxy_redirect default;
+    }
+    location /mcp/hbls/messages {
+        rewrite ^/mcp/hbls/messages(.*)$ /messages$1 break;
+        proxy_http_version 1.1;
+        proxy_set_header Connection '';
+        proxy_buffering off;
+        proxy_cache off;
+        chunked_transfer_encoding on;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:8003;
+        proxy_redirect default;
+    }

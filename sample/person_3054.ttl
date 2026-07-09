@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per003502>
+        a                    pers:person ;
+        rdfs:label           "Peter Schopfer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-21 10:41:14.697043" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "40" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "108"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001390.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003502a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003502a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43a" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "115"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1462" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:occupation      [ pers:date          "1462" ;
+                               pers:description   "key003833" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1462" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001390> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "42523" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Andreas Ineichen: Bitte keine Lebensdaten vom HLS übernehmen, es könnte auch der Vater von HLS-Peter, ebenfalls Peter, sein." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

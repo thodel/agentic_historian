@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008693>
+        a                    pers:person ;
+        rdfs:label           "Fabrice Nôtre"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1762" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1762" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-18 22:41:29.022695" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Fabrice" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008693a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003168> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1762" ;
+                               pers:description   "key000133" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1762" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007803> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003168> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

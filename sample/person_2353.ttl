@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per002751>
+        a                pers:person ;
+        rdfs:label       "Fridolin Joseph Hauser"@deu ;
+        pers:births      [ pers:birth         "22.04.1713" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1713-04-22" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "09.07.1783" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1783-07-09" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-05 14:37:21.475038" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Fridolin Joseph" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002751a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "1150"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001077> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1749-1751, 1754-1756" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1749" ;
+                                                                    pers:to    "1751"
+                                                                  ] ;
+                                     pers:format_date  [ pers:from  "1754" ;
+                                                         pers:to    "1756"
+                                                       ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:occupation  [ pers:date          "1767" ;
+                           pers:description   "key000427" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1767" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001077> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17996" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per002337>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Trümpy"@deu ;
+        pers:deaths          [ pers:death         "03.09.1638" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1638-09-03" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1597" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1597" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002337a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "208a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "782"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "224" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "841"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000989> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000989.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002337a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1615-1617" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1615" ;
+                                                                        pers:to    "1617"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1636-1638" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1636" ;
+                                                                        pers:to    "1638"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000989> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18028" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

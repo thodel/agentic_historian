@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010722>
+        a                    pers:person ;
+        rdfs:label           "Claudy de Pury"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:deaths          [ pers:death      "avant 1617" ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010721> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1617" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-18 15:43:16.058619" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Claudy" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010722a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003111> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claudy" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003111.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010722a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003111> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

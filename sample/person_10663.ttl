@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per011501>
+        a                pers:person ;
+        rdfs:label       "Hans Krug"@deu ;
+        pers:deaths      [ pers:death      "vor 26.04.1454" ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-28 22:55:52.542477" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011501b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "saeg" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003511> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003661" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007770> ;
+                           pers:occurence    "saeg"
+                         ] ;
+        pers:occupation  [ pers:description  "key003661" ;
+                           pers:occurence    "mina" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006604>
+                         ] ;
+        pers:project     "Königsfelden" ;
+        pers:sex         "1" .

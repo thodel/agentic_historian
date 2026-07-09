@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per013277>
+        a                pers:person ;
+        rdfs:label       "Heinrich Ammann"@deu ;
+        pers:births      [ pers:birth      "1286" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1325" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-02 15:41:45.748784" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013277a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000155> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000155.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013277a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1300" ;
+                           pers:description  "key000078" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:description  "key000028" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000108> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000155> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "Pascale Sutter: Er ist 1303 Schultheiss in Rapperswil (SSRQ SG II/2/1, Nr. 7)." ;
+        pers:sex         "1" .

@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per009291>
+        a               pers:person ;
+        rdfs:label      "François Jordan"@fra ;
+        pers:deaths     [ pers:death         "1628" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1628" ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2018-06-12 09:14:00.859964" ;
+                          pers:username  "rita"
+                        ] ;
+        pers:name       [ pers:forename   "François" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009291a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003439> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003439> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008244> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" .

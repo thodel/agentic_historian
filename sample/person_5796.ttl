@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per006394>
+        a                    pers:person ;
+        rdfs:label           "Jakob Kobler"@deu ;
+        pers:deaths          [ pers:death         "vor 24.04.1775" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1775-04-24" ;
+                                                                        pers:notBefore  "1725-04-24" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1775" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1775" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-21 18:15:23.653026" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001777.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006394a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006394a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "128d" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "540"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001777> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001777> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006348> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per002047>
+        a                    pers:person ;
+        rdfs:label           "Jeronimus Heinrich"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1568" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1568" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jeronimuß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001152.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002047a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jeronimus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002047a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "168" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "610"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "193" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "689"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001152> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1568" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1568" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001152> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

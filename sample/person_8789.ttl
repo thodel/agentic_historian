@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per009529>
+        a                    pers:person ;
+        rdfs:label           "Jakob Ulrich"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1561" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1561" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 15:46:50.060494" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009529a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000872> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000872.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009529a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1561, 1562" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ;
+                                         pers:format_date  [ pers:when  "1561" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000872> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

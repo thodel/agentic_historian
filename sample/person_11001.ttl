@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per011862>
+        a                    pers:person ;
+        rdfs:label           "Konrad Gräff"@deu ;
+        pers:citizenOf       [ pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002958>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "17.06.1455" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-25 15:53:45.078188" ;
+                               pers:username  "saeg"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011862a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004542> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004542> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "17.06.1455" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000020> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011851> ;
+                               pers:occurence  "saeg"
+                             ] .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per000380>
+        a                    pers:person ;
+        rdfs:label           "Heinz Gabathuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1441" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1441" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1465" ] ] ;
+                               pers:last_mention  "1465" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Haintz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000167.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000380a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000380a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "51b" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "164"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "24" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "44"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000167> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1442" ;
+                               pers:description   "key000088" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000167> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000579> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

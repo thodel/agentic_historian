@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per009037>
+        a               pers:person ;
+        rdfs:label      "David Bôle"@fra ;
+        pers:deaths     [ pers:death         "avant 1681" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1681" ;
+                                                                   pers:notBefore  "1671" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010101> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009036> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:hist       [ pers:date      "2018-10-16 12:04:27.535817" ;
+                          pers:username  "NE 3"
+                        ] ;
+        pers:name       [ pers:forename   "David" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009037a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003326> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003326> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007799> ;
+                          pers:occurence  "NE 3"
+                        ] ;
+        pers:sex        "1" .

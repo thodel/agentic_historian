@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per015914>
+        a                    pers:person ;
+        rdfs:label           "Hans Käfer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1448" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-15 11:35:28.178409" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015914a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006383> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hensli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006383.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015914a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006383> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009247> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

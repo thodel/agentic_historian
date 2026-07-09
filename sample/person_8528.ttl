@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009262>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus Daguet"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1621" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1621" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-05 09:56:48.484914" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009262a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003425> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003425.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009262a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000547" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003425> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

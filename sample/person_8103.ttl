@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008809>
+        a                    pers:person ;
+        rdfs:label           "Paul Schwarz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1581" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1591" ;
+                                                                         pers:notBefore  "1571" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-08 10:08:30.452745" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Paul" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008809a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000965> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pali" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000965.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008809a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000965> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Ev. identisch mit Landesfähnrich Paul Schwarz (per005881)." ;
+        pers:sex             "1" .

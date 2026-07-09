@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per001100>
+        a               pers:person ;
+        rdfs:label      "Helena (Hl.)"@deu ;
+        pers:feast_day  "22.05." ;
+        pers:name       [ pers:forename   "Helena" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per001100a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "101" ;
+                                                             pers:line     "6" ;
+                                                             pers:page     "334"
+                                                           ] ;
+                                            pers:vol       "SG III/2"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Helen" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org999999.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001100a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org999999> ;
+        pers:project    "SSRQ" ;
+        pers:sex        "2" .

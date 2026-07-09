@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per025283>
+        a                    pers:person ;
+        rdfs:label           "Simon Grischott"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1766" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-04 11:39:18.854950" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Simon" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025283a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008136> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Schimun" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008136.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025283a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008136> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010990> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per002969>
+        a                   pers:person ;
+        rdfs:label          "Joseph Martin Good"@deu ;
+        pers:last_mentions  [ pers:format_dates  [ pers:format_date  [ pers:when  "1734" ] ] ;
+                              pers:last_mention  "1734" ;
+                              pers:occurence     "SG III/2"
+                            ] ;
+        pers:name           [ pers:forename   "Joseph Martin" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per002969a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "SG III/2" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                              pers:type       "std"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:ownerOf        [ pers:date           "-1734" ;
+                              pers:format_dates   [ pers:format_date  [ pers:notAfter   "1734" ;
+                                                                        pers:notBefore  "1724" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                              pers:location       <http://ssrq-sds-fds.ch/Register/#loc000317> ;
+                              pers:occurence      "SG III/2" ;
+                              pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                            ] ;
+        pers:project        "SSRQ" ;
+        pers:sex            "1" .

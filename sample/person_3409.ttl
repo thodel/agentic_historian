@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003875>
+        a                    pers:person ;
+        rdfs:label           "Jenni von Diekischwand"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1472" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:17:22.703486" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jenni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "61" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "174"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001543.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003875a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jenni" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003875a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001543> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1472" ;
+                               pers:description   "key003597" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1472" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001543> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

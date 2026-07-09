@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009391>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm de Reynold"@deu ;
+        pers:deaths          [ pers:death         "1621" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1621" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1613" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1613" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 13:40:30.819605" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009391a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003482> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1613-1621" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1613" ;
+                                                                        pers:to    "1621"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date          "1618-1620" ;
+                               pers:description   "key004837" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1618" ;
+                                                                        pers:to    "1620"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003482> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "V, p. 461" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg00014483"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000284> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

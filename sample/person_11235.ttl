@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per012117>
+        a                    pers:person ;
+        rdfs:label           "Hans Stapfer"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016258> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-27 11:53:42.194950" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1483" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012117a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001321> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1456" ;
+                               pers:description  "key003661" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000020> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1483" ;
+                               pers:description  "key003661" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000020> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001321> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

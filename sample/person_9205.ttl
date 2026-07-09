@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009950>
+        a                    pers:person ;
+        rdfs:label           "Michel Lombard"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1570" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-01-08 12:04:10.310824" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Michel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000281.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009950a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Michel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009950a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000281> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1570-1595" ;
+                               pers:description  "key000547" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence    "FR I/2/8"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000281> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per003090>
+        a                    pers:person ;
+        rdfs:label           "Josef Martin Hobi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1792" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1792" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Josef Martin" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003090a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "370" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "1213"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000720> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Martin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000720.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003090a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000720> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

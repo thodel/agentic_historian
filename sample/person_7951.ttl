@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per008649>
+        a                    pers:person ;
+        rdfs:label           "Abram Louis Lambelet"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1814" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1814" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 14:42:08.709941" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1824" ] ] ;
+                               pers:last_mention  "1824" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:name            [ pers:forename   "Abram Louis" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008649a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003120> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1814-1824" ;
+                               pers:description   "key004971" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1814" ;
+                                                                        pers:to    "1824"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003120> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

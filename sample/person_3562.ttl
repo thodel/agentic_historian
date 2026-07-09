@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per004035>
+        a                pers:person ;
+        rdfs:label       "Ludwig Küng"@deu ;
+        pers:deaths      [ pers:death         "1517" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-02 14:02:45.112028" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Ludwig" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "78a" ;
+                                                               pers:line     "21" ;
+                                                               pers:page     "294"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000419.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004035a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004035a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000419> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1499-1501" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1499" ;
+                                                                    pers:to    "1501"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc005967> ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000419> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

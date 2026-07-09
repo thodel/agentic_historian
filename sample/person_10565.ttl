@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per011399>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Cabloz"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1448" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-02 13:00:38.838508" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004328.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011399a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011399a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004328> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011399a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004328> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004328> ;
+        pers:project                    "SSRQ" ;
+        pers:remark                     "Son nom apparaît le 16 avril 1448 dans le procès de Pierre Chavaz, mais a été biffé (ACV, Ac 29, p. 66)." ;
+        pers:sex                        "1" .

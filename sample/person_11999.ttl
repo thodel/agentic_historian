@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per012908>
+        a                   pers:person ;
+        rdfs:label          "Pierre Udry Abbi"@fra ;
+        pers:births         [ pers:birth      "ca. 1468" ;
+                              pers:occurence  "pascale"
+                            ] ;
+        pers:hist           [ pers:date      "2020-11-30 13:18:53.135344" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1498" ;
+                              pers:occurence     "pascale"
+                            ] ;
+        pers:name           [ pers:forename   "Pierre" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per012908a> ;
+                              pers:lang       "fra" ;
+                              pers:occurence  "gortega" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005273> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "Petrus" ;
+                              pers:lang        "lat" ;
+                              pers:occurence   "gortega" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005273.02> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012908a.01>
+                            ] ;
+        pers:name           [ pers:forename   "Petrus" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per012908a> ;
+                              pers:lang       "lat" ;
+                              pers:occurence  "gortega" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005273> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date         "26.10.1498" ;
+                              pers:description  "key005588" ;
+                              pers:occurence    "gortega"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org005273> ;
+        pers:project        "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010902> ;
+                              pers:occurence  "gortega"
+                            ] ;
+        pers:sex            "1" .

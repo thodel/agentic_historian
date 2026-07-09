@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per001870>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Schönbrunner"@deu ;
+        pers:deaths          [ pers:death         "05.06.1537" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1537-06-05" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1498" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1498" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-08 10:38:05.395717" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000815.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001870a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001870a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "146" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "518"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "157" ;
+                                                                  pers:line     "24" ;
+                                                                  pers:page     "572"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000815> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1532-1533" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1532" ;
+                                                                        pers:to    "1533"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000815> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "25295" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

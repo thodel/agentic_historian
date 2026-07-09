@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003526>
+        a               pers:person ;
+        rdfs:label      "Johann von Aarwangen"@deu ;
+        pers:births     [ pers:birth         "nach 1280" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                      "1280" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:deaths     [ pers:death         "um 1350" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1360" ;
+                                                                   pers:notBefore  "1340" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:hist       [ pers:date      "2015-07-09 11:23:59.676336" ;
+                          pers:username  "andreas"
+                        ] ;
+        pers:name       [ pers:forename   "Johann" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003526a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "13" ;
+                                                             pers:line     "34" ;
+                                                             pers:page     "37"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001403> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001403> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "12173" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005727> ;
+                          pers:occurence  "LU II/3"
+                        ] ;
+        pers:sex        "1" .

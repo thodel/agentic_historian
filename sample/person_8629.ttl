@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009366>
+        a                    pers:person ;
+        rdfs:label           "Giovanni Nicolò Rusca"@ita , "Giovanni Nicolò Rusca"@deu ;
+        pers:deaths          [ pers:death         "1508" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1508" ] ] ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1446" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1446" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 09:20:28.236441" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Giovanni Nicolò" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009366a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003368> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Giovanni Nicolò" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009366a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003368> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannsen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003368.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009366a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003368> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15421" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

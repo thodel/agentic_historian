@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per005197>
+        a                pers:person ;
+        rdfs:label       "Enea Silvio Piccolomini"@deu ;
+        pers:births      [ pers:birth         "18.10.1405" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1405-10-18" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "14./15.08.1464" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1464-08-15" ;
+                                                                    pers:notBefore  "1464-08-14" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-05-11 08:43:16.972870" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Enea Silvio" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005197a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002070> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Pius" ;
+                           pers:gennames   [ pers:genname    "II." ;
+                                             pers:occurence  "SG III/3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005197b> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "41" ;
+                                                              pers:line     "12" ;
+                                                              pers:page     "110"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "37" ;
+                                                              pers:line     "34" ;
+                                                              pers:page     "91"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "36" ;
+                                                              pers:line     "3" ;
+                                                              pers:page     "89"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1458–1464" ;
+                           pers:description   "key000014" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1458" ;
+                                                                    pers:to    "1464"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002070> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118594702" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

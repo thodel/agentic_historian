@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005371>
+        a                    pers:person ;
+        rdfs:label           "Jakob Fenk"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1675" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1675" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-07 16:55:20.452993" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "53g" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "182"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002154.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005371a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005371a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002154> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1675" ;
+                               pers:description   "key000051" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1675" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002954>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002154> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

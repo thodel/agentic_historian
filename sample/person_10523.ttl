@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per011356>
+        a                pers:person ;
+        rdfs:label       "Wolfgang von Haller"@deu ;
+        pers:births      [ pers:birth      "01.01.1525" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "25.06.1601" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-05-29 14:02:18.814334" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Wolfgang" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011356a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000784> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1555-1601" ;
+                           pers:description  "key005538" ;
+                           pers:occurence    "pascale" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000784> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000066> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

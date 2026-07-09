@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per003291>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Staldegger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:50:47.409153" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003291a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001308> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "15"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001308.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003291a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "10" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "31"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001308.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003291a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1382" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001084> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001308> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005291> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

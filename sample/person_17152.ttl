@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per018312>
+        a             pers:person ;
+        rdfs:label    "Albrecht [von] Löwenstein"@deu ;
+        pers:births   [ pers:birth      "17.01.1536" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:deaths   [ pers:death      "08.08.1587" ;
+                        pers:occurence  "pascale"
+                      ] ;
+        pers:hist     [ pers:date      "2020-06-04 09:00:34.295522" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename    "Albrecht" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007092.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018312a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Albrecht" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per018312a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007092> ;
+                        pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                          pers:rolename   "Graf/comte"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org007092> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "1019685182" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:remark   "GND: Abweichendes Sterbedatum in Stammtafeln: 18.08.1587" ;
+        pers:sex      "1" .

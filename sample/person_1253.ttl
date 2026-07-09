@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per001661>
+        a                    pers:person ;
+        rdfs:label           "Joseph [von] Mohr"@deu ;
+        pers:deaths          [ pers:death         "06.08.1635" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1635-08-06" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1577" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1577" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 13:25:40.788766" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Josephuß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000053.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001661a.01>
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Zernez" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "Joseph" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001661b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "140" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "484"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000738> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Joseph" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001661a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "140" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "484"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1627-1635" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1627" ;
+                                                                        pers:to    "1635"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" , "GR B III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000053> , <http://ssrq-sds-fds.ch/Register/#org000738> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26314" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

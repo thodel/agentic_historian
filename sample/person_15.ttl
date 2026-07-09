@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per000014>
+        a                    pers:person ;
+        rdfs:label           "Hartmann von Kyburg"@deu ;
+        pers:deaths          [ pers:death         "27.11.1264" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1264-11-27" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1213" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1213" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 16:52:55.999416" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hartmann" ;
+                               pers:gennames   [ pers:genname    "IV." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000014a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "2" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "1"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000010> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000010> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "29234" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "137463480" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000012> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026884> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

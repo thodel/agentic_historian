@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per004440>
+        a                    pers:person ;
+        rdfs:label           "Johann Schaffer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1400" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1400" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 12:58:20.305007" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004440a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001689> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Henni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001689.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004440a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1400" ;
+                               pers:description  "key003716"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001689> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "N. 2,1311" ;
+                               pers:type  "idiotikon"
+                             ] ;
+        pers:sex             "1" .

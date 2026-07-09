@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012627>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Blan"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012368> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1432" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-02-25 13:23:35.015293" ;
+                                          pers:username  "pascale"
+                                        ] ;
+        pers:last_mentions              [ pers:last_mention  "1461" ;
+                                          pers:occurence     "pascale"
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012627a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005155> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Petrus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005155.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012627a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Petrus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012627a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005155> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "08.10.1461" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org005155> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Modestin 1999, p. 344" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007892> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

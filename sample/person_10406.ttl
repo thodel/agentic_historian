@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per011231>
+        a                    pers:person ;
+        rdfs:label           "André Dufour"@fra ;
+        pers:deaths          [ pers:death      "av. 1448" ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1448" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2019-10-23 12:13:36.590791" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Andrea" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004245.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011231a.01>
+                             ] ;
+        pers:name            [ pers:forename          "André" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per011231a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004245> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Andrea" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per011231a> ;
+                               pers:lang              "lat" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004245> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004245> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008474> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011166> ;
+                               pers:occurence  "gortega"
+                             ] .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per021347>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Bilgeri"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1320" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:28:04.711643" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1330" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jüngere" ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021347a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007190> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1330" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007190> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Zürcher Ratslisten, 3005" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per013060>
+        a                    pers:person ;
+        rdfs:label           "Werner Komler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1315" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-18 15:24:38.712985" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013060a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006159> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006159> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1315" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008679> ;
+                               pers:occurence  "Königsfelden"
+                             ] ;
+        pers:sex             "1" .

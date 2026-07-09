@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per025422>
+        a                    pers:person ;
+        rdfs:label           "Peter Brugger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1321" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1334" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-15 13:27:36.170870" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1334" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025422a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002923> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1334" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004539>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002923> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028803> ;
+                               pers:occurence  "sabine"
+                             ] .

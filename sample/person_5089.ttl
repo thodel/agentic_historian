@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per005663>
+        a                    pers:person ;
+        rdfs:label           "Gallus Lang"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1494" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1494" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-08 15:15:37.582016" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005663a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "72a" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "255"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001066> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001066> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006004> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

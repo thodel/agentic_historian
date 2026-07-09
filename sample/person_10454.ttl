@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per011285>
+        a                    pers:person ;
+        rdfs:label           "Anton Archer"@deu ;
+        pers:deaths          [ pers:death      "1505" ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "07.12.1469" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-14 15:41:10.043806" ;
+                               pers:username  "saeg"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "saeg" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004002>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011285b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001391> ;
+                               pers:type       "std"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:id    "16641" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

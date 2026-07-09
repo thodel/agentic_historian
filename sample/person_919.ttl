@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per000995>
+        a                    pers:person ;
+        rdfs:label           "Anton Tyg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1491" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1491" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1492" ] ] ;
+                               pers:last_mention  "1492" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Toͤni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000163.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000995a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000995a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "84b" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "294"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "106a" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "355"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000163> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Thoͤni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000163.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000995a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000163> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

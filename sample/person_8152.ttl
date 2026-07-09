@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per008864>
+        a                    pers:person ;
+        rdfs:label           "Hans Engler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1659" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1659" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-16 12:04:34.148845" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008864a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000528> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000528> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1659" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1659" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

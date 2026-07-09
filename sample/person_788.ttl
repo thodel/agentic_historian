@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per000867>
+        a                    pers:person ;
+        rdfs:label           "Hans Ackermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1466" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1466" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000867a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "62c" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "204"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000458> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000458> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

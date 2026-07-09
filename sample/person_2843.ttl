@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003289>
+        a                    pers:person ;
+        rdfs:label           "Johann Wirz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1403" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:50:10.036595" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003289a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000429> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "32b" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "76"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000429.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003289a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1403-1423" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1403" ;
+                                                                        pers:to    "1423"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000429> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "S. 84f." ;
+                               pers:title  "Omlin 1966" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000139719"
+                             ] ;
+        pers:remark          "Erw. 1427, damals war er offenbar alt Landesammann (oder schon gest.)" ;
+        pers:sex             "1" .

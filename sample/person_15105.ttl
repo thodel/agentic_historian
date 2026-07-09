@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per016181>
+        a                    pers:person ;
+        rdfs:label           "Jean Riddam"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1482" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-28 08:44:55.663900" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006470.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016181a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Jean" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per016181a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006470> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016181a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006470> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006470> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Maier 1996, p. 424" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008177> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016180> ;
+                               pers:occurence  "gortega"
+                             ] .

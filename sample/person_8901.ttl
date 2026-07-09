@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009643>
+        a                pers:person ;
+        rdfs:label       "Wolfgang Degenscher"@deu ;
+        pers:deaths      [ pers:death         "03.06.1603" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1603-06-03" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-08 13:39:02.440898" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Wolfgang" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009643a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003591> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Wolffgang" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003591.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009643a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1586" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003220>
+                         ] ;
+        pers:occupation  [ pers:date          "1586" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002899>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003591> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17500" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

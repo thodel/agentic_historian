@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per003790>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Münzer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1454" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-11 14:00:55.053504" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003790a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "50" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "144"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001518> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "50" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "144"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001518.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003790a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001518> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per021305>
+        a               pers:person ;
+        rdfs:label      "Michael Rosenroll"@deu ;
+        pers:births     [ pers:birth      "1656" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:deaths     [ pers:death      "1712" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-07-08 11:59:59.719213" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Michael" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per021305a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002918> ;
+                          pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                            pers:rolename   "Junker/donzel"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Michel" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002918.11> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021305a.01>
+                        ] ;
+        pers:name       [ pers:forename    "Michael" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002918.06> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per021305a.02>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002918> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000779> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

@@ -1,0 +1,90 @@
+<http://ssrq-sds-fds.ch/Register/#per000730>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm von Mosheim"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1435" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1435" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1445" ] ] ;
+                               pers:last_mention  "1445" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Wilhelm" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000730b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "50" ;
+                                                                         pers:line     "6" ;
+                                                                         pers:page     "125"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000369> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Wilhelm" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000730a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "50" ;
+                                                                         pers:line     "6" ;
+                                                                         pers:page     "125"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "26" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "68"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Wilhelm" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000730a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "50" ;
+                                                                         pers:line     "6" ;
+                                                                         pers:page     "125"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "26" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "68"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhalm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000369.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000730b.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1435-1445" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1435" ;
+                                                                        pers:to    "1445"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000369> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

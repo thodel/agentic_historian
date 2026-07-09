@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per011050>
+        a                         pers:person ;
+        rdfs:label                "Pierre Cerjat"@fra ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004501>
+                                  ] ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004499>
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-24 07:47:14.678416" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Noble" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Petrus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011050a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004027> ;
+                                    pers:rolenames  [ pers:occurence  "gortega" ;
+                                                      pers:rolename   "Junker/donzel"
+                                                    ] ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petrus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004027.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011050a.01>
+                                  ] ;
+        pers:name                 [ pers:addnames   [ pers:addname    "Nobilis" ;
+                                                      pers:occurence  "gortega"
+                                                    ] ;
+                                    pers:forename   "Pierre" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011050a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004027> ;
+                                    pers:rolenames  [ pers:occurence  "gortega" ;
+                                                      pers:rolename   "Junker/donzel"
+                                                    ] ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "18.03.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004027> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero 1995, p. 289" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010998> ;
+                                    pers:occurence  "gortega"
+                                  ] .

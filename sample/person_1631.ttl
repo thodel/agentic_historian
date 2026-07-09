@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per002035>
+        a                    pers:person ;
+        rdfs:label           "Donat Thür"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1568" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1568" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Donat" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002035a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "168" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "609"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000883> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1568" ;
+                               pers:description   "key000226" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1568" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001172>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000883> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

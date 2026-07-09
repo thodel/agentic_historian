@@ -1,0 +1,62 @@
+<http://ssrq-sds-fds.ch/Register/#per006533>
+        a                pers:person ;
+        rdfs:label       "Peter von Diesbach"@deu ;
+        pers:births      [ pers:birth         "1579" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1579" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death      "1652" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-03 08:59:38.702560" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002518.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006533a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006533a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002518> ;
+                           pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006533a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002518> ;
+                           pers:rolenames  [ pers:occurence  "FR I/2/8" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1610-1652" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date          "1630-1652" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1630" ] ] ;
+                           pers:occurence     "FR I/2/8" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002518> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "II, p. 673" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

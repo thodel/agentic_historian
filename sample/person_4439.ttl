@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per004964>
+        a             pers:person ;
+        rdfs:label    "Jos Gullus"@deu ;
+        pers:deaths   [ pers:death         "vor 1503" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1503" ;
+                                                                 pers:notBefore  "1453" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2017-04-06 16:37:08.065357" ;
+                        pers:username  "werner"
+                      ] ;
+        pers:name     [ pers:forename   "Jos" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004964a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001971> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Jos" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/4" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001971.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004964a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001971> ;
+        pers:project  "SSRQ" ;
+        pers:remark   "Sibylle Malamud: Sein Haus ist 1503 Gerichtsort." ;
+        pers:sex      "1" .

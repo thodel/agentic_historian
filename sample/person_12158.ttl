@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per013090>
+        a                    pers:person ;
+        rdfs:label           "Ägidius von Rupperswil"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1333" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1332" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-16 18:02:20.521002" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Gilge" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005350.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013090a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ägidius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per013090a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005350> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017376> ;
+                               pers:occurence  "mina"
+                             ] .

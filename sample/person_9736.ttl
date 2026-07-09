@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010505>
+        a                    pers:person ;
+        rdfs:label           "Bernardino Node"@ita ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 15:17:16.184187" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Bernardino" ;
+                               pers:lang        "ita" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003904.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010505a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Bernardino" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010505a> ;
+                               pers:lang       "ita" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003904> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003904> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008336> ;
+                               pers:occurence  "FDS TI"
+                             ] ;
+        pers:sex             "1" .

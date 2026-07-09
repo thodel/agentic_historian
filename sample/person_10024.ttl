@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per010801>
+        a                    pers:person ;
+        rdfs:label           "Jakob Vetsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-15 11:36:23.154198" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010801a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000717> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000717.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010801a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1733" ;
+                               pers:description  "key000636" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001828>
+                             ] ;
+        pers:occupation      [ pers:date         "1733" ;
+                               pers:description  "key000408" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000717> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Zuständig für das Sechstel Oberdorf von Grabs zur Einhaltung der Feuerordnung." ;
+        pers:residence       [ pers:date       "1733" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc007826> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

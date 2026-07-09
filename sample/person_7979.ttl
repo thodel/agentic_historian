@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per008678>
+        a                    pers:person ;
+        rdfs:label           "Abraham Bourgeois"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1744" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1744" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-22 18:11:25.112655" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1758" ] ] ;
+                               pers:last_mention  "1758" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Abram" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003156.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008678a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008678a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003156> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1743–1744, 1758" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1758" ] ;
+                                         pers:format_date  [ pers:from  "1743" ;
+                                                             pers:to    "1744"
+                                                           ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003156> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

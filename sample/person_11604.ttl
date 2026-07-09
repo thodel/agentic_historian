@@ -1,0 +1,22 @@
+<http://ssrq-sds-fds.ch/Register/#per012502>
+        a                    pers:person ;
+        rdfs:label           "Peter NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1341" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2019-10-23 11:27:34.279292" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012502a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009761> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

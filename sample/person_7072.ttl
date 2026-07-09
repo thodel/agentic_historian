@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007743>
+        a                    pers:person ;
+        rdfs:label           "Michael Tobler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 15:32:08.008884" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007743a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000566> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Michael" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250c" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "1098"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000566.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007743a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002812>
+                             ] ;
+        pers:occupation      [ pers:date          "1712" ;
+                               pers:description   "key000424" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1712" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002861>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000566> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

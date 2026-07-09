@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per008382>
+        a              pers:person ;
+        rdfs:label     "Johann Mathias Naeff"@deu ;
+        pers:births    [ pers:birth         "28.09.1773" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1773-09-28" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:deaths    [ pers:death         "24.03.1853" ;
+                         pers:format_dates  [ pers:format_date  [ pers:when  "1853-03-24" ] ] ;
+                         pers:occurence     "SG III/3"
+                       ] ;
+        pers:hist      [ pers:date      "2017-09-19 10:24:43.531866" ;
+                         pers:username  "werner"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "SG III/3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                       ] ;
+        pers:name      [ pers:forename    "Johann M." ;
+                         pers:lang        "deu" ;
+                         pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                             pers:line     "19" ;
+                                                             pers:page     "1399"
+                                                           ] ;
+                                            pers:vol       "SG III/3"
+                                          ] ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003037.03> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008382a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Johann Mathias" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008382a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "SG III/3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003037> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003037> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "5695" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:refs      [ pers:page   "S. 330" ;
+                         pers:title  "Kuster et al. 1998" ;
+                         pers:type   "biblio" ;
+                         pers:url    "http://permalink.snl.ch/bib/chbsg000065568"
+                       ] ;
+        pers:sex       "1" .

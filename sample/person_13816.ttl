@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per014841>
+        a               pers:person ;
+        rdfs:label      "Jörg Braschler"@deu ;
+        pers:deaths     [ pers:death      "1545" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2020-03-25 15:43:07.127168" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:forename    "Jörg" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006039.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014841a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Jörg" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per014841a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006039> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006039> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008816> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

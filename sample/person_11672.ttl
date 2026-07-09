@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per012572>
+        a                               pers:person ;
+        rdfs:label                      "Jean Ravez"@fra ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011218> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1461" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-08 15:08:36.518094" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Jean" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012572a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004779> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Johannes" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004779.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012572a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Johannes" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012572a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004779> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:occupation                 [ pers:date         "30.10.1461" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004779> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Modestin 1999, p. 360" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:remark                     "Il pourrait s'agir de Jean Ramel." ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010213> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

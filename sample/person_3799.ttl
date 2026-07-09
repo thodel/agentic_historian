@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per004280>
+        a                pers:person ;
+        rdfs:label       "Hans Bircher"@deu ;
+        pers:deaths      [ pers:death         "1588" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1588" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-17 10:48:13.120529" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                             pers:occurence  "LU II/3"
+                                           ] ;
+                           pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004280a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "123" ;
+                                                              pers:line     "36" ;
+                                                              pers:page     "454"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "137b" ;
+                                                              pers:line     "30" ;
+                                                              pers:page     "496"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "121" ;
+                                                              pers:line     "1" ;
+                                                              pers:page     "448"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000833> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1575-1588" ;
+                           pers:description   "key003686" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1575" ;
+                                                                    pers:to    "1588"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000833> ;
+        pers:project     "SSRQ" ;
+        pers:remark      "Andreas Ineichen: Es gibt Hans Bircher der Jüngere, ebenfalls Unterschreiber, von 1625-1631." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

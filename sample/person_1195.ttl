@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per001597>
+        a                    pers:person ;
+        rdfs:label           "J. J. Schwendener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1849" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1849" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "J. J." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000718.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001597a.01>
+                             ] ;
+        pers:name            [ pers:forename   "J. J." ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001597a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "119" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "401"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "332" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1115"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "232" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "862"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000718> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1849" ;
+                               pers:description   "key003590" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1849" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000718> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

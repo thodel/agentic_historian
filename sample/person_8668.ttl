@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009405>
+        a                    pers:person ;
+        rdfs:label           "Peter Schuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1608" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 13:48:31.051311" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1610" ] ] ;
+                               pers:last_mention  "1610" ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009405a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000775> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc006141> ;
+                               pers:occurence    "FDS TI"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000775> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, S. 81" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                               pers:occurence  "FDS TI"
+                             ] ;
+        pers:sex             "1" .

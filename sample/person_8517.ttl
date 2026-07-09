@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009249>
+        a                pers:person ;
+        rdfs:label       "Daniel von Montenach"@deu ;
+        pers:births      [ pers:birth         "1595" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1595" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death         "1633" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1633" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-17 08:39:37.473225" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Daniel" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009249a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002509> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1620-1623" ;
+                           pers:description   "key004837" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1620" ;
+                                                                    pers:to    "1623"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:occupation  [ pers:date         "1617-1633" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002509> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

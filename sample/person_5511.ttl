@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per006094>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob von Landau"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1526" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1526" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1506" ;
+                               pers:occurence      "ssrq-sh-i-3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-16 15:25:22.530126" ;
+                               pers:username  "ssrq-sh-i-3"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006094a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002388> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-sh-i-3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002388.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006094a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Hannß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "109" ;
+                                                                   pers:line     "40" ;
+                                                                   pers:page     "414"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002388.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006094a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1526" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1526" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007030> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date         "1506" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc013629> ;
+                               pers:occurence    "ssrq-sh-i-3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002388> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://books.google.ch/books?id=jKvjAAAAMAAJ&pg=PA554&lpg=PA554&dq=Landau+von+Hans+Jakob&source=bl&ots=ygqMNh-LHY&sig=lAji8F-gWKRz2rbyTmYX6czSsXs&hl=de&sa=X&ved=0ahUKEwjn7Kr9ho3UAhVF8RQKHU9GAeMQ6AEIQzAF#v=onepage&q=Landau%20von%20Hans%20Jakob&f=false"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://books.google.ch/books?id=PlBZAAAAcAAJ&pg=PA459&lpg=PA459&dq=%22hans+von+Landau%22+wolkenberg&source=bl&ots=3V9yDJm95E&sig=ACfU3U1CdUUjlwlPo0Fhf2Fpqq7EA20rCQ&hl=de&sa=X&ved=2ahUKEwjZ0ejolIftAhUB-aQKHZsZDGUQ6AEwCnoECAcQAg#v=onepage&q=%22hans%20von%20Landau%22%20wolkenberg&f=false"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://docplayer.org/126690999-Neue-dorfchronik-wildpoldsried.html"
+                             ] ;
+        pers:sex             "1" .

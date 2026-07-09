@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002910>
+        a                    pers:person ;
+        rdfs:label           "Georg Suter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1716" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1716" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000273.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002910a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002910a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "325" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "1098"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000273> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000273> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

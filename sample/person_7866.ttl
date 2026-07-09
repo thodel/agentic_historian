@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008559>
+        a                    pers:person ;
+        rdfs:label           "Kunley NN"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006964> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1323" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1323" ] ] ;
+                               pers:occurence      "lukas"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-16 12:13:04.249583" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Küngold" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008559a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "lukas"
+                                                      ] ;
+                               pers:occurence         "lukas" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000877" ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007695> ;
+                               pers:occurence  "lukas"
+                             ] ;
+        pers:sex             "2" .

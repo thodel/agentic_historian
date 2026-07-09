@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014585>
+        a                    pers:person ;
+        rdfs:label           "Anna Kramer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "ca. 1472" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-23 17:05:28.773547" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Anna" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000427.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014585a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Anna" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per014585a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "ssrq-zh"
+                                                      ] ;
+                               pers:occurence         "ssrq-zh" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000427> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000427> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000020> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014582> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

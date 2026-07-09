@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per011888>
+        a                    pers:person ;
+        rdfs:label           "Erhard Schneider"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1458" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-11 00:10:55.097261" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1468" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Erhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011888a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002228> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Erhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002228.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011888a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002228> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "1468" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008684> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

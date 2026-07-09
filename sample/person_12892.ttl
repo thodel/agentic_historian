@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per013883>
+        a                pers:person ;
+        rdfs:label       "Konrad von Planta"@deu ;
+        pers:births      [ pers:birth      "um 1540" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "nach 26.08.1609" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-01 12:51:03.151524" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Kuͦrat" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000866.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013883a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Cunradt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000866.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013883a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013883a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000866> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key004628" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000264>
+                         ] ;
+        pers:occupation  [ pers:description  "key004374" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000866> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26316" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:title  "Tuor 1904, S. 35f; HS I/1, S. 553." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013880> ;
+                           pers:occurence  "GR B III/2"
+                         ] .

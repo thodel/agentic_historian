@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per009807>
+        a                pers:person ;
+        rdfs:label       "Hieronymus Manuel"@deu ;
+        pers:births      [ pers:birth      "1520" ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death      "04.02.1579" ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-25 16:30:51.325757" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename   "Hieronymus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009807a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003645> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1564" ;
+                           pers:description  "key000636" ;
+                           pers:occurence    "mina"
+                         ] ;
+        pers:occupation  [ pers:date         "1561" ;
+                           pers:description  "key000326" ;
+                           pers:occurence    "FDS TI" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003645> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17102" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024920> ;
+                           pers:occurence  "ssrq-zh"
+                         ] .

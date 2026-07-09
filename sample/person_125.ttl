@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000403>
+        a                    pers:person ;
+        rdfs:label           "Georg Sarganser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1501" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1501" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Georg" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000403a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "28" ;
+                                                                         pers:line     "29" ;
+                                                                         pers:page     "50"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001154> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jeorgus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001154.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000403a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1501" ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1501" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000063> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001154> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

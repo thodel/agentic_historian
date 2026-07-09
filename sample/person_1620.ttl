@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per002024>
+        a                    pers:person ;
+        rdfs:label           "Franz Rudolf Good"@deu ;
+        pers:deaths          [ pers:death         "vor 1767" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1767" ;
+                                                                        pers:notBefore  "1717" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1746" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1746" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Franz Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002024a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "319" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "1079"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "181" ;
+                                                                         pers:line     "18" ;
+                                                                         pers:page     "655"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "314" ;
+                                                                         pers:line     "9" ;
+                                                                         pers:page     "1070"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000179> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Frantz Rudolph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002024a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Franz Rudolph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000179.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002024a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1746" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1746" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1746, 1749" ;
+                               pers:description   "key000824" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1746" ] ;
+                                         pers:format_date  [ pers:when  "1749" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1749" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1749" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000179> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

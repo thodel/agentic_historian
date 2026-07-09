@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000862>
+        a                    pers:person ;
+        rdfs:label           "Hans Füssli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1574" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1574" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1576" ] ] ;
+                               pers:last_mention  "1576" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000862a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "173" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "627"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "62b" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "204"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000687> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1574-1576" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1574" ;
+                                                                        pers:to    "1576"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000687> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

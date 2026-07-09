@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005830>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Heierli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1532" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1532" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-06 10:11:17.004703" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Baschly" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "83" ;
+                                                                   pers:line     "23" ;
+                                                                   pers:page     "305"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002288.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005830a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005830a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002288> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key000659" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003084>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002288> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005996> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010013>
+        a                    pers:person ;
+        rdfs:label           "Friedrich Stüdeli"@deu ;
+        pers:employerOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010410> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010407> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "22.02.1421" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 17:08:04.750015" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Frik" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003700.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010013a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010013a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003700> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003700> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per009393>
+        a                    pers:person ;
+        rdfs:label           "Benedict Studer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1601" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1601" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 13:42:26.653885" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1635" ] ] ;
+                               pers:last_mention  "1635" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename   "Benedict" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009393a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003483> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1601-1635" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1601" ;
+                                                                        pers:to    "1635"
+                                                                      ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003483> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, p. 394" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg00014483"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per000274>
+        a                    pers:person ;
+        rdfs:label           "Elisabeth von Rhäzüns"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1380" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-07 10:38:05.849463" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1390" ] ] ;
+                               pers:last_mention  "1390" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000275> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000274b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "42" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000116> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Elisabeth" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000274a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "42" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000016> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000016> , <http://ssrq-sds-fds.ch/Register/#org000116> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

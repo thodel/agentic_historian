@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009075>
+        a                    pers:person ;
+        rdfs:label           "Hans Beusch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1622" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1622" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-05-08 09:43:55.527713" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009075a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001808> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hannß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001808.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009075a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1622" ;
+                               pers:description   "key004619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1622" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001881>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001808> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

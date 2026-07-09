@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per003366>
+        a                    pers:person ;
+        rdfs:label           "Klara zu Schwarzentrub"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1450" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1450" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-12-15 16:15:24.114791" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename          "Klara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per003366a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "46" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "126"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001344> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Klara" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "46" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "126"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001344.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003366a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001344> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003356> ;
+                               pers:occurence  "LU II/3"
+                             ] .

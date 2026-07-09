@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000020>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Flums"@deu ;
+        pers:deaths          [ pers:death         "04.05.1262" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1262-05-04" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1220" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1220" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:40:05.187526" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Heinrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000020a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "3a" ;
+                                                                         pers:line     "7" ;
+                                                                         pers:page     "2"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000009> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1249" ;
+                               pers:description   "key000033" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1249" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000009> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Familienartikel: http://www.hls-dhs-dss.ch/textes/d/D20132.php" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000021> ;
+                               pers:occurence  "SG III/2"
+                             ] .

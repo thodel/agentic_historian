@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per011971>
+        a                    pers:person ;
+        rdfs:label           "Peter Tölzner"@deu ;
+        pers:fatherInLawOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017541> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "14.05.1473" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-12 18:08:30.993375" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1473" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011971a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004590> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004590> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

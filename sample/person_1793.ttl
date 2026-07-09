@@ -1,0 +1,110 @@
+<http://ssrq-sds-fds.ch/Register/#per002195>
+        a                    pers:person ;
+        rdfs:label           "Ludwig Schürpf"@deu ;
+        pers:deaths          [ pers:death         "23.06.1623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1623-06-23" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1578" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1578" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-08 07:33:58.051031" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Ludwig" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "138" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "498"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "139" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "514"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000481.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002195a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ludwig" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002195a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "208a" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "780"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "716"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "193" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "689"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000481> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1606" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                             ] ;
+        pers:occupation      [ pers:date          "1583-" ;
+                               pers:description   "key003647" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1583" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1602, 1604, 1617" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1604" ] ;
+                                         pers:format_date  [ pers:when  "1617" ] ;
+                                         pers:format_date  [ pers:when  "1602" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1606" ;
+                               pers:description   "key001032" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:occupation      [ pers:date          "1602, 1604, 1617" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1602" ] ;
+                                         pers:format_date  [ pers:when  "1604" ] ;
+                                         pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1600-" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1600" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:occupation      [ pers:date          "1606" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1606" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001164>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000481> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "14497" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

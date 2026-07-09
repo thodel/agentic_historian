@@ -1,0 +1,174 @@
+#!/bin/bash
+# ssrq — Search the Swiss Sex红 Queries (SSRQ) SQLite database
+# Database: /home/dh/.openclaw/tmp/ssrq_v6.db
+
+DB="/home/dh/.openclaw/tmp/ssrq_v6.db"
+
+usage() {
+    cat <<EOF
+Usage: ssrq <command> [args]
+
+Commands:
+  ssrq ping                   — Show database stats
+  ssrq search <name>          — Search persons by name (fuzzy, SQL LIKE)
+  ssrq person <ssrq_id>       — Full person record by SSRQ ID (e.g. per000001 or 000001)
+  ssrq org <ssrq_id>          — Full org record by SSRQ ID (e.g. org000001 or 000001)
+  ssrq names <ssrq_id>        — All name variants for a person/org
+  ssrq related <ssrq_id>      — Spouse, mother, father, location links
+
+Examples:
+  ssrq ping
+  ssrq search Johann
+  ssrq person per000001
+  ssrq names per023456
+EOF
+}
+
+cmd="${1:-}"; shift || true
+
+case "$cmd" in
+    ping)
+        python3 - <<'PY'
+import sqlite3, sys
+DB = "/home/dh/.openclaw/tmp/ssrq_v6.db"
+try:
+    conn = sqlite3.connect(DB)
+    cur = conn.execute
+    persons = cur("SELECT COUNT(*) FROM persons").fetchone()[0]
+    orgs    = cur("SELECT COUNT(*) FROM orgs").fetchone()[0]
+    names   = cur("SELECT COUNT(*) FROM name_index").fetchone()[0]
+    print(f"✓ SSRQ DB connected")
+    print(f"  Persons:     {persons:,}")
+    print(f"  Organisations: {orgs:,}")
+    print(f"  Name index:  {names:,}")
+except Exception as e:
+    print(f"✗ Error: {e}", file=sys.stderr)
+    sys.exit(1)
+PY
+        ;;
+    search)
+        if [[ -z "${1:-}" ]]; then echo "Usage: ssrq search <name>"; exit 1; fi
+        python3 - <<PY
+import sqlite3, sys
+DB = "/home/dh/.openclaw/tmp/ssrq_v6.db"
+term = sys.argv[1] if len(sys.argv) > 1 else "$1"
+conn = sqlite3.connect(DB)
+cur = conn.execute
+like = f"%{term}%"
+rows = cur("""
+    SELECT p.id, p.label, p.std_name, p.surname, p.forename,
+           p.first_year, p.last_year, p.years, p.etype,
+           (SELECT GROUP_CONCAT(name_text,' | ') FROM name_index ni
+            WHERE ni.ssrq_id=p.id AND ni.is_orig=0 LIMIT 10) AS variants
+    FROM persons p
+    WHERE p.label LIKE ? OR p.std_name LIKE ? OR p.surname LIKE ?
+       OR p.forename LIKE ? OR p.orig_names LIKE ? OR p.std_names LIKE ?
+    ORDER BY p.surname, p.forename LIMIT 40
+""", (like,like,like,like,like,like)).fetchall()
+if not rows:
+    print("No results.")
+else:
+    for r in rows:
+        sid,label,std,surname,forename,fy,ly,years,etype,variants = r
+        ystr = f"{fy}–{ly}" if fy and ly else (years or "–")
+        varstr = f"  aka: {variants}" if variants else ""
+        print(f"{sid}  {label or std or '(no label)'}  [{ystr}]{varstr}")
+PY
+        ;;
+    person)
+        if [[ -z "${1:-}" ]]; then echo "Usage: ssrq person <ssrq_id>"; exit 1; fi
+        python3 - <<PY
+import sqlite3, sys, re
+DB = "/home/dh/.openclaw/tmp/ssrq_v6.db"
+raw = sys.argv[1] if len(sys.argv) > 1 else "$1"
+id = re.sub(r'^per','',raw).zfill(6)
+conn = sqlite3.connect(DB)
+r = conn.execute("SELECT * FROM persons WHERE id=?", (id,)).fetchone()
+if not r:
+    print("Not found."); sys.exit(1)
+cols = [c[0] for c in conn.execute("SELECT * FROM persons LIMIT 0").description]
+d = dict(zip(cols, r))
+for k,v in d.items():
+    if v and v != 'None' and v != '' and str(v) != '[]':
+        print(f"  {k}: {v}")
+PY
+        ;;
+    org)
+        if [[ -z "${1:-}" ]]; then echo "Usage: ssrq org <ssrq_id>"; exit 1; fi
+        python3 - <<PY
+import sqlite3, sys, re
+DB = "/home/dh/.openclaw/tmp/ssrq_v6.db"
+raw = sys.argv[1] if len(sys.argv) > 1 else "$1"
+id = re.sub(r'^org','',raw).zfill(6)
+conn = sqlite3.connect(DB)
+r = conn.execute("SELECT * FROM orgs WHERE id=?", (id,)).fetchone()
+if not r:
+    print("Not found."); sys.exit(1)
+cols = [c[0] for c in conn.execute("SELECT * FROM orgs LIMIT 0").description]
+d = dict(zip(cols, r))
+for k,v in d.items():
+    if v and v != 'None' and v != '' and str(v) != '[]':
+        print(f"  {k}: {v}")
+PY
+        ;;
+    names)
+        if [[ -z "${1:-}" ]]; then echo "Usage: ssrq names <ssrq_id>"; exit 1; fi
+        python3 - <<PY
+import sqlite3, sys, re
+DB = "/home/dh/.openclaw/tmp/ssrq_v6.db"
+raw = sys.argv[1] if len(sys.argv) > 1 else "$1"
+id = re.sub(r'^(per|org)','',raw).zfill(6)
+conn = sqlite3.connect(DB)
+rows = conn.execute("""
+    SELECT name_text, is_orig FROM name_index
+    WHERE ssrq_id=? ORDER BY is_orig DESC, name_text
+""", (id,)).fetchall()
+if not rows:
+    print("No names found.")
+else:
+    for text, is_orig in rows:
+        tag = "orig" if is_orig else "var "
+        print(f"  [{tag}] {text}")
+PY
+        ;;
+    related)
+        if [[ -z "${1:-}" ]]; then echo "Usage: ssrq related <ssrq_id>"; exit 1; fi
+        python3 - <<'PY'
+import sqlite3, sys, re
+DB = "/home/dh/.openclaw/tmp/ssrq_v6.db"
+raw = sys.argv[1] if len(sys.argv) > 1 else "$1"
+id = re.sub(r'^(per|org)','',raw).zfill(6)
+conn = sqlite3.connect(DB)
+p = conn.execute("SELECT label, etype FROM persons WHERE id=?", (id,)).fetchone()
+if not p:
+    p = conn.execute("SELECT label, etype FROM orgs WHERE id=?", (id,)).fetchone()
+if not p:
+    print("Not found."); sys.exit(1)
+print(f"=== {id}: {p[0]} [{p[1]}] ===")
+rel = [
+    ("org_ids",    "organisations"),
+    ("spouse_ids", "spouses"),
+    ("mother_ids", "mothers"),
+    ("father_ids", "fathers"),
+    ("loc_ids",    "locations"),
+]
+for field, label in rel:
+    if field == "org_ids":
+        rows = conn.execute(f"SELECT id, label FROM orgs WHERE id IN (SELECT value FROM json_each(COALESCE((SELECT {field} FROM persons WHERE id=?),'[]')))", (id,)).fetchall()
+    else:
+        rows = conn.execute(f"SELECT id, label FROM persons WHERE id IN (SELECT value FROM json_each(COALESCE((SELECT {field} FROM persons WHERE id=?),'[]')))", (id,)).fetchall()
+    if rows:
+        print(f"\n  {label}:")
+        for rid, rlabel in rows:
+            print(f"    {rid}  {rlabel}")
+PY
+        ;;
+    help|--help|-h|"")
+        usage
+        ;;
+    *)
+        echo "Unknown command: $cmd"
+        usage
+        exit 1
+        ;;
+esac

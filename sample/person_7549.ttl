@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per008232>
+        a                    pers:person ;
+        rdfs:label           "Joseph Ludwig Thaddäus Weber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1782" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-12 10:54:19.538693" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Ludwig Thaddee" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "305b" ;
+                                                                   pers:line     "44" ;
+                                                                   pers:page     "1318"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000230.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008232a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Ludwig Thaddäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008232a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000230> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1782" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1782" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1782" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000842> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000230> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000730> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per014152>
+        a                pers:person ;
+        rdfs:label       "Johannes Senn von Münsingen"@deu ;
+        pers:births      [ pers:birth      "um 1308" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "30.06.1365" ;
+                           pers:occurence  "fahe"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-16 11:04:51.640767" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Johannes" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per014152a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "fahe"
+                                                  ] ;
+                           pers:occurence         "fahe" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005773> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1335" ;
+                           pers:description  "key000015" ;
+                           pers:occurence    "fahe" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004917>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005773> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "012965" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

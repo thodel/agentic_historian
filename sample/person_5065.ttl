@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per005638>
+        a                pers:person ;
+        rdfs:label       "Gaudenz von Matsch"@deu ;
+        pers:births      [ pers:birth         "12.03.1453" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1453-03-12" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "27.04.1504" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1504-04-27" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-05-08 10:01:04.018123" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Gaudentz" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "69" ;
+                                                               pers:line     "27" ;
+                                                               pers:page     "242"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000175.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005638a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Gaudenz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005638a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "69" ;
+                                                              pers:line     "22" ;
+                                                              pers:page     "241"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000175> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Graf/comte"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1490" ;
+                           pers:description   "key000224" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000175> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16880" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

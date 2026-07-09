@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per009530>
+        a                pers:person ;
+        rdfs:label       "Bernhard Brand"@deu ;
+        pers:births      [ pers:birth         "23.08.1525" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1525-08-25" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "23.07.1594" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1594-07-23" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-05 08:57:02.682537" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Bernhart" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003540.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009530a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Bernhard" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009530a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003540> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Bernhardt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003540.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009530a.02>
+                         ] ;
+        pers:occupation  [ pers:date          "1561, 1562" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1561" ] ;
+                                     pers:format_date  [ pers:when  "1562" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003540> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "19186" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002346>
+        a                    pers:person ;
+        rdfs:label           "Christian Zogg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1700" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1700" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Christen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000992.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002346a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002346a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "209a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "786"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000992> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000992> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

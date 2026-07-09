@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010498>
+        a                pers:person ;
+        rdfs:label       "Ludwig von Freiberg"@deu ;
+        pers:births      [ pers:birth      "1442" ;
+                           pers:occurence  "stadtasg"
+                         ] ;
+        pers:deaths      [ pers:death      "vor 6.11.1480" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2018-12-13 15:07:51.018095" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Ludwig" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per010498a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "stadtasg"
+                                                  ] ;
+                           pers:occurence         "stadtasg" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001620> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1474-1480" ;
+                           pers:description  "key005260" ;
+                           pers:occurence    "stadtasg" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001620> ;
+        pers:project     "StadtASG" ;
+        pers:refs        [ pers:page   "I/2,1, S. 361-366" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:refs        [ pers:id    "12617" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

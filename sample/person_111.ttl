@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per000272>
+        a                    pers:person ;
+        rdfs:label           "Adelheid von Hohenklingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1342" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1342" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000272b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "21" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000104> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Adelheid" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000272a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "21" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000006> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000006> , <http://ssrq-sds-fds.ch/Register/#org000104> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000271> ;
+                               pers:occurence  "SG III/2"
+                             ] .

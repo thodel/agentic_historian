@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per011377>
+        a                    pers:person ;
+        rdfs:label           "Pierre Vallient"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-02 13:54:29.680216" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004309.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011377a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Petrus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011377a> ;
+                               pers:lang       "lat" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004309> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011377a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "gortega" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004309> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004309> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Déglon 1949, p. 317" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009063> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

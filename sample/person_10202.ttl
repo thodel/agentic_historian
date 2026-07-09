@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per011008>
+        a                         pers:person ;
+        rdfs:label                "Jacques de Fulmine"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-02-28 11:04:47.562020" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename    "Jacobus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004124.01> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011008a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Jacobus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011008a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004124> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jacques" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011008a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004124> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "03.03.1448, 04.03.1448, 12.03.1448, 16.03.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "1448" ;
+                                    pers:description  "key005092" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005216>
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004124> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero 1995, p. 290" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008180> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010753> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010866> ;
+                                    pers:occurence  "gortega"
+                                  ] .

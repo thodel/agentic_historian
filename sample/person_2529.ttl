@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per002950>
+        a                    pers:person ;
+        rdfs:label           "Josef Anton Zay"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1764" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1764" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:last_mention  "1788" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Josef Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002950a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "342b" ;
+                                                                  pers:line     "32" ;
+                                                                  pers:page     "1141"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "342a" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "1139"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "366a" ;
+                                                                  pers:line     "1" ;
+                                                                  pers:page     "1203"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "366b" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1203"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "341a" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "1135"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000564> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000564.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002950a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000564.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002950a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Jos. Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000564.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002950a.03>
+                             ] ;
+        pers:occupation      [ pers:date          "1764, 1766" ;
+                               pers:description   "key000488" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1764" ] ;
+                                         pers:format_date  [ pers:when  "1766" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:occupation      [ pers:date          "1788" ;
+                               pers:description   "key003619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1788" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000564> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per025613>
+        a                    pers:person ;
+        rdfs:label           "Peter Kämmerling"@deu ;
+        pers:deaths          [ pers:death      "1639" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1594" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-15 13:38:05.086079" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025613a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003480> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1612-1617" ;
+                               pers:description  "key004816" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:occupation      [ pers:date         "1594-1639" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003480> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 315" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

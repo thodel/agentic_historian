@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per027526>
+        a                pers:person ;
+        rdfs:label       "Guillaume d’ Aarberg-Valangin"@fra , "Wilhelm von Aarberg-Valangin"@deu ;
+        pers:births      [ pers:birth      "ca. 1377" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death      "1427" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 13:00:04.176052" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Wilhelm" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027526a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001287> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Guillaume" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "NE 3" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001287.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027526a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Guillaume" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027526a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001287> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1426" ;
+                           pers:description  "key000541" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc005950> ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001287> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://de.wikipedia.org/wiki/Wilhelm_von_Aarberg-Valangin"
+                         ] ;
+        pers:sex         "1" .

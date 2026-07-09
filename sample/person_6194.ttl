@@ -1,0 +1,89 @@
+<http://ssrq-sds-fds.ch/Register/#per006815>
+        a                pers:person ;
+        rdfs:label       "Leodegar Bürgisser"@deu ;
+        pers:births      [ pers:birth         "02.04.1640" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1640-04-02" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "28.11.1717" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1717-11-28" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-08-11 17:43:28.703248" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename          "Leodegar" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per006815b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "143" ;
+                                                                     pers:line     "26" ;
+                                                                     pers:page     "616"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Leodogari" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "238" ;
+                                                               pers:line     "19" ;
+                                                               pers:page     "1060"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002578.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006815a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Leodigarius" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "243" ;
+                                                               pers:line     "1" ;
+                                                               pers:page     "1075"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000581.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006815b.01>
+                         ] ;
+        pers:name        [ pers:forename          "Leodegar" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per006815a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         "SG III/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002578> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1692" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:occupation  [ pers:date          "1696–1717" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1696" ;
+                                                                    pers:to    "1717"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:occupation  [ pers:date          "1692" ;
+                           pers:description   "key000043" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1692" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002578> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21739" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

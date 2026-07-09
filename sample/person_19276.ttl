@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per020501>
+        a                    pers:person ;
+        rdfs:label           "Michael Schorsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1593" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-01 07:39:16.123761" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Michell" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002920.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020501a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020501a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002920> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002920> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020502> ;
+                               pers:occurence  "pascale"
+                             ] .

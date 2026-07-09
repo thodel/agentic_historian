@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per008565>
+        a                    pers:person ;
+        rdfs:label           "Agnes Lenziger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-11 09:28:33.416707" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Nesa" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003077.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008565a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008565a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003077> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008565b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003078> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003077> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Die Zuordnung als Ehefrau von Rüdisühli ist unsicher." ;
+        pers:residence       [ pers:date          "1486" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006121> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008564> ;
+                               pers:occurence  "SG III/4"
+                             ] .

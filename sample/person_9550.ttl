@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010311>
+        a                    pers:person ;
+        rdfs:label           "Hans Kessler"@deu ;
+        pers:cousinOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010348> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1424" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-13 10:58:12.444356" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000164.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010311a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010311a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000164> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1427" ;
+                               pers:description  "key003661" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000091> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:occupation      [ pers:date         "1424" ;
+                               pers:description  "key000562" ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000164> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per005481>
+        a                    pers:person ;
+        rdfs:label           "Peter NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1483" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1483" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-19 16:15:33.866879" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005481a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "62" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "216"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005481a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Name unklar (lediglich Nennung der Mutter, wohl mit ihrem Ledigennamen)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006005> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

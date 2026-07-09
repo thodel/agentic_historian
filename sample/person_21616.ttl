@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per022911>
+        a                    pers:person ;
+        rdfs:label           "Jan Jöri Camenisch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1629" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-26 14:30:31.981573" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jan Jöry" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005380.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per022911a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jan Jöri" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022911a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005380> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005380> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008920> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" .

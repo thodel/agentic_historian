@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per004916>
+        a                    pers:person ;
+        rdfs:label           "Petrus NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1248" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1248" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 08:49:03.712031" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "Capocius" ;
+                                                        pers:occurence  "SG III/3"
+                                                      ] ;
+                               pers:forename          "Petrus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004916a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1d" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "3"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1248" ;
+                               pers:description   "key003747" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1248" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000057>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III, Nr. 1410" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "1" .

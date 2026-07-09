@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008707>
+        a                    pers:person ;
+        rdfs:label           "NN Pettavel"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1773" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1773" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-12 15:12:50.008283" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008707a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003132> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1773" ;
+                               pers:description   "key005005" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1773" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003132> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

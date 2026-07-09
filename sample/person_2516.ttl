@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per002937>
+        a               pers:person ;
+        rdfs:label      "Jörg Furgler"@deu ;
+        pers:deaths     [ pers:death         "vor 1713" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1713" ;
+                                                                   pers:notBefore  "1663" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "SG III/2"
+                        ] ;
+        pers:name       [ pers:forename          "Jörg" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per002937a> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "SG III/2"
+                                                 ] ;
+                          pers:occurence         [ pers:articles  [ pers:article  "338" ;
+                                                                    pers:line     "22" ;
+                                                                    pers:page     "1130"
+                                                                  ] ;
+                                                   pers:vol       "SG III/2"
+                                                 ] ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000796> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000796> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003048> ;
+                          pers:occurence  "SG III/2"
+                        ] .

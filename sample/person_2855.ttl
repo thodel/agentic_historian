@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per003301>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Vinsler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1382" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:59:35.707773" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003301a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "5" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "18"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001314> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1364, 1366-1367, 1369-1370, 1373" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date          "1382" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:description  "key000028" ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001314> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Die Brugger werden in der Lit. mit V geschrieben, vgl. Bäbler, Regesten. Möglicherweise identisch mit per020083" ;
+        pers:sex             "1" .

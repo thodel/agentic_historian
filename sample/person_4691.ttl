@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per005238>
+        a                    pers:person ;
+        rdfs:label           "Hans Götti"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1461" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1461" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 17:50:24.752723" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "42" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "115"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001918.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005238a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005238a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001918> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "39" ;
+                                                                   pers:line     "28" ;
+                                                                   pers:page     "102"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001918.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005238a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1461, 1464" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1464" ] ;
+                                         pers:format_date  [ pers:when  "1461" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002996>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001918> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

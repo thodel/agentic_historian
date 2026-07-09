@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009318>
+        a                    pers:person ;
+        rdfs:label           "François Péclat"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009315> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1628" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1628" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-09 08:43:38.610311" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:name            [ pers:forename   "François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009318a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003453> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Françoys" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003453.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009318a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003453> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

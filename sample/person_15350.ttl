@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per016434>
+        a                    pers:person ;
+        rdfs:label           "Hans Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-26 08:53:33.169851" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Bluͦm" ;
+                                                  pers:occurence  "sabine"
+                                                ] ;
+                               pers:forename    "Hansz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.14> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016434a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Blum" ;
+                                                 pers:occurence  "sabine"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016434a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1456" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc009765> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit Hans Schmid, ersterwähnt 1466 (per018146)" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008679> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per005775>
+        a                    pers:person ;
+        rdfs:label           "Hans Bandel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1504" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1504" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-10 10:47:54.398417" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "80b" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "292"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002299.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005775a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005775a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1504" ;
+                               pers:description   "key003661" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1504" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1504" ;
+                               pers:description   "key004090" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1504" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002302>
+                             ] ;
+        pers:occupation      [ pers:date          "1504" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1504" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005552> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002299> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

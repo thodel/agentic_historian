@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per000888>
+        a                    pers:person ;
+        rdfs:label           "Erhart Gessler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1462" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1462" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Erhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000154.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000888a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "ab dem Eschnerberg" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Erhart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000888a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "66" ;
+                                                                  pers:line     "4" ;
+                                                                  pers:page     "215"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000154> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000154> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000885> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

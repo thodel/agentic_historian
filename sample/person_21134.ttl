@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per022418>
+        a                    pers:person ;
+        rdfs:label           "Claude Bollot"@deu , "Claude Bollot"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1676" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-03 18:40:19.759766" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Claude" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022418a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008114> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Claude" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022418a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008114> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008114> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007648> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per022419> ;
+                               pers:occurence  "lionel"
+                             ] .

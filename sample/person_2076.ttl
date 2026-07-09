@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per002485>
+        a                    pers:person ;
+        rdfs:label           "Peter Broder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1855" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1855" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:doubtful_reading  "1" ;
+                               pers:forename          "Peter" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002485a> ;
+                               pers:lang              "deu" ;
+                               pers:occurence         [ pers:articles  [ pers:article  "241b" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "886"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000453> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1840, 1855" ;
+                               pers:description   "key003590" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1855" ] ;
+                                         pers:format_date  [ pers:when  "1840" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000453> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per016706>
+        a                               pers:person ;
+        rdfs:label                      "Pierre Jaunyn"@fra ;
+        pers:deaths                     [ pers:death      "av. 02.1526" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016599> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1525" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-05-08 11:15:20.540222" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Pierre" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per016706a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006625> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Pierre" ;
+                                          pers:lang        "fra" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006625.01> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016706a.01>
+                                        ] ;
+        pers:occupation                 [ pers:date         "20.06.1525" ;
+                                          pers:description  "key003247" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org006625> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Dorthe dans Ostorero et al. 2007, p. 265" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009338> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009355>
+        a               pers:person ;
+        rdfs:label      "François Pillet"@fra ;
+        pers:deaths     [ pers:death         "vor 1629" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1629" ;
+                                                                   pers:notBefore  "1579" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009358> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009359> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2019-06-26 08:13:31.374417" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "François" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009355a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003466> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Françoys" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003466.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009355a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003466> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007609> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009356> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

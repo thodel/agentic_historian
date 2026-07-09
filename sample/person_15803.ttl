@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per016901>
+        a                pers:person ;
+        rdfs:label       "Catherine Pochon"@fra ;
+        pers:deaths      [ pers:death      "1644" ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-29 07:11:10.810397" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename    "Catherine" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006687.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016901a.01>
+                         ] ;
+        pers:name        [ pers:forename          "Catherine" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per016901a> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "lionel"
+                                                  ] ;
+                           pers:occurence         "lionel" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006687> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000945" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006687> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007931> ;
+                           pers:occurence  "lionel"
+                         ] ;
+        pers:sex         "2" .

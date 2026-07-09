@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per008651>
+        a                    pers:person ;
+        rdfs:label           "Jean-Frédéric Brun"@fra ;
+        pers:deaths          [ pers:death         "04.10.1747" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1747-10-04" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1725" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1725" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-17 12:04:28.879876" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Frédéric" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008651a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000539> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jean Frédéric" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000539.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008651a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1725-1730" ;
+                               pers:description   "key001082" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1730" ;
+                                                                        pers:to    "1725"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000539> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15653" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date          "1730" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1730" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

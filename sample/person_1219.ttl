@@ -1,0 +1,23 @@
+<http://ssrq-sds-fds.ch/Register/#per001622>
+        a                    pers:person ;
+        rdfs:label           "This Marquart"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1510" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1510" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "This" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001622a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "121" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "404"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000524> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000524> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

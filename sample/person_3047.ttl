@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003493>
+        a                    pers:person ;
+        rdfs:label           "Ruedi Saner"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003492> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1453" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-07 11:06:21.402886" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Ruedi" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003493a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43b" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "121"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "53" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "152"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001387> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "53" ;
+                                                                   pers:line     "25" ;
+                                                                   pers:page     "150"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001387.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003493a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001387> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001602> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per006767>
+        a                    pers:person ;
+        rdfs:label           "Eitelhans Binger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1562" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1562" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-15 14:58:41.199707" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Eyttelhanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "141" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "599"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002560.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006767a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Eitelhans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006767a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002560> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1562" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006605> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002560> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

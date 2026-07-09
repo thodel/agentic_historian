@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per015284>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Zimmermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1443" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-14 16:46:29.295294" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015284a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000134> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000134.07> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015284a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000134> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit Heinrich Zimmermann von Lupfig (1464) (per011445) oder Heinrich Zimmermann (1463) (per017674)" ;
+        pers:residence       [ pers:date       "1443" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc010779> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

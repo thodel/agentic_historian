@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per008019>
+        a                pers:person ;
+        rdfs:label       "Gebhard Zürcher"@deu ;
+        pers:births      [ pers:birth         "02.02.1701" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1701-02-02" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "19.04.1781" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1781-04-19" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-01 11:30:17.897618" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "274e" ;
+                                                               pers:line     "14" ;
+                                                               pers:page     "1218"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000848.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008019a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Gebhard" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008019a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "274e" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "1221"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000848> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1770" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                         ] ;
+        pers:occupation  [ pers:date          "1770" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1770" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000848> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15149" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Werner Kuster: Beim quellenmässig belegten ’landamann Zürcher’ kann es sich aufgrund der Übereinstimmungen der Amtszeiten mit dem HLS nur um diese Person handeln." ;
+        pers:sex         "1" .

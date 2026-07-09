@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per003184>
+        a                pers:person ;
+        rdfs:label       "Niklaus Hollstein"@deu ;
+        pers:deaths      [ pers:death         "1480" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1480" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-07-09 14:27:54.813373" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename          "Niklaus" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per003184a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                    pers:occurence       "LU II/3"
+                                                  ] ;
+                           pers:occurence         "LU II/3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001251> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Nicolaus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "13b" ;
+                                                               pers:line     "37" ;
+                                                               pers:page     "39"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001251.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003184a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1441-1480" ;
+                           pers:description   "key000001" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1441" ;
+                                                                    pers:to    "1480"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001250>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001251> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III/3, S. 411" ;
+                           pers:title  "HS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                         ] ;
+        pers:sex         "1" .

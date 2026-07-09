@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per003157>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Burger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1363" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1363" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-08 14:11:26.691700" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1391" ] ] ;
+                               pers:last_mention  "1391" ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͤdi" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "7" ;
+                                                                   pers:line     "34" ;
+                                                                   pers:page     "21"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "2a" ;
+                                                                   pers:line     "13" ;
+                                                                   pers:page     "4"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "10" ;
+                                                                   pers:line     "9" ;
+                                                                   pers:page     "31"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001236.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003157a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "1" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "1"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "15"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001236.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003157a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003157a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "12" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "36"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "1" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "1"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001236> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1391" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1391" ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003672>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001236> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc002601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

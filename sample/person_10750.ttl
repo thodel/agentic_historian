@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per011592>
+        a                               pers:person ;
+        rdfs:label                      "Jean Doyerat"@fra ;
+        pers:citizenOf                  [ pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004481>
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011508> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1449" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-03-03 08:59:06.212058" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Johannes" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011592a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004412> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Johannes" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004412.02> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011592a.01>
+                                        ] ;
+        pers:name                       [ pers:forename   "Jean" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011592a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004412> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004412> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 101" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:sex                        "1" .

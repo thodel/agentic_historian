@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per002114>
+        a                pers:person ;
+        rdfs:label       "Konrad Blumer"@deu ;
+        pers:births      [ pers:birth         "11.12.1739" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1739-12-11" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:deaths      [ pers:death         "13.09.1807" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1807-09-13" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-13 07:20:36.259890" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002114a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "178b" ;
+                                                              pers:line     "13" ;
+                                                              pers:page     "643"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000907> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1783, 1784" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                           pers:occurence    "SG III/2" , "SG III/4"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000907> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "S. 59" ;
+                           pers:title  "Kubly-Müller 1927" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000139748"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

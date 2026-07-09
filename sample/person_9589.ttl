@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010351>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Spengler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-23 11:36:24.390465" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010351a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001613> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1431" ;
+                               pers:description  "key000028" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007770> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1427" ;
+                               pers:description  "key000623" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007770> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001613> ;
+        pers:project         "StadtASG" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007770> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

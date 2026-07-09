@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per008442>
+        a                    pers:person ;
+        rdfs:label           "Maria Barbara Kurer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1796" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1796" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 08:16:57.395314" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Maria Barbara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008442a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002358> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Maria Barbara" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328e" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "1404"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002358.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008442a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Maria Barbara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008442b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002085> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002358> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008443> ;
+                               pers:occurence  "SG III/3"
+                             ] .

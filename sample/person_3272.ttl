@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per003728>
+        a                    pers:person ;
+        rdfs:label           "Burkart Scherer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1437" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:53:12.956124" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Burkart" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003728a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "42" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "114"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001266> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1437" ;
+                               pers:description   "key000078" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1437" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001266> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

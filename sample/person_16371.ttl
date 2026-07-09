@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per017500>
+        a               pers:person ;
+        rdfs:label      "Siegbert Schröpfer"@deu ;
+        pers:deaths     [ pers:death      "1562" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-05-12 09:26:06.638161" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Zypert" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005635.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017500a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Siegbert" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per017500a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005635> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005635> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009070> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

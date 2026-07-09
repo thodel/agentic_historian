@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per012909>
+        a                    pers:person ;
+        rdfs:label           "Pierre Ferron dit Pontus"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1605" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-01-07 11:48:21.171002" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012909a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005272> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005272.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012909a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005272> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1605" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc008483> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012907> ;
+                               pers:occurence  "NE 3"
+                             ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per011282>
+        a               pers:person ;
+        rdfs:label      "Niklaus von Diesbach"@deu ;
+        pers:births     [ pers:birth      "1430" ;
+                          pers:occurence  "saeg"
+                        ] ;
+        pers:deaths     [ pers:death      "07.08.1475" ;
+                          pers:occurence  "saeg"
+                        ] ;
+        pers:hist       [ pers:date      "2019-05-29 13:22:48.855474" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Niklaus" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011282b> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "saeg" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003437> ;
+                          pers:rolenames  [ pers:occurence  "saeg" ;
+                                            pers:rolename   "Ritter/chevalier"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:project    "Königsfelden" ;
+        pers:refs       [ pers:id    "135743737" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:id    "16669" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                          pers:occurence  "saeg"
+                        ] ;
+        pers:sex        "1" .

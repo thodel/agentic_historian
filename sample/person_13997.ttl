@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per015027>
+        a                    pers:person ;
+        rdfs:label           "Katharina Strasser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1520" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 16:55:52.158804" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Katharina" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015027a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006091> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Trin" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006091.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015027a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006091> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010382> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015032> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

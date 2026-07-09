@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per004634>
+        a                    pers:person ;
+        rdfs:label           "Walter Rotenberger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1450" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1450" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004632> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-11-30 09:32:07.544579" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Waͤlti" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001861.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004634a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004634a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001861> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001861> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

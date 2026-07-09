@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per020028>
+        a             pers:person ;
+        rdfs:label    "Donat von Vaz"@deu ;
+        pers:births   [ pers:birth      "1284" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:deaths   [ pers:death      "1337/38" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-06-19 09:38:58.348248" ;
+                        pers:username  "GR B III/2"
+                      ] ;
+        pers:name     [ pers:forename    "NN" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000024.04> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020028a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Donat" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per020028a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000024> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "NN" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000024.03> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020028a.02>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000024> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "17008" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "139154353" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

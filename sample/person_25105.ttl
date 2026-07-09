@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per026468>
+        a                pers:person ;
+        rdfs:label       "Salomon Hirzel"@deu ;
+        pers:births      [ pers:birth      "13.05.1727" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "19.11.1818" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-07 17:03:23.413204" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005079>
+                         ] ;
+        pers:name        [ pers:forename    "Salomon" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000997.10> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026468a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Salomon" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026468a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000997> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000540" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1768-1797" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000997> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18160" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "116916699" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

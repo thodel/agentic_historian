@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per001766>
+        a                    pers:person ;
+        rdfs:label           "NN Lutz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1837" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1837" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001766a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "130" ;
+                                                                  pers:line     "45" ;
+                                                                  pers:page     "435"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000771> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1837" ;
+                               pers:description   "key003637" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1837" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002793>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000771> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

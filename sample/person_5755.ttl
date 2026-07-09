@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per006352>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Kobler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1669" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1669" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-08 18:32:20.214131" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "128a" ;
+                                                                   pers:line     "31" ;
+                                                                   pers:page     "517"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "216" ;
+                                                                   pers:line     "36" ;
+                                                                   pers:page     "992"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001777.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006352a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "216" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "994"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001777.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006352a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006352a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001777> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1669, 1675" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1675" ] ;
+                                         pers:format_date  [ pers:when  "1669" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002953>
+                             ] ;
+        pers:occupation      [ pers:date          "1669" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1669" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001777> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

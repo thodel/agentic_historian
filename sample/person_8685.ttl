@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009422>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Oehri"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1619" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1619" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-25 12:19:13.731341" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009422a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003487> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ulle" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003487.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009422a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1619" ;
+                               pers:description   "key000224" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003487> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1619" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1619" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007190> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

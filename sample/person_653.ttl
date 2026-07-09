@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per000741>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Hegener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1410" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1420" ;
+                                                                         pers:notBefore  "1400" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000741a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "50" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "145"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000291> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "um 1410" ;
+                               pers:description   "key000088" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1420" ;
+                                                                        pers:notBefore  "1400" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000522> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000291> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000522> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

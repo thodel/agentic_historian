@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per026829>
+        a                pers:person ;
+        rdfs:label       "Friedrich Staufer"@deu ;
+        pers:births      [ pers:birth      "1167" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "20.01.1191" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-21 08:12:04.568191" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Friderico" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000081.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026829a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Friedrich" ;
+                           pers:gennames   [ pers:genname    "VI." ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026829a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000081> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1170-1191" ;
+                           pers:description  "key000189" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000916> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000081> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "138740852" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:remark      "Geburtsjahr umstritten" ;
+        pers:sex         "1" .

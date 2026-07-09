@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per012746>
+        a               pers:person ;
+        rdfs:label      "Pierre Amboney"@fra ;
+        pers:deaths     [ pers:death      "av. 1498" ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012938> ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:hist       [ pers:date      "2020-04-30 17:03:48.474653" ;
+                          pers:username  "gortega"
+                        ] ;
+        pers:name       [ pers:addnames          [ pers:addname    "senior" ;
+                                                   pers:occurence  "gortega"
+                                                 ] ;
+                          pers:forename          "Petrus" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per012746a> ;
+                          pers:lang              "lat" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "gortega"
+                                                 ] ;
+                          pers:occurence         "gortega" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005199> ;
+                          pers:type              "std"
+                        ] ;
+        pers:name       [ pers:forename    "Petrus" ;
+                          pers:lang        "lat" ;
+                          pers:occurence   "gortega" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005199.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012746a.01>
+                        ] ;
+        pers:name       [ pers:addnames          [ pers:addname    "senior" ;
+                                                   pers:occurence  "gortega"
+                                                 ] ;
+                          pers:forename          "Pierre" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per012746a> ;
+                          pers:lang              "fra" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "gortega"
+                                                 ] ;
+                          pers:occurence         "gortega" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005199> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005199> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:title  "Pfister 1997, p. 290" ;
+                          pers:type   "biblio"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010900> ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012738> ;
+                          pers:occurence  "gortega"
+                        ] .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per002099>
+        a                    pers:person ;
+        rdfs:label           "Hans Gall"@deu ;
+        pers:first_mentions  [ pers:first_mention  "16. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1501" ;
+                                                                         pers:to    "1600"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002099a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "177" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "635"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001155> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001155.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002099a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001155> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

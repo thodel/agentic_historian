@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012651>
+        a                pers:person ;
+        rdfs:label       "Rudolf Gwerb"@deu ;
+        pers:births      [ pers:birth      "1597" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1675" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-27 13:42:20.037809" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "aus St. Gallen" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012651a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005162> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000509> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005162> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "128511745" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

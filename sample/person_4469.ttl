@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per004997>
+        a                    pers:person ;
+        rdfs:label           "Agnes von Hohenzollern"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1333" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1333" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-12-19 11:10:06.733120" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1364" ] ] ;
+                               pers:last_mention  "1364" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004997b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "3" ;
+                                                                         pers:line     "29" ;
+                                                                         pers:page     "11"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000019> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Agnes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004997a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001983> ;
+                               pers:rolenames         [ pers:occurence  "SG III/3" ;
+                                                        pers:rolename   "Gräfin/comtesse"
+                                                      ] ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001983> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.monasterium.net/mom/CSGVIII/1363_III_02/charter"
+                             ] ;
+        pers:refs            [ pers:page   "VIII, Nr. 4861" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004996> ;
+                               pers:occurence  "SG III/3"
+                             ] .

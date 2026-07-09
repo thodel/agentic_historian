@@ -1,0 +1,72 @@
+<http://ssrq-sds-fds.ch/Register/#per000721>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Wartenberg"@deu ;
+        pers:deaths          [ pers:death         "31.12.1454" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1454-12-31" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1423" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-31 15:04:37.780303" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000721a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "49" ;
+                                                                         pers:line     "15" ;
+                                                                         pers:page     "119"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000360> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Friedrich" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000721b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "49" ;
+                                                                         pers:line     "15" ;
+                                                                         pers:page     "119"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000361> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Fridrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000360.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000721a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1428-1454" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1428" ;
+                                                                        pers:to    "1454"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000360>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000360> , <http://ssrq-sds-fds.ch/Register/#org000361> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "13049" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://personendatenbank.germania-sacra.de/index/gsn/040-01171-001"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000087> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

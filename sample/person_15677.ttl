@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per016770>
+        a                    pers:person ;
+        rdfs:label           "Hans Meier"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1456" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-27 10:20:40.308830" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Alte" ;
+                                                 pers:occurence  "sabine"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per016770a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit Hans Meier, der 1447 als 'der Jung' belegt ist." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008679> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:sex             "1" .

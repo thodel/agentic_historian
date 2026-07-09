@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012258>
+        a                pers:person ;
+        rdfs:label       "Benedikt XII.  (Papst)"@deu ;
+        pers:births      [ pers:birth      "1285" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1342" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-09-16 15:42:09.781456" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Benedikt XII." ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per012258a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "claudia"
+                                                  ] ;
+                           pers:occurence         "claudia" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1334-1342" ;
+                           pers:description  "key000014" ;
+                           pers:occurence    "claudia"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "Claudia Sutter" ;
+        pers:refs        [ pers:id    "118508903" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

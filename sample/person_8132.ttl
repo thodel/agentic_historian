@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008840>
+        a                    pers:person ;
+        rdfs:label           "Susanne l’ Escuyer"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1724" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1724" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-10 17:31:56.979610" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename          "Susanne" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008840a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003236> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Susanne" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008840b> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "NE 3"
+                                                      ] ;
+                               pers:occurence         "NE 3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003235> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003236> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1724" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1724" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007791> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008839> ;
+                               pers:occurence  "NE 3"
+                             ] .

@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per009125>
+        a                pers:person ;
+        rdfs:label       "Karl von Montenach"@deu ;
+        pers:births      [ pers:birth         "20.05.1568" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1568-05-20" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "23.11.1634" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1634-11-23" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-09 14:00:38.028793" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "Carli" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002509.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009125a.01>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002509.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009125a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Karl" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009125a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002509> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1605-1634" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1605" ;
+                                                                    pers:to    "1634"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1616-1634" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002509> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15024" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1074484274" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

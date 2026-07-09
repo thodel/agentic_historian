@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per004489>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Kriech"@deu ;
+        pers:deaths          [ pers:death         "1442" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1411" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-03-28 09:01:13.657976" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004489a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000638> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000638.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004489a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1417–1442" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1417" ;
+                                                                        pers:to    "1442"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006111> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000638> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21855" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.helvetiasacra.ch/hsindex/StiftDetail.php?print=1&id=183"
+                             ] ;
+        pers:sex             "1" .

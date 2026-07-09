@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per011505>
+        a                    pers:person ;
+        rdfs:label           "Hans Heinrich von Ballmoos"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011462> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "22.03.1455" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-23 08:58:52.654830" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004358.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011505b.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011505b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004358> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "22.03.1455" ;
+                               pers:description  "key000410" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005784> ;
+                               pers:occurence    "saeg"
+                             ] ;
+        pers:occupation      [ pers:date         "1456-1457" ;
+                               pers:description  "key000068" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000482> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.bernergeschlechter.ch/humo-gen/family.php?database=humo_&id=F17349&main_person=I53167"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per002997>
+        a                    pers:person ;
+        rdfs:label           "Johann Klaubenschädel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1769" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1769" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002997a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343b" ;
+                                                                  pers:line     "40" ;
+                                                                  pers:page     "1152"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001120> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1769" ;
+                               pers:description   "key001064" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1769" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001120> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

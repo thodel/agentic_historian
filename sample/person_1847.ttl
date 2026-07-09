@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per002248>
+        a                    pers:person ;
+        rdfs:label           "Johann Peter Elmer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1648" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1648" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-29 12:15:04.321154" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1667" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002248a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "234" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "868"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000102> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Petter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000102.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002248a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1648" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                             ] ;
+        pers:occupation      [ pers:date         "1656–1659" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000102> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

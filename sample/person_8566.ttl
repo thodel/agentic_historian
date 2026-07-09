@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009302>
+        a                    pers:person ;
+        rdfs:label           "Niklaus Tuppin"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1628" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1628" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-06-12 14:19:27.996503" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FR I/2/8" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003446.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009302a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Niklaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009302a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003446> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000356" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003446> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

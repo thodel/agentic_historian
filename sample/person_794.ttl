@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per000873>
+        a                pers:person ;
+        rdfs:label       "Kaspar Leonz Weber"@deu ;
+        pers:births      [ pers:birth         "10.06.1690" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1690-06-10" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "05.10.1747" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1747-10-05" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar Leonz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000873a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "215b" ;
+                                                              pers:line     "32" ;
+                                                              pers:page     "803"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "298" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "1037"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "62c" ;
+                                                              pers:line     "4" ;
+                                                              pers:page     "207"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000230> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1729-1731" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1729" ;
+                                                                    pers:to    "1731"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000230> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "26661" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

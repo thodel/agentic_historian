@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002214>
+        a                    pers:person ;
+        rdfs:label           "NN Oberli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1833" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1833" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000942.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002214a.01>
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002214a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "194" ;
+                                                                  pers:line     "8" ;
+                                                                  pers:page     "696"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000942> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1833" ;
+                               pers:description   "key004889" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1833" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000942> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

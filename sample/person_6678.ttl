@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007329>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Ziegler"@deu ;
+        pers:births          [ pers:birth         "08.06.1587" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1587-06-08" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:deaths          [ pers:death         "03.06.1656" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1656-06-03" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "um 1632" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1642" ;
+                                                                         pers:notBefore  "1622" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-26 16:27:18.933839" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007329a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "188" ;
+                                                                  pers:line     "46" ;
+                                                                  pers:page     "843"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000735> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Dr./dr."
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "um 1632" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1642" ;
+                                                                        pers:notBefore  "1622" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001176>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000735> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15846" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

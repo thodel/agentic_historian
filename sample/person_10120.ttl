@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per010919>
+        a               pers:person ;
+        rdfs:label      "Elisabeth von Habsburg-Österreich"@deu ;
+        pers:births     [ pers:birth      "1285" ;
+                          pers:occurence  "tobias"
+                        ] ;
+        pers:deaths     [ pers:death      "1352" ;
+                          pers:occurence  "tobias"
+                        ] ;
+        pers:hist       [ pers:date      "2020-11-02 00:13:09.417671" ;
+                          pers:username  "mina"
+                        ] ;
+        pers:motherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013093> ;
+                          pers:occurence  "mina"
+                        ] ;
+        pers:name       [ pers:forename          "Elisabeth" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per010919c> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "mina"
+                                                 ] ;
+                          pers:occurence         "mina" ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005353> ;
+                          pers:type              "std"
+                        ] ;
+        pers:name       [ pers:forename   "Elisabeth" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per010919b> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "tobias" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                          pers:rolenames  [ pers:occurence  "tobias" ;
+                                            pers:rolename   "Herzogin/duchesse"
+                                          ] ;
+                          pers:type       "std"
+                        ] ;
+        pers:project    "Königsfelden" ;
+        pers:refs       [ pers:type  "other" ;
+                          pers:url   "https://de.wikipedia.org/wiki/Elisabeth_von_Habsburg_(1285%E2%80%931352)"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006964> ;
+                          pers:occurence  "tobias"
+                        ] ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000347> ;
+                          pers:occurence  "sabine"
+                        ] .

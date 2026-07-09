@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per005362>
+        a                    pers:person ;
+        rdfs:label           "Peter Walser"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005366> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1634" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1634" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-25 09:09:45.381448" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005362a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "53c" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "177"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000615> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000615> ;
+        pers:ownerOf         [ pers:location       <http://ssrq-sds-fds.ch/Register/#loc006585> ;
+                               pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002219>
+        a                    pers:person ;
+        rdfs:label           "Thomas Meli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1604" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1604" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Thommann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000451.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002219a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002219a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "195" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "703"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000451> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000968" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000451> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

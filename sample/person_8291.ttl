@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009016>
+        a                    pers:person ;
+        rdfs:label           "David Mathiez"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1686" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1686" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-27 15:11:15.309814" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009016a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003324> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1686" ;
+                               pers:description   "key000976" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003324> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1686" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1686" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001152> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

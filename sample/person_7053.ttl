@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per007724>
+        a                    pers:person ;
+        rdfs:label           "Vinzenz Oeler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1712" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1712" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-15 09:48:40.972972" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Sentz" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250b" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "1093"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002028.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007724a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Vinzenz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007724a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002028> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002028> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Vornamendeutung gemäss https://books.google.ch/books?id=VYhWlRf8gscC&pg=PA216&lpg=PA216&dq=Senz+Vorname&source=bl&ots=vjgDsGk_rB&sig=1B9u98XAmkF6sV_DkQtKViWBBiA&hl=de&sa=X&ved=0ahUKEwiOucff3tjVAhXDCcAKHcGCBNQQ6AEIODAF#v=onepage&q=Senz%20Vorname&f=false" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005988> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

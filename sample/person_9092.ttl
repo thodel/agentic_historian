@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per009837>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Grässli"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1471" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 09:34:19.682314" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1475" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/4" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003218>
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001929.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009837a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Casper" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001929.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009837a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009837a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001929> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Kaspar Grässli wird 1475 als Bürger aufgenommen. Er gehörte zu den sogenannten Griffenseer Leute, die von Graf Wilhelm VIII. von Montfort-Tettnang vor 1471 gekauft worden sind." ;
+        pers:residence       [ pers:date       "1475" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000016> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

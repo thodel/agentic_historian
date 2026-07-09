@@ -1,0 +1,104 @@
+<http://ssrq-sds-fds.ch/Register/#per000299>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Mendelbüren"@deu ;
+        pers:deaths          [ pers:death         "20.12.1386" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1386-12-20" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1342" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1342" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000299a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:gennames          [ pers:genname    "II." ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000299a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "29" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "51"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "17" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "29"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "21a" ;
+                                                                         pers:line     "4" ;
+                                                                         pers:page     "37"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "16b" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "24"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "19" ;
+                                                                         pers:line     "23" ;
+                                                                         pers:page     "35"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Johannes" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000299b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "17" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "29"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "21a" ;
+                                                                         pers:line     "4" ;
+                                                                         pers:page     "37"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "29" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "51"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "16b" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "24"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "19" ;
+                                                                         pers:line     "23" ;
+                                                                         pers:page     "35"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000128> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1362-1386" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1362" ;
+                                                                        pers:to    "1386"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000128> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12828" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.sg.ch/content/kanton_st__gallen/home/kultur/stiftsarchiv/geschichte/abtei_pfaefers/aebte/johann_von_mendelbueren.popup.html"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per026123>
+        a                pers:person ;
+        rdfs:label       "Hans Jakob Ulrich"@deu ;
+        pers:births      [ pers:birth      "1636" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1709" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:45:26.419544" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026123a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000872> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hanß Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000872.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026123a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1681-1709" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010606> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000872> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1019764716" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

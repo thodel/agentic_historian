@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per012662>
+        a               pers:person ;
+        rdfs:label      "Johann Kaspar Pfenninger"@deu ;
+        pers:births     [ pers:birth      "23.09.1760" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:deaths     [ pers:death      "01.02.1838" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2019-11-27 14:52:30.947678" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:memberOf   [ pers:occurence      "ssrq-zh" ;
+                          pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004967>
+                        ] ;
+        pers:name       [ pers:forename    "Johann Caspar" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002540.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012662a.01>
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "von Stäfa" ;
+                                            pers:occurence  "ssrq-zh"
+                                          ] ;
+                          pers:forename   "Johann Kaspar" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012662a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002540> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002540> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "13511" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:refs       [ pers:id    "104090413" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010923> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

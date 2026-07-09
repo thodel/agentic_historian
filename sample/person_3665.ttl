@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004140>
+        a                    pers:person ;
+        rdfs:label           "Margret Dahinden"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1546" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1546" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-09 12:05:41.087237" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename          "Margret" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004140a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "LU II/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "89a" ;
+                                                                         pers:line     "14" ;
+                                                                         pers:page     "332"
+                                                                       ] ;
+                                                        pers:vol       "LU II/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001467> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001467> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004139> ;
+                               pers:occurence  "LU II/3"
+                             ] .

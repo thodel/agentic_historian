@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per002299>
+        a                pers:person ;
+        rdfs:label       "Johann Imfeld"@deu ;
+        pers:births      [ pers:birth         "13.06.1609" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1609-06-13" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "18.07.1675" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1675-07-18" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename    "Johann" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000835.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002299a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002299a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "237" ;
+                                                              pers:line     "14" ;
+                                                              pers:page     "873"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000835> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1649, 1650, 1653, 1657, 1661, 1667, 1671, 1675" ;
+                           pers:description   "key003718" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1653" ] ;
+                                     pers:format_date  [ pers:when  "1657" ] ;
+                                     pers:format_date  [ pers:when  "1667" ] ;
+                                     pers:format_date  [ pers:when  "1671" ] ;
+                                     pers:format_date  [ pers:when  "1675" ] ;
+                                     pers:format_date  [ pers:when  "1650" ] ;
+                                     pers:format_date  [ pers:when  "1661" ] ;
+                                     pers:format_date  [ pers:when  "1649" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001193>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000835> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21184" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000567> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

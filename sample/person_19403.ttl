@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per020635>
+        a                    pers:person ;
+        rdfs:label           "Werner von Gundolsheim"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1329" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-30 12:19:04.041111" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Ampringen" ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:forename   "Werner" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020635a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007642> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1329" ;
+                               pers:description  "key000086" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org007643>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007642> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020636> ;
+                               pers:occurence  "mina"
+                             ] .

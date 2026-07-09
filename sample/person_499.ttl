@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per000587>
+        a                    pers:person ;
+        rdfs:label           "Jakob Lombard"@deu ;
+        pers:deaths          [ pers:death         "22.12.1440" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1440-12-22" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1390" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1390" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000587a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000281> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1428" ;
+                               pers:description   "key000623" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000281> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15013" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

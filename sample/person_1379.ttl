@@ -1,0 +1,124 @@
+<http://ssrq-sds-fds.ch/Register/#per001788>
+        a                    pers:person ;
+        rdfs:label           "Justus Zink"@deu ;
+        pers:deaths          [ pers:death         "11.06.1696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1696-06-11" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "um 1620" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "1630" ;
+                                                                         pers:notBefore  "1610" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename          "Justus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001788a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "251" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "913"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "249" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "908"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "198b" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "737"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "243" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "893"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "262" ;
+                                                                         pers:line     "31" ;
+                                                                         pers:page     "955"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "148" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "527"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "207" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "780"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "138" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "479"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Justus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per001788b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "198b" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "737"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "262" ;
+                                                                         pers:line     "31" ;
+                                                                         pers:page     "955"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "138" ;
+                                                                         pers:line     "37" ;
+                                                                         pers:page     "479"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "148" ;
+                                                                         pers:line     "22" ;
+                                                                         pers:page     "527"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "249" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "908"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "251" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "913"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "207" ;
+                                                                         pers:line     "5" ;
+                                                                         pers:page     "780"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "243" ;
+                                                                         pers:line     "28" ;
+                                                                         pers:page     "893"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000620> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Justus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000001.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001788a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1645-1677" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1645" ;
+                                                                        pers:to    "1677"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000620> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "21846" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

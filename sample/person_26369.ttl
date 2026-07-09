@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per027763>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Müllenheim"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1315" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-27 08:02:13.976915" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1336" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per027763a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org009165> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org009165.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027763a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org009165> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "OBG 3, 129 ff." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:id    "137723318" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000022> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

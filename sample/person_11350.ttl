@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per012241>
+        a                pers:person ;
+        rdfs:label       "Alexander IV.  (Papst)"@deu ;
+        pers:births      [ pers:birth      "1199" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "1261" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-09-16 15:17:40.255361" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename          "Alexander IV." ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per012241a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "claudia"
+                                                  ] ;
+                           pers:occurence         "claudia" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000057> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1254-1261" ;
+                           pers:description  "key000014" ;
+                           pers:occurence    "claudia"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000057> ;
+        pers:project     "Claudia Sutter" ;
+        pers:refs        [ pers:id    "100936040" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

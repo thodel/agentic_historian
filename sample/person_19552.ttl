@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per020786>
+        a                pers:person ;
+        rdfs:label       "Peter Bertha"@deu ;
+        pers:deaths      [ pers:death      "vor 1574" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020864> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020791> ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020863> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-01 13:53:51.565713" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per020786a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006046> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peader" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006046.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020786a.01>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org006046> ;
+        pers:project     "SSRQ" ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020790> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:relativeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020788> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008967> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:sex         "1" .

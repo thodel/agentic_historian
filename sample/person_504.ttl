@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per000592>
+        a                    pers:person ;
+        rdfs:label           "Heinrich von Beroldingen"@deu ;
+        pers:deaths          [ pers:death         "nach 1446" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1446" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1428" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1428" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000592a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000286> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1428" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000286> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "15490" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

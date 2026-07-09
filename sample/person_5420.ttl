@@ -1,0 +1,88 @@
+<http://ssrq-sds-fds.ch/Register/#per005997>
+        a                pers:person ;
+        rdfs:label       "Karl Alphons Bessler (von Wattingen)"@deu ;
+        pers:births      [ pers:birth         "05.01.1734" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1734-01-05" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "15.03.1784" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1784-03-15" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-13 10:01:03.605560" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "310" ;
+                                                               pers:line     "18" ;
+                                                               pers:page     "1340"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002363.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005997a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Karl Alphons" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005997a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002363> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carl Alphons" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "312" ;
+                                                               pers:line     "19" ;
+                                                               pers:page     "1342"
+                                                             ] ;
+                                              pers:articles  [ pers:article  "311" ;
+                                                               pers:line     "32" ;
+                                                               pers:page     "1340"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002363.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005997a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Carl Alphons" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "95o" ;
+                                                               pers:line     "23" ;
+                                                               pers:page     "362"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002363.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005997a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1778, 1779" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1778" ] ;
+                                     pers:format_date  [ pers:when  "1779" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1778, 1779" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ;
+                                     pers:format_date  [ pers:when  "1778" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1778, 1779" ;
+                           pers:description   "key000427" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1778" ] ;
+                                     pers:format_date  [ pers:when  "1779" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001181>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002363> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15499" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

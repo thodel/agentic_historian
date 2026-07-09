@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per008346>
+        a                pers:person ;
+        rdfs:label       "Johannes Naeff"@deu ;
+        pers:births      [ pers:birth         "05.05.1761" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1761-05-05" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "10.07.1828" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1828-07-10" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-30 08:43:28.937458" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "SG III/3" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "329" ;
+                                                               pers:line     "18" ;
+                                                               pers:page     "1415"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003037.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008346a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Joh." ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                               pers:line     "17" ;
+                                                               pers:page     "1399"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003037.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008346a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008346a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003037> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Dr./dr."
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1798" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1798" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003060>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003037> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "Rohner, Geschlechter und Wappen, S. 94–95" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:remark      "Werner Kuster: Identität sehr wahrscheinlich" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000439> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:sex         "1" .

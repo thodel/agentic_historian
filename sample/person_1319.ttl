@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per001725>
+        a                pers:person ;
+        rdfs:label       "Kaspar von Mülinen"@deu ;
+        pers:births      [ pers:birth         "04.01.1481" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1481-01-04" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "15.03.1538" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1538-03-15" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001725a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "129c" ;
+                                                              pers:line     "5" ;
+                                                              pers:page     "430"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "256" ;
+                                                              pers:line     "10" ;
+                                                              pers:page     "930"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000765> ;
+                           pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000765.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001725a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1518" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1518" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000765> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16685" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

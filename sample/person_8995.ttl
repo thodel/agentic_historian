@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per009737>
+        a               pers:person ;
+        rdfs:label      "Rolet More"@fra ;
+        pers:deaths     [ pers:death         "ca. 1551" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1561" ;
+                                                                   pers:notBefore  "1541" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009736> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2018-08-06 10:53:04.549049" ;
+                          pers:username  "lionel"
+                        ] ;
+        pers:name       [ pers:forename   "Rolet" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009737a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003613> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003613> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006003> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" .

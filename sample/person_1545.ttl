@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per001947>
+        a                    pers:person ;
+        rdfs:label           "Josef Anton Müller"@deu ;
+        pers:deaths          [ pers:death         "07.05.1905" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1905-05-07" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1873" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1873" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-16 14:52:32.338433" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Josef Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001947a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "571"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "153c" ;
+                                                                  pers:line     "42" ;
+                                                                  pers:page     "550"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000301" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc006041> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000301" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007743> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000042" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000027> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Repertorium CH" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/sz001676083"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

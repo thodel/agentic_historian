@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per000243>
+        a                    pers:person ;
+        rdfs:label           "Eglolf von Wolfurt"@deu ;
+        pers:deaths          [ pers:death         "05.02.1330" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1330-02-05" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1327" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1327" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename          "Eglolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000243b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "11a" ;
+                                                                         pers:line     "1" ;
+                                                                         pers:page     "16"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000044> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Eglof" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000243a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "11a" ;
+                                                                         pers:line     "1" ;
+                                                                         pers:page     "16"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1327-1330" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1327" ;
+                                                                        pers:to    "1330"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000044> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.sg.ch/content/kanton_st__gallen/home/kultur/stiftsarchiv/geschichte/abtei_pfaefers/aebte/eglolf_von_wolfurt.popup.html"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

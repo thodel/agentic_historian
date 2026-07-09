@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per009634>
+        a                pers:person ;
+        rdfs:label       "Anton Gasser"@deu ;
+        pers:births      [ pers:birth         "02.05.1532" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1532-05-02" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "vor 23.05.1605" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1605-05-23" ;
+                                                                    pers:notBefore  "1555-05-23" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-19 09:55:28.790389" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Anthoni" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000437.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009634a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009634a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000437> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1586" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                         ] ;
+        pers:occupation  [ pers:date          "1586, 1589" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ;
+                                     pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1586, 1589" ;
+                           pers:description   "key003719" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ;
+                                     pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:occupation  [ pers:date          "1586, 1589" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ;
+                                     pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000437> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16713" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

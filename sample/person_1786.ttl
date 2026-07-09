@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002190>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Bernold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1771" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1771" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002190a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "345" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "1161"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruodolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000929.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002190a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000929> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002188> ;
+                               pers:occurence  "SG III/2"
+                             ] .

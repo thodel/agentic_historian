@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per006162>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Baumann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1519" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1519" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-23 14:14:07.253836" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:last_mention  "1546" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename    "Haine" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113d" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "444"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001055.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006162a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006162a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001055> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heiny" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113g" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "455"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001055.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006162a.02>
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key000427" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002174>
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001055> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18856" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

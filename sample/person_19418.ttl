@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per020650>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Rupperswil"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013090> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1281" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-30 15:23:34.650579" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1332" ;
+                               pers:occurence     "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "mina"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020650a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005350> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005350> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017377> ;
+                               pers:occurence  "mina"
+                             ] .

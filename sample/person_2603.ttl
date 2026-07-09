@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003029>
+        a                    pers:person ;
+        rdfs:label           "Louis Eberle"@deu ;
+        pers:first_mentions  [ pers:first_mention  "20. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1901" ;
+                                                                         pers:to    "2000"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Hobi" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Louis" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003029a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "350" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "1172"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000930> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000930> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000158> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

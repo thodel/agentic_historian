@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per003755>
+        a                    pers:person ;
+        rdfs:label           "Hippolyt Wiener"@deu ;
+        pers:deaths          [ pers:death         "1484" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1484" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1453" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-10 11:04:43.743731" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Ippolito" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "66" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "198"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001506.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003755a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hippolyt" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003755a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "128"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "66" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "201"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001506> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000301" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005872> ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001506> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

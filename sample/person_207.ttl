@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per000263>
+        a               pers:person ;
+        rdfs:label      "Metz Berchtold"@deu ;
+        pers:deaths     [ pers:death         "vor 1361" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1361" ;
+                                                                   pers:notBefore  "1311" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "SG III/2"
+                        ] ;
+        pers:name       [ pers:forename    "Maͤtziun" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "SG III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000051.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000263a.01>
+                        ] ;
+        pers:name       [ pers:forename          "Metz" ;
+                          pers:id                <http://ssrq-sds-fds.ch/Register/#per000263a> ;
+                          pers:lang              "deu" ;
+                          pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                   pers:occurence       "SG III/2"
+                                                 ] ;
+                          pers:occurence         [ pers:articles  [ pers:article  "11c" ;
+                                                                    pers:line     "24" ;
+                                                                    pers:page     "17"
+                                                                  ] ;
+                                                   pers:vol       "SG III/2"
+                                                 ] ;
+                          pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000051> ;
+                          pers:type              "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000051> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                          pers:occurence  "SG III/2"
+                        ] ;
+        pers:sex        "2" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000262> ;
+                          pers:occurence  "SG III/2"
+                        ] .

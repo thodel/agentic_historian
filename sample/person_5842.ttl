@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per006440>
+        a                    pers:person ;
+        rdfs:label           "Thomas Walt"@deu ;
+        pers:deaths          [ pers:death         "vor 02.05.1781" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1781-05-02" ;
+                                                                        pers:notBefore  "1731-05-02" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1770" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1770" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-02 11:39:17.523833" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Thomaß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "132" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "552"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002126.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006440a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006440a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "132" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "552"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002126> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002126> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006803> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

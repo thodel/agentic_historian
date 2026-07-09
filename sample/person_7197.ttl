@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per007872>
+        a                    pers:person ;
+        rdfs:label           "Joseph Hutter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1733" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-23 11:38:16.504349" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007872a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000711> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Josheßff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "266" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "1176"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000711.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007872a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1733" ;
+                               pers:description   "key000156" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1733" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1733" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1733" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002895>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000711> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

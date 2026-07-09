@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per012074>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Wernlis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1342" ;
+                               pers:occurence      "claudia"
+                             ] ;
+        pers:hist            [ pers:date      "2019-08-19 11:09:30.005551" ;
+                               pers:username  "claudia"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012074a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "claudia" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004623> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hainrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "claudia" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004623.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012074a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004623> ;
+        pers:project         "Claudia Sutter" ;
+        pers:remark          "auch Heinrich, genannt Wernlis" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010027> ;
+                               pers:occurence  "claudia"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012075> ;
+                               pers:occurence  "claudia"
+                             ] .

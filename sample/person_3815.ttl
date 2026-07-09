@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per004296>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Bühler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "vor 1593" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:27:32.574196" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Casper" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "133b" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "477"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001315.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004296a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004296a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001315> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 1593" ;
+                               pers:description   "key000547" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1593" ;
+                                                                        pers:notBefore  "1543" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005833> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001315> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

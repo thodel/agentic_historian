@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per006154>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Stoll"@deu ;
+        pers:births          [ pers:birth         "um 1490" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1500" ;
+                                                                        pers:notBefore  "1480" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007314> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007315> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:deaths          [ pers:death         "20.10.1553" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1553-10-20" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-11 08:22:38.561977" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113g" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "455"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000814.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006154a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Rudolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113d" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "444"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000814.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006154a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006154a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000814> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1532" ;
+                               pers:description   "key001116" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1532" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001196>
+                             ] ;
+        pers:occupation      [ pers:date         "1520-1553" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000814> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18199" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

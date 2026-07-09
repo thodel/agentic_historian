@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per014222>
+        a                    pers:person ;
+        rdfs:label           "Clara von Reischach"@deu ;
+        pers:deaths          [ pers:death      "1480" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-13 15:36:48.234773" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per014216> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename          "Clara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per014222a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "ssrq-zh"
+                                                      ] ;
+                               pers:occurence         "ssrq-zh" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000377> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Clara" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per014222b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "ssrq-zh"
+                                                      ] ;
+                               pers:occurence         "ssrq-zh" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002158> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000377> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000739> ;
+                               pers:occurence  "ssrq-zh"
+                             ] .

@@ -1,0 +1,73 @@
+<http://ssrq-sds-fds.ch/Register/#per002276>
+        a                    pers:person ;
+        rdfs:label           "Apollinaris Iten"@deu ;
+        pers:deaths          [ pers:death         "29.10.1618" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1618-10-29" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1596" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1596" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-31 15:18:01.427587" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Aponinatius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "199a" ;
+                                                                   pers:line     "38" ;
+                                                                   pers:page     "907"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002276a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Apollinaris" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002276a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "208a" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "780"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000275> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Appollinarius" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002276a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1614" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1614" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1617" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001216>
+                             ] ;
+        pers:occupation      [ pers:date          "1614" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1614" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000275> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26678" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

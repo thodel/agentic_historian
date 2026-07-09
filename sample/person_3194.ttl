@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003648>
+        a                    pers:person ;
+        rdfs:label           "Hans Scherer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1424" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1424" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-07-30 08:25:29.800547" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003648a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "32a" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "76"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001266> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001266> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Bezüglich Identität Hänsli und Hans auch SSRQ LU I/2, S. 352, unsicher." ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

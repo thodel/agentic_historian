@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per006286>
+        a                pers:person ;
+        rdfs:label       "Jakob von Grünenstein"@deu ;
+        pers:deaths      [ pers:death         "vor 01.08.1550" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1550-08-01" ;
+                                                                    pers:notBefore  "1500-08-01" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006283> ;
+                           pers:occurence  "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-05-31 10:22:18.465672" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "126" ;
+                                                               pers:line     "14" ;
+                                                               pers:page     "509"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001978.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006286a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006286a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "126" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "508"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001978> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "vor 01.08.1550" ;
+                           pers:description   "key000659" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1550-08-01" ;
+                                                                    pers:notBefore  "1500-08-01" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc006627> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001978> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006285> ;
+                           pers:occurence  "SG III/3"
+                         ] .

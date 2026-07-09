@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per000900>
+        a                    pers:person ;
+        rdfs:label           "Heinrich de Ungaria"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1364" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1364" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000900a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "19" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "35"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000469> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1364" ;
+                               pers:description   "key000042" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1364" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000469> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

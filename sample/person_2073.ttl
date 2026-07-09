@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per002482>
+        a                    pers:person ;
+        rdfs:label           "Adrian Ziegler"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001175>
+                             ] ;
+        pers:deaths          [ pers:death         "05.1654" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1654-05" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009916> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "24.12.1584" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1584-12-24" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-04-11 16:00:01.769342" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Adrian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002482a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "238a" ;
+                                                                  pers:line     "6" ;
+                                                                  pers:page     "878"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000735> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1626–1633" ;
+                               pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1650" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1650" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000735> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26291" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000278> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

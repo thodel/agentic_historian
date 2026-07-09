@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per028891>
+        a                pers:person ;
+        rdfs:label       "Johannes von Lauffohr"@deu ;
+        pers:deaths      [ pers:death      "vor 1419" ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028890> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-18 15:48:52.010702" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028891a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "sabine" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005369> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "vor 1419" ;
+                           pers:description  "key000196" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc009757> ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:occupation  [ pers:date         "vor 1419" ;
+                           pers:description  "key000043" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc013603> ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005369> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:title  "Merz, Walther: Die mittelalterlichen Burganlagen und Wehrbauten des Kantons Aargau, Bd. 2, 1906, S. 324." ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:sex         "1" .

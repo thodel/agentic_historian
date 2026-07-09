@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per007632>
+        a                    pers:person ;
+        rdfs:label           "Georg Ehert"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1694" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1694" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-09 15:30:18.887564" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "228" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "1037"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002836.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007632a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Georg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007632a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002836> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1694" ;
+                               pers:description   "key000028" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1694" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002832>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002836> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

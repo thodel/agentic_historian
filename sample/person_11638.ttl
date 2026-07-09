@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per012538>
+        a                         pers:person ;
+        rdfs:label                "Jacques Cavelli"@fra ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004846>
+                                  ] ;
+        pers:deaths               [ pers:death      "1478" ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1438" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-06 07:59:28.996363" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename          "Jacobus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012538a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004845> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Jacobus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004845.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012538a.01>
+                                  ] ;
+        pers:name                 [ pers:forename          "Jacques" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012538a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004845> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "1438" ;
+                                    pers:description  "key000890" ;
+                                    pers:location     <http://ssrq-sds-fds.ch/Register/#loc010832> ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:description  "key000275" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:occupation           [ pers:date         "28.04.1459, 30.04.1459, 01.05.1459" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004845> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ammann–Doubliez dans Ostorero et al. 2007, p. 207, 209" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:refs                 [ pers:title  "Dubuis 1990, vol. 1, p. 135" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008280> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012525> ;
+                                    pers:occurence  "gortega"
+                                  ] .

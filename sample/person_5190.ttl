@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per005768>
+        a                    pers:person ;
+        rdfs:label           "Johannes Sepp"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1502" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1502" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-10 09:04:27.180971" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "80a" ;
+                                                                   pers:line     "29" ;
+                                                                   pers:page     "290"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002297.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005768a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005768a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002297> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 1502" ;
+                               pers:description   "key000562" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1502" ;
+                                                                        pers:notBefore  "1452" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006613> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002297> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

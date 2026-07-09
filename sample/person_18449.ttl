@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per019660>
+        a                    pers:person ;
+        rdfs:label           "Abraham de Dardel"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-16 10:50:35.266642" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1656" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename    "Abraham" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003278.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019660a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per019660a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003278> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1650, 1656" ;
+                               pers:description  "key005005" ;
+                               pers:occurence    "NE 3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003278> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

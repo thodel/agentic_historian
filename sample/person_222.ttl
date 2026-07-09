@@ -1,0 +1,75 @@
+<http://ssrq-sds-fds.ch/Register/#per000277>
+        a                    pers:person ;
+        rdfs:label           "Hermann von Arbon"@deu ;
+        pers:deaths          [ pers:death         "12.06.1361" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1361-06-12" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1330" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1330" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:forename          "Hermann" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000277b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "17" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "29"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "14" ;
+                                                                         pers:line     "10" ;
+                                                                         pers:page     "21"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000117> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Hermann" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000277a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "13" ;
+                                                                         pers:line     "25" ;
+                                                                         pers:page     "20"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "14" ;
+                                                                         pers:line     "10" ;
+                                                                         pers:page     "21"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "17" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "29"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000001> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1330-1361" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1330" ;
+                                                                        pers:to    "1361"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000001>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000001> , <http://ssrq-sds-fds.ch/Register/#org000117> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "12485" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000001> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

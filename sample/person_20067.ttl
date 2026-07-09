@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per021323>
+        a                    pers:person ;
+        rdfs:label           "Johannes Dietel"@deu ;
+        pers:deaths          [ pers:death      "1335" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1306" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-24 07:16:29.754345" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per021323a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007836> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1330" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007836> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Zürcher Ratslisten" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

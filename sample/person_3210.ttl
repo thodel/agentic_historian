@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003664>
+        a                    pers:person ;
+        rdfs:label           "Peter Dormann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1427" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1427" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-03 15:17:54.424447" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003664a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "34" ;
+                                                                  pers:line     "2" ;
+                                                                  pers:page     "80"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001469> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001469> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per004346>
+        a                    pers:person ;
+        rdfs:label           "Abraham Katter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1399" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1399" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2016-09-21 10:33:57.339846" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004346a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001754> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Eberli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001754.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004346a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001754> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "Äberli N. 1,41" ;
+                               pers:type  "idiotikon"
+                             ] ;
+        pers:sex             "1" .

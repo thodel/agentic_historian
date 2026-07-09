@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per001544>
+        a                    pers:person ;
+        rdfs:label           "Adam Zink"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1775" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1775" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Adam" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001544a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "113" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "385"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "247a" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "904"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "153c" ;
+                                                                  pers:line     "42" ;
+                                                                  pers:page     "550"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "44" ;
+                                                                  pers:page     "571"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000620> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1775" ;
+                               pers:description   "key000754" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1775" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000620> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

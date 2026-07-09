@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per014335>
+        a                pers:person ;
+        rdfs:label       "Marcus Porcius Cato"@deu ;
+        pers:births      [ pers:birth      "234 v. Chr." ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "149 v. Chr." ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-04-06 11:59:58.743079" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "Maior" ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:forename   "Marcus Porcius" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014335a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005855> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003680" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:description  "key004751" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005855> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118519697" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000076> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

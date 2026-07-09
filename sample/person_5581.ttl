@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006171>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Hunwil"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1497" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1497" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-23 18:08:35.904843" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "zuͤ Griffenberg" ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:forename   "Friedrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006171a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000401> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000401> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1497" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1497" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007633> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

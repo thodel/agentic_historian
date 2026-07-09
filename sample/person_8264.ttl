@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008984>
+        a                    pers:person ;
+        rdfs:label           "David Barbaz"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1694" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1694" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-21 16:21:44.447372" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "David" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008984a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003311> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1694" ;
+                               pers:description   "key000907" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1694" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003311> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

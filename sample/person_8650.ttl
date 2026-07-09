@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per009387>
+        a                    pers:person ;
+        rdfs:label           "Jörg Werli"@deu ;
+        pers:deaths          [ pers:death         "1625" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1625" ] ] ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1617" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1617" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 13:38:14.159017" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009387a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003358> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1617-1625" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1617" ] ] ;
+                               pers:occurence     "FR I/2/8" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003358> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

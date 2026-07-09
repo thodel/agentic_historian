@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per009555>
+        a                pers:person ;
+        rdfs:label       "Peter Gottrau"@deu ;
+        pers:deaths      [ pers:death         "1640" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1640" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-06 08:44:12.347961" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009555a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1617-1640" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1617" ;
+                                                                    pers:to    "1640"
+                                                                  ] ] ;
+                           pers:occurence     "FR I/2/8" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per026126>
+        a                pers:person ;
+        rdfs:label       "Hans Konrad Wirz"@deu ;
+        pers:births      [ pers:birth      "1631" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1682" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:48:32.056006" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026126a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000429> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hanß Conradt" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000429.08> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026126a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key003801" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:occupation  [ pers:description  "key003801" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010606> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000429> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://swb.bsz-bw.de/DB=2.104/PPNSET?PPN=081308809&INDEXSET=21"
+                         ] ;
+        pers:refs        [ pers:id    "121440613" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

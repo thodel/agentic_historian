@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009735>
+        a                pers:person ;
+        rdfs:label       "Frantz Maradan"@deu ;
+        pers:deaths      [ pers:death         "1546" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2020-05-14 11:19:08.845245" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename    "Frantz" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003611.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009735a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009735a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003611> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Francey" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FR I/2/8" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003611.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009735a.02>
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003611> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007664> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

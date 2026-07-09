@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per005169>
+        a                    pers:person ;
+        rdfs:label           "Hans Schedler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1411" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1411" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-04-13 11:46:57.189144" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005169a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "9" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "16"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000880> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000880> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   " XIII, Nr. 7991" ;
+                               pers:title  "ChSG" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000056393"
+                             ] ;
+        pers:residence       [ pers:date          "1411" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1411" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007557> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:sex             "1" .

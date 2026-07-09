@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per003350>
+        a                pers:person ;
+        rdfs:label       "Peter Rust"@deu ;
+        pers:births      [ pers:birth         "um 1412" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1422" ;
+                                                                    pers:notBefore  "1402" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1478" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1478" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2015-12-14 16:34:12.861499" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003350a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "56a" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "158"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001337> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Petter" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "56a" ;
+                                                               pers:line     "12" ;
+                                                               pers:page     "158"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001337.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003350a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1466?, 1467" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1467" ] ;
+                                     pers:format_date  [ pers:precision  "0.5" ;
+                                                         pers:when       "1466"
+                                                       ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001337> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14480" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Andreas Ineichen: Schultheissenamt 1466 in Abweichung von Liebenau, Schutlheissen, S. 99f., auch HLS. Müsste genauer untersucht werden." ;
+        pers:sex         "1" .

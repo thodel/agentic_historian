@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per011210>
+        a                         pers:person ;
+        rdfs:label                "Jean Pictet"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1448" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-02 09:34:38.789766" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Johannes" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011210a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004234> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jean" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per011210a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004234> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Johannes" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004234.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011210a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "03.04.1448, 13.04.1448, 16.04.1448" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004234> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ostorero dans Ostorero et al. 2007, p. 43" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:remark               "Peut-être Jean Pittet, bourgeois d'Yverdon (voir Deglon 1949, p. p. 187, 189, 190, 193, 218, 235 n., 271, 315, 330 et 341)" ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011204> ;
+                                    pers:occurence  "gortega"
+                                  ] .

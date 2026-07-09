@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per008948>
+        a             pers:person ;
+        rdfs:label    "Mattäus Liederlich"@deu ;
+        pers:deaths   [ pers:death         "vor 1570" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1570" ;
+                                                                 pers:notBefore  "1520" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2018-03-07 11:31:08.248192" ;
+                        pers:username  "SG III/4"
+                      ] ;
+        pers:name     [ pers:forename    "Dewis" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/4" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003293.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008948a.01>
+                      ] ;
+        pers:name     [ pers:forename    "Dewis" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/4" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003293.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008948a.02>
+                      ] ;
+        pers:name     [ pers:forename   "Mattäus" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per008948a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003293> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Diebist" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/4" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003293.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008948a.03>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org003293> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "Tebes N. 12,105" ;
+                        pers:type  "idiotikon"
+                      ] ;
+        pers:sex      "1" .

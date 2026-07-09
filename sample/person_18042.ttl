@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per019237>
+        a                pers:person ;
+        rdfs:label       "Philibert Rignoldt"@deu ;
+        pers:births      [ pers:birth      "um 1550" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "25.02.1616" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-06-12 09:27:31.147376" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "von Prosswalden" ;
+                                             pers:occurence  "GR B III/2"
+                                           ] ;
+                           pers:forename   "Philibert" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per019237a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007255> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Filiberth" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007255.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019237a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key000180" ;
+                           pers:occurence    "GR B III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org007255> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://historisches-lexikon.li/Rignoldt_von_Prosswalden,_Philibert"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000803> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per010873>
+        a                    pers:person ;
+        rdfs:label           "Josef Karl Gasser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1741" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-08 10:40:07.413325" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "pascale" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Carl" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000437.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010873a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef Karl" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010873a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000437> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1741" ;
+                               pers:description  "key005481" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:occupation      [ pers:date         "1741" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001191>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000437> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

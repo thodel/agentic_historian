@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per011813>
+        a                    pers:person ;
+        rdfs:label           "Walter NN"@deu ;
+        pers:citizenOf       [ pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004444>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "20.01.1456" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-07-23 16:18:14.908696" ;
+                               pers:username  "saeg"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "im Wile" ;
+                                                 pers:occurence  "saeg"
+                                               ] ;
+                               pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011813b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "20.01.1456" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000857> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

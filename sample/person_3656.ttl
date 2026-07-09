@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per004130>
+        a                    pers:person ;
+        rdfs:label           "Konrad Willading"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1524" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1524" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-09 09:59:31.532168" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004130a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "85b" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001657> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003719" ;
+                               pers:occurence    "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001657> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "17311" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

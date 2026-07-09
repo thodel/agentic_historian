@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004255>
+        a                    pers:person ;
+        rdfs:label           "Barbara von Heidelberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1584" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:16:07.684050" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Barbara" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004255a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "115a" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "416"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001720> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1584" ;
+                               pers:description   "key000945" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1584" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001720> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" .

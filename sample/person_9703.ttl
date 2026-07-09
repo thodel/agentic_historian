@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per010467>
+        a                    pers:person ;
+        rdfs:label           "Antoine Boive"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1618" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-06 08:01:31.150367" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Antoine" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010467a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003134> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Anthoine" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003134.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010467a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1618" ;
+                               pers:description  "key000276" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003134> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

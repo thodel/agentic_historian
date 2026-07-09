@@ -1,0 +1,67 @@
+<http://ssrq-sds-fds.ch/Register/#per004949>
+        a                    pers:person ;
+        rdfs:label           "Rumo von Ramstein"@deu ;
+        pers:deaths          [ pers:death         "zwischen 20.08.1299 und 1303" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1303" ;
+                                                                        pers:notBefore  "1299-08-20" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1257" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1257" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-12-03 12:24:58.175248" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename          "Rumo" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004949a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1k" ;
+                                                                         pers:line     "47" ;
+                                                                         pers:page     "7"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001968> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Rumo" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004949b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1j" ;
+                                                                         pers:line     "3" ;
+                                                                         pers:page     "7"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000581> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1274–1281" ;
+                               pers:description   "key000001" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1274" ;
+                                                                        pers:to    "1281"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000581>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001968> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "III/1,2, S. 1305-1306" ;
+                               pers:title  "HS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000138053"
+                             ] ;
+        pers:refs            [ pers:id    "25160" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

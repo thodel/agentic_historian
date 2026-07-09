@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per012740>
+        a               pers:person ;
+        rdfs:label      "Rodolphe Milliet"@fra ;
+        pers:deaths     [ pers:death      "av. 1498" ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012738> ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:hist       [ pers:date      "2020-04-30 16:52:16.179469" ;
+                          pers:username  "gortega"
+                        ] ;
+        pers:name       [ pers:forename   "Rodulphus" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012740a> ;
+                          pers:lang       "lat" ;
+                          pers:occurence  "gortega" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005193> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename   "Rodolphe" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per012740a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "gortega" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005193> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Rodulphus" ;
+                          pers:lang        "lat" ;
+                          pers:occurence   "gortega" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005193.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012740a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005193> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:title  "Pfister 1997, p. 298" ;
+                          pers:type   "biblio"
+                        ] ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010897> ;
+                          pers:occurence  "gortega"
+                        ] ;
+        pers:sex        "1" .

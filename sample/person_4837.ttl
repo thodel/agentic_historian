@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005396>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Fröwis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1476" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1476" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-12-05 15:18:58.746435" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005396a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002168> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Wilhelm" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "55" ;
+                                                                   pers:line     "3" ;
+                                                                   pers:page     "191"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002168.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005396a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1477" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1477" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007102> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002168> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

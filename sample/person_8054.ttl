@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per008760>
+        a             pers:person ;
+        rdfs:label    "Samuel Ostervald"@fra ;
+        pers:births   [ pers:birth         "03.11.1692" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1692-11-03" ] ] ;
+                        pers:occurence     "NE 3"
+                      ] ;
+        pers:deaths   [ pers:death         "24.12.1769" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1769-12-24" ] ] ;
+                        pers:occurence     "NE 3"
+                      ] ;
+        pers:hist     [ pers:date      "2018-03-12 15:45:00.993341" ;
+                        pers:username  "NE 3"
+                      ] ;
+        pers:name     [ pers:forename   "Samuel" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per008760a> ;
+                        pers:lang       "fra" ;
+                        pers:occurence  "NE 3" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003202> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org003202> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "15648" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:remark   "Cité en 1795 pour son coutumier, mort en 1769." ;
+        pers:sex      "1" .

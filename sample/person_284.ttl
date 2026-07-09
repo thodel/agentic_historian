@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per000343>
+        a                    pers:person ;
+        rdfs:label           "Katharina von Savoyen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1296" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1296" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-01 23:33:36.175629" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1330" ] ] ;
+                               pers:last_mention  "1330" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:motherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013094> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000343a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "20" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "36"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000343b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "20" ;
+                                                                         pers:line     "16" ;
+                                                                         pers:page     "36"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000150> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000088> , <http://ssrq-sds-fds.ch/Register/#org000150> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000342> ;
+                               pers:occurence  "SG III/2"
+                             ] .

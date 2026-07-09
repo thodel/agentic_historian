@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per007138>
+        a                pers:person ;
+        rdfs:label       "Nikolaus von Frauenfeld"@deu ;
+        pers:births      [ pers:birth         "vor 1288" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1288" ;
+                                                                    pers:notBefore  "1238" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "colette"
+                         ] ;
+        pers:deaths      [ pers:death         "25.07.1344" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1344-07-25" ] ] ;
+                           pers:occurence     "colette"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-12 23:40:17.059702" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename          "Nikolaus" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per007138a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "colette"
+                                                  ] ;
+                           pers:occurence         "colette" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000706> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1312" ;
+                           pers:description  "key000254" ;
+                           pers:occurence    "mina" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002902>
+                         ] ;
+        pers:occupation  [ pers:date         "1312" ;
+                           pers:description  "key000805" ;
+                           pers:occurence    "mina" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005613>
+                         ] ;
+        pers:occupation  [ pers:date          "1334-1344" ;
+                           pers:description   "key000015" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1334" ;
+                                                                    pers:to    "1344"
+                                                                  ] ] ;
+                           pers:occurence     "colette" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000056>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000706> ;
+        pers:project     "Königsfelden" ;
+        pers:refs        [ pers:id    "45121" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

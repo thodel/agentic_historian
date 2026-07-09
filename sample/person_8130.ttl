@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per008838>
+        a                    pers:person ;
+        rdfs:label           "Abraham Mouchet"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1724" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1724" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-10 17:23:32.973343" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008838a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003234> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1724" ;
+                               pers:description   "key000275" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1724" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003234> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

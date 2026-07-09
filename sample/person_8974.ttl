@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per009716>
+        a                pers:person ;
+        rdfs:label       "Hans Weyermann"@deu ;
+        pers:deaths      [ pers:death         "1586" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1586" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-10 11:54:11.855842" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009716a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003586> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1577" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc006141> ;
+                           pers:occurence    "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003586> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "VII, S. 507" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per002869>
+        a                    pers:person ;
+        rdfs:label           "Joachim Wildhaber"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1566" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1566" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Joachim" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002869a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "318a" ;
+                                                                  pers:line     "7" ;
+                                                                  pers:page     "1077"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000750> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000356" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000750> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

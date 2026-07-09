@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per004034>
+        a                    pers:person ;
+        rdfs:label           "Jakob Christoph Ringg [von Baldenstein]"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1606" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1606" ] ] ;
+                               pers:occurence      "FDS TI"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-07 15:14:56.832769" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1613" ] ] ;
+                               pers:last_mention  "1613" ;
+                               pers:occurence     "FDS TI"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004034a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "47" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "127"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001622> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1606-1613" ;
+                               pers:description   "key000607" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1606" ;
+                                                                        pers:to    "1613"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001619>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001622> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

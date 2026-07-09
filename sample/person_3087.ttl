@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per003536>
+        a                    pers:person ;
+        rdfs:label           "Ruef in der Schwand"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1433" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1433" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-13 08:37:19.884588" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Ruef" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003536a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001407> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruoff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "13b" ;
+                                                                   pers:line     "22" ;
+                                                                   pers:page     "41"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001407.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003536a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001407> ;
+        pers:project         "SSRQ" ;
+        pers:relativeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003535> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005830> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003537> ;
+                               pers:occurence  "LU II/3"
+                             ] .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per008536>
+        a                    pers:person ;
+        rdfs:label           "Ursula von Hohenems"@deu ;
+        pers:deaths          [ pers:death         "vor 1462" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1462" ;
+                                                                        pers:notBefore  "1412" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1408" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1408" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-26 09:12:53.104906" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename          "Ursula" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008536b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000158> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Ursula" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008536a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000103> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000103> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008537> ;
+                               pers:occurence  "SG III/4"
+                             ] .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per023353>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Rorschach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1454" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-07 16:18:33.015000" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per023353a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001973> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001973.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023353a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000254" ;
+                               pers:occurence    "GR B III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000264>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001973> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "HS I/1, S. 570." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

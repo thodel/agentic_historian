@@ -1,0 +1,70 @@
+<http://ssrq-sds-fds.ch/Register/#per000119>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Werdenberg-Sargans"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1380" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1380" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-21 10:47:44.572784" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1435" ] ] ;
+                               pers:last_mention  "1435" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000008.27> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000119a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:gennames   [ pers:genname    "VI." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000119a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "31" ;
+                                                                  pers:line     "9" ;
+                                                                  pers:page     "58"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "30" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "56"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "6" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "14"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000008> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" , "SG III/3" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolf" ;
+                               pers:gennames    [ pers:genname    "VI." ;
+                                                  pers:occurence  "SG III/2"
+                                                ] ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000008.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000119a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key003448" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000264>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000008> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009323>
+        a               pers:person ;
+        rdfs:label      "Nicod Bredelin"@fra ;
+        pers:deaths     [ pers:death         "ca. 1619" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1629" ;
+                                                                   pers:notBefore  "1609" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009419> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009418> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2019-03-29 15:07:05.465958" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Niclod" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "pascale" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003456.04> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009323a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Nicod" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009323a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003456> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003456> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007935> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009417> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per011048>
+        a                pers:person ;
+        rdfs:label       "Hans Balthasar Meiss"@deu ;
+        pers:births      [ pers:birth      "1539" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:citizenOf   [ pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001187>
+                         ] ;
+        pers:deaths      [ pers:death      "1587" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-17 11:38:27.484213" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Hannß Balthissarn" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000662.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011048a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Hanns Ballthasszar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000662.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011048a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Balthasar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011048a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000662> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1573-1579" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc008569> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000662> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" .

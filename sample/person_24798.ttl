@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per026158>
+        a                pers:person ;
+        rdfs:label       "Hans Kaspar Wolf"@deu ;
+        pers:births      [ pers:birth      "1638" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1710" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-25 07:29:18.280689" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000900.10> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026158a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Hans Kaspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000900.10> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026158a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026158a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000900> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1689-1710" ;
+                           pers:description  "key005538" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000900> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://swb.bsz-bw.de/DB=2.104/PPNSET?PPN=142117463&INDEXSET=21"
+                         ] ;
+        pers:refs        [ pers:id    "104156503" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

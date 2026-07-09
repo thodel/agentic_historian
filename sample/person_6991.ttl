@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per007655>
+        a                    pers:person ;
+        rdfs:label           "Nikolaus Iten"@deu ;
+        pers:deaths          [ pers:death         "20.11.1714" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1714-11-20" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "nach 1630" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notBefore
+                                                           "1630" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-10 15:37:27.884495" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Niclaus" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "235b" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "1056"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000275.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007655a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Nikolaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007655a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000275> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1693" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1693" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc001075> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000275> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26772" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000215> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

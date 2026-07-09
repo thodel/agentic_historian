@@ -1,0 +1,66 @@
+<http://ssrq-sds-fds.ch/Register/#per005375>
+        a                pers:person ;
+        rdfs:label       "Amalia von Reischach"@deu ;
+        pers:births      [ pers:birth         "1447" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1447" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1531" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-06-21 14:13:33.317700" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename   "Amalia" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005375a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002158> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Amalya" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "148" ;
+                                                               pers:line     "39" ;
+                                                               pers:page     "635"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002059.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005375b.01>
+                         ] ;
+        pers:name        [ pers:forename          "Amalia" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per005375b> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                    pers:occurence       "SG III/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "54" ;
+                                                                     pers:line     "26" ;
+                                                                     pers:page     "187"
+                                                                   ] ;
+                                                    pers:articles  [ pers:article  "86" ;
+                                                                     pers:line     "29" ;
+                                                                     pers:page     "311"
+                                                                   ] ;
+                                                    pers:vol       "SG III/3"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002059> ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1491–1531" ;
+                           pers:description   "key003740" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1491" ;
+                                                                    pers:to    "1531"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002059>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002158> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1103478605" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "2" .

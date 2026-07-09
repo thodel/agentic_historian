@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per020820>
+        a                   pers:person ;
+        rdfs:label          "NN Müller"@deu ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015085> ;
+                              pers:occurence  "ssrq-zh"
+                            ] ;
+        pers:hist           [ pers:date      "2020-07-03 07:14:44.759367" ;
+                              pers:username  "pascale"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1742" ;
+                              pers:occurence     "ssrq-zh"
+                            ] ;
+        pers:name           [ pers:addnames   [ pers:addname    "Aathal-Müller" ;
+                                                pers:occurence  "ssrq-zh"
+                                              ] ;
+                              pers:forename   "NN" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per020820a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "ssrq-zh" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000390> ;
+                              pers:type       "std"
+                            ] ;
+        pers:name           [ pers:forename    "Aâthel-Müllers" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "ssrq-zh" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000390.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020820a.01>
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org000390> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "1" .

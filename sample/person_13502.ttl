@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per014521>
+        a                pers:person ;
+        rdfs:label       "Konrad Grebel"@deu ;
+        pers:births      [ pers:birth      "um 1498" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "1526" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-23 15:29:49.784514" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename   "Konrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per014521a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key005438" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "010454" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "119135930" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

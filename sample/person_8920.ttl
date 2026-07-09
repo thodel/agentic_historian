@@ -1,0 +1,64 @@
+<http://ssrq-sds-fds.ch/Register/#per009662>
+        a                pers:person ;
+        rdfs:label       "Anton von Graffenried"@deu ;
+        pers:births      [ pers:birth         "30.08.1573" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1573-08-30" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "08.1628" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1628-08" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-08 13:45:47.280285" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009662a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001104> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Anthoni" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001104.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009662a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1598" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1598" ;
+                           pers:description   "key001116" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1598" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001199>
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1589" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date          "1589, 1598" ;
+                           pers:description   "key003719" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1589" ] ;
+                                     pers:format_date  [ pers:when  "1598" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001104> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "16718" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per026124>
+        a                    pers:person ;
+        rdfs:label           "Hans Franz Kämmerling"@deu ;
+        pers:deaths          [ pers:death      "04.04.1705" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1662" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-23 10:11:41.119602" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003480.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026124a.01>
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jung" ;
+                                                 pers:occurence  "rita"
+                                               ] ;
+                               pers:forename   "Hans Franz" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026124a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003480> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1662-1705" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003480> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, p. 315" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

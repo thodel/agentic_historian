@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per003505>
+        a                    pers:person ;
+        rdfs:label           "Peter Hetzel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1442" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 16:10:37.200088" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003505a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43a" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "115"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000473> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1442" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1442" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005933> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000473> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

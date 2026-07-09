@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per007787>
+        a                    pers:person ;
+        rdfs:label           "Johann Schiess"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1723" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1723" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-01 16:25:39.757186" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Johans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "250i" ;
+                                                                   pers:line     "26" ;
+                                                                   pers:page     "1124"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002700.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007787a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007787a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002700> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1723" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1723" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002952>
+                             ] ;
+        pers:occupation      [ pers:date          "1723" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1723" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002640>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002700> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

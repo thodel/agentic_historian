@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per026498>
+        a                pers:person ;
+        rdfs:label       "Felix Nüscheler"@deu ;
+        pers:births      [ pers:birth      "19.09.1725" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "07.10.1799" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-09 07:57:50.579544" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Felix" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026498a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003013> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1763-1795" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:date         "vor 1774" ;
+                           pers:description  "key005751" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1763-1795" ;
+                           pers:description  "key000778" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005083>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003013> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "117721557" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "18175" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

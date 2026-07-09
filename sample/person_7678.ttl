@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per008365>
+        a             pers:person ;
+        rdfs:label    "Johann Rudolf Steinmüller"@deu ;
+        pers:births   [ pers:birth         "11.03.1773" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1773-03-11" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "28.02.1835" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1835-02-28" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2021-02-18 16:25:17.888865" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename   "Johann Rudolf" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per008365a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/3" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003040> ;
+                        pers:type       "std"
+                      ] ;
+        pers:name     [ pers:forename    "Joh.  Rud." ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                            pers:line     "23" ;
+                                                            pers:page     "1399"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003040.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008365a.01>
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org003040> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "26180" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "117263265" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per025795>
+        a                    pers:person ;
+        rdfs:label           "Metzzi Meier"@deu ;
+        pers:employeeOf      [ pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#org002627> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1412" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-16 18:30:14.917518" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Metzzi" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per025795a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Arbeitet in der Küche" ;
+        pers:sex             "2" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per025793> ;
+                               pers:occurence  "sabine"
+                             ] .

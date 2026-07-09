@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per001716>
+        a                pers:person ;
+        rdfs:label       "Peter Ehrenzeller"@deu ;
+        pers:births      [ pers:birth         "05.05.1798" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1798-05-05" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "31.05.1847" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1847-05-31" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:name        [ pers:forename   "Peter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001716a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "129a" ;
+                                                              pers:line     "8" ;
+                                                              pers:page     "427"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "129b" ;
+                                                              pers:line     "35" ;
+                                                              pers:page     "429"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "261" ;
+                                                              pers:line     "41" ;
+                                                              pers:page     "953"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000760> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1834-1847" ;
+                           pers:description   "key003683" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1834" ;
+                                                                    pers:to    "1847"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002793>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000760> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18265" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

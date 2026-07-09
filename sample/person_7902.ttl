@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per008600>
+        a                pers:person ;
+        rdfs:label       "Georges Frédéric Gallot"@fra ;
+        pers:births      [ pers:birth         "08.08.1782" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1782-08-08" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death         "28.08.1855" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1855-08-28" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-02-02 22:45:06.077331" ;
+                           pers:username  "NE 3"
+                         ] ;
+        pers:name        [ pers:forename    "George Fredéric" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "NE 3" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003086.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008600a.01>
+                         ] ;
+        pers:name        [ pers:forename    "George Fréderic" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "NE 3" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003086.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008600a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Georges Frédéric" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008600a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003086> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1838" ;
+                           pers:description   "key004971" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1838" ] ] ;
+                           pers:occurence     "NE 3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                         ] ;
+        pers:occupation  [ pers:date          "1814-1823" ;
+                           pers:description   "key000540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1814" ;
+                                                                    pers:to    "1823"
+                                                                  ] ] ;
+                           pers:occurence     "NE 3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003086> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "45928" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

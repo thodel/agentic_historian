@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per000975>
+        a                pers:person ;
+        rdfs:label       "Johann Heinrich Freitag"@deu ;
+        pers:births      [ pers:birth         "06.03.1735" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1735-03-06" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "25.08.1799" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1799-08-25" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2019-02-07 17:23:21.000883" ;
+                           pers:username  "SG III/4"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Heinrich" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000975a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "81" ;
+                                                              pers:line     "36" ;
+                                                              pers:page     "277"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000258> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Heinrich" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/4" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000258.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000975a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1791–1798" ;
+                           pers:description  "key000180" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                           pers:occurence    "SG III/4"
+                         ] ;
+        pers:occupation  [ pers:date          "1755-" ;
+                           pers:description   "key000310" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1805" ;
+                                                                    pers:notBefore  "1755" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001197>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000258> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17940" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

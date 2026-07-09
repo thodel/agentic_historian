@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per014197>
+        a                    pers:person ;
+        rdfs:label           "Jacob Aberli"@deu ;
+        pers:deaths          [ pers:death      "1507" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1489" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-20 08:47:42.142708" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "ssrq-zh" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005075>
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002780.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014197a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jacob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014197a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002780> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1489-1500" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "ssrq-zh" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002780> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

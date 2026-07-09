@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per010776>
+        a                    pers:person ;
+        rdfs:label           "Leonhard Sulser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1771" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-03-01 16:37:03.797525" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Leonhard" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010776a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000532> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Leonhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000532.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010776a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1771" ;
+                               pers:description  "key000103" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1771" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000579> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010777> ;
+                               pers:occurence  "SG III/4"
+                             ] .

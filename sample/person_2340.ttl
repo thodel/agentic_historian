@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002737>
+        a                    pers:person ;
+        rdfs:label           "Peter Giger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1710" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1710" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002737a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "283" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "1001"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000518> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1710-" ;
+                               pers:description   "key000156" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1760" ;
+                                                                        pers:notBefore  "1710" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000158> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000518> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000158> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

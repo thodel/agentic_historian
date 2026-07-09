@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per009040>
+        a                    pers:person ;
+        rdfs:label           "Peter von Mörsberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1582" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-24 10:11:03.846022" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003333.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009040a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Peter" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003333.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009040a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009040a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003333> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Freiherr (Baron)/baron"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1582" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008160> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1582" ;
+                               pers:description   "key003211" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1582" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000589> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003333> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

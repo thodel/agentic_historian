@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per002462>
+        a                    pers:person ;
+        rdfs:label           "Andreas Gabathuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1698" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1698" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002462a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "236" ;
+                                                                  pers:line     "22" ;
+                                                                  pers:page     "872"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000167> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Andres" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000167.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002462a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000167> ;
+        pers:ownerOf         [ pers:location       <http://ssrq-sds-fds.ch/Register/#loc001038> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001205>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

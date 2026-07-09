@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per015380>
+        a                    pers:person ;
+        rdfs:label           "Lukas NN"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-07 15:38:53.169574" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "pascale" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org006252>
+                             ] ;
+        pers:name            [ pers:forename   "Lukas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015380a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Lux" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000000.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015380a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:sex             "1" .

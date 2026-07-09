@@ -1,0 +1,63 @@
+<http://ssrq-sds-fds.ch/Register/#per012383>
+        a                         pers:person ;
+        rdfs:label                "Henri Joutens"@fra ;
+        pers:citizenOf            [ pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004483>
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1454" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-03 16:17:54.446332" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1468" ;
+                                    pers:occurence     "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename          "Henri" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012383a> ;
+                                    pers:lang              "fra" ;
+                                    pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004747> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename          "Henricus" ;
+                                    pers:id                <http://ssrq-sds-fds.ch/Register/#per012383a> ;
+                                    pers:lang              "lat" ;
+                                    pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                             pers:occurence       "gortega"
+                                                           ] ;
+                                    pers:occurence         "gortega" ;
+                                    pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004747> ;
+                                    pers:type              "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Henricus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004747.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012383a.01>
+                                  ] ;
+        pers:occupation           [ pers:date         "1455" ;
+                                    pers:description  "key000181" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004483>
+                                  ] ;
+        pers:occupation           [ pers:date         "19.04.1458" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004747> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Modestin 1999, p. 335" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:refs                 [ pers:title  "Reymond 1918, p. 38" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011863> ;
+                                    pers:occurence  "gortega"
+                                  ] .

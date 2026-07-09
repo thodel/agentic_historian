@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per009154>
+        a                pers:person ;
+        rdfs:label       "Hans Rudolf Nägeli"@deu ;
+        pers:births      [ pers:birth         "1457" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1457" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "27.04.1522" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1522-04-27" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-10-30 08:24:25.218511" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009154a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003369> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Rodulfus" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003369.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009154a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes Rodolfus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009154a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003369> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1520" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1520" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003369> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "46115" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

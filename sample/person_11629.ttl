@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per012529>
+        a                         pers:person ;
+        rdfs:label                "Jacques de Fausonay"@fra ;
+        pers:first_mentions       [ pers:first_mention  "1459" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-04 08:47:44.991917" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:last_mentions        [ pers:last_mention  "1464" ;
+                                    pers:occurence     "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Jacobus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012529a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004838> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Jacobus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004838.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012529a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Jacques" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012529a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004838> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "1464" ;
+                                    pers:description  "key005623" ;
+                                    pers:occurence    "gortega" ;
+                                    pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005356>
+                                  ] ;
+        pers:occupation           [ pers:date         "25.04.1459" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004838> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ammann-Doubliez 2005, p. 317" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012525> ;
+                                    pers:occurence  "gortega"
+                                  ] .

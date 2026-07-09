@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per005738>
+        a                    pers:person ;
+        rdfs:label           "Hans Heller"@deu ;
+        pers:courtierOf      [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002946>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per005739> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-31 14:42:20.512725" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005738a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "73" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "265"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002283> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002283> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

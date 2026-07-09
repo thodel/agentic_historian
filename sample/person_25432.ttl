@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per026808>
+        a                    pers:person ;
+        rdfs:label           "Hartmann von Kyburg"@deu ;
+        pers:deaths          [ pers:death      "nach 1180.08.20" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1152" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-21 07:53:22.901722" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hartmann" ;
+                               pers:gennames   [ pers:genname    "III." ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026808a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000010> ;
+                               pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hartmannum" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000010.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026808a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000010> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "138783829" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "029232" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

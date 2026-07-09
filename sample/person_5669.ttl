@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006264>
+        a                    pers:person ;
+        rdfs:label           "Walter Marbach"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002056>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1571" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1571" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-30 15:00:11.524824" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006264a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "123" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "504"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002442> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002442> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

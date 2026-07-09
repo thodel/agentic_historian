@@ -1,0 +1,69 @@
+<http://ssrq-sds-fds.ch/Register/#per006175>
+        a                    pers:person ;
+        rdfs:label           "Hans Jann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1530" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1530" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-29 11:43:18.766365" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1545" ] ] ;
+                               pers:last_mention  "1545" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "113e" ;
+                                                                   pers:line     "19" ;
+                                                                   pers:page     "453"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002280.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006175a.01>
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "121b" ;
+                                                                   pers:line     "15" ;
+                                                                   pers:page     "489"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002280.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006175a.02>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006175a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002280> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1530, vor 27.06.1545" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1545-06-27" ;
+                                                                        pers:notBefore  "1495-06-27" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ;
+                                         pers:format_date  [ pers:when  "1530" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006404> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1530, vor 27.06.1545" ;
+                               pers:description   "key003580" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1545-06-27" ;
+                                                                        pers:notBefore  "1495-06-27" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ;
+                                         pers:format_date  [ pers:when  "1530" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006404> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002280> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

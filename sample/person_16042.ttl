@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per017155>
+        a                    pers:person ;
+        rdfs:label           "Jakob Schmid"@deu ;
+        pers:deaths          [ pers:death      "vor 03.07.1516" ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per024630> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1506" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-27 11:10:48.260475" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017155a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "fahe" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001531> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

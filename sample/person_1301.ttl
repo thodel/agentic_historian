@@ -1,0 +1,71 @@
+<http://ssrq-sds-fds.ch/Register/#per001707>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Pfyffer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1603" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1603" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-26 14:38:53.242467" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1604" ] ] ;
+                               pers:last_mention  "1604" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001707a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "127" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "422"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "717"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "195" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "708"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:occurence  [ pers:articles  [ pers:article  "154d" ;
+                                                                  pers:line     "28" ;
+                                                                  pers:page     "678"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001146> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Heinrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001146.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001707a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1603, 1604" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1603" ] ;
+                                         pers:format_date  [ pers:when  "1604" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2" , "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1603, 1604" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1604" ] ;
+                                         pers:format_date  [ pers:when  "1603" ] ] ;
+                               pers:occurence     "SG III/2" , "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001146> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

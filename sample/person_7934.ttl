@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per008632>
+        a                    pers:person ;
+        rdfs:label           "Jean-Frédéric Steiner"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1823" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1823" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-17 12:03:57.641832" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1826" ] ] ;
+                               pers:last_mention  "1826" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename    "Jean Frédéric" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000704.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008632a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Frédéric" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008632a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000704> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1823-1826" ;
+                               pers:description   "key004971" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1823" ;
+                                                                        pers:to    "1826"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000704> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

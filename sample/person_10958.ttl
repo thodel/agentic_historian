@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per011817>
+        a                    pers:person ;
+        rdfs:label           "Henry Baussan"@fra ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per011818> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1634" ;
+                               pers:occurence      "lionel"
+                             ] ;
+        pers:hist            [ pers:date      "2019-09-18 07:46:56.534492" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1637" ;
+                               pers:occurence     "lionel"
+                             ] ;
+        pers:name            [ pers:forename    "Henry" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "lionel" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004524.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011817a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Henry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011817a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004524> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Henry" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011817a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "lionel" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004524> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004524> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008112> ;
+                               pers:occurence  "lionel"
+                             ] ;
+        pers:sex             "1" .

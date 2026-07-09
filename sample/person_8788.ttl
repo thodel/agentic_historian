@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per009528>
+        a                pers:person ;
+        rdfs:label       "Rudolf von Mettenwil"@deu ;
+        pers:deaths      [ pers:death         "1568" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1568" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-07-05 08:47:08.019262" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009528a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000710> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Ruͦdolff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000710.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009528a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Ruͦdolff" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000710.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009528a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1561, 1562" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1562" ] ;
+                                     pers:format_date  [ pers:when  "1561" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000710> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "V, S. 90" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:sex         "1" .

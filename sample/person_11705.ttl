@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per012605>
+        a                        pers:person ;
+        rdfs:label               "Mermet Mermet"@fra ;
+        pers:first_mentions      [ pers:first_mention  "1461" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-02-05 08:30:05.297050" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename    "Mermetus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005035.02> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012605a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Mermetus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012605a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005035> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Mermet" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per012605a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005035> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "1457" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org005035> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Modestin 1999, p. 367" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008572> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012368> ;
+                                   pers:occurence  "gortega"
+                                 ] .

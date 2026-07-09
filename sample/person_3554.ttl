@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004027>
+        a                    pers:person ;
+        rdfs:label           "Petrus Daczinger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1473" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:34:34.694177" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Petrus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004027a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "74" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "288"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001617> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1473" ;
+                               pers:description   "key000301" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1473" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005848> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001617> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001530> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

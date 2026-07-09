@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per014341>
+        a             pers:person ;
+        rdfs:label    "Johannes Eck"@deu ;
+        pers:births   [ pers:birth      "13.11.1486" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:deaths   [ pers:death      "10.02.1543" ;
+                        pers:occurence  "ssrq-zh"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-20 11:06:54.323369" ;
+                        pers:username  "ssrq-zh"
+                      ] ;
+        pers:name     [ pers:addnames   [ pers:addname    "Johannes Maier" ;
+                                          pers:occurence  "ssrq-zh"
+                                        ] ;
+                        pers:forename   "Johannes" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per014341a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "ssrq-zh" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000596> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org000596> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "041208" ;
+                        pers:type  "HLS"
+                      ] ;
+        pers:refs     [ pers:id    "11852870X" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per018186>
+        a                   pers:person ;
+        rdfs:label          "Franz Anton Vonderweid"@deu ;
+        pers:births         [ pers:birth      "1605" ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026284> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:fatherOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026365> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:hist           [ pers:date      "2020-09-29 15:03:15.290627" ;
+                              pers:username  "rita"
+                            ] ;
+        pers:last_mentions  [ pers:last_mention  "1658" ;
+                              pers:occurence     "rita"
+                            ] ;
+        pers:name           [ pers:forename    "NN" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "rita" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002526.08> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018186a.01>
+                            ] ;
+        pers:name           [ pers:addnames   [ pers:addname    "Herr zu Berlens" ;
+                                                pers:occurence  "rita"
+                                              ] ;
+                              pers:forename   "Franz Anton" ;
+                              pers:id         <http://ssrq-sds-fds.ch/Register/#per018186a> ;
+                              pers:lang       "deu" ;
+                              pers:occurence  "rita" ;
+                              pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002526> ;
+                              pers:type       "std"
+                            ] ;
+        pers:occupation     [ pers:date         "1649-1652" ;
+                              pers:description  "key003719" ;
+                              pers:occurence    "rita" ;
+                              pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                            ] ;
+        pers:occupation     [ pers:date         "1629-1658" ;
+                              pers:description  "key000181" ;
+                              pers:occurence    "rita" ;
+                              pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org002526> ;
+        pers:project        "SSRQ" ;
+        pers:refs           [ pers:page   "VII, p. 171-172" ;
+                              pers:title  "DHBS" ;
+                              pers:type   "biblio" ;
+                              pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                            ] ;
+        pers:residence      [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                              pers:occurence  "rita"
+                            ] ;
+        pers:sex            "1" .

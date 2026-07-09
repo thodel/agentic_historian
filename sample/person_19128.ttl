@@ -1,0 +1,25 @@
+<http://ssrq-sds-fds.ch/Register/#per020347>
+        a                    pers:person ;
+        rdfs:label           "Arnold von Biederthal"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020470> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1317" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-26 15:47:57.095555" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Arnold" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020347a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005401> ;
+                               pers:rolenames  [ pers:occurence  "mina" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005401> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

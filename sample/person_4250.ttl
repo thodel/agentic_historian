@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004765>
+        a                    pers:person ;
+        rdfs:label           "Burkhard Gehr"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-04 11:40:21.445967" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:last_mention  "1485" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Burckart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001773.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004765a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004765a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001773> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1480" ;
+                               pers:description  "key000827" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001923>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001773> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1485" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1485" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000198> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:residence       [ pers:date          "1480, 1484" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1484" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006100> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

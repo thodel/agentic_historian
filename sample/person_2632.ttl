@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003062>
+        a                    pers:person ;
+        rdfs:label           "Jos Anton Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1784" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1784" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jos-Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000299.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003062a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jos Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003062a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "363" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "1196"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003605" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000003> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

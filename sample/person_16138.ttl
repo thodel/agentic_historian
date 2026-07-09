@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per017255>
+        a                    pers:person ;
+        rdfs:label           "Hans Grieder"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1500" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017259> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-24 15:00:34.164305" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1529" ;
+                               pers:occurence     "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per017255a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006754> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006754.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017255a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Hanssen" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006754.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per017255a.02>
+                             ] ;
+        pers:occupation      [ pers:date         "1515" ;
+                               pers:description  "key005061" ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:occupation      [ pers:date         "1529" ;
+                               pers:description  "key000224" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006754> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008924> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per017256> ;
+                               pers:occurence  "pascale"
+                             ] .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per011939>
+        a                    pers:person ;
+        rdfs:label           "Albrecht von Ried"@deu ;
+        pers:courtierOf      [ pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#per000336>
+                             ] ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1365" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 14:35:10.859225" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1395" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Albrecht" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011939a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004580> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1365-1395" ;
+                               pers:description  "key000808" ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004580> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Marian, Günter. 2017. Studien zum Mittelalterlichen Adel im Tullnerlfed, S. 348-350" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:refs            [ pers:title  "Lackner, Christian. Hof Und Herrschaft : Rat, Kanzlei Und Regierung Der österreichischen Herzoge (1365 - 1406) 41 (2002)." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

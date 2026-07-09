@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010063>
+        a                    pers:person ;
+        rdfs:label           "Peter Adam"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1503" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-10 14:53:30.515848" ;
+                               pers:username  "lionel"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1506" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename   "Peter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010063a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003733> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1503-1506" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003733> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "I, p. 70" ;
+                               pers:title  "DHBS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

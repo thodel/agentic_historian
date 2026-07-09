@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per006700>
+        a                    pers:person ;
+        rdfs:label           "Michael Thurnherr"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1662" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1662" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-13 10:22:37.557567" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006700a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "135" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "583"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002232> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002232> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006010> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

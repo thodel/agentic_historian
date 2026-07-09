@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per009041>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Bemelberg"@deu ;
+        pers:births          [ pers:birth         "1552" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1552" ] ] ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:deaths          [ pers:death         "1618" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1618" ] ] ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1582" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-24 10:22:30.345145" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Cunr." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003334.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009041a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Conradt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003334.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009041a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009041a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003334> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Freiherr (Baron)/baron"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003334> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "133641775" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:remark          "Laut GND ist das Geburtsjahr evtl. auch 1555 oder 1557." ;
+        pers:sex             "1" .

@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per015738>
+        a                    pers:person ;
+        rdfs:label           "Klaus Michel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "um 1585" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-09 10:32:28.853279" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Klaus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per015738a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001128> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Clauß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001128.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015738a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001128> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "um 1585" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009234> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009877> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:sex             "1" .

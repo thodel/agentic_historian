@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per007121>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Tennwil"@deu ;
+        pers:citizenOf       [ pers:occurence  "tobias" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001156>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1313" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1313" ] ] ;
+                               pers:occurence      "tobias"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-12 10:06:56.014365" ;
+                               pers:username  "tobias"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "der Jünger" ;
+                                                 pers:occurence  "tobias"
+                                               ] ;
+                               pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007121a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "tobias" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002681> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002681> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

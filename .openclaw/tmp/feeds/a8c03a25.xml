@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>The Code4Lib Journal</title>
+	<atom:link href="https://journal.code4lib.org/feed" rel="self" type="application/rss+xml" />
+	<link>https://journal.code4lib.org</link>
+	<description></description>
+	<lastBuildDate>Wed, 22 Oct 2025 13:18:29 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.8.3</generator>
+	<item>
+		<title>Editorial</title>
+		<link>https://journal.code4lib.org/articles/18575</link>
+					<comments>https://journal.code4lib.org/articles/18575#respond</comments>
+		
+		<dc:creator><![CDATA[Edward M. Corrado]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:59 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18575</guid>
+
+					<description><![CDATA[Welcome to the 61st issue of Code4Lib Journal. We hope that you enjoy the variety articles published in this issue.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18575/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Mitigating Aggressive Crawler Traffic in the Age of Generative AI: A Collaborative Approach from the University of North Carolina at Chapel Hill Libraries</title>
+		<link>https://journal.code4lib.org/articles/18489</link>
+					<comments>https://journal.code4lib.org/articles/18489#comments</comments>
+		
+		<dc:creator><![CDATA[Jason Casden, David Romani, Tim Shearer, and Jeff Campbell]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:58 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18489</guid>
+
+					<description><![CDATA[The rise of aggressive, adaptive, and evasive web crawlers is a significant challenge for libraries and archives, causing service disruptions and overwhelming institutional resources. This article details the experiences of the University of North Carolina at Chapel Hill University Libraries in combating an unprecedented flood of crawler traffic. It describes the escalating mitigation efforts, from traditional client blocking to the implementation of more advanced techniques such as request throttling, regional traffic prioritization, novel facet-based bot detection, commercial Web Application Firewalls (WAFs), and ultimately, in-browser client verification with Cloudflare Turnstile. The article highlights the adaptive nature of these crawlers, the limitations of isolated institutional responses, and the critical lessons learned from mitigation efforts, including the issues introduced by residential proxy networks and the extreme scale of the traffic. Our experiences demonstrate the effectiveness of a multi-layered defense strategy that includes both commercial and library-specific solutions, such as facet-based bot detection. The article emphasizes the importance of community-wide collaboration, proposing future directions such as formalized knowledge sharing and the ongoing development of best practices to collectively address this evolving threat to open access and the stability of digital library services.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18489/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Liberation of LMS-siloed Instructional Data</title>
+		<link>https://journal.code4lib.org/articles/18462</link>
+					<comments>https://journal.code4lib.org/articles/18462#respond</comments>
+		
+		<dc:creator><![CDATA[Hyung Wook Choi, Jonathan Wheeler, Weimao Ke, Lei Wang, Jane Greenberg, and Mat Kelly]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:57 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18462</guid>
+
+					<description><![CDATA[This paper presents an initiative to extract and repurpose instructional content from a series of Blackboard course shells associated with IMLS-funded boot camp events conducted in June of 2021, 2022, and 2023. These events, facilitated by ten faculty members and attended by 68 fellows, generated valuable educational materials currently confined within proprietary learning management system environments. The objective of this project is to enable broader access and reuse of these resources by migrating them to a non-siloed, static website independent of the original Blackboard infrastructure. We describe our methodology for acquiring and validating the data exports, outline the auditing procedures implemented to ensure content completeness and integrity, and discuss the challenges encountered throughout the process. Finally, we report on the current status of this ongoing effort and its implications for future dissemination and reuse of educational materials.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18462/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Extracting A Large Corpus from the Internet Archive, A Case Study</title>
+		<link>https://journal.code4lib.org/articles/18510</link>
+					<comments>https://journal.code4lib.org/articles/18510#respond</comments>
+		
+		<dc:creator><![CDATA[Eric C. Weig]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:56 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18510</guid>
+
+					<description><![CDATA[The Internet Archive was founded on May 10, 1996, in San Francisco, CA.  Since its inception, the archive has amassed an enormous corpus of content, including over 866 billion web pages, more than 42.5 million print materials, 13 million videos, and 14 million audio files. It is relatively easy to upload content to the Internet Archive.  It is also easy to download individual objects by visiting their pages and clicking on specific links.  However, downloading a large collection, such as thousands or even tens of thousands of items, is not as easy.  This article outlines how The University of Kentucky Libraries downloaded over 86 thousand previously uploaded newspaper issues from the Internet Archive for local use. The process leveraged ChatGPT to automate the process of generating Python scripts that accessed the Internet Archive via its API (Application Programming Interface). ]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18510/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Retrieval-Augmented Generation for Web Archives: A Comparative Study of WARC-GPT and a Custom Pipeline</title>
+		<link>https://journal.code4lib.org/articles/18555</link>
+					<comments>https://journal.code4lib.org/articles/18555#respond</comments>
+		
+		<dc:creator><![CDATA[Corey Davis]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:55 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18555</guid>
+
+					<description><![CDATA[Large Language Models (LLMs) are reshaping digital preservation and access in libraries, but their limitations (hallucinations, opacity, and resource demands) remain significant.
+Retrieval-Augmented Generation (RAG) offers a promising mitigation strategy by grounding LLM outputs used  in specific digital collections. This article compares the performance of WARC-GPTs default RAG implementation with unfiltered WARC files from Archi Io ve-It against a custom-built RAG solution utilizing optimization strategies in both modelling and data (WARC) preprocessing. Tested on a collection of thousands of archived pages from the Bob’s Burgers fan wiki, the study analyzes trade-offs in preprocessing, embedding strategies, retrieval accuracy, and system responsiveness. Findings suggest that while WARC-GPT lowers barriers to experimentation, custom RAG pipelines offer substantial improvements for institutions with the technical capacity to implement them, especially in terms of data quality, efficiency, and trustworthiness.
+]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18555/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Building and Deploying the Digital Humanities Quarterly Recommender System</title>
+		<link>https://journal.code4lib.org/articles/18501</link>
+					<comments>https://journal.code4lib.org/articles/18501#respond</comments>
+		
+		<dc:creator><![CDATA[Haining Wang, Joel Lee, John A. Walsh, Julia Flanders, and Benjamin Charles Germain Lee]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:54 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18501</guid>
+
+					<description><![CDATA[Since 2007, <em>Digital Humanities Quarterly</em> has published over 750 scholarly articles, constituting a significant repository of scholarship within the digital humanities. As the journal’s corpus of articles continues to grow, it is no longer possible for readers to manually navigate the title and abstract of every article in order to stay apprised of relevant work or conduct literature reviews. To address this, we have implemented a recommender system for the <em>Digital Humanities Quarterly</em> corpus, generating recommendations of related articles that appear below each article on the journal’s website with the goal of improving discoverability. These recommendations are generated via three different methods: a keyword-based approach based on a controlled vocabulary of topics assigned to articles by editors; a TF-IDF approach applied to full article text; and a deep learning approach using the Allen Institute for Artificial Intelligence’s SPECTER2 model applied to article titles and abstracts. In this article, we detail our process of creating this recommender system, from the article pre-processing pipeline to the front-end implementation of the recommendations on the <em>Digital Humanities Quarterly</em> website [<a id="ref1" href="#note1">1</a>]. All of the code for our recommender system is publicly available in the <em>Digital Humanities Quarterly</em> GitHub repository [<a id="ref2" href="#note2">2</a>].]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18501/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>What it Means to be a Repository: Real, Trustworthy, or Mature?</title>
+		<link>https://journal.code4lib.org/articles/18541</link>
+					<comments>https://journal.code4lib.org/articles/18541#respond</comments>
+		
+		<dc:creator><![CDATA[Seth Shaw]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:53 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18541</guid>
+
+					<description><![CDATA[Archivists occasionally describe digital repositories as being "not real," suggesting that their technical digital preservation infrastructure is inadequate to the task of digital preservation. This article discusses the concept of digital repositories, highlighting the distinction between digital repository technical infrastructure and institutions collecting digital materials, and what it means to be a "real" digital repository. It argues that the Open Archival Information System Reference Model and notions of Trustworthy Digital Repositories are inadequate for determining the "realness" of a digital repository and advocates using maturity models as a framework for discussing repository capability.  ]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18541/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>From Notes to Networks: Using Obsidian to Teach Metadata and Linked Data</title>
+		<link>https://journal.code4lib.org/articles/18535</link>
+					<comments>https://journal.code4lib.org/articles/18535#respond</comments>
+		
+		<dc:creator><![CDATA[Kara Long and Erin Yunes]]></dc:creator>
+		<pubDate>Tue, 21 Oct 2025 19:58:52 +0000</pubDate>
+				<category><![CDATA[Issue 61]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18535</guid>
+
+					<description><![CDATA[In this article, we describe a novel use of the note-taking software Obsidian as a method for users without formal training in metadata creation to develop culturally relevant data literacies across two digital archiving projects. We explain how Obsidian’s built-in use of linked data provides an open-source, flexible, and potentially scalable way for users to creatively interact with digitized materials, navigate and create metadata, and model relationships between digital objects. Furthermore, we demonstrate how Obsidian’s local and offline hosting features can be leveraged to include team members with low or unreliable internet access.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18535/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Editorial</title>
+		<link>https://journal.code4lib.org/articles/18408</link>
+					<comments>https://journal.code4lib.org/articles/18408#respond</comments>
+		
+		<dc:creator><![CDATA[Mark Swenson]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:59 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18408</guid>
+
+					<description><![CDATA[Welcome to the 60th issue of Code4Lib Journal.  We hope that you enjoy the assortment of articles we have assembled for this issue.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18408/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Quality Control Automation for Student Driven Digitization Workflows</title>
+		<link>https://journal.code4lib.org/articles/18340</link>
+					<comments>https://journal.code4lib.org/articles/18340#respond</comments>
+		
+		<dc:creator><![CDATA[Corinne Chatnik and James Gaskell]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:58 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18340</guid>
+
+					<description><![CDATA[At Union College Schaffer Library, the digitization lab is mostly staffed by undergraduates who only work a handful of hours a week. While they do a great job, the infrequency of their work hours and lack of experience results in errors in digitization and metadata. Many of these errors are difficult to catch during quality control checks because they are so minute, such as a missed counted page number here, or a transposed character in a filename there. So, a Computer Science student and a librarian collaborated to create a quality control automation application for the digitization workflow. The application is written in Python and relies heavily on using Openpyxl libraries to check the metadata spreadsheet and compare metadata with the digitized files. This article discusses the purpose and theory behind the Quality Control application, how hands-on experience with the digitization workflow informs automation, the methodology, and the user interface decisions. The goal of this application is to make it usable by other students and staff and to build it into the workflow in the future. This collaboration resulted in an experiential learning opportunity that has benefited the student's ability to apply what they have learned in class to a real-world problem. ]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18340/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>OpenWEMI: A Minimally Constrained Vocabulary for Work, Expression, Manifestation, and Item</title>
+		<link>https://journal.code4lib.org/articles/18412</link>
+					<comments>https://journal.code4lib.org/articles/18412#respond</comments>
+		
+		<dc:creator><![CDATA[Karen Coyle]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:57 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18412</guid>
+
+					<description><![CDATA[The Dublin Core Metadata Initiative has published a minimally constrainted vocabulary for the concepts of Work, Expression, Manifestation and Item (WEMI) that can support the use of these concepts in metadata describing any type of created resources. These concepts originally were defined for library catalog metadata and did not anticipate uses outside of that application. Employment of the concepts in non-library applications is evidence that the concepts are useful for a wider variety of metadata users, once freed from the constraints necessitated for the library-specific use.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18412/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Taming the Generative AI Wild West: Integrating Knowledge Graphs in Digital Library Systems</title>
+		<link>https://journal.code4lib.org/articles/18277</link>
+					<comments>https://journal.code4lib.org/articles/18277#respond</comments>
+		
+		<dc:creator><![CDATA[Jennifer D’Souza]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:56 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18277</guid>
+
+					<description><![CDATA[Since the 17th century, scientific publishing has been document-centric, leaving knowledge—such as methods and best practices—largely unstructured and not easily machine-interpretable, despite digital availability. Traditional practices reduce content to keyword indexes, masking richer insights. Advances in semantic technologies, like knowledge graphs, can enhance the structure of scientific records, addressing challenges in a research landscape where millions of contributions are published annually, often as pseudo-digitized PDFs. As a case in point, generative AI Large Language Models (LLMs) like OpenAI's GPT and Meta AI's LLAMA exemplify rapid innovation, yet critical information about LLMs remains scattered across articles, blogs, and code repositories. This highlights the need for knowledge-graph-based publishing to make scientific knowledge truly FAIR (Findable, Accessible, Interoperable, Reusable). This article explores semantic publishing workflows, enabling structured descriptions and comparisons of LLMs that support automated research insights—similar to product descriptions on e-commerce platforms. Demonstrated via the Open Research Knowledge Graph (ORKG) platform, a flagship project of the TIB Leibniz Information Centre for Science &#038; Technology and University Library, this approach transforms scientific documentation into machine-actionable knowledge, streamlining research access, update, search, and comparison.
+]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18277/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Gamifying Information Literacy: Using Unity and Github to Collaborate on a Video Game for the Library</title>
+		<link>https://journal.code4lib.org/articles/18310</link>
+					<comments>https://journal.code4lib.org/articles/18310#respond</comments>
+		
+		<dc:creator><![CDATA[Halie Kerns and Leah Fitzgerald]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:55 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18310</guid>
+
+					<description><![CDATA[Gamification, as a way to engage students in the library, has been a topic explored by librarians for many years. In this article, two librarians at a small rural academic library describe their year-long collaboration with students from a Game Design Program to create a single-player pixel-art video game designed to teach information literacy skills asynchronously. The project was accomplished using the game engine Unity and utilizing GitHub for project management. Outlined are the project's inspiration, management, team structure, and outcomes. Not only did the project serve to instruct, but it was also meant to test the campus’ appetite for digital scholarship projects. While the project ended with mixed results, it is presented here as an example of how innovation can grow a campus’ digital presence, even in resistant libraries.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18310/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Large Language Models for Machine-Readable Citation Data: Towards an Automated Metadata Curation Pipeline for Scholarly Journals</title>
+		<link>https://journal.code4lib.org/articles/18368</link>
+					<comments>https://journal.code4lib.org/articles/18368#respond</comments>
+		
+		<dc:creator><![CDATA[Aerith Y. Netzer]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:54 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18368</guid>
+
+					<description><![CDATA[Northwestern University spent far too much time and effort curating citation data by hand. Here, we show that large language models can be an efficient way to convert plain-text citations to BibTeX for use in machine-actionable metadata. Further, we prove that these models can be run locally, without cloud compute cost. With these tools, university-owned publishing operations can increase their operating efficiency which, when combined with human review, has no effect on quality.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18368/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Refactoring Alma:  Simplifying Circulation Settings in the Alma Integrated Library System (ILS)</title>
+		<link>https://journal.code4lib.org/articles/18293</link>
+					<comments>https://journal.code4lib.org/articles/18293#respond</comments>
+		
+		<dc:creator><![CDATA[Wilhelmina Randtke]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:53 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18293</guid>
+
+					<description><![CDATA[Refactoring is the process of restructuring existing code, in order to make the code easier to maintain, without changing the behavior of the software.  Georgia Southern University is the product of a consolidation of two separate universities in 2017.  Before consolidation, each predecessor university had its own cataloging practices and software settings in the integrated library system (ILS) / library services platform (LSP).  While the machine-readable cataloging (MARC) standard focuses on discovery, and descriptive search blended well to support discovery, settings related to circulation were in discord following the merger.  Three busy checkout desks each had different localized behaviors and requested additional behaviors to be built out without centrally standardizing.  Complexity stemming from non-unified metadata and settings plus customizations implemented over time for multiple checkout desks had ballooned to make for circulation settings which were overly baroque, difficult to meaningfully edit when a change to circulation practices was needed, and which were layered and complex to such a degree that local standards could not be explained to employees creating and editing library metadata.  This resulted in frequent frustration with how circulation worked, difficulty knowing what was or wasn’t a software bug, and inability to quickly fix problems once problems were identified or to make requested changes.  During 2024, the Georgia Southern University Libraries (University Libraries) undertook a comprehensive settings clean up in Alma centered around software settings related to circulation.  This article describes step-by-step how the University Libraries streamlined and simplified software settings in the Alma ILS, in order to make the software explainable and easier to manage, and all without impacting three busy checkout desks during the change process.  Through refactoring, the University Libraries achieved more easily maintainable and explainable software settings, with minimal disruption to day-to-day operations along the way.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18293/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Distant Listening: Using Python and Apps Scripts to Text Mine and Tag Oral History Collections</title>
+		<link>https://journal.code4lib.org/articles/18286</link>
+					<comments>https://journal.code4lib.org/articles/18286#respond</comments>
+		
+		<dc:creator><![CDATA[Andrew Weymouth]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:52 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18286</guid>
+
+					<description><![CDATA[This article presents a case study for creating subject tags utilizing transcription data across entire oral history collections, adapting Franco Moretti’s distant reading approach to narrative audio material. Designed for oral history project managers, the workflow empowers student workers to generate, modify, and expand subject tags during transcription editing, thereby enhancing the overall accuracy and discoverability of the collection. The paper details the workflow, surveys challenges the process addresses, shares experiences of transcribers, and examines the limitations of data-driven, human-edited tagging.
+]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18286/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Static Web Methodology as a Sustainable Approach to Digital Humanities Projects</title>
+		<link>https://journal.code4lib.org/articles/18372</link>
+					<comments>https://journal.code4lib.org/articles/18372#respond</comments>
+		
+		<dc:creator><![CDATA[Olivia M. Wikle and Evan Peter Williamson]]></dc:creator>
+		<pubDate>Mon, 14 Apr 2025 14:11:51 +0000</pubDate>
+				<category><![CDATA[Issue 60]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18372</guid>
+
+					<description><![CDATA[The web platforms adopted for digital humanities (DH) projects come with significant short- and long-term costs—selecting a platform will impact how resources are invested in a project and organization. As DH practitioners, the time (or money paid to contractors) we must invest in managing servers, maintaining platform updates, and learning idiosyncratic administrative systems ultimately limits our ability to create and sustain unique, innovative projects. Reexamining DH platforms through a minimal computing lens has led University of Idaho librarians to pursue new project-development methods that minimize digital infrastructure as a means to maximize investment in people, growing agency, agility, and long-term sustainability in both the organization and digital outputs. U of I librarians’  development approach centered around static web-based templates aims to develop transferable  technical skills that all digital projects require, while also matching  the structure of academic work cycles and fulfilling DH project needs. In particular, a static web approach encourages the creation of preservation-ready project data, enables periods of iterative development, and capitalizes on the low-cost/low-maintenance characteristics of statically-generated sites to optimize limited economic resources and personnel time. This short paper introduces  static web development methodology (titled “Lib-Static”) as a provocation to rethink DH infrastructure choices, asking how our frameworks can build internal skills, collaboration, and empowerment to generate more sustainable digital projects. 
+]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18372/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Editorial</title>
+		<link>https://journal.code4lib.org/articles/18237</link>
+					<comments>https://journal.code4lib.org/articles/18237#respond</comments>
+		
+		<dc:creator><![CDATA[Mark Eaton]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:59 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18237</guid>
+
+					<description><![CDATA[Welcome to a new issue of Code4Lib Journal! We hope you like the new articles.
+
+We are happy with Issue 59, although putting it together was a challenge for the Editorial Board. This was in no small part because Issue 58 was so tumultuous, including a crisis over our unintentional publication of personally identifiable information, a subsequent internal review by the Editorial Board, an <a href="https://journal.code4lib.org/articles/18040">Extra Editorial</a>, and much self-reflection. All of this (quite rightly) slowed down our work. Several Editorial Board members resigned, which left us with a much smaller team to handle a larger workload. As a volunteer-run organization without a revenue stream, Code4Lib Journal is a labor of love that we all complete off the side of our overfilled desks.  It was demoralizing to feel that we had lost the support of many in our community. A lot of us were tempted to quit rather than try to pick up and carry on. So, although we have published Issue 59 later than planned, and with a different coordinating editor, we made it. This issue is testament to the perseverance of my colleagues on the Editorial Board, and to the wonderful articles contributed by our community. ]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18237/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Response to PREMIS Events Through an Event-Sourced Lens</title>
+		<link>https://journal.code4lib.org/articles/18203</link>
+					<comments>https://journal.code4lib.org/articles/18203#respond</comments>
+		
+		<dc:creator><![CDATA[Jack O'Sullivan, Sarah Romkey, and Karin Bredenberg]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:58 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18203</guid>
+
+					<description><![CDATA[The PREMIS Editorial Committee (EC) read Ross Spencer’s recent article “PREMIS Events Through an Event-sourced Lens” with interest. The article was a useful primer to the idea of event sourcing and in particular was an interesting introduction to a conversation about whether and how such a model could be applied to Digital Preservation systems.
+
+However, the article makes a number of specific assertions and suggestions about PREMIS, with which we on the PREMIS EC disagree. We believe these are founded on an incorrect or incomplete understanding of what PREMIS actually is, and as significantly, what it is not.
+
+The aim of this article is to address those specific points.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18203/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Customizing Open-Source Digital Collections: What We Need, What We Want, and What We Can Afford</title>
+		<link>https://journal.code4lib.org/articles/18063</link>
+					<comments>https://journal.code4lib.org/articles/18063#respond</comments>
+		
+		<dc:creator><![CDATA[Emma C. Beck, Terri L. Holtze, Rachel I. Howard, and Randy Kuehn]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:57 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18063</guid>
+
+					<description><![CDATA[After 15 years of providing access to our digital collections through CONTENTdm, the University of Louisville Libraries changed direction, and migrated to Hyku, a self-hosted open-source digital repository. This article details the complexities of customizing an open-source repository, offering lessons on balancing sustainability via standardization with the costs of developing new code to accommodate desired features. The authors explore factors in deciding to create a Hyku instance and what we learned in the implementation process. Emphasizing the customizations applied, the article illustrates our unexpected detours and necessary considerations to get to “done.” This narrative serves as a resource for institutions considering similar transitions.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18063/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Cost per Use in Power BI using Alma Analytics and a Dash of Python</title>
+		<link>https://journal.code4lib.org/articles/18098</link>
+					<comments>https://journal.code4lib.org/articles/18098#respond</comments>
+		
+		<dc:creator><![CDATA[Lydia Harlan, Kristin Buxton, and Gabriele Hayden]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:56 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18098</guid>
+
+					<description><![CDATA[A trio of personnel at University of Oregon Libraries explored options for automating a pathway to ingest, store, and visualize cost per use data for continuing resources. This paper presents a pipeline for using Alma, SUSHI, COUNTER5, Python, and Power BI to create a tool for data-driven decision making. By establishing this pipeline, we shift the time investment from manually harvesting usage statistics to interpreting the data and sharing it with stakeholders. The resulting visualizations and collected data will assist in making informed, collaborative decisions.  ]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18098/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Launching an Intranet in LibGuides CMS at the Georgia Southern University Libraries</title>
+		<link>https://journal.code4lib.org/articles/18140</link>
+					<comments>https://journal.code4lib.org/articles/18140#respond</comments>
+		
+		<dc:creator><![CDATA[Wilhelmina Randtke]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:55 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18140</guid>
+
+					<description><![CDATA[During the 2021-22 academic year, the Georgia Southern University Libraries launched an intranet within the LibGuides CMS (LibGuides) platform.  While LibGuides had been in use at Georgia Southern for more than 10 years, it was used most heavily by the reference librarians.  Library staff in other roles tended not to have accounts, nor to have used LibGuides.  Meanwhile, the Libraries had a need for a structured intranet, and the larger university did not provide enterprise level software intended for intranet use.  This paper describes launching an intranet, including determining what software features are necessary and reworking software and user permissions to provide these features, change management by restructuring permissions within an established and heavily used software platform, and training to introduce libraries employees to the intranet.  Now, more than a year later, the intranet is used within the libraries for important functions, like training, sharing information about resources available to employees, for coordinating events and programming, and to provide structure to a document repository in Google Shared Drive.  Employees across the libraries use the intranet to more efficiently complete necessary work.  This article steps through desired features and software settings in LibGuides to support use as an intranet.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18140/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>The Dangers of Building Your Own Python Applications: False-Positives, Unknown Publishers, and Code Licensing</title>
+		<link>https://journal.code4lib.org/articles/18136</link>
+					<comments>https://journal.code4lib.org/articles/18136#respond</comments>
+		
+		<dc:creator><![CDATA[Corey Schmidt]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:54 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18136</guid>
+
+					<description><![CDATA[Making Python applications is hard, but not always in the way you expect. In an effort to simplify our archival workflows, I set out to discover how to make standalone desktop applications for our archivists and processors to make frequently used workflows easier and more intuitive. Coming from an archivists’ background with some Python knowledge, I learned how to code things like Graphical User Interfaces (GUIs), to create executable (binary) files, and to generate software installers for Windows. Navigating anti-virus software flagging your files as malware, Microsoft Windows throwing warning messages about downloading software from unknown publishers (rightly so), and disentangling licensing changes to a previously freely-available Python library all posed unexpected hurdles that I’m still grappling with. In this article, I will share my journey of creating, distributing, and dealing with the aftereffects of making Python-based applications for our users and provide advice on what to look out for if you’re looking to do something similar.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18136/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Converting the Bliss Bibliographic Classification to SKOS RDF using Python RDFLib</title>
+		<link>https://journal.code4lib.org/articles/18073</link>
+					<comments>https://journal.code4lib.org/articles/18073#respond</comments>
+		
+		<dc:creator><![CDATA[Harry Bartholomew]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:53 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18073</guid>
+
+					<description><![CDATA[This article discusses the project undertaken by the library of Queens’ College, Cambridge, to migrate its classification system to RDF applying the SKOS data model using Python. Queens’ uses the Bliss Bibliographic Classification alongside 18 other UK libraries, most of which are small libraries of the colleges at the Universities of Oxford and Cambridge. Though a flexible and universal faceted classification system, Bliss faces challenges due to its unfinished state, leading to the evolution in many Bliss libraries of divergent, in-house adaptations of the system to fill in its gaps. For most of the official, published parts of Bliss, a uniquely formatted source code used to generate a typeset version is available online. This project focused on converting this source code into a SKOS RDF linked-data format using Python: first by parsing the source code, then using RDFLib to write the concepts, notation, relationships, and notes in RDF. This article suggests that the RDF version has the potential to prevent further divergence and unify the various Bliss adaptations and reflects on the limitations of SKOS when applied to complex, faceted systems.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18073/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Simplifying Subject Indexing: A Python-Powered Approach in KBR, the National Library of Belgium</title>
+		<link>https://journal.code4lib.org/articles/18103</link>
+					<comments>https://journal.code4lib.org/articles/18103#respond</comments>
+		
+		<dc:creator><![CDATA[Hannes Lowagie and Julie Van Woensel]]></dc:creator>
+		<pubDate>Tue, 08 Oct 2024 00:10:52 +0000</pubDate>
+				<category><![CDATA[Issue 59]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18103</guid>
+
+					<description><![CDATA[This paper details the National Library of Belgium’s (KBR) exploration of automating the subject indexing process for their extensive collection using Python scripts. The initial exploration involved creating a reference dataset and automating the classification process using MARCXML files. The focus is on demonstrating the practicality, adaptability, and user-friendliness of the Python-based solution. The authors introduce their unique approach, emphasizing the semantically significant words in subject determination. The paper outlines the Python workflow, from creating the reference dataset to generating enriched bibliographic records. Criteria for an optimal workflow, including ease of creation and maintenance of the dataset, transparency, and correctness of suggestions, are discussed. The paper highlights the promising results of the Python-powered approach, showcasing two specific scripts that create a reference dataset and automate subject indexing. The flexibility and user-friendliness of the Python solution are emphasized, making it a compelling choice for libraries seeking efficient and maintainable solutions for subject indexing projects.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18103/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Extra Editorial: On the Release of Patron Data in Issue 58 of Code4Lib Journal</title>
+		<link>https://journal.code4lib.org/articles/18040</link>
+					<comments>https://journal.code4lib.org/articles/18040#respond</comments>
+		
+		<dc:creator><![CDATA[Code4Lib Editorial Board]]></dc:creator>
+		<pubDate>Mon, 05 Feb 2024 21:59:23 +0000</pubDate>
+				<category><![CDATA[Issue 58]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18040</guid>
+
+					<description><![CDATA[We, the editors of the Code4Lib Journal, sincerely apologize for the recent incident in which Personally Identifiable Information (PII) was released through the publication of an article in issue 58.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18040/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Editorial</title>
+		<link>https://journal.code4lib.org/articles/18007</link>
+					<comments>https://journal.code4lib.org/articles/18007#respond</comments>
+		
+		<dc:creator><![CDATA[Brighid M. Gonzales]]></dc:creator>
+		<pubDate>Mon, 04 Dec 2023 17:28:59 +0000</pubDate>
+				<category><![CDATA[Issue 58]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=18007</guid>
+
+					<description><![CDATA[Issue 58 of the Code4Lib Journal is bursting at the seams with examples of how libraries are creating new technologies, leveraging existing technologies, and exploring the use of AI to benefit library work. We had an unprecedented number of submissions this quarter and the resulting issue features 16 articles detailing some of the more unique and innovative technology projects libraries are working on today.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/18007/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Enhancing Serials Holdings Data: A Pymarc-Powered Clean-Up Project</title>
+		<link>https://journal.code4lib.org/articles/17839</link>
+					<comments>https://journal.code4lib.org/articles/17839#respond</comments>
+		
+		<dc:creator><![CDATA[Minyoung Chung and Phani Chaitanya Pendyala]]></dc:creator>
+		<pubDate>Mon, 04 Dec 2023 17:28:58 +0000</pubDate>
+				<category><![CDATA[Issue 58]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=17839</guid>
+
+					<description><![CDATA[Following the recent transition from Inmagic to Ex Libris Alma, the Technical Services department at the University of Southern California (USC) in Los Angeles undertook a post-migration cleanup initiative. This article introduces methodologies aimed at improving irregular summary holdings data within serials records using Pymarc, regular expressions, and the Alma API in MarcEdit. The challenge identified was the confinement of serials' holdings information exclusively to the 866 MARC tag for textual holdings. 
+
+To address this challenge, Pymarc and regular expressions were leveraged to parse and identify various patterns within the holdings data, offering a nuanced understanding of the intricacies embedded in the 866 field. Subsequently, the script generated a new 853 field for captions and patterns, along with multiple instances of the 863 field for coded enumeration and chronology data, derived from the existing data in the 866 field.
+
+The final step involved utilizing the Alma API via MarcEdit, streamlining the restructuring of holdings data and updating nearly 5,000 records for serials. This article illustrates the application of Pymarc for both data analysis and creation, emphasizing its utility in generating data in the MARC format. Furthermore, it posits the potential application of Pymarc to enhance data within library and archive contexts.
+]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/17839/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>The Use of Python to Support Technical Services Work in Academic Libraries</title>
+		<link>https://journal.code4lib.org/articles/17701</link>
+					<comments>https://journal.code4lib.org/articles/17701#respond</comments>
+		
+		<dc:creator><![CDATA[Maria Collins, Xiaoyan Song, and Sherri Schon]]></dc:creator>
+		<pubDate>Mon, 04 Dec 2023 17:28:57 +0000</pubDate>
+				<category><![CDATA[Issue 58]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=17701</guid>
+
+					<description><![CDATA[Technical services professionals in academic libraries are firmly committed to digital transformation and have embraced technologies and data practices that reshape their work to be more efficient, reliable, and scalable. Evolving systems, constantly changing workflows, and management of large-scale data are constants in the technical services landscape. Maintaining one’s ability to effectively work in this kind of environment involves embracing continuous learning cycles and incorporating new skills - which in effect means training people in a different way and re-conceptualizing how libraries provide support for technical services work. This article presents a micro lens into this space by examining the use of Python within a technical services environment. The authors conducted two surveys and eleven follow up interviews to investigate how Python is used in academic libraries to support technical services work and to learn more about training and organizational support across the academic library community. The surveys and interviews conducted for this research indicate that understanding the larger context of culture and organizational support are of high importance for illustrating the complications of this learning space for technical services. Consequently, this article will address themes that affect skills building in technical services at both a micro and macro level.]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/17701/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Pipeline or Pipe Dream: Building a Scaled Automated Metadata Creation and Ingest Workflow Using Web Scraping Tools</title>
+		<link>https://journal.code4lib.org/articles/17932</link>
+					<comments>https://journal.code4lib.org/articles/17932#respond</comments>
+		
+		<dc:creator><![CDATA[Matthew Krc and Anna Oates Schlaack  ]]></dc:creator>
+		<pubDate>Mon, 04 Dec 2023 17:28:56 +0000</pubDate>
+				<category><![CDATA[Issue 58]]></category>
+		<guid isPermaLink="false">https://journal.code4lib.org/?p=17932</guid>
+
+					<description><![CDATA[Since 2004, the FRASER Digital Library has provided free access to publications and archival collections related to the history of economics, finance, banking, and the Federal Reserve System. The agile web development team that supports FRASER’s digital asset management system embarked on an initiative to automate collecting documents and metadata from US governmental sources across the web. These sources present their content on web pages but do not serve the metadata and document links via an API or other semantic web technologies, making automation a unique challenge. Using a combination of third-party software, lightweight cloud services, and custom Python code, the FRASER Recurring Downloads project transformed what was previously a labor-intensive daily process into a metadata creation and ingest pipeline that requires minimal human intervention or quality control.  
+
+This article will provide an overview of the software and services used for the Recurring Downloads pipeline, as well as some of the struggles that the team encountered during the design and build process, and current use of the final product. The project required a more detailed plan than was designed and documented. The fully manual process was not intended to be automated when established, which introduced inherent complexity in creating the pipeline. A more comprehensive plan could have made the iterative development process easier by having a defined data model, and documentation of—and strategy for—edge cases. Further initial analysis of the cloud services used would have defined the limitations of those services, and workarounds could have been accounted for in the project plan. While the labor-intensive manual workflow has been reduced significantly, the required skill sets to efficiently maintain the automated workflow present a sustainability challenge of task distribution between librarians and developers. This article will detail the challenges and limitations of transitioning and standardizing recurring web scraping across more than 50 sources to a semi-automated workflow and potential future improvements to the pipeline. ]]></description>
+		
+					<wfw:commentRss>https://journal.code4lib.org/articles/17932/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per008304>
+        a                    pers:person ;
+        rdfs:label           "Hermann von Sulz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1406" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1406" ] ] ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-02 19:20:35.107669" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1409" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename    "Herman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "sabine" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000489.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008304a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hermann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008304a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000489> ;
+                               pers:rolenames  [ pers:occurence  "sabine" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000122> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date         "1409" ;
+                               pers:description  "key003657" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000854> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000916> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000489> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "Merz, Walther: Argauische Amtslisten. In: Argovia. Jahresschrift der Historischen Gesellschaft des Kantons Aargau, Bd. 46, 1934, Link: http://dx.doi.org/10.5169/seals-48912, S. 259." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

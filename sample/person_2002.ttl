@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per002406>
+        a                    pers:person ;
+        rdfs:label           "Jakob Zogg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1640" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1640" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000992.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002406a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002406a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "228" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "851"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000992> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1640" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1640" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001220>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000992> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000130> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

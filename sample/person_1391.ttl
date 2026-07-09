@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per001796>
+        a                pers:person ;
+        rdfs:label       "Balthasar Gallati"@deu ;
+        pers:deaths      [ pers:death         "11.1629" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1629-11" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Balthasar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per001796a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "219" ;
+                                                              pers:line     "15" ;
+                                                              pers:page     "829"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000490> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Balthassar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000490.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001796a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1629" ;
+                           pers:description   "key004803" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1629" ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:occupation  [ pers:date          "1629" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1629" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001211>
+                         ] ;
+        pers:occupation  [ pers:date          "1629" ;
+                           pers:description   "key000180" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1629" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000490> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000084> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000017> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

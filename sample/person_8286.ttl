@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per009011>
+        a                    pers:person ;
+        rdfs:label           "Jean-Jacques Favargier"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1694" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1694" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-07-09 11:10:37.787481" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1709" ] ] ;
+                               pers:last_mention  "1709" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jean-Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009011a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003246> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1694, 1700-1709" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1700" ;
+                                                                        pers:to    "1709"
+                                                                      ] ] ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1694" ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003246> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

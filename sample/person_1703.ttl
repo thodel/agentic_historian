@@ -1,0 +1,75 @@
+<http://ssrq-sds-fds.ch/Register/#per002105>
+        a                    pers:person ;
+        rdfs:label           "Mathias Sulser"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1707" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1707" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-30 08:42:26.942949" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1784" ] ] ;
+                               pers:last_mention  "1784" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:forename   "Mathias" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002105a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "178b" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "641"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "340" ;
+                                                                  pers:line     "29" ;
+                                                                  pers:page     "1132"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "342b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "1141"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000532> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Mathiaß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000532.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002105a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1766" ;
+                               pers:description   "key003718" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1766" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1745-" ;
+                               pers:description   "key003588" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1795" ;
+                                                                        pers:notBefore  "1745" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1754" ;
+                               pers:description   "key000782" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1754" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1763-" ;
+                               pers:description   "key004906" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1813" ;
+                                                                        pers:notBefore  "1763" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007732> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000532> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000123> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

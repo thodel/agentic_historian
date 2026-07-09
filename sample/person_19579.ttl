@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per020813>
+        a                    pers:person ;
+        rdfs:label           "Heinrich Wiener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1311" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-01 13:50:19.432746" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename   "Heinrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020813a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001506> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1328" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004641>
+                             ] ;
+        pers:occupation      [ pers:date         "1327" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:occupation      [ pers:date         "1311" ;
+                               pers:description  "key000133" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001506> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

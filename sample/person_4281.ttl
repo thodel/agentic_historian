@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004795>
+        a                    pers:person ;
+        rdfs:label           "Hans Giger"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1486" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1486" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-16 12:52:01.547679" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Lenaur" ;
+                                                  pers:occurence  "SG III/4"
+                                                ] ;
+                               pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000518.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004795a.01>
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "von Lenaur" ;
+                                                        pers:occurence  "SG III/4"
+                                                      ] ;
+                               pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004795a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/4"
+                                                      ] ;
+                               pers:occurence         "SG III/4" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000518> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000518> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1486" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006121> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008573> ;
+                               pers:occurence  "SG III/4"
+                             ] .

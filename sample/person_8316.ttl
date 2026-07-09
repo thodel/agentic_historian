@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per009042>
+        a                    pers:person ;
+        rdfs:label           "Schweikhard von Helfenstein"@deu ;
+        pers:births          [ pers:birth         "1539" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1539" ] ] ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1582" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1582" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-08-24 10:08:33.589083" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1591" ] ] ;
+                               pers:last_mention  "1591" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "SchwaickharthH" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003335.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009042a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Schweigkhart" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003335.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009042a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Schweikhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009042a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003335> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003335> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.mrfh.de/2340"
+                             ] ;
+        pers:refs            [ pers:id    "119393395" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:remark          "In der GND wird als abweichendes Todesjahr 1599 genannt." ;
+        pers:sex             "1" .

@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010524>
+        a              pers:person ;
+        rdfs:label     "Marie de Bourbon"@fra ;
+        pers:births    [ pers:birth      "30.05.1539" ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:deaths    [ pers:death      "07.04.1601" ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:hist      [ pers:date      "2018-12-13 15:22:28.716673" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:motherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010529> ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:motherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010525> ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:name      [ pers:forename   "Marie" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per010524a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "NE 3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003912> ;
+                         pers:rolenames  [ pers:occurence  "NE 3" ;
+                                           pers:rolename   "Herzogin/duchesse"
+                                         ] ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003912> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "43626" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:remark    "Adrien Wyssbrod : Appelée princesse entre 1573 et 1595, alors qu'elle n'est que régente." ;
+        pers:sex       "2" .

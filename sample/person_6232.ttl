@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per006854>
+        a                pers:person ;
+        rdfs:label       "Kaspar Schlumpf"@deu ;
+        pers:births      [ pers:birth         "1510" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "14.05.1587" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1587-05-14" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-06-21 17:10:53.377564" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "151" ;
+                                                               pers:line     "24" ;
+                                                               pers:page     "655"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000271.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006854a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per006854a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000271> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1575" ;
+                           pers:description   "key003674" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:occupation  [ pers:date          "1575" ;
+                           pers:description   "key004844" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc006247> ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000271> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "21797" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

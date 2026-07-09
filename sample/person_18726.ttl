@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per019941>
+        a               pers:person ;
+        rdfs:label      "Peter Zoya"@deu ;
+        pers:deaths     [ pers:death      "vor 01.06.1540" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-06-18 15:43:34.756958" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per019941a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007109> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Petter" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007109.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019941a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007109> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009738> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

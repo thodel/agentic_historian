@@ -1,0 +1,60 @@
+<http://ssrq-sds-fds.ch/Register/#per002379>
+        a                    pers:person ;
+        rdfs:label           "Hans Lorenz"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-08 16:07:02.053134" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1544" ] ] ;
+                               pers:last_mention  "1544" ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002379a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "219" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "829"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001001> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1531" ;
+                               pers:description   "key000894" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000927> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1544" ;
+                               pers:description   "key000894" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1544" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007871> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001001> ;
+        pers:ownerOf         [ pers:date           "1531" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1531" ] ] ;
+                               pers:location       <http://ssrq-sds-fds.ch/Register/#loc000927> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001207>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1544" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1544" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007871> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

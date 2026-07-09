@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000822>
+        a                    pers:person ;
+        rdfs:label           "Johann Spiller"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1473" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1473" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1495" ] ] ;
+                               pers:last_mention  "1495" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Zug" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000822a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "61" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "195"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000432> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1483" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1483" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000446> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000432> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26798" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000126> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

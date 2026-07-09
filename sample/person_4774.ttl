@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per005326>
+        a             pers:person ;
+        rdfs:label    "Otto Welfen"@deu ;
+        pers:births   [ pers:birth         "1175/76" ;
+                        pers:format_dates  [ pers:format_date  [ pers:from  "1175" ;
+                                                                 pers:to    "1176"
+                                                               ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:deaths   [ pers:death         "19.05.1218" ;
+                        pers:format_dates  [ pers:format_date  [ pers:when  "1218-05-19" ] ] ;
+                        pers:occurence     "SG III/3"
+                      ] ;
+        pers:hist     [ pers:date      "2017-05-11 09:18:22.039109" ;
+                        pers:username  "pascale"
+                      ] ;
+        pers:name     [ pers:forename    "Otten" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   [ pers:articles  [ pers:article  "48" ;
+                                                            pers:line     "17" ;
+                                                            pers:page     "151"
+                                                          ] ;
+                                           pers:vol       "SG III/3"
+                                         ] ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002135.01> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005326a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Otto" ;
+                        pers:gennames   [ pers:genname    "IV." ;
+                                          pers:occurence  "SG III/3"
+                                        ] ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per005326a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  [ pers:articles  [ pers:article  "48" ;
+                                                           pers:line     "12" ;
+                                                           pers:page     "156"
+                                                         ] ;
+                                          pers:vol       "SG III/3"
+                                        ] ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002135> ;
+                        pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                          pers:rolename   "Kaiser/empereur"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org002135> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:type  "other" ;
+                        pers:url   "https://www.deutsche-biographie.de/sfz74085.html#ndbcontent"
+                      ] ;
+        pers:refs     [ pers:id    "118590774" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:remark   "Werner Kuster: Zuordnung von ’Otto’ zu diesem Kaiser unsicher" ;
+        pers:sex      "1" .

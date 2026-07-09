@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003927>
+        a                pers:person ;
+        rdfs:label       "Hans von Wil"@deu ;
+        pers:deaths      [ pers:death         "um 1487" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1497" ;
+                                                                    pers:notBefore  "1477" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-07 16:05:10.171942" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename   "Hans" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003927a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "64b" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "189"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001549> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "nach 1452" ;
+                           pers:description   "key003647" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                       "1452" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001549> ;
+        pers:project     "SSRQ" ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

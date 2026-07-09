@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per009704>
+        a                pers:person ;
+        rdfs:label       "Marie d’ Orléans-Longueville"@fra ;
+        pers:births      [ pers:birth         "05.03.1625" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1625-03-05" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death         "16.06.1707" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1707-06-16" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-06 13:58:26.313370" ;
+                           pers:username  "NE 3"
+                         ] ;
+        pers:name        [ pers:addnames          [ pers:addname    "de Nemours" ;
+                                                    pers:occurence  "NE 3"
+                                                  ] ;
+                           pers:forename          "Marie" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per009704a> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                    pers:occurence       "NE 3"
+                                                  ] ;
+                           pers:occurence         "NE 3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003598> ;
+                           pers:rolenames         [ pers:occurence  "NE 3" ;
+                                                    pers:rolename   "Herzogin/duchesse"
+                                                  ] ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename          "Marie" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per009704b> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                    pers:occurence       "NE 3"
+                                                  ] ;
+                           pers:occurence         "NE 3" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003615> ;
+                           pers:rolenames         [ pers:occurence  "NE 3" ;
+                                                    pers:rolename   "Herzogin/duchesse"
+                                                  ] ;
+                           pers:type              "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1704" ;
+                           pers:description   "key005203" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1704" ] ] ;
+                           pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003598> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "44544" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "119095033" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:remark      "Adrien Wyssbrod : Reconnue princesse de Neuchâtel en 1694" ;
+        pers:sex         "2" .

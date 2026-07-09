@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per008399>
+        a                    pers:person ;
+        rdfs:label           "Wilhelm Schachtler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "19. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1801" ;
+                                                                         pers:to    "1900"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-17 16:21:18.843000" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "SG III/3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003036>
+                             ] ;
+        pers:name            [ pers:forename   "Wilhelm" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008399a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "327" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "1399"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002130> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "19. Jh." ;
+                               pers:description   "key004957" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1801" ;
+                                                                        pers:to    "1900"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002130> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per008401>
+        a                pers:person ;
+        rdfs:label       "Johannes Walt"@deu ;
+        pers:births      [ pers:birth         "1814" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1814" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "1899" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1899" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2017-09-19 14:39:43.059345" ;
+                           pers:username  "werner"
+                         ] ;
+        pers:name        [ pers:forename    "N. Joh." ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "327" ;
+                                                               pers:line     "34" ;
+                                                               pers:page     "1399"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002126.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008401a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008401a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002126> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000890" ;
+                           pers:occurence    "SG III/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002126> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:title  "Rohner, Geschlechter und Wappen, S. 161" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:remark      "Werner Kuster: Identität sehr wahrscheinlich" ;
+        pers:sex         "1" .

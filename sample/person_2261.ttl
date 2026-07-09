@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per002655>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Grotz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1526" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1526" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1530" ] ] ;
+                               pers:last_mention  "1530" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002655a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "262" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "955"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000630> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1526-1530" ;
+                               pers:description   "key000106" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1526" ;
+                                                                        pers:to    "1530"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000837> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000630> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000837> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

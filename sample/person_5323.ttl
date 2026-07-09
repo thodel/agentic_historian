@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per005901>
+        a                    pers:person ;
+        rdfs:label           "Jos Schmid"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1512" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1512" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 14:05:52.112053" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Jos" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005901a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "94" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "340"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000299> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1512" ;
+                               pers:description   "key004963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1512" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000299> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: möglicherweise identisch mit per005799, per005888 und per005905" ;
+        pers:sex             "1" .

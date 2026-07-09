@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per015874>
+        a                        pers:person ;
+        rdfs:label               "Jacques Poesiouz"@fra ;
+        pers:births              [ pers:birth      "1478" ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:deaths              [ pers:death      "av. 11.1480" ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-04-27 15:45:53.528078" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename   "Jacobus" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per015874a> ;
+                                   pers:lang       "lat" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006341> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename   "Jacques" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per015874a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006341> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename    "Jacobus" ;
+                                   pers:lang        "lat" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006341.02> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per015874a.01>
+                                 ] ;
+        pers:occupation          [ pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org006341> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Maier 1996, p. 421" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:remark              "Enfant tué par la secte du Pré de Chessy par Jean Poésiouz." ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015861> ;
+                                   pers:occurence  "gortega"
+                                 ] .

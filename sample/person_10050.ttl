@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per010828>
+        a                               pers:person ;
+        rdfs:label                      "Jaquet Maugetaz"@fra ;
+        pers:deaths                     [ pers:death      "1438" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010827> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:fatherOf                   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010827> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-04-27 10:54:03.851836" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename    "Jaquetus" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004026.01> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010828a.01>
+                                        ] ;
+        pers:name                       [ pers:addnames   [ pers:addname    "Cossandeir" ;
+                                                            pers:occurence  "gortega"
+                                                          ] ;
+                                          pers:forename   "Jaquet" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per010828a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004026> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:addnames   [ pers:addname    "Cossandeir" ;
+                                                            pers:occurence  "gortega"
+                                                          ] ;
+                                          pers:forename   "Jaquetus" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per010828a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "pascale" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004026> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:addnames    [ pers:addname    "alias dictus Cossandeir" ;
+                                                             pers:occurence  "gortega"
+                                                           ] ;
+                                          pers:forename    "Jaquets" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004026.01> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010828a.02>
+                                        ] ;
+        pers:occupation                 [ pers:date         "30.07.1438" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004026> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Ostorero et al. 1999, p. 340" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008538> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

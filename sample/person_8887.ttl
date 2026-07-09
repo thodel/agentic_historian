@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per009629>
+        a                pers:person ;
+        rdfs:label       "Martin Gottrau"@deu ;
+        pers:births      [ pers:birth         "1540" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1540" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "1611" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1611" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009143> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-18 10:21:58.599811" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "Martin" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.04> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009629a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Martin" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009629a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1577" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1577" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "34691" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Gehört zur Linie Gottrau de Pensier." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

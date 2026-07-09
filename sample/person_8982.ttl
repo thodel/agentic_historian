@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009724>
+        a                   pers:person ;
+        rdfs:label          "Glauda Perrottet"@fra ;
+        pers:deaths         [ pers:death         "1521" ;
+                              pers:format_dates  [ pers:format_date  [ pers:when  "1521" ] ] ;
+                              pers:occurence     "FR I/2/8"
+                            ] ;
+        pers:hist           [ pers:date      "2021-04-07 12:08:37.715167" ;
+                              pers:username  "lionel"
+                            ] ;
+        pers:name           [ pers:forename    "Glouda" ;
+                              pers:lang        "fra" ;
+                              pers:occurence   "FR I/2/8" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003607.01> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009724a.01>
+                            ] ;
+        pers:name           [ pers:forename          "Glauda" ;
+                              pers:id                <http://ssrq-sds-fds.ch/Register/#per009724a> ;
+                              pers:lang              "fra" ;
+                              pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                       pers:occurence       "FR I/2/8"
+                                                     ] ;
+                              pers:occurence         "FR I/2/8" ;
+                              pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003607> ;
+                              pers:type              "std"
+                            ] ;
+        pers:occupation     [ pers:description  "key004437" ;
+                              pers:occurence    "lionel"
+                            ] ;
+        pers:occupation     [ pers:description  "key000945" ;
+                              pers:occurence    "lionel"
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org003607> ;
+        pers:project        "SSRQ" ;
+        pers:sex            "2" ;
+        pers:sisterInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009725> ;
+                              pers:occurence  "FR I/2/8"
+                            ] ;
+        pers:spouseOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009723> ;
+                              pers:occurence  "FR I/2/8"
+                            ] .

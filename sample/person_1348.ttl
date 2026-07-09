@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per001755>
+        a                    pers:person ;
+        rdfs:label           "Johann Leonhard Reichmuth"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1707" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1707" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1709" ] ] ;
+                               pers:last_mention  "1709" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johann Lienhard" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000776.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001755a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Leonhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001755a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "282" ;
+                                                                  pers:line     "17" ;
+                                                                  pers:page     "999"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000776> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1709" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1709" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001214>
+                             ] ;
+        pers:occupation      [ pers:date          "1707-1709" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1707" ;
+                                                                        pers:to    "1709"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000776> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000731> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

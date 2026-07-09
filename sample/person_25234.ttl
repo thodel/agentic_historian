@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per026600>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Meier"@deu ;
+        pers:deaths          [ pers:death      "vor 1400" ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026599> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1400" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-11 11:21:21.325688" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026600a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000050> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "vor 1400" ;
+                               pers:description  "key000659" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000050> ;
+        pers:project         "Königsfelden" ;
+        pers:remark          "Möglicherweise identisch mit per028716" ;
+        pers:sex             "1" .

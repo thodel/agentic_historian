@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010204>
+        a                    pers:person ;
+        rdfs:label           "Henri de Vautravers"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1660" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-23 12:32:58.633840" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Henri" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010204a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003787> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Henry" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003787.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010204a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003787> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007813> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

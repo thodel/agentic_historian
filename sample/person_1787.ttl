@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per002189>
+        a                    pers:person ;
+        rdfs:label           "Josef Anton Bernold"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1747" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1747" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1783" ] ] ;
+                               pers:last_mention  "1783" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000929.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002189a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Josef Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002189a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "342b" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "1141"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000929> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1747-1782" ;
+                               pers:description   "key000320" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1747" ;
+                                                                        pers:to    "1782"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000929> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

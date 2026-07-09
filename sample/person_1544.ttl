@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per001946>
+        a                    pers:person ;
+        rdfs:label           "Jakob Bögli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1606" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1606" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1614" ] ] ;
+                               pers:last_mention  "1614" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001946a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "153c" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "550"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "197a" ;
+                                                                  pers:line     "33" ;
+                                                                  pers:page     "717"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "156" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "571"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000844> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000844.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001946a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1606-1614" ;
+                               pers:description   "key000324" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1606" ;
+                                                                        pers:to    "1614"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000844> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

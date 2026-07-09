@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per026955>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Ravensburg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1337" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-23 17:14:36.552751" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1346" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per026955a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008105> ;
+                               pers:rolenames  [ pers:occurence  "mina" ;
+                                                 pers:rolename   "Bruder/frère"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1337-1346" ;
+                               pers:description  "key004872" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc011694> ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002768>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008105> ;
+        pers:project         "Königsfelden" ;
+        pers:refs            [ pers:title  "HS V/1, S. 65." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

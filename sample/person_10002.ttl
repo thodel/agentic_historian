@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010779>
+        a                    pers:person ;
+        rdfs:label           "Hans Adam Spreiter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1790" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-06 09:07:56.542383" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Adam" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004018.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010779a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Adam" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010779a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004018> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1790" ;
+                               pers:description  "key005336" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004018> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1790" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000708> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

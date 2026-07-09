@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per023548>
+        a               pers:person ;
+        rdfs:label      "Hans Peter Ragaz"@deu ;
+        pers:deaths     [ pers:death      "vor 1714" ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:hist       [ pers:date      "2020-10-25 08:59:43.068589" ;
+                          pers:username  "GR B III/2"
+                        ] ;
+        pers:name       [ pers:forename   "Hans Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per023548a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "GR B III/2" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000901> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Hanß Peter" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "GR B III/2" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000901.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per023548a.01>
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000901> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000911> ;
+                          pers:occurence  "GR B III/2"
+                        ] ;
+        pers:sex        "1" .

@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per023884>
+        a              pers:person ;
+        rdfs:label     "Philipp Gallicius"@deu ;
+        pers:births    [ pers:birth      "04.02.1504" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:deaths    [ pers:death      "07.06.1566" ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023883> ;
+                         pers:occurence  "GR B III/2"
+                       ] ;
+        pers:hist      [ pers:date      "2020-09-05 13:33:34.623869" ;
+                         pers:username  "GR B III/2"
+                       ] ;
+        pers:name      [ pers:forename   "Philipp" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per023884a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "GR B III/2" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008343> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org008343> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "10620" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:refs      [ pers:id    "134007832" ;
+                         pers:type  "GND"
+                       ] ;
+        pers:sex       "1" .

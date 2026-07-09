@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per009339>
+        a                    pers:person ;
+        rdfs:label           "Marx Schulthess"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1546" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 21:41:58.243143" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Marx" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "FDS TI" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001111.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009339a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Marx" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009339a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FDS TI" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001111> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000326" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:occupation      [ pers:date          "1546" ;
+                               pers:description   "key000203" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1546" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc008245> ;
+                               pers:occurence     "FDS TI" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001217>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001111> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000066> ;
+                               pers:occurence  "FDS TI"
+                             ] ;
+        pers:sex             "1" .

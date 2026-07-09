@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010260>
+        a                    pers:person ;
+        rdfs:label           "Andreas Schäpper"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1724" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-30 14:47:50.743890" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Andres" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001895.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010260a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Andreas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010260a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001895> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1724" ;
+                               pers:description  "key000636" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001828>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001895> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1724" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000335> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per007256>
+        a                    pers:person ;
+        rdfs:label           "NN von Mausfeld"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1628" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1628" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-07-25 16:34:12.974205" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Bodenaus" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007256a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002741> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "von Bodenauß" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "186a" ;
+                                                                   pers:line     "4" ;
+                                                                   pers:page     "834"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002741.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007256a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1628" ;
+                               pers:description   "key004855" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1628" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002741> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

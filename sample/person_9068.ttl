@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009813>
+        a                pers:person ;
+        rdfs:label       "Jean de Lanthen-Heid"@deu ;
+        pers:births      [ pers:birth      "um 1530" ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death      "12.1609" ;
+                           pers:occurence  "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-18 07:23:47.795166" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "genandt Heid" ;
+                                              pers:occurence  "FDS TI"
+                                            ] ;
+                           pers:forename    "Hanns" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003647.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009813a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Jean" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009813a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003647> ;
+                           pers:rolenames  [ pers:occurence  "FDS TI" ;
+                                             pers:rolename   "Ritter/chevalier"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1589" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "FDS TI" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002638>
+                         ] ;
+        pers:occupation  [ pers:date         "1561, 1589" ;
+                           pers:description  "key000326" ;
+                           pers:occurence    "FDS TI" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003647> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15009" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

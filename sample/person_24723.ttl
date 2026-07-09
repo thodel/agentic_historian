@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per026083>
+        a                pers:person ;
+        rdfs:label       "Johann Caspar Schweizer"@deu ;
+        pers:births      [ pers:birth      "26.06.1619" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "08.11.1688" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:25:28.569094" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Johann Caspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026083a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005474> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Kaspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005474.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026083a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1660" ;
+                           pers:description  "key000170" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005474> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "11565402X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "010844" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

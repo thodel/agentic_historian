@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per008604>
+        a                pers:person ;
+        rdfs:label       "Frédéric-André Wavre"@fra ;
+        pers:births      [ pers:birth         "1807" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1807" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death         "1861" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1861" ] ] ;
+                           pers:occurence     "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2018-03-17 12:06:48.486571" ;
+                           pers:username  "NE 3"
+                         ] ;
+        pers:name        [ pers:forename   "Frédéric-André" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per008604a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003089> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Frédéric André" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "NE 3" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003089.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008604a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1846" ;
+                           pers:description   "key001082" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1846" ] ] ;
+                           pers:occurence     "NE 3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                         ] ;
+        pers:occupation  [ pers:description  "key000275" ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003089> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "11715590X" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

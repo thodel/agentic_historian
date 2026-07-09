@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per028180>
+        a                    pers:person ;
+        rdfs:label           "Marti Offleter"@deu , "Marti Offleter"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1714" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-06 15:21:07.333511" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1741" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Marti" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028180a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004240> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Marti" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028180a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "rita" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004240> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004240.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028180a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1714-1741" ;
+                               pers:description  "key000547" ;
+                               pers:occurence    "rita" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004240> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

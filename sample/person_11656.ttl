@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per012556>
+        a                    pers:person ;
+        rdfs:label           "Pierre Bergex"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1459" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-15 07:30:42.669692" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Petrus" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per012556a> ;
+                               pers:lang              "lat" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004857> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Petrus" ;
+                               pers:lang        "lat" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004857.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012556a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Pierre" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per012556a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org004857> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org004857> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012555> ;
+                               pers:occurence  "gortega"
+                             ] .

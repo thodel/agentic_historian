@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per022664>
+        a                    pers:person ;
+        rdfs:label           "Hans Moser"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per026569> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1395" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-08 08:43:27.186955" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1412" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per022664a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "sabine" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000563> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1395-1412" ;
+                               pers:description  "key000624" ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:description  "key000086" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000563> ;
+        pers:project         "Königsfelden" ;
+        pers:sex             "1" .

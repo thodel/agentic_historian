@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per009121>
+        a                    pers:person ;
+        rdfs:label           "Hans Quenzis"@deu ;
+        pers:deaths          [ pers:death      "21.07.1615" ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1599" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1599" ] ] ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-17 09:24:03.487326" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009121a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003354> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1599-1615" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:occupation      [ pers:date         "1613-1615" ;
+                               pers:description  "key003647" ;
+                               pers:occurence    "rita"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003354> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "FR I/2/8"
+                             ] ;
+        pers:sex             "1" .

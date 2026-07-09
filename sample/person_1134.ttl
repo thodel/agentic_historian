@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per001531>
+        a                    pers:person ;
+        rdfs:label           "Christoph von Hertenegg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1403" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1403" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1419" ] ] ;
+                               pers:last_mention  "1419" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001531a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "34" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "65"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "42" ;
+                                                                  pers:line     "38" ;
+                                                                  pers:page     "92"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000681> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Cristoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000681.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001531a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1403" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1403" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001174>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000681> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000011> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

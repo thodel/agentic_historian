@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008898>
+        a                    pers:person ;
+        rdfs:label           "Abraham-Pierre d’Epagnier"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1702" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1702" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-24 17:49:11.024435" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Abram-Pierre" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003277.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008898a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham-Pierre" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008898a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003277> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003277> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

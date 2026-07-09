@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per006764>
+        a                    pers:person ;
+        rdfs:label           "Wolfgang von Kalchenriet"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1558" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1558" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-15 12:02:05.744594" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1560" ] ] ;
+                               pers:last_mention  "1560" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "597"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002558.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006764a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Wolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "140" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "597"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002558.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006764a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Wolfgang" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006764a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002558> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1558" ;
+                               pers:description   "key000424" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1558" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000286> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002558> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

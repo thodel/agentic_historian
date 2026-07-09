@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per003266>
+        a                    pers:person ;
+        rdfs:label           "Walter von Altenklingen"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1369" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1381" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-23 13:42:07.014314" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Walter" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003266a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001290> ;
+                               pers:rolenames  [ pers:occurence  "LU II/3" ;
+                                                 pers:rolename   "Freiherr (Baron)/baron"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Walther" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "5" ;
+                                                                   pers:line     "41" ;
+                                                                   pers:page     "17"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001290.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003266a.02>
+                             ] ;
+        pers:name            [ pers:forename    "Walther" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "4" ;
+                                                                   pers:line     "17" ;
+                                                                   pers:page     "10"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001290.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003266a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000180" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc005908> ;
+                               pers:occurence    "sabine"
+                             ] ;
+        pers:occupation      [ pers:date          "1381, 1382" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1382" ] ;
+                                         pers:format_date  [ pers:when  "1381" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1384" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1384" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000122> ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:occupation      [ pers:date          "1381, 1382" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1381" ] ;
+                                         pers:format_date  [ pers:when  "1382" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1384" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1384" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000777> ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001290> ;
+        pers:project         "Königsfelden" , "SSRQ" ;
+        pers:refs            [ pers:title  "Merz, Walther: Argauische Amtslisten. In: Argovia. Jahresschrift der Historischen Gesellschaft des Kantons Aargau, Bd. 46, 1934, Link: http://dx.doi.org/10.5169/seals-48912., S. 260." ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:sex             "1" .

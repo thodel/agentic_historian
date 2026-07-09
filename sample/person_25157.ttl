@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per026520>
+        a                pers:person ;
+        rdfs:label       "Salomon Gessner"@deu ;
+        pers:births      [ pers:birth      "01.04.1730" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "02.03.1788" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-10-09 08:09:54.837065" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Salomon" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008754.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026520a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Salomon" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026520a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org008754> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Herr/monsieur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1767-1787" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004016>
+                         ] ;
+        pers:occupation  [ pers:description  "key005682" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org008754> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118538969" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "11825" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004144>
+        a                    pers:person ;
+        rdfs:label           "Bartlime Eggermann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1547" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:50:33.314098" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Bartlime" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004144a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "89c" ;
+                                                                  pers:line     "10" ;
+                                                                  pers:page     "334"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001663> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Bartli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "89c" ;
+                                                                   pers:line     "8" ;
+                                                                   pers:page     "334"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001663.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004144a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1547" ;
+                               pers:description   "key003247" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1547" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001663> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Bartlime: 1. Mundartform, die das Id. angibt. Bartolomäus N. 4,1625: Standardvorname" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000972> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

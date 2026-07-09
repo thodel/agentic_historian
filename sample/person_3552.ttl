@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004025>
+        a                    pers:person ;
+        rdfs:label           "Augustin Rosenberg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "vor 1521" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:33:43.881943" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Augustin" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004025a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "73" ;
+                                                                  pers:line     "36" ;
+                                                                  pers:page     "285"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001615> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "vor 1521" ;
+                               pers:description   "key000051" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1521" ;
+                                                                        pers:notBefore  "1471" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001615> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

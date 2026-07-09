@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per008495>
+        a                    pers:person ;
+        rdfs:label           "Katharina Bärlocher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 11:03:42.307903" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008495a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org002119> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename          "Katharina" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per008495b> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         "SG III/3" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Catharina" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "328f" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "1407"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002119.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008495a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002119> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1797" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1797" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006770> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006376> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "2" .

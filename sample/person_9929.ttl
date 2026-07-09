@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010704>
+        a                    pers:person ;
+        rdfs:label           "Guillaume de Merveilleux"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-25 10:52:15.483291" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010704a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003627> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Guillame" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003627.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010704a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003627> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

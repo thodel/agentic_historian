@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014211>
+        a                    pers:person ;
+        rdfs:label           "Jakob Ammann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-18 15:25:41.948538" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014211a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000155> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000155.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014211a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "um 1529" ;
+                               pers:description  "key000051" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010405> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc008749> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000155> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

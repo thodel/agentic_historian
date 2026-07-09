@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per004878>
+        a                    pers:person ;
+        rdfs:label           "Theodolf von Chur"@deu ;
+        pers:first_mentions  [ pers:first_mention  "887/888" ;
+                               pers:format_dates   [ pers:format_date  [ pers:notAfter   "0888" ;
+                                                                         pers:notBefore  "0887" ;
+                                                                         pers:precision  "0.5"
+                                                                       ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-25 13:31:04.513149" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "0913" ] ] ;
+                               pers:last_mention  "913" ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:name            [ pers:forename          "Theodolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per004878a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "1a" ;
+                                                                         pers:line     "12" ;
+                                                                         pers:page     "1"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000053> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "890" ;
+                               pers:description   "key000015" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "0890" ] ] ;
+                               pers:occurence     "SG III/3" , "GR B III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org000053>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000053> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "13006" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://www.bistum-chur.ch/wp-content/uploads/2013/12/Churer_Bischofsliste.pdf"
+                             ] ;
+        pers:sex             "1" .

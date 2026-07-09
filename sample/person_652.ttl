@@ -1,0 +1,55 @@
+<http://ssrq-sds-fds.ch/Register/#per000740>
+        a                    pers:person ;
+        rdfs:label           "Michael Stebler"@deu ;
+        pers:deaths          [ pers:death         "22.07.1443" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1443-07-22" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1425" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1425" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-06 10:26:30.691885" ;
+                               pers:username  "fahe"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Graf" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000740a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "50" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "145"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000378> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000540" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001187>
+                             ] ;
+        pers:occupation      [ pers:date         "1424-1427" ;
+                               pers:description  "key000540" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002684>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000378> ;
+        pers:project         "Königsfelden" , "SSRQ" ;
+        pers:refs            [ pers:id    "1077270054" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:id    "48848" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:date       "1424-1427" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000195> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,26 @@
+<http://ssrq-sds-fds.ch/Register/#per004845>
+        a               pers:person ;
+        rdfs:label      "Kaspar Senn"@deu ;
+        pers:deaths     [ pers:death         "vor 1485" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1485" ;
+                                                                   pers:notBefore  "1435" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "SG III/4"
+                        ] ;
+        pers:hist       [ pers:date      "2017-02-28 15:24:01.292775" ;
+                          pers:username  "SG III/4"
+                        ] ;
+        pers:name       [ pers:forename   "Kaspar" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per004845a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "SG III/4" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001774> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001774> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000198> ;
+                          pers:occurence  "SG III/4"
+                        ] ;
+        pers:sex        "1" .

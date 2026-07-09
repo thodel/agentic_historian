@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per009971>
+        a               pers:person ;
+        rdfs:label      "Guillaume Perrin"@fra ;
+        pers:deaths     [ pers:death      "ca. 1593" ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2019-01-16 08:32:35.199522" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename    "Guillaume" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "FR I/2/8" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003405.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009971a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Guillaume" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009971a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003405> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003405> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007894> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009970> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

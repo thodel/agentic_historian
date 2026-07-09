@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003847>
+        a                    pers:person ;
+        rdfs:label           "Anna Süess"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1537" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1537" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-17 16:22:21.194406" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Anna" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003847a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "171"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001468> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001468> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "2" .

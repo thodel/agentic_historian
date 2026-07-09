@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per027527>
+        a                pers:person ;
+        rdfs:label       "Petermann de Reynold"@deu ;
+        pers:births      [ pers:birth      "1650" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "28.03.1731" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-16 09:36:35.373621" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Petermann" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per027527a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003482> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Peterman" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003482.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per027527a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1672-1731" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:occupation  [ pers:date         "1678-1681" ;
+                           pers:description  "key004837" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003482> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "V, p. 461" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003007>
+        a                    pers:person ;
+        rdfs:label           "Jakob Wachter"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1768" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1768" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003007a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "345" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "1162"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001002> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000103" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001002> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

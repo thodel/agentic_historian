@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per004354>
+        a                    pers:person ;
+        rdfs:label           "Rudolf von Montfort-Feldkirch"@deu ;
+        pers:deaths          [ pers:death         "13.03.1375" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1375-03-13" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000415> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1318" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1318" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2017-10-26 17:08:36.633645" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename   "Rudolf" ;
+                               pers:gennames   [ pers:genname    "IV." ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004354a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000013> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Ruͦdolff" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000013.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004354a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000013> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "http://daten.digitale-sammlungen.de/~db/0001/bsb00016336/images/index.html?id=00016336&groesser=&fip=eayaxsqrseayayztsxdsydsdasxdsydeayaeayaen&no=2&seite=68"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Die Lebensdaten beruhen auf Burmeister 1996, S. 308." ;
+        pers:sex             "1" .

@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per002843>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Märkli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1744" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1744" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:last_mention  "1745" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000221.06> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002843a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Kaspar" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002843a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "313" ;
+                                                                         pers:line     "2" ;
+                                                                         pers:page     "1069"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "310" ;
+                                                                         pers:line     "33" ;
+                                                                         pers:page     "1064"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000221> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1744, 1745" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1745" ] ;
+                                         pers:format_date  [ pers:when  "1744" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1744, 1745" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1744" ] ;
+                                         pers:format_date  [ pers:when  "1745" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000221> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000026> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002849> ;
+                               pers:occurence  "SG III/2"
+                             ] .

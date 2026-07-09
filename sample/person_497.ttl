@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per000585>
+        a                pers:person ;
+        rdfs:label       "Rudolf Hofmeister"@deu ;
+        pers:births      [ pers:birth         "um 1375" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1385" ;
+                                                                    pers:notBefore  "1365" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "1451" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1451" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2021-02-18 15:11:53.002629" ;
+                           pers:username  "sabine"
+                         ] ;
+        pers:name        [ pers:forename   "Rudolf" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per000585a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                              pers:line     "19" ;
+                                                              pers:page     "95"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000279> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000028" ;
+                           pers:occurence    "sabine"
+                         ] ;
+        pers:occupation  [ pers:date          "1428" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                           pers:occurence     "SG III/2" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:occupation  [ pers:date         "1419, 1435, 1439" ;
+                           pers:description  "key000028" ;
+                           pers:occurence    "sabine" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004002>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000279> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "18842" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

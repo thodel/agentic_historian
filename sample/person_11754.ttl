@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per012654>
+        a                pers:person ;
+        rdfs:label       "Leo Jud"@deu ;
+        pers:births      [ pers:birth      "1482" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "19.06.1542" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2019-11-28 10:50:05.239828" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Leo" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012654a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001505> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1523-1542" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc010769> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1519-1523" ;
+                           pers:description  "key000301" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000085> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001505> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118558528" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "12013" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

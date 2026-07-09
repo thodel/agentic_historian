@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per010076>
+        a                    pers:person ;
+        rdfs:label           "Hans Schmidt"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1505" ;
+                               pers:occurence      "FR I/2/8"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-18 07:20:54.760800" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1508" ;
+                               pers:occurence     "FR I/2/8"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010076a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "FR I/2/8" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003461> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1505-1508" ;
+                               pers:description  "key004837" ;
+                               pers:occurence    "FR I/2/8" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003461> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "1" .

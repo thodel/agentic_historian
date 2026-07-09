@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per002461>
+        a                    pers:person ;
+        rdfs:label           "Matthäus Gabathuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1698" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1698" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-06 13:54:55.731529" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Matthäus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002461a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "236" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "872"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000167> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Debes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000167.08> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002461a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000167> ;
+        pers:ownerOf         [ pers:location       <http://ssrq-sds-fds.ch/Register/#loc001037> ;
+                               pers:occurence      "SG III/2" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org001205>
+                             ] ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Pascale Sutter: Debes = Matthäus (Idiotikon: Tebes N. 12,105)." ;
+        pers:sex             "1" .

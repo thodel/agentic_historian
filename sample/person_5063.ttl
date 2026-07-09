@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per005634>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Barth"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1488" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1488" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-05 19:19:20.164591" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "Brude" ;
+                                                 pers:occurence  "SG III/3"
+                                               ] ;
+                               pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005634a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001513> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:addnames    [ pers:addname    "Bruͦde" ;
+                                                  pers:occurence  "SG III/3"
+                                                ] ;
+                               pers:forename    "Uͦlrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "68" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "240"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001513.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005634a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1488" ;
+                               pers:description   "key003403" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006379> ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001513> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

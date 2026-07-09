@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002979>
+        a                    pers:person ;
+        rdfs:label           "Gabriel Herbert"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1767" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1767" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Gabriel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002979a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "343a" ;
+                                                                  pers:line     "45" ;
+                                                                  pers:page     "1149"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001113> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003676" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001113> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

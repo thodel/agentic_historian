@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per000450>
+        a                    pers:person ;
+        rdfs:label           "NN Mathis"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1461" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1461" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000222.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per000450a.01>
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "Lang Mathis" ;
+                                                        pers:occurence  "SG III/2"
+                                                      ] ;
+                               pers:forename          "NN" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per000450a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "35b" ;
+                                                                         pers:line     "1" ;
+                                                                         pers:page     "67"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000222> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000222> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000451> ;
+                               pers:occurence  "SG III/2"
+                             ] .

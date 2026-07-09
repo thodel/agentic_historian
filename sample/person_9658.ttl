@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per010421>
+        a                    pers:person ;
+        rdfs:label           "Jacques Ribaux"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1643" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-28 18:18:21.495211" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010421a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003868> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Jaques" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003868.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010421a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003868> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007814> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

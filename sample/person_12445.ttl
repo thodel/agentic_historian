@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per013402>
+        a              pers:person ;
+        rdfs:label     "Elisabeth von Schauenstein"@deu ;
+        pers:births    [ pers:birth      "1387" ;
+                         pers:occurence  "pascale"
+                       ] ;
+        pers:hist      [ pers:date      "2020-02-07 11:19:56.725815" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:name      [ pers:forename          "Elisabeth" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per013402a> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "s" ;
+                                                  pers:occurence       "pascale"
+                                                ] ;
+                         pers:occurence         "pascale" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000078> ;
+                         pers:type              "std"
+                       ] ;
+        pers:name      [ pers:forename          "Elisabeth" ;
+                         pers:id                <http://ssrq-sds-fds.ch/Register/#per013402b> ;
+                         pers:lang              "deu" ;
+                         pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                  pers:occurence       "pascale"
+                                                ] ;
+                         pers:occurence         "pascale" ;
+                         pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000866> ;
+                         pers:type              "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org000078> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "2" ;
+        pers:spouseOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013403> ;
+                         pers:occurence  "pascale"
+                       ] .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per001031>
+        a                    pers:person ;
+        rdfs:label           "Hans Vener"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1423" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1423" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1429" ] ] ;
+                               pers:last_mention  "1429" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001031a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "91" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "312"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000556> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000556.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001031a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1423, 1429" ;
+                               pers:description   "key000410" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1429" ] ;
+                                         pers:format_date  [ pers:when  "1423" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002968>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000556> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000051> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per026121>
+        a                pers:person ;
+        rdfs:label       "Hans Kaspar Schweizer"@deu ;
+        pers:births      [ pers:birth      "06.04.1646" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "23.09.1705" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-24 07:43:48.699263" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Hans Kaspar" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per026121a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005474> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Hanß Caspar" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005474.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026121a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1684-" ;
+                           pers:description  "key004942" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org005023>
+                         ] ;
+        pers:occupation  [ pers:date         "1684-" ;
+                           pers:description  "key000170" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc007562> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005474> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "010843" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "120311119" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

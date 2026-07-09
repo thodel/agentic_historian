@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per004060>
+        a                pers:person ;
+        rdfs:label       "Walter Imhof"@deu ;
+        pers:deaths      [ pers:death         "1515" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1515" ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-09-03 12:25:34.502538" ;
+                           pers:username  "andreas"
+                         ] ;
+        pers:name        [ pers:forename    "Walther" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "82" ;
+                                                               pers:line     "23" ;
+                                                               pers:page     "306"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000365.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004060a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Walter" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per004060a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "LU II/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000365> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003718" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                           pers:occurence    "LU II/3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000365> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "15541" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000796> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

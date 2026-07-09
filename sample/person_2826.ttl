@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per003274>
+        a                    pers:person ;
+        rdfs:label           "Gilg Spilmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1381" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 15:46:08.873183" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Gilg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "4" ;
+                                                                   pers:line     "1" ;
+                                                                   pers:page     "11"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001297.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003274a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Gilg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003274a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001297> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1381" ;
+                               pers:description   "key000181" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1381" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000157> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001297> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "VI, S. 471" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

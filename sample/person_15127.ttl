@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per016205>
+        a                    pers:person ;
+        rdfs:label           "Rudolf Rynach"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1367" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-28 01:39:08.091842" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Rudolf" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per016205a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org006479> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000275" ;
+                               pers:occurence    "mina"
+                             ] ;
+        pers:occupation      [ pers:description  "key000051" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org000056>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org006479> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001482> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

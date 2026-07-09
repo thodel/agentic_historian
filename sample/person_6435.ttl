@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per007066>
+        a                    pers:person ;
+        rdfs:label           "Gallus Seitz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1617" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1617" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-11-06 14:08:57.677831" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename    "Galli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "175b" ;
+                                                                   pers:line     "30" ;
+                                                                   pers:page     "787"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002165.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007066a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Gallus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007066a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002165> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1617" ;
+                               pers:description   "key004963" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:occupation      [ pers:date          "1617" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1617" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002949>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002165> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Werner Kuster: Ort aufgrund der Abgesandten in vorangehender Quelle und Name; möglicherweise identisch mit per005387" ;
+        pers:sex             "1" .

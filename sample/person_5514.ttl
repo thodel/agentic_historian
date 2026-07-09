@@ -1,0 +1,74 @@
+<http://ssrq-sds-fds.ch/Register/#per006097>
+        a                    pers:person ;
+        rdfs:label           "Hans Vogler"@deu ;
+        pers:deaths          [ pers:death         "1567" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1567" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "21.10.1498" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1498-10-21" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-02-06 08:47:16.524106" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per006097a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/3"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "110" ;
+                                                                         pers:line     "13" ;
+                                                                         pers:page     "416"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "113a" ;
+                                                                         pers:line     "27" ;
+                                                                         pers:page     "426"
+                                                                       ] ;
+                                                        pers:vol       "SG III/3"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001005> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key004906" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc006924> ;
+                               pers:occurence    "ssrq-zh"
+                             ] ;
+        pers:occupation      [ pers:date          "1533" ;
+                               pers:description   "key004771" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1533" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:description  "key004115" ;
+                               pers:occurence    "SG III/3"
+                             ] ;
+        pers:occupation      [ pers:date          "1525, 1528, 1530, 1531" ;
+                               pers:description   "key000256" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1525" ] ;
+                                         pers:format_date  [ pers:when  "1530" ] ;
+                                         pers:format_date  [ pers:when  "1531" ] ;
+                                         pers:format_date  [ pers:when  "1528" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:occupation      [ pers:date          "1525, 1528, 1530, 1531" ;
+                               pers:description   "key000256" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1530" ] ;
+                                         pers:format_date  [ pers:when  "1528" ] ;
+                                         pers:format_date  [ pers:when  "1525" ] ;
+                                         pers:format_date  [ pers:when  "1531" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002027>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001005> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "25305" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006135> ;
+                               pers:occurence  "SG III/3"
+                             ] .

@@ -1,0 +1,77 @@
+<http://ssrq-sds-fds.ch/Register/#per000342>
+        a                pers:person ;
+        rdfs:label       "Leopold von Habsburg-Österreich"@deu ;
+        pers:births      [ pers:birth         "1290" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1290" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "28.02.1326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1326-02-28" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:employerOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028213> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:employerOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per028535> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013094> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:hist        [ pers:date      "2021-03-16 14:32:16.996792" ;
+                           pers:username  "mina"
+                         ] ;
+        pers:name        [ pers:forename          "Leopold" ;
+                           pers:gennames          [ pers:genname    "I." ;
+                                                    pers:occurence  "SG III/2"
+                                                  ] ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per000342a> ;
+                           pers:lang              "deu" ;
+                           pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                    pers:occurence       "SG III/2"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "59" ;
+                                                                     pers:line     "45" ;
+                                                                     pers:page     "164"
+                                                                   ] ;
+                                                    pers:vol       "LU II/3"
+                                                  ] ;
+                           pers:occurence         [ pers:articles  [ pers:article  "20" ;
+                                                                     pers:line     "15" ;
+                                                                     pers:page     "36"
+                                                                   ] ;
+                                                    pers:vol       "SG III/2"
+                                                  ] ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:rolenames         [ pers:occurence  "SG III/2" ;
+                                                    pers:rolename   "Herzog/duc"
+                                                  ] ;
+                           pers:type              "std"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29217" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "132963892" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007267> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per006964> ;
+                           pers:occurence  "mina"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000347> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007258> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:siblingOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per007252> ;
+                           pers:occurence  "sabine"
+                         ] ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000343> ;
+                           pers:occurence  "SG III/2"
+                         ] .

@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per010410>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Lingg"@deu ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010013> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:employeeOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010407> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1435" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2018-11-26 17:06:30.560617" ;
+                               pers:username  "stadtasg"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010410a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "stadtasg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001825> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "stadtasg" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001825.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010410a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1435" ;
+                               pers:description  "key000988" ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001825> ;
+        pers:project         "StadtASG" ;
+        pers:sex             "1" .

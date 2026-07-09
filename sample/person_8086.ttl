@@ -1,0 +1,31 @@
+<http://ssrq-sds-fds.ch/Register/#per008791>
+        a                    pers:person ;
+        rdfs:label           "Abraham de Meuron"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1763" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1763" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-03-25 10:54:49.549904" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "NE 3" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003092>
+                             ] ;
+        pers:name            [ pers:forename   "Abraham" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008791a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003109> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Abram" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003109.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008791a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003109> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

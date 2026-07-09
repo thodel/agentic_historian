@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per003734>
+        a               pers:person ;
+        rdfs:label      "Diebold Schilling"@deu ;
+        pers:births     [ pers:birth         "1430" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1430" ] ] ;
+                          pers:occurence     "HLS"
+                        ] ;
+        pers:deaths     [ pers:death         "1486" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1486" ] ] ;
+                          pers:occurence     "LU II/3"
+                        ] ;
+        pers:hist       [ pers:date      "2018-06-14 10:19:52.909307" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "der Ältere" ;
+                                            pers:occurence  "LU II/3"
+                                          ] ;
+                          pers:forename   "Diebold" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per003734a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  [ pers:articles  [ pers:article  "43b" ;
+                                                             pers:line     "16" ;
+                                                             pers:page     "120"
+                                                           ] ;
+                                            pers:articles  [ pers:article  "53" ;
+                                                             pers:line     "24" ;
+                                                             pers:page     "152"
+                                                           ] ;
+                                            pers:vol       "LU II/3"
+                                          ] ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001497> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001497> ;
+        pers:project    "SSRQ" ;
+        pers:refs       [ pers:id    "14761" ;
+                          pers:type  "HLS"
+                        ] ;
+        pers:refs       [ pers:id    "118755005" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003817> ;
+                          pers:occurence  "LU II/3"
+                        ] .

@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per012888>
+        a                pers:person ;
+        rdfs:label       "Pierre Franciget"@fra ;
+        pers:births      [ pers:birth      "ca. 1458" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "av. 1502" ;
+                           pers:occurence  "gortega"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-30 13:22:01.708379" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Petrus" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "gortega" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005265.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012888a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Pierre" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012888a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "gortega" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005265> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename   "Petrus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per012888a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  "gortega" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005265> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "26.10.1498" ;
+                           pers:description  "key005588" ;
+                           pers:occurence    "gortega"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005265> ;
+        pers:project     "SSRQ" ;
+        pers:prosecutionWitnessAtTheTrialOf
+                [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012756> ;
+                  pers:occurence  "gortega"
+                ] ;
+        pers:refs        [ pers:title  "Pfister 1997, p. 293" ;
+                           pers:type   "biblio"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010909> ;
+                           pers:occurence  "gortega"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,34 @@
+<http://ssrq-sds-fds.ch/Register/#per014454>
+        a                    pers:person ;
+        rdfs:label           "Eberhard Last"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1404" ;
+                               pers:occurence      "fahe"
+                             ] ;
+        pers:hist            [ pers:date      "2020-11-11 18:29:58.512889" ;
+                               pers:username  "mina"
+                             ] ;
+        pers:name            [ pers:forename          "Eberhard" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per014454a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "fahe"
+                                                      ] ;
+                               pers:occurence         "fahe" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org005900> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000562" ;
+                               pers:occurence    "fahe" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002902>
+                             ] ;
+        pers:occupation      [ pers:date         "1404" ;
+                               pers:description  "key000254" ;
+                               pers:occurence    "mina" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002902>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org005900> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000008> ;
+                               pers:occurence  "fahe"
+                             ] ;
+        pers:sex             "1" .

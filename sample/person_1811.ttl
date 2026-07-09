@@ -1,0 +1,78 @@
+<http://ssrq-sds-fds.ch/Register/#per002215>
+        a                    pers:person ;
+        rdfs:label           "Johann Jakob Oberli"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002438> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002437> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1647" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1647" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-09 08:00:58.179589" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:last_mention  "1657" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000942.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002215a.01>
+                             ] ;
+        pers:name            [ pers:forename          "Johann Jakob" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per002215a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "SG III/2"
+                                                      ] ;
+                               pers:occurence         [ pers:articles  [ pers:article  "233" ;
+                                                                         pers:line     "14" ;
+                                                                         pers:page     "863"
+                                                                       ] ;
+                                                        pers:articles  [ pers:article  "247a" ;
+                                                                         pers:line     "11" ;
+                                                                         pers:page     "903"
+                                                                       ] ;
+                                                        pers:vol       "SG III/2"
+                                                      ] ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org000942> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1651" ;
+                               pers:description  "key000209" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003419>
+                             ] ;
+        pers:occupation      [ pers:date         "1651" ;
+                               pers:description  "key000696" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:date          "1657" ;
+                               pers:description   "key000696" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1657" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1647" ;
+                               pers:description   "key000636" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1647" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001206>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000942> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per002439> ;
+                               pers:occurence  "SG III/2"
+                             ] .

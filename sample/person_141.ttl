@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per000137>
+        a                    pers:person ;
+        rdfs:label           "Johannes von Vilters"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1299" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1299" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Johannes" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000137a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "8" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "11"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000093> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000062" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000063" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000093> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000078> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

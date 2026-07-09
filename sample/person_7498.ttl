@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per008179>
+        a                    pers:person ;
+        rdfs:label           "NN Zurburg"@deu ;
+        pers:deaths          [ pers:death         "vor 26.02.1764" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1764-02-26" ;
+                                                                        pers:notBefore  "1714-02-26" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1764" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1764" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-06 11:21:14.344059" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008179a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002329> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "289" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "1259"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002329.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008179a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "vor 26.02.1764" ;
+                               pers:description   "key003926" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1764-02-26" ;
+                                                                        pers:notBefore  "1714-02-26" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002950>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002329> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

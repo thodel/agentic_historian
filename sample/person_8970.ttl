@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per009712>
+        a                pers:person ;
+        rdfs:label       "Cristan Born"@deu ;
+        pers:deaths      [ pers:death         "1517" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1517" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-26 08:04:04.389097" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Cristan" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009712a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003602> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Cristan" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003602.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009712a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key005165" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003602> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "1" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009718> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

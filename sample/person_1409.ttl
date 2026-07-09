@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per001811>
+        a                    pers:person ;
+        rdfs:label           "Hans Bantli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1528" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1528" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001811a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "141" ;
+                                                                  pers:line     "3" ;
+                                                                  pers:page     "487"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000127> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000127.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001811a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000127> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

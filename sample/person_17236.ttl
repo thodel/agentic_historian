@@ -1,0 +1,56 @@
+<http://ssrq-sds-fds.ch/Register/#per018398>
+        a                pers:person ;
+        rdfs:label       "Jakob Schänni"@deu ;
+        pers:births      [ pers:birth      "1600" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:deaths      [ pers:death      "1669" ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:employeeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per018240> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:employeeOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#org006840> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-04 13:52:27.076366" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005625.06> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018398a.01>
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "GR B III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005625.07> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018398a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per018398a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "GR B III/2" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005625> ;
+                           pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                             pers:rolename   "Hauptmann/capitaine"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1652" ;
+                           pers:description  "key005702" ;
+                           pers:occurence    "GR B III/2" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006296>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005625> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:type  "other" ;
+                           pers:url   "https://hls-dhs-dss.ch/de/articles/049398/2012-10-17/"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009720> ;
+                           pers:occurence  "GR B III/2"
+                         ] ;
+        pers:sex         "1" .

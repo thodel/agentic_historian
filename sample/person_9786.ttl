@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per010559>
+        a                    pers:person ;
+        rdfs:label           "Hans Varnbüler"@deu ;
+        pers:deaths          [ pers:death      "1495/1496" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per004704> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1436" ;
+                               pers:occurence      "stadtasg"
+                             ] ;
+        pers:hist            [ pers:date      "2019-12-16 07:34:48.219092" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename          "Hans" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per010559a> ;
+                               pers:lang              "deu" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "stadtasg"
+                                                      ] ;
+                               pers:occurence         "stadtasg" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001893> ;
+                               pers:type              "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1436" ;
+                               pers:description  "key003647" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence    "stadtasg"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001893> ;
+        pers:project         "StadtASG" ;
+        pers:refs            [ pers:page   "S. 480" ;
+                               pers:title  "Sonderegger 1994" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000090692"
+                             ] ;
+        pers:refs            [ pers:id    "21784" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000082> ;
+                               pers:occurence  "stadtasg"
+                             ] ;
+        pers:sex             "1" .

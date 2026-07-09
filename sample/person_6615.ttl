@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per007264>
+        a                   pers:person ;
+        rdfs:label          "Dorothea Jäger"@deu ;
+        pers:hist           [ pers:date      "2020-07-10 23:34:31.775896" ;
+                              pers:username  "sabine"
+                            ] ;
+        pers:name           [ pers:forename          "Dorothea" ;
+                              pers:id                <http://ssrq-sds-fds.ch/Register/#per007264a> ;
+                              pers:lang              "deu" ;
+                              pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                       pers:occurence       "lukas"
+                                                     ] ;
+                              pers:occurence         "lukas" ;
+                              pers:org_id            <http://ssrq-sds-fds.ch/Register/#org001033> ;
+                              pers:type              "std"
+                            ] ;
+        pers:name           [ pers:forename    "Dorothea" ;
+                              pers:lang        "deu" ;
+                              pers:occurence   "sabine" ;
+                              pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001033.05> ;
+                              pers:type        "orig" ;
+                              pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007264a.01>
+                            ] ;
+        pers:occupation     [ pers:date         "Eintritt vor 1508, Austritt 1527" ;
+                              pers:description  "key004102" ;
+                              pers:occurence    "sabine" ;
+                              pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002627>
+                            ] ;
+        pers:org_id         <http://ssrq-sds-fds.ch/Register/#org001033> ;
+        pers:project        "Königsfelden" ;
+        pers:refs           [ pers:title  "Teuscher, Simon. Königsfelden : Königsmord, Kloster, Klinik. Baden: Hier Jetzt, Verlag für Kultur und Geschichte, 2012, S. 261." ;
+                              pers:type   "biblio"
+                            ] ;
+        pers:sex            "2" ;
+        pers:siblingOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013625> ;
+                              pers:occurence  "pascale"
+                            ] ;
+        pers:sisterInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013680> ;
+                              pers:occurence  "sabine"
+                            ] .

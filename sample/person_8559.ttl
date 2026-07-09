@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per009295>
+        a                pers:person ;
+        rdfs:label       "Anton Odet"@deu ;
+        pers:births      [ pers:birth         "1591" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1591" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:deaths      [ pers:death         "1648" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1648" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:fatherOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per027531> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-11-16 08:33:03.606309" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename   "Anton" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009295a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FR I/2/8" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003442> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1619-1648" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "FR I/2/8" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003442> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "V, p. 179" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "FR I/2/8"
+                         ] ;
+        pers:sex         "1" .

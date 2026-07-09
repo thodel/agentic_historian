@@ -1,0 +1,65 @@
+<http://ssrq-sds-fds.ch/Register/#per002328>
+        a                    pers:person ;
+        rdfs:label           "Hans Jörg Grebel"@deu ;
+        pers:deaths          [ pers:death         "12.12.1630" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1630-12-12" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1555" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1555" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2018-03-15 08:48:16.410511" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000987.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002328a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002328a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "208a" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "780"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000987> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns Geörg" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000987.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002328a.02>
+                             ] ;
+        pers:occupation      [ pers:description  "key000181" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000540" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1595" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1595" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:occupation      [ pers:description  "key000326" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000987> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "18148" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008688>
+        a                    pers:person ;
+        rdfs:label           "Abraham François Jeanneret"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1752" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1752" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-17 12:19:27.994507" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Abraham François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008688a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003162> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1752" ;
+                               pers:description   "key000605" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1752" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007794> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003162> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1752" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1752" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007794> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

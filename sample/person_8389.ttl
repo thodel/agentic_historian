@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009118>
+        a                    pers:person ;
+        rdfs:label           "Hans Büeler"@deu ;
+        pers:deaths          [ pers:death         "1641" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1641" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1638" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1638" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 07:32:52.696442" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000932.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009118a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009118a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000932> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1638–1641" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1638" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000932> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Hans Büeler ist bis zu seinem Tod 1641 Landschreiber in Werdenberg." ;
+        pers:sex             "1" .

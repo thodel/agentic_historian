@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per005120>
+        a                    pers:person ;
+        rdfs:label           "Friedrich von Toggenburg"@deu ;
+        pers:deaths          [ pers:death         "1364" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1364" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per013547> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000328> ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1315" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1315" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-10-25 11:09:00.446057" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Friedrich" ;
+                               pers:gennames   [ pers:genname    "V." ;
+                                                 pers:occurence  "SG III/4"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005120a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000144> ;
+                               pers:rolenames  [ pers:occurence  "SG III/4" ;
+                                                 pers:rolename   "Graf/comte"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000144> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per023215> ;
+                               pers:occurence  "GR B III/2"
+                             ] .

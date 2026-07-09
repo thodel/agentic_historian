@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per020394>
+        a                    pers:person ;
+        rdfs:label           "Jean Jacques de Castion"@fra , "Johann Jakob von Castion"@deu ;
+        pers:deaths          [ pers:death      "06.03.1553" ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1536" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-26 07:21:49.443448" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020394a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007577> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Jean Jacques" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per020394a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "pascale" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007577> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007577.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020394a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000209" ;
+                               pers:occurence    "GR B III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007577> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "016804" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006707> ;
+                               pers:occurence  "GR B III/2"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020395> ;
+                               pers:occurence  "pascale"
+                             ] .

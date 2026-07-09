@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per019031>
+        a               pers:person ;
+        rdfs:label      "Johann von Habsburg-Laufenburg"@deu ;
+        pers:births     [ pers:birth      "um 1297" ;
+                          pers:occurence  "pascale"
+                        ] ;
+        pers:deaths     [ pers:death      "21.09.1337" ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015213> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:fatherOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per015214> ;
+                          pers:occurence  "sabine"
+                        ] ;
+        pers:hist       [ pers:date      "2020-10-15 09:48:22.328464" ;
+                          pers:username  "sabine"
+                        ] ;
+        pers:name       [ pers:addnames   [ pers:addname    "Hans" ;
+                                            pers:occurence  "sabine"
+                                          ] ;
+                          pers:forename   "Johann" ;
+                          pers:gennames   [ pers:genname    "I." ;
+                                            pers:occurence  "sabine"
+                                          ] ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per019031a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "sabine" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001440> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001440> ;
+        pers:project    "Königsfelden" ;
+        pers:refs       [ pers:id    "137459610" ;
+                          pers:type  "GND"
+                        ] ;
+        pers:refs       [ pers:page   "IV, S. 39" ;
+                          pers:title  "HBLS" ;
+                          pers:type   "biblio" ;
+                          pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                        ] ;
+        pers:sex        "1" ;
+        pers:siblingOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012694> ;
+                          pers:occurence  "sabine"
+                        ] .

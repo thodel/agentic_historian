@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per013435>
+        a                pers:person ;
+        rdfs:label       "Ludwig von Diesbach"@deu ;
+        pers:births      [ pers:birth      "28.10.1484" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "23.11.1539" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-21 13:09:42.591143" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Ludwig" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013435a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003437> ;
+                           pers:rolenames  [ pers:occurence  "ssrq-zh" ;
+                                             pers:rolename   "Junker/donzel"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Ludwig" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003437.05> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013435a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "um 1534" ;
+                           pers:description  "key004906" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc006924> ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:occupation  [ pers:date         "1521-1522" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002094>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003437> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "023467" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:refs        [ pers:id    "1052685994" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

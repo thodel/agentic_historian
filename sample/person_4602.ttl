@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per005139>
+        a                    pers:person ;
+        rdfs:label           "Kaspar Schlik"@deu ;
+        pers:births          [ pers:birth      "ca. 1396" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:deaths          [ pers:death      "1449" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1434" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2020-12-07 16:33:12.830726" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005139a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002040> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "24a" ;
+                                                                   pers:line     "32" ;
+                                                                   pers:page     "63"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002040.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005139a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1434" ;
+                               pers:description   "key000825" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1434" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002040> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "118795139" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://de.wikipedia.org/wiki/Kaspar_Schlick"
+                             ] ;
+        pers:sex             "1" .

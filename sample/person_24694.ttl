@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per026054>
+        a                    pers:person ;
+        rdfs:label           "Claude des Vernets"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1525" ;
+                               pers:occurence      "gortega"
+                             ] ;
+        pers:hist            [ pers:date      "2020-09-22 14:14:39.700201" ;
+                               pers:username  "gortega"
+                             ] ;
+        pers:memberOf        [ pers:occurence      "gortega" ;
+                               pers:property_type  <http://ssrq-sds-fds.ch/Register/#org004297>
+                             ] ;
+        pers:name            [ pers:forename          "Claude" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per026054a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "p" ;
+                                                        pers:occurence       "gortega"
+                                                      ] ;
+                               pers:occurence         "gortega" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org008234> ;
+                               pers:type              "std"
+                             ] ;
+        pers:name            [ pers:forename    "Claude" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "gortega" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org008234.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per026054a.01>
+                             ] ;
+        pers:occupation      [ pers:date         "1525" ;
+                               pers:description  "key000301" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010904> ;
+                               pers:occurence    "gortega"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org008234> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:title  "Dorthe dans Ostorero et al. 2007, p. 270" ;
+                               pers:type   "biblio"
+                             ] ;
+        pers:remark          "Dorthe dans Ostorero et al. 2007, p. 27" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010904> ;
+                               pers:occurence  "gortega"
+                             ] ;
+        pers:sex             "1" .

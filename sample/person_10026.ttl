@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per010803>
+        a                    pers:person ;
+        rdfs:label           "Burkhard Zogg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1733" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2019-02-15 11:41:00.030519" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Burkhardt" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000992.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010803a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Burkhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010803a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000992> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1733" ;
+                               pers:description  "key000408" ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000992> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Sibylle Malamud: Zuständig für das Sechstel Studen zur Einhaltung der Feuerordnung." ;
+        pers:residence       [ pers:date       "1733" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc001412> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

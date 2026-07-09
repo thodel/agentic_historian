@@ -1,0 +1,79 @@
+<http://ssrq-sds-fds.ch/Register/#per005642>
+        a                pers:person ;
+        rdfs:label       "Werner von Meggen"@deu ;
+        pers:births      [ pers:birth         "um 1430/40" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1440" ;
+                                                                    pers:notBefore  "1430" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:deaths      [ pers:death         "22.08.1497" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1497-08-22" ] ] ;
+                           pers:occurence     "SG III/3"
+                         ] ;
+        pers:hist        [ pers:date      "2020-02-12 14:46:14.751037" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Wernnher" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001483.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005642a.03>
+                         ] ;
+        pers:name        [ pers:forename    "Wernher" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "70" ;
+                                                               pers:line     "38" ;
+                                                               pers:page     "247"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001483.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005642a.02>
+                         ] ;
+        pers:name        [ pers:forename    "Wernherr" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "70" ;
+                                                               pers:line     "15" ;
+                                                               pers:page     "244"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001483.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005642a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Werner" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per005642a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "SG III/3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001483> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1487-1489" ;
+                           pers:description   "key000636" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1487" ] ] ;
+                           pers:occurence     "ssrq-zh" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                         ] ;
+        pers:occupation  [ pers:date          "1490" ;
+                           pers:description   "key000181" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:occupation  [ pers:date          "1490" ;
+                           pers:description   "key000209" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1490" ] ] ;
+                           pers:occurence     "SG III/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001195>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001483> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14243" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

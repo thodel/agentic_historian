@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per010973>
+        a                    pers:person ;
+        rdfs:label           "Johann Christoph Tschudi"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1782" ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-07-02 13:49:33.802886" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1786" ;
+                               pers:occurence     "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Joh Christoph" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000033.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010973a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann Christoph" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010973a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000033> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1782" ;
+                               pers:description  "key000181" ;
+                               pers:occurence    "SG III/4" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org001211>
+                             ] ;
+        pers:occupation      [ pers:date         "13.06.1782–13.06.1786" ;
+                               pers:description  "key003493" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence    "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000033> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date       "1782" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc000326> ;
+                               pers:occurence  "SG III/4"
+                             ] ;
+        pers:sex             "1" .

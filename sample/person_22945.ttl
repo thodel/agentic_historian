@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per024268>
+        a                pers:person ;
+        rdfs:label       "Johannes Manz"@deu ;
+        pers:births      [ pers:birth      "vor 1460" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "25.10.1518" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-08-25 07:53:06.001999" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Joannes" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000178.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per024268a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Johannes" ;
+                           pers:gennames   [ pers:genname    "II." ;
+                                             pers:occurence  "ssrq-zh"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per024268a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000178> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1494-1518" ;
+                           pers:description  "key003448" ;
+                           pers:occurence    "ssrq-zh" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000178> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "1089168861" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "012779" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

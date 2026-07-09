@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per028169>
+        a                pers:person ;
+        rdfs:label       "Franz Prosper Gottrau"@deu ;
+        pers:births      [ pers:birth      "1694" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:deaths      [ pers:death      "14.02.1743" ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:hist        [ pers:date      "2020-12-16 11:47:32.446074" ;
+                           pers:username  "rita"
+                         ] ;
+        pers:name        [ pers:forename    "Prosper" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "rita" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002579.14> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028169a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Franz Prosper" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per028169a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "rita" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002579> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date         "1717-1743" ;
+                           pers:description  "key000181" ;
+                           pers:occurence    "rita" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org002637>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org002579> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III, p. 503" ;
+                           pers:title  "DHBS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000144836"
+                         ] ;
+        pers:remark      "Gehört zur Linie Gottrau de Granges." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001060> ;
+                           pers:occurence  "rita"
+                         ] ;
+        pers:sex         "1" .

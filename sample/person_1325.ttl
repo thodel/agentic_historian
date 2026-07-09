@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per001731>
+        a                    pers:person ;
+        rdfs:label           "Hans Gantner"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1482" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1482" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1518" ] ] ;
+                               pers:last_mention  "1518" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001731a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "168" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "609"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "130" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "432"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000768> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanns" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000768.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001731a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1482" ;
+                               pers:description   "key000226" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1482" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001171>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000768> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000034> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

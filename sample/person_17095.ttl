@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per018254>
+        a                    pers:person ;
+        rdfs:label           "Benedikt von Castelberg"@deu ;
+        pers:citizenOf       [ pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007082>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1616" ;
+                               pers:occurence      "GR B III/2"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-26 17:13:59.764063" ;
+                               pers:username  "GR B III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Benedikt" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per018254a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "GR B III/2" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001102> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Benedict" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "GR B III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001102.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per018254a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001102> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

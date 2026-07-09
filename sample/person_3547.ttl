@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per004020>
+        a                    pers:person ;
+        rdfs:label           "Johann Christian Krummenacher"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1779" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1779" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-01 15:52:43.413106" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Johann Christian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004020a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "73" ;
+                                                                  pers:line     "23" ;
+                                                                  pers:page     "219"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001369> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001369> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001538> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

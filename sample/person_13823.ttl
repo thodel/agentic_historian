@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per014848>
+        a             pers:person ;
+        rdfs:label    "Johann Joseph Wilczek"@deu ;
+        pers:births   [ pers:birth      "1738" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:deaths   [ pers:death      "1819" ;
+                        pers:occurence  "GR B III/2"
+                      ] ;
+        pers:hist     [ pers:date      "2020-03-25 16:05:07.214308" ;
+                        pers:username  "GR B III/2"
+                      ] ;
+        pers:name     [ pers:forename    "NN" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "GR B III/2" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006041.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per014848a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Johann Joseph" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per014848a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "GR B III/2" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006041> ;
+                        pers:rolenames  [ pers:occurence  "GR B III/2" ;
+                                          pers:rolename   "Graf/comte"
+                                        ] ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org006041> ;
+        pers:project  "SSRQ" ;
+        pers:refs     [ pers:id    "130179884" ;
+                        pers:type  "GND"
+                      ] ;
+        pers:sex      "1" .

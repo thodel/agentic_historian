@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per009999>
+        a              pers:person ;
+        rdfs:label     "Samuel de Marval"@fra ;
+        pers:births    [ pers:birth      "11.04.1643" ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:deaths    [ pers:death      "05.02.1733" ;
+                         pers:occurence  "NE 3"
+                       ] ;
+        pers:hist      [ pers:date      "2019-02-28 16:09:13.103223" ;
+                         pers:username  "pascale"
+                       ] ;
+        pers:memberOf  [ pers:occurence      "NE 3" ;
+                         pers:property_type  <http://ssrq-sds-fds.ch/Register/#org003085>
+                       ] ;
+        pers:name      [ pers:forename   "Samuel" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per009999a> ;
+                         pers:lang       "fra" ;
+                         pers:occurence  "NE 3" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003693> ;
+                         pers:rolenames  [ pers:occurence  "NE 3" ;
+                                           pers:rolename   "Hauptmann/capitaine"
+                                         ] ;
+                         pers:type       "std"
+                       ] ;
+        pers:name      [ pers:forename    "Samuel" ;
+                         pers:lang        "fra" ;
+                         pers:occurence   "pascale" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003693.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009999a.01>
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003693> ;
+        pers:project   "SSRQ" ;
+        pers:refs      [ pers:id    "15705" ;
+                         pers:type  "HLS"
+                       ] ;
+        pers:sex       "1" .

@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per002414>
+        a                    pers:person ;
+        rdfs:label           "Anton Loop"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1640" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1640" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002414a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "228" ;
+                                                                  pers:line     "41" ;
+                                                                  pers:page     "851"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000304> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Düni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000304.13> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002414a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000304> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

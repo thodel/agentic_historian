@@ -1,0 +1,41 @@
+<http://ssrq-sds-fds.ch/Register/#per009531>
+        a                pers:person ;
+        rdfs:label       "Urs Ruchti"@deu ;
+        pers:births      [ pers:birth         "1510" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1510" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "03.06.1583" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1583-06-03" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-07 15:47:51.328206" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename    "Urs" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003541.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009531a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Urs" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009531a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003541> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1561, 1562" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1561" ] ;
+                                     pers:format_date  [ pers:when  "1562" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002899>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003541> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "17495" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:sex         "1" .

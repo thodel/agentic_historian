@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per002772>
+        a                    pers:person ;
+        rdfs:label           "Justus Zink"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1724" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1724" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Justuß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000620.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002772a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Justus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002772a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "294" ;
+                                                                  pers:line     "35" ;
+                                                                  pers:page     "1029"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000620> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000515" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000620> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,48 @@
+<http://ssrq-sds-fds.ch/Register/#per011820>
+        a                pers:person ;
+        rdfs:label       "Henri de Bourbon"@fra , "Heinrich von Bourbon"@deu ;
+        pers:births      [ pers:birth      "13.12.1553" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:deaths      [ pers:death      "14.05.1610" ;
+                           pers:occurence  "NE 3"
+                         ] ;
+        pers:hist        [ pers:date      "2021-01-27 13:21:59.097627" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Heinrich" ;
+                           pers:gennames   [ pers:genname    "IV." ;
+                                             pers:occurence  "pascale"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011820a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003912> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:addnames   [ pers:addname    "de" ;
+                                             pers:occurence  "NE 3"
+                                           ] ;
+                           pers:forename   "Henri" ;
+                           pers:gennames   [ pers:genname    "IV" ;
+                                             pers:occurence  "NE 3"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011820a> ;
+                           pers:lang       "fra" ;
+                           pers:occurence  "NE 3" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003912> ;
+                           pers:rolenames  [ pers:occurence  "NE 3" ;
+                                             pers:rolename   "König/roi"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key000229" ;
+                           pers:location     <http://ssrq-sds-fds.ch/Register/#loc000281> ;
+                           pers:occurence    "NE 3"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003912> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118548174" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

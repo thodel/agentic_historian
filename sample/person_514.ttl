@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per000602>
+        a                    pers:person ;
+        rdfs:label           "Hans Edlibach"@deu ;
+        pers:deaths          [ pers:death         "11.11.1434" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1434-11-11" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1404" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1404" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "am Berg" ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000602a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "43" ;
+                                                                  pers:line     "26" ;
+                                                                  pers:page     "95"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000296> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1428" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1428" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000296> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "26690" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:sex             "1" .

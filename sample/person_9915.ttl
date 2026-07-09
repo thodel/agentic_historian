@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per010690>
+        a                    pers:person ;
+        rdfs:label           "Jean Marquis"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1559" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-03 16:20:53.896033" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Jehan" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003885.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010690a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Jean" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010690a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003885> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1559" ;
+                               pers:description  "key005272" ;
+                               pers:occurence    "NE 3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003885> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010691> ;
+                               pers:occurence  "pascale"
+                             ] .

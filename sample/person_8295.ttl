@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per009020>
+        a                    pers:person ;
+        rdfs:label           "Maurice Tribolet"@fra ;
+        pers:deaths          [ pers:death         "avant 1681" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1681" ;
+                                                                        pers:notBefore  "1671" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1650" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-13 18:44:38.516868" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1685" ] ] ;
+                               pers:last_mention  "1685" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename    "Maurice" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001024.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009020a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Maurice" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009020a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001024> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "avant 1683" ;
+                               pers:description   "key000540" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notAfter   "1683" ;
+                                                                        pers:notBefore  "1633" ;
+                                                                        pers:precision  "0.5"
+                                                                      ] ] ;
+                               pers:occurence     "NE 3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003085>
+                             ] ;
+        pers:occupation      [ pers:description  "key005005" ;
+                               pers:occurence    "NE 3" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org003119>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001024> ;
+        pers:project         "SSRQ" ;
+        pers:remark          "Adrien Wyssbrod : Maitre-Bourgeois ayant rédigé de nombreux points de coutume copié par la suite." ;
+        pers:sex             "1" .

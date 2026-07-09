@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per007825>
+        a                    pers:person ;
+        rdfs:label           "Hans Gredmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1729" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1729" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-08-22 10:15:25.870340" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per007825a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002884> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Meister/maître"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hanß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "253c" ;
+                                                                   pers:line     "2" ;
+                                                                   pers:page     "1133"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002884.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per007825a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1729" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1729" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002880>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002884> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

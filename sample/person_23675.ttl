@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per025009>
+        a               pers:person ;
+        rdfs:label      "Walter Schneider"@deu ;
+        pers:deaths     [ pers:death      "vor 1535" ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:hist       [ pers:date      "2020-09-01 16:15:11.268408" ;
+                          pers:username  "ssrq-zh"
+                        ] ;
+        pers:name       [ pers:forename    "Welty" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "ssrq-zh" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002228.06> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per025009a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Walter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per025009a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "ssrq-zh" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002228> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002228> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc009845> ;
+                          pers:occurence  "ssrq-zh"
+                        ] ;
+        pers:sex        "1" .

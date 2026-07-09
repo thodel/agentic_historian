@@ -1,0 +1,114 @@
+<http://ssrq-sds-fds.ch/Register/#per002585>
+        a                pers:person ;
+        rdfs:label       "Karl von Luxemburg"@deu ;
+        pers:births      [ pers:birth         "14.05.1316" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1316-05-14" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:deaths      [ pers:death         "29.11.1378" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1378-11-29" ] ] ;
+                           pers:occurence     "HLS"
+                         ] ;
+        pers:hist        [ pers:date      "2018-08-10 10:08:40.396608" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "Karolus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "48" ;
+                                                               pers:line     "35" ;
+                                                               pers:page     "151"
+                                                             ] ;
+                                              pers:vol       "SG III/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000203.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002585a.03>
+                         ] ;
+        pers:name        [ pers:forename   "Karl" ;
+                           pers:gennames   [ pers:genname    "IV." ;
+                                             pers:occurence  "SG III/2"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002585a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "248" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "906"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "1h" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "5"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "3" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "11"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "48" ;
+                                                              pers:line     "16" ;
+                                                              pers:page     "156"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000203> ;
+                           pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                             pers:rolename   "Kaiser/empereur"
+                                           ] ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carolus" ;
+                           pers:lang        "lat" ;
+                           pers:occurence   "unbekannt" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000203.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002585a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Carolus" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per002585a> ;
+                           pers:lang       "lat" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "48" ;
+                                                              pers:line     "16" ;
+                                                              pers:page     "156"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "3" ;
+                                                              pers:line     "27" ;
+                                                              pers:page     "11"
+                                                            ] ;
+                                             pers:articles  [ pers:article  "1h" ;
+                                                              pers:line     "33" ;
+                                                              pers:page     "5"
+                                                            ] ;
+                                             pers:vol       "SG III/3"
+                                           ] ;
+                           pers:occurence  [ pers:articles  [ pers:article  "248" ;
+                                                              pers:line     "37" ;
+                                                              pers:page     "906"
+                                                            ] ;
+                                             pers:vol       "SG III/2"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000203> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carolus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "SG III/2" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000203.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002585a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1355-1378" ;
+                           pers:description   "key000422" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1355" ;
+                                                                    pers:to    "1378"
+                                                                  ] ] ;
+                           pers:occurence     "SG III/2"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000203> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "29206" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000620> ;
+                           pers:occurence  "SG III/2"
+                         ] ;
+        pers:sex         "1" .

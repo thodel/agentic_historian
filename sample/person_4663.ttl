@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per005206>
+        a                    pers:person ;
+        rdfs:label           "Michael Klusner"@deu ;
+        pers:deaths          [ pers:death         "nach 1467" ;
+                               pers:format_dates  [ pers:format_date  [ pers:notBefore
+                                                           "1467" ] ] ;
+                               pers:occurence     "SG III/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1434" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1434" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-11 08:47:11.760907" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Michahel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "36" ;
+                                                                   pers:line     "37" ;
+                                                                   pers:page     "90"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002074.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005206a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Michael" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005206a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002074> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key000275" ;
+                               pers:occurence    "SG III/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002074> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "1012279391" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:refs            [ pers:type  "other" ;
+                               pers:url   "https://www.google.ch/search?q=Klusner+Wimpina&ie=utf-8&oe=utf-8&client=firefox-b&gfe_rd=cr&ei=nTzOWJvbOOvI8gey9LWACw"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007482> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

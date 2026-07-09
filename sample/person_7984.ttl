@@ -1,0 +1,27 @@
+<http://ssrq-sds-fds.ch/Register/#per008683>
+        a                    pers:person ;
+        rdfs:label           "Daniel François Matthieu"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1748" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1748" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-01-16 12:23:39.992994" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Daniel François" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008683a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003159> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003159> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                               pers:occurence  "NE 3"
+                             ] ;
+        pers:sex             "1" .

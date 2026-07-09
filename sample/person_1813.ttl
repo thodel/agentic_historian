@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per002438>
+        a                    pers:person ;
+        rdfs:label           "Maria Oberli"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1647" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1647" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Marieli" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000942.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002438a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Maria" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002438a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "233" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "863"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000942> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000942> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000018> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "2" .

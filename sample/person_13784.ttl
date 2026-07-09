@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per014808>
+        a                    pers:person ;
+        rdfs:label           "Hans Tachelshofer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1414" ;
+                               pers:occurence      "mina"
+                             ] ;
+        pers:hist            [ pers:date      "2021-02-11 14:16:23.130778" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:last_mentions   [ pers:last_mention  "1416" ;
+                               pers:occurence     "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per014808a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "mina" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002146> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "1416" ;
+                               pers:description  "key000028" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006024>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002146> ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000504> ;
+                               pers:occurence  "mina"
+                             ] ;
+        pers:sex             "1" .

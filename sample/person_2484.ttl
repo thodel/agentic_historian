@@ -1,0 +1,53 @@
+<http://ssrq-sds-fds.ch/Register/#per002902>
+        a                    pers:person ;
+        rdfs:label           "Hans Kalberer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1766" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1766" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:last_mention  "1779" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Johannes" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000354.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002902a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002902a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "323b" ;
+                                                                  pers:line     "18" ;
+                                                                  pers:page     "1091"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "342b" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "1141"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000354> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1779" ;
+                               pers:description   "key000523" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001167>
+                             ] ;
+        pers:occupation      [ pers:date          "1766, 1779" ;
+                               pers:description   "key000103" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1779" ] ;
+                                         pers:format_date  [ pers:when  "1766" ] ] ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000354> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000002> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

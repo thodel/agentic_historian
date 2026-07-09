@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per009486>
+        a               pers:person ;
+        rdfs:label      "Jean de Barras"@deu , "Jean de Barras"@fra ;
+        pers:deaths     [ pers:death         "av. 1623" ;
+                          pers:format_dates  [ pers:format_date  [ pers:notAfter   "1623" ;
+                                                                   pers:notBefore  "1573" ;
+                                                                   pers:precision  "0.5"
+                                                                 ] ] ;
+                          pers:occurence     "FR I/2/8"
+                        ] ;
+        pers:hist       [ pers:date      "2018-10-30 09:26:42.797746" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009486a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "FR I/2/8" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003519> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Jehan" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "FR I/2/8" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003519.03> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009486a.02>
+                        ] ;
+        pers:name       [ pers:forename    "Jean" ;
+                          pers:lang        "fra" ;
+                          pers:occurence   "FR I/2/8" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003519.02> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009486a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Jean" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009486a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "pascale" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003519> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003519> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007965> ;
+                          pers:occurence  "FR I/2/8"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009487> ;
+                          pers:occurence  "FR I/2/8"
+                        ] .

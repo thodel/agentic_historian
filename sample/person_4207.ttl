@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per004722>
+        a             pers:person ;
+        rdfs:label    "Michael Thüri"@deu ;
+        pers:deaths   [ pers:death         "vor 1479" ;
+                        pers:format_dates  [ pers:format_date  [ pers:notAfter   "1479" ;
+                                                                 pers:notBefore  "1429" ;
+                                                                 pers:precision  "0.5"
+                                                               ] ] ;
+                        pers:occurence     "SG III/4"
+                      ] ;
+        pers:hist     [ pers:date      "2017-01-17 12:09:39.722790" ;
+                        pers:username  "SG III/4"
+                      ] ;
+        pers:name     [ pers:forename    "Michel" ;
+                        pers:lang        "deu" ;
+                        pers:occurence   "SG III/4" ;
+                        pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001900.02> ;
+                        pers:type        "orig" ;
+                        pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004722a.01>
+                      ] ;
+        pers:name     [ pers:forename   "Michael" ;
+                        pers:id         <http://ssrq-sds-fds.ch/Register/#per004722a> ;
+                        pers:lang       "deu" ;
+                        pers:occurence  "SG III/4" ;
+                        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001900> ;
+                        pers:type       "std"
+                      ] ;
+        pers:org_id   <http://ssrq-sds-fds.ch/Register/#org001900> ;
+        pers:project  "SSRQ" ;
+        pers:sex      "1" .

@@ -1,0 +1,80 @@
+<http://ssrq-sds-fds.ch/Register/#per001798>
+        a                    pers:person ;
+        rdfs:label           "Johann Gallati"@deu ;
+        pers:fatherOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per001794> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1605" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1605" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1640" ] ] ;
+                               pers:last_mention  "1640" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000490.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001798a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001798a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "201" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "762"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "69b" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "236"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "144g" ;
+                                                                  pers:line     "43" ;
+                                                                  pers:page     "505"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "199" ;
+                                                                  pers:line     "30" ;
+                                                                  pers:page     "758"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "198a" ;
+                                                                  pers:line     "27" ;
+                                                                  pers:page     "735"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "165" ;
+                                                                  pers:line     "20" ;
+                                                                  pers:page     "597"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "222" ;
+                                                                  pers:line     "11" ;
+                                                                  pers:page     "836"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000490> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1605, 1623, 1640" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1605" ] ;
+                                         pers:format_date  [ pers:when  "1623" ] ;
+                                         pers:format_date  [ pers:when  "1640" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1605, 1623, 1640" ;
+                               pers:description   "key000310" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1605" ] ;
+                                         pers:format_date  [ pers:when  "1623" ] ;
+                                         pers:format_date  [ pers:when  "1640" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000925> ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000490> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

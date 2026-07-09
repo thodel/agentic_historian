@@ -1,0 +1,29 @@
+<http://ssrq-sds-fds.ch/Register/#per003782>
+        a                    pers:person ;
+        rdfs:label           "Jakob Portmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1537" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1537" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-11 10:18:28.364411" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003782a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "60" ;
+                                                                  pers:line     "39" ;
+                                                                  pers:page     "171"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001241> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001241> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005965> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

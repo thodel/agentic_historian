@@ -1,0 +1,35 @@
+<http://ssrq-sds-fds.ch/Register/#per002519>
+        a                    pers:person ;
+        rdfs:label           "Fluri Natsch"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1658" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1658" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Fluri" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002519a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "246" ;
+                                                                  pers:line     "25" ;
+                                                                  pers:page     "900"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000724> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003010" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:date          "1658" ;
+                               pers:description   "key000029" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1658" ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001167>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000724> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000005> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

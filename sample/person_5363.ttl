@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per005939>
+        a                    pers:person ;
+        rdfs:label           "Hans Kaspar Rugg"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1608" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1608" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-05-17 10:29:00.496274" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Kaspar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per005939a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002330> ;
+                               pers:rolenames  [ pers:occurence  "SG III/3" ;
+                                                 pers:rolename   "Junker/donzel"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hs. Caspar" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "95g" ;
+                                                                   pers:line     "33" ;
+                                                                   pers:page     "354"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002330.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per005939a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002330> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc006472> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" .

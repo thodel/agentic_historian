@@ -1,0 +1,59 @@
+<http://ssrq-sds-fds.ch/Register/#per003936>
+        a                    pers:person ;
+        rdfs:label           "Guido Bonattus"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1479" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1480" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2020-03-20 10:00:38.075542" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename   "Guido" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003936a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "65a" ;
+                                                                  pers:line     "34" ;
+                                                                  pers:page     "195"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001571> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "G." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "65b" ;
+                                                                   pers:line     "7" ;
+                                                                   pers:page     "197"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001571.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003936a.02>
+                             ] ;
+        pers:name            [ pers:forename    "G." ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "65a" ;
+                                                                   pers:line     "16" ;
+                                                                   pers:page     "195"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001571.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003936a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1480" ;
+                               pers:description   "key003374" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1480" ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001571> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000076> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

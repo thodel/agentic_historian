@@ -1,0 +1,47 @@
+<http://ssrq-sds-fds.ch/Register/#per003176>
+        a                    pers:person ;
+        rdfs:label           "Leopold Christof Feer"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1726" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 13:06:57.555605" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename    "Leopoldt Cristoffel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "73" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "284"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000592.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003176a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Leopold Christof" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003176a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "9" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "30"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "5" ;
+                                                                  pers:line     "15" ;
+                                                                  pers:page     "18"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000592> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1726-1734" ;
+                               pers:description   "key003686" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1726" ;
+                                                                        pers:to    "1734"
+                                                                      ] ] ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000592> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

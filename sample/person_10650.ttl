@@ -1,0 +1,36 @@
+<http://ssrq-sds-fds.ch/Register/#per011487>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Lehner"@deu ;
+        pers:brotherInLawOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016069> ;
+                               pers:occurence  "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1453" ;
+                               pers:occurence      "sabine"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "19.01.1462" ;
+                               pers:occurence      "saeg"
+                             ] ;
+        pers:hist            [ pers:date      "2020-05-25 16:22:04.564885" ;
+                               pers:username  "sabine"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per011487a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "saeg" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004365> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:description  "key003963" ;
+                               pers:occurence    "sabine" ;
+                               pers:org_id       <http://ssrq-sds-fds.ch/Register/#org006044>
+                             ] ;
+        pers:occupation      [ pers:date         "19.01.1462" ;
+                               pers:description  "key004139" ;
+                               pers:occurence    "saeg"
+                             ] ;
+        pers:project         "Königsfelden" ;
+        pers:residence       [ pers:date       "04.08.1455" ;
+                               pers:location   <http://ssrq-sds-fds.ch/Register/#loc009183> ;
+                               pers:occurence  "saeg"
+                             ] ;
+        pers:sex             "1" .

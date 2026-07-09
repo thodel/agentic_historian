@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per008497>
+        a                    pers:person ;
+        rdfs:label           "NN Hörler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1797" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1797" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-09-20 11:11:11.996166" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "NN" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008497a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "328f" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "1407"
+                                                                ] ;
+                                                 pers:vol       "SG III/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001088> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1797" ;
+                               pers:description   "key004946" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1797" ] ] ;
+                               pers:occurence     "SG III/3" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002612>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001088> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007048> ;
+                               pers:occurence  "SG III/3"
+                             ] ;
+        pers:sex             "1" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008496> ;
+                               pers:occurence  "SG III/3"
+                             ] .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per013456>
+        a                pers:person ;
+        rdfs:label       "Hans Conrad Gyger"@deu ;
+        pers:births      [ pers:birth      "22.07.1599" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "25.09.1674" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-03-10 15:02:23.862609" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:memberOf    [ pers:occurence      "ssrq-zh" ;
+                           pers:property_type  <http://ssrq-sds-fds.ch/Register/#org005077>
+                         ] ;
+        pers:name        [ pers:forename    "Hans Konrad" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org005012.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013456a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Hans Conrad" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013456a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org005012> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:description  "key003644" ;
+                           pers:occurence    "ssrq-zh"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org005012> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "121024091" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "022020" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

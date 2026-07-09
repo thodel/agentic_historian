@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per006556>
+        a                    pers:person ;
+        rdfs:label           "Hilarius Waldmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1556" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1556" ] ] ;
+                               pers:occurence      "SG III/3"
+                             ] ;
+        pers:hist            [ pers:date      "2017-06-08 17:35:33.519130" ;
+                               pers:username  "werner"
+                             ] ;
+        pers:name            [ pers:forename   "Hilarius" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per006556a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000426> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Glerieß" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "134a" ;
+                                                                   pers:line     "12" ;
+                                                                   pers:page     "561"
+                                                                 ] ;
+                                                  pers:vol       "SG III/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000426.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per006556a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000426> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

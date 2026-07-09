@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per002779>
+        a                    pers:person ;
+        rdfs:label           "Hans Jakob Gabathuler"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1734" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1734" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Hans Jakob" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002779a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "300" ;
+                                                                  pers:line     "31" ;
+                                                                  pers:page     "1040"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000167> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Hans Jacob" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000167.10> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002779a.01>
+                             ] ;
+        pers:occupation      [ pers:description  "key000103" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000356" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc001015> ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:occupation      [ pers:description  "key000994" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000167> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

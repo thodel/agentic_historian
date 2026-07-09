@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per003678>
+        a                    pers:person ;
+        rdfs:label           "Konrad von Lindenbühl"@deu ;
+        pers:first_mentions  [ pers:first_mention  "15. Jh." ;
+                               pers:format_dates   [ pers:format_date  [ pers:from  "1401" ;
+                                                                         pers:to    "1500"
+                                                                       ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-04 12:44:31.452104" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Cuͦn" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "36" ;
+                                                                   pers:line     "14" ;
+                                                                   pers:page     "85"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001327.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003678a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Konrad" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003678a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001327> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001327> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc004886> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

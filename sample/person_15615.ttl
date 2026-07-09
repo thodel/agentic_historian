@@ -1,0 +1,46 @@
+<http://ssrq-sds-fds.ch/Register/#per016704>
+        a                        pers:person ;
+        rdfs:label               "Jean Monaschon"@fra ;
+        pers:first_mentions      [ pers:first_mention  "1525" ;
+                                   pers:occurence      "gortega"
+                                 ] ;
+        pers:hist                [ pers:date      "2020-05-08 11:01:24.032304" ;
+                                   pers:username  "gortega"
+                                 ] ;
+        pers:name                [ pers:forename   "Jean" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per016704a> ;
+                                   pers:lang       "fra" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006623> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:name                [ pers:forename    "Joham" ;
+                                   pers:lang        "fra" ;
+                                   pers:occurence   "gortega" ;
+                                   pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org006623.01> ;
+                                   pers:type        "orig" ;
+                                   pers:var_id      <http://ssrq-sds-fds.ch/Register/#per016704a.01>
+                                 ] ;
+        pers:name                [ pers:forename   "Jean" ;
+                                   pers:id         <http://ssrq-sds-fds.ch/Register/#per016704a> ;
+                                   pers:lang       "deu" ;
+                                   pers:occurence  "gortega" ;
+                                   pers:org_id     <http://ssrq-sds-fds.ch/Register/#org006623> ;
+                                   pers:type       "std"
+                                 ] ;
+        pers:occupation          [ pers:date         "1517" ;
+                                   pers:description  "key005624" ;
+                                   pers:occurence    "gortega"
+                                 ] ;
+        pers:org_id              <http://ssrq-sds-fds.ch/Register/#org006623> ;
+        pers:project             "SSRQ" ;
+        pers:refs                [ pers:title  "Dorthe dans Ostorero et al. 2007, p. 264" ;
+                                   pers:type   "biblio"
+                                 ] ;
+        pers:residence           [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc012368> ;
+                                   pers:occurence  "gortega"
+                                 ] ;
+        pers:sex                 "1" ;
+        pers:victimAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per016599> ;
+                                   pers:occurence  "gortega"
+                                 ] .

@@ -1,0 +1,43 @@
+<http://ssrq-sds-fds.ch/Register/#per002612>
+        a                    pers:person ;
+        rdfs:label           "Joseph Anton Stucki"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1748" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1748" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Joseph Anton" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002612a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "315" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "1071"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000395> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002612a.01>
+                             ] ;
+        pers:name            [ pers:forename    "Joseph Antoni" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000395.09> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002612a.02>
+                             ] ;
+        pers:occupation      [ pers:description  "key000803" ;
+                               pers:occurence    "SG III/2"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000395> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000010> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

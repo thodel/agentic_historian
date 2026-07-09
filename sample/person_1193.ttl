@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per001595>
+        a                    pers:person ;
+        rdfs:label           "Ulrich Kunz"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1503" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1503" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename    "Ulrich" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000716.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per001595a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per001595a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "119" ;
+                                                                  pers:line     "14" ;
+                                                                  pers:page     "400"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000716> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000716> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000696> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

@@ -1,0 +1,38 @@
+<http://ssrq-sds-fds.ch/Register/#per020625>
+        a                    pers:person ;
+        rdfs:label           "Catherine Chappuis"@fra ;
+        pers:first_mentions  [ pers:first_mention  "1652" ;
+                               pers:occurence      "rita"
+                             ] ;
+        pers:hist            [ pers:date      "2020-06-30 11:07:40.072583" ;
+                               pers:username  "rita"
+                             ] ;
+        pers:name            [ pers:forename    "Catherine" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "rita" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007640.03> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per020625a.01>
+                             ] ;
+        pers:name            [ pers:addnames          [ pers:addname    "Cathri" ;
+                                                        pers:occurence  "rita"
+                                                      ] ;
+                               pers:forename          "Catherine" ;
+                               pers:id                <http://ssrq-sds-fds.ch/Register/#per020625a> ;
+                               pers:lang              "fra" ;
+                               pers:marital_statuses  [ pers:marital_status  "m" ;
+                                                        pers:occurence       "rita"
+                                                      ] ;
+                               pers:occurence         "rita" ;
+                               pers:org_id            <http://ssrq-sds-fds.ch/Register/#org007640> ;
+                               pers:type              "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org007640> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008127> ;
+                               pers:occurence  "rita"
+                             ] ;
+        pers:sex             "2" ;
+        pers:spouseOf        [ pers:id         <http://ssrq-sds-fds.ch/Register/#per020624> ;
+                               pers:occurence  "rita"
+                             ] .

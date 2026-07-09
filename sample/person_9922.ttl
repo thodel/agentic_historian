@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per010697>
+        a                    pers:person ;
+        rdfs:label           "Guillaume Rousin"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001159>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1529" ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:guardianOf      [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008602> ;
+                               pers:occurence  "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-03 16:59:37.786447" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Guillaume" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per010697a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003989> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Guillaume" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003989.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per010697a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003989> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

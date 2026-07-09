@@ -1,0 +1,42 @@
+<http://ssrq-sds-fds.ch/Register/#per004083>
+        a                    pers:person ;
+        rdfs:label           "Thomas Roos"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1570" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1570" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-07 09:18:56.740299" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename   "Thomas" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004083a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "LU II/3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001632> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Thoman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "103b" ;
+                                                                   pers:line     "20" ;
+                                                                   pers:page     "375"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "105b" ;
+                                                                   pers:line     "11" ;
+                                                                   pers:page     "385"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001632.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004083a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001632> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1575" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1575" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005808> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:sex             "1" .

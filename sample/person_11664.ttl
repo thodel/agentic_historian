@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per012564>
+        a                         pers:person ;
+        rdfs:label                "Petermann de Chevron"@fra ;
+        pers:fatherOf             [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012565> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:first_mentions       [ pers:first_mention  "1459" ;
+                                    pers:occurence      "gortega"
+                                  ] ;
+        pers:hist                 [ pers:date      "2020-03-06 07:33:58.472557" ;
+                                    pers:username  "gortega"
+                                  ] ;
+        pers:name                 [ pers:forename   "Petermandus" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012564a> ;
+                                    pers:lang       "lat" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004863> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:name                 [ pers:forename    "Petermandus" ;
+                                    pers:lang        "lat" ;
+                                    pers:occurence   "gortega" ;
+                                    pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004863.02> ;
+                                    pers:type        "orig" ;
+                                    pers:var_id      <http://ssrq-sds-fds.ch/Register/#per012564a.01>
+                                  ] ;
+        pers:name                 [ pers:forename   "Petermann" ;
+                                    pers:id         <http://ssrq-sds-fds.ch/Register/#per012564a> ;
+                                    pers:lang       "fra" ;
+                                    pers:occurence  "gortega" ;
+                                    pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004863> ;
+                                    pers:type       "std"
+                                  ] ;
+        pers:occupation           [ pers:date         "05.05.1459" ;
+                                    pers:description  "key000078" ;
+                                    pers:occurence    "gortega"
+                                  ] ;
+        pers:org_id               <http://ssrq-sds-fds.ch/Register/#org004863> ;
+        pers:project              "SSRQ" ;
+        pers:refs                 [ pers:title  "Ammann–Doubliez dans Ostorero et al. 2007, p. 202, 208" ;
+                                    pers:type   "biblio"
+                                  ] ;
+        pers:residence            [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc010831> ;
+                                    pers:occurence  "gortega"
+                                  ] ;
+        pers:sex                  "1" ;
+        pers:witnessAtTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per012525> ;
+                                    pers:occurence  "gortega"
+                                  ] .

@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per000092>
+        a                    pers:person ;
+        rdfs:label           "Ulrich von Montfort"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1255" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1255" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2019-05-23 14:47:18.388309" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1287" ] ] ;
+                               pers:last_mention  "1287" ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:name            [ pers:alias      "2" ;
+                               pers:forename   "Ulrich" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000092b> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "5" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "5"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000012> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename   "Ulrich" ;
+                               pers:gennames   [ pers:genname    "I." ;
+                                                 pers:occurence  "SG III/2"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000092a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "5" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "5"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000007> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000007> , <http://ssrq-sds-fds.ch/Register/#org000012> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per000094> ;
+                               pers:occurence  "SG III/2"
+                             ] .

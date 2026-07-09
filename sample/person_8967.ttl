@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per009709>
+        a                pers:person ;
+        rdfs:label       "Pernette Fallewo"@fra ;
+        pers:deaths      [ pers:death         "1502" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1502" ] ] ;
+                           pers:occurence     "FR I/2/8"
+                         ] ;
+        pers:hist        [ pers:date      "2021-04-07 07:49:59.814727" ;
+                           pers:username  "lionel"
+                         ] ;
+        pers:name        [ pers:forename          "Pernette" ;
+                           pers:id                <http://ssrq-sds-fds.ch/Register/#per009709a> ;
+                           pers:lang              "fra" ;
+                           pers:marital_statuses  [ pers:marital_status  "w" ;
+                                                    pers:occurence       "FR I/2/8"
+                                                  ] ;
+                           pers:occurence         "FR I/2/8" ;
+                           pers:org_id            <http://ssrq-sds-fds.ch/Register/#org003600> ;
+                           pers:type              "std"
+                         ] ;
+        pers:name        [ pers:forename    "Pernete" ;
+                           pers:lang        "fra" ;
+                           pers:occurence   "lionel" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003600.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009709a.01>
+                         ] ;
+        pers:occupation  [ pers:description  "key004437" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:occupation  [ pers:description  "key000945" ;
+                           pers:occurence    "lionel"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org003600> ;
+        pers:project     "SSRQ" ;
+        pers:sex         "2" ;
+        pers:spouseOf    [ pers:id         <http://ssrq-sds-fds.ch/Register/#per009708> ;
+                           pers:occurence  "FR I/2/8"
+                         ] .

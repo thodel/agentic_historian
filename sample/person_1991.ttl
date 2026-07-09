@@ -1,0 +1,54 @@
+<http://ssrq-sds-fds.ch/Register/#per002397>
+        a                    pers:person ;
+        rdfs:label           "Johann [von] Bavier"@deu ;
+        pers:deaths          [ pers:death         "30.12.1661" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1661-12-30" ] ] ;
+                               pers:occurence     "HLS"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1591" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1591" ] ] ;
+                               pers:occurence      "HLS"
+                             ] ;
+        pers:hist            [ pers:date      "2020-04-07 16:22:32.016192" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Johann" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per002397a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "225" ;
+                                                                  pers:line     "5" ;
+                                                                  pers:page     "846"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001007> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Johann" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/2" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001007.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per002397a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1638-1661" ;
+                               pers:description   "key000133" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1638" ;
+                                                                        pers:to    "1661"
+                                                                      ] ] ;
+                               pers:occurence     "SG III/2" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org002900>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001007> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "16755" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:refs            [ pers:id    "1061012190" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000007> ;
+                               pers:occurence  "SG III/2"
+                             ] ;
+        pers:sex             "1" .

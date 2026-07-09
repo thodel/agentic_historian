@@ -1,0 +1,37 @@
+<http://ssrq-sds-fds.ch/Register/#per028202>
+        a                    pers:person ;
+        rdfs:label           "Hermann von Landenberg"@deu ;
+        pers:deaths          [ pers:death      "1436/37" ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1393" ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2021-01-07 08:43:28.186383" ;
+                               pers:username  "ssrq-zh"
+                             ] ;
+        pers:name            [ pers:forename    "Herman" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "ssrq-zh" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org002060.05> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per028202a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hermann" ;
+                               pers:gennames   [ pers:genname    "IV." ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per028202a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org002060> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org002060> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:page   "IV, S. 588, Nr. 11" ;
+                               pers:title  "HBLS" ;
+                               pers:type   "biblio" ;
+                               pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                             ] ;
+        pers:sex             "1" .

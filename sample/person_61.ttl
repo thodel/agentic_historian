@@ -1,0 +1,30 @@
+<http://ssrq-sds-fds.ch/Register/#per000061>
+        a                    pers:person ;
+        rdfs:label           "Eberhard von Fontnas"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1289" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1289" ] ] ;
+                               pers:occurence      "SG III/2"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1299" ] ] ;
+                               pers:last_mention  "1299" ;
+                               pers:occurence     "SG III/2"
+                             ] ;
+        pers:name            [ pers:forename   "Eberhard" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per000061a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "3b" ;
+                                                                  pers:line     "16" ;
+                                                                  pers:page     "3"
+                                                                ] ;
+                                                 pers:vol       "SG III/2"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000048> ;
+                               pers:rolenames  [ pers:occurence  "SG III/2" ;
+                                                 pers:rolename   "Ritter/chevalier"
+                                               ] ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000048> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

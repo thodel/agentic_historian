@@ -1,0 +1,49 @@
+<http://ssrq-sds-fds.ch/Register/#per013173>
+        a                pers:person ;
+        rdfs:label       "Karl von Habsburg-Österreich"@deu ;
+        pers:births      [ pers:birth      "01.10.1685" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:deaths      [ pers:death      "20.10.1740" ;
+                           pers:occurence  "pascale"
+                         ] ;
+        pers:hist        [ pers:date      "2020-01-26 17:03:43.492665" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename   "Karl" ;
+                           pers:gennames   [ pers:genname    "VI." ;
+                                             pers:occurence  "pascale"
+                                           ] ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per013173a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "pascale" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000088> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Carl" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000088.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013173a.01>
+                         ] ;
+        pers:name        [ pers:addnames    [ pers:addname    "der VI" ;
+                                              pers:occurence  "pascale"
+                                            ] ;
+                           pers:forename    "Carolus" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "pascale" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000088.01> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per013173a.02>
+                         ] ;
+        pers:occupation  [ pers:date         "1711–1740" ;
+                           pers:description  "key000422" ;
+                           pers:occurence    "pascale"
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000088> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "118560107" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:sex         "1" .

@@ -1,0 +1,44 @@
+<http://ssrq-sds-fds.ch/Register/#per009464>
+        a                    pers:person ;
+        rdfs:label           "Daniel Bussi"@deu ;
+        pers:deaths          [ pers:death         "17.09.1629" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1629" ] ] ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1600" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1600" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-05 07:49:33.151794" ;
+                               pers:username  "SG III/4"
+                             ] ;
+        pers:name            [ pers:forename    "Danniel" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "SG III/4" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000824.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009464a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Daniel" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per009464a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000824> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1624–1627" ;
+                               pers:description   "key000180" ;
+                               pers:format_dates  [ pers:format_date  [ pers:from  "1624" ;
+                                                                        pers:to    "1627"
+                                                                      ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007867> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000824> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "17976" ;
+                               pers:type  "HLS"
+                             ] ;
+        pers:remark          "Sibylle Malamud: Daniel Bussi ist als Landvogt in Werdenberg belegt von 1624 bis 1627. Die Angaben im HLS (1625–1628) stimmen nicht. Jakob Feldmann als Nachfolger ist ab 1627 als Landvogt in Werdenberg belegt." ;
+        pers:sex             "1" .

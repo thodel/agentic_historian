@@ -1,0 +1,28 @@
+<http://ssrq-sds-fds.ch/Register/#per009559>
+        a               pers:person ;
+        rdfs:label      "Pierre Grosman"@fra ;
+        pers:births     [ pers:birth         "1681" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1681" ] ] ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:citizenOf  [ pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                        ] ;
+        pers:hist       [ pers:date      "2018-07-06 15:09:30.054382" ;
+                          pers:username  "NE 3"
+                        ] ;
+        pers:name       [ pers:forename   "Pierre" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per009559a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "NE 3" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003552> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003552> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:date          "1681" ;
+                          pers:format_dates  [ pers:format_date  [ pers:when  "1681" ] ] ;
+                          pers:location      <http://ssrq-sds-fds.ch/Register/#loc007786> ;
+                          pers:occurence     "NE 3"
+                        ] ;
+        pers:sex        "1" .

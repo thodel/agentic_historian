@@ -1,0 +1,32 @@
+<http://ssrq-sds-fds.ch/Register/#per008745>
+        a                    pers:person ;
+        rdfs:label           "Jörg Litscher"@deu ;
+        pers:citizenOf       [ pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001185>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1536" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1536" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 08:23:47.238684" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Jörg" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008745a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001975> ;
+                               pers:type       "std"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001975> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1536" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1536" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc000440> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" ;
+        pers:siblingOf       [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008746> ;
+                               pers:occurence  "pascale"
+                             ] .

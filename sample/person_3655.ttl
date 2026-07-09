@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per004129>
+        a                    pers:person ;
+        rdfs:label           "Sebastian Wicki"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1721" ;
+                               pers:occurence      "pascale"
+                             ] ;
+        pers:hist            [ pers:date      "2018-10-02 20:49:22.819835" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Sebastian" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004129a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "85b" ;
+                                                                  pers:line     "12" ;
+                                                                  pers:page     "319"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001529> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1721" ;
+                               pers:description   "key000826" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1721" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005900> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001529> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc001601> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .

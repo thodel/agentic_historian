@@ -1,0 +1,51 @@
+<http://ssrq-sds-fds.ch/Register/#per003814>
+        a                    pers:person ;
+        rdfs:label           "Heini Heger"@deu ;
+        pers:fatherInLawOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per003815> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1466" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1466" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-08-12 16:32:15.709386" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Heini" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "56a" ;
+                                                                   pers:line     "24" ;
+                                                                   pers:page     "159"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001526.02> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003814a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Heini" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per003814a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "70b" ;
+                                                                  pers:line     "21" ;
+                                                                  pers:page     "212"
+                                                                ] ;
+                                                 pers:articles  [ pers:article  "56a" ;
+                                                                  pers:line     "19" ;
+                                                                  pers:page     "158"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001526> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date          "1488" ;
+                               pers:description   "key000303" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1488" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc005798> ;
+                               pers:occurence     "LU II/3"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001526> ;
+        pers:project         "SSRQ" ;
+        pers:sex             "1" .

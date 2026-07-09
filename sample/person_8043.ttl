@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per008749>
+        a              pers:person ;
+        rdfs:label     "Jörg Schachli"@deu ;
+        pers:deaths    [ pers:death         "vor 1536" ;
+                         pers:format_dates  [ pers:format_date  [ pers:notAfter   "1536" ;
+                                                                  pers:notBefore  "1486" ;
+                                                                  pers:precision  "0.5"
+                                                                ] ] ;
+                         pers:occurence     "SG III/4"
+                       ] ;
+        pers:fatherOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per008750> ;
+                         pers:occurence  "SG III/4"
+                       ] ;
+        pers:hist      [ pers:date      "2018-02-01 10:14:56.881884" ;
+                         pers:username  "SG III/4"
+                       ] ;
+        pers:name      [ pers:forename    "Jerg" ;
+                         pers:lang        "deu" ;
+                         pers:occurence   "SG III/4" ;
+                         pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003196.02> ;
+                         pers:type        "orig" ;
+                         pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008749a.01>
+                       ] ;
+        pers:name      [ pers:forename   "Jörg" ;
+                         pers:id         <http://ssrq-sds-fds.ch/Register/#per008749a> ;
+                         pers:lang       "deu" ;
+                         pers:occurence  "SG III/4" ;
+                         pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003196> ;
+                         pers:type       "std"
+                       ] ;
+        pers:org_id    <http://ssrq-sds-fds.ch/Register/#org003196> ;
+        pers:project   "SSRQ" ;
+        pers:sex       "1" .

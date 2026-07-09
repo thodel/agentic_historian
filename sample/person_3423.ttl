@@ -1,0 +1,52 @@
+<http://ssrq-sds-fds.ch/Register/#per003889>
+        a                pers:person ;
+        rdfs:label       "Mangold von Wil"@deu ;
+        pers:deaths      [ pers:death         "1543/44" ;
+                           pers:format_dates  [ pers:format_date  [ pers:from  "1543" ;
+                                                                    pers:to    "1544"
+                                                                  ] ] ;
+                           pers:occurence     "LU II/3"
+                         ] ;
+        pers:hist        [ pers:date      "2015-08-24 15:51:31.200999" ;
+                           pers:username  "pascale"
+                         ] ;
+        pers:name        [ pers:forename    "NN" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   [ pers:articles  [ pers:article  "62b" ;
+                                                               pers:line     "40" ;
+                                                               pers:page     "180"
+                                                             ] ;
+                                              pers:vol       "LU II/3"
+                                            ] ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001549.02> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per003889a.01>
+                         ] ;
+        pers:name        [ pers:forename   "Mangold" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per003889a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  [ pers:articles  [ pers:article  "62b" ;
+                                                              pers:line     "6" ;
+                                                              pers:page     "181"
+                                                            ] ;
+                                             pers:vol       "LU II/3"
+                                           ] ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001549> ;
+                           pers:type       "std"
+                         ] ;
+        pers:occupation  [ pers:date          "1543" ;
+                           pers:description   "key000028" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1543" ] ] ;
+                           pers:occurence     "LU II/3" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001300>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001549> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "14521" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:remark      "Schultheissenamtsjahr anders als im HLS." ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000088> ;
+                           pers:occurence  "LU II/3"
+                         ] ;
+        pers:sex         "1" .

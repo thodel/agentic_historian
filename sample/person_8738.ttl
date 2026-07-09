@@ -1,0 +1,45 @@
+<http://ssrq-sds-fds.ch/Register/#per009477>
+        a                pers:person ;
+        rdfs:label       "Jakob Götz"@deu ;
+        pers:births      [ pers:birth         "ca. 1506" ;
+                           pers:format_dates  [ pers:format_date  [ pers:notAfter   "1516" ;
+                                                                    pers:notBefore  "1496" ;
+                                                                    pers:precision  "0.5"
+                                                                  ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:deaths      [ pers:death         "1560" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1560" ] ] ;
+                           pers:occurence     "FDS TI"
+                         ] ;
+        pers:hist        [ pers:date      "2018-06-28 12:07:13.954193" ;
+                           pers:username  "GR B III/2"
+                         ] ;
+        pers:name        [ pers:forename   "Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per009477a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "FDS TI" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001924> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Jacob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "FDS TI" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001924.03> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per009477a.01>
+                         ] ;
+        pers:occupation  [ pers:date          "1553" ;
+                           pers:description   "key000326" ;
+                           pers:format_dates  [ pers:format_date  [ pers:when  "1553" ] ] ;
+                           pers:occurence     "FDS TI" ;
+                           pers:org_id        <http://ssrq-sds-fds.ch/Register/#org003384>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org001924> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:page   "III, S. 589" ;
+                           pers:title  "HBLS" ;
+                           pers:type   "biblio" ;
+                           pers:url    "http://permalink.snl.ch/bib/chbsg000135528"
+                         ] ;
+        pers:sex         "1" .

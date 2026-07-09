@@ -1,0 +1,61 @@
+<http://ssrq-sds-fds.ch/Register/#per011004>
+        a                               pers:person ;
+        rdfs:label                      "Jean Got"@fra ;
+        pers:deaths                     [ pers:death      "entre 1437 et 1446" ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010866> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:denouncedDuringTheTrialOf  [ pers:id         <http://ssrq-sds-fds.ch/Register/#per010753> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:first_mentions             [ pers:first_mention  "1424" ;
+                                          pers:occurence      "gortega"
+                                        ] ;
+        pers:hist                       [ pers:date      "2020-02-28 11:16:47.075766" ;
+                                          pers:username  "gortega"
+                                        ] ;
+        pers:name                       [ pers:forename   "Johannes" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011004a> ;
+                                          pers:lang       "lat" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004120> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename   "Jean" ;
+                                          pers:id         <http://ssrq-sds-fds.ch/Register/#per011004a> ;
+                                          pers:lang       "fra" ;
+                                          pers:occurence  "gortega" ;
+                                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org004120> ;
+                                          pers:type       "std"
+                                        ] ;
+        pers:name                       [ pers:forename    "Johannes" ;
+                                          pers:lang        "lat" ;
+                                          pers:occurence   "gortega" ;
+                                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org004120.01> ;
+                                          pers:type        "orig" ;
+                                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011004a.01>
+                                        ] ;
+        pers:occupation                 [ pers:date         "11.03.1448" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:occupation                 [ pers:date         "17.03.1448" ;
+                                          pers:description  "key005165" ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:occupation                 [ pers:date         "1424–1437" ;
+                                          pers:description  "key000275" ;
+                                          pers:location     <http://ssrq-sds-fds.ch/Register/#loc008099> ;
+                                          pers:occurence    "gortega"
+                                        ] ;
+        pers:org_id                     <http://ssrq-sds-fds.ch/Register/#org004120> ;
+        pers:project                    "SSRQ" ;
+        pers:refs                       [ pers:title  "Ostorero 1995, p. 292" ;
+                                          pers:type   "biblio"
+                                        ] ;
+        pers:residence                  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc008099> ;
+                                          pers:occurence  "gortega"
+                                        ] ;
+        pers:sex                        "1" .

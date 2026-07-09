@@ -1,0 +1,50 @@
+<http://ssrq-sds-fds.ch/Register/#per011354>
+        a                pers:person ;
+        rdfs:label       "Johann Jakob Ulrich"@deu ;
+        pers:births      [ pers:birth      "20.09.1569" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:deaths      [ pers:death      "22.04.1638" ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:hist        [ pers:date      "2020-09-16 11:10:53.619600" ;
+                           pers:username  "ssrq-zh"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Jakob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000872.13> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011354a.02>
+                         ] ;
+        pers:name        [ pers:forename   "Johann Jakob" ;
+                           pers:id         <http://ssrq-sds-fds.ch/Register/#per011354a> ;
+                           pers:lang       "deu" ;
+                           pers:occurence  "ssrq-zh" ;
+                           pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000872> ;
+                           pers:type       "std"
+                         ] ;
+        pers:name        [ pers:forename    "Johann Jakob" ;
+                           pers:lang        "deu" ;
+                           pers:occurence   "ssrq-zh" ;
+                           pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000872.12> ;
+                           pers:type        "orig" ;
+                           pers:var_id      <http://ssrq-sds-fds.ch/Register/#per011354a.01>
+                         ] ;
+        pers:occupation  [ pers:date         "1623-1638" ;
+                           pers:description  "key005538" ;
+                           pers:occurence    "pascale" ;
+                           pers:org_id       <http://ssrq-sds-fds.ch/Register/#org004352>
+                         ] ;
+        pers:org_id      <http://ssrq-sds-fds.ch/Register/#org000872> ;
+        pers:project     "SSRQ" ;
+        pers:refs        [ pers:id    "100295231" ;
+                           pers:type  "GND"
+                         ] ;
+        pers:refs        [ pers:id    "10884" ;
+                           pers:type  "HLS"
+                         ] ;
+        pers:residence   [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc000065> ;
+                           pers:occurence  "ssrq-zh"
+                         ] ;
+        pers:sex         "1" .

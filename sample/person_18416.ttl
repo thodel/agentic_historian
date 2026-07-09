@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per019626>
+        a               pers:person ;
+        rdfs:label      "Peter Zosso"@deu , "Peter Zosso"@fra ;
+        pers:deaths     [ pers:death      "ca. 1649" ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:hist       [ pers:date      "2020-06-18 07:45:01.597431" ;
+                          pers:username  "pascale"
+                        ] ;
+        pers:name       [ pers:forename   "Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per019626a> ;
+                          pers:lang       "fra" ;
+                          pers:occurence  "pascale" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007258> ;
+                          pers:type       "std"
+                        ] ;
+        pers:name       [ pers:forename    "Petter" ;
+                          pers:lang        "deu" ;
+                          pers:occurence   "rita" ;
+                          pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org007258.01> ;
+                          pers:type        "orig" ;
+                          pers:var_id      <http://ssrq-sds-fds.ch/Register/#per019626a.01>
+                        ] ;
+        pers:name       [ pers:forename   "Peter" ;
+                          pers:id         <http://ssrq-sds-fds.ch/Register/#per019626a> ;
+                          pers:lang       "deu" ;
+                          pers:occurence  "rita" ;
+                          pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007258> ;
+                          pers:type       "std"
+                        ] ;
+        pers:org_id     <http://ssrq-sds-fds.ch/Register/#org007258> ;
+        pers:project    "SSRQ" ;
+        pers:residence  [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc007627> ;
+                          pers:occurence  "rita"
+                        ] ;
+        pers:sex        "1" ;
+        pers:spouseOf   [ pers:id         <http://ssrq-sds-fds.ch/Register/#per019265> ;
+                          pers:occurence  "rita"
+                        ] .

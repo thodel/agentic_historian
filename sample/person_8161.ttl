@@ -1,0 +1,40 @@
+<http://ssrq-sds-fds.ch/Register/#per008873>
+        a                    pers:person ;
+        rdfs:label           "Balthazar Borel"@fra ;
+        pers:citizenOf       [ pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003090>
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "1707" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1707" ] ] ;
+                               pers:occurence      "NE 3"
+                             ] ;
+        pers:hist            [ pers:date      "2018-02-21 20:53:38.192020" ;
+                               pers:username  "NE 3"
+                             ] ;
+        pers:last_mentions   [ pers:format_dates  [ pers:format_date  [ pers:when  "1708" ] ] ;
+                               pers:last_mention  "1708" ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:name            [ pers:forename   "Balthazar" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per008873a> ;
+                               pers:lang       "fra" ;
+                               pers:occurence  "NE 3" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org003106> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Balasar" ;
+                               pers:lang        "fra" ;
+                               pers:occurence   "NE 3" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org003106.01> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per008873a.01>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org003106> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1708" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1708" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc007787> ;
+                               pers:occurence     "NE 3"
+                             ] ;
+        pers:sex             "1" .

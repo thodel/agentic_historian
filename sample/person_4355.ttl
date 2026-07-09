@@ -1,0 +1,39 @@
+<http://ssrq-sds-fds.ch/Register/#per004874>
+        a                    pers:person ;
+        rdfs:label           "Stefan Weibel"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1489" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1489" ] ] ;
+                               pers:occurence      "SG III/4"
+                             ] ;
+        pers:hist            [ pers:date      "2020-08-13 11:23:15.500044" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:forename   "Stefan" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004874a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "SG III/4" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000031> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "Steffan" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   "pascale" ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org000031.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004874a.01>
+                             ] ;
+        pers:occupation      [ pers:date          "1489" ;
+                               pers:description   "key000209" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1489" ] ] ;
+                               pers:occurence     "SG III/4" ;
+                               pers:org_id        <http://ssrq-sds-fds.ch/Register/#org001911>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000031> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:date          "1489" ;
+                               pers:format_dates  [ pers:format_date  [ pers:when  "1489" ] ] ;
+                               pers:location      <http://ssrq-sds-fds.ch/Register/#loc006039> ;
+                               pers:occurence     "SG III/4"
+                             ] ;
+        pers:sex             "1" .

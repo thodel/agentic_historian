@@ -1,0 +1,33 @@
+<http://ssrq-sds-fds.ch/Register/#per012680>
+        a                    pers:person ;
+        rdfs:label           "Atticus NN"@deu ;
+        pers:deaths          [ pers:death      "um 426 n. Chr." ;
+                               pers:occurence  "ssrq-zh"
+                             ] ;
+        pers:first_mentions  [ pers:first_mention  "406 n. Chr." ;
+                               pers:occurence      "ssrq-zh"
+                             ] ;
+        pers:hist            [ pers:date      "2019-11-28 11:26:31.617280" ;
+                               pers:username  "pascale"
+                             ] ;
+        pers:name            [ pers:addnames   [ pers:addname    "von Konstantinopel" ;
+                                                 pers:occurence  "ssrq-zh"
+                                               ] ;
+                               pers:forename   "Atticus" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per012680a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  "ssrq-zh" ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org000000> ;
+                               pers:type       "std"
+                             ] ;
+        pers:occupation      [ pers:date         "seit 406" ;
+                               pers:description  "key000015" ;
+                               pers:location     <http://ssrq-sds-fds.ch/Register/#loc010983> ;
+                               pers:occurence    "pascale"
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org000000> ;
+        pers:project         "SSRQ" ;
+        pers:refs            [ pers:id    "119364743" ;
+                               pers:type  "GND"
+                             ] ;
+        pers:sex             "1" .

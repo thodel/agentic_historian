@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  ssrq-mcp:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ssrq-mcp
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    volumes:
+      - ../data/ssrq.db:/app/data/ssrq.db:ro
+    environment:
+      - SSRQ_DB=/app/data/ssrq.db

@@ -1,0 +1,57 @@
+<http://ssrq-sds-fds.ch/Register/#per004092>
+        a                    pers:person ;
+        rdfs:label           "Hans Portmann"@deu ;
+        pers:first_mentions  [ pers:first_mention  "1572" ;
+                               pers:format_dates   [ pers:format_date  [ pers:when
+                                                           "1572" ] ] ;
+                               pers:occurence      "LU II/3"
+                             ] ;
+        pers:hist            [ pers:date      "2015-09-07 11:53:29.080615" ;
+                               pers:username  "andreas"
+                             ] ;
+        pers:name            [ pers:forename    "Hans" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "106c" ;
+                                                                   pers:line     "10" ;
+                                                                   pers:page     "390"
+                                                                 ] ;
+                                                  pers:articles  [ pers:article  "106b" ;
+                                                                   pers:line     "39" ;
+                                                                   pers:page     "388"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001241.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004092a.01>
+                             ] ;
+        pers:name            [ pers:forename   "Hans" ;
+                               pers:id         <http://ssrq-sds-fds.ch/Register/#per004092a> ;
+                               pers:lang       "deu" ;
+                               pers:occurence  [ pers:articles  [ pers:article  "106b" ;
+                                                                  pers:line     "13" ;
+                                                                  pers:page     "388"
+                                                                ] ;
+                                                 pers:vol       "LU II/3"
+                                               ] ;
+                               pers:org_id     <http://ssrq-sds-fds.ch/Register/#org001241> ;
+                               pers:type       "std"
+                             ] ;
+        pers:name            [ pers:forename    "NN" ;
+                               pers:lang        "deu" ;
+                               pers:occurence   [ pers:articles  [ pers:article  "106c" ;
+                                                                   pers:line     "18" ;
+                                                                   pers:page     "390"
+                                                                 ] ;
+                                                  pers:vol       "LU II/3"
+                                                ] ;
+                               pers:org_var_id  <http://ssrq-sds-fds.ch/Register/#org001241.04> ;
+                               pers:type        "orig" ;
+                               pers:var_id      <http://ssrq-sds-fds.ch/Register/#per004092a.02>
+                             ] ;
+        pers:org_id          <http://ssrq-sds-fds.ch/Register/#org001241> ;
+        pers:project         "SSRQ" ;
+        pers:residence       [ pers:location   <http://ssrq-sds-fds.ch/Register/#loc005963> ;
+                               pers:occurence  "LU II/3"
+                             ] ;
+        pers:sex             "1" .
