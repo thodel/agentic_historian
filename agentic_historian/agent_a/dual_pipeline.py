@@ -32,7 +32,54 @@ from agent_a.reconcile import (
     RECONCILE_DEFAULT_MAX_TOKENS,
 )
 from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
-import config
+
+# ── transformers lazy-loads (must be at module-level so tests can patch them) ──
+# AutoProcessor is imported lazily so this package works without transformers installed.
+# Tests patch agent_a.dual_pipeline.AutoProcessor directly.
+_AutoProcessor: type | None = None
+
+# _AutoModelCls holds the resolved auto class for seq2seq vision models (TrOCR family).
+# Set by _ensure_transformers_ready() on first use; patchable at module level.
+_AutoModelCls: type | None = None
+
+
+def _ensure_transformers_ready():
+    """Lazy-init transformers dependencies. Call before using HF models."""
+    global _AutoProcessor, _AutoModelCls
+    if _AutoProcessor is None:
+        from transformers import AutoProcessor as AP
+        from transformers import VisionEncoderDecoderModel as VED
+
+        # AutoModelForVision2Seq was renamed/removed in transformers 5.x;
+        # fall back through a chain to find what actually works.
+        for _name in ("AutoModelForVision2Seq", "AutoModelForSeq2SeqLM", "VisionEncoderDecoderModel"):
+            try:
+                from transformers import importlib
+                _mod = importlib.import_module("transformers")
+                _cls = getattr(_mod, _name, None)
+                if _cls is not None:
+                    _AutoModelCls = _cls
+                    break
+            except Exception:  # pragma: no cover
+                continue
+        else:  # pragma: no cover
+            _AutoModelCls = VED  # type: ignore[assignment]
+
+        _AutoProcessor = AP
+        # Prime the model-class cache so _get_transformers_model_cls() returns it.
+        _TransformersModels = (VED, _AutoModelCls)
+
+
+# Backwards-compatible alias for code that used _get_transformers_model_cls()
+_TransformersModels: tuple | None = None
+
+
+def _get_transformers_model_cls():
+    """Return (VisionEncoderDecoderModel, AutoModelCls) for the current transformers version."""
+    _ensure_transformers_ready()
+    from transformers import VisionEncoderDecoderModel as VED
+    return (VED, _AutoModelCls)
+
 
 
 SYSTEM_HTR = (
@@ -255,16 +302,18 @@ def _run_hf_ocr(
 
     try:
         import torch
-        from transformers import AutoProcessor, AutoModelForVision2Seq
         from PIL import Image as PILImage
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
         dtype  = torch.bfloat16 if device == "cuda" else torch.float32
 
+        # Lazy-load the right model class (handles transformers version differences)
+        _ensure_transformers_ready()
+
         # The deployed registry models (TrOCR family, LightOnOCR) are seq2seq
         # vision-encoder-decoder models — decode via generate(), not CTC logits.
-        processor = AutoProcessor.from_pretrained(model.model_id)
-        model_hf  = AutoModelForVision2Seq.from_pretrained(
+        processor = _AutoProcessor.from_pretrained(model.model_id)
+        model_hf  = _AutoModelCls.from_pretrained(
             model.model_id,
             torch_dtype=dtype,
         ).to(device)
@@ -272,7 +321,37 @@ def _run_hf_ocr(
         image = PILImage.open(image_path).convert("RGB")
 
         if model.requires_line_images:
-            return "", "line-image mode requires kraken pre-segmentation (not yet wired)"
+            # ── TrOCR / line-model path: kraken pre-segmentation (#235 P2-2) ──
+            try:
+                with KrakenHTTPClient() as client:
+                    seg = client.segment(image=image_path, seg_mode="baseline")
+                lines_raw = seg.get("lines", [])
+            except KrakenClientError as e:
+                return "", f"[TrOCR] kraken segmentation failed: {e}"
+
+            if not lines_raw:
+                return "", "[TrOCR] no lines found by kraken segmenter"
+
+            results: list[str] = []
+            for line_meta in lines_raw:
+                polygon = line_meta.get("baseline", [])
+                if len(polygon) < 2:
+                    continue
+                xs = [p[0] for p in polygon]
+                ys = [p[1] for p in polygon]
+                x0, x1 = max(0, int(min(xs)) - 2), int(max(xs)) + 2
+                y0, y1 = max(0, int(min(ys)) - 2), int(max(ys)) + 2
+                line_img = image.crop((x0, y0, x1, y1))
+                inputs = processor(images=line_img, return_tensors="pt").to(device)
+                with torch.no_grad():
+                    generated = model_hf.generate(**inputs, max_new_tokens=512)
+                pred = processor.batch_decode(generated, skip_special_tokens=True)[0]
+                if pred.strip():
+                    results.append(pred.strip())
+
+            if not results:
+                return "", f"[TrOCR] no lines produced text (model={model.model_id})"
+            return "\n".join(results), model.model_id
         else:
             inputs = processor(images=image, return_tensors="pt").to(device)
             with torch.no_grad():
