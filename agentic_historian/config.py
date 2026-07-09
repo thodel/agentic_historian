@@ -139,6 +139,9 @@ ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 # "vote" (align+vote+arbitrate) | "llm_merge" (LLM merges the raw texts).
 ENABLE_MULTI_ENGINE_FUSION = _get("ENABLE_MULTI_ENGINE_FUSION", "false").lower() == "true"
 FUSION_STRATEGY = _get("FUSION_STRATEGY", "vote")
+# Agreement gate: when max pairwise CER between candidates is below this threshold,
+# skip LLM arbitration and take the consensus directly (cost control).
+FUSION_AGREEMENT_CER_THRESHOLD = float(_get("FUSION_AGREEMENT_CER_THRESHOLD", "0.05"))
 
 # ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
 # Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway

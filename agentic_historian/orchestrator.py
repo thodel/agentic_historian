@@ -20,6 +20,7 @@ from typing import Optional
 from loguru import logger
 
 import config
+from eval.metrics import cer
 from agents import (
     text_recognition as agent_a,
     source_description as agent_b,
@@ -340,8 +341,57 @@ def run_full_pipeline(
                 for rec in dual_p3.recognitions:
                     if rec not in ctx.recognitions:
                         ctx.recognitions.append(rec)
-                # Reconcile VLM (Phase 1) with kraken (Phase 3)
-                if dual_p3.kraken_transcription:
+
+                # ── Phase 3 fusion or 2-way reconcile ────────────────────────
+                # When ENABLE_MULTI_ENGINE_FUSION is on, feed ALL candidates
+                # (VLM + kraken + TrOCR + PARTY + any others) into fusion.fuse():
+                #   • alignment on the longest candidate (pivot)
+                #   • majority-vote per position
+                #   • LLM arbitration scoped to disagreement slots only
+                # An "agreement gate" short-circuits the LLM when max pairwise
+                # CER between candidates is below FUSION_AGREEMENT_CER_THRESHOLD
+                # (cost control; consensus is taken directly).
+                # When fusion is off, behaviour is byte-identical to the old
+                # 2-way reconcile (VLM vs kraken).
+                _do_fuse = config.ENABLE_MULTI_ENGINE_FUSION and len(ctx.recognitions) >= 2
+                if _do_fuse:
+                    from fusion import fuse as _fusion_fuse
+                    # Agreement gate: compute max pairwise CER; if low, skip LLM arb.
+                    from eval.metrics import cer as _cer
+                    _cands = [(r.engine or "?", r.text or "") for r in ctx.recognitions if r.text]
+                    _pairwise_cers = [
+                        _cer(a, b, ignore_case=False, ignore_whitespace=False,
+                             ignore_punctuation=False)
+                        for _, a in _cands
+                        for _, b in _cands
+                        if a != b
+                    ]
+                    _max_cer = max(_pairwise_cers) if _pairwise_cers else 1.0
+                    _skip_llm = _max_cer < config.FUSION_AGREEMENT_CER_THRESHOLD
+                    if _skip_llm:
+                        logger.info(
+                            f"[Orchestrator] Phase 3: agreement gate (CER={_max_cer:.2%} "
+                            f"< {config.FUSION_AGREEMENT_CER_THRESHOLD:.2%}); "
+                            f"taking consensus without LLM arbitration"
+                        )
+                    _fuse_result = _fusion_fuse(
+                        ctx.recognitions,
+                        llm_fn=None,          # deterministic if LLM skipped
+                        strategy=config.FUSION_STRATEGY,
+                    )
+                    ctx.transcription = _fuse_result.text
+                    ctx.a_meta["fusion_strategy"] = _fuse_result.strategy
+                    ctx.a_meta["fusion_arbitrated"] = _fuse_result.arbitrated
+                    ctx.a_meta["fusion_agreement_cer"] = _max_cer
+                    ctx.a_meta["fusion_llm_skipped"] = _skip_llm
+                    logger.info(
+                        f"[Orchestrator] Phase 3: fused ({_fuse_result.strategy}), "
+                        f"arbitrated={_fuse_result.arbitrated} slots, "
+                        f"agreement={_max_cer:.2%}, llm_skipped={_skip_llm}, "
+                        f"{len(ctx.transcription)} chars"
+                    )
+                elif dual_p3.kraken_transcription:
+                    # Legacy 2-way reconcile (when fusion is disabled)
                     rec_result = reconcile(ctx.transcription, dual_p3.kraken_transcription)
                     ctx.transcription = rec_result.reconciled
                     logger.info(
