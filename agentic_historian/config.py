@@ -44,6 +44,12 @@ DISCORD_BOT_TOKEN = _get("DISCORD_BOT_TOKEN")
 # Numeric role ID that is allowed to run sensitive commands (/run, /pull, etc.).
 # Set to 0 or empty to disable role-gating (NOT recommended for shared servers).
 REQUIRED_DISCORD_ROLE_ID: int | None = int(_get("REQUIRED_DISCORD_ROLE_ID", "0")) or None
+# Numeric role ID for admin-only operations (/update).  Defaults to the same
+# role as REQUIRED_DISCORD_ROLE_ID (allows the same people to update); set to 0
+# or empty to disable the admin gate (not recommended).
+REQUIRED_ADMIN_ROLE_ID: int | None = int(_get("REQUIRED_ADMIN_ROLE_ID", "0")) or None
+if REQUIRED_ADMIN_ROLE_ID is None:  # "0" → None fallback, inherit from ROLE_ID
+    REQUIRED_ADMIN_ROLE_ID = REQUIRED_DISCORD_ROLE_ID
 
 # ── GitHub ───────────────────────────────────────────────────────────────────
 GITHUB_TOKEN = _get("GITHUB_TOKEN")
