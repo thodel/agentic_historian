@@ -271,6 +271,32 @@ async def search_cmd(ctx, query: Option(str, "Name/Person to search", required=T
 
 
 @bot.slash_command(
+    name="entity",
+    description="Look up an entity in the local index (documents, authority links)",
+)
+async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=True)):
+    # Thin shell over entity_index (#33/#224): (re)build from data/outputs, look up.
+    await ctx.defer()
+    try:
+        import config
+        import entity_index
+        index = entity_index.build_index(config.OUTPUTS_DIR)
+        entry = entity_index.lookup(index, name)
+        if entry is None:
+            suggestions = entity_index.suggest(index, name)
+            if suggestions:
+                hint = ", ".join(f"`{s}`" for s in suggestions)
+                await ctx.followup.send(f"Keine Entität «{name}» gefunden. Meinten Sie: {hint}?")
+            else:
+                await ctx.followup.send(f"Keine Entität «{name}» gefunden.")
+            return
+        site_base = entity_index.pages_site_base() if config.ENABLE_GITHUB_PUBLISH else None
+        await ctx.followup.send(entity_index.format_entity(entry, site_base=site_base))
+    except Exception as e:
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
+@bot.slash_command(
     name="route",
     description="Show the Gate-1 routing card for a document (correct metadata, re-route HTR)",
 )
