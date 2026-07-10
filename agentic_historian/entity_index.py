@@ -302,3 +302,96 @@ def write_entity_pages(
     (reg_dir / "index.md").write_text(
         "\n".join(reg_lines) + "\n", encoding="utf-8"
     )
+
+
+# ── /entity command core (#224, P1-A4) ────────────────────────────────────────
+# Pure lookup / suggest / format helpers over an EntityIndex. The bot stays a
+# thin shell (#33): it calls build_index() then these. All offline-testable.
+
+# German umlaut transliteration so a query for "Müller" also matches the "Mueller"
+# spelling (build_index may keep either as the canonical name). Applied before
+# _norm_name, which otherwise strips ü→u ("muller") and leaves "ue" alone.
+_UMLAUT_TRANSLIT = str.maketrans({
+    "ä": "ae", "ö": "oe", "ü": "ue", "Ä": "ae", "Ö": "oe", "Ü": "ue", "ß": "ss",
+})
+
+
+def _match_keys(name: str) -> set[str]:
+    """All lookup keys for a name — the accent-stripped form AND the umlaut-
+    transliterated form — so a "Müller" entity matches queries "Müller",
+    "Muller" (ü→u) and "Mueller" (ü→ue). Match = key-sets intersect."""
+    base = _norm_name(name)
+    translit = _norm_name((name or "").translate(_UMLAUT_TRANSLIT))
+    return {k for k in (base, translit) if k}
+
+
+def lookup(index: "EntityIndex", name: str) -> "EntityEntry | None":
+    """Exact entity lookup, case-, diacritic- and umlaut-spelling-insensitive
+    (particles ignored).
+
+    ``build_index`` already merges by GND / normalised-name, so the returned
+    entry carries every document that mentions the person under any spelling.
+    On several entries whose keys match (different types), the one with the most
+    mentions wins.
+    """
+    qkeys = _match_keys(name)
+    if not qkeys:
+        return None
+    hits = [e for e in index.entries.values() if _match_keys(e.name) & qkeys]
+    if not hits:
+        return None
+    return max(hits, key=lambda e: len(e.mentions))
+
+
+def suggest(index: "EntityIndex", name: str, n: int = 3) -> list[str]:
+    """The ``n`` closest entity names to a miss (difflib), for a 'did you mean'."""
+    import difflib
+    key_to_name: dict[str, str] = {}
+    for e in index.entries.values():
+        key_to_name.setdefault(_norm_name(e.name), e.name)
+    close = difflib.get_close_matches(_norm_name(name), list(key_to_name), n=n, cutoff=0.5)
+    return [key_to_name[c] for c in close]
+
+
+def pages_site_base() -> str:
+    """GitHub Pages base URL for the output repo (``owner.github.io/name``), or
+    "" if not configured."""
+    import config
+    owner, _, name = (getattr(config, "GITHUB_OUTPUT_REPO", "") or "").partition("/")
+    return f"https://{owner}.github.io/{name}" if owner and name else ""
+
+
+def format_entity(entry: "EntityEntry", site_base: str | None = None,
+                  max_chars: int = 2000) -> str:
+    """Discord-ready summary of one entity: canonical name + type, authority
+    links (GND/HLS/Wikidata), the documents that mention it (each with a
+    ``/route <doc_id>`` hint), and — when ``site_base`` is given — the catalogue
+    page link. Capped at ``max_chars`` (the doc list is trimmed with a
+    "… und N weitere" note; never split a link)."""
+    head = [f"**{entry.name}** · _{entry.type}_"]
+    links = _authority_links(entry)                 # reuse the Pages link builder
+    if links:
+        head.append(links)
+    if site_base:
+        head.append(f"🔗 [Katalogseite]({site_base}/entities/{_entity_slug(entry)}/)")
+
+    docs = sorted({m.doc_id for m in entry.mentions})
+    head.append("")
+    head.append(f"📄 Erwähnt in {len(docs)} Dokument(en):")
+    header = "\n".join(head)
+
+    doc_lines = [f"• `{d}` — `/route {d}`" for d in docs]
+    kept: list[str] = []
+    for i, dl in enumerate(doc_lines):
+        remaining = len(docs) - (i + 1)
+        note = f"\n… und {remaining} weitere" if remaining else ""
+        candidate = header + "\n" + "\n".join(kept + [dl]) + note
+        if len(candidate) > max_chars:
+            break
+        kept.append(dl)
+
+    result = header + ("\n" + "\n".join(kept) if kept else "")
+    hidden = len(docs) - len(kept)
+    if hidden:
+        result += f"\n… und {hidden} weitere"
+    return result[:max_chars]
