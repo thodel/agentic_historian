@@ -856,6 +856,83 @@ async def update_cmd(ctx):
     _PENDING_UPDATES[token]["message_id"] = str(msg.id)
 
 
+# ── /mcp_propose (#229): probe an MCP source → reviewed PR (never hot-load) ────
+_PENDING_PROPOSALS: dict = {}
+
+
+class _McpProposeView(View):
+    """Confirm → open a PR for a probed MCP source (the running federation is
+    never touched; only a reviewable PR is created)."""
+
+    def __init__(self, token: str, requester: str, *, timeout: float = _UPDATE_TOKEN_TTL):
+        super().__init__(timeout=timeout)
+        self.token = token
+        self.requester = requester
+
+    async def interaction_check(self, interaction, /) -> bool:
+        if str(interaction.user.id) != self.requester:
+            await interaction.response.send_message(
+                "⛔ Nur wer /mcp_propose aufgerufen hat, kann bestätigen.", ephemeral=True)
+            return False
+        return True
+
+    @discord.ui.button(label="✅ PR erstellen", style=ButtonStyle.success,
+                       custom_id="mcp_propose:confirm")
+    async def confirm(self, button: Button, interaction: Interaction):
+        await interaction.response.defer(thinking=True)
+        info = _PENDING_PROPOSALS.pop(self.token, None)
+        if info is None:
+            await interaction.followup.send(
+                "⚠️ Anfrage abgelaufen — /mcp_propose erneut aufrufen.", ephemeral=True)
+            return
+        import mcp_propose
+        # PR creation is blocking HTTP → run off the event loop.
+        result = await _run_blocking(None, mcp_propose.propose,
+                                     info["name"], info["url"], info["report"])
+        if result.get("ok"):
+            await interaction.followup.send(
+                f"✅ PR erstellt: {result['pr_url']}\nBitte reviewen, mergen und deployen.")
+        else:
+            await interaction.followup.send(result.get("error") or "❌ Vorschlag fehlgeschlagen.")
+
+    @discord.ui.button(label="✖ Abbrechen", style=ButtonStyle.secondary,
+                       custom_id="mcp_propose:cancel")
+    async def cancel(self, button: Button, interaction: Interaction):
+        _PENDING_PROPOSALS.pop(self.token, None)
+        await interaction.response.edit_message(content="❌ Vorschlag abgebrochen.", view=None)
+
+
+@bot.slash_command(
+    name="mcp_propose",
+    description="Probe an MCP source and open a PR to add it (reviewed, never hot-loaded)",
+)
+@require_role
+async def mcp_propose_cmd(
+    ctx,
+    name: Option(str, "Short source key, e.g. 'ssrq'", required=True),
+    url: Option(str, "MCP endpoint URL (https)", required=True),
+):
+    # Thin shell (#33): probe (async I/O), show the report, and only open the PR
+    # on an explicit Confirm — never hot-load into the running federation.
+    await ctx.defer()
+    try:
+        from utils import mcp_probe
+        import mcp_propose
+        report = await mcp_probe.probe(url)
+        err = mcp_propose.check_guardrails(name, url, report)
+        if err:
+            await ctx.followup.send(err)
+            return
+        token = _make_token()
+        requester_id = str(ctx.author.id)
+        _PENDING_PROPOSALS[token] = {"name": name, "url": url, "report": report,
+                                     "requester": requester_id}
+        view = _McpProposeView(token=token, requester=requester_id)
+        await ctx.followup.send(mcp_propose.format_report(name, url, report), view=view)
+    except Exception as e:
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
 def main() -> None:
     # Ensure all data directories exist before starting.
     # Called once here (single entry point) rather than at module import
