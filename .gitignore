@@ -14,6 +14,19 @@ build/
 # OpenClaw
 openclaw-workspace-state.json
 
+# ── Agent scratch / working state — NEVER commit ─────────────────────────────
+# A bot once dumped ~28,000 of these into a PR (#259): OpenClaw working dirs, its
+# memory notes, scraped feeds, RDF sample exports, ad-hoc patch/debug scripts.
+# These are agent scratch, not sources. `.openclaw/` (no leading slash) matches
+# at any depth; the anchored dirs only ignore the repo-root scratch versions.
+.openclaw/
+/memory/
+/sample/
+/mcp/
+/feeds/
+*_master.py
+add-z
+
 # Virtual envs
 .venv/
 agentic_historian/.venv/

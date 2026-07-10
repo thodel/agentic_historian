@@ -23,11 +23,16 @@ data/hot_folder/
 *.log
 openclaw-workspace-state.json
 
-# Data (local)
+# Data (local) — regenerated at runtime, never commit.
+# (gitignore has no inline comments — keep these on their own lines)
 data/hot_folder/processed/
 data/transcriptions/
 data/descriptions/
 data/outputs/
+# RunState persistence (#225) and the routing-prior feedback log
+# (its .jsonl slips past the *.json rule below):
+data/runs/
+data/feedback/
 *.json
 
 # OS
