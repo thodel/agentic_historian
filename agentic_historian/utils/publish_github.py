@@ -188,26 +188,41 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
 
 
 def _commit_files(files: dict[str, bytes], message: str,
-                  session: Optional[requests.Session] = None) -> Optional[str]:
-    """Commit ``files`` (remote path → bytes) to the output repo in one commit.
+                  session: Optional[requests.Session] = None,
+                  *, repo: Optional[str] = None, branch: Optional[str] = None,
+                  base_branch: Optional[str] = None) -> Optional[str]:
+    """Commit ``files`` (remote path → bytes) to ``repo``/``branch`` in one commit.
 
-    Handles an empty (un-initialised) repo by creating the first commit and ref.
-    Returns the commit's html_url, or None if there is nothing to commit.
+    Defaults to the output repo/branch (the publishing path). Pass ``repo`` /
+    ``branch`` to target another repo (e.g. the code repo for /mcp_propose, #229).
+    When ``branch`` does not exist and ``base_branch`` is given, a NEW branch is
+    forked off ``base_branch`` (its tree is the base, its HEAD the parent) — this
+    is how a feature branch for a PR is created. Without ``base_branch``, a 404
+    branch means an empty repo (first commit). Returns the commit html_url.
     """
     if not files:
         return None
-    repo = config.GITHUB_OUTPUT_REPO
-    branch = config.GITHUB_OUTPUT_BRANCH
+    repo = repo or config.GITHUB_OUTPUT_REPO
+    branch = branch or config.GITHUB_OUTPUT_BRANCH
     s = session or _session()
     git = f"{_API}/repos/{repo}/git"
 
-    # base commit + tree (or none, for an empty repo)
+    # base commit + tree; decide whether we update an existing ref or create one.
+    create_ref = False
     r = s.get(f"{git}/ref/heads/{branch}", timeout=_TIMEOUT)
     if r.status_code == 200:
         parent = r.json()["object"]["sha"]
         rc = s.get(f"{git}/commits/{parent}", timeout=_TIMEOUT)
         rc.raise_for_status()
         base_tree = rc.json()["tree"]["sha"]
+    elif r.status_code == 404 and base_branch:
+        rb = s.get(f"{git}/ref/heads/{base_branch}", timeout=_TIMEOUT)
+        rb.raise_for_status()
+        parent = rb.json()["object"]["sha"]
+        rc = s.get(f"{git}/commits/{parent}", timeout=_TIMEOUT)
+        rc.raise_for_status()
+        base_tree = rc.json()["tree"]["sha"]
+        create_ref = True                   # new feature branch off base_branch
     elif r.status_code == 404:
         parent, base_tree = None, None      # empty repo → first commit
     else:
@@ -238,13 +253,26 @@ def _commit_files(files: dict[str, bytes], message: str,
     rc.raise_for_status()
     new_sha = rc.json()["sha"]
 
-    if parent is not None:
+    if parent is not None and not create_ref:
         ru = s.patch(f"{git}/refs/heads/{branch}", json={"sha": new_sha}, timeout=_TIMEOUT)
     else:
         ru = s.post(f"{git}/refs", json={"ref": f"refs/heads/{branch}", "sha": new_sha},
                     timeout=_TIMEOUT)
     ru.raise_for_status()
     return rc.json().get("html_url")
+
+
+def open_pr(head_branch: str, title: str, body: str, *,
+            repo: Optional[str] = None, base: str = "main",
+            session: Optional[requests.Session] = None) -> Optional[str]:
+    """Open a pull request ``head_branch`` → ``base`` on ``repo``. Returns the
+    PR html_url. Used by /mcp_propose (#229) after committing the source patch."""
+    repo = repo or config.GITHUB_CODE_REPO
+    s = session or _session()
+    r = s.post(f"{_API}/repos/{repo}/pulls", timeout=_TIMEOUT,
+               json={"title": title, "head": head_branch, "base": base, "body": body})
+    r.raise_for_status()
+    return r.json().get("html_url")
 
 
 def publish_doc(doc_id: str, source_url: Optional[str] = None,

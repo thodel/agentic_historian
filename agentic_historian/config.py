@@ -64,6 +64,9 @@ GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 GITHUB_OUTPUT_REPO = _get("GITHUB_OUTPUT_REPO", "thodel/agentic-historian-outputs")
 GITHUB_OUTPUT_BRANCH = _get("GITHUB_OUTPUT_BRANCH", "main")
 ENABLE_GITHUB_PUBLISH = _get("ENABLE_GITHUB_PUBLISH", "false").lower() == "true"
+# This code repo — where /mcp_propose opens a reviewed PR adding a source (#229).
+GITHUB_CODE_REPO = _get("GITHUB_CODE_REPO", "thodel/agentic_historian")
+GITHUB_CODE_BRANCH = _get("GITHUB_CODE_BRANCH", "main")
 # Base URL for the source image of a published doc (#208). If set, each doc's
 # page links back to "<SOURCE_URL_BASE>/<filename>" — point it at a SwitchDrive
 # share, a IIIF image server, or any public mirror. Empty = no source link.
