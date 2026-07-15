@@ -102,3 +102,91 @@ def test_vlm_retry_on_low_qa(monkeypatch, tmp_path):
 
     r = tr.transcribe_image(tmp_path / "BAT_6.jpg")
     assert r["source"] == "vlm_retry" and r["qa_score"] == 0.8
+
+
+# ── Degeneration detector ────────────────────────────────────────────────────
+
+def test_is_degenerate_uuuu_lines():
+    """u-17__ style: page of repeated single characters."""
+    # 8 non-empty lines, all single-char repeated -> 100% > 70% threshold
+    assert tr._is_degenerate("uuuu\nu\nu\nu\nu\nu\nu\nu\n") is True
+
+
+def test_is_degenerate_iii_ggg():
+    """Short repetition with few distinct chars."""
+    # uuu -> dominant char u dominates; iii -> same; ggg -> same
+    # unique-char ratio: {u,i,g} / all = 3 / 9 = 0.33 > 0.10, but:
+    # 3 non-empty lines all single-char -> 100% > 70%
+    assert tr._is_degenerate("uuu\niii\nggg") is True
+
+
+def test_is_degenerate_dominant_char_60_pct():
+    """Most frequent char > 60 % — single repeated glyph."""
+    text = "aaaaaaaaab"          # 9/10 = 90 % > 60 %
+    assert tr._is_degenerate(text) is True
+
+
+def test_is_degenerate_low_unique_ratio():
+    """Very few distinct chars relative to length."""
+    text = "abcabcabcabcabcabc"  # 3/18 = 0.167 > 0.10 (PASSES this check)
+    # But dominant char 6/18 = 0.33 < 0.60, non-empty lines: 1, can't trigger 70%
+    assert tr._is_degenerate(text) is False
+
+
+def test_is_degenerate_normal_text():
+    """Normal medieval sentence — not degenerate."""
+    text = "Item der vogt zü Sant Gallen hat verkündet daz nieman..."
+    assert tr._is_degenerate(text) is False
+
+
+def test_is_degenerate_empty():
+    assert tr._is_degenerate("") is False
+    assert tr._is_degenerate("   \n\n  ") is False
+
+
+def test_is_degenerate_whitespace_only_lines():
+    """All whitespace lines — not degenerate (no non-space chars to evaluate)."""
+    # After strip, non_space is empty -> returns False
+    assert tr._is_degenerate("   \n   \n   ") is False
+
+
+# ── Quality score with degeneration ──────────────────────────────────────────
+
+def test_quality_score_uuuu_page():
+    """u-17__-style output scores below HTR_QUALITY_THRESHOLD (0.75)."""
+    text = "uuuu\nu\nu\nu\nu\nu\nu\nu\nu\nu\nu\n"
+    score = tr._quality_score(text)
+    assert score <= 0.2, f"Expected <= 0.2, got {score}"
+    assert score < config.HTR_QUALITY_THRESHOLD
+
+
+def test_quality_score_iii_ggg():
+    assert tr._quality_score("uuu\niii\nggg") < config.HTR_QUALITY_THRESHOLD
+
+
+def test_quality_score_dominant_char_collapse():
+    text = "aaaaaaaaa aaaa aaaa aaaa aaaa"
+    score = tr._quality_score(text)
+    assert score < config.HTR_QUALITY_THRESHOLD
+
+
+def test_quality_score_normal_medieval_sentence():
+    """Normal text still scores 0.8 (not penalised by degeneration check)."""
+    text = "Item der vogt zü Sant Gallen hat verkündet daz nieman..."
+    assert tr._quality_score(text) == 0.8
+
+
+def test_quality_score_regression_existing_cases():
+    """Existing cases must remain unchanged (regression guard)."""
+    assert tr._quality_score("") == 0.0
+    assert tr._quality_score("   ") == 0.0
+    assert tr._quality_score("....!!!!----1234") == 0.2      # alpha_ratio < 0.1
+    assert tr._quality_score("kurz") == 0.3                  # < 20 chars
+    assert tr._quality_score("Ein normaler lesbarer Satz hier") == 0.8
+
+
+def test_quality_score_degenerate_still_bounded():
+    """Degenerate text score is always between 0.0 and 1.0."""
+    for t in ["uuuu\nu\nu\nu\nu\nu\nu\nu\n", "aaa\nbbb\nccc\nddd"]:
+        score = tr._quality_score(t)
+        assert 0.0 <= score <= 1.0, f"Score {score} out of bounds for: {t!r}"

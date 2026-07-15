@@ -161,6 +161,60 @@ def _htr_vlm(image_path: Path, retry: int = 0) -> str:
         return ""
 
 
+def _is_degenerate(text: str) -> bool:
+    """
+    Detect repetition-collapse degeneration in HTR output.
+
+    Signals (any strong one ⇒ degenerate):
+      - Dominant-char ratio: most-frequent non-space char > 60 % of non-space chars.
+      - Low unique-char ratio: distinct non-space chars / total < 0.10.
+      - Single-char lines: > 70 % of non-empty lines are one repeated character.
+      - Low distinct-word ratio: < 0.15 for texts >= 30 chars (optional).
+
+    Returns True when the text shows clear degeneration patterns.
+    Pure function, no side effects.
+    """
+    if not text:
+        return False
+
+    # Remove whitespace to analyse character distribution
+    non_space = [c for c in text if not c.isspace()]
+    if not non_space:
+        return False
+
+    # 1. Dominant-char ratio: most frequent non-space char > 60 %
+    from collections import Counter
+    char_counts = Counter(non_space)
+    most_common_count = char_counts.most_common(1)[0][1]
+    if most_common_count / len(non_space) > 0.60:
+        return True
+
+    # 2. Low unique-char ratio: distinct / total < 0.10
+    if len(char_counts) / len(non_space) < 0.10:
+        return True
+
+    # 3. Single-char lines: > 70 % of non-empty lines are one repeated character
+    lines = text.split("\n")
+    non_empty_lines = [ln.strip() for ln in lines if ln.strip()]
+    if non_empty_lines:
+        single_char_lines = sum(
+            1 for ln in non_empty_lines
+            if len(ln) == 1 or (len(set(ln)) == 1)
+        )
+        if single_char_lines / len(non_empty_lines) > 0.70:
+            return True
+
+    # 4. Low distinct-word ratio (for texts >= 30 chars, optional)
+    if len(text) >= 30:
+        words = text.split()
+        if words:
+            distinct_ratio = len(set(words)) / len(words)
+            if distinct_ratio < 0.15:
+                return True
+
+    return False
+
+
 def _quality_score(transcription: str) -> float:
     """
     Independent heuristic quality check for HTR output.
@@ -172,6 +226,7 @@ def _quality_score(transcription: str) -> float:
       - Empty or whitespace-only → 0.0
       - Mostly punctuation (alpha_ratio < 0.1) → 0.2
       - Short (under 20 chars) → 0.3  (genuinely too little to evaluate)
+      - Degenerate (repetition-collapse) → 0.1  (triggers QA-fail / retry)
       - Otherwise → 0.8  (heuristic: non-empty, readable text is usable)
                          (kraken/VLM output quality is evaluated via CER
                           against ground-truth fixtures, not this heuristic)
@@ -186,6 +241,8 @@ def _quality_score(transcription: str) -> float:
         return 0.2
     if len(text) < 20:
         return 0.3
+    if _is_degenerate(text):
+        return 0.1
 
     return 0.8
 
