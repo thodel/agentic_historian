@@ -524,6 +524,40 @@ def _publish_outputs(doc_id: str, source_url: Optional[str] = None) -> None:
         logger.warning(f"[Orchestrator] GitHub publish skipped ({doc_id}): {e}")
 
 
+def _recognize_page_ensemble(img, criteria):
+    """#272: run the multi-engine ensemble on one page — VLM + best kraken + best
+    TrOCR (≥ ENSEMBLE_MIN_ENGINES), expanding with the next-ranked model while the
+    candidates disagree, then fuse. Real backends: VLM via GPUStack, kraken/TrOCR
+    via the ATR gateway ``/ocr`` with the explicit model id (#25). Returns the
+    ensemble.EnsembleResult."""
+    from agent_a import ensemble
+    from agent_a.model_selector import RecognitionResult
+    from agent_a.dual_pipeline import _run_vlm
+    from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
+
+    def _recognize_fn(pick, image_path):
+        p = Path(image_path)
+        if pick.engine == "vlm":
+            text, score = _run_vlm(p)
+            return RecognitionResult(engine="vlm", model_id=pick.model_id,
+                                     text=text, confidence=score)
+        try:
+            with KrakenHTTPClient() as c:
+                res = c.transcribe(p, model=pick.model_id)
+            return RecognitionResult(engine=pick.engine, model_id=pick.model_id,
+                                     text=res.text, confidence=res.confidence)
+        except KrakenClientError as e:
+            return RecognitionResult(engine=pick.engine, model_id=pick.model_id,
+                                     text="", error=str(e))
+
+    return ensemble.recognize_ensemble(
+        img, criteria, _recognize_fn,
+        min_engines=config.ENSEMBLE_MIN_ENGINES,
+        max_loops=config.ENSEMBLE_MAX_LOOPS,
+        agreement_cer=config.ENSEMBLE_AGREEMENT_CER,
+    )
+
+
 def run_full_pipeline_group(
     doc_id: str,
     image_paths: list,
@@ -545,19 +579,45 @@ def run_full_pipeline_group(
         ctx.source_url = f"{config.SOURCE_URL_BASE}/{pages[0].parent.name}"
     logger.info(f"[Orchestrator] Order-Pipeline: {doc_id} ({len(pages)} Seite(n))")
 
-    # PHASE 1: Agent A per page → combined transcription
+    # PHASE 1: per-page recognition → combined transcription.
+    # #272: when ENABLE_ENSEMBLE_HTR is on, each page runs the multi-engine
+    # ensemble (VLM + kraken + TrOCR + disagreement-driven feedback loop) instead
+    # of VLM-only — the u-17__ failure was a VLM repetition-collapse with no other
+    # engine to outvote it. OFF → the original VLM-only behaviour (byte-identical).
+    use_ensemble = getattr(config, "ENABLE_ENSEMBLE_HTR", False) and DUAL_AVAILABLE
+    criteria = None
+    if use_ensemble:
+        try:
+            from agent_a.model_selector import SourceCriteria
+            criteria = SourceCriteria()   # general pool (no source description yet in Phase 1)
+        except Exception as e:
+            logger.warning(f"[Orchestrator] ensemble disabled (criteria init failed): {e}")
+            use_ensemble = False
+
     parts, scores = [], []
     for img in pages:
         try:
-            r = agent_a.transcribe_image(img)
-            parts.append(f"--- {img.name} ---\n{r.get('transcription', '')}")
-            scores.append(r.get("qa_score", 0.0))
+            if use_ensemble:
+                er = _recognize_page_ensemble(img, criteria)
+                parts.append(f"--- {img.name} ---\n{er.text}")
+                scores.append(round(1.0 - er.max_pairwise_cer, 2))   # agreement-based QA
+                for rec in er.recognitions:
+                    if rec not in ctx.recognitions:
+                        ctx.recognitions.append(rec)
+                logger.info(f"[Orchestrator] {img.name}: ensemble {len(er.recognitions)} "
+                            f"engine(s), {er.loops} loop(s), agreement CER "
+                            f"{er.max_pairwise_cer:.2%}")
+            else:
+                r = agent_a.transcribe_image(img)
+                parts.append(f"--- {img.name} ---\n{r.get('transcription', '')}")
+                scores.append(r.get("qa_score", 0.0))
         except Exception as e:
             logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
     ctx.transcription = "\n\n".join(parts).strip()
     avg_qa = round(sum(scores) / len(scores), 2) if scores else 0.0
-    ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa, "source": "grouped"}
+    ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa,
+                  "source": "grouped-ensemble" if use_ensemble else "grouped"}
     if ctx.transcription:
         agent_a.save_transcription(doc_id, ctx.transcription, avg_qa, "grouped")
         try:
@@ -566,6 +626,8 @@ def run_full_pipeline_group(
             state.stage_status["vlm"] = DONE
             state.artifacts["transcription"] = ctx.transcription
             state.artifacts["a_meta"] = ctx.a_meta
+            if ctx.recognitions:                       # #272 ensemble candidates
+                state.artifacts["recognitions"] = ctx.recognitions
             state.save()
         except Exception as e2:
             logger.warning(f"[Orchestrator] Group Phase 1 RunState persist skipped: {e2}")
