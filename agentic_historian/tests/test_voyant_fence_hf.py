@@ -1,10 +1,9 @@
 """Correctness trio 2: Voyant endpoint, JSON fence stripping, HF model class.
 
-1. Voyant was dead code: config read the env var under a misspelled name
-   (`Voyant_API_URL`), defaulted to the public voyant-tools.org API instead of
-   the self-hosted instance documented in the README, and Agent D posted to a
-   `/Corpus` endpoint that does not exist. The documented flow is
-   POST <voyant>/?text= with form data; Voyant redirects to /?corpus=<id>.
+1. Voyant fix: switched from broken POST / (HTTP 500) to GET /?text=,
+   matching the Voyant 2.4 server behaviour on tei.dh.unibe.ch.
+   The server returns a shareable ?text= embed URL directly.
+   (Old POST /?text= form-data was returning Jasper-exception 500.)
 2. entity_agent cleaned LLM output with str.strip("```json"), which treats the
    argument as a character SET and can swallow legitimate leading/trailing
    j/s/o/n characters of the JSON payload.
@@ -56,18 +55,19 @@ def test_agent_d_does_not_call_nonexistent_corpus_endpoint():
     )
 
 
-def test_voyant_url_returns_redirect_url():
-    fake = mock.Mock(ok=True, url="https://tei.dh.unibe.ch/voyant/?corpus=abc123")
-    with mock.patch.object(corpus_analysis.requests, "post", return_value=fake) as post:
+def test_voyant_url_returns_shareable_url():
+    """GET /?text= returns a shareable Voyant URL (?text= or ?corpus=)."""
+    fake = mock.Mock(ok=True, url="https://tei.dh.unibe.ch/voyant/?text=abc123")
+    with mock.patch.object(corpus_analysis.requests, "get", return_value=fake) as get:
         url = corpus_analysis._voyant_url("Erstes Beispiel.", "default")
-    assert url == "https://tei.dh.unibe.ch/voyant/?corpus=abc123"
-    endpoint = post.call_args.args[0] if post.call_args.args else post.call_args.kwargs.get("url")
-    assert endpoint.endswith("/"), "must POST to the Voyant root, not a sub-endpoint"
+    assert url == "https://tei.dh.unibe.ch/voyant/?text=abc123"
+    endpoint = get.call_args.args[0] if get.call_args.args else get.call_args.kwargs.get("url")
+    assert endpoint.endswith("/"), "must GET the Voyant root, not a sub-endpoint"
 
 
 def test_voyant_url_empty_on_failure():
     fake = mock.Mock(ok=False, url="https://tei.dh.unibe.ch/voyant/")
-    with mock.patch.object(corpus_analysis.requests, "post", return_value=fake):
+    with mock.patch.object(corpus_analysis.requests, "get", return_value=fake):
         assert corpus_analysis._voyant_url("text", "default") == ""
 
 

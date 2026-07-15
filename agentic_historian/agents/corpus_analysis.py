@@ -196,22 +196,29 @@ def _care_analysis(text: str) -> dict:
 # ── Voyant + Persistence ─────────────────────────────────────────────────────
 
 def _voyant_url(text: str, corpus_name: str) -> str:
-    """Upload the corpus text to Voyant and return the session URL.
+    """Upload the corpus text to Voyant and return the shareable URL.
 
-    Uses the documented flow of the self-hosted instance (README): POST the
-    content as form data to <voyant>/?text= — Voyant answers by redirecting to
-    /?corpus=<id>, so the final response URL is the shareable link. The old
-    /Corpus endpoint does not exist on Voyant servers.
+    Voyant 2.4 (self-hosted at tei.dh.unibe.ch) accepts text via GET query
+    parameter.  The returned URL embeds the corpus in the Voyant session
+    directly (/?text=...).  We deliberately do NOT truncate to "?corpus="
+    because the Voyant 2.4 server does not issue a redirect to a stable
+    corpus ID — it re-encodes the text parameter on every load.
+
+    Fallback: if the request fails, returns "" (caller handles gracefully).
     """
     try:
         endpoint = config.VOYANT_API_URL.rstrip("/") + "/"
-        resp = requests.post(
+        # Encode the corpus text as a URL query parameter.
+        # requests handles quoting, but we cap at 50 kB to respect server limits.
+        truncated = text[:50_000]
+        resp = requests.get(
             endpoint,
-            params={"text": ""},
-            data={"text": text[:50_000]},
+            params={"text": truncated},
             timeout=30,
+            allow_redirects=False,   # stop at theVoyant session URL
         )
-        if resp.ok and "corpus=" in resp.url:
+        if resp.ok:
+            # Successful response — use the effective URL (Voyant embeds text=...)
             return resp.url
     except Exception as e:
         logger.warning(f"[Agent D] Voyant-Link fehlgeschlagen: {e}")
@@ -221,8 +228,9 @@ def _voyant_url(text: str, corpus_name: str) -> str:
 def verify_voyant(sample_text: str = "Dis ist ein kurzer Beispieltext für Voyant.") -> dict:
     """Live smoke check for the Voyant export (#29).
 
-    POSTs a sample corpus to the configured Voyant instance and confirms a working
-    shareable ``?corpus=`` link comes back. Run on-host to verify the endpoint:
+    GETs a sample corpus against the configured Voyant instance and confirms a
+    working shareable link (``?text=`` or ``?corpus=``) comes back.
+    Run on-host to verify the endpoint:
 
         python -c "from agents.corpus_analysis import verify_voyant as v; print(v())"
 
@@ -230,13 +238,14 @@ def verify_voyant(sample_text: str = "Dis ist ein kurzer Beispieltext für Voyan
     """
     endpoint = config.VOYANT_API_URL.rstrip("/") + "/"
     url = _voyant_url(sample_text, "verify")
-    ok = bool(url) and "corpus=" in url
+    # Accept either ?text= (Voyant 2.4) or ?corpus= (older Voyant versions).
+    ok = bool(url) and ("text=" in url or "corpus=" in url)
     return {
         "ok": ok,
         "url": url,
         "endpoint": endpoint,
-        "reason": "corpus link returned" if ok
-                  else "no ?corpus= link — endpoint unreachable or contract changed",
+        "reason": "shareable link returned" if ok
+                  else "endpoint unreachable or contract changed",
     }
 
 
