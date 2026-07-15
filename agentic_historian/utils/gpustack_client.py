@@ -106,15 +106,30 @@ def _build_messages(prompt: str, system: Optional[str], image_source: Optional[s
     wait=wait_exponential(multiplier=1, min=2, max=10),
     reraise=True,
 )
-def _create(model: str, messages: list[dict], temperature: float, max_tokens: int) -> tuple[Optional[str], str]:
+def _create(
+    model: str,
+    messages: list[dict],
+    temperature: float,
+    max_tokens: int,
+    frequency_penalty: Optional[float] = None,
+    presence_penalty: Optional[float] = None,
+) -> tuple[Optional[str], str]:
     client = get_client()
-    response = client.chat.completions.create(
+    request = dict(
         model=model,
         messages=messages,
         temperature=temperature,
         top_p=1,
         max_tokens=max_tokens,
     )
+    # Omit unset OpenAI-compatible options entirely.  This keeps every existing
+    # caller byte-for-byte equivalent while allowing the HTR VLM call to opt in
+    # to anti-repetition decoding (#275).
+    if frequency_penalty is not None:
+        request["frequency_penalty"] = frequency_penalty
+    if presence_penalty is not None:
+        request["presence_penalty"] = presence_penalty
+    response = client.chat.completions.create(**request)
     choice = response.choices[0]
     return choice.message.content, (choice.finish_reason or "")
 
@@ -127,13 +142,22 @@ def chat(
     max_tokens: int = 4096,
     image_source: Optional[str] = None,
     agent_name: str = "unknown",
+    frequency_penalty: Optional[float] = None,
+    presence_penalty: Optional[float] = None,
 ) -> str:
     """Generischer Chat-Call an GPUStack. Returns the model's text `content`."""
     model = model or config.GPUSTACK_MODEL_TEXT
     budget = max(max_tokens, MIN_MAX_TOKENS)
     messages = _build_messages(prompt, system, image_source)
 
-    content, finish = _create(model, messages, temperature, budget)
+    content, finish = _create(
+        model,
+        messages,
+        temperature,
+        budget,
+        frequency_penalty,
+        presence_penalty,
+    )
 
     # Reasoning models can exhaust the budget on reasoning before emitting content.
     if not content and finish == "length":
@@ -141,7 +165,14 @@ def chat(
             f"[{agent_name}] {model} returned empty content (finish=length); "
             f"retrying with doubled budget ({budget} → {budget * 2})."
         )
-        content, finish = _create(model, messages, temperature, budget * 2)
+        content, finish = _create(
+            model,
+            messages,
+            temperature,
+            budget * 2,
+            frequency_penalty,
+            presence_penalty,
+        )
 
     if not content:
         raise EmptyCompletion(
