@@ -81,6 +81,29 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     logger.info(f"[Agent B] Verarbeite: {doc_id}")
     pins = pins or {}
 
+    # #276: never fabricate a description for a degenerate/illegible transcription.
+    # u-17__ was a VLM repetition-collapse ("uuuu") that Agent B rationalised into a
+    # fake "Zählsystem" interpretation. Detect the collapse (reusing Fix B's
+    # _is_degenerate) and return an honest low-confidence result WITHOUT spending any
+    # LLM call (neither the description nor the care-flag). Human pins still apply.
+    from agents.text_recognition import _is_degenerate
+    if _is_degenerate(transcription):
+        logger.warning(f"[Agent B] Transkription degeneriert/unlesbar — keine LLM-Beschreibung: {doc_id}")
+        source_json = _apply_pins({elem: None for elem in HANDSCHRIFTEN_ELEMENTS}, pins)
+        result = {
+            "doc_id": doc_id,
+            "source_description": ("Transkription unlesbar oder degeneriert "
+                                   "(Wiederholungskollaps) — keine belastbare "
+                                   "Quellenbeschreibung möglich."),
+            "source_json": source_json,
+            "care_flag": {"is_care_related": False, "care_context": "",
+                          "care_types": [], "beteiligte": []},
+            "image_path": image_path or "none",
+            "low_confidence": True,
+        }
+        _save(doc_id, result)
+        return result
+
     if image_path:
         prompt_obj = full_codicological()
     else:
