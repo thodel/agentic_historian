@@ -10,6 +10,7 @@ import threading
 from pathlib import Path
 
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 import config
 from orchestrator import run_full_pipeline, run_agent_a, run_agent_b, run_agent_c, run_agent_d, run_agent_e, run_hot_folder
