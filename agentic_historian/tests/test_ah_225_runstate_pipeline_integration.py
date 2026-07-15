@@ -62,6 +62,110 @@ class _NoOpHub:
 
 # ─── tests ──────────────────────────────────────────────────────────────────
 
+def test_offline_abc_pipeline_contract_is_deterministic(tmp_path, monkeypatch):
+    """A complete A→B→C run is offline, consistent, and repeatable.
+
+    This is the canonical PR-level pipeline contract: external model calls are
+    replaced at the agent boundary, persistence remains real, and publishing
+    must stay disabled.
+    """
+    data_dir = tmp_path / "data"
+    out_dir = data_dir / "outputs"
+    calls: list[tuple] = []
+
+    monkeypatch.setattr(config, "DATA_DIR", data_dir)
+    monkeypatch.setattr(config, "OUTPUTS_DIR", out_dir)
+    monkeypatch.setattr(config, "META_LOG_PATH", data_dir / "meta_agent_log.json")
+    monkeypatch.setattr(config, "SOURCE_URL_BASE", "https://archive.example/scans")
+    monkeypatch.setattr(orch, "DUAL_AVAILABLE", False)
+
+    transcription = "Hans von Bern tuend kund."
+    description = {
+        "source_description": "Gerichtsbrief, 15. Jh., Kurrent",
+        "source_json": {
+            "script": "Kurrent",
+            "lang": "de",
+            "century": 15,
+            "document_type": "Gerichtsbrief",
+        },
+    }
+    entities = {"persons": [{"name": "Hans von Bern", "confidence": "high"}]}
+
+    def fake_a(path):
+        calls.append(("A", Path(path).name))
+        return {"transcription": transcription, "qa_score": 0.91, "source": "mock-vlm"}
+
+    def fake_b(doc_id, transcription, image_path=None):
+        calls.append(("B", doc_id, transcription, image_path))
+        assert transcription == "Hans von Bern tuend kund."
+        return description
+
+    def fake_c(doc_id, text):
+        calls.append(("C", doc_id, text))
+        assert text == transcription
+        return entities
+
+    monkeypatch.setattr(orch.agent_a, "process_file", fake_a)
+    monkeypatch.setattr(orch.agent_b, "describe", fake_b)
+    monkeypatch.setattr(orch.agent_c, "extract_entities", fake_c)
+
+    from utils import publish_github
+
+    monkeypatch.setattr(publish_github, "is_enabled", lambda: False)
+
+    def unexpected_publish(*args, **kwargs):
+        raise AssertionError("offline pipeline attempted to publish")
+
+    monkeypatch.setattr(publish_github, "publish_doc", unexpected_publish)
+
+    doc_id = "offline-abc-contract"
+    image = tmp_path / f"{doc_id}.jpg"
+    image.write_bytes(b"fake-image-data")
+
+    first_result = orch.run_full_pipeline(image)
+    pipeline_path = out_dir / f"{doc_id}_pipeline.json"
+    first_pipeline_bytes = pipeline_path.read_bytes()
+
+    state = RunState.load(doc_id, path=data_dir / "runs" / f"{doc_id}.json")
+    pipeline = json.loads(first_pipeline_bytes)
+
+    assert [call[0] for call in calls] == ["A", "B", "C"]
+    assert first_result["errors"] == []
+    assert state.stage_status["vlm"] == DONE
+    assert state.stage_status["agent_b"] == DONE
+    assert state.stage_status["agent_c"] == DONE
+    assert state.artifacts["transcription"] == transcription
+    assert state.artifacts["description"] == description
+    assert state.artifacts["entities"] == entities
+    assert state.criteria == {
+        "script": "kurrent",
+        "lang": "de",
+        "century": 15,
+        "document_type": "letter",
+    }
+    assert pipeline == {
+        "doc_id": doc_id,
+        "transcription": transcription,
+        "description": description,
+        "entities": entities,
+        "errors": [],
+        "a_meta": {
+            "transcription": transcription,
+            "qa_score": 0.91,
+            "source": "mock-vlm",
+        },
+        "recognitions": [],
+        "source_url": f"https://archive.example/scans/{image.name}",
+    }
+
+    calls.clear()
+    second_result = orch.run_full_pipeline(image)
+
+    assert [call[0] for call in calls] == ["A", "B", "C"]
+    assert second_result == first_result
+    assert pipeline_path.read_bytes() == first_pipeline_bytes
+
+
 def test_runstate_recorded_after_vlm(tmp_path, monkeypatch):
     """Phase 1 marks VLM done in RunState before Agent B even starts."""
     runs_dir = tmp_path / "runs"

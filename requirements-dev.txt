@@ -42,3 +42,5 @@ webdav4==0.11.0
 yarl==1.24.2
 rdflib==7.6.0
 numpy>=1.24.0
+# build backend — required for test_ah_109's editable install with --no-build-isolation
+setuptools>=61.0
