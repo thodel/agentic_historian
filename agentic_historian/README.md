@@ -152,6 +152,21 @@ rules exist because we have hit each of these failure modes — follow them.
 ### Tests
 - Add an **offline test** (mock `gpustack_client`, the kraken client, or the MCP transport) for new logic so the suite runs without the VPN. Run **from the repo root**: `pytest agentic_historian/tests/`. GitHub Actions runs the import smoke + full suite on every PR — **CI must be green before merge**.
 
+The supported local test environment is Python 3.11 or 3.12. From the repository
+root (the directory that contains `requirements-dev.txt`), use:
+
+```bash
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m pip install -e agentic_historian --no-deps --no-build-isolation
+.venv/bin/python -m ruff check agentic_historian
+.venv/bin/python -m pytest agentic_historian/tests --cov=agentic_historian --cov-report=term-missing
+```
+
+The pytest suite is offline. Tests must mock GPUStack, ATR, MCP, SwitchDrive,
+Voyant, Discord, and GitHub boundaries; live/VPN checks belong in a separate
+manual or scheduled job.
+
 ## Voyant Tools — Integration
 
 Voyant Tools is available at **https://tei.dh.unibe.ch/voyant/**.

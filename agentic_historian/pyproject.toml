@@ -66,8 +66,10 @@ htr = [
 # Full development install
 dev = [
     "agentic-historian[htr]",
+    "setuptools>=61.0",
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
+    "pytest-cov>=7.1.0",
     "ruff>=0.1.0",
 ]
 
@@ -107,4 +109,16 @@ exclude = [
     "build",
     "dist",
     "*.egg-info",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["agentic_historian"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
 ]

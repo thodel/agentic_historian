@@ -160,7 +160,8 @@ class TestInstallability:
     def test_editable_install_with_core_deps(self):
         """
         pip install -e .[core] should succeed.
-        We run it in a subprocess so it doesn't pollute the current venv.
+        Build isolation is disabled so this remains an offline test. The CI
+        environment has already installed the declared build backend.
         """
         result = subprocess.run(
             [
@@ -168,6 +169,7 @@ class TestInstallability:
                 str(REPO_ROOT),
                 "--quiet",
                 "--no-deps",   # Only install the package itself; deps already present
+                "--no-build-isolation",  # Never contact PyPI in the offline suite
             ],
             capture_output=True,
             text=True,
