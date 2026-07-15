@@ -13,6 +13,7 @@ Usage:
   result = transcribe_dual("path/to/image.jpg", lang="la", source_description=description_md)
 """
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -185,6 +186,8 @@ def _run_vlm(
             image_source=str(image_path),
             temperature=0.0,
             max_tokens=32768,
+            frequency_penalty=config.VLM_FREQUENCY_PENALTY,
+            presence_penalty=config.VLM_PRESENCE_PENALTY,
         ).strip()
         return transcription, _quality_score(transcription)
     except Exception as e:

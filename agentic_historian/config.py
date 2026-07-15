@@ -130,6 +130,11 @@ GPUSTACK_TEXT_MAX_TOKENS = int(_get("GPUSTACK_TEXT_MAX_TOKENS", "4096"))
 # ── HTR / OCR ────────────────────────────────────────────────────────────────
 HTR_QUALITY_THRESHOLD = float(_get("HTR_QUALITY_THRESHOLD", "0.75"))
 MAX_RETRIES = int(_get("MAX_RETRIES", "3"))
+# Anti-repetition decoding for the HTR VLM call only (#275).  These values are
+# passed explicitly by agent_a.dual_pipeline._run_vlm; other vision, text,
+# reconciliation, and orchestrator calls keep their existing decoding settings.
+VLM_FREQUENCY_PENALTY = float(_get("VLM_FREQUENCY_PENALTY", "0.2"))
+VLM_PRESENCE_PENALTY = float(_get("VLM_PRESENCE_PENALTY", "0.0"))
 # Add a small additive routing prior from historian feedback to kraken model
 # scores (#155). OFF by default → byte-identical scoring; the prior is capped
 # below a full script match so it only breaks near-ties.
