@@ -327,3 +327,25 @@ class TestAutoResumeGateFlag:
         # The flag should exist and default to False
         assert hasattr(cfg, "AUTO_RESUME_AFTER_GATE")
         assert cfg.AUTO_RESUME_AFTER_GATE is False
+
+
+# ── hot-watch actually starts (regression: Observer must be imported) ─────────
+
+def test_ensure_hot_watch_starts_observer(tmp_path, monkeypatch):
+    """_ensure_hot_watch() instantiates watchdog's Observer. bot.py imported only
+    FileSystemEventHandler, so Observer() raised `NameError: name 'Observer' is
+    not defined` at runtime on tei — the handler-only tests never called it. This
+    exercises the real start path with the flag on."""
+    import bot
+    monkeypatch.setattr(bot.config, "ENABLE_HOT_FOLDER_WATCH", True)
+    monkeypatch.setattr(bot.config, "HOT_FOLDER", tmp_path)
+    bot._observer = None
+    try:
+        bot._ensure_hot_watch()                 # must not raise
+        assert bot._observer is not None
+        assert bot._observer.is_alive()
+    finally:
+        if bot._observer is not None:
+            bot._observer.stop()
+            bot._observer.join(timeout=2)
+            bot._observer = None
