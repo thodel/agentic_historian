@@ -179,6 +179,14 @@ ATR_GATEWAY_URL = (_get("ATR_GATEWAY_URL") or KRAKEN_SERVICE_URL).rstrip("/")
 # Static shared secret sent as the `X-API-Key` header. Empty = unauthenticated
 # (only works against a local/dev gateway that has auth disabled).
 ATR_API_KEY = _get("ATR_API_KEY")
+# How long to wait for one gateway call. Must not be TIGHTER than the gateway's
+# own engine budget (300s, HTTPEngineClient in serving-atr-inference), or we hang
+# up on work the gateway is still doing and record a phantom "timed out" for an
+# engine that was about to answer. That is exactly what happened to
+# trocr-medieval-escriptmask on 2026-07-16: the old hardcoded 120s expired while
+# the gateway ran a cold model load plus ~4s/line across a full page — the engine
+# itself is healthy and answers a line in ~7s.
+ATR_HTTP_TIMEOUT = float(_get("ATR_HTTP_TIMEOUT", "300"))
 
 # ── Hot Folder ───────────────────────────────────────────────────────────────
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"
