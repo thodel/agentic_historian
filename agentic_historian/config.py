@@ -212,6 +212,11 @@ META_LOG_PATH = OUTPUTS_DIR / "meta_agent_log.json"
 # ── HITL Feedback Logging (#154) ─────────────────────────────────────────────
 FEEDBACK_DIR = DATA_DIR / "feedback"
 ROUTING_LOG_PATH = FEEDBACK_DIR / "routing.jsonl"
+# Candidate voting (#290): one or many historians vote on which transcription wins.
+# VOTING_MIN_VOTES=1 keeps today's Gate-2 behaviour (a single click decides); raise
+# it to require consensus before a winner is applied.
+VOTES_LOG_PATH = FEEDBACK_DIR / "votes.jsonl"
+VOTING_MIN_VOTES = int(_get("VOTING_MIN_VOTES", "1"))
 
 # ── Knowledge Hub ────────────────────────────────────────────────────────────
 KH_DIR = BASE_DIR / "knowledge_hub" / "data"
