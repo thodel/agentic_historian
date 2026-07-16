@@ -136,6 +136,7 @@ def _max_pairwise_cer(recognitions: list) -> float:
 def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                        min_engines: int = 3, max_loops: int = 2,
                        agreement_cer: float = 0.30, llm_fn=None,
+                       per_engine: int = 3,
                        picks: Optional[list] = None) -> EnsembleResult:
     """Run ≥ ``min_engines`` recognitions on one page, then keep adding the next
     ranked model while the candidates disagree (max pairwise CER >
@@ -147,7 +148,7 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     """
     from fusion import fuse
 
-    pool = list(picks) if picks is not None else plan_models(criteria)
+    pool = list(picks) if picks is not None else plan_models(criteria, per_engine=per_engine)
     recognitions: list = []
     ran: list = []
     added: list = []

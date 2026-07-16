@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import base64
 import json
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -87,6 +88,25 @@ def _entity_links(ent: dict) -> str:
     return " · ".join(out)
 
 
+def _recognition_filename(r: dict) -> str:
+    """Export path for ONE candidate transcription (#284).
+
+    ``recognitions/<page>/<engine>-<model>.txt`` — page-scoped so a multi-page
+    order's candidates are attributable, and slashes in a model id (raw Zenodo
+    DOIs) are flattened so they don't create stray directories. Shared by the
+    index renderer and the publisher so the links always match the files written.
+    """
+    page = (r.get("page") or "").strip()
+    engine = (r.get("engine") or "engine").strip() or "engine"
+    model = (r.get("model_id") or "").strip().replace("/", "_")
+    stem = f"{engine}-{model}" if model else engine
+    page_dir = ""
+    if page:
+        page_slug = re.sub(r"[^A-Za-z0-9._-]+", "_", page.rsplit(".", 1)[0])
+        page_dir = f"{page_slug}/"
+    return f"recognitions/{page_dir}{stem}.txt"
+
+
 def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str]) -> str:
     """Render the per-document page (#201): metadata + entities (with authority
     links) + transcription + file links. Parses ``pipeline.json`` (the single
@@ -135,50 +155,50 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
     if transcription.strip():
         L += ["## Transkription", "", "```", transcription.strip(), "```", ""]
 
-    # ── Recognition results (#238) ─────────────────────────────────────────
-    # Show every engine's output + provenance on the fused transcription.
-    # Parsed from pipeline.json (written by nl_orchestrator after Phase 3).
+    # ── Recognition results (#238, per-page exports #284) ──────────────────
+    # Every candidate transcription is exported as its own file and represented
+    # individually here — page-attributed, so a multi-page order's N engines × M
+    # pages stay tellable apart.
     _recs = pipe.get("recognitions", []) or []
     if _recs:
         L += ["## Recognition results", ""]
-        L += [f"__{len(_recs)} engine(s) — collapsible view_", ""]
-        L += ["<details>", "<summary>Show all engine outputs</summary>", ""]
-        # Table: engine, model, provenance, chars
-        L += ["| Engine | Model | Provenance | Chars |",
-              "|---|---|---|---|"]
-        for r in _recs:
-            _engine = r.get("engine", "?")
-            _model = r.get("model_id", "—")
-            _txt = r.get("text", "") or ""
-            _len = len(_txt)
-            _src = "single" if len(_recs) == 1 else "fused"
-            # provenance badge on fused transcription
-            _a_meta_fusion = a_meta.get("fusion_strategy", "")
-            _llm_skipped = a_meta.get("fusion_llm_skipped", False)
-            if _a_meta_fusion:
-                _prov = "⚖️ vote" if _llm_skipped else "🤖 LLM-arbitrated"
-            else:
-                _prov = "single engine"
-            L.append(f"| `{_engine}` | `{_model}` | {_prov} | {_len} |")
-            L.append(f"<details>")
-            L.append(f"<summary>{_engine} output ({_len} chars)</summary>")
-            L.append("")
-            L.append("```")
-            L.append(_txt[:2000] + ("..." if len(_txt) > 2000 else ""))
-            L.append("```")
-            L.append("</details>")
-        # Provenance legend for the fused transcription
         if a_meta.get("fusion_strategy"):
-            _n_arbitrated = a_meta.get("fusion_arbitrated", 0)
-            _skipped = a_meta.get("fusion_llm_skipped", False)
             _cer = a_meta.get("fusion_agreement_cer", 0.0)
-            _prov_note = (
-                f"Fused transcription: {_n_arbitrated} spans LLM-arbitrated, "
-                f"agreement CER={_cer:.1%}. "
-                f"{'LLM skipped (high agreement)' if _skipped else 'LLM used for disagreements.'}"
-            )
-            L += ["", _prov_note]
-        L += ["</details>", ""]
+            _n_arb = a_meta.get("fusion_arbitrated", 0)
+            _skipped = a_meta.get("fusion_llm_skipped", False)
+            L += [f"_Fused from {len(_recs)} candidate transcription(s): {_n_arb} span(s) "
+                  f"LLM-arbitrated, agreement CER {_cer:.1%}"
+                  f"{' — LLM skipped (high agreement)' if _skipped else ''}._", ""]
+        else:
+            L += [f"_{len(_recs)} independent candidate transcription(s), "
+                  f"each exported separately._", ""]
+
+        # One row per candidate, linking its own export (table kept unbroken).
+        L += ["| Page | Engine | Model | Chars | Export |", "|---|---|---|---|---|"]
+        for r in _recs:
+            _txt = r.get("text", "") or ""
+            _err = r.get("error", "") or ""
+            _fname = _recognition_filename(r)
+            if _txt and not _err:
+                _link = f"[{_fname.rsplit('/', 1)[-1]}]({_fname})"
+            elif _err:
+                _link = f"⚠️ {_err[:40]}"
+            else:
+                _link = "—"
+            L.append(f"| `{r.get('page') or '—'}` | `{r.get('engine', '?')}` | "
+                     f"`{r.get('model_id', '—')}` | {len(_txt)} | {_link} |")
+        L += [""]
+
+        # Full text per candidate, collapsed (after the table, so it stays a table).
+        for r in _recs:
+            _txt = r.get("text", "") or ""
+            if not _txt:
+                continue
+            _label = " · ".join(x for x in (r.get("page"), r.get("engine"),
+                                            r.get("model_id")) if x)
+            L += ["<details>", f"<summary>{_label} ({len(_txt)} chars)</summary>", "",
+                  "```", _txt[:2000] + ("…" if len(_txt) > 2000 else ""), "```",
+                  "</details>", ""]
 
     L += ["## Dateien", ""]
     # Include recognition files in the file list
@@ -304,19 +324,12 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
                 _fused_text = _pipe.get("transcription", "") or ""
             except (ValueError, TypeError):
                 _recs = []
-        # Write one file per engine (skip if text is missing/error)
+        # One export per candidate transcription, page-attributed (#284).
         for _r in _recs:
-            _engine = _r.get("engine", "engine")
-            _model = _r.get("model_id", "")
             _txt = _r.get("text", "") or ""
-            _err = _r.get("error", "") or ""
-            if not _txt or _err:
+            if not _txt or (_r.get("error") or ""):
                 continue
-            _fname = f"recognitions/{_engine}"
-            if _model:
-                _fname += f"-{_model}"
-            _fname += ".txt"
-            contents[_fname] = _txt.encode("utf-8")
+            contents[_recognition_filename(_r)] = _txt.encode("utf-8")
         # Write fused transcription
         if _fused_text:
             contents["recognitions/fused.txt"] = _fused_text.encode("utf-8")

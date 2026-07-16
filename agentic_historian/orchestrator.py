@@ -577,12 +577,23 @@ def _recognize_page_ensemble(img, criteria):
             return RecognitionResult(engine=pick.engine, model_id=gw_id,
                                      text="", error=str(e))
 
-    return ensemble.recognize_ensemble(
+    result = ensemble.recognize_ensemble(
         img, criteria, _recognize_fn,
         min_engines=config.ENSEMBLE_MIN_ENGINES,
         max_loops=config.ENSEMBLE_MAX_LOOPS,
         agreement_cer=config.ENSEMBLE_AGREEMENT_CER,
+        per_engine=getattr(config, "ENSEMBLE_PER_ENGINE", 3),
     )
+    # Tag every candidate with its source page (#284) so a multi-page order's
+    # exports can be attributed to the page they transcribe.
+    page = Path(img).name
+    for rec in result.recognitions:
+        try:
+            rec.page = page
+        except Exception:                       # plain-dict candidates (tests)
+            if isinstance(rec, dict):
+                rec["page"] = page
+    return result
 
 
 def run_full_pipeline_group(

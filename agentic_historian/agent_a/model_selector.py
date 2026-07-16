@@ -727,3 +727,7 @@ class RecognitionResult(BaseModel):
     error:        str = ""
     timing_ms:    int = 0
     segmented_by: str | None = None   # "kraken-blla" when auto-segment was used
+    page:         str = ""            # source page filename (#284) — a multi-page
+                                      # order yields N engines × M pages of
+                                      # candidates; without this the published
+                                      # exports can't be attributed to a page.
