@@ -68,6 +68,41 @@ def _candidates(recognitions) -> list[Candidate]:
     return out
 
 
+def _candidates_with_confidence(recognitions) -> list[tuple[str, str, float]]:
+    """(label, text, confidence) for each usable recognition.
+
+    ``_candidates`` drops confidence, which is all the ranking signal fuse has:
+    unlike the ensemble (#300), fuse never sees the ModelPicks, so it cannot rank
+    by how well each model matches the source. Confidence is weaker — engines do
+    not calibrate it comparably (TrOCR reports a flat 0.95) — but at high
+    disagreement ANY single real reading beats a blend of mostly-noise.
+    """
+    out: list[tuple[str, str, float]] = []
+    for r in recognitions or []:
+        if isinstance(r, dict):
+            label, text, err = r.get("engine", "?"), r.get("text", ""), r.get("error", "")
+            conf = r.get("confidence", 0.0) or 0.0
+        else:
+            label, text, err = (getattr(r, "engine", "?"), getattr(r, "text", ""),
+                                getattr(r, "error", ""))
+            conf = getattr(r, "confidence", 0.0) or 0.0
+        if text and text.strip() and not err:
+            out.append((label or "?", text, float(conf)))
+    return out
+
+
+def _max_pairwise_cer_of(cands: list[Candidate]) -> float:
+    """Max pairwise CER across candidate texts — the disagreement measure."""
+    from eval.metrics import cer
+    texts = [t for _, t in cands]
+    if len(texts) < 2:
+        return 0.0
+    return max(
+        cer(a, b, ignore_case=False, ignore_whitespace=False, ignore_punctuation=False)
+        for i, a in enumerate(texts) for b in texts[i + 1:]
+    )
+
+
 # ── alignment + voting (pivot-anchored) ──────────────────────────────────────
 
 def _align_columns(cands: list[Candidate]) -> tuple[list[dict], list[str]]:
@@ -160,12 +195,29 @@ def _arbitrate(slots: list[dict], llm_fn: LLMFn) -> dict[int, str]:
 
 # ── public API ───────────────────────────────────────────────────────────────
 
-def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote") -> FusionResult:
+def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
+         no_merge_cer: Optional[float] = None) -> FusionResult:
     """Fuse engine candidates into a best-fit transcription.
 
     ``strategy="vote"`` (default): align → majority-vote → arbitrate disagreements.
     ``strategy="llm_merge"``: ask the LLM to merge the raw texts (simpler).
+
+    **No-merge band (#300):** above ``no_merge_cer`` the candidates are NOT fused —
+    the highest-confidence one is returned verbatim. Voting assumes engines err
+    independently around a shared signal; at real disagreement there is none, and
+    the vote returns noise. Measured on BAT_664 at 70% CER the fused text was worse
+    than the best single engine. The ensemble applies a stronger version of this
+    rule (it ranks by source-match score, which fuse never sees) and short-circuits
+    before calling fuse — this guard is the safety net for the direct callers, i.e.
+    run_full_pipeline's Phase 3 under ENABLE_MULTI_ENGINE_FUSION.
     """
+    if no_merge_cer is None:
+        try:
+            import config
+            no_merge_cer = float(getattr(config, "ENSEMBLE_NO_MERGE_CER", 0.35))
+        except Exception:                              # pragma: no cover — defensive
+            no_merge_cer = 0.35
+
     cands = _candidates(recognitions)
     if not cands:
         return FusionResult(strategy=strategy, n_candidates=0)
@@ -176,7 +228,27 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote") -
 
     llm = llm_fn or _default_llm
     if strategy == "llm_merge":
+        # Out of scope for the no-merge band (#300): that band fixes majority
+        # VOTING, which returns noise when most candidates are noise. llm_merge is
+        # a different mechanism — an LLM reading the raw texts can plausibly pick
+        # the good one — so it is left alone rather than short-circuited on a
+        # hunch. If it turns out to degrade the same way, that wants its own
+        # evidence and its own issue.
         return _llm_merge(cands, llm)
+
+    # No-merge band (#300) — vote strategy only.
+    max_cer = _max_pairwise_cer_of(cands)
+    if max_cer > no_merge_cer:
+        scored = _candidates_with_confidence(recognitions)
+        if scored:
+            lbl, text, conf = max(scored, key=lambda c: c[2])
+            logger.info(f"[fusion] no-merge: max pairwise CER {max_cer:.1%} > "
+                        f"{no_merge_cer:.1%} — selected {lbl} verbatim (conf "
+                        f"{conf:.2f}); not blended")
+            return FusionResult(
+                text=text,
+                provenance=[Span(text, f"no-merge (CER {max_cer:.1%})", [lbl])],
+                strategy=f"{strategy}+no-merge", n_candidates=len(cands))
 
     cols, labels = _align_columns(cands)
 

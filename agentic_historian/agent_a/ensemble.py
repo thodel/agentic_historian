@@ -133,11 +133,55 @@ def _max_pairwise_cer(recognitions: list) -> float:
 
 # ── the ensemble ──────────────────────────────────────────────────────────────
 
+def select_best(recognitions: list, ran: list):
+    """The single best candidate at high disagreement (#300) → ``(rec, pick)``.
+
+    Ranked by the pick's **source-match score** — how well that model fits the
+    script/century Agent B identified — and NOT by length: the garbage candidates
+    on BAT_664 were the *longest* ones (kraken-mccatmus 586 chars of noise vs
+    TrOCR's 645 of real text; length says nothing).
+
+    The VLM is deliberately ranked as a generalist with **no** source match.
+    ``plan_models`` hands it a hardcoded ``1.0``, which reads like a perfect score
+    but only means "always run the VLM first" — it is not a match score, and no
+    script/century selector ever produced it. Ranking on it as-is would make the
+    VLM win *every* selection, and the VLM is precisely the engine that
+    repetition-collapsed into "uuuu" on u-17__ and "Infer fremdlichs grüe" on
+    BAT_664. It wins here only when nothing else produced text.
+
+    Candidates that errored or came back empty are not eligible.
+    """
+    # _text_of returns (text, error) — reuse it rather than re-deriving the shape.
+    eligible = []
+    for rec, pick in zip(recognitions, ran):
+        text, err = _text_of(rec)
+        if text.strip() and not err:
+            eligible.append((rec, pick))
+    if not eligible:
+        return None
+
+    def rank(item):
+        rec, pick = item
+        engine = getattr(pick, "engine", "") or ""
+        # VLM's 1.0 is a placeholder, not a match — see docstring.
+        match = 0.0 if engine == "vlm" else float(getattr(pick, "score", 0.0) or 0.0)
+        return (match, float(_confidence_of(rec) or 0.0))
+
+    return max(eligible, key=rank)
+
+
+def _confidence_of(rec) -> float:
+    if isinstance(rec, dict):
+        return rec.get("confidence", 0.0) or 0.0
+    return getattr(rec, "confidence", 0.0) or 0.0
+
+
 def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                        min_engines: int = 3, max_loops: int = 2,
                        agreement_cer: float = 0.30, llm_fn=None,
                        per_engine: int = 3,
-                       picks: Optional[list] = None) -> EnsembleResult:
+                       picks: Optional[list] = None,
+                       no_merge_cer: Optional[float] = None) -> EnsembleResult:
     """Run ≥ ``min_engines`` recognitions on one page, then keep adding the next
     ranked model while the candidates disagree (max pairwise CER >
     ``agreement_cer``), up to ``max_loops`` extra loops. Fuse all candidates.
@@ -145,8 +189,22 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     ``recognize_fn(pick, image)`` returns a RecognitionResult (or None / raises on
     failure — both are tolerated; a failed pick is skipped and, during the initial
     phase, backfilled from the pool so we still reach ``min_engines`` usable runs).
+
+    **No-merge band (#300):** above ``no_merge_cer`` the candidates are not fused —
+    the best single one is returned verbatim. Majority-voting assumes engines make
+    independent errors around a shared signal; when they genuinely disagree there
+    is no shared signal to recover, and the vote returns noise. Measured on BAT_664
+    at 70% pairwise CER: TrOCR read real Early New High German and the fused text
+    was that reading with its good parts voted out by three garbage candidates —
+    worse than the best single input. Averaging is only valid when the inputs agree.
     """
     from fusion import fuse
+    if no_merge_cer is None:
+        try:
+            import config
+            no_merge_cer = float(getattr(config, "ENSEMBLE_NO_MERGE_CER", 0.35))
+        except Exception:                               # pragma: no cover — defensive
+            no_merge_cer = 0.35
 
     pool = list(picks) if picks is not None else plan_models(criteria, per_engine=per_engine)
     recognitions: list = []
@@ -183,6 +241,21 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         max_cer = _max_pairwise_cer(recognitions)
         logger.info(f"[ensemble] loop {loops}: added {pick.engine}/{pick.model_id}, "
                     f"max pairwise CER now {max_cer:.2%}")
+
+    # No-merge band (#300): at this much disagreement there is no consensus to
+    # find, so select rather than blend.
+    if len(recognitions) >= 2 and max_cer > no_merge_cer:
+        best = select_best(recognitions, ran)
+        if best is not None:
+            rec, pick = best
+            why = (f"no-merge: max pairwise CER {max_cer:.1%} > {no_merge_cer:.1%} — "
+                   f"selected {pick.engine}/{pick.model_id} verbatim "
+                   f"(match score {getattr(pick, 'score', 0.0):.2f}); not blended")
+            logger.info(f"[ensemble] {why}")
+            return EnsembleResult(
+                recognitions=recognitions, text=_text_of(rec)[0], provenance=[why],
+                loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
+            )
 
     fr = fuse(recognitions, llm_fn=llm_fn)
     return EnsembleResult(
