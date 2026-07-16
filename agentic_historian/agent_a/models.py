@@ -465,7 +465,7 @@ HF_MODELS: dict[str, HFModel] = {
         notes="Vision-encoder-decoder seq2seq. Early modern German Kurrent, 16th–17th c. Serviced by trocr engine.",
     ),
     "trocr_essoins_middle_latin": HFModel(
-        model_id="dh-unibe/trozco-essoins-middle-latin",
+        model_id="dh-unibe/trocr-essoins-middle-latin",
         name="TrOCR Essoins Middle Latin",
         lang="la",
         task="line-ocr",

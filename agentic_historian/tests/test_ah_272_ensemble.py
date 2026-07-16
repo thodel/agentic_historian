@@ -14,7 +14,21 @@ if str(PKG) not in sys.path:
     sys.path.insert(0, str(PKG))
 
 from agent_a import ensemble  # noqa: E402
-from agent_a.ensemble import ModelPick, recognize_ensemble, plan_models  # noqa: E402
+from agent_a.ensemble import ModelPick, recognize_ensemble, plan_models, resolve_gateway_id  # noqa: E402
+
+
+# The real ATR gateway registry shape (captured from asterAIx via /models, #277):
+# kraken is keyed by Zenodo DOI, TrOCR by HF repo — both differ from the gateway id.
+GATEWAY_REGISTRY = [
+    {"id": "kraken-early_modern_german", "engine": "kraken",
+     "hf_repo": None, "zenodo_id": "10.5281/zenodo.15030337"},
+    {"id": "kraken-medieval_14_16", "engine": "kraken",
+     "hf_repo": None, "zenodo_id": "10.5281/zenodo.13862096"},
+    {"id": "trocr-kurrent-xvi-xvii", "engine": "trocr",
+     "hf_repo": "dh-unibe/trocr-kurrent-XVI-XVII", "zenodo_id": None},
+    {"id": "trocr-essoins-middle-latin", "engine": "trocr",
+     "hf_repo": "dh-unibe/trocr-essoins-middle-latin", "zenodo_id": None},
+]
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -63,7 +77,9 @@ def test_plan_models_spans_engines_and_interleaves(monkeypatch):
     monkeypatch.setattr(ms, "select_kraken_model", fake_kraken)
     monkeypatch.setattr(ms, "select_tocr_model", fake_trocr)
 
-    picks = plan_models("criteria", per_engine=3)
+    # vlm_model_id pinned so this test covers interleaving only (the real VLM id is
+    # covered by test_plan_models_vlm_pick_uses_the_real_vlm_id).
+    picks = plan_models("criteria", per_engine=3, vlm_model_id="vlm")
     engines = [p.engine for p in picks]
     ids = [p.model_id for p in picks]
     # first three guarantee diversity: VLM, best kraken, best trocr
@@ -136,6 +152,61 @@ def test_raising_engine_is_skipped_not_fatal():
 def test_empty_pool_returns_empty_result():
     r = recognize_ensemble("img", None, _rec_fn({}), picks=[], min_engines=3)
     assert r.recognitions == [] and r.text == "" and r.loops == 0
+
+
+# ── #277: local model id → ATR gateway registry id ───────────────────────────
+
+def test_trocr_hf_repo_maps_to_gateway_id():
+    """The critical one: the local TrOCR id is an HF repo, which the gateway 404s
+    (#21 strict resolver). It must resolve to the gateway's registry id."""
+    pick = ModelPick("trocr", "dh-unibe/trocr-kurrent-XVI-XVII", 0.8)
+    assert resolve_gateway_id(pick, GATEWAY_REGISTRY) == "trocr-kurrent-xvi-xvii"
+
+
+def test_kraken_doi_maps_to_gateway_id():
+    pick = ModelPick("kraken", "10.5281/zenodo.15030337", 1.0)
+    assert resolve_gateway_id(pick, GATEWAY_REGISTRY) == "kraken-early_modern_german"
+
+
+def test_already_a_gateway_id_passes_through():
+    pick = ModelPick("trocr", "trocr-kurrent-xvi-xvii", 0.8)
+    assert resolve_gateway_id(pick, GATEWAY_REGISTRY) == "trocr-kurrent-xvi-xvii"
+
+
+def test_unknown_id_falls_back_to_raw():
+    # an unlisted kraken DOI still resolves at the gateway as a raw Zenodo ref (#21)
+    pick = ModelPick("kraken", "10.5281/zenodo.9999999", 1.0)
+    assert resolve_gateway_id(pick, GATEWAY_REGISTRY) == "10.5281/zenodo.9999999"
+
+
+def test_empty_registry_falls_back_to_raw():
+    pick = ModelPick("trocr", "dh-unibe/trocr-kurrent-XVI-XVII", 0.8)
+    assert resolve_gateway_id(pick, []) == "dh-unibe/trocr-kurrent-XVI-XVII"
+    assert resolve_gateway_id(pick, None) == "dh-unibe/trocr-kurrent-XVI-XVII"
+
+
+def test_local_trocr_ids_match_the_gateway_hf_repos():
+    """Regression: models.py had 'dh-unibe/trozco-essoins-middle-latin' (typo), which
+    matches no gateway entry → 404 even with mapping. Every local TrOCR model_id must
+    resolve against the real registry."""
+    from agent_a import models
+    hf_repos = {m["hf_repo"] for m in GATEWAY_REGISTRY if m["hf_repo"]}
+    local = [m.model_id for m in models.HF_MODELS.values()
+             if m.model_id.startswith("dh-unibe/trocr-")]
+    assert local, "no dh-unibe TrOCR models found locally"
+    # the two we have registry fixtures for must map cleanly
+    for mid in ("dh-unibe/trocr-kurrent-XVI-XVII", "dh-unibe/trocr-essoins-middle-latin"):
+        assert mid in hf_repos
+        assert resolve_gateway_id(ModelPick("trocr", mid), GATEWAY_REGISTRY).startswith("trocr-")
+
+
+def test_plan_models_vlm_pick_uses_the_real_vlm_id(monkeypatch):
+    from agent_a import model_selector as ms
+    monkeypatch.setattr(ms, "select_kraken_model", lambda *a, **k: [])
+    monkeypatch.setattr(ms, "select_tocr_model", lambda *a, **k: [])
+    picks = plan_models("criteria")
+    assert picks[0].engine == "vlm"
+    assert picks[0].model_id != "vlm"          # the real registry id, not a placeholder
 
 
 # ── wiring: the grouped pipeline uses the ensemble when the flag is on ────────

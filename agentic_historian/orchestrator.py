@@ -524,16 +524,41 @@ def _publish_outputs(doc_id: str, source_url: Optional[str] = None) -> None:
         logger.warning(f"[Orchestrator] GitHub publish skipped ({doc_id}): {e}")
 
 
+_GATEWAY_REGISTRY_CACHE = None
+
+
+def _gateway_registry() -> list:
+    """The ATR gateway's model registry, fetched once per process (#277).
+
+    Used to map local model ids (kraken Zenodo DOI / TrOCR HF repo) to the ids the
+    gateway actually accepts. Unavailable gateway → [] → callers fall back to raw
+    ids (kraken DOIs still resolve; TrOCR would 404, which surfaces as an engine
+    error rather than a silent wrong-model call).
+    """
+    global _GATEWAY_REGISTRY_CACHE
+    if _GATEWAY_REGISTRY_CACHE is None:
+        try:
+            from agent_a.kraken_client import KrakenHTTPClient
+            with KrakenHTTPClient() as c:
+                _GATEWAY_REGISTRY_CACHE = c.list_models()
+        except Exception as e:
+            logger.warning(f"[ensemble] gateway registry unavailable, using raw ids: {e}")
+            _GATEWAY_REGISTRY_CACHE = []
+    return _GATEWAY_REGISTRY_CACHE
+
+
 def _recognize_page_ensemble(img, criteria):
     """#272: run the multi-engine ensemble on one page — VLM + best kraken + best
     TrOCR (≥ ENSEMBLE_MIN_ENGINES), expanding with the next-ranked model while the
     candidates disagree, then fuse. Real backends: VLM via GPUStack, kraken/TrOCR
-    via the ATR gateway ``/ocr`` with the explicit model id (#25). Returns the
-    ensemble.EnsembleResult."""
+    via the ATR gateway ``/ocr`` with the explicit model id (#25), resolved to the
+    gateway's registry id (#277). Returns the ensemble.EnsembleResult."""
     from agent_a import ensemble
     from agent_a.model_selector import RecognitionResult
     from agent_a.dual_pipeline import _run_vlm
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
+
+    registry = _gateway_registry()
 
     def _recognize_fn(pick, image_path):
         p = Path(image_path)
@@ -541,13 +566,15 @@ def _recognize_page_ensemble(img, criteria):
             text, score = _run_vlm(p)
             return RecognitionResult(engine="vlm", model_id=pick.model_id,
                                      text=text, confidence=score)
+        # local id (kraken DOI / TrOCR HF repo) → the gateway's registry id (#277)
+        gw_id = ensemble.resolve_gateway_id(pick, registry)
         try:
             with KrakenHTTPClient() as c:
-                res = c.transcribe(p, model=pick.model_id)
-            return RecognitionResult(engine=pick.engine, model_id=pick.model_id,
+                res = c.transcribe(p, model=gw_id)
+            return RecognitionResult(engine=pick.engine, model_id=gw_id,
                                      text=res.text, confidence=res.confidence)
         except KrakenClientError as e:
-            return RecognitionResult(engine=pick.engine, model_id=pick.model_id,
+            return RecognitionResult(engine=pick.engine, model_id=gw_id,
                                      text="", error=str(e))
 
     return ensemble.recognize_ensemble(
