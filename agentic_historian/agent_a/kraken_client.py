@@ -50,11 +50,14 @@ class KrakenHTTPClient:
     def __init__(
         self,
         base_url: Optional[str] = None,
-        timeout: float = 120.0,
+        timeout: Optional[float] = None,
         api_key: Optional[str] = None,
     ) -> None:
         self.base_url = (base_url or config.ATR_GATEWAY_URL or "").rstrip("/")
-        self.timeout = timeout
+        # Default from config (300s) rather than a hardcoded 120s: see
+        # ATR_HTTP_TIMEOUT — a client budget tighter than the gateway's own turns
+        # slow-but-working engines into phantom timeouts.
+        self.timeout = config.ATR_HTTP_TIMEOUT if timeout is None else timeout
         # X-API-Key for the gateway. Default from config; "" = no auth header.
         self.api_key = config.ATR_API_KEY if api_key is None else api_key
         self._client: Optional[httpx.Client] = None
