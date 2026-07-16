@@ -254,11 +254,17 @@ def test_group_pipeline_uses_ensemble_when_flag_on(tmp_path, monkeypatch):
 
     orch.run_full_pipeline_group("order-ens", [str(p) for p in pages])
 
-    assert len(seen) == 2                      # ensemble ran once per page
+    # 2 pages × 2 passes: the blind Phase-1 pass, then the criteria-driven
+    # Phase-3 re-run Agent B's description unlocks (#299). Was 2 before #299,
+    # when the grouped path threw that description away.
+    assert len(seen) == 4
+    assert sorted(set(seen)) == sorted(str(p) for p in pages)   # every page, both passes
     from runstate import RunState
     st = RunState.load("order-ens", path=tmp_path / "runs" / "order-ens.json")
     assert st.artifacts.get("recognitions")    # candidates persisted → publishable
-    assert st.artifacts.get("a_meta", {}).get("source") == "grouped-ensemble"
+    # "-criteria": Agent B's description drove a second pass (#299). Plain
+    # "grouped-ensemble" now means only the blind pass ran.
+    assert st.artifacts.get("a_meta", {}).get("source") == "grouped-ensemble-criteria"
 
 
 # ── #284: breadth (pool depth) + per-candidate, page-attributed exports ──────
