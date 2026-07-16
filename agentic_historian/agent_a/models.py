@@ -121,15 +121,14 @@ KRAKEN_MODELS: dict[str, KrakenModel] = {
         centuries=[19, 20],
     ),
     # ── Early medieval / Insular ───────────────────────────────────────────────
-    "early_medieval_latin": KrakenModel(
-        model_id="10.5281/zenodo.19222213",
-        name="Early Medieval Latin (9th–12th c.)",
-        lang="la",
-        script="Caroline minuscule",
-        notes="Early medieval Latin manuscripts (9th–12th c.).",
-        pretrained_on="Latin manuscripts 9th–12th c.",
-        centuries=[9, 10, 11, 12],
-    ),
+    # "early_medieval_latin" REMOVED: zenodo.19222213 is RP_Segmenter.mlmodel —
+    # model_type=segmentation, no codec. A layout segmenter, never a Latin
+    # recognition model; the DOI was wrong. Every request 500s with
+    #   AttributeError: 'TorchVGSLModel' object has no attribute 'codec'
+    # Dropped from the ATR gateway registry in serving-atr-inference#31 — but the
+    # ensemble kept requesting the raw DOI straight from THIS table (raw Zenodo
+    # refs pass through per #21), so it had to go here too.
+    # Re-add with the CORRECT recognition DOI once identified.
     # ── Medieval charter / diplomatic ─────────────────────────────────────────
     "medieval_charters": KrakenModel(
         model_id="10.5281/zenodo.18732245",
