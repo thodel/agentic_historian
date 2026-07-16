@@ -676,6 +676,67 @@ def _recognize_page_ensemble(img, criteria):
     return result
 
 
+def _emit_model_select(on_phase, doc_id: str, criteria, *, label: str) -> None:
+    """Emit the model plan for one ensemble pass (#288/#299).
+
+    plan_models is pure selection (no I/O), so calling it here purely to report the
+    plan is cheap — and it is the number that matters: with empty criteria the
+    picks score ~0.05/0.20 ("no match"), with Agent B's criteria the right model
+    should top the list. That contrast is the whole point of #299, so make it
+    visible rather than inferable from a later log line.
+    """
+    try:
+        from agent_a import ensemble
+        picks = ensemble.plan_models(
+            criteria, per_engine=getattr(config, "ENSEMBLE_PER_ENGINE", 3))
+        top = "; ".join(f"{p.engine}/{p.model_id} {p.score:.2f}" for p in picks[:3])
+        _emit(on_phase, doc_id, "model_select", "A",
+              output=[f"{p.engine}/{p.model_id} score={p.score:.2f}" for p in picks[:5]],
+              decision=f"{label}: {top}")
+    except Exception as e:
+        logger.warning(f"[Orchestrator] model_select emit skipped: {e}")
+
+
+def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
+    """Run the page ensemble over every page with one set of criteria (#299).
+
+    Shared by Phase 1 (blind criteria) and Phase 3 (Agent B's criteria) so the two
+    passes cannot drift apart. New candidates are appended to ``ctx.recognitions``
+    — the first pass is never discarded, it is evidence, and #284 exports every
+    candidate for comparison.
+    """
+    parts, scores = [], []
+    for img in pages:
+        try:
+            er = _recognize_page_ensemble(img, criteria)
+            parts.append(f"--- {img.name} ---\n{er.text}")
+            scores.append(round(1.0 - er.max_pairwise_cer, 2))   # agreement-based QA
+            for rec in er.recognitions:
+                if rec not in ctx.recognitions:
+                    ctx.recognitions.append(rec)
+            logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
+                        f"{len(er.recognitions)} engine(s), {er.loops} loop(s), "
+                        f"agreement CER {er.max_pairwise_cer:.2%}")
+            # One event per candidate, so the historian sees WHICH engine read what —
+            # the u-17__ failure was invisible precisely because only the merged text
+            # was ever shown.
+            for rec in er.recognitions:
+                _emit(on_phase, doc_id, "vlm", "A",
+                      status="error" if rec.error else "done",
+                      output=rec.text, error=rec.error or "",
+                      decision=f"{img.name} · {label} · {rec.engine}/{rec.model_id}")
+            _emit(on_phase, doc_id, "vlm", "A", output=er.text,
+                  decision=f"{img.name} · {label} ensemble: {len(er.recognitions)} "
+                           f"engine(s), {er.loops} loop(s), "
+                           f"agreement CER {er.max_pairwise_cer:.1%}")
+        except Exception as e:
+            logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
+            ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
+            _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e),
+                  decision=img.name)
+    return parts, scores
+
+
 def run_full_pipeline_group(
     doc_id: str,
     image_paths: list,
@@ -713,41 +774,24 @@ def run_full_pipeline_group(
             logger.warning(f"[Orchestrator] ensemble disabled (criteria init failed): {e}")
             use_ensemble = False
 
-    parts, scores = [], []
-    for img in pages:
-        try:
-            if use_ensemble:
-                er = _recognize_page_ensemble(img, criteria)
-                parts.append(f"--- {img.name} ---\n{er.text}")
-                scores.append(round(1.0 - er.max_pairwise_cer, 2))   # agreement-based QA
-                for rec in er.recognitions:
-                    if rec not in ctx.recognitions:
-                        ctx.recognitions.append(rec)
-                logger.info(f"[Orchestrator] {img.name}: ensemble {len(er.recognitions)} "
-                            f"engine(s), {er.loops} loop(s), agreement CER "
-                            f"{er.max_pairwise_cer:.2%}")
-                # One event per candidate, so the historian sees WHICH engine read
-                # what — the u-17__ failure was invisible precisely because only the
-                # merged text was ever shown.
-                for rec in er.recognitions:
-                    _emit(on_phase, doc_id, "vlm", "A",
-                          status="error" if rec.error else "done",
-                          output=rec.text, error=rec.error or "",
-                          decision=f"{img.name} · {rec.engine}/{rec.model_id}")
-                _emit(on_phase, doc_id, "vlm", "A", output=er.text,
-                      decision=f"{img.name} · ensemble: {len(er.recognitions)} engine(s), "
-                               f"{er.loops} loop(s), agreement CER {er.max_pairwise_cer:.1%}")
-            else:
+    if use_ensemble:
+        _emit_model_select(on_phase, doc_id, criteria, label="blind (no description yet)")
+        parts, scores = _ensemble_pass(pages, criteria, ctx, doc_id, on_phase,
+                                       label="pass 1")
+    else:
+        parts, scores = [], []
+        for img in pages:
+            try:
                 r = agent_a.transcribe_image(img)
                 parts.append(f"--- {img.name} ---\n{r.get('transcription', '')}")
                 scores.append(r.get("qa_score", 0.0))
                 _emit(on_phase, doc_id, "vlm", "A", output=r.get("transcription", ""),
                       decision=f"{img.name} · qa={r.get('qa_score', 0.0)}")
-        except Exception as e:
-            logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
-            ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
-            _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e),
-                  decision=img.name)
+            except Exception as e:
+                logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
+                ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
+                _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e),
+                      decision=img.name)
     ctx.transcription = "\n\n".join(parts).strip()
     avg_qa = round(sum(scores) / len(scores), 2) if scores else 0.0
     ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa,
@@ -789,6 +833,60 @@ def run_full_pipeline_group(
             logger.error(f"[Orchestrator] Agent B fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
             _emit(on_phase, doc_id, "agent_b", "B", status="error", error=str(e))
+
+    # ════════════════════════════════════════════════════════════════════════
+    # PHASE 3 (#299): re-run recognition with Agent B's criteria.
+    #
+    # Phase 1 has no description yet, so it plans with EMPTY criteria and picks
+    # blind — measured on tei: kraken 0.05, TrOCR 0.20, "no match". Agent B then
+    # identifies the source correctly, and until now that knowledge was thrown
+    # away: the grouped path had no Phase 3, unlike run_full_pipeline. The right
+    # model was only ever reached by accident, when the disagreement loop happened
+    # to add it. This closes the loop — describe the source, then read it again
+    # with the model that description implies.
+    # ════════════════════════════════════════════════════════════════════════
+    if (use_ensemble and ctx.transcription and ctx.description
+            and not ctx.description.get("low_confidence")):
+        try:
+            from agent_a.model_selector import SourceCriteria
+            criteria_b = SourceCriteria.from_agent_b_and_json(
+                ctx.description.get("source_description", ""),
+                ctx.description.get("source_json"),
+            )
+            _emit_model_select(on_phase, doc_id, criteria_b, label="from Agent B")
+            parts_b, scores_b = _ensemble_pass(pages, criteria_b, ctx, doc_id,
+                                               on_phase, label="pass 2 (criteria)")
+            if parts_b:
+                ctx.transcription = "\n\n".join(parts_b).strip()
+                avg_qa = round(sum(scores_b) / len(scores_b), 2) if scores_b else avg_qa
+                ctx.a_meta["qa_score"] = avg_qa
+                ctx.a_meta["source"] = "grouped-ensemble-criteria"
+                ctx.a_meta["criteria_rerun"] = True
+                agent_a.save_transcription(doc_id, ctx.transcription, avg_qa, "grouped")
+                logger.info(f"[Orchestrator] Phase 3 (#299): criteria re-run done — "
+                            f"QA {avg_qa:.2f}, {len(ctx.transcription)} chars")
+                try:
+                    from runstate import RunState, DONE, ERROR
+                    state = RunState.load_or_new(doc_id)
+                    state.stage_status["model_select"] = DONE
+                    state.stage_status["kraken"] = DONE
+                    state.artifacts["transcription"] = ctx.transcription
+                    state.artifacts["a_meta"] = ctx.a_meta
+                    if ctx.recognitions:      # BOTH passes — the first is evidence
+                        state.artifacts["recognitions"] = ctx.recognitions
+                    state.save()
+                except Exception as e2:
+                    logger.warning(f"[Orchestrator] Phase 3 RunState persist skipped: {e2}")
+        except Exception as e:
+            logger.error(f"[Orchestrator] Phase 3 (#299) criteria re-run failed: {e}")
+            ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
+            _emit(on_phase, doc_id, "kraken", "A", status="error", error=str(e))
+    elif use_ensemble and (ctx.description or {}).get("low_confidence"):
+        # No usable description → the criteria would be just as empty as Phase 1's,
+        # so a re-run burns GPU to reach the same blind picks. #301 fixes the cause
+        # by describing from the image when the transcription is unreadable.
+        logger.info("[Orchestrator] Phase 3 (#299) skipped — Agent B has no usable "
+                    "description (low_confidence)")
 
     # PHASE 4: Agent C — entities across the order
     if ctx.transcription:
