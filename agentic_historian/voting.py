@@ -38,13 +38,15 @@ import config
 class Vote:
     doc_id: str
     candidate: str                 # path/engine label, e.g. "trocr-kurrent-xvi-xvii"
-    voter: str                     # stable voter id (Discord user id)
+    voter: str                     # stable voter id (Discord user id) — the IDENTITY
     page: str = ""                 # optional: per-page voting for multi-page orders
+    voter_name: str = ""           # display only (#293 card); never the identity
     ts: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict:
         return {"doc_id": self.doc_id, "candidate": self.candidate,
-                "voter": self.voter, "page": self.page, "ts": self.ts}
+                "voter": self.voter, "page": self.page,
+                "voter_name": self.voter_name, "ts": self.ts}
 
 
 def _key(doc_id: str, page: str) -> tuple[str, str]:
@@ -53,10 +55,12 @@ def _key(doc_id: str, page: str) -> tuple[str, str]:
 
 # ── recording ─────────────────────────────────────────────────────────────────
 
-def record_vote(doc_id: str, candidate: str, voter: str, *, page: str = "") -> Vote:
+def record_vote(doc_id: str, candidate: str, voter: str, *, page: str = "",
+                voter_name: str = "") -> Vote:
     """Record one vote (append-only). A voter's later vote replaces their earlier
     one — see :func:`load_votes` — so clicking twice can't skew the tally."""
-    vote = Vote(doc_id=doc_id, candidate=candidate, voter=str(voter), page=page or "")
+    vote = Vote(doc_id=doc_id, candidate=candidate, voter=str(voter), page=page or "",
+                voter_name=voter_name or "")
     config.FEEDBACK_DIR.mkdir(parents=True, exist_ok=True)
     with config.VOTES_LOG_PATH.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(vote.to_dict(), ensure_ascii=False) + "\n")
@@ -84,7 +88,7 @@ def load_votes(doc_id: str, *, page: str = "") -> list[Vote]:
                 continue
             v = Vote(doc_id=d.get("doc_id", ""), candidate=d.get("candidate", ""),
                      voter=str(d.get("voter", "")), page=d.get("page", ""),
-                     ts=d.get("ts", ""))
+                     voter_name=d.get("voter_name", ""), ts=d.get("ts", ""))
             if v.voter and v.candidate:
                 latest[v.voter] = v            # later line replaces earlier
     except OSError as e:
@@ -119,6 +123,34 @@ def winner(votes: list[Vote], *, min_votes: Optional[int] = None) -> Optional[tu
     if len(ranked) > 1 and ranked[0][1] == ranked[1][1]:
         return None                            # tie → no winner yet
     return ranked[0]
+
+
+def render_tally(votes: list[Vote], *, min_votes: Optional[int] = None) -> str:
+    """The live tally for the Discord card (#293): who voted for what, and whether
+    that decides it. Shows display names, never raw voter ids."""
+    if min_votes is None:
+        min_votes = getattr(config, "VOTING_MIN_VOTES", 1)
+    counts = tally(votes)
+    if not counts:
+        return "🗳️ Noch keine Stimmen — klicke einen Button, um für eine Lesart zu stimmen."
+
+    who: dict[str, list[str]] = {}
+    for v in votes:
+        who.setdefault(v.candidate, []).append(v.voter_name or v.voter)
+
+    parts = [f"**{cand}** {'●' * n} ({', '.join(who.get(cand, []))})"
+             for cand, n in sorted(counts.items(), key=lambda kv: kv[1], reverse=True)]
+    line = "🗳️ " + " · ".join(parts)
+
+    decided = winner(votes, min_votes=min_votes)
+    if decided:
+        line += (f"\n✅ Entschieden: **{decided[0]}** ({decided[1]} Stimme(n)) — "
+                 f"B/C laufen auf diesem Text neu.")
+    elif len(votes) < min_votes:
+        line += f"\n⏳ {len(votes)}/{min_votes} Stimme(n) — noch {min_votes - len(votes)} nötig."
+    else:
+        line += "\n⏳ Gleichstand — eine weitere Stimme entscheidet."
+    return line
 
 
 # ── applying ──────────────────────────────────────────────────────────────────
