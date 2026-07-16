@@ -215,8 +215,8 @@ class TestPublisherRecognitions:
         assert "kraken" in result
         # Provenance note
         assert "LLM skipped" in result or "arbitrated" in result
-        # Engine count
-        assert f"{len(recs)} engine" in result
+        # Candidate count (#284: each candidate is exported/represented separately)
+        assert f"{len(recs)} candidate" in result
 
     def test_index_md_no_recognitions_omits_section(self):
         """When pipeline.json has no recognitions, section is omitted."""

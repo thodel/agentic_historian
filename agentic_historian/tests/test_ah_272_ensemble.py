@@ -259,3 +259,46 @@ def test_group_pipeline_uses_ensemble_when_flag_on(tmp_path, monkeypatch):
     st = RunState.load("order-ens", path=tmp_path / "runs" / "order-ens.json")
     assert st.artifacts.get("recognitions")    # candidates persisted → publishable
     assert st.artifacts.get("a_meta", {}).get("source") == "grouped-ensemble"
+
+
+# ── #284: breadth (pool depth) + per-candidate, page-attributed exports ──────
+
+def test_per_engine_controls_pool_depth(monkeypatch):
+    from agent_a import model_selector as ms
+    monkeypatch.setattr(ms, "select_kraken_model",
+                        lambda c, top_k=3, **k: [SimpleNamespace(model=SimpleNamespace(model_id=f"k{i}"), score=1.0)
+                                                 for i in range(top_k)])
+    monkeypatch.setattr(ms, "select_tocr_model",
+                        lambda c, top_k=3, **k: [SimpleNamespace(model=SimpleNamespace(model_id=f"t{i}"), score=0.9)
+                                                 for i in range(top_k)])
+    # pool = 1 VLM + per_engine kraken + per_engine trocr
+    assert len(plan_models("c", per_engine=3, vlm_model_id="vlm")) == 7
+    assert len(plan_models("c", per_engine=5, vlm_model_id="vlm")) == 11
+
+
+def test_more_loops_yield_more_transcriptions():
+    """Start with 3, keep adding while they disagree — max_loops is the dial."""
+    ids = ["vlm", "k0", "t0", "k1", "t1", "k2", "t2"]
+    texts = {i: t for i, t in zip(ids, [D1, D2, D3, D4, D2, D3, D1])}  # all disagree
+    r = recognize_ensemble("img", None, _rec_fn(texts), picks=_picks(*ids),
+                           min_engines=3, max_loops=4, agreement_cer=0.30)
+    assert r.loops == 4 and len(r.recognitions) == 7      # 3 initial + 4 added
+
+
+def test_recognition_export_filename_is_page_attributed():
+    from utils.publish_github import _recognition_filename
+    r = {"page": "BAT_664_r_00027.jpg", "engine": "trocr", "model_id": "trocr-kurrent-xvi-xvii"}
+    assert _recognition_filename(r) == "recognitions/BAT_664_r_00027/trocr-trocr-kurrent-xvi-xvii.txt"
+
+
+def test_recognition_export_flattens_slashes_in_model_id():
+    from utils.publish_github import _recognition_filename
+    # a raw Zenodo DOI must not create stray directories
+    r = {"page": "p1.jpg", "engine": "kraken", "model_id": "10.5281/zenodo.7516057"}
+    assert _recognition_filename(r) == "recognitions/p1/kraken-10.5281_zenodo.7516057.txt"
+
+
+def test_recognition_export_without_page_still_works():
+    from utils.publish_github import _recognition_filename
+    assert _recognition_filename({"engine": "vlm", "model_id": "internvl3-8b-instruct"}) \
+        == "recognitions/vlm-internvl3-8b-instruct.txt"

@@ -157,8 +157,14 @@ FUSION_AGREEMENT_CER_THRESHOLD = float(_get("FUSION_AGREEMENT_CER_THRESHOLD", "0
 # ensemble adds the next-ranked kraken/TrOCR model, up to ENSEMBLE_MAX_LOOPS extra
 # loops, then fuses. OFF by default → grouped orders keep the VLM-only behaviour.
 ENABLE_ENSEMBLE_HTR = _get("ENABLE_ENSEMBLE_HTR", "false").lower() == "true"
+# Start with the most promising ENSEMBLE_MIN_ENGINES (VLM + best kraken + best
+# TrOCR), then add further candidates while they disagree (#284). Pool depth is
+# ENSEMBLE_PER_ENGINE per HTR engine, so the pool is 1 + 2*PER_ENGINE picks;
+# MAX_LOOPS caps how many of the extras actually run. Each extra candidate is real
+# GPU inference (~30–60 s/model/page) — this is the coverage/cost dial.
 ENSEMBLE_MIN_ENGINES = int(_get("ENSEMBLE_MIN_ENGINES", "3"))
-ENSEMBLE_MAX_LOOPS = int(_get("ENSEMBLE_MAX_LOOPS", "2"))
+ENSEMBLE_PER_ENGINE = int(_get("ENSEMBLE_PER_ENGINE", "3"))
+ENSEMBLE_MAX_LOOPS = int(_get("ENSEMBLE_MAX_LOOPS", "4"))
 ENSEMBLE_AGREEMENT_CER = float(_get("ENSEMBLE_AGREEMENT_CER", "0.30"))
 
 # ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
