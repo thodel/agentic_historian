@@ -208,9 +208,24 @@ def apply_path_choice(
     return text
 
 
+def render_vote_card(state: RunState, paths: dict[str, str]) -> str:
+    """The comparison card plus the live vote tally (#293)."""
+    import voting
+    return (render_compare_card(state, paths) + "\n\n"
+            + voting.render_tally(voting.load_votes(state.doc_id)))
+
+
 def build_view(state: RunState, paths: dict[str, str],
                runners: Optional[dict] = None):
-    """Construct RoutingComparisonView — one button per available path."""
+    """Construct the Gate-2 view — one button per available path.
+
+    Voting (#293): a click **records a vote** rather than applying outright, and
+    the winner is applied only once the votes decide it (``VOTING_MIN_VOTES``).
+    With the default ``VOTING_MIN_VOTES=1`` this is byte-for-byte the old
+    behaviour — one click decides and applies immediately — so nothing changes
+    until consensus voting is switched on. A voter clicking again *changes* their
+    vote (the core keeps one effective vote per voter).
+    """
     import discord
 
     comp = compare_paths(paths)
@@ -227,12 +242,22 @@ def build_view(state: RunState, paths: dict[str, str],
             )
 
         async def callback(self, interaction):
-            apply_path_choice(state, self.path, paths, decided_by="human")
-            state.save()
-            if runners and config.AUTO_RESUME_AFTER_GATE:
-                state.resume(runners)
+            import voting
+            user = getattr(interaction, "user", None)
+            voter = str(getattr(user, "id", "?"))
+            voter_name = (getattr(user, "display_name", None)
+                          or getattr(user, "name", None) or voter)
+
+            voting.record_vote(state.doc_id, self.path, voter=voter,
+                               voter_name=voter_name)
+            applied = voting.apply_winner(state, paths)      # None while undecided
+            if applied is not None:
+                state.save()
+                if runners and config.AUTO_RESUME_AFTER_GATE:
+                    state.resume(runners)
+
             await interaction.response.edit_message(
-                content=render_compare_card(state, paths), view=self.view)
+                content=render_vote_card(state, paths), view=self.view)
 
     class PathComparisonView(discord.ui.View):
         def __init__(self):
