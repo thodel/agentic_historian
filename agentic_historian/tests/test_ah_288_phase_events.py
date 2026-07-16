@@ -47,7 +47,8 @@ def events(monkeypatch, tmp_path):
                         lambda *a, **k: ENTITIES)
     monkeypatch.setattr(orchestrator.agent_d, "analyse_corpus", lambda **k: {})
     monkeypatch.setattr(orchestrator, "_save_pipeline_result", lambda *a, **k: None)
-    monkeypatch.setattr(orchestrator, "_publish_outputs", lambda *a, **k: None)
+    monkeypatch.setattr(orchestrator, "_publish_outputs",
+                        lambda *a, **k: (True, "published to the outputs repo"))
     monkeypatch.setattr(orchestrator.config, "DATA_DIR", tmp_path)
     return []
 
@@ -68,10 +69,10 @@ def test_each_step_emits_an_event_in_order(events, tmp_path, monkeypatch):
     orchestrator.run_full_pipeline(str(_img(tmp_path)), run_agent_d=True,
                                    on_phase=events.append)
 
-    assert _phases(events) == ["vlm", "agent_b", "agent_c", "agent_d"]
+    assert _phases(events) == ["vlm", "agent_b", "agent_c", "agent_d", "publish"]
     assert all(e.doc_id == "d-288" for e in events)
     assert all(e.status == "done" for e in events)
-    assert [e.agent for e in events] == ["A", "B", "C", "D"]
+    assert [e.agent for e in events] == ["A", "B", "C", "D", "publish_github"]
 
 
 def test_excerpt_carries_the_first_lines_of_the_output(events, tmp_path):
@@ -132,7 +133,7 @@ def test_grouped_run_emits_one_event_per_page(events, tmp_path):
     vlm = [e for e in events if e.phase == "vlm"]
     assert len(vlm) == 2
     assert {"p1.jpg", "p2.jpg"} == {e.decision.split(" ·")[0] for e in vlm}
-    assert _phases(events)[-2:] == ["agent_b", "agent_c"]
+    assert _phases(events)[-3:] == ["agent_b", "agent_c", "publish"]
 
 
 def test_grouped_page_failure_is_reported_per_page(events, tmp_path, monkeypatch):
@@ -150,3 +151,70 @@ def test_grouped_page_failure_is_reported_per_page(events, tmp_path, monkeypatch
     failed = [e for e in events if e.status == "error"]
     assert len(failed) == 1
     assert failed[0].decision == "p2.jpg" and "timeout" in failed[0].error
+
+
+# ── publish: the event must tell the truth about what happened ───────────────
+
+def test_publish_event_reports_that_publishing_is_disabled(monkeypatch):
+    """Publishing is opt-in. A bare "done" when nothing was published would be the
+    false-green signal V-2 exists to remove — the event must say so.
+
+    Deliberately does NOT use the `events` fixture: that fixture stubs
+    _publish_outputs out, so a test using it would assert against the stub.
+    """
+    import utils.publish_github as pg
+    monkeypatch.setattr(pg, "is_enabled", lambda: False)
+    monkeypatch.setattr(pg, "publish_doc",
+                        lambda *a, **k: pytest.fail("must not publish when disabled"))
+
+    published, detail = orchestrator._publish_outputs("d-288", None)
+    assert published is False and "disabled" in detail
+
+
+def test_publish_failure_surfaces_in_the_event(events, tmp_path, monkeypatch):
+    def boom(doc_id, source_url=None):
+        return False, "GitHub 403: bad credentials"
+    monkeypatch.setattr(orchestrator, "_publish_outputs", boom)
+
+    orchestrator.run_full_pipeline(str(_img(tmp_path)), on_phase=events.append)
+    pub = next(e for e in events if e.phase == "publish")
+
+    assert "403" in pub.decision                  # the historian sees WHY it didn't land
+
+
+def test_publish_never_breaks_the_run(monkeypatch):
+    """_publish_outputs swallows its own errors (#200) — assert that still holds.
+    Uses the real function, not the `events` fixture's stub."""
+    import utils.publish_github as pg
+    monkeypatch.setattr(pg, "is_enabled", lambda: True)
+    monkeypatch.setattr(pg, "publish_doc",
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError("network down")))
+
+    published, detail = orchestrator._publish_outputs("d-288", None)
+    assert published is False and "network down" in detail
+
+
+# ── model_select: the choice Agent B drove is its own step ───────────────────
+
+def test_model_select_event_names_the_chosen_model(events, tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from agent_a.model_selector import RecognitionResult
+
+    monkeypatch.setattr(orchestrator, "DUAL_AVAILABLE", True)
+    monkeypatch.setattr(orchestrator, "refresh_kraken_registry", None)
+    monkeypatch.setattr(orchestrator.config, "ENABLE_MULTI_ENGINE_FUSION", False)
+    monkeypatch.setattr(orchestrator, "transcribe_dual", lambda *a, **k: SimpleNamespace(
+        recognitions=[RecognitionResult(engine="kraken",
+                                        model_id="catmus-medieval",
+                                        text="unser fruntlich gruos",
+                                        confidence=0.87)],
+        kraken_transcription="unser fruntlich gruos",
+        party_transcription="", error_kraken="", error_party=""))
+    monkeypatch.setattr(orchestrator, "reconcile", lambda a, b: SimpleNamespace(
+        reconciled=a, method="llm", agreement_score=0.9))
+
+    orchestrator.run_full_pipeline(str(_img(tmp_path)), on_phase=events.append)
+
+    ms = next(e for e in events if e.phase == "model_select")
+    assert "catmus-medieval" in ms.decision and "0.87" in ms.decision
+    assert _phases(events).index("model_select") < _phases(events).index("kraken")

@@ -48,7 +48,8 @@ def pipeline(tmp_path, monkeypatch):
     monkeypatch.setattr(orchestrator.agent_c, "extract_entities",
                         lambda *a, **k: {"entities": []})
     monkeypatch.setattr(orchestrator, "_save_pipeline_result", lambda *a, **k: None)
-    monkeypatch.setattr(orchestrator, "_publish_outputs", lambda *a, **k: None)
+    monkeypatch.setattr(orchestrator, "_publish_outputs",
+                        lambda *a, **k: (False, "disabled in tests"))
     monkeypatch.setattr(orchestrator.config, "DATA_DIR", tmp_path)
 
     def fake_dual(img, **kwargs):

@@ -383,6 +383,14 @@ def run_full_pipeline(
                 for rec in dual_p3.recognitions:
                     if rec not in ctx.recognitions:
                         ctx.recognitions.append(rec)
+                _selected = next((r for r in dual_p3.recognitions
+                                  if (r.engine or "") == "kraken"), None)
+                if _selected is not None:
+                    _conf = getattr(_selected, "confidence", None)
+                    _emit(on_phase, doc_id, "model_select", "A",
+                          output=f"{_selected.engine}/{_selected.model_id}",
+                          decision=f"model={_selected.model_id}"
+                                   + (f", confidence={_conf:.2f}" if _conf is not None else ""))
                 _emit(on_phase, doc_id, "kraken", "A",
                       output=[f"{r.engine}/{r.model_id}: {len(r.text or '')} chars"
                               + (f" — {r.error}" if r.error else "")
@@ -506,9 +514,10 @@ def run_full_pipeline(
     # ════════════════════════════════════════════════════════════════════════
     if run_agent_d:
         try:
-            agent_d.analyse_corpus(corpus_name="default")
+            _d_result = agent_d.analyse_corpus(corpus_name="default")
             logger.info("[Orchestrator] Phase 5 (Agent D) fertig")
-            _emit(on_phase, doc_id, "agent_d", "D", decision="corpus analysis done")
+            _emit(on_phase, doc_id, "agent_d", "D", output=_d_result,
+                  decision="corpus analysis done")
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)
@@ -565,24 +574,34 @@ def run_full_pipeline(
 
     # Derive pipeline.json from RunState (same shape as old ctx.to_json())
     _save_pipeline_result(doc_id, ctx, from_runstate=True)
-    _publish_outputs(doc_id, ctx.source_url)
+    _published, _detail = _publish_outputs(doc_id, ctx.source_url)
+    _emit(on_phase, doc_id, "publish", "publish_github",
+          output=ctx.source_url or doc_id, decision=_detail)
 
     return ctx.to_json()
 
 
-def _publish_outputs(doc_id: str, source_url: Optional[str] = None) -> None:
+def _publish_outputs(doc_id: str, source_url: Optional[str] = None) -> tuple[bool, str]:
     """Publish this doc's outputs to the GitHub output repo (#200), linking back
     to ``source_url`` (#208).
 
     Opt-in (ENABLE_GITHUB_PUBLISH) and non-fatal — any failure is swallowed so
     publishing never breaks the pipeline.
+
+    Returns ``(published, detail)`` so the caller can emit a truthful publish event
+    (#288): publishing is off by default, and a bare "done" when nothing was
+    published would be exactly the false-green signal V-2 exists to remove.
+    Callers that don't care (ingest.py) simply ignore it.
     """
     try:
         from utils import publish_github
-        if publish_github.is_enabled():
-            publish_github.publish_doc(doc_id, source_url=source_url)
+        if not publish_github.is_enabled():
+            return False, "disabled (ENABLE_GITHUB_PUBLISH=false)"
+        publish_github.publish_doc(doc_id, source_url=source_url)
+        return True, "published to the outputs repo"
     except Exception as e:
         logger.warning(f"[Orchestrator] GitHub publish skipped ({doc_id}): {e}")
+        return False, str(e)
 
 
 _GATEWAY_REGISTRY_CACHE = None
@@ -794,14 +813,17 @@ def run_full_pipeline_group(
     # PHASE 5: optional corpus analysis over just this order
     if run_agent_d:
         try:
-            agent_d.analyse_corpus(corpus_name=doc_id, doc_ids=[doc_id])
-            _emit(on_phase, doc_id, "agent_d", "D", decision="corpus analysis done")
+            _d_result = agent_d.analyse_corpus(corpus_name=doc_id, doc_ids=[doc_id])
+            _emit(on_phase, doc_id, "agent_d", "D", output=_d_result,
+                  decision="corpus analysis done")
         except Exception as e:
             ctx.errors.append({"agent": "D", "error": str(e)})
             _emit(on_phase, doc_id, "agent_d", "D", status="error", error=str(e))
 
     _save_pipeline_result(doc_id, ctx)
-    _publish_outputs(doc_id, ctx.source_url)
+    _published, _detail = _publish_outputs(doc_id, ctx.source_url)
+    _emit(on_phase, doc_id, "publish", "publish_github",
+          output=ctx.source_url or doc_id, decision=_detail)
     logger.info(f"[Orchestrator] Order fertig: {doc_id} (QA {avg_qa:.2f}, {len(pages)} Seiten)")
     return ctx.to_json()
 
