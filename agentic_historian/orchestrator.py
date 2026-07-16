@@ -268,7 +268,6 @@ def run_full_pipeline(
         if use_dual_htr and DUAL_AVAILABLE:
             # Phase 1: nur VLM-Pfad (ohne kraken — das kommt in Phase 3)
             logger.info("[Orchestrator] Phase 1: VLM-only HTR (preliminary for Agent B)")
-            from agent_a.dual_pipeline import transcribe_dual
             dual = transcribe_dual(
                 img,
                 source_description=source_description,
