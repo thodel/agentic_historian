@@ -154,6 +154,13 @@ FUSION_AGREEMENT_CER_THRESHOLD = float(_get("FUSION_AGREEMENT_CER_THRESHOLD", "0
 # Multi-engine ENSEMBLE for grouped/multi-page orders (#272). When ON, each page
 # of a grouped order runs ≥ ENSEMBLE_MIN_ENGINES recognitions (VLM + best kraken +
 # best TrOCR); if they disagree (max pairwise CER > ENSEMBLE_AGREEMENT_CER) the
+
+# #300: above this max-pairwise-CER the ensemble does NOT merge — it returns the
+# best single candidate verbatim. Majority-voting assumes engines err independently
+# around a shared signal; at real disagreement there is no shared signal, so the
+# vote returns noise. Measured on BAT_664 at 70% CER the fused text was worse than
+# the best single engine — TrOCR's good reading with its good parts voted out.
+ENSEMBLE_NO_MERGE_CER = float(_get("ENSEMBLE_NO_MERGE_CER", "0.35"))
 # ensemble adds the next-ranked kraken/TrOCR model, up to ENSEMBLE_MAX_LOOPS extra
 # loops, then fuses. OFF by default → grouped orders keep the VLM-only behaviour.
 ENABLE_ENSEMBLE_HTR = _get("ENABLE_ENSEMBLE_HTR", "false").lower() == "true"
