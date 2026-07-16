@@ -49,13 +49,46 @@ RecognizeFn = Callable[[ModelPick, Any], Any]          # (pick, image) -> Recogn
 
 # ── model planning (ranked pool spanning engines) ────────────────────────────
 
-def plan_models(criteria, *, per_engine: int = 3, vlm_model_id: str = "vlm") -> list[ModelPick]:
+def resolve_gateway_id(pick: ModelPick, registry) -> str:
+    """Map a pick's LOCAL model id to the id the ATR gateway accepts (#277).
+
+    The local registry (agent_a/models.py) identifies kraken models by Zenodo DOI
+    and TrOCR models by HF repo, but the gateway has its own ids (``kraken-…`` /
+    ``trocr-…``). A raw Zenodo DOI still resolves there (#21 accepts raw refs), but
+    an **HF repo does not — it 404s** — so TrOCR picks must be mapped or the
+    ensemble silently degrades to VLM+kraken.
+
+    ``registry`` is the gateway's model list (``KrakenHTTPClient.list_models()``:
+    dicts with ``id`` / ``engine`` / ``hf_repo`` / ``zenodo_id``). Matching against
+    it is authoritative and self-correcting — no naming convention is assumed.
+    Falls back to the raw id when the registry is unavailable or has no match.
+    """
+    mid = pick.model_id
+    for m in registry or []:
+        if not isinstance(m, dict):
+            continue
+        if mid in (m.get("id"), m.get("hf_repo"), m.get("zenodo_id")):
+            return m.get("id") or mid
+    return mid
+
+
+def _default_vlm_model_id() -> str:
+    try:
+        from agent_a import models as _models
+        return _models.get_primary_vlm().model_id
+    except Exception:                                   # pragma: no cover — defensive
+        return "vlm"
+
+
+def plan_models(criteria, *, per_engine: int = 3,
+                vlm_model_id: Optional[str] = None) -> list[ModelPick]:
     """Ordered pool of picks. The front guarantees **engine diversity** — VLM,
     the best kraken, the best TrOCR (≥3 when models exist) — and the tail is the
     next-ranked kraken/TrOCR models interleaved, which the feedback loop draws
     from. Model selection reuses the script/century-aware selectors."""
     from agent_a.model_selector import select_kraken_model, select_tocr_model
 
+    vlm_model_id = vlm_model_id or _default_vlm_model_id()
     kraken = select_kraken_model(criteria, top_k=per_engine)
     trocr = select_tocr_model(criteria, top_k=per_engine)
 
