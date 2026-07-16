@@ -176,6 +176,40 @@ def _rerun_kraken_with_model_selection(
     return result
 
 
+def _emit(on_phase, doc_id: str, phase: str, agent: str, *, status: str = "done",
+          output=None, decision: str = "", error: str = "") -> None:
+    """Emit one PhaseEvent for a pipeline step (#288).
+
+    Best-effort by construction: a broken callback (or a snippet of some exotic
+    object) must NEVER break the pipeline — the whole point is observability, not
+    a new failure mode. ``output`` is rendered with progress.snippet (V-1, #287) so
+    the excerpt is a short, safe preview (first 3 lines / first 3 entries).
+    """
+    try:
+        from runstate import PhaseEvent
+        excerpt = ""
+        if output is not None:
+            try:
+                from progress import snippet
+                excerpt = snippet(output)
+            except Exception:                       # pragma: no cover — defensive
+                excerpt = str(output)[:200]
+        ev = PhaseEvent(doc_id=doc_id, phase=phase, agent=agent, status=status,
+                        excerpt=excerpt, decision=decision, error=error or "")
+        (on_phase or _log_phase)(ev)
+    except Exception as e:                          # pragma: no cover — defensive
+        logger.warning(f"[Orchestrator] phase emit failed ({phase}): {e}")
+
+
+def _log_phase(ev) -> None:
+    """Default sink: log the event (unchanged behaviour when no on_phase given)."""
+    if ev.status == "error":
+        logger.warning(f"[phase] {ev.doc_id}/{ev.phase} ({ev.agent}) ERROR: {ev.error}")
+    else:
+        logger.info(f"[phase] {ev.doc_id}/{ev.phase} ({ev.agent}) — "
+                    f"{ev.decision or ev.excerpt[:80]}")
+
+
 def run_full_pipeline(
     file_path: str | Path,
     image_path: Optional[str | Path] = None,
@@ -184,6 +218,7 @@ def run_full_pipeline(
     source_description: Optional[str] = None,
     lang: str = "de",
     source_url: Optional[str] = None,
+    on_phase=None,
 ) -> PipelineResult:
     """
     Führt A → B → Kraken-Re-Run → C (→ D) Pipeline aus.
@@ -270,9 +305,13 @@ def run_full_pipeline(
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Phase 1 RunState persist skipped: {e2}")
+        _emit(on_phase, doc_id, "vlm", "A", output=ctx.transcription,
+              decision=f"qa={ctx.a_meta.get('qa_score', 0)} "
+                       f"{len(ctx.transcription)} chars")
     except Exception as e:
         logger.error(f"[Orchestrator] Phase 1 (Agent A) fehlgeschlagen: {e}")
         ctx.errors.append({"agent": "A", "phase": 1, "error": str(e)})
+        _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e))
         try:
             from runstate import RunState, DONE, ERROR
             state = RunState.load_or_new(doc_id)
@@ -305,6 +344,9 @@ def run_full_pipeline(
                 image_path=str(img) if img != fp else None,
             )
             logger.info("[Orchestrator] Phase 2 (Agent B) fertig")
+            _emit(on_phase, doc_id, "agent_b", "B",
+                  output=(ctx.description or {}).get("source_json"),
+                  decision=(ctx.description or {}).get("source_description", "")[:80])
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)
@@ -316,6 +358,7 @@ def run_full_pipeline(
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 2 (Agent B) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
+            _emit(on_phase, doc_id, "agent_b", "B", status="error", error=str(e))
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 3: kraken-Re-Run mit Agent-B-gestuerter Modellwahl
@@ -341,6 +384,11 @@ def run_full_pipeline(
                 for rec in dual_p3.recognitions:
                     if rec not in ctx.recognitions:
                         ctx.recognitions.append(rec)
+                _emit(on_phase, doc_id, "kraken", "A",
+                      output=[f"{r.engine}/{r.model_id}: {len(r.text or '')} chars"
+                              + (f" — {r.error}" if r.error else "")
+                              for r in dual_p3.recognitions],
+                      decision=f"{len(dual_p3.recognitions)} candidate(s)")
 
                 # ── Phase 3 fusion or 2-way reconcile ────────────────────────
                 # When ENABLE_MULTI_ENGINE_FUSION is on, feed ALL candidates
@@ -384,6 +432,10 @@ def run_full_pipeline(
                     ctx.a_meta["fusion_arbitrated"] = _fuse_result.arbitrated
                     ctx.a_meta["fusion_agreement_cer"] = _max_cer
                     ctx.a_meta["fusion_llm_skipped"] = _skip_llm
+                    _emit(on_phase, doc_id, "fusion", "A", output=ctx.transcription,
+                          decision=f"{_fuse_result.strategy}, "
+                                   f"{_fuse_result.arbitrated} arbitrated, "
+                                   f"agreement CER {_max_cer:.1%}")
                     logger.info(
                         f"[Orchestrator] Phase 3: fused ({_fuse_result.strategy}), "
                         f"arbitrated={_fuse_result.arbitrated} slots, "
@@ -394,6 +446,9 @@ def run_full_pipeline(
                     # Legacy 2-way reconcile (when fusion is disabled)
                     rec_result = reconcile(ctx.transcription, dual_p3.kraken_transcription)
                     ctx.transcription = rec_result.reconciled
+                    _emit(on_phase, doc_id, "reconcile", "A", output=ctx.transcription,
+                          decision=f"{rec_result.method}, "
+                                   f"agreement={rec_result.agreement_score:.2f}")
                     logger.info(
                         f"[Orchestrator] Phase 3: reconciled ({rec_result.method}), "
                         f"agreement={rec_result.agreement_score:.2f}, "
@@ -422,6 +477,7 @@ def run_full_pipeline(
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 3 (kraken re-run) fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
+            _emit(on_phase, doc_id, "kraken", "A", status="error", error=str(e))
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 4: Agent C — Entity Extraction
@@ -430,6 +486,9 @@ def run_full_pipeline(
         try:
             ctx.entities = agent_c.extract_entities(doc_id, ctx.transcription)
             logger.info("[Orchestrator] Phase 4 (Agent C) fertig")
+            _emit(on_phase, doc_id, "agent_c", "C",
+                  output=(ctx.entities or {}).get("entities") or ctx.entities,
+                  decision=f"{len((ctx.entities or {}).get('entities', []) or [])} entities")
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)
@@ -441,6 +500,7 @@ def run_full_pipeline(
         except Exception as e:
             logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "C", "error": str(e)})
+            _emit(on_phase, doc_id, "agent_c", "C", status="error", error=str(e))
 
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 5: Agent D (optional)
@@ -449,6 +509,7 @@ def run_full_pipeline(
         try:
             agent_d.analyse_corpus(corpus_name="default")
             logger.info("[Orchestrator] Phase 5 (Agent D) fertig")
+            _emit(on_phase, doc_id, "agent_d", "D", decision="corpus analysis done")
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)
@@ -459,6 +520,7 @@ def run_full_pipeline(
         except Exception as e:
             logger.error(f"[Orchestrator] Agent D fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "D", "error": str(e)})
+            _emit(on_phase, doc_id, "agent_d", "D", status="error", error=str(e))
 
     # ── Persist a RunState so /route can render a populated Gate-1 card ───────
     # The core pipeline does not itself gate; it records the criteria Agent B
@@ -600,6 +662,7 @@ def run_full_pipeline_group(
     doc_id: str,
     image_paths: list,
     run_agent_d: bool = False,
+    on_phase=None,
 ) -> PipelineResult:
     """Process a set of images as ONE multi-page document (a WebDAV "order"/folder).
 
@@ -645,13 +708,28 @@ def run_full_pipeline_group(
                 logger.info(f"[Orchestrator] {img.name}: ensemble {len(er.recognitions)} "
                             f"engine(s), {er.loops} loop(s), agreement CER "
                             f"{er.max_pairwise_cer:.2%}")
+                # One event per candidate, so the historian sees WHICH engine read
+                # what — the u-17__ failure was invisible precisely because only the
+                # merged text was ever shown.
+                for rec in er.recognitions:
+                    _emit(on_phase, doc_id, "vlm", "A",
+                          status="error" if rec.error else "done",
+                          output=rec.text, error=rec.error or "",
+                          decision=f"{img.name} · {rec.engine}/{rec.model_id}")
+                _emit(on_phase, doc_id, "vlm", "A", output=er.text,
+                      decision=f"{img.name} · ensemble: {len(er.recognitions)} engine(s), "
+                               f"{er.loops} loop(s), agreement CER {er.max_pairwise_cer:.1%}")
             else:
                 r = agent_a.transcribe_image(img)
                 parts.append(f"--- {img.name} ---\n{r.get('transcription', '')}")
                 scores.append(r.get("qa_score", 0.0))
+                _emit(on_phase, doc_id, "vlm", "A", output=r.get("transcription", ""),
+                      decision=f"{img.name} · qa={r.get('qa_score', 0.0)}")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})
+            _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e),
+                  decision=img.name)
     ctx.transcription = "\n\n".join(parts).strip()
     avg_qa = round(sum(scores) / len(scores), 2) if scores else 0.0
     ctx.a_meta = {"pages": len(pages), "qa_score": avg_qa,
@@ -686,9 +764,13 @@ def run_full_pipeline_group(
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Group Phase 2 RunState persist skipped: {e2}")
+            _emit(on_phase, doc_id, "agent_b", "B",
+                  output=(ctx.description or {}).get("source_json"),
+                  decision=(ctx.description or {}).get("source_description", "")[:80])
         except Exception as e:
             logger.error(f"[Orchestrator] Agent B fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "B", "error": str(e)})
+            _emit(on_phase, doc_id, "agent_b", "B", status="error", error=str(e))
 
     # PHASE 4: Agent C — entities across the order
     if ctx.transcription:
@@ -702,16 +784,22 @@ def run_full_pipeline_group(
                 state.save()
             except Exception as e2:
                 logger.warning(f"[Orchestrator] Group Phase 3 RunState persist skipped: {e2}")
+            _emit(on_phase, doc_id, "agent_c", "C",
+                  output=(ctx.entities or {}).get("entities") or ctx.entities,
+                  decision=f"{len((ctx.entities or {}).get('entities', []) or [])} entities")
         except Exception as e:
             logger.error(f"[Orchestrator] Agent C fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "C", "error": str(e)})
+            _emit(on_phase, doc_id, "agent_c", "C", status="error", error=str(e))
 
     # PHASE 5: optional corpus analysis over just this order
     if run_agent_d:
         try:
             agent_d.analyse_corpus(corpus_name=doc_id, doc_ids=[doc_id])
+            _emit(on_phase, doc_id, "agent_d", "D", decision="corpus analysis done")
         except Exception as e:
             ctx.errors.append({"agent": "D", "error": str(e)})
+            _emit(on_phase, doc_id, "agent_d", "D", status="error", error=str(e))
 
     _save_pipeline_result(doc_id, ctx)
     _publish_outputs(doc_id, ctx.source_url)
