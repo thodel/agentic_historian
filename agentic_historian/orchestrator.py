@@ -701,6 +701,63 @@ def _emit_model_select(on_phase, doc_id: str, criteria, *, label: str) -> None:
         logger.warning(f"[Orchestrator] model_select emit skipped: {e}")
 
 
+def _record_no_merge_vote(doc_id: str, page: str, er) -> None:
+    """Record a no-merge page's candidates as Gate-2 vote paths (#313).
+
+    #300 selects the best single candidate at high disagreement rather than blend —
+    but "best" there is the model-MATCH score, a prior on fit-to-source, not a
+    measurement of output quality. On BAT_664 the 0.20-scored escriptmask read
+    better than the 0.80-scored kurrent model (#298), so at this disagreement level
+    the right reading is genuinely a human call. This makes the decision VOTEABLE
+    without blocking: the auto-pick stays the working transcription, and the
+    candidates are written as Gate-2 ``paths`` so the existing voting card
+    (#290/#293) can render and a vote can override via
+    ``voting.apply_winner`` → ``path_compare.apply_path_choice``.
+
+    This records; it does not POST. Posting the card to Discord from the headless
+    pipeline is pipeline→Discord plumbing that belongs with the #286/#289 progress
+    work — the seam #300 explicitly left open. Persistence (#150) already rebuilds a
+    Gate-2 view from ``paths`` once a message id exists, so posting is all that
+    remains.
+    """
+    if not (getattr(er, "no_merge", False) and getattr(er, "recognitions", None)):
+        return
+    try:
+        from runstate import RunState
+
+        def _text(r):
+            return (r.get("text", "") if isinstance(r, dict)
+                    else getattr(r, "text", "")) or ""
+
+        def _err(r):
+            return (r.get("error", "") if isinstance(r, dict)
+                    else getattr(r, "error", "")) or ""
+
+        def _label(r):
+            eng = (r.get("engine") if isinstance(r, dict) else getattr(r, "engine", "")) or "?"
+            mid = (r.get("model_id") if isinstance(r, dict) else getattr(r, "model_id", "")) or ""
+            base = f"{eng}/{mid}" if mid else eng
+            return f"{page}:{base}" if page else base
+
+        # every non-empty, error-free candidate becomes a voteable path
+        paths = {_label(r): _text(r) for r in er.recognitions
+                 if _text(r).strip() and not _err(r)}
+        if len(paths) < 2:
+            return
+        state = RunState.load_or_new(doc_id)
+        existing = state.artifacts.get("paths") or {}
+        existing.update(paths)
+        state.artifacts["paths"] = existing
+        # the score-ranked auto-pick, recorded as the default (a vote overrides it)
+        state.gate_decisions.setdefault("gate2_auto", {})[page or "_"] = _label(er.selected)
+        state.gate_decisions["gate2_vote_warranted"] = True
+        state.save()
+        logger.info(f"[Orchestrator] {page}: recorded {len(paths)} no-merge "
+                    f"candidate(s) as Gate-2 vote paths (#313)")
+    except Exception as e:
+        logger.warning(f"[Orchestrator] no-merge vote record skipped ({page}): {e}")
+
+
 def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
     """Run the page ensemble over every page with one set of criteria (#299).
 
@@ -727,6 +784,7 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
             logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
                         f"{len(er.recognitions)} engine(s), {er.loops} loop(s), "
                         f"agreement CER {er.max_pairwise_cer:.2%}")
+            _record_no_merge_vote(doc_id, img.name, er)
             # One event per candidate, so the historian sees WHICH engine read what —
             # the u-17__ failure was invisible precisely because only the merged text
             # was ever shown.
