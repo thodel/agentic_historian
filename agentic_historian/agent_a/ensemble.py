@@ -42,6 +42,8 @@ class EnsembleResult:
     max_pairwise_cer: float = 0.0                      # final disagreement measure
     ran: list = field(default_factory=list)            # ModelPicks actually run
     added: list = field(default_factory=list)          # ModelPicks the loop added
+    no_merge: bool = False                             # #300: selected, not blended
+    selected: Any = None                               # #313: the winning candidate
 
 
 RecognizeFn = Callable[[ModelPick, Any], Any]          # (pick, image) -> RecognitionResult
@@ -255,6 +257,7 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
             return EnsembleResult(
                 recognitions=recognitions, text=_text_of(rec)[0], provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
+                no_merge=True, selected=rec,
             )
 
     fr = fuse(recognitions, llm_fn=llm_fn)
