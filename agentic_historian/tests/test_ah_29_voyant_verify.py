@@ -77,11 +77,26 @@ def test_voyant_url_truncates_to_50k():
 
 
 # ── verify_voyant: the on-host acceptance helper ─────────────────────────────
+#
+# verify_voyant makes TWO Trombone calls: create the corpus, then retrieve it by
+# id. ok=True means BOTH succeeded — the corpus persisted, not just that a link
+# string was built.
 
-def test_verify_ok_when_corpus_link_returned():
-    with mock.patch.object(ca.requests, "post", return_value=_trombone(corpus_id="z")):
+def test_verify_ok_requires_corpus_to_be_retrievable():
+    # 1st POST creates (id=z), 2nd POST retrieves the same id → persisted.
+    with mock.patch.object(ca.requests, "post",
+                           side_effect=[_trombone(corpus_id="z"), _trombone(corpus_id="z")]):
         r = ca.verify_voyant()
-    assert r["ok"] is True and "corpus=" in r["url"]
+    assert r["ok"] is True and r["retrievable"] is True and "corpus=z" in r["url"]
+
+
+def test_verify_not_ok_when_link_built_but_corpus_did_not_persist():
+    # created fine, but retrieval comes back with a DIFFERENT/empty id → ephemeral.
+    with mock.patch.object(ca.requests, "post",
+                           side_effect=[_trombone(corpus_id="z"), _trombone(corpus_id=None)]):
+        r = ca.verify_voyant()
+    assert r["ok"] is False and r["retrievable"] is False
+    assert "not retrievable" in r["reason"] or "persist" in r["reason"]
 
 
 def test_verify_not_ok_when_trombone_broken():
@@ -89,3 +104,12 @@ def test_verify_not_ok_when_trombone_broken():
         r = ca.verify_voyant()
     assert r["ok"] is False and r["url"] == ""
     assert "unreachable" in r["reason"] or "contract" in r["reason"]
+
+
+def test_verify_reason_does_not_overclaim_the_browser():
+    """ok=True must not read as 'a human can open this' — the reason names the
+    limit (#315), because no server-side check can prove the SPA renders."""
+    with mock.patch.object(ca.requests, "post",
+                           side_effect=[_trombone(corpus_id="z"), _trombone(corpus_id="z")]):
+        r = ca.verify_voyant()
+    assert "315" in r["reason"] or "not checked" in r["reason"]

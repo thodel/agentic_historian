@@ -228,25 +228,67 @@ def _voyant_url(text: str, corpus_name: str) -> str:
     return ""
 
 
+def _voyant_corpus_exists(corpus_id: str) -> bool:
+    """True if Trombone can retrieve the corpus by id — i.e. it persisted.
+
+    Stronger than "a link string was built": it confirms the corpus is actually
+    stored and fetchable, not that CorpusMetadata merely echoed an id. This is the
+    limit of what a server-side check can prove, though — it CANNOT verify the
+    browser dashboard renders, which on tei is currently broken by a Voyant
+    subpath-mount issue (#315), independent of this code.
+    """
+    try:
+        base = config.VOYANT_API_URL.rstrip("/")
+        resp = requests.post(
+            base + "/trombone",
+            data={"tool": "corpus.CorpusMetadata", "corpus": corpus_id},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        got = (resp.json().get("corpus", {}).get("metadata", {}) or {}).get("id")
+        return got == corpus_id
+    except Exception as e:
+        logger.warning(f"[Agent D] Voyant corpus retrieve failed: {e}")
+        return False
+
+
 def verify_voyant(sample_text: str = "Dis ist ein kurzer Beispieltext für Voyant.") -> dict:
     """Live smoke check for the Voyant export (#29).
 
-    POSTs a sample corpus to the configured Voyant instance and confirms a working
-    shareable ``?corpus=`` link comes back. Run on-host to verify the endpoint:
+    Creates a sample corpus and then **retrieves it back by id**, so ``ok`` means
+    the corpus persisted and is fetchable — not merely that a ``?corpus=`` string
+    was built. Run on-host:
 
         python -c "from agents.corpus_analysis import verify_voyant as v; print(v())"
 
-    Returns ``{ok, url, endpoint, reason}`` (never raises).
+    IMPORTANT — what this does NOT prove: that the ``?corpus=`` link renders the
+    Voyant **dashboard** in a browser. That is a client-side SPA concern no
+    server-side check can reach, and on tei it is currently broken by a Voyant
+    subpath-mount issue (#315). A green ``ok`` here confirms the API contract; the
+    interactive link is gated on that deployment fix. Do not read ``ok=True`` as
+    "a human can open this."
+
+    Returns ``{ok, url, endpoint, retrievable, reason}`` (never raises).
     """
     endpoint = config.VOYANT_API_URL.rstrip("/") + "/"
     url = _voyant_url(sample_text, "verify")
-    ok = bool(url) and "corpus=" in url
+    has_link = bool(url) and "corpus=" in url
+    cid = url.rsplit("corpus=", 1)[-1] if has_link else ""
+    retrievable = _voyant_corpus_exists(cid) if cid else False
+    ok = has_link and retrievable
+    if not has_link:
+        reason = "no ?corpus= link — Trombone unreachable or contract changed"
+    elif not retrievable:
+        reason = "link built but corpus not retrievable by id — did not persist"
+    else:
+        reason = ("corpus created and retrievable via API "
+                  "(NB: browser dashboard rendering is not checked — see #315)")
     return {
         "ok": ok,
         "url": url,
         "endpoint": endpoint,
-        "reason": "corpus link returned" if ok
-                  else "no ?corpus= link — Trombone unreachable or contract changed",
+        "retrievable": retrievable,
+        "reason": reason,
     }
 
 
