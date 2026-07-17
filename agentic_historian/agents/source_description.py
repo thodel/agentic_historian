@@ -208,7 +208,14 @@ def _parse_response(raw: str) -> tuple[dict, str]:
     json_start = re.search(r"\{", raw)
     md_start = raw.find("## ")  # Markdown section starts with ## heading
 
-    if json_start and (not md_start or json_start.start() < md_start):
+    # `md_start == -1` — NOT `not md_start`: find() returns -1 when there is no
+    # "## " heading, and -1 is truthy, so `not md_start` was False and the
+    # `json_start.start() < md_start` comparison was False against -1 too. Result:
+    # a response whose markdown had no heading had its ENTIRE 16-element JSON
+    # silently dropped, leaving source_json={} → no criteria → the model selector
+    # falls back to a generic model. Whether the description survived depended on
+    # whether the LLM happened to use a heading that run.
+    if json_start and (md_start == -1 or json_start.start() < md_start):
         json_text = raw[json_start.start():]
         json_text = _extract_balanced_json(json_text)
         if json_text:
