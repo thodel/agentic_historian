@@ -343,6 +343,47 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
 
 
 @bot.slash_command(
+    name="votes",
+    description="Show the Gate-2 voting card for a doc whose engines disagreed (no-merge)",
+)
+async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
+    """Posts the Gate-2 voting card for a document that went through a no-merge
+    decision (#300/#313). At high engine disagreement the pipeline selects by
+    model-MATCH score — a prior on fit-to-source, not output quality (on BAT_664
+    the 0.20-scored engine read better than the 0.80 one) — so the reading is a
+    human call. #313's recording half stored the candidates as ``paths``; this
+    surfaces them for a vote. A vote overrides the auto-pick through the existing
+    voting → apply_path_choice path, and the message id is persisted so the buttons
+    survive a bot restart (#150).
+
+    Pull-based on purpose: the headless grouped pipeline runs in a worker thread,
+    and posting an interactive button view from off-loop is the risky path. The
+    historian sees the no-merge on the live board (#289) and runs this.
+    """
+    await ctx.defer()
+    try:
+        import path_compare
+        import persistent_views
+        import ingest
+        from runstate import RunState
+        state = RunState.load_or_new(doc_id)
+        paths = state.artifacts.get("paths") or {}
+        if len([t for t in paths.values() if (t or "").strip()]) < 2:
+            await ctx.followup.send(
+                f"Keine Abstimmung für `{doc_id}` — die Engines waren sich einig "
+                f"(oder der Lauf lief ohne No-Merge-Entscheidung durch)."
+            )
+            return
+        runners = ingest.build_stage_runners(state) if config.AUTO_RESUME_AFTER_GATE else None
+        view = path_compare.build_view(state, paths, runners=runners)
+        msg = await ctx.followup.send(path_compare.render_vote_card(state, paths), view=view)
+        if msg is not None:
+            persistent_views.store_message_id(state, "gate2", msg.id)
+    except Exception as e:
+        await ctx.followup.send(f"❌ Error: {e}")
+
+
+@bot.slash_command(
     name="reprocess",
     description="Re-process a document after correcting criteria or stages",
 )
