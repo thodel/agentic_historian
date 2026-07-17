@@ -3,8 +3,10 @@
 1. Voyant was dead code: config read the env var under a misspelled name
    (`Voyant_API_URL`), defaulted to the public voyant-tools.org API instead of
    the self-hosted instance documented in the README, and Agent D posted to a
-   `/Corpus` endpoint that does not exist. The documented flow is
-   POST <voyant>/?text= with form data; Voyant redirects to /?corpus=<id>.
+   `/Corpus` endpoint that does not exist. The working flow (verified live on tei
+   2026-07-17) is the Trombone API: POST <voyant>/trombone with
+   tool=corpus.CorpusMetadata → JSON corpus.metadata.id → link ?corpus=<id>.
+   (POST /?text= hits the JSP UI shell, which 500s on Voyant 2.4.)
 2. entity_agent cleaned LLM output with str.strip("```json"), which treats the
    argument as a character SET and can swallow legitimate leading/trailing
    j/s/o/n characters of the JSON payload.
@@ -56,18 +58,26 @@ def test_agent_d_does_not_call_nonexistent_corpus_endpoint():
     )
 
 
-def test_voyant_url_returns_redirect_url():
-    fake = mock.Mock(ok=True, url="https://tei.dh.unibe.ch/voyant/?corpus=abc123")
-    with mock.patch.object(corpus_analysis.requests, "post", return_value=fake) as post:
+def _trombone(status=200, corpus_id="abc123"):
+    m = mock.Mock(status_code=status)
+    m.json.return_value = {"corpus": {"metadata": {"id": corpus_id}}}
+    m.raise_for_status = mock.Mock(
+        side_effect=None if status == 200 else RuntimeError(f"HTTP {status}"))
+    return m
+
+
+def test_voyant_url_returns_corpus_link():
+    with mock.patch.object(corpus_analysis.requests, "post",
+                           return_value=_trombone(corpus_id="abc123")) as post:
         url = corpus_analysis._voyant_url("Erstes Beispiel.", "default")
     assert url == "https://tei.dh.unibe.ch/voyant/?corpus=abc123"
     endpoint = post.call_args.args[0] if post.call_args.args else post.call_args.kwargs.get("url")
-    assert endpoint.endswith("/"), "must POST to the Voyant root, not a sub-endpoint"
+    assert endpoint.endswith("/trombone"), "must POST to /trombone, not the JSP UI (it 500s)"
 
 
 def test_voyant_url_empty_on_failure():
-    fake = mock.Mock(ok=False, url="https://tei.dh.unibe.ch/voyant/")
-    with mock.patch.object(corpus_analysis.requests, "post", return_value=fake):
+    with mock.patch.object(corpus_analysis.requests, "post",
+                           return_value=_trombone(status=500)):
         assert corpus_analysis._voyant_url("text", "default") == ""
 
 
