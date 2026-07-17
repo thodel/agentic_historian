@@ -714,7 +714,13 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
         try:
             er = _recognize_page_ensemble(img, criteria)
             parts.append(f"--- {img.name} ---\n{er.text}")
-            scores.append(round(1.0 - er.max_pairwise_cer, 2))   # agreement-based QA
+            # Agreement-based QA, clamped to [0, 1]. CER is unbounded above: it is
+            # edits/reference-length, so when candidates disagree in LENGTH as well
+            # as content it exceeds 100% — a real run measured 194.8% CER, giving a
+            # QA of -0.95, which was then averaged into the order's score and
+            # written into the .txt header. "Negative quality" is not a reading
+            # anyone can act on; total disagreement is simply 0.
+            scores.append(round(max(0.0, min(1.0, 1.0 - er.max_pairwise_cer)), 2))
             for rec in er.recognitions:
                 if rec not in ctx.recognitions:
                     ctx.recognitions.append(rec)
