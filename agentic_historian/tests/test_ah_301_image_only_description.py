@@ -162,18 +162,33 @@ def test_an_empty_vision_response_falls_back(monkeypatch, img):
 
 
 def test_good_text_is_unaffected(monkeypatch, img):
-    """The normal path must not route through the image-only describer."""
+    """Readable text must not route through the image-only describer.
+
+    Asserted on the RESULT, not on which client method was called: since #308 the
+    normal path legitimately calls chat_vision too (it sends the page alongside the
+    transcription). What distinguishes the paths is that the image-only describer
+    discards the text and marks the result low_confidence/image-only — and readable
+    text must get neither.
+    """
+    seen = {}
+
+    def vision(prompt, image_source=None, **k):
+        seen["prompt"] = prompt
+        return VLM_JSON
+
+    monkeypatch.setattr(agent_b.gs, "chat_vision", vision)
     monkeypatch.setattr(agent_b.gs, "chat_text", lambda *a, **k: VLM_JSON)
-    monkeypatch.setattr(agent_b.gs, "chat_vision",
-                        lambda *a, **k: pytest.fail("good text used the image-only path"))
     monkeypatch.setattr(agent_b, "_care_flag", lambda t: {"is_care_related": False,
                                                           "care_context": "",
                                                           "care_types": [],
                                                           "beteiligte": []})
 
     result = agent_b.describe(doc_id="d-301", transcription=GOOD_TEXT, image_path=img)
+
     assert result.get("source") != "image-only"
     assert not result.get("low_confidence")
+    # the readable transcription was used, not discarded
+    assert "Wir Hans von Wiler" in seen["prompt"]
 
 
 def test_pins_still_win_on_the_image_path(monkeypatch, img):
