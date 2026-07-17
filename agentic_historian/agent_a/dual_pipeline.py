@@ -262,10 +262,37 @@ def _run_kraken_local(image_path: Path, model: models.KrakenModel) -> tuple[str,
 
 
 def _run_party(image_path: Path) -> tuple[str, str]:
-    """Run Party/PARY HTR. Returns (transcription, error_or_model_id)."""
-    if not _party_available():
-        return "", "party model not available (run: kraken get 10.5281/zenodo.20642057)"
+    """Run Party/PARY HTR via the ATR gateway. Returns (transcription, error_or_model_id).
 
+    Gateway first, exactly as _run_kraken does. This used to go straight to the
+    LOCAL path: `_party_available()` shells out to `kraken list` on THIS host and
+    checks whether the party model is downloaded here — but recognition does not
+    happen here, that is the entire point of the gateway. tei has no local kraken
+    models, so party reported
+        "party model not available (run: kraken get 10.5281/zenodo.20642057)"
+    on every run, while asterAIx sat there with a healthy atr-party service on
+    :8203 that nobody called. The error even reads like a host instruction, which
+    is how it got mis-filed against the gateway host (serving-atr-inference#30).
+
+    Party is also not kraken-loadable (it is a party/safetensors model needing the
+    standalone `party` package), so `kraken list` could never have listed it — the
+    local check was doomed twice over.
+
+    The local path stays as a fallback for a dev box that genuinely has party.
+    """
+    try:
+        with KrakenHTTPClient() as client:
+            result = client.transcribe(image=image_path, model="party")
+        return result.text, "party"
+    except KrakenClientError as e:
+        logger.warning(f"[party] Service error, falling back to local: {e}")
+    except Exception as e:
+        return "", str(e)
+
+    # Fallback: a local party install (dev boxes); on tei this correctly reports
+    # that it is not available rather than pretending.
+    if not _party_available():
+        return "", "party unavailable (gateway unreachable, not installed locally)"
     try:
         transcription, _ = party_transcribe(image_path)
         return transcription, models.PARTY_MODEL.model_id
