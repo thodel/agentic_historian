@@ -158,11 +158,29 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         "  Wert die Zeichenkette \" (unsicher)\" anhaengst (z.B. \"Bern (unsicher)\").\n"
     )
 
-    try:
-        raw = gs.chat_text(full_prompt, system=None, max_tokens=3500)
-    except Exception as e:
-        logger.warning(f"[Agent B] VLM-Beschreibung fehlgeschlagen: {e}")
-        raw = ""
+    # #308: actually SEND the image when we have one. This branch previously called
+    # chat_text — so Agent B selected the codicological prompt, told the model an
+    # image was available, asked for features only visible on the page
+    # (Beschreibstoff, Wasserzeichen, Schriftraum, Haende), and then sent nothing
+    # but the transcription. Whatever came back for those fields was null or
+    # invented from the text, and the result recorded image_path as if it were
+    # provenance. Schrift and Datierung — the two elements that drive model
+    # selection (#299) — are exactly the ones you read off the page.
+    raw, image_sent = "", False
+    if image_path:
+        try:
+            raw = gs.chat_vision(full_prompt, image_source=str(image_path),
+                                 system=None, max_tokens=3500)
+            image_sent = True
+        except Exception as e:
+            # Don't lose the description over it: fall back to text-only, but say so.
+            logger.warning(f"[Agent B] Bild-Call fehlgeschlagen, Fallback auf Text: {e}")
+    if not raw:
+        try:
+            raw = gs.chat_text(full_prompt, system=None, max_tokens=3500)
+        except Exception as e:
+            logger.warning(f"[Agent B] VLM-Beschreibung fehlgeschlagen: {e}")
+            raw = ""
 
     # ── Parse Markdown + JSON from response ────────────────────────────────────
     source_json, description_md = _parse_response(raw)
@@ -178,13 +196,15 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         "source_description": description_md,
         "source_json": source_json,
         "care_flag": care,
-        "image_path": image_path or "none",
+        # Provenance, not aspiration (#308): only claim the image when it was sent.
+        "image_path": str(image_path) if image_sent else "none",
     }
 
     _save(doc_id, result)
     _validate_and_log(doc_id, source_json)
 
-    logger.info(f"[Agent B] Fertig: {doc_id}")
+    logger.info(f"[Agent B] Fertig: {doc_id}"
+                f"{' (mit Bild)' if image_sent else ' (nur Text)'}")
     return result
 
 
