@@ -20,7 +20,9 @@ def read(path):
 def test_agent_b_no_4000_truncation():
     src = read(SD_PATH)
     idx = src.find("def describe(")
-    func = src[idx:idx + 3000]
+    # 6000, not 3000: #301 added the image-only description branch at the top of
+    # describe(), pushing the chunking code past a 3000-char window.
+    func = src[idx:idx + 6000]
     assert "transcription[:4000]" not in func
     assert "transcription_snippet" in func
 
