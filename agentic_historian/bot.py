@@ -144,6 +144,27 @@ async def _run_blocking(ctx, func, *args, **kwargs):
     return await fut
 
 
+async def _run_with_board(ctx, channel, func, *args, **kwargs):
+    """Run a pipeline job with a live Discord progress board (#289, V-3).
+
+    Builds a ProgressReporter bound to ``channel`` (the invoking channel for a
+    command, or VERBOSE_PROGRESS_CHANNEL_ID for a background run), passes its
+    thread-safe ``emit`` into the orchestrator as ``on_phase``, and always closes
+    it. Flag off / no channel → no reporter, ``on_phase`` unset, behaviour
+    byte-identical. Reporting never affects the job's result or errors.
+    """
+    import progress_reporter
+    doc_id = Path(str(args[0])).stem if args else "run"
+    reporter = progress_reporter.make_reporter(channel, doc_id)
+    if reporter is not None:
+        kwargs = {**kwargs, "on_phase": reporter.emit}
+    try:
+        return await _run_blocking(ctx, func, *args, **kwargs)
+    finally:
+        if reporter is not None:
+            await reporter.close()
+
+
 # ── Hot-folder watch ────────────────────────────────────────────────────────
 
 _HOT_QUEUE: asyncio.Queue = asyncio.Queue()
@@ -233,7 +254,9 @@ async def _process_hot_queue() -> None:
         try:
             if action == "run":
                 logger.info(f"[hot-watch] new file → run_full_pipeline({stem})")
-                await _run_blocking(None, run_full_pipeline, path)
+                _chan = (bot.get_channel(config.VERBOSE_PROGRESS_CHANNEL_ID)
+                         if config.VERBOSE_PROGRESS_CHANNEL_ID else None)
+                await _run_with_board(None, _chan, run_full_pipeline, path)
             else:  # reprocess
                 logger.info(f"[hot-watch] updated file → reprocess({stem})")
                 import ingest as _ingest
@@ -406,7 +429,7 @@ async def run_pipeline(
         await ctx.followup.send(f"❌ File not found: {filename}")
         return
     try:
-        result = await _run_blocking(ctx, run_full_pipeline, fp)
+        result = await _run_with_board(ctx, ctx.channel, run_full_pipeline, fp)
         if result is None:
             return
         doc_id = result.get("doc_id", Path(filename).stem)
