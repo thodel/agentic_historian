@@ -164,6 +164,14 @@ ENSEMBLE_NO_MERGE_CER = float(_get("ENSEMBLE_NO_MERGE_CER", "0.35"))
 # ensemble adds the next-ranked kraken/TrOCR model, up to ENSEMBLE_MAX_LOOPS extra
 # loops, then fuses. OFF by default → grouped orders keep the VLM-only behaviour.
 ENABLE_ENSEMBLE_HTR = _get("ENABLE_ENSEMBLE_HTR", "false").lower() == "true"
+
+# ── V-3 (#289): live progress board in Discord ───────────────────────────────
+# Stream the pipeline's PhaseEvents (#288) into ONE editing Discord message
+# (progress.format_board, #287). Default OFF → zero behaviour change. The channel
+# id is the fallback for background runs (hot-folder / SwitchDrive orders) that
+# have no invoking command context; unset → those runs stay log-only.
+ENABLE_VERBOSE_PROGRESS = _get("ENABLE_VERBOSE_PROGRESS", "false").lower() == "true"
+VERBOSE_PROGRESS_CHANNEL_ID: int | None = int(_get("VERBOSE_PROGRESS_CHANNEL_ID", "0")) or None
 # Start with the most promising ENSEMBLE_MIN_ENGINES (VLM + best kraken + best
 # TrOCR), then add further candidates while they disagree (#284). Pool depth is
 # ENSEMBLE_PER_ENGINE per HTR engine, so the pool is 1 + 2*PER_ENGINE picks;
