@@ -196,23 +196,33 @@ def _care_analysis(text: str) -> dict:
 # ── Voyant + Persistence ─────────────────────────────────────────────────────
 
 def _voyant_url(text: str, corpus_name: str) -> str:
-    """Upload the corpus text to Voyant and return the session URL.
+    """Upload the corpus text to Voyant and return the shareable session URL.
 
-    Uses the documented flow of the self-hosted instance (README): POST the
-    content as form data to <voyant>/?text= — Voyant answers by redirecting to
-    /?corpus=<id>, so the final response URL is the shareable link. The old
-    /Corpus endpoint does not exist on Voyant servers.
+    Uses the **Trombone API** (``POST <voyant>/trombone``), which is Voyant's
+    documented programmatic ingest and returns JSON. It creates a corpus and hands
+    back ``corpus.metadata.id``; the shareable link is ``<voyant>/?corpus=<id>``.
+
+    Why not ``POST /?text=``: that hits the JSP UI shell, which on the self-hosted
+    Voyant 2.4 (tei) answers **HTTP 500** — verified live 2026-07-17:
+
+        POST /voyant/?text=   → 500  (org.apache.jasper.JasperException)
+        POST /voyant/trombone → 200  {"corpus": {"metadata": {"id": "..."}}}
+
+    The UI shell is for humans typing into a box; Trombone is the API. This was the
+    root cause behind #29 (and the earlier /Corpus endpoint that never existed).
     """
     try:
-        endpoint = config.VOYANT_API_URL.rstrip("/") + "/"
+        base = config.VOYANT_API_URL.rstrip("/")
         resp = requests.post(
-            endpoint,
-            params={"text": ""},
-            data={"text": text[:50_000]},
-            timeout=30,
+            base + "/trombone",
+            data={"tool": "corpus.CorpusMetadata", "input": text[:50_000]},
+            timeout=60,
         )
-        if resp.ok and "corpus=" in resp.url:
-            return resp.url
+        resp.raise_for_status()
+        cid = (resp.json().get("corpus", {}).get("metadata", {}) or {}).get("id")
+        if cid:
+            return f"{base}/?corpus={cid}"
+        logger.warning("[Agent D] Voyant/Trombone: no corpus id in response")
     except Exception as e:
         logger.warning(f"[Agent D] Voyant-Link fehlgeschlagen: {e}")
     return ""
@@ -236,7 +246,7 @@ def verify_voyant(sample_text: str = "Dis ist ein kurzer Beispieltext für Voyan
         "url": url,
         "endpoint": endpoint,
         "reason": "corpus link returned" if ok
-                  else "no ?corpus= link — endpoint unreachable or contract changed",
+                  else "no ?corpus= link — Trombone unreachable or contract changed",
     }
 
 
