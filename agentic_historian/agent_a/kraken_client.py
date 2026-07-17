@@ -132,6 +132,28 @@ class KrakenHTTPClient:
             service_version=data.get("version", "?"),
         )
 
+    def recognize(
+        self,
+        image: Path | bytes | io.BytesIO,
+        model: str,
+    ) -> KrakenResult:
+        """Send an image to the gateway's ``/recognize`` endpoint.
+
+        ``/ocr`` only accepts kraken + trocr (it auto-segments a page). ``party``
+        is a page-level engine and the gateway rejects it on ``/ocr`` with
+        ``400: use /recognize for 'party'`` — so party must come through here.
+        Same response shape (text/confidence/model).
+        """
+        files: dict = self._prepare_files(image)
+        resp = self._post("/recognize", files=files, data={"model": model})
+        data = resp.json()
+        return KrakenResult(
+            text=data.get("text", ""),
+            confidence=data.get("confidence", 0.0),
+            model_used=data.get("model", model),
+            service_version=data.get("version", "?"),
+        )
+
     def list_models(self) -> list[dict]:
         """Return the gateway model registry.
 

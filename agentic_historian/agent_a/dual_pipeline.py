@@ -282,7 +282,9 @@ def _run_party(image_path: Path) -> tuple[str, str]:
     """
     try:
         with KrakenHTTPClient() as client:
-            result = client.transcribe(image=image_path, model="party")
+            # party is page-level → /recognize, NOT /ocr (which is kraken+trocr
+            # auto-segment only and 400s on party). See #310 follow-up.
+            result = client.recognize(image=image_path, model="party")
         return result.text, "party"
     except KrakenClientError as e:
         logger.warning(f"[party] Service error, falling back to local: {e}")
