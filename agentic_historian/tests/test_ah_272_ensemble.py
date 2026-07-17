@@ -254,17 +254,20 @@ def test_group_pipeline_uses_ensemble_when_flag_on(tmp_path, monkeypatch):
 
     orch.run_full_pipeline_group("order-ens", [str(p) for p in pages])
 
-    # 2 pages × 2 passes: the blind Phase-1 pass, then the criteria-driven
-    # Phase-3 re-run Agent B's description unlocks (#299). Was 2 before #299,
-    # when the grouped path threw that description away.
-    assert len(seen) == 4
-    assert sorted(set(seen)) == sorted(str(p) for p in pages)   # every page, both passes
+    # One pass per page. The #299 criteria re-run does NOT fire here: this test's
+    # Agent B stub returns source_description="x" with an empty source_json, which
+    # yields no script/century to match on — and #301 gates the re-run on having
+    # real criteria, precisely so it doesn't burn GPU reaching Phase 1's blind
+    # picks a second time. Phase 3's own coverage lives in test_ah_299.
+    assert len(seen) == 2
+    assert sorted(seen) == sorted(str(p) for p in pages)
     from runstate import RunState
     st = RunState.load("order-ens", path=tmp_path / "runs" / "order-ens.json")
     assert st.artifacts.get("recognitions")    # candidates persisted → publishable
-    # "-criteria": Agent B's description drove a second pass (#299). Plain
-    # "grouped-ensemble" now means only the blind pass ran.
-    assert st.artifacts.get("a_meta", {}).get("source") == "grouped-ensemble-criteria"
+    # Plain "grouped-ensemble": only the blind pass ran, because this stub's
+    # description carries no criteria (see above). "-criteria" would mean #299's
+    # re-run fired.
+    assert st.artifacts.get("a_meta", {}).get("source") == "grouped-ensemble"
 
 
 # ── #284: breadth (pool depth) + per-candidate, page-attributed exports ──────

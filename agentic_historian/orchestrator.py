@@ -676,6 +676,10 @@ def _recognize_page_ensemble(img, criteria):
     return result
 
 
+class _NoCriteria(Exception):
+    """Agent B gave us nothing to match on — skip the Phase-3 re-run (#299)."""
+
+
 def _emit_model_select(on_phase, doc_id: str, criteria, *, label: str) -> None:
     """Emit the model plan for one ensemble pass (#288/#299).
 
@@ -845,14 +849,22 @@ def run_full_pipeline_group(
     # to add it. This closes the loop — describe the source, then read it again
     # with the model that description implies.
     # ════════════════════════════════════════════════════════════════════════
-    if (use_ensemble and ctx.transcription and ctx.description
-            and not ctx.description.get("low_confidence")):
+    if use_ensemble and ctx.transcription and ctx.description:
         try:
             from agent_a.model_selector import SourceCriteria
             criteria_b = SourceCriteria.from_agent_b_and_json(
                 ctx.description.get("source_description", ""),
                 ctx.description.get("source_json"),
             )
+            # Gate on the CRITERIA, not on low_confidence. #301 describes from the
+            # IMAGE when the transcription is unreadable — honestly flagged
+            # low_confidence, but carrying real script/century, which is precisely
+            # the case this re-run exists to rescue. Gating on the flag would make
+            # #301 inert. What matters is whether there is anything to match on.
+            if not (criteria_b.script or criteria_b.century or criteria_b.lang):
+                logger.info("[Orchestrator] Phase 3 (#299) skipped — Agent B "
+                            "produced no criteria to match on")
+                raise _NoCriteria
             _emit_model_select(on_phase, doc_id, criteria_b, label="from Agent B")
             parts_b, scores_b = _ensemble_pass(pages, criteria_b, ctx, doc_id,
                                                on_phase, label="pass 2 (criteria)")
@@ -877,16 +889,12 @@ def run_full_pipeline_group(
                     state.save()
                 except Exception as e2:
                     logger.warning(f"[Orchestrator] Phase 3 RunState persist skipped: {e2}")
+        except _NoCriteria:
+            pass          # nothing to match on — a re-run would repeat Phase 1 blind
         except Exception as e:
             logger.error(f"[Orchestrator] Phase 3 (#299) criteria re-run failed: {e}")
             ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
             _emit(on_phase, doc_id, "kraken", "A", status="error", error=str(e))
-    elif use_ensemble and (ctx.description or {}).get("low_confidence"):
-        # No usable description → the criteria would be just as empty as Phase 1's,
-        # so a re-run burns GPU to reach the same blind picks. #301 fixes the cause
-        # by describing from the image when the transcription is unreadable.
-        logger.info("[Orchestrator] Phase 3 (#299) skipped — Agent B has no usable "
-                    "description (low_confidence)")
 
     # PHASE 4: Agent C — entities across the order
     if ctx.transcription:

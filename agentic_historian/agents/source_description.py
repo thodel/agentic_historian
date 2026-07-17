@@ -88,6 +88,19 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     # LLM call (neither the description nor the care-flag). Human pins still apply.
     from agents.text_recognition import _is_degenerate
     if _is_degenerate(transcription):
+        # #301: refusing outright starves the model selector. No description → no
+        # criteria → the selector falls back to a generic model (measured: score
+        # 0.00, "no match") → the transcription stays bad. The one run where good
+        # model selection matters most is the one guaranteed not to get it.
+        #
+        # The transcription is unusable, but the IMAGE is not: a VLM can see
+        # "Kurrent, 16th c." from the page without reading a word of it, and that
+        # alone is enough to pick trocr-kurrent-XVI-XVII over a blind fallback
+        # (#299). Describe from the image; never from the broken text.
+        if image_path:
+            from_image = _describe_from_image(doc_id, image_path, pins)
+            if from_image is not None:
+                return from_image
         logger.warning(f"[Agent B] Transkription degeneriert/unlesbar — keine LLM-Beschreibung: {doc_id}")
         source_json = _apply_pins({elem: None for elem in HANDSCHRIFTEN_ELEMENTS}, pins)
         result = {
@@ -172,6 +185,72 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     _validate_and_log(doc_id, source_json)
 
     logger.info(f"[Agent B] Fertig: {doc_id}")
+    return result
+
+
+def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict]) -> Optional[dict]:
+    """Describe the source from the IMAGE alone, when the transcription is
+    unreadable (#301). Returns None if the VLM gives us nothing usable.
+
+    The degenerate text is never passed to the model — describing from "uuuu" is
+    the hallucination #276 exists to prevent, and this must not reopen it. The
+    prompt sees only the page.
+
+    The result is honest about what it is: ``source="image-only"`` and
+    ``low_confidence=True``. Its job is not to be a finished codicological
+    description — it is to give the model selector something TRUE to match on
+    (script + century), so #299's re-run can pick a real model and recover the run.
+    """
+    prompt = (
+        f"{MANUSCRIPT_SYSTEM}\n\n"
+        f"{_pin_constraint(pins)}"
+        "Die maschinelle Transkription dieses Dokuments ist unbrauchbar "
+        "(Wiederholungskollaps) und wird dir daher NICHT vorgelegt.\n"
+        "Beschreibe die Quelle AUSSCHLIESSLICH anhand des Bildes.\n\n"
+        "Am wichtigsten sind Schrift (z.B. Kurrent, Bastarda, Karolingische "
+        "Minuskel) und Jahrhundert — sie steuern die Modellauswahl fuer einen "
+        "erneuten Transkriptionsversuch.\n\n"
+        "Rate NICHT den Textinhalt. Was du im Bild nicht siehst, ist null.\n\n"
+        "Antworte ZUERST mit einem JSON-Objekt (Schema unten), DANN mit einem "
+        "kurzen Fliesstext in Markdown.\n\n"
+        "JSON-Schema (16 Elemente):\n"
+        + json.dumps(SIXTEEN_ELEMENT_SCHEMA, indent=2, ensure_ascii=False)
+        + "\n\nRegeln:\n"
+        "- Verwende KEINE Markdown-Codefences um das JSON.\n"
+        "- Nicht beobachtbare Felder: null bzw. leerer String/[].\n"
+        "- Unsichere Angaben mit \" (unsicher)\" kennzeichnen.\n"
+    )
+    try:
+        raw = gs.chat_vision(prompt, image_source=str(image_path), system=None,
+                             max_tokens=3500)
+    except Exception as e:
+        logger.warning(f"[Agent B] Bild-Beschreibung fehlgeschlagen: {e}")
+        return None
+
+    source_json, description_md = _parse_response(raw)
+    if not source_json and not description_md.strip():
+        logger.warning(f"[Agent B] Bild-Beschreibung leer: {doc_id}")
+        return None
+
+    source_json = _apply_pins(source_json, pins)
+    result = {
+        "doc_id": doc_id,
+        "source_description": (
+            "⚠️ Transkription unlesbar (Wiederholungskollaps) — die folgende "
+            "Beschreibung stammt AUSSCHLIESSLICH aus dem Bild, nicht aus dem Text.\n\n"
+            + description_md
+        ),
+        "source_json": source_json,
+        # No care-flag: that reads the transcription, and there isn't a usable one.
+        "care_flag": {"is_care_related": False, "care_context": "",
+                      "care_types": [], "beteiligte": []},
+        "image_path": str(image_path),
+        "low_confidence": True,       # honest: this is not a text-backed reading
+        "source": "image-only",
+    }
+    _save(doc_id, result)
+    _validate_and_log(doc_id, source_json)
+    logger.info(f"[Agent B] Bild-Beschreibung (Transkription unlesbar): {doc_id}")
     return result
 
 
