@@ -126,11 +126,16 @@ def test_is_degenerate_dominant_char_60_pct():
     assert tr._is_degenerate(text) is True
 
 
-def test_is_degenerate_low_unique_ratio():
-    """Very few distinct chars relative to length."""
-    text = "abcabcabcabcabcabc"  # 3/18 = 0.167 > 0.10 (PASSES this check)
-    # But dominant char 6/18 = 0.33 < 0.60, non-empty lines: 1, can't trigger 70%
-    assert tr._is_degenerate(text) is False
+def test_is_degenerate_tiny_alphabet():
+    """A 3-character repeating pattern IS degenerate.
+
+    This test used to assert the opposite, documenting the old ratio's arithmetic:
+    "3/18 = 0.167 > 0.10 (PASSES this check)". It was enshrining a weakness — the
+    ratio measured length rather than degeneration, so it let obvious collapse
+    through on short text while flagging real 650-char readings as degenerate.
+    The rule is now an absolute distinct-char count, and "abcabc..." is caught.
+    """
+    assert tr._is_degenerate("abcabcabcabcabcabc") is True
 
 
 def test_is_degenerate_normal_text():

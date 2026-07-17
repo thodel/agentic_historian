@@ -167,7 +167,7 @@ def _is_degenerate(text: str) -> bool:
 
     Signals (any strong one ⇒ degenerate):
       - Dominant-char ratio: most-frequent non-space char > 60 % of non-space chars.
-      - Low unique-char ratio: distinct non-space chars / total < 0.10.
+      - Tiny alphabet: fewer than 12 distinct non-space characters.
       - Single-char lines: > 70 % of non-empty lines are one repeated character.
       - Low distinct-word ratio: < 0.15 for texts >= 30 chars (optional).
 
@@ -189,8 +189,24 @@ def _is_degenerate(text: str) -> bool:
     if most_common_count / len(non_space) > 0.60:
         return True
 
-    # 2. Low unique-char ratio: distinct / total < 0.10
-    if len(char_counts) / len(non_space) < 0.10:
+    # 2. Tiny alphabet: fewer than 12 DISTINCT non-space characters.
+    #
+    # This was `len(char_counts) / len(non_space) < 0.10` — a ratio against total
+    # length, which measures LENGTH, not degeneration. An alphabet is bounded
+    # (~40-50 chars incl. diacritics and punctuation) while the denominator grows
+    # with the text, so ANY natural-language transcription over ~500 chars sinks
+    # below 0.10 and was flagged as a repetition-collapse. Measured on tei: a real
+    # 654-char diplomatic reading ("unser frùntlich gruͦs vor liebe getrüwe…") has
+    # 47 distinct chars → ratio 0.072 → "degenerate", quality 0.1, and Agent B was
+    # pushed onto the image-only path (#301) — the exact starvation chain of #298,
+    # triggered by GOOD output. The longer and better the transcription, the more
+    # certainly it was rejected.
+    #
+    # The ratio also bought nothing for real collapses: "uuuu…" is already caught
+    # by the dominant-char rule at ~85 %. A distinct-char COUNT is what was meant —
+    # length-independent, and 3 distinct chars is degenerate whether the page is
+    # 40 chars or 4000.
+    if len(char_counts) < 12:
         return True
 
     # 3. Single-char lines: > 70 % of non-empty lines are one repeated character
