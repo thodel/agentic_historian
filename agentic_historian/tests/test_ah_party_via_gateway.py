@@ -43,7 +43,7 @@ class _Client:
     def __exit__(self, *a):
         return False
 
-    def transcribe(self, image=None, model=None, **kw):
+    def recognize(self, image=None, model=None, **kw):
         self.calls.append(model)
         if self._raises:
             raise self._raises
