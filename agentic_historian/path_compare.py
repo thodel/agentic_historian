@@ -277,22 +277,42 @@ def build_view(state: RunState, paths: dict[str, str],
             )
 
         async def callback(self, interaction):
+            import asyncio
             import voting
             user = getattr(interaction, "user", None)
             voter = str(getattr(user, "id", "?"))
             voter_name = (getattr(user, "display_name", None)
                           or getattr(user, "name", None) or voter)
 
-            voting.record_vote(state.doc_id, self.path, voter=voter,
-                               voter_name=voter_name)
-            applied = voting.apply_winner(state, paths)      # None while undecided
-            if applied is not None:
-                state.save()
-                if runners and config.AUTO_RESUME_AFTER_GATE:
-                    state.resume(runners)
+            applied = None
+            try:
+                voting.record_vote(state.doc_id, self.path, voter=voter,
+                                   voter_name=voter_name)
+                applied = voting.apply_winner(state, paths)  # None while undecided
+                if applied is not None:
+                    state.save()
+            except Exception as e:                           # never leave the click un-acked
+                logger.warning(f"[gate2] {state.doc_id}: vote handling failed: {e}")
 
-            await interaction.response.edit_message(
-                content=render_vote_card(state, paths), view=self.view)
+            # ACK + update the card FIRST, within Discord's ~3s interaction window,
+            # so the click ALWAYS produces visible feedback (the tally / "Entschieden"
+            # line). Previously a decided vote ran the B/C re-run synchronously here
+            # BEFORE the edit — that blew past the 3s window, the token expired, the
+            # edit failed, and the click looked like it did nothing (#313 live).
+            try:
+                await interaction.response.edit_message(
+                    content=render_vote_card(state, paths), view=self.view)
+            except Exception as e:
+                logger.warning(f"[gate2] {state.doc_id}: card update failed: {e}")
+
+            # The heavy re-run happens AFTER the ack and OFF the event loop, so it
+            # can neither delay the feedback nor block the bot.
+            if applied is not None and runners and config.AUTO_RESUME_AFTER_GATE:
+                try:
+                    asyncio.get_running_loop().create_task(
+                        asyncio.to_thread(state.resume, runners))
+                except Exception as e:
+                    logger.warning(f"[gate2] {state.doc_id}: resume scheduling failed: {e}")
 
     class PathComparisonView(discord.ui.View):
         def __init__(self):
