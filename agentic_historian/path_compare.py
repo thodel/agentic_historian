@@ -208,11 +208,46 @@ def apply_path_choice(
     return text
 
 
-def render_vote_card(state: RunState, paths: dict[str, str]) -> str:
-    """The comparison card plus the live vote tally (#293)."""
+def render_vote_card(state: RunState, paths: dict[str, str], *,
+                     max_chars: int = 1900) -> str:
+    """The voting card: each candidate reading + the live tally (#293), capped to
+    fit Discord's 2000-char limit.
+
+    NOT ``render_compare_card`` + tally: with the ensemble's engine set (up to 7
+    candidates, #300/#313) that ran to **8392 chars** live — 4× the limit, so the
+    send fails. Here each snippet is scaled to a per-candidate budget, the
+    verbose N×N pairwise-CER matrix collapses to one ``max CER`` line, and the
+    whole thing is hard-capped. The buttons (one per candidate) carry the actual
+    choice; the text is only for judging, so trimming it is safe.
+    """
     import voting
-    return (render_compare_card(state, paths) + "\n\n"
-            + voting.render_tally(voting.load_votes(state.doc_id)))
+
+    comp = compare_paths(paths)
+    names = comp["names"]
+    tally = voting.render_tally(voting.load_votes(state.doc_id))
+    if not names:
+        return f"📊 **{state.doc_id}** · keine Lesarten\n\n{tally}"
+
+    header = f"📊 **{state.doc_id}** · {len(names)} Lesart(en) zur Abstimmung"
+    cer_line = (f"`max. paarweise CER {comp['max_cer']:.0%}` — Engines uneinig; "
+                f"wähle die richtige Lesart." if len(names) >= 2 else "")
+
+    # header + CER + tally are always kept; the candidate blocks flex to fill the
+    # rest. The tally is the vote state — it must never be the part that's trimmed.
+    reserved = len(header) + len(cer_line) + len(tally) + 12   # newlines/overhead
+    per = max(50, (max_chars - reserved) // max(1, len(names)))
+    blocks = []
+    for n in names:
+        text = paths[n]
+        more = "…" if len(text) > per else ""
+        blocks.append(f"**{_label_for(n)}** ({len(text)} Z.):\n> {text[:per]}{more}")
+
+    blocks_text = "\n".join(blocks)
+    avail = max_chars - reserved
+    if len(blocks_text) > avail:                    # label-length variance overflow
+        blocks_text = blocks_text[:max(0, avail - 1)].rstrip() + "…"
+
+    return "\n".join([header, "", blocks_text, "", cer_line, "", tally])
 
 
 def build_view(state: RunState, paths: dict[str, str],
