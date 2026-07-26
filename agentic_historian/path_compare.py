@@ -14,6 +14,7 @@ spans so the historian can override individual spans with specific readings.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Optional
 
 from loguru import logger
@@ -21,7 +22,7 @@ from feedback_logger import log_routing_feedback
 
 import config
 from eval.metrics import cer
-from runstate import RunState
+from runstate import ClosestReadingText, RunState
 
 LABELS: dict[str, str] = {
     "vlm": "VLM",
@@ -275,6 +276,7 @@ def apply_combined_choice(
     paths: dict[str, str],
     *,
     decided_by: str = "human",
+    editor: str = "",
 ) -> str:
     """Apply the historian's selection as the working transcription (#313).
 
@@ -300,11 +302,28 @@ def apply_combined_choice(
         # no_merge_cer > 1 never triggers → force the merge the human asked for.
         text = fuse(recs, no_merge_cer=1.01).text
 
-    state.invalidate("path_preference", value=",".join(chosen),
-                     user=state.gate_decisions.get("user"))
+    # Pseudonymise BEFORE anything is stored: the raw platform id must never reach
+    # the RunState on disk or the published RDF export. preferences.pseudonym is
+    # salted per deployment — a bare hash of a Discord id is reversible by brute
+    # force over an enumerable id space, so an unsalted digest is not a pseudonym.
+    from preferences import pseudonym as _pseudonym
+    editor_pseudonym = "editor-" + _pseudonym(str(editor or decided_by))
+
+    state.invalidate("path_preference", value=",".join(chosen), user=editor_pseudonym)
     state.artifacts["reconcile"] = text
     state.gate_decisions["path"] = chosen[0] if len(chosen) == 1 else list(chosen)
     state.gate_decisions["gate2_combined"] = list(chosen)
+    # The editorial act, under its one canonical contract. The text is tagged
+    # ClosestReadingText so eval.harness refuses it as a reference (#336).
+    state.closest_reading = {
+        "text": ClosestReadingText(text),
+        "candidates_offered": {name: paths[name] for name in available},
+        "chosen": list(chosen),
+        "combined": len(chosen) > 1,
+        "editor_pseudonym": editor_pseudonym,
+        "confirmed_at": datetime.now(timezone.utc).isoformat(),
+        "status": "revisable_editorial_choice",
+    }
     for c in chosen:
         log_routing_feedback(state=state, field="path_preference",
                              inferred_value=None, chosen_value=c, path=c,
@@ -380,7 +399,10 @@ def build_view(state: RunState, paths: dict[str, str],
             applied = None
             try:
                 if chosen:
-                    applied = apply_combined_choice(state, chosen, paths)
+                    _user = getattr(interaction, "user", None)
+                    applied = apply_combined_choice(
+                        state, chosen, paths,
+                        editor=str(getattr(_user, "id", "") or ""))
                     state.gate_decisions["gate2_selected"] = []      # clear
                     state.save()
             except Exception as e:

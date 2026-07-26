@@ -261,6 +261,34 @@ def vocabulary_term_to_rdf(g: Graph, vocab) -> Graph:
     return g
 
 
+def closest_reading_to_rdf(g: Graph, document_uri, closest_reading: dict) -> Graph:
+    """Attach a revisable editorial reading and its provenance to a document.
+
+    The local terms deliberately say ``closestReading`` rather than implying a
+    scholarly reference text or independently verified transcription.
+    """
+    reading = rdflib.BNode()
+    g.add((reading, RDF.type, SDHSS["ClosestReading"]))
+    g.add((reading, RDFS.label, Literal("Closest available reading")))
+    g.add((reading, RDF.value, _safe_literal(closest_reading.get("text", ""))))
+    g.add((reading, SDHSS["editorialStatus"],
+           Literal("revisable editorial choice; not a reference text")))
+    for candidate in closest_reading.get("candidates_offered", {}):
+        g.add((reading, SDHSS["candidateOffered"], _safe_literal(candidate)))
+    for chosen in closest_reading.get("chosen", []):
+        g.add((reading, SDHSS["candidateChosen"], _safe_literal(chosen)))
+    g.add((reading, SDHSS["combined"],
+           Literal(bool(closest_reading.get("combined")))))
+    if closest_reading.get("editor_pseudonym"):
+        g.add((reading, SDHSS["editorPseudonym"],
+               _safe_literal(closest_reading["editor_pseudonym"])))
+    if closest_reading.get("confirmed_at"):
+        g.add((reading, SDHSS["confirmedAt"],
+               _safe_literal(closest_reading["confirmed_at"])))
+    g.add((URIRef(document_uri), SDHSS["hasClosestReading"], reading))
+    return g
+
+
 # ── Hub-level export ─────────────────────────────────────────────────────────
 
 def hub_to_graph(hub_instance) -> Graph:
