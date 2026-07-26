@@ -701,7 +701,7 @@ def _emit_model_select(on_phase, doc_id: str, criteria, *, label: str) -> None:
         logger.warning(f"[Orchestrator] model_select emit skipped: {e}")
 
 
-def _record_no_merge_vote(doc_id: str, page: str, er) -> None:
+def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None) -> None:
     """Record a no-merge page's candidates as Gate-2 vote paths (#313).
 
     #300 selects the best single candidate at high disagreement rather than blend —
@@ -751,6 +751,26 @@ def _record_no_merge_vote(doc_id: str, page: str, er) -> None:
         # the score-ranked auto-pick, recorded as the default (a vote overrides it)
         state.gate_decisions.setdefault("gate2_auto", {})[page or "_"] = _label(er.selected)
         state.gate_decisions["gate2_vote_warranted"] = True
+        # Context the preference log needs (#332): the ranks the SELECTOR actually
+        # used (via ensemble.rank_candidates — not a re-derivation, which could
+        # drift and make the metric lie), the measured disagreement, and the
+        # criteria bucket these candidates were planned from. Recorded here because
+        # this is the only moment all three are known together.
+        try:
+            from agent_a.ensemble import rank_candidates
+            ranked = rank_candidates(er.recognitions, getattr(er, "ran", []) or [])
+            ranks = {_label(rec): i + 1 for i, (rec, _pick) in enumerate(ranked)}
+        except Exception:                              # ranking is best-effort context
+            ranks = {}
+        state.gate_decisions.setdefault("gate2_context", {})[page or "_"] = {
+            "ranks": ranks,
+            "max_pairwise_cer": getattr(er, "max_pairwise_cer", None),
+            "criteria": {
+                "script": getattr(criteria, "script", None),
+                "century": getattr(criteria, "century", None),
+                "lang": getattr(criteria, "lang", None),
+            },
+        }
         state.save()
         logger.info(f"[Orchestrator] {page}: recorded {len(paths)} no-merge "
                     f"candidate(s) as Gate-2 vote paths (#313)")
@@ -784,7 +804,7 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
             logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
                         f"{len(er.recognitions)} engine(s), {er.loops} loop(s), "
                         f"agreement CER {er.max_pairwise_cer:.2%}")
-            _record_no_merge_vote(doc_id, img.name, er)
+            _record_no_merge_vote(doc_id, img.name, er, criteria)
             # One event per candidate, so the historian sees WHICH engine read what —
             # the u-17__ failure was invisible precisely because only the merged text
             # was ever shown.
