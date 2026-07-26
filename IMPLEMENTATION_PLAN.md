@@ -1,7 +1,7 @@
 # Agentic Historian — Implementation Plan
 
-**Status:** 2026-07-16
-**Version:** 3 · supersedes earlier drafts
+**Status:** 2026-07-24 (updated)
+**Version:** 4 · supersedes v3 (2026-07-16)
 
 ---
 
@@ -17,10 +17,12 @@
 └──────────┬──────────────┬──────────────┬──────────────┘
            │              │              │              │
     ┌──────▼──┐    ┌──────▼──┐    ┌──────▼──┐    ┌──────▼──┐
-    │  SSRQ   │    │   KF    │    │  HGB    │    │  HBLS   │
-    │ :8002   │    │  :8001  │    │  :8000  │    │  :8003  │
-    │ 23 674  │    │  5 260  │    │ 137 038 │    │  ? pers │
-    │ persons │    │ persons │    │ persons │    │         │
+    │  SSRQ   │    │   KF    │    │  EOS/   │    │  HBLS   │
+    │ :8002   │    │  :8001  │    │  HGB    │    │  :8003  │
+    │ 23 674  │    │  5 260  │    │ :8000   │    │   NEW   │
+    │ persons │    │ persons │    │ 137 038 │    │  eos_   │
+    │ +7 047  │    │         │    │ persons │    │ persons │
+    │   orgs  │    │         │    │         │    │         │
     └──────┬──┘    └──────┬──┘    └──────┬──┘    └──────┬──┘
            │              │              │              │
            └──────────────┴──────┬───────┴──────────────┘
@@ -40,183 +42,92 @@
 
 ---
 
-## Current MCP Federation (2026-07-16)
+## Current MCP Federation (2026-07-24)
 
-| Port | Source | DB | Persons | Transport | Endpoint |
-|------|--------|----|---------|-----------|---------|
-| 8000 | HGB (EOS) | `/data/hgb.db` | 137 038 | SSE | `https://tei.dh.unibe.ch/mcp/eos/` |
-| 8001 | KF | `/data/kf.db` | 5 260 | HTTP | `https://tei.dh.unibe.ch/mcp/kf/` |
-| 8002 | SSRQ | local (`ssrq_v6.db`) | 23 674 | HTTP | `https://tei.dh.unibe.ch/mcp/ssrq/` |
-| 8003 | HBLS | `/home/dh/eos_persons/hbls_mcp/hbls.db` | ? | SSE+HTTP | local only |
-| 8004 | HLS | `/data/hls.db` | ? | SSE | local only |
+| Port | Source | Local DB | Persons | Transport | Endpoint | Status |
+|------|--------|----------|---------|-----------|---------|--------|
+| 8000 | EOS/HGB | `/home/dh/eos_data/hgb.db` | 137 038 | SSE | `https://tei.dh.unibe.ch/mcp/eos/` | existed |
+| 8001 | KF | `/home/dh/kf_data/kf.db` | 5 260 | HTTP | `https://tei.dh.unibe.ch/mcp/kf/` | existed |
+| 8002 | SSRQ | `/home/dh/.openclaw/tmp/ssrq_v6.db` | 23 674 + 7 047 orgs | HTTP | `https://tei.dh.unibe.ch/mcp/ssrq/` | deployed today |
+| 8003 | HBLS | github.com/thodel/eos_persons | ? | — | — | NOT YET BUILT |
+| — | HLS | separate HLS service | — | — | — | deferred |
 
-**Note:** KF (8001) and HGB (8000) are legacy SSE servers. SSRQ (8002) is streamable-HTTP.
-HBLS (8003) and HLS (8004) are local-only; they must be exposed via nginx before
-remote agents can reach them, or consumed via the tei MCP gateway.
+**What changed today:** SSRQ MCP (port 8002) deployed and functional. KF and EOS/HGB MCPs already existed. HBLS MCP from `github.com/thodel/eos_persons` is the primary gap.
 
 ---
 
 ## Milestones
 
-### M1 · Parallel search across SSRQ + KF (trivial win)
-**Goal:** demonstrate parallel querying with result merging.
-
-1. Add `ssrq` and `kf` to the MCP registry (SSRQ already has an entry; check KF)
+### M1 · Parallel search across SSRQ + KF (ready to implement)
+1. Add SSRQ and KF to the MCP registry
 2. Write `knowledge_hub/search_parallel.py`:
    - `search_all(query: str, kind: str) -> list[PersonResult]`
    - `sessions_spawn` 2 subagents: one calls SSRQ, one calls KF
-   - Collect both results, deduplicate by GND/HLS/Wikidata ID match, then by
-     name+date fuzzy match
+   - Deduplicate by GND/HLS/Wikidata ID match, then by name+date fuzzy match
    - Rank by: exact authority ID match > exact name + date overlap > fuzzy name
 3. Wire into `entity_agent.py` / `search_agent.py`
-4. **Deliverable:** single query returns results from both SSRQ and KF with
-   source tags and confidence flags.
+4. **Deliverable:** single query returns results from both SSRQ and KF with source tags and confidence flags.
 
 **Risks:** KF SSE transport; name variant mismatches. Both manageable.
 
 ---
 
-### M2 · Add HGB (EOS port 8000) to parallel search
-**Goal:** include the 137k HGB corpus.
-
-1. Probe HGB's tool contract (`/mcp/eos/`)
-2. Add HGB `MCPSource` to `mcp_registry.py` with appropriate `tool_map`
+### M2 · Add EOS/HGB (port 8000) to parallel search
+1. Probe EOS/HGB tool contract (`/mcp/eos/`)
+2. Add EOS/HGB `MCPSource` to `mcp_registry.py`
 3. Extend `search_parallel.py` to spawn 3 subagents
-4. Entity resolution: HGB persons have Wikidata/GND links; use those as primary
-   merge key
+4. EOS/HGB persons have Wikidata/GND links — use those as primary merge key
 
-**Risks:** HGB's SSE transport is less reliable than HTTP; 137k corpus means
-more candidate noise — aggressive filtering by date range essential.
+**Risks:** EOS/HGB SSE transport; 137k corpus means more noise — aggressive date-range filtering essential.
 
 ---
 
-### M3 · Expose HBLS (port 8003) via nginx at `https://tei.dh.unibe.ch/mcp/hbls/`
-**Goal:** make HBLS accessible to remote subagents.
-
-1. Write nginx config snippet for `/mcp/hbls/ → localhost:8003`
-2. Test: `curl https://tei.dh.unibe.ch/mcp/hbls/mcp`
-3. Add `MCPSource` for `hbls` with `transport="sse"` or `"http"` as appropriate
-4. Verify tool contract (search_persons, get_person, get_by_hls, etc.)
-
-**Risks:** nginx config needs `sudo`; coordinate with Tobias.
+### M3 · Build and expose HBLS MCP (port 8003) — NEW PRIORITY
+1. Clone and analyse: `git clone https://github.com/thodel/eos_persons.git ~/eos_persons`
+2. Build MCP server (FastAPI/HTTP, same pattern as SSRQ)
+3. Expose via nginx (coordinate with Tobias for sudo)
+4. Add to parallel search as 4th source
 
 ---
 
 ### M4 · Cross-source entity resolution engine
-**Goal:** build the unified `PersonResult` from multiple sources.
-
-**Merge strategy (in priority order):**
-
-```
-1. Authority ID merge
-   GND ID match  →  same person (high confidence)
-   HLS ID match  →  same person (high confidence)
-   Wikidata QID  →  same person (high confidence)
-
-2. Exact name + date overlap
-   Same normalised name + year range overlaps ≥ 1 year  →  same person (medium)
-
-3. Fuzzy name + geo + time
-   Soundex/Metaphone match + same location + ±10 year overlap  →  likely same
-
-4. Same first name + surname token set (Johann ~ Hans variant)
-   via configurable name-alias map
-```
-
-**Conflict resolution:** prefer the source with the most fields populated;
-authority IDs from the source with `authority=True` in the registry.
-
-**Data structures:**
-```python
-@dataclass
-class MergedPerson:
-    canonical_name: str
-    all_names: list[str]           # variants from all sources
-    authority_ids: dict[str, str]  # {gnd, hls, wikidata, ssrq, kf, hgb, hbls}
-    year_from: int | None
-    year_to: int | None
-    occupations: list[str]
-    locations: list[str]
-    sources: list[str]             # which MCPs had this person
-    confidence: float              # 0.0–1.0
-    raw_records: dict[str, dict]   # source → raw record for audit
-```
+Merge strategy (priority order):
+1. Authority ID merge (GND, HLS, Wikidata) → high confidence
+2. Exact name + date overlap → medium confidence
+3. Fuzzy name + geo + time → likely same
+4. First-name alias map (Johann ~ Hans, Maria ~ Marie)
 
 ---
 
 ### M5 · Agent C integration — use parallel search for entity linking
-**Goal:** Gate 3 (entity-link review) draws from all 4 sources.
-
 - Replace single-source `search_persons` with `search_all` in `entity_agent.py`
-- For each entity mention, present top candidates from each source ranked by
-  confidence
-- The "kein Link" option stays; clicking a candidate writes the link to the hub
-
-**Deliverable:** entity linking UI shows candidates from SSRQ + KF + HGB + HBLS
-in one compact select list.
+- Entity linking UI shows candidates from all 4 sources ranked by confidence
+- "kein Link" option preserved
 
 ---
 
-### M6 · Unresolved questions (deferred)
-
-- **Port 8004 (HLS direct):** worth exposing alongside HBLS, or is HBLS sufficient?
-- **Write-back path:** when a new person is discovered in one source, should it
-  be written to the hub? Under what conditions?
-- **SSRQ orgs:** SSRQ has 7,047 orgs — does the parallel search need an org path too?
-- **Performance budget:** parallel spawning has latency cost; set a timeout
-  per source (default 8s) and return partial results on timeout.
-
----
-
-## Concurrency model
-
-```
-User query
-    │
-    ▼
-sessions_spawn (runtime="subagent", mode="run")  ← fire all 4 concurrently
-    │
-    ├─ subagent-SSRQ  → MCP call → results
-    ├─ subagent-KF    → MCP call → results
-    ├─ subagent-HGB   → MCP call → results
-    └─ subagent-HBLS  → MCP call → results
-    │
-    ▼ (all results collected or timeout)
-entity_resolver.merge(results)
-    │
-    ▼
-unified response
-```
-
-**Timeout per subagent:** 8 000 ms; on timeout return empty list for that source.
-**On partial failure:** return results from successful sources; log which failed.
-
----
-
-## Registry integration checklist
-
-Each new source = one `MCPSource(...)` entry in `knowledge_hub/mcp_registry.py`:
-
-```python
-MCPSource(
-    name="ssrq",
-    title="SSRQ — Summary of Swiss Roman Law Queries",
-    kinds=("person", "org"),           # SSRQ also has orgs
-    path="ssrq",
-    tools=("search_persons", "get_person", "search_orgs"),
-    authority=True,                    # SSRQ has HLS IDs
-    transport="http",
-    tool_map={"search_orgs": "org"},  # tool name differs
-),
-```
+### M6 · Unresolved (deferred)
+- HLS direct (port 8004): expose alongside HBLS?
+- Write-back path: write new persons to hub?
+- SSRQ orgs: include org path in parallel search?
+- Performance budget: 8s timeout per source, partial results OK
 
 ---
 
 ## Next concrete step (M1)
 
-Write `knowledge_hub/search_parallel.py` and add a test that mocks two MCP
-sources. Then wire it into `entity_agent.py` as a drop-in for the current
-single-source `search_persons` call.
+Write `knowledge_hub/search_parallel.py`, add mocked tests, then wire into `entity_agent.py`.
 
-Branch: `feat/ah-287-progress-rendering` is open as PR #291.
-Next branch: `feat/parallel-search` off `main`.
+Branch: `feat/parallel-search` off `main`.
+
+---
+
+## Key challenges
+
+| Challenge | Mitigation |
+|-----------|-----------|
+| Entity resolution across ID schemes | GND/Wikidata as primary merge key |
+| Name variants (Johann ~ Hans) | Name-alias map + soundex fallback |
+| HBLS data format unknown | Analyse eos_persons repo first |
+| nginx sudo needed | Coordinate with Tobias |
+| Partial MCP failure | Graceful degradation, log failed sources |
