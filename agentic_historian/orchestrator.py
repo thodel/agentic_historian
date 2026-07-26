@@ -760,10 +760,19 @@ def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None) -> None:
             from agent_a.ensemble import rank_candidates
             ranked = rank_candidates(er.recognitions, getattr(er, "ran", []) or [])
             ranks = {_label(rec): i + 1 for i, (rec, _pick) in enumerate(ranked)}
+            # The recognitions carry the GATEWAY id (resolve_gateway_id, #277) while
+            # the model selector and the routing prior work in LOCAL ids (kraken =
+            # Zenodo DOI, TrOCR = HF repo). For kraken the two share no substring —
+            # "10.5281/zenodo.15030337" vs "kraken-early_modern_german" — so without
+            # recording the pairing here the preference-derived prior could never
+            # match a registry model and would be silently inert (#335).
+            local_ids = {_label(rec): getattr(pick, "model_id", "")
+                         for rec, pick in ranked}
         except Exception:                              # ranking is best-effort context
-            ranks = {}
+            ranks, local_ids = {}, {}
         state.gate_decisions.setdefault("gate2_context", {})[page or "_"] = {
             "ranks": ranks,
+            "local_ids": local_ids,
             "max_pairwise_cer": getattr(er, "max_pairwise_cer", None),
             "criteria": {
                 "script": getattr(criteria, "script", None),
