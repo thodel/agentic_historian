@@ -408,15 +408,16 @@ class TestGate2NCandidates:
             fake_loop = asyncio.new_event_loop()
             with patch.object(asyncio, 'get_running_loop', return_value=fake_loop):
                 view = build_view(state, paths, runners=None)
-            # One toggle button per path + the Bestätigen confirm button (#313)
+            # One toggle per path + Bestätigen (#313) + "Keine brauchbar" (#333)
             comp = compare_paths(paths)
-            assert len(view.children) == len(comp["names"]) + 1 == 5
+            assert len(view.children) == len(comp["names"]) + 2 == 6
             labels = [c.label for c in view.children]
             assert any("VLM" in l or "vlm" in l for l in labels)
             assert any("Kraken" in l or "kraken" in l for l in labels)
             assert any("PARTY" in l or "party" in l for l in labels)
             assert any("TrOCR" in l or "trocr" in l for l in labels)
             assert any("Bestätigen" in l for l in labels)
+            assert any("Keine brauchbar" in l for l in labels)
 
     def test_label_fallback_for_unknown_engine(self):
         """Unknown engine names use title-cased path name as label."""

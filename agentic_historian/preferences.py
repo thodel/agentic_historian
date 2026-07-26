@@ -88,6 +88,7 @@ class PreferenceEvent:
     auto_pick: str = ""                           # what the selector picked (#300)
     max_pairwise_cer: Optional[float] = None
     criteria: dict = field(default_factory=dict)  # {script, century, lang}
+    rejected: bool = False                        # "none of these is usable" (#333)
     voter: str = "anon"                           # pseudonymous
     ts: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
@@ -97,7 +98,8 @@ class PreferenceEvent:
             "offered": self.offered, "chosen": self.chosen,
             "combined": self.combined, "auto_pick": self.auto_pick,
             "max_pairwise_cer": self.max_pairwise_cer,
-            "criteria": self.criteria, "voter": self.voter,
+            "criteria": self.criteria, "rejected": self.rejected,
+            "voter": self.voter,
         }
 
 
@@ -135,6 +137,20 @@ def engine_model_of(label: str) -> str:
     return label.split(":", 1)[1] if ":" in label else label
 
 
+def record_rejection(state, paths: dict, *, voter: str = "") -> list:
+    """Record "none of these readings is usable" — a coverage FAILURE (#333).
+
+    Without this the log cannot tell an abandoned page from an unseen one, and the
+    most valuable negative signal we could collect is lost: a historian declining
+    everything is the clearest possible statement that the ensemble produced
+    nothing acceptable.
+
+    One event per page with candidates, matching ``record_selection`` — on a
+    multi-page card "none usable" applies to each page that was on offer.
+    """
+    return _record(state, paths, chosen=[], voter=voter, rejected=True)
+
+
 def record_selection(state, paths: dict, chosen: list, *, voter: str = "") -> list:
     """Record one Gate-2 confirm as preference event(s) — one per page touched.
 
@@ -144,10 +160,15 @@ def record_selection(state, paths: dict, chosen: list, *, voter: str = "") -> li
     Never writes the chosen TEXT. ``paths`` is read only for its keys (which
     candidates existed) — the text lives in the RunState and the exports.
     """
+    return _record(state, paths, chosen=chosen, voter=voter, rejected=False)
+
+
+def _record(state, paths: dict, *, chosen: list, voter: str, rejected: bool) -> list:
+    """Shared writer for accept and reject, so the two cannot drift apart."""
     try:
         chosen = [c for c in (chosen or []) if c in paths]
         doc_id = getattr(state, "doc_id", "") or ""
-        if not chosen or not doc_id:
+        if (not chosen and not rejected) or not doc_id:
             # No doc_id → the preference cannot be attributed to anything, and a
             # junk row would pollute every downstream aggregate (#333-#335).
             return []
@@ -162,7 +183,7 @@ def record_selection(state, paths: dict, chosen: list, *, voter: str = "") -> li
         events = []
         for page, labels in by_page.items():
             page_chosen = [c for c in chosen if page_of(c) == page]
-            if not page_chosen:
+            if not page_chosen and not rejected:
                 continue                                # nothing decided for this page
             ctx = ctx_all.get(page or "_", {}) or {}
             ranks = ctx.get("ranks") or {}
@@ -178,6 +199,7 @@ def record_selection(state, paths: dict, chosen: list, *, voter: str = "") -> li
                 offered=offered,
                 chosen=[engine_model_of(c) for c in page_chosen],
                 combined=len(page_chosen) > 1,
+                rejected=rejected,
                 auto_pick=engine_model_of(auto_all.get(page or "_", "") or ""),
                 max_pairwise_cer=ctx.get("max_pairwise_cer"),
                 criteria=ctx.get("criteria") or {},
@@ -224,7 +246,9 @@ def load_preferences(doc_id: Optional[str] = None) -> list[PreferenceEvent]:
                 combined=bool(d.get("combined", False)),
                 auto_pick=d.get("auto_pick", "") or "",
                 max_pairwise_cer=d.get("max_pairwise_cer"),
-                criteria=d.get("criteria", {}) or {}, voter=d.get("voter", "anon"),
+                criteria=d.get("criteria", {}) or {},
+                rejected=bool(d.get("rejected", False)),
+                voter=d.get("voter", "anon"),
                 ts=d.get("ts", ""),
             ))
     except OSError as e:

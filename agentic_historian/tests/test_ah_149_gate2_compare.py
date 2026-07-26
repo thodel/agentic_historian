@@ -118,7 +118,7 @@ def test_build_view_has_button_per_path():
     import discord
     view = asyncio.run(_build(_state(), _DISAGREE))
     buttons = [c for c in view.children if isinstance(c, discord.ui.Button)]
-    # one toggle per path + the Bestätigen confirm button (#313 multi-select)
+    # one toggle per path + Bestätigen (#313) + "Keine brauchbar" (#333)
     assert {b.custom_id for b in buttons} == {
         f"ah:saa-0428:gate2:{p}"
-        for p in ("vlm", "kraken", "reconciled", "__confirm__")}
+        for p in ("vlm", "kraken", "reconciled", "__confirm__", "__reject__")}
