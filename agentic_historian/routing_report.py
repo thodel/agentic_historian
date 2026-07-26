@@ -213,3 +213,167 @@ def routing_stats_embed():
         description="\n\n".join(desc_parts),
         color=0x5C9B3E,
     )
+
+# ── Selection agreement + regret (Q-3, #334) ─────────────────────────────────
+#
+# "Did we pick the best one on offer?" — measured against the historian's own
+# choice, which is the only judgement available. This measures the SELECTOR
+# (#300's match-score ranking), not the transcription, and needs no reference
+# text: both sides are candidates we produced.
+#
+# On `regret_cer` — the one number here that could be misread. It is the CER
+# BETWEEN two candidate texts: what the selector picked vs what the historian
+# ended up with. That is a *distance*, not an accuracy score. It is bounded by
+# the candidate pool and says nothing about how close either text is to the true
+# reading (#326/#336). Never aggregate it as "our CER".
+
+def _selection_events(events=None):
+    if events is not None:
+        return events
+    from preferences import load_preferences
+    return load_preferences()
+
+
+def _bucket(ev) -> tuple:
+    c = ev.criteria or {}
+    return (c.get("script"), c.get("century"), c.get("lang"))
+
+
+def compute_selection_agreement(events=None) -> dict:
+    """How often the automatic pick matched the historian's.
+
+    A **combine** counts as agreement when the auto pick is among the chosen —
+    the historian kept it, they just kept others too.
+
+    Excluded from the denominator: events with nothing chosen (a rejection, Q-2 —
+    there was no human pick to agree with) and events with no recorded auto pick
+    (nothing to compare). An undecided page is *unknown*, not a disagreement.
+    """
+    events = _selection_events(events)
+    overall = {"decided": 0, "agreed": 0}
+    by_bucket: dict[tuple, dict] = defaultdict(lambda: {"decided": 0, "agreed": 0})
+    by_auto_engine: dict[str, dict] = defaultdict(lambda: {"decided": 0, "agreed": 0})
+
+    for ev in events:
+        if not ev.chosen or not ev.auto_pick:
+            continue
+        agreed = ev.auto_pick in ev.chosen
+        engine = (ev.auto_pick.split("/", 1)[0] or "?")
+        for target, key in ((by_bucket, _bucket(ev)), (by_auto_engine, engine)):
+            target[key]["decided"] += 1
+            target[key]["agreed"] += int(agreed)
+        overall["decided"] += 1
+        overall["agreed"] += int(agreed)
+
+    def _rate(d):
+        return {**d, "rate": (d["agreed"] / d["decided"]) if d["decided"] else None}
+
+    return {
+        "overall": _rate(overall),
+        "by_bucket": {k: _rate(v) for k, v in by_bucket.items()},
+        "by_auto_engine": {k: _rate(v) for k, v in by_auto_engine.items()},
+    }
+
+
+def _candidate_texts(ev) -> tuple[str, str]:
+    """``(auto_text, human_text)`` for one event, or ``("", "")`` if unavailable.
+
+    The preference log holds comparisons, never text (#332) — so the texts are
+    read back from the RunState, where they belong. When they are gone (an older
+    run, a re-run that replaced the candidates), regret is simply not computed:
+    agreement still is, because it needs only labels. Degrading on the harder
+    metric is better than inventing one.
+    """
+    try:
+        from runstate import RunState
+        state = RunState.load_or_new(ev.doc_id)
+        paths = state.artifacts.get("paths") or {}
+        prefix = f"{ev.page}:" if ev.page else ""
+        auto_text = paths.get(prefix + ev.auto_pick, "") or ""
+
+        # What the historian ended up with: the combined/confirmed text when we
+        # have it (a combine has no single candidate), else their one pick.
+        closest = (state.closest_reading or {}).get("text") if state.closest_reading else None
+        if closest:
+            human_text = str(closest)
+        elif len(ev.chosen) == 1:
+            human_text = paths.get(prefix + ev.chosen[0], "") or ""
+        else:
+            human_text = ""
+        return auto_text, human_text
+    except Exception:                                  # reporting is best-effort
+        return "", ""
+
+
+def compute_regret(events=None) -> dict:
+    """Distance between what the selector picked and what the historian kept.
+
+    Only over DISAGREEMENTS (an agreement is zero by definition). Reported as a
+    distribution — a rare large regret matters more than many tiny ones, so a mean
+    would hide exactly the cases worth looking at.
+    """
+    import statistics
+    from eval.metrics import cer
+
+    events = _selection_events(events)
+    values: list[float] = []
+    unmeasurable = 0
+    for ev in events:
+        if not ev.chosen or not ev.auto_pick or ev.auto_pick in ev.chosen:
+            continue
+        auto_text, human_text = _candidate_texts(ev)
+        if not auto_text.strip() or not human_text.strip():
+            unmeasurable += 1
+            continue
+        values.append(cer(auto_text, human_text, ignore_case=False,
+                          ignore_whitespace=False, ignore_punctuation=False))
+
+    values.sort()
+    def _pct(p):
+        if not values:
+            return None
+        return values[min(len(values) - 1, int(round(p * (len(values) - 1))))]
+
+    return {
+        "disagreements_measured": len(values),
+        "disagreements_unmeasurable": unmeasurable,   # texts no longer available
+        "median_regret_cer": statistics.median(values) if values else None,
+        "p90_regret_cer": _pct(0.9),
+        "max_regret_cer": values[-1] if values else None,
+    }
+
+
+def format_selection_stats(events=None) -> str:
+    """Human-readable selection report: agreement, where it fails, and regret."""
+    agreement = compute_selection_agreement(events)
+    regret = compute_regret(events)
+    o = agreement["overall"]
+    if not o["decided"]:
+        return "📐 **Auswahl-Report** — noch keine Entscheidungen aufgezeichnet."
+
+    lines = [
+        "📐 **Auswahl-Report** (Auto-Auswahl vs. Historiker:in)",
+        f"Übereinstimmung: **{o['agreed']}/{o['decided']}** ({o['rate']:.0%})",
+        "",
+    ]
+    worst = sorted(
+        (b for b in agreement["by_bucket"].items() if b[1]["decided"]),
+        key=lambda kv: kv[1]["rate"],
+    )[:3]
+    if worst:
+        lines.append("Schwächste Buckets (Schrift/Jh./Sprache):")
+        for (script, century, lang), st in worst:
+            lines.append(f"  `{script or '?'}/{century or '?'}/{lang or '?'}` "
+                         f"{st['agreed']}/{st['decided']} ({st['rate']:.0%})")
+        lines.append("")
+    if regret["disagreements_measured"]:
+        lines.append(
+            f"Abweichung bei Uneinigkeit (regret_cer, Distanz zwischen zwei "
+            f"Kandidaten — **kein** Genauigkeitsmass): "
+            f"Median {regret['median_regret_cer']:.0%}, "
+            f"p90 {regret['p90_regret_cer']:.0%}"
+        )
+    if regret["disagreements_unmeasurable"]:
+        lines.append(f"_{regret['disagreements_unmeasurable']} Abweichung(en) ohne "
+                     f"verfügbare Texte — nicht gemessen._")
+    return "\n".join(lines)
