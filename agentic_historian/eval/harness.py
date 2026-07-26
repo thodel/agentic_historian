@@ -56,10 +56,20 @@ def cer_table(
         "reference_len": int,
     }
     """
-    if isinstance(reference, dict) and (
+    # A closest reading is the best of the options WE produced, chosen by a
+    # historian — not an independently established text (#326/#336). Measuring
+    # accuracy against it certifies our own errors, so refuse it here rather than
+    # relying on anyone remembering.
+    _closest = False
+    try:
+        from runstate import ClosestReadingText
+        _closest = isinstance(reference, ClosestReadingText)
+    except Exception:                       # pragma: no cover — import-order safety
+        _closest = type(reference).__name__ == "ClosestReadingText"
+    if _closest or (isinstance(reference, dict) and (
         "closest_reading" in reference
         or reference.get("status") == "revisable_editorial_choice"
-    ):
+    )):
         raise ValueError(
             "closest_reading is an editorial selection, not an independent "
             "reference text, and cannot be used for accuracy evaluation"

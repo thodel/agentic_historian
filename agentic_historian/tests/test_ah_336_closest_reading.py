@@ -113,3 +113,76 @@ def test_selected_text_contract_has_no_truth_aliases():
             if isinstance(node, ast.Name) and node.id.lower() in forbidden:
                 violations.append(f"{path.name}:{node.lineno}:{node.id}")
     assert not violations, "selected text received a truth/reference alias: " + ", ".join(violations)
+
+
+# ── the guard must catch the call a developer would actually write ───────────
+
+def test_eval_rejects_the_closest_reading_TEXT_not_only_the_dict():
+    """The realistic circular-measurement mistake passes the *text*, not the dict:
+
+        cer_table(recs, fused, reference=state.closest_reading["text"])
+
+    A dict-only guard misses exactly that, so it would not have prevented anything.
+    The text is tagged ClosestReadingText, and the harness refuses that type.
+    """
+    from runstate import ClosestReadingText
+    tagged = ClosestReadingText("unser fruntlich gruos vor liebe getruwe")
+
+    with pytest.raises(ValueError, match="cannot be used"):
+        cer_table({"vlm": "voellig andere lesart"}, None, tagged)
+
+
+def test_a_genuine_reference_string_is_still_accepted():
+    """The guard must not block real evaluation — only the circular kind."""
+    out = cer_table({"vlm": "Alpha beta"}, None, "Alpha beta")
+    assert out["engines"]["vlm"]["cer"] == pytest.approx(0.0)
+
+
+def test_the_confirmed_text_is_tagged_at_the_source(tmp_path, monkeypatch):
+    """apply_combined_choice must produce a tagged text, or the guard never fires."""
+    import config, path_compare
+    from runstate import ClosestReadingText, RunState
+    monkeypatch.setattr(config, "FEEDBACK_DIR", tmp_path)
+    monkeypatch.setattr(config, "PREFERENCES_LOG_PATH", tmp_path / "p.jsonl")
+    monkeypatch.setattr(config, "PSEUDONYM_SALT_PATH", tmp_path / ".salt")
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+
+    st = RunState(doc_id="d-tag")
+    paths = {"trocr/a": "eine lesart", "kraken/b": "andere lesart"}
+    path_compare.apply_combined_choice(st, ["trocr/a"], paths, editor="817396")
+
+    assert isinstance(st.closest_reading["text"], ClosestReadingText)
+
+
+def test_the_editor_pseudonym_is_salted(tmp_path, monkeypatch):
+    """An unsalted digest of a Discord id is reversible by brute force over an
+    enumerable id space — and this value reaches the published RDF export."""
+    import hashlib
+    import config, path_compare
+    from runstate import RunState
+    monkeypatch.setattr(config, "FEEDBACK_DIR", tmp_path)
+    monkeypatch.setattr(config, "PSEUDONYM_SALT_PATH", tmp_path / ".salt")
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+
+    st = RunState(doc_id="d-salt")
+    paths = {"trocr/a": "eine lesart", "kraken/b": "andere lesart"}
+    path_compare.apply_combined_choice(st, ["trocr/a"], paths, editor="817396")
+
+    pseudo = st.closest_reading["editor_pseudonym"]
+    assert "817396" not in pseudo
+    naive = "editor-" + hashlib.sha256(b"817396").hexdigest()[:12]
+    assert pseudo != naive, "must be salted, not a bare hash of the platform id"
+
+
+def test_the_raw_platform_id_is_never_persisted(tmp_path, monkeypatch):
+    import config, path_compare
+    from runstate import RunState
+    monkeypatch.setattr(config, "FEEDBACK_DIR", tmp_path)
+    monkeypatch.setattr(config, "PSEUDONYM_SALT_PATH", tmp_path / ".salt")
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+
+    st = RunState(doc_id="d-raw")
+    paths = {"trocr/a": "eine lesart", "kraken/b": "andere lesart"}
+    path_compare.apply_combined_choice(st, ["trocr/a"], paths, editor="817396")
+
+    assert "817396" not in json.dumps(st.model_dump(mode="json"), ensure_ascii=False)

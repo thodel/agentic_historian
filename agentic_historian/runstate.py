@@ -90,6 +90,21 @@ def _log_emit(ev: PhaseEvent) -> None:
         logger.info(f"[{ev.doc_id}] {ev.phase} ({ev.agent}) — {ev.decision or ev.excerpt[:60]!r}")
 
 
+class ClosestReadingText(str):
+    """The text of a historian's editorial selection (#336).
+
+    A ``str`` subclass so it flows everywhere a transcription does, while carrying
+    its provenance in its *type*: ``eval.harness.cer_table`` refuses a reference of
+    this type, which makes the circular measurement (#326) fail loudly instead of
+    silently producing a flattering number.
+
+    Honest limitation: the tag is lost across a JSON round-trip (reload from
+    pipeline.json gives a plain ``str``). It catches the in-process path — the one
+    a developer actually writes — not a reload. The naming guard in
+    test_ah_336_closest_reading.py covers the rest.
+    """
+
+
 class RunState(BaseModel):
     doc_id: str
     stage_status: dict[str, str] = Field(
