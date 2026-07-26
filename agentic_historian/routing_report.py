@@ -377,3 +377,78 @@ def format_selection_stats(events=None) -> str:
         lines.append(f"_{regret['disagreements_unmeasurable']} Abweichung(en) ohne "
                      f"verfügbare Texte — nicht gemessen._")
     return "\n".join(lines)
+
+
+# ── Coverage (Q-2, #333) ─────────────────────────────────────────────────────
+#
+# "Did the ensemble offer an acceptable reading at all?" — the one quality
+# question a selection can answer without any reference text. The historian
+# accepting something means the pool contained a usable option; rejecting means
+# it did not. Trending that answers "is the ensemble producing better material?"
+#
+# It cannot be gamed by reproducing our own errors, it is not capped by the
+# candidate pool, and a genuinely better model raises it. It says nothing about
+# absolute accuracy — and is not supposed to (#326).
+
+def compute_coverage(events=None) -> dict:
+    """Share of DECIDED pages where the historian found an acceptable reading.
+
+    Denominator = pages the historian actually ruled on (accepted or rejected).
+    A page never decided is **unknown**, not a failure, and is excluded — counting
+    silence as failure would make coverage drop simply because nobody looked yet.
+    """
+    events = _selection_events(events)
+    overall = {"decided": 0, "accepted": 0}
+    by_bucket: dict[tuple, dict] = defaultdict(lambda: {"decided": 0, "accepted": 0})
+    by_month: dict[str, dict] = defaultdict(lambda: {"decided": 0, "accepted": 0})
+
+    for ev in events:
+        accepted = bool(ev.chosen) and not ev.rejected
+        if not accepted and not ev.rejected:
+            continue                       # neither accepted nor rejected → undecided
+        month = (ev.ts or "")[:7]          # YYYY-MM
+        for target, key in ((by_bucket, _bucket(ev)), (by_month, month)):
+            target[key]["decided"] += 1
+            target[key]["accepted"] += int(accepted)
+        overall["decided"] += 1
+        overall["accepted"] += int(accepted)
+
+    def _rate(d):
+        # None, not 0.0 — "no data" and "nothing was usable" are different claims.
+        return {**d, "rate": (d["accepted"] / d["decided"]) if d["decided"] else None}
+
+    return {
+        "overall": _rate(overall),
+        "by_bucket": {k: _rate(v) for k, v in by_bucket.items()},
+        "by_month": {k: _rate(v) for k, v in sorted(by_month.items())},
+    }
+
+
+def format_coverage_stats(events=None) -> str:
+    """Human-readable coverage report: acceptance overall, worst buckets, trend."""
+    cov = compute_coverage(events)
+    o = cov["overall"]
+    if not o["decided"]:
+        return "🧺 **Abdeckungs-Report** — noch keine Entscheidungen aufgezeichnet."
+
+    lines = [
+        "🧺 **Abdeckungs-Report** (hat das Ensemble überhaupt eine brauchbare "
+        "Lesart geliefert?)",
+        f"Brauchbar: **{o['accepted']}/{o['decided']}** ({o['rate']:.0%}) "
+        f"der entschiedenen Seiten",
+        "",
+    ]
+    worst = sorted(
+        (b for b in cov["by_bucket"].items() if b[1]["decided"]),
+        key=lambda kv: kv[1]["rate"],
+    )[:3]
+    if worst:
+        lines.append("Schwächste Buckets (Schrift/Jh./Sprache):")
+        for (script, century, lang), st in worst:
+            lines.append(f"  `{script or '?'}/{century or '?'}/{lang or '?'}` "
+                         f"{st['accepted']}/{st['decided']} ({st['rate']:.0%})")
+        lines.append("")
+    if len(cov["by_month"]) > 1:
+        trend = "  ".join(f"{m} {st['rate']:.0%}" for m, st in cov["by_month"].items())
+        lines.append(f"Verlauf: {trend}")
+    return "\n".join(lines)

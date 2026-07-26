@@ -257,8 +257,13 @@ def render_vote_card(state: RunState, paths: dict[str, str], *,
 
 
 def render_decided_card(state: RunState, paths: dict[str, str],
-                        chosen: list[str], text: str) -> str:
-    """The collapsed card shown after Bestätigen — no buttons, just the outcome."""
+                        chosen: list[str], text: str, *,
+                        rejected: bool = False) -> str:
+    """The collapsed card shown after a decision — no buttons, just the outcome."""
+    if rejected:
+        return (f"❌ **{state.doc_id}** · keine Lesart brauchbar — als "
+                f"Abdeckungslücke erfasst (#333).\n"
+                f"_Die Engines haben für diese Seite nichts Verwertbares geliefert._")
     if not chosen:
         return f"📊 **{state.doc_id}** · abgebrochen — nichts ausgewählt."
     labels = ", ".join(_label_for(c) for c in chosen)
@@ -334,6 +339,7 @@ def apply_combined_choice(
 
 
 _CONFIRM_FIELD = "__confirm__"      # the Bestätigen button's custom_id field
+_REJECT_FIELD = "__reject__"        # "Keine brauchbar" — a coverage failure (#333)
 
 
 def build_view(state: RunState, paths: dict[str, str],
@@ -432,11 +438,40 @@ def build_view(state: RunState, paths: dict[str, str],
                 except Exception as e:
                     logger.warning(f"[gate2] {state.doc_id}: resume scheduling failed: {e}")
 
+    class _RejectButton(discord.ui.Button):
+        """"Keine brauchbar" — the negative signal the card could not express.
+
+        Without it an abandoned page is indistinguishable from an unseen one, so
+        coverage (#333) could never be measured: silence would look the same as
+        failure. Collapses the card exactly like a confirm.
+        """
+        def __init__(self):
+            super().__init__(
+                label="❌ Keine brauchbar",
+                style=discord.ButtonStyle.danger,
+                custom_id=f"ah:{state.doc_id}:gate2:{_REJECT_FIELD}",
+            )
+
+        async def callback(self, interaction):
+            try:
+                import preferences
+                user = getattr(interaction, "user", None)
+                preferences.record_rejection(
+                    state, paths, voter=str(getattr(user, "id", "") or ""))
+                state.gate_decisions["gate2_selected"] = []
+                state.gate_decisions["gate2_rejected"] = True
+                state.save()
+            except Exception as e:
+                logger.warning(f"[gate2] {state.doc_id}: rejection failed: {e}")
+            await _ack(interaction,
+                       render_decided_card(state, paths, [], "", rejected=True), None)
+
     class PathComparisonView(discord.ui.View):
         def __init__(self):
             super().__init__(timeout=None)
             for name in comp["names"]:
                 self.add_item(_ToggleButton(name))
             self.add_item(_ConfirmButton())
+            self.add_item(_RejectButton())
 
     return PathComparisonView()
