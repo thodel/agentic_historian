@@ -206,22 +206,37 @@ def get_prior(
     if not script or not century or not lang:
         return {}
 
-    prior_store = get_routing_prior()
     norm_script = normalise_script(script)
     norm_lang = normalise_lang(lang)
     bucket_key = (norm_script, int(century), norm_lang)
-
-    bucket = prior_store.get(bucket_key, [])
-    if not bucket:
-        return {}
-
-    # Build result: all models get 0.0 unless they have a positive prior entry
     result: dict[str, float] = {m: 0.0 for m in registry_models}
+
+    # Preference-derived strengths first (#335). They are the better evidence:
+    # Bradley–Terry over "chosen ≻ offered-but-not-chosen" accounts for WHO a model
+    # was compared against and how often, whereas the legacy win rate divides by the
+    # whole bucket and so penalises a specialist that is rarely offered — exactly
+    # the model most worth promoting. Same cap, so the "nudge, never override"
+    # guarantee is unchanged.
+    try:
+        from agent_a.preference_strength import prior_scores
+        pref = prior_scores().get(bucket_key, {})
+    except Exception as e:                              # never break selection
+        logger.warning(f"[prior] preference strengths unavailable: {e}")
+        pref = {}
+    for model_id, score in pref.items():
+        if model_id in result:
+            result[model_id] = score
+
+    # Legacy win-rate store fills in only where preferences have nothing to say.
+    bucket = get_routing_prior().get(bucket_key, [])
     for entry in bucket:
-        if entry.model_id in result:
+        if entry.model_id in result and not result[entry.model_id]:
             result[entry.model_id] = entry.prior_score
 
-    return result
+    # Preserve the original contract: no applicable prior → {} rather than a dict
+    # of zeros. The call site is indifferent (`priors.get(id, 0.0)`), but callers
+    # and tests read an empty dict as "no prior evidence here", which is true.
+    return result if any(result.values()) else {}
 
 
 def clear_cache() -> None:

@@ -187,11 +187,16 @@ def _record(state, paths: dict, *, chosen: list, voter: str, rejected: bool) -> 
                 continue                                # nothing decided for this page
             ctx = ctx_all.get(page or "_", {}) or {}
             ranks = ctx.get("ranks") or {}
+            local_ids = ctx.get("local_ids") or {}
             offered = []
             for label in labels:
                 em = engine_model_of(label)
                 eng, _, mid = em.partition("/")
+                # local_model_id is what the model selector/registry uses; model_id
+                # is the gateway id. They differ (a kraken DOI shares no substring
+                # with its gateway id), and #335's prior matches on the local one.
                 offered.append({"engine": eng, "model_id": mid,
+                                "local_model_id": local_ids.get(label) or "",
                                 "auto_rank": ranks.get(label)})
             ev = PreferenceEvent(
                 doc_id=doc_id,
