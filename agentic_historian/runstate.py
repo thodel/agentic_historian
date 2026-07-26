@@ -98,6 +98,9 @@ class RunState(BaseModel):
     criteria: dict[str, Any] = Field(default_factory=dict)
     human_overrides: list[dict] = Field(default_factory=list)
     gate_decisions: dict[str, Any] = Field(default_factory=dict)
+    # A historian-confirmed text is an editorial choice among candidates, not
+    # independently established truth and therefore never an eval denominator.
+    closest_reading: Optional[dict[str, Any]] = None
     message_ids: dict[str, Any] = Field(default_factory=dict)   # Discord placeholder
     stale: list[str] = Field(default_factory=list)
     source_url: Optional[str] = None                                    # #208 link to source image

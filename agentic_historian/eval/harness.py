@@ -56,6 +56,15 @@ def cer_table(
         "reference_len": int,
     }
     """
+    if isinstance(reference, dict) and (
+        "closest_reading" in reference
+        or reference.get("status") == "revisable_editorial_choice"
+    ):
+        raise ValueError(
+            "closest_reading is an editorial selection, not an independent "
+            "reference text, and cannot be used for accuracy evaluation"
+        )
+
     opts = dict(
         ignore_case=ignore_case,
         ignore_whitespace=ignore_whitespace,

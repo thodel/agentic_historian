@@ -121,7 +121,8 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
     sj = (pipe.get("description") or {}).get("source_json") or {}
     a_meta = pipe.get("a_meta") or {}
     entities = (pipe.get("entities") or {}).get("entities") or []
-    transcription = pipe.get("transcription") or \
+    closest = pipe.get("closest_reading") or {}
+    transcription = closest.get("text") or pipe.get("transcription") or \
         artifacts.get("transcription.txt", b"").decode("utf-8", "replace")
 
     L = ["---", "layout: default", f"title: {doc_id}", "---", "", f"# {doc_id}", ""]
@@ -153,7 +154,18 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
             L.append("")
 
     if transcription.strip():
-        L += ["## Transkription", "", "```", transcription.strip(), "```", ""]
+        if closest:
+            chosen = ", ".join(closest.get("chosen") or [])
+            action = "combined" if closest.get("combined") else "selected"
+            L += ["## Closest available reading", "",
+                  ("_Revisable editorial choice: the closest option currently "
+                   "available, not an independently established reference text._"), "",
+                  (f"_Provenance: {action} from `{chosen}`; "
+                   f"editor `{closest.get('editor_pseudonym', 'unknown')}`; "
+                   f"confirmed {closest.get('confirmed_at', 'unknown')}._"), ""]
+        else:
+            L += ["## Transkription", ""]
+        L += ["```", transcription.strip(), "```", ""]
 
     # ── Recognition results (#238, per-page exports #284) ──────────────────
     # Every candidate transcription is exported as its own file and represented

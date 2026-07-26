@@ -1137,6 +1137,8 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: b
                     for r in state.artifacts.get("recognitions", [])
                 ],
             }
+            if state.closest_reading:
+                pipeline["closest_reading"] = state.closest_reading
             if state.source_url:
                 pipeline["source_url"] = state.source_url
             with open(out, "w", encoding="utf-8") as f:
