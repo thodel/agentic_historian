@@ -54,11 +54,34 @@ def _label_for(path: str) -> str:
     return LABELS.get(path, path.replace("_", " ").title())
 
 
+# Content-keyed cache for compare_paths. Measured on tei with a real 9-candidate
+# page: one comparison costs 2.9s (36 pairs of full-page Levenshtein), and a single
+# Gate-2 toggle triggered it THREE times — render_vote_card, then build_view, then
+# the re-render — ~8.7s against Discord's 3s interaction budget, so every click
+# died with "Diese Interaktion ist fehlgeschlagen". The cost is O(n²) in candidates,
+# so it only appears on the multi-engine pages the card exists for; 2-3 candidates
+# (every test fixture) stayed under 0.2s and hid it completely.
+_COMPARE_CACHE: dict = {}
+_COMPARE_CACHE_MAX = 32
+
+
+def clear_compare_cache() -> None:
+    """Drop the memoised comparisons (tests; long-running processes)."""
+    _COMPARE_CACHE.clear()
+
+
 def compare_paths(paths: dict[str, str]) -> dict:
     """Pairwise CER between all available (non-empty) transcription paths.
 
-    Any number of paths is supported (N-candidate Gate-2, #238).
+    Any number of paths is supported (N-candidate Gate-2, #238). Memoised on the
+    exact path contents: a Gate-2 click changes only the SELECTION, never the
+    candidate texts, so every render after the first is a cache hit.
     """
+    key = tuple(sorted((n, paths.get(n) or "") for n in paths))
+    hit = _COMPARE_CACHE.get(key)
+    if hit is not None:
+        return hit
+
     names = [n for n in paths if (paths.get(n) or "").strip()]
     pairs: dict[tuple[str, str], float] = {}
     for i in range(len(names)):
@@ -66,8 +89,13 @@ def compare_paths(paths: dict[str, str]) -> dict:
             a, b = names[i], names[j]
             pairs[(a, b)] = cer(paths[a], paths[b], ignore_case=False,
                                 ignore_whitespace=False, ignore_punctuation=False)
-    return {"names": names, "pairs": pairs,
-            "max_cer": max(pairs.values()) if pairs else 0.0}
+    result = {"names": names, "pairs": pairs,
+              "max_cer": max(pairs.values()) if pairs else 0.0}
+
+    if len(_COMPARE_CACHE) >= _COMPARE_CACHE_MAX:      # bounded: long-lived bot
+        _COMPARE_CACHE.pop(next(iter(_COMPARE_CACHE)))
+    _COMPARE_CACHE[key] = result
+    return result
 
 
 def should_gate(paths: dict[str, str], threshold: float = DEFAULT_GATE_THRESHOLD) -> bool:
