@@ -153,23 +153,34 @@ def select_best(recognitions: list, ran: list):
 
     Candidates that errored or came back empty are not eligible.
     """
+    ranked = rank_candidates(recognitions, ran)
+    return ranked[0] if ranked else None
+
+
+def rank_candidates(recognitions: list, ran: list) -> list:
+    """Eligible ``(rec, pick)`` pairs, best first — the selector's own ordering.
+
+    Exposed separately so consumers can record **the rank the selector actually
+    used** (#332's ``auto_rank``) instead of re-deriving it. A re-derivation would
+    drift from this function the moment either changes, and the whole point of the
+    preference log is to measure what the selector did — a metric computed from a
+    copy of the ranking logic can quietly lie about that.
+    """
     # _text_of returns (text, error) — reuse it rather than re-deriving the shape.
     eligible = []
     for rec, pick in zip(recognitions, ran):
         text, err = _text_of(rec)
         if text.strip() and not err:
             eligible.append((rec, pick))
-    if not eligible:
-        return None
 
     def rank(item):
         rec, pick = item
         engine = getattr(pick, "engine", "") or ""
-        # VLM's 1.0 is a placeholder, not a match — see docstring.
+        # VLM's 1.0 is a placeholder, not a match — see select_best's docstring.
         match = 0.0 if engine == "vlm" else float(getattr(pick, "score", 0.0) or 0.0)
         return (match, float(_confidence_of(rec) or 0.0))
 
-    return max(eligible, key=rank)
+    return sorted(eligible, key=rank, reverse=True)
 
 
 def _confidence_of(rec) -> float:

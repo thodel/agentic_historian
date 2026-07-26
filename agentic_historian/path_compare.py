@@ -385,6 +385,21 @@ def build_view(state: RunState, paths: dict[str, str],
                     state.save()
             except Exception as e:
                 logger.warning(f"[gate2] {state.doc_id}: confirm failed: {e}")
+
+            # Record the decision as a PREFERENCE over the alternatives that were
+            # offered (#332) — not as a reference text. The historian picked the
+            # closest of the options WE produced; treating that as ground truth
+            # would certify our own errors (#326). Best-effort: never break the
+            # click. The raw user id is pseudonymised inside preferences.
+            if chosen:
+                try:
+                    import preferences
+                    user = getattr(interaction, "user", None)
+                    preferences.record_selection(
+                        state, paths, chosen,
+                        voter=str(getattr(user, "id", "") or ""))
+                except Exception as e:
+                    logger.warning(f"[gate2] {state.doc_id}: preference log failed: {e}")
             # collapse: no buttons, just the outcome
             await _ack(interaction, render_decided_card(state, paths, chosen, applied or ""),
                        None)

@@ -239,6 +239,14 @@ ROUTING_LOG_PATH = FEEDBACK_DIR / "routing.jsonl"
 # VOTING_MIN_VOTES=1 keeps today's Gate-2 behaviour (a single click decides); raise
 # it to require consensus before a winner is applied.
 VOTES_LOG_PATH = FEEDBACK_DIR / "votes.jsonl"
+# #332: historian selections recorded as PREFERENCES (chosen ≻ the alternatives that
+# were offered), not as a reference text. A Gate-2 selection is the closest of the
+# options we produced, never ground truth — see #326/#336 — so this log carries
+# comparisons, never the chosen text.
+PREFERENCES_LOG_PATH = FEEDBACK_DIR / "preferences.jsonl"
+# Local, per-deployment salt for pseudonymising voter ids. Never commit it; never
+# publish a raw Discord id. Created on first use if absent.
+PSEUDONYM_SALT_PATH = FEEDBACK_DIR / ".pseudonym_salt"
 VOTING_MIN_VOTES = int(_get("VOTING_MIN_VOTES", "1"))
 
 # ── Knowledge Hub ────────────────────────────────────────────────────────────
