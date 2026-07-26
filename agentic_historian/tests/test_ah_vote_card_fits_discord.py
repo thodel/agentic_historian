@@ -39,10 +39,11 @@ def test_card_fits_at_many_candidates():
         assert len(card) <= 2000, f"{n} candidates → {len(card)} chars"
 
 
-def test_the_tally_is_never_trimmed_away():
-    """The tally is the vote state — trimming must hit the readings, not it."""
+def test_the_selection_footer_is_never_trimmed_away():
+    """The selection footer is the interactive state — trimming must hit the
+    readings, not it (#313 multi-select)."""
     card = path_compare.render_vote_card(RunState(doc_id="d"), _paths(12))
-    assert "Stimmen" in card                        # render_tally's text survives
+    assert "ausgewählt" in card.lower()             # the footer survives
 
 
 def test_the_readings_are_still_shown():
