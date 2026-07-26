@@ -208,105 +208,186 @@ def apply_path_choice(
     return text
 
 
+def _selected(state: RunState) -> list[str]:
+    """The labels the historian has toggled on this Gate-2 card so far."""
+    sel = state.gate_decisions.get("gate2_selected")
+    return list(sel) if isinstance(sel, list) else []
+
+
 def render_vote_card(state: RunState, paths: dict[str, str], *,
                      max_chars: int = 1900) -> str:
-    """The voting card: each candidate reading + the live tally (#293), capped to
-    fit Discord's 2000-char limit.
+    """The selection card: each candidate reading, marked ☑/☐ for what's picked,
+    with an instruction to select one or many and confirm (#313 multi-select).
 
-    NOT ``render_compare_card`` + tally: with the ensemble's engine set (up to 7
-    candidates, #300/#313) that ran to **8392 chars** live — 4× the limit, so the
-    send fails. Here each snippet is scaled to a per-candidate budget, the
-    verbose N×N pairwise-CER matrix collapses to one ``max CER`` line, and the
-    whole thing is hard-capped. The buttons (one per candidate) carry the actual
-    choice; the text is only for judging, so trimming it is safe.
+    Capped to Discord's 2000-char limit: with the ensemble's engine set (up to 7
+    candidates) the old card ran to 8392 chars. Each snippet scales to a
+    per-candidate budget; the verbose N×N pairwise-CER matrix collapses to one line;
+    header + CER + selection footer are kept whole and only the candidate blocks are
+    trimmed. The buttons carry the actual choice; the text is only for judging.
     """
-    import voting
-
     comp = compare_paths(paths)
     names = comp["names"]
-    tally = voting.render_tally(voting.load_votes(state.doc_id))
     if not names:
-        return f"📊 **{state.doc_id}** · keine Lesarten\n\n{tally}"
+        return f"📊 **{state.doc_id}** · keine Lesarten vorhanden"
 
-    header = f"📊 **{state.doc_id}** · {len(names)} Lesart(en) zur Abstimmung"
-    cer_line = (f"`max. paarweise CER {comp['max_cer']:.0%}` — Engines uneinig; "
-                f"wähle die richtige Lesart." if len(names) >= 2 else "")
+    sel = _selected(state)
+    header = (f"📊 **{state.doc_id}** · {len(names)} Lesart(en) — wähle **eine oder "
+              f"mehrere** und dann **Bestätigen** (mehrere werden kombiniert).")
+    cer_line = (f"`max. paarweise CER {comp['max_cer']:.0%}` — die Engines sind uneinig."
+                if len(names) >= 2 else "")
+    footer = (f"✅ Ausgewählt: {', '.join(_label_for(n) for n in sel)}"
+              if sel else "▫️ Noch nichts ausgewählt.")
 
-    # header + CER + tally are always kept; the candidate blocks flex to fill the
-    # rest. The tally is the vote state — it must never be the part that's trimmed.
-    reserved = len(header) + len(cer_line) + len(tally) + 12   # newlines/overhead
+    reserved = len(header) + len(cer_line) + len(footer) + 14
     per = max(50, (max_chars - reserved) // max(1, len(names)))
     blocks = []
     for n in names:
+        mark = "☑" if n in sel else "☐"
         text = paths[n]
         more = "…" if len(text) > per else ""
-        blocks.append(f"**{_label_for(n)}** ({len(text)} Z.):\n> {text[:per]}{more}")
+        blocks.append(f"{mark} **{_label_for(n)}** ({len(text)} Z.):\n> {text[:per]}{more}")
 
     blocks_text = "\n".join(blocks)
     avail = max_chars - reserved
-    if len(blocks_text) > avail:                    # label-length variance overflow
+    if len(blocks_text) > avail:
         blocks_text = blocks_text[:max(0, avail - 1)].rstrip() + "…"
 
-    return "\n".join([header, "", blocks_text, "", cer_line, "", tally])
+    return "\n".join([header, "", blocks_text, "", cer_line, "", footer])
+
+
+def render_decided_card(state: RunState, paths: dict[str, str],
+                        chosen: list[str], text: str) -> str:
+    """The collapsed card shown after Bestätigen — no buttons, just the outcome."""
+    if not chosen:
+        return f"📊 **{state.doc_id}** · abgebrochen — nichts ausgewählt."
+    labels = ", ".join(_label_for(c) for c in chosen)
+    how = "kombiniert aus" if len(chosen) > 1 else "gewählt:"
+    preview = (text or "")[:400]
+    more = "…" if len(text or "") > 400 else ""
+    return (f"✅ **{state.doc_id}** · {how} {labels}\n"
+            f"> {preview}{more}\n"
+            f"_B/C laufen auf diesem Text neu._")
+
+
+def apply_combined_choice(
+    state: RunState,
+    selected: list[str],
+    paths: dict[str, str],
+    *,
+    decided_by: str = "human",
+) -> str:
+    """Apply the historian's selection as the working transcription (#313).
+
+    One selected reading → that text verbatim. Several → **fused into one**, with
+    the automatic no-merge band (#300) forced OFF: the historian explicitly chose
+    to combine these, overriding the pipeline's "at high disagreement, don't blend"
+    default. Only the selected readings are fused; rejected engines are ignored.
+
+    Dirties B/C via RunState invalidation and logs a positive routing signal for
+    every selected engine. Returns the resulting text.
+    """
+    available = [n for n in paths if (paths.get(n) or "").strip()]
+    chosen = [s for s in selected if s in available]
+    if not chosen:
+        raise ValueError(f"no valid selection among {available}")
+
+    if len(chosen) == 1:
+        text = paths[chosen[0]] or ""
+    else:
+        from fusion import fuse
+        recs = [{"engine": c, "text": paths[c], "error": "", "confidence": 0.5}
+                for c in chosen]
+        # no_merge_cer > 1 never triggers → force the merge the human asked for.
+        text = fuse(recs, no_merge_cer=1.01).text
+
+    state.invalidate("path_preference", value=",".join(chosen),
+                     user=state.gate_decisions.get("user"))
+    state.artifacts["reconcile"] = text
+    state.gate_decisions["path"] = chosen[0] if len(chosen) == 1 else list(chosen)
+    state.gate_decisions["gate2_combined"] = list(chosen)
+    for c in chosen:
+        log_routing_feedback(state=state, field="path_preference",
+                             inferred_value=None, chosen_value=c, path=c,
+                             decided_by=decided_by)
+    logger.info(f"[gate2] {state.doc_id}: combined {len(chosen)} reading(s) "
+                f"({', '.join(chosen)}) → {len(text)} chars")
+    return text
+
+
+_CONFIRM_FIELD = "__confirm__"      # the Bestätigen button's custom_id field
 
 
 def build_view(state: RunState, paths: dict[str, str],
                runners: Optional[dict] = None):
-    """Construct the Gate-2 view — one button per available path.
+    """Construct the Gate-2 selection view (#313 multi-select).
 
-    Voting (#293): a click **records a vote** rather than applying outright, and
-    the winner is applied only once the votes decide it (``VOTING_MIN_VOTES``).
-    With the default ``VOTING_MIN_VOTES=1`` this is byte-for-byte the old
-    behaviour — one click decides and applies immediately — so nothing changes
-    until consensus voting is switched on. A voter clicking again *changes* their
-    vote (the core keeps one effective vote per voter).
+    Each candidate is a **toggle**: click to add/remove it from the selection
+    (green = selected). A **Bestätigen** button finalises — one selected reading is
+    used verbatim, several are **combined** (fused, overriding the auto no-merge) —
+    then the card collapses (buttons removed, outcome shown) and B/C re-run.
+
+    Selection lives on the RunState (``gate_decisions['gate2_selected']``) so the
+    toggles survive a bot restart when #150 rebuilds the view.
     """
     import discord
 
     comp = compare_paths(paths)
 
-    class _PathButton(discord.ui.Button):
+    async def _ack(interaction, content, view):
+        try:
+            await interaction.response.edit_message(content=content, view=view)
+        except Exception as e:
+            logger.warning(f"[gate2] {state.doc_id}: card update failed: {e}")
+
+    class _ToggleButton(discord.ui.Button):
         def __init__(self, path: str):
             self.path = path
+            selected = path in _selected(state)
             super().__init__(
-                label=f"Nutze {_label_for(path)}",
-                style=discord.ButtonStyle.primary
-                      if path in ("reconciled", "fused")
+                label=_label_for(path),
+                style=discord.ButtonStyle.success if selected
                       else discord.ButtonStyle.secondary,
                 custom_id=f"ah:{state.doc_id}:gate2:{path}",
             )
 
         async def callback(self, interaction):
-            import asyncio
-            import voting
-            user = getattr(interaction, "user", None)
-            voter = str(getattr(user, "id", "?"))
-            voter_name = (getattr(user, "display_name", None)
-                          or getattr(user, "name", None) or voter)
+            sel = _selected(state)
+            if self.path in sel:
+                sel.remove(self.path)
+            else:
+                sel.append(self.path)
+            state.gate_decisions["gate2_selected"] = sel
+            try:
+                state.save()
+            except Exception as e:
+                logger.warning(f"[gate2] {state.doc_id}: selection save failed: {e}")
+            # rebuild the view so the toggled button reflects its new state
+            await _ack(interaction, render_vote_card(state, paths),
+                       build_view(state, paths, runners=runners))
 
+    class _ConfirmButton(discord.ui.Button):
+        def __init__(self):
+            super().__init__(
+                label="✅ Bestätigen",
+                style=discord.ButtonStyle.primary,
+                custom_id=f"ah:{state.doc_id}:gate2:{_CONFIRM_FIELD}",
+                disabled=not _selected(state),
+            )
+
+        async def callback(self, interaction):
+            import asyncio
+            chosen = _selected(state)
             applied = None
             try:
-                voting.record_vote(state.doc_id, self.path, voter=voter,
-                                   voter_name=voter_name)
-                applied = voting.apply_winner(state, paths)  # None while undecided
-                if applied is not None:
+                if chosen:
+                    applied = apply_combined_choice(state, chosen, paths)
+                    state.gate_decisions["gate2_selected"] = []      # clear
                     state.save()
-            except Exception as e:                           # never leave the click un-acked
-                logger.warning(f"[gate2] {state.doc_id}: vote handling failed: {e}")
-
-            # ACK + update the card FIRST, within Discord's ~3s interaction window,
-            # so the click ALWAYS produces visible feedback (the tally / "Entschieden"
-            # line). Previously a decided vote ran the B/C re-run synchronously here
-            # BEFORE the edit — that blew past the 3s window, the token expired, the
-            # edit failed, and the click looked like it did nothing (#313 live).
-            try:
-                await interaction.response.edit_message(
-                    content=render_vote_card(state, paths), view=self.view)
             except Exception as e:
-                logger.warning(f"[gate2] {state.doc_id}: card update failed: {e}")
-
-            # The heavy re-run happens AFTER the ack and OFF the event loop, so it
-            # can neither delay the feedback nor block the bot.
+                logger.warning(f"[gate2] {state.doc_id}: confirm failed: {e}")
+            # collapse: no buttons, just the outcome
+            await _ack(interaction, render_decided_card(state, paths, chosen, applied or ""),
+                       None)
             if applied is not None and runners and config.AUTO_RESUME_AFTER_GATE:
                 try:
                     asyncio.get_running_loop().create_task(
@@ -318,6 +399,7 @@ def build_view(state: RunState, paths: dict[str, str],
         def __init__(self):
             super().__init__(timeout=None)
             for name in comp["names"]:
-                self.add_item(_PathButton(name))
+                self.add_item(_ToggleButton(name))
+            self.add_item(_ConfirmButton())
 
     return PathComparisonView()
