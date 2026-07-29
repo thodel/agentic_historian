@@ -25,6 +25,10 @@ Usage:
   graph.serialize(format="turtle", destination="hub.ttl")
 """
 
+import json
+import re
+import unicodedata
+from pathlib import Path
 from typing import Optional
 import rdflib
 from rdflib import Namespace, URIRef, Literal, Graph, RDF, RDFS
@@ -39,6 +43,13 @@ HLS = Namespace("https://www.hls-dhs-dss.ch/articles/")
 
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 SCHEMA = Namespace("https://schema.org/")
+OWL = Namespace("http://www.w3.org/2002/07/owl#")
+
+# Our own namespace. The corpus graph's subject is OUR corpus, so document,
+# reading and entity nodes are minted here — never in an authority's namespace
+# (KG-2, #328). Authority ids are attached with owl:sameAs instead.
+CORPUS_BASE = "https://tei.dh.unibe.ch/id/"
+AH = Namespace(CORPUS_BASE)
 
 # ── Prefixes for Turtle output ────────────────────────────────────────────────
 PREFIXES = {
@@ -50,6 +61,8 @@ PREFIXES = {
     "hls": str(HLS),
     "geo": str(GEO),
     "schema": str(SCHEMA),
+    "owl": str(OWL),
+    "ah": str(AH),
     "rdf": str(RDF),
     "rdfs": str(RDFS),
 }
@@ -373,3 +386,271 @@ def entity_to_rdf(hub_instance, entity_dict: dict) -> Graph:
     uri = rdflib.BNode(f"entity_{uuid.uuid4().hex[:8]}")
     g.add((uri, RDFS.label, _safe_literal(name)))
     return g
+
+
+# ── Corpus-centric export (KG-2, #328) ───────────────────────────────────────
+#
+# The hub-level functions above export the *hub*. Everything below exports the
+# *corpus*: the documents we processed, the competing readings produced for
+# them, and the entities each reading mentions. That is the value we add and
+# that no authority database holds.
+#
+# Three rules drive the model:
+#   1. Link, don't copy — authority ids arrive as owl:sameAs, never as mirrored
+#      source fields (KG-1, #327).
+#   2. A document has MANY readings and none of them is "the text". No triple
+#      ever attaches symbolic content directly to a document.
+#   3. A mention belongs to the READING it was extracted from, not to the
+#      document — a different reading may not contain it at all.
+#
+# All nodes are minted as URIRefs from stable keys (never uuid4 BNodes), so the
+# serialisation is byte-identical across runs and the graph stays diffable.
+
+# CRM class per Agent C entity type.
+_ENTITY_CLASS = {
+    "PERSON":       "E21_Person",
+    "PLACE":        "E53_Place",
+    "ORG":          "E40_Legal_Body",
+    "ORGANISATION": "E40_Legal_Body",
+    "SOCIAL_GROUP": "E74_Group",
+    "CARE_ACTOR":   "E21_Person",
+    "CARE_ACTION":  "E7_Activity",
+    "ROLE":         "E55_Type",
+    "DATE":         "E52_Time-Span",
+}
+
+# Authority id fields carrying a PUBLIC URI. The URI itself comes from
+# entity_index.authority_uri (KG-1, #327) rather than a second table here: the
+# legacy hub namespaces above disagree with it (`www.hls-dhs-dss.ch/articles/`
+# vs `hls-dhs-dss.ch/de/articles/`, `/entity/` vs `/wiki/`), and a graph whose
+# owl:sameAs URIs did not match the ids KG-1 persists would not join up.
+_AUTHORITY_FIELDS = ("gnd", "wikidata", "hls")
+
+
+def _authority_uri(source: str, value: str) -> Optional[str]:
+    """Public URI for an authority id — the same table KG-1 persists."""
+    from entity_index import authority_uri
+    return authority_uri(source, str(value))
+
+
+def _slug(value: str) -> str:
+    """Stable, URI-safe slug (umlauts transliterated, as in entity_index.py)."""
+    s = (value or "").translate(str.maketrans(
+        {"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss",
+         "Ä": "Ae", "Ö": "Oe", "Ü": "Ue"}))
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(c for c in s if not unicodedata.combining(c)).lower()
+    s = re.sub(r"[^a-z0-9]+", "-", s)
+    return re.sub(r"-+", "-", s).strip("-")
+
+
+def document_uri(doc_id: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"document/{_slug(doc_id)}"]
+
+
+def reading_uri(doc_id: str, key: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"reading/{_slug(doc_id)}/{_slug(key)}"]
+
+
+def entity_uri(etype: str, name: str, ids: Optional[dict] = None,
+               ns: Namespace = AH) -> URIRef:
+    """Mint OUR URI for an entity.
+
+    Keyed on the strongest authority id available so the node is stable across
+    documents and spelling variants; falls back to the normalised name. The URI
+    is always in our namespace — the authority id is attached with owl:sameAs,
+    not used as the node's identity.
+    """
+    ids = ids or {}
+    for field in ("gnd", "wikidata", "hls"):
+        if ids.get(field):
+            local = f"{field}-{_slug(str(ids[field]))}"
+            break
+    else:
+        local = _slug(name)
+    return ns[f"{_slug(etype) or 'entity'}/{local}"]
+
+
+def _identifier_node(source: str, value: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"identifier/{_slug(source)}/{_slug(str(value))}"]
+
+
+def _add_identifier(g: Graph, subject: URIRef, source: str, value: str,
+                    ns: Namespace = AH) -> None:
+    """Attach a source-local id as an E42 Identifier carrying a literal.
+
+    Used for sources WITHOUT a public URI (hbls / kf / eos / hub). The id is
+    preserved verbatim as a literal so it stays resolvable by a human or a
+    later MCP call — but no external URI is invented for it.
+    """
+    node = _identifier_node(source, value, ns)
+    g.add((subject, CRM["P1_is_identified_by"], node))
+    g.add((node, RDF.type, CRM["E42_Identifier"]))
+    g.add((node, RDFS.label, Literal(str(value))))
+    g.add((node, CRM["P2_has_type"], Literal(source)))
+
+
+def entity_node_to_rdf(g: Graph, entity: dict, ns: Namespace = AH) -> Optional[URIRef]:
+    """Add one extracted entity as a typed CRM node and return its URI.
+
+    Authority ids become ``owl:sameAs`` links to public URIs; ids from sources
+    without a public URI (hbls / kf / eos / the local hub) become E42
+    Identifiers carrying the literal id. No source payload is copied.
+    """
+    name = (entity.get("normalised") or entity.get("text") or "").strip()
+    etype = (entity.get("type") or "").strip().upper()
+    if not name or not etype:
+        return None
+
+    ids = {k: (entity.get(k) or "").strip() if isinstance(entity.get(k), str)
+              else entity.get(k)
+           for k in ("gnd", "wikidata", "hls", "hub_id")}
+    uri = entity_uri(etype, name, ids, ns)
+
+    g.add((uri, RDF.type, CRM[_ENTITY_CLASS.get(etype, "E1_CRM_Entity")]))
+    g.add((uri, RDFS.label, _safe_literal(name)))
+    g.add((uri, SDHSS["entityType"], Literal(etype)))
+
+    # Public authority URIs → owl:sameAs (link, don't copy). A field with no
+    # public URI pattern falls through to a local identifier below rather than
+    # getting a fabricated one.
+    for field in _AUTHORITY_FIELDS:
+        value = ids.get(field)
+        if not value:
+            continue
+        public = _authority_uri(field, value)
+        if public:
+            g.add((uri, OWL["sameAs"], URIRef(public)))
+        else:
+            _add_identifier(g, uri, field, value, ns)
+
+    # Sources without a public URI keep a local identifier only.
+    if ids.get("hub_id"):
+        _add_identifier(g, uri, "hub", ids["hub_id"], ns)
+
+    return uri
+
+
+def _readings_of(doc: dict) -> list[tuple[str, str, dict]]:
+    """Extract the competing readings of one pipeline record.
+
+    Returns ``(key, text, meta)`` triples. Every per-engine recognition is a
+    reading; the fused/working transcription is ALSO just a reading — it is the
+    one Agent C actually read, so it carries the mentions, but it is never
+    asserted as the document's text.
+    """
+    out: list[tuple[str, str, dict]] = []
+    seen: set[str] = set()
+
+    for i, rec in enumerate(doc.get("recognitions") or []):
+        text = (rec.get("text") or "").strip()
+        if not text or rec.get("error"):
+            continue
+        key = _slug(rec.get("engine") or "") or f"engine-{i}"
+        if key in seen:                      # same engine twice → keep both
+            key = f"{key}-{i}"
+        seen.add(key)
+        out.append((key, text, {
+            "engine": rec.get("engine") or "",
+            "model_id": rec.get("model_id") or "",
+            "confidence": rec.get("confidence"),
+        }))
+
+    working = (doc.get("transcription") or "").strip()
+    if working:
+        key = "working"
+        if key in seen:
+            key = "working-fused"
+        out.append((key, working, {
+            "engine": (doc.get("a_meta") or {}).get("source") or "pipeline",
+            "model_id": "",
+            "confidence": (doc.get("a_meta") or {}).get("qa_score"),
+            "working": True,
+        }))
+    return out
+
+
+def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]:
+    """Add one processed document, its readings, and their mentions."""
+    doc_id = (doc.get("doc_id") or "").strip()
+    if not doc_id:
+        return None
+
+    d_uri = document_uri(doc_id, ns)
+    g.add((d_uri, RDF.type, CRM["E22_Human-Made_Object"]))
+    g.add((d_uri, RDF.type, CRM["E31_Document"]))
+    g.add((d_uri, RDFS.label, Literal(doc_id)))
+    _add_identifier(g, d_uri, "archival_id", doc_id, ns)
+
+    # #208 — the source image, when the deployment knows where it lives.
+    if doc.get("source_url"):
+        g.add((d_uri, SCHEMA["image"], URIRef(str(doc["source_url"]))))
+
+    readings = _readings_of(doc)
+    working_uri: Optional[URIRef] = None
+
+    for key, text, meta in readings:
+        r_uri = reading_uri(doc_id, key, ns)
+        # P128 carries: the document carries the linguistic object. Note what is
+        # NOT here — no symbolic content is ever attached to `d_uri` itself.
+        g.add((d_uri, CRM["P128_carries"], r_uri))
+        g.add((r_uri, RDF.type, CRM["E33_Linguistic_Object"]))
+        g.add((r_uri, RDFS.label, Literal(f"Reading ({meta.get('engine') or key})")))
+        g.add((r_uri, CRM["P190_has_symbolic_content"], _safe_literal(text)))
+        if meta.get("engine"):
+            g.add((r_uri, SDHSS["engine"], Literal(meta["engine"])))
+        if meta.get("model_id"):
+            g.add((r_uri, SDHSS["modelId"], Literal(meta["model_id"])))
+        if meta.get("confidence") is not None:
+            g.add((r_uri, SDHSS["confidence"], Literal(meta["confidence"])))
+        if meta.get("working"):
+            # The reading Agent C read. A working choice among candidates, not
+            # an established text — full attribution is KG-3 (#329).
+            g.add((r_uri, SDHSS["readingRole"], Literal("working")))
+            working_uri = r_uri
+
+    # Mentions belong to the reading they were extracted from. Agent C ran on
+    # the working reading, so only that reading refers to the entities; claiming
+    # the per-engine readings mention them would be a fabrication.
+    entities = ((doc.get("entities") or {}).get("entities")
+                if isinstance(doc.get("entities"), dict)
+                else doc.get("entities")) or []
+    if working_uri is not None:
+        for ent in entities:
+            e_uri = entity_node_to_rdf(g, ent, ns)
+            if e_uri is not None:
+                g.add((working_uri, CRM["P67_refers_to"], e_uri))
+
+    return d_uri
+
+
+def corpus_to_graph(outputs_dir: str | Path, ns: Namespace = AH) -> Graph:
+    """Build the corpus graph from ``data/outputs/*_pipeline.json``.
+
+    Pipeline records are the only complete unit: they carry the readings AND the
+    entities extracted from them. A bare ``*_entities.json`` has no reading to
+    anchor its mentions to, and inventing one would break the model's central
+    honesty rule, so those files are skipped.
+    """
+    g = Graph()
+    _prefix_graph(g)
+    for path in sorted(Path(outputs_dir).rglob("*_pipeline.json")):
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if isinstance(doc, dict):
+            document_to_rdf(g, doc, ns)
+    return g
+
+
+def corpus_to_turtle(outputs_dir: str | Path,
+                     destination: str | Path = "corpus.ttl",
+                     ns: Namespace = AH) -> str:
+    """Serialise the corpus graph to Turtle. Deterministic and re-runnable."""
+    g = corpus_to_graph(outputs_dir, ns)
+    data = g.serialize(format="turtle")
+    destination = Path(destination)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(data, encoding="utf-8")
+    return str(destination)
