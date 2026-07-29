@@ -44,6 +44,8 @@ HLS = Namespace("https://www.hls-dhs-dss.ch/articles/")
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 SCHEMA = Namespace("https://schema.org/")
 OWL = Namespace("http://www.w3.org/2002/07/owl#")
+PROV = Namespace("http://www.w3.org/ns/prov#")
+XSD = Namespace("http://www.w3.org/2001/XMLSchema#")
 
 # Our own namespace. The corpus graph's subject is OUR corpus, so document,
 # reading and entity nodes are minted here — never in an authority's namespace
@@ -62,6 +64,7 @@ PREFIXES = {
     "geo": str(GEO),
     "schema": str(SCHEMA),
     "owl": str(OWL),
+    "prov": str(PROV),
     "ah": str(AH),
     "rdf": str(RDF),
     "rdfs": str(RDFS),
@@ -554,6 +557,8 @@ def _readings_of(doc: dict) -> list[tuple[str, str, dict]]:
             "engine": rec.get("engine") or "",
             "model_id": rec.get("model_id") or "",
             "confidence": rec.get("confidence"),
+            "timing_ms": rec.get("timing_ms"),
+            "ended_at": rec.get("ended_at") or rec.get("timestamp"),
         }))
 
     working = (doc.get("transcription") or "").strip()
@@ -588,9 +593,15 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
 
     readings = _readings_of(doc)
     working_uri: Optional[URIRef] = None
+    readings_by_key: dict[str, URIRef] = {}
 
     for key, text, meta in readings:
         r_uri = reading_uri(doc_id, key, ns)
+        readings_by_key[key] = r_uri
+        # Engine readings are also addressable by their engine slug, which is
+        # how the historian's `chosen` list names them.
+        if meta.get("engine"):
+            readings_by_key.setdefault(_slug(meta["engine"]), r_uri)
         # P128 carries: the document carries the linguistic object. Note what is
         # NOT here — no symbolic content is ever attached to `d_uri` itself.
         g.add((d_uri, CRM["P128_carries"], r_uri))
@@ -605,9 +616,12 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
             g.add((r_uri, SDHSS["confidence"], Literal(meta["confidence"])))
         if meta.get("working"):
             # The reading Agent C read. A working choice among candidates, not
-            # an established text — full attribution is KG-3 (#329).
+            # an established text.
             g.add((r_uri, SDHSS["readingRole"], Literal("working")))
             working_uri = r_uri
+
+        # KG-3: where this reading came from.
+        add_reading_provenance(g, doc_id, r_uri, key, meta, ns)
 
     # Mentions belong to the reading they were extracted from. Agent C ran on
     # the working reading, so only that reading refers to the entities; claiming
@@ -620,6 +634,11 @@ def document_to_rdf(g: Graph, doc: dict, ns: Namespace = AH) -> Optional[URIRef]
             e_uri = entity_node_to_rdf(g, ent, ns)
             if e_uri is not None:
                 g.add((working_uri, CRM["P67_refers_to"], e_uri))
+
+    # KG-3: why the readings were (not) fused, and which one a historian chose.
+    add_fusion_decision(g, doc_id, d_uri, doc.get("a_meta") or {}, ns)
+    add_closest_reading(g, doc_id, doc.get("closest_reading") or {},
+                        readings_by_key, ns)
 
     return d_uri
 
@@ -654,3 +673,205 @@ def corpus_to_turtle(outputs_dir: str | Path,
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(data, encoding="utf-8")
     return str(destination)
+
+
+# ── Reading provenance (KG-3, #329) ──────────────────────────────────────────
+#
+# KG-2 emits the competing readings; this layer says where each one came from.
+# On BAT_664_r_00027 there were seven readings at 105% pairwise CER and the
+# lowest-scored model produced the best text — so the graph must carry all of
+# them with their provenance and let the reader judge, rather than pick one and
+# state it as fact.
+#
+# The model is queryable on purpose:
+#   reading prov:wasGeneratedBy  → recognition run (an activity)
+#   run     prov:used            → the model node (engine + model id)
+# so "everything read by escriptmask" is one hop, and a historian's preference
+# is an explicit editorial act rather than a hidden default.
+#
+# Privacy: only `editor_pseudonym` is ever read from the editorial record. The
+# raw platform id is pseudonymised upstream in path_compare.apply_combined_choice
+# with a per-deployment salt, and no code path here can reach it.
+
+# Keys copied out of the editorial record. An allow-list, not a blocklist: a new
+# raw-id field added upstream must not silently leak into a published graph.
+_SELECTION_KEYS = ("editor_pseudonym", "confirmed_at", "chosen", "combined",
+                   "status")
+
+
+def model_uri(engine: str, model_id: str = "", ns: Namespace = AH) -> URIRef:
+    """URI for a recognition model — its own node so it can be queried."""
+    local = _slug(model_id) or _slug(engine) or "unknown"
+    return ns[f"model/{_slug(engine) or 'unknown'}/{local}"]
+
+
+def recognition_uri(doc_id: str, key: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"recognition/{_slug(doc_id)}/{_slug(key)}"]
+
+
+def agent_uri(pseudonym: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"agent/{_slug(pseudonym)}"]
+
+
+def selection_uri(doc_id: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"selection/{_slug(doc_id)}"]
+
+
+def fusion_decision_uri(doc_id: str, ns: Namespace = AH) -> URIRef:
+    return ns[f"fusion-decision/{_slug(doc_id)}"]
+
+
+def _dt_literal(value) -> Optional[Literal]:
+    """ISO-8601 timestamp as a typed literal, or None. Never fabricated."""
+    if not value:
+        return None
+    return Literal(str(value), datatype=XSD["dateTime"])
+
+
+def add_reading_provenance(g: Graph, doc_id: str, r_uri: URIRef, key: str,
+                           meta: dict, ns: Namespace = AH) -> URIRef:
+    """Attach the recognition run that produced one reading. Returns the run."""
+    engine = meta.get("engine") or ""
+    model_id = meta.get("model_id") or ""
+    run = recognition_uri(doc_id, key, ns)
+
+    g.add((r_uri, PROV["wasGeneratedBy"], run))
+    g.add((run, RDF.type, PROV["Activity"]))
+    g.add((run, RDF.type, SDHSS["RecognitionRun"]))
+    g.add((run, RDFS.label, Literal(f"Recognition run ({engine or key})")))
+
+    if engine:
+        m_uri = model_uri(engine, model_id, ns)
+        g.add((run, PROV["used"], m_uri))
+        g.add((run, PROV["wasAssociatedWith"], m_uri))
+        g.add((r_uri, PROV["wasAttributedTo"], m_uri))
+        g.add((m_uri, RDF.type, PROV["SoftwareAgent"]))
+        g.add((m_uri, RDF.type, SDHSS["RecognitionModel"]))
+        g.add((m_uri, RDFS.label, Literal(model_id or engine)))
+        g.add((m_uri, SDHSS["engine"], Literal(engine)))
+        if model_id:
+            g.add((m_uri, SDHSS["modelId"], Literal(model_id)))
+
+    if meta.get("confidence") is not None:
+        g.add((run, SDHSS["confidence"], Literal(meta["confidence"])))
+    if meta.get("timing_ms") is not None:
+        g.add((run, SDHSS["timingMs"], Literal(meta["timing_ms"])))
+    ended = _dt_literal(meta.get("ended_at") or meta.get("timestamp"))
+    if ended is not None:
+        g.add((run, PROV["endedAtTime"], ended))
+    return run
+
+
+def add_fusion_decision(g: Graph, doc_id: str, d_uri: URIRef, a_meta: dict,
+                        ns: Namespace = AH) -> Optional[URIRef]:
+    """Record how (and whether) the readings were fused — including no-merge.
+
+    *Why* the readings were not merged is part of the scholarly record (#300):
+    a consumer seeing several unblended readings must be able to learn that the
+    pipeline measured a pairwise CER above the no-merge band and deliberately
+    declined to blend them.
+    """
+    strategy = (a_meta or {}).get("fusion_strategy")
+    cer = (a_meta or {}).get("fusion_agreement_cer")
+    if not strategy and cer is None:
+        return None
+
+    dec = fusion_decision_uri(doc_id, ns)
+    g.add((d_uri, SDHSS["hasFusionDecision"], dec))
+    g.add((dec, RDF.type, PROV["Activity"]))
+    g.add((dec, RDF.type, SDHSS["FusionDecision"]))
+
+    merged = True
+    if strategy:
+        g.add((dec, SDHSS["fusionStrategy"], Literal(strategy)))
+        merged = "no-merge" not in str(strategy)
+    g.add((dec, SDHSS["merged"], Literal(merged)))
+    g.add((dec, RDFS.label,
+           Literal("No-merge decision" if not merged else "Fusion decision")))
+    if cer is not None:
+        g.add((dec, SDHSS["agreementCer"], Literal(cer)))
+    if not merged:
+        g.add((dec, SDHSS["decisionReason"], Literal(
+            "measured pairwise CER above the no-merge band; readings kept "
+            "separate rather than blended")))
+    if (a_meta or {}).get("fusion_arbitrated") is not None:
+        g.add((dec, SDHSS["arbitrated"], Literal(a_meta["fusion_arbitrated"])))
+    if (a_meta or {}).get("fusion_llm_skipped") is not None:
+        g.add((dec, SDHSS["llmSkipped"], Literal(a_meta["fusion_llm_skipped"])))
+    return dec
+
+
+def add_closest_reading(g: Graph, doc_id: str, closest: dict,
+                        readings_by_key: dict, ns: Namespace = AH) -> Optional[URIRef]:
+    """Mark the historian's selection as the *closest* reading.
+
+    This is an editorial act, explicitly revisable and explicitly NOT a claim
+    that the text is correct (#326). It is attached to a reading, never to the
+    document, so no triple ever says "the document's text is X".
+
+    One reading chosen verbatim → the marker goes on that reading. Several
+    combined (#313) → a derived reading node carrying ``prov:wasDerivedFrom``
+    each source, because the combined text is a new object, not any of them.
+    """
+    if not closest:
+        return None
+
+    chosen = [c for c in (closest.get("chosen") or []) if c]
+    combined = bool(closest.get("combined"))
+    pseudonym = closest.get("editor_pseudonym") or ""
+
+    sources = [readings_by_key[_slug(c)] for c in chosen
+               if _slug(c) in readings_by_key]
+
+    sel = selection_uri(doc_id, ns)
+    g.add((sel, RDF.type, PROV["Activity"]))
+    g.add((sel, RDF.type, SDHSS["EditorialSelection"]))
+    g.add((sel, RDFS.label, Literal("Editorial selection of the closest reading")))
+    for src in sources:
+        g.add((sel, PROV["used"], src))
+    confirmed = _dt_literal(closest.get("confirmed_at"))
+    if confirmed is not None:
+        g.add((sel, PROV["endedAtTime"], confirmed))
+
+    a_uri = agent_uri(pseudonym, ns) if pseudonym else None
+    if a_uri is not None:
+        g.add((sel, PROV["wasAssociatedWith"], a_uri))
+        g.add((a_uri, RDF.type, PROV["Agent"]))
+        g.add((a_uri, RDF.type, PROV["Person"]))
+        g.add((a_uri, RDFS.label, Literal(pseudonym)))
+        g.add((a_uri, SDHSS["pseudonymous"], Literal(True)))
+
+    if combined or not sources:
+        # A combination is a NEW text: the editorial act genuinely generated it,
+        # and it derives from each reading that went into it.
+        target = reading_uri(doc_id, "closest", ns)
+        g.add((target, RDF.type, CRM["E33_Linguistic_Object"]))
+        g.add((target, RDFS.label, Literal("Reading (historian's combination)")))
+        text = closest.get("text")
+        if text:
+            g.add((target, CRM["P190_has_symbolic_content"], _safe_literal(str(text))))
+        g.add((document_uri(doc_id, ns), CRM["P128_carries"], target))
+        for src in sources:
+            g.add((target, PROV["wasDerivedFrom"], src))
+        g.add((target, PROV["wasGeneratedBy"], sel))
+        if a_uri is not None:
+            g.add((target, PROV["wasAttributedTo"], a_uri))
+    else:
+        # A verbatim choice ENDORSES an existing reading; it does not produce it.
+        # Asserting prov:wasGeneratedBy here would both credit the historian with
+        # the engine's text and make the chain circular (the selection already
+        # prov:used this reading), so the endorsement gets its own predicate and
+        # the reading keeps the recognition run as its sole generator.
+        target = sources[0]
+        g.add((target, SDHSS["selectedIn"], sel))
+
+    # The marker. `closestReading true` is the queryable handle; the status
+    # literal keeps the epistemic caveat travelling with the data.
+    g.add((target, SDHSS["readingRole"], Literal("closest")))
+    g.add((target, SDHSS["closestReading"], Literal(True)))
+    g.add((target, SDHSS["editorialStatus"], Literal(
+        closest.get("status") or "revisable_editorial_choice")))
+    g.add((target, SDHSS["editorialCaveat"], Literal(
+        "closest available reading, selected by a historian; not an assertion "
+        "of correctness and not an independent reference text")))
+    return target
