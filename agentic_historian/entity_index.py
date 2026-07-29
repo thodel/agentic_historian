@@ -63,6 +63,53 @@ class EntityMention:
 
 
 @dataclass
+class AuthorityLink:
+    """One authority identifier for an entity — identity and trust only.
+
+    Hard rule (KG-1, #327): *link, don't copy.* This record carries what
+    **identifies** the entity (``source``/``id``/``uri``) and how far we trust
+    that identification (``confidence``/``conflicts``). It must never carry
+    source payload — no names, life dates, occupations or biographies. A
+    consumer that needs the person's dates follows ``uri``; that is what linked
+    data is for. Source fields may be fetched transiently to *score* a match,
+    but they do not land here.
+
+    ``uri`` is None for sources without a public URI (hgb / hbls / kf / eos).
+    Never invent one — KG-2 (#328) mints local URIs in our own namespace.
+    """
+    source:     str                              # gnd | hls | wikidata | hbls | kf | eos
+    id:         str                              # source-local identifier
+    uri:        str | None = None                # public URI, or None
+    confidence: str = "medium"                   # high | medium | low
+    conflicts:  list[str] = field(default_factory=list)
+
+    def as_dict(self) -> dict:
+        return {"source": self.source, "id": self.id, "uri": self.uri,
+                "confidence": self.confidence, "conflicts": list(self.conflicts)}
+
+
+@dataclass
+class Resolution:
+    """Which sources were consulted for one entity, and which were dark.
+
+    ``queried`` minus ``unavailable`` are the sources that answered. A source
+    that answered but returned nothing is a genuine **no match**; a source in
+    ``unavailable`` told us nothing at all. Keeping them distinct is the point:
+    `[search] sources unavailable: ['hbls']` must never read as "no match".
+    """
+    queried:     list[str] = field(default_factory=list)
+    unavailable: list[str] = field(default_factory=list)
+
+    @property
+    def answered(self) -> list[str]:
+        return [s for s in self.queried if s not in self.unavailable]
+
+    def as_dict(self) -> dict:
+        return {"queried": list(self.queried),
+                "unavailable": list(self.unavailable)}
+
+
+@dataclass
 class EntityEntry:
     """One aggregated entity after de-duplication."""
     name:     str
@@ -71,6 +118,11 @@ class EntityEntry:
     hls:      str = ""
     wikidata: str = ""
     mentions: list[EntityMention] = field(default_factory=list)
+    # KG-1: authority identifiers + the provenance of the resolution that found
+    # them. `links` is the persisted identity record; `resolution` records which
+    # sources were asked, so a dark source stays visible in the data.
+    links:      list[AuthorityLink] = field(default_factory=list)
+    resolution: Resolution | None = None
 
     def add_mention(self, doc_id: str, context: str, page: str = "") -> None:
         dup = any(m.doc_id == doc_id and m.context == context
@@ -79,6 +131,24 @@ class EntityEntry:
             self.mentions.append(EntityMention(doc_id=doc_id,
                                                context=context,
                                                page=page))
+
+    def as_dict(self) -> dict:
+        """Serialise the identity record.
+
+        Only our own data plus authority ids — deliberately no source payload
+        (see :class:`AuthorityLink`). Mention contexts come from *our* corpus.
+        """
+        return {
+            "name": self.name,
+            "type": self.type,
+            "gnd": self.gnd,
+            "hls": self.hls,
+            "wikidata": self.wikidata,
+            "links": [l.as_dict() for l in self.links],
+            "resolution": self.resolution.as_dict() if self.resolution else None,
+            "mentions": [{"doc_id": m.doc_id, "context": m.context, "page": m.page}
+                         for m in self.mentions],
+        }
 
 
 @dataclass
@@ -189,21 +259,178 @@ def build_index(entities_dir: str | Path) -> EntityIndex:
     return EntityIndex(entries=index)
 
 
+# ── authority resolution via the MCP federation (KG-1, #327) ─────────────────
+
+# Public URI templates, keyed by link source. A source ABSENT from this map has
+# no public URI (hbls / kf / eos): its links carry ``uri: None`` plus the
+# source-local id. Do not add a pattern you have not verified — a fabricated
+# URI is worse than none, and KG-2 (#328) mints local URIs for these instead.
+_URI_TEMPLATES: dict[str, str] = {
+    "gnd":      "https://d-nb.info/gnd/{id}",
+    "hls":      "https://hls-dhs-dss.ch/de/articles/{id}",
+    "wikidata": "https://www.wikidata.org/wiki/{id}",
+}
+
+_CONF_ORDER = ("low", "medium", "high")
+
+
+def authority_uri(source: str, ident: str) -> str | None:
+    """Public URI for an authority id, or None if the source has no public URI."""
+    tmpl = _URI_TEMPLATES.get(source)
+    if not tmpl or not ident:
+        return None
+    return tmpl.format(id=ident)
+
+
+def _lower(conf: str) -> str:
+    """Drop one confidence notch (high→medium→low), floored at ``low``."""
+    try:
+        return _CONF_ORDER[max(0, _CONF_ORDER.index(conf) - 1)]
+    except ValueError:
+        return "low"
+
+
+def resolve_entity_links(
+    name: str,
+    *,
+    search=None,
+    limit: int = 20,
+) -> tuple[list[AuthorityLink], Resolution]:
+    """Resolve one entity name against the MCP federation → (links, resolution).
+
+    Persists **identifiers only** (see :class:`AuthorityLink`). Source records
+    are used transiently to cluster and score the match and are then discarded.
+
+    ``search`` is the federated search callable ``(query, limit) -> FederatedResult``;
+    it defaults to the live MCP client and is injected by tests to stay offline.
+
+    Behaviour that matters:
+      - a dead source degrades the result, never the run — it is recorded in
+        ``Resolution.unavailable``, which is *not* the same as "no match";
+      - two candidate ids for the same source are **both** emitted with the
+        confidence lowered and ``multi_<source>`` named — never an arbitrary pick;
+      - sources without a public URI get ``uri=None``, never a fabricated one.
+    """
+    # Lazy imports: keep `build_index`/page generation free of the httpx+pydantic
+    # dependency chain, which offline consumers of this module do not need.
+    from knowledge_hub import mcp_registry as reg
+
+    queried = [s.name for s in reg.sources_for_kind("person") if not s.external]
+
+    if search is None:
+        from utils.mcp_client import search_persons_sync as search
+
+    try:
+        result = search(name, limit)
+    except Exception:
+        # Total federation failure: every source is dark, not "no match".
+        return [], Resolution(queried=queried, unavailable=list(queried))
+
+    resolution = Resolution(queried=queried,
+                            unavailable=list(result.failed_sources))
+    persons = list(result.persons)
+    if not persons:
+        return [], resolution
+
+    from utils import entity_resolver as er
+    clusters = er.resolve(persons)
+
+    target = _norm_name(name)
+    name_ok = any(_norm_name(c.name) == target for c in clusters)
+    matching = [c for c in clusters if _norm_name(c.name) == target] or clusters
+
+    base = matching[0].confidence if len(matching) == 1 else "low"
+    shared: list[str] = []
+    if len(matching) > 1:
+        shared.append("ambiguous_identity")
+    if not name_ok:
+        base = _lower(base)
+        shared.append("name_disagreement")
+
+    # Collect candidate ids per source from the cluster MEMBERS. Reading the
+    # merged cluster instead would hide conflicts: `entity_resolver._merge()`
+    # keeps the first id it sees, which is precisely the arbitrary pick we must
+    # not make.
+    by_source: dict[str, list[str]] = {}
+
+    def _add(src: str, ident) -> None:
+        if not ident:
+            return
+        by_source.setdefault(src, [])
+        if str(ident) not in by_source[src]:
+            by_source[src].append(str(ident))
+
+    for c in matching:
+        for m in c.members:
+            _add("gnd", m.gnd_id)
+            _add("hls", m.hls_id)
+            _add("wikidata", m.wikidata_id)
+            _add(m.source, m.pid)      # source-local id (hbls/kf/eos → uri None)
+
+    links: list[AuthorityLink] = []
+    for src in sorted(by_source):
+        idents = by_source[src]
+        contested = len(idents) > 1
+        conf = _lower(base) if contested else base
+        conflicts = shared + ([f"multi_{src}"] if contested else [])
+        for ident in idents:
+            links.append(AuthorityLink(
+                source=src, id=ident, uri=authority_uri(src, ident),
+                confidence=conf, conflicts=list(conflicts),
+            ))
+    return links, resolution
+
+
+def resolve_index(
+    index: EntityIndex,
+    *,
+    search=None,
+    types: tuple[str, ...] = ("PERSON",),
+    limit: int = 20,
+) -> EntityIndex:
+    """Attach authority links to every entry of ``types``, in place.
+
+    Scoped to PERSON by default: the MCP client exposes ``search_persons`` and
+    ``search_fulltext`` but no place/org search, so PLACE and ORG cannot yet be
+    resolved against the federation without inventing a lookup.
+    """
+    for entry in index.entries.values():
+        if entry.type.upper() not in types:
+            continue
+        entry.links, entry.resolution = resolve_entity_links(
+            entry.name, search=search, limit=limit)
+        # Mirror onto the flat fields the slugs/pages use — but only when the id
+        # is uncontested; a conflicted id must not be promoted to "the" id.
+        for src in ("gnd", "hls", "wikidata"):
+            cand = [l for l in entry.links if l.source == src]
+            if len(cand) == 1 and not getattr(entry, src):
+                setattr(entry, src, cand[0].id)
+    return index
+
+
+def write_index_json(index: EntityIndex, path: str | Path) -> Path:
+    """Persist the identity records as ``entity_index.json`` (deterministic)."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {slug: entry.as_dict()
+               for slug, entry in sorted(index.entries.items())}
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8")
+    return path
+
+
 # ── page generation ───────────────────────────────────────────────────────────
 
-_AUTH_TEMPLATES = [
-    ("gnd",      "GND",      "https://d-nb.info/gnd/{v}"),
-    ("hls",      "HLS",      "https://hls-dhs-dss.ch/de/articles/{0}"),
-    ("wikidata", "Wikidata", "https://www.wikidata.org/wiki/{v}"),
-]
+_AUTH_LABELS = [("gnd", "GND"), ("hls", "HLS"), ("wikidata", "Wikidata")]
 
 
 def _authority_links(entry: EntityEntry) -> str:
     parts = []
-    for key, label, tmpl in _AUTH_TEMPLATES:
+    for key, label in _AUTH_LABELS:
         v = getattr(entry, key, None) or ""
-        if v:
-            parts.append(f"[{label}]({tmpl.replace('{v}', v).replace('{0}', v)})")
+        uri = authority_uri(key, v) if v else None
+        if uri:
+            parts.append(f"[{label}]({uri})")
     return " · ".join(parts)
 
 
