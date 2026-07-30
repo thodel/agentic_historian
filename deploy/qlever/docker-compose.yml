@@ -1,0 +1,39 @@
+# QLever for the Agentic Historian corpus graph (KG-4, #330).
+#
+#   docker compose run --rm index     # build the index from corpus.ttl
+#   docker compose up -d qlever       # serve it
+#
+# `index` is a one-shot job; `qlever` is the long-running server. Both mount
+# ./data, which holds corpus.ttl and the generated index files.
+services:
+  index:
+    image: adfreiburg/qlever:latest
+    profiles: ["tools"]          # never started by `up`; run explicitly
+    volumes:
+      - ./data:/data
+    working_dir: /data
+    entrypoint: ["bash", "-c"]
+    command: >
+      IndexBuilderMain -i ah-corpus -f corpus.ttl -F ttl
+      -s ah-corpus.settings.json
+
+  qlever:
+    image: adfreiburg/qlever:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    working_dir: /data
+    # Bind to localhost only — nginx terminates TLS and proxies in. The
+    # container port is never published on the public interface directly.
+    ports:
+      - "127.0.0.1:7019:7019"
+    entrypoint: ["bash", "-c"]
+    command: >
+      ServerMain -i ah-corpus -p 7019 -m 2G -c 1G -a "$${QLEVER_ACCESS_TOKEN:-ah-corpus-admin}"
+    healthcheck:
+      test: ["CMD", "bash", "-c",
+             "curl -sf 'http://localhost:7019/?query=SELECT%20*%20WHERE%20%7B%3Fs%20%3Fp%20%3Fo%7D%20LIMIT%201' > /dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
