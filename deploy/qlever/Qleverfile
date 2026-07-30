@@ -1,0 +1,31 @@
+# Qleverfile — Agentic Historian corpus graph (KG-4, #330)
+#
+# Used by the `qlever` CLI (pip install qlever) and by docker-compose.yml.
+# The corpus .ttl is produced by:
+#     python -m knowledge_hub.corpus_build --out build/corpus.ttl
+
+[data]
+NAME         = ah-corpus
+# The build step writes exactly one Turtle file; QLever indexes it as-is.
+GET_DATA_CMD = echo "corpus.ttl is produced by knowledge_hub.corpus_build"
+DESCRIPTION  = Agentic Historian corpus: documents, competing readings with PROV provenance, and the entities they mention.
+FORMAT       = ttl
+
+[index]
+INPUT_FILES     = corpus.ttl
+CAT_INPUT_FILES = cat corpus.ttl
+# The corpus is small (thousands of triples, not billions); modest limits are
+# plenty and keep the container well inside tei's memory budget.
+SETTINGS_JSON   = { "ascii-prefixes-only": false, "num-triples-per-batch": 100000 }
+
+[server]
+PORT            = 7019
+ACCESS_TOKEN    = ah-corpus-admin
+MEMORY_FOR_QUERIES = 2G
+CACHE_MAX_SIZE     = 1G
+# Read-only: no update endpoint is exposed. Writes would require the access
+# token, which stays on the host and is never proxied by nginx (see
+# nginx-qlever.conf, which allows GET/POST of SELECT queries only).
+
+[ui]
+UI_PORT = 7020
