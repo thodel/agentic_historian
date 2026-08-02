@@ -203,3 +203,53 @@ def test_fuse_single_candidate_is_unchanged():
     from fusion import fuse
     fr = fuse([{"engine": "trocr", "text": "eine lesart", "error": "", "confidence": 0.9}])
     assert fr.text == "eine lesart" and "no-merge" not in fr.strategy
+
+
+# ── the blind pass must not overwrite pass 2's real criteria ─────────────────
+
+def _er_two_candidates():
+    """A no-merge EnsembleResult with two voteable candidates (dict recognitions)."""
+    from types import SimpleNamespace
+    recs = [{"engine": "trocr", "model_id": "trocr-kurrent-xvi-xvii", "text": "erste lesart"},
+            {"engine": "trocr", "model_id": "trocr-medieval-escriptmask", "text": "zweite lesart"}]
+    return SimpleNamespace(no_merge=True, recognitions=recs, selected=recs[0],
+                           ran=[], max_pairwise_cer=1.02)
+
+
+def test_the_blind_pass_does_not_overwrite_real_criteria(tmp_path, monkeypatch):
+    """Ensemble pass 1 runs blind (SourceCriteria() — all None) and pass 2 runs with
+    Agent B's criteria. Order is not guaranteed across resumes, and last-write-wins
+    would let the placeholder stand as the preference bucket (#332/#335)."""
+    import config
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+    import orchestrator
+    from agent_a.model_selector import SourceCriteria
+    from runstate import RunState
+
+    real = SourceCriteria(script="kurrent", century=16, lang="de")
+    blind = SourceCriteria()
+    er = _er_two_candidates()
+
+    orchestrator._record_no_merge_vote("d-blind-order", "p.jpg", er, real)
+    orchestrator._record_no_merge_vote("d-blind-order", "p.jpg", er, blind)
+
+    crit = RunState.load_or_new("d-blind-order").gate_decisions["gate2_context"]["p.jpg"]["criteria"]
+    assert crit["script"] == "kurrent" and crit["century"] == 16
+
+
+def test_real_criteria_still_replace_a_blind_placeholder(tmp_path, monkeypatch):
+    """The normal order: pass 1 blind, then pass 2 informative. The guard must not
+    freeze the placeholder in place."""
+    import config
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+    import orchestrator
+    from agent_a.model_selector import SourceCriteria
+    from runstate import RunState
+
+    er = _er_two_candidates()
+    orchestrator._record_no_merge_vote("d-blind-then-real", "p.jpg", er, SourceCriteria())
+    orchestrator._record_no_merge_vote("d-blind-then-real", "p.jpg", er,
+                                       SourceCriteria(script="kurrent", century=16, lang="de"))
+
+    crit = RunState.load_or_new("d-blind-then-real").gate_decisions["gate2_context"]["p.jpg"]["criteria"]
+    assert crit["script"] == "kurrent"

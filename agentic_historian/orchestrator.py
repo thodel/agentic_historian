@@ -770,15 +770,24 @@ def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None) -> None:
                          for rec, pick in ranked}
         except Exception:                              # ranking is best-effort context
             ranks, local_ids = {}, {}
-        state.gate_decisions.setdefault("gate2_context", {})[page or "_"] = {
+        crit = {
+            "script": getattr(criteria, "script", None),
+            "century": getattr(criteria, "century", None),
+            "lang": getattr(criteria, "lang", None),
+        }
+        ctx_all = state.gate_decisions.setdefault("gate2_context", {})
+        prev = (ctx_all.get(page or "_") or {}).get("criteria") or {}
+        # Pass 1 runs BLIND (SourceCriteria() — every field None); pass 2 runs with
+        # Agent B's real criteria. Last-write-wins would let the blind placeholder
+        # stand whenever pass 2 is skipped, filing the preference under
+        # (None, None, None). Absence of knowledge must not overwrite knowledge.
+        if not any(crit.values()) and any(prev.values()):
+            crit = prev
+        ctx_all[page or "_"] = {
             "ranks": ranks,
             "local_ids": local_ids,
             "max_pairwise_cer": getattr(er, "max_pairwise_cer", None),
-            "criteria": {
-                "script": getattr(criteria, "script", None),
-                "century": getattr(criteria, "century", None),
-                "lang": getattr(criteria, "lang", None),
-            },
+            "criteria": crit,
         }
         state.save()
         logger.info(f"[Orchestrator] {page}: recorded {len(paths)} no-merge "
