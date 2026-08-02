@@ -163,6 +163,41 @@ def record_selection(state, paths: dict, chosen: list, *, voter: str = "") -> li
     return _record(state, paths, chosen=chosen, voter=voter, rejected=False)
 
 
+def _criteria_for(state, ctx: dict) -> dict:
+    """The bucket a preference is filed under, best available source first.
+
+    The recorded context is legitimately empty in a common case: ensemble pass 1
+    runs BLIND (no description exists yet, so ``SourceCriteria()`` has every field
+    None), and when the #299 criteria re-run is skipped that placeholder is all
+    ``gate2_context`` ever holds. Agent B's description is still on the RunState and
+    derives the real script/century, so derive rather than file the preference under
+    ``(None, None, None)`` — an unbucketed preference teaches #335 one global
+    average instead of "which engine wins for Kurrent 16th c.", which is the entire
+    point of the measurement.
+
+    Observed live on prefs-test-BAT664: context ``(None, None, None)`` while the
+    description derived ``kurrent/15/de``.
+    """
+    crit = ctx.get("criteria") or {}
+    if any(crit.values()):
+        return crit
+    pinned = getattr(state, "criteria", None) or {}
+    if any(pinned.get(k) for k in ("script", "century", "lang")):
+        return {k: pinned.get(k) for k in ("script", "century", "lang")}
+    try:
+        desc = (getattr(state, "artifacts", None) or {}).get("description") or {}
+        if desc:
+            from agent_a.model_selector import SourceCriteria
+            c = SourceCriteria.from_agent_b_and_json(
+                desc.get("source_description", "") or "", desc.get("source_json"))
+            derived = {"script": c.script, "century": c.century, "lang": c.lang}
+            if any(derived.values()):
+                return derived
+    except Exception as e:                               # never break the click
+        logger.warning(f"[prefs] criteria fallback failed: {e}")
+    return crit
+
+
 def _record(state, paths: dict, *, chosen: list, voter: str, rejected: bool) -> list:
     """Shared writer for accept and reject, so the two cannot drift apart."""
     try:
@@ -207,7 +242,7 @@ def _record(state, paths: dict, *, chosen: list, voter: str, rejected: bool) -> 
                 rejected=rejected,
                 auto_pick=engine_model_of(auto_all.get(page or "_", "") or ""),
                 max_pairwise_cer=ctx.get("max_pairwise_cer"),
-                criteria=ctx.get("criteria") or {},
+                criteria=_criteria_for(state, ctx),
                 voter=pseudonym(voter),
             )
             _append(ev)

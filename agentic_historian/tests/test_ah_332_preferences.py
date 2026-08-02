@@ -242,3 +242,61 @@ def test_confirming_on_the_card_writes_a_preference_event():
     assert len(evs) == 1
     assert evs[0].chosen == ["trocr/trocr-medieval-escriptmask"]
     assert evs[0].voter not in ("999", "")                     # pseudonymised
+
+
+# ── the bucket must never be the blind placeholder (live bug, prefs-test-BAT664) ──
+
+BLIND = {"script": None, "century": None, "lang": None}
+
+
+def _blind_state(doc_id="d-blind"):
+    """A RunState as pass 1 leaves it when the #299 criteria re-run is SKIPPED:
+    gate2_context holds the blind placeholder, but Agent B's description is there."""
+    st = _state(doc_id)
+    st.gate_decisions["gate2_context"][PAGE]["criteria"] = dict(BLIND)
+    st.artifacts["description"] = {
+        "source_description": "Kurrentschrift, 15. Jahrhundert, deutsch",
+        "source_json": {"script": "kurrent", "century": 15, "lang": "de"},
+    }
+    return st
+
+
+def test_a_blind_context_falls_back_to_the_description_criteria():
+    """Observed live: context (None, None, None) while the description derived
+    kurrent/15/de. A preference filed under the placeholder teaches #335 one global
+    average instead of a per-script/century strength — the whole point of #326."""
+    preferences.record_selection(_blind_state(), PATHS, [ESCRIPT], voter="1")
+
+    ev = _events()[0]
+    assert any(ev.criteria.values()), "bucket is the blind placeholder"
+    assert ev.criteria["script"] == "kurrent"
+    assert ev.criteria["century"] == 15
+
+
+def test_a_real_context_is_never_replaced_by_the_fallback():
+    """When pass 2 did run, its criteria are authoritative — the description must
+    not second-guess them."""
+    st = _state()
+    st.artifacts["description"] = {
+        "source_description": "Bastarda, 14. Jahrhundert",
+        "source_json": {"script": "bastarda", "century": 14, "lang": "la"},
+    }
+    preferences.record_selection(st, PATHS, [ESCRIPT], voter="1")
+
+    assert _events()[0].criteria == {"script": "kurrent", "century": 16, "lang": "de"}
+
+
+def test_a_state_with_no_description_still_records_the_preference():
+    """No criteria anywhere is a real state — the click must still be logged, just
+    unbucketed. Losing the preference would be worse than losing the bucket."""
+    st = _blind_state("d-nodesc")
+    st.artifacts.pop("description", None)
+    evs = preferences.record_selection(st, PATHS, [ESCRIPT], voter="1")
+
+    assert len(evs) == 1 and evs[0].criteria == BLIND
+
+
+def test_a_broken_description_does_not_break_the_click():
+    st = _blind_state("d-broken")
+    st.artifacts["description"] = {"source_description": None, "source_json": "not-a-dict"}
+    assert len(preferences.record_selection(st, PATHS, [ESCRIPT], voter="1")) == 1
