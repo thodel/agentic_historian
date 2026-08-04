@@ -42,11 +42,29 @@ class EnsembleResult:
     max_pairwise_cer: float = 0.0                      # final disagreement measure
     ran: list = field(default_factory=list)            # ModelPicks actually run
     added: list = field(default_factory=list)          # ModelPicks the loop added
-    no_merge: bool = False                             # #300: selected, not blended
-    selected: Any = None                               # #313: the winning candidate
 
 
 RecognizeFn = Callable[[ModelPick, Any], Any]          # (pick, image) -> RecognitionResult
+
+def _make_selection_provenance(recognitions, best_rec, max_cer, threshold):
+    """Build a selection provenance explaining why we picked one candidate."""
+    from fusion import Span
+    best_text = getattr(best_rec, "text", "") or ""
+    best_engine = getattr(best_rec, "engine", "?")
+    best_model = getattr(best_rec, "model_id", "?")
+    best_score = getattr(best_rec, "model_score", 0.0)
+    span = Span(
+        text=best_text,
+        source="selection",
+        backers=[f"{best_engine}/{best_model} (score={best_score:.2f})"],
+    )
+    # Annotate provenance with selection metadata for debugging/display
+    span.max_pairwise_cer = max_cer
+    span.no_merge_threshold = threshold
+    return [span]
+
+
+
 
 
 # ── model planning (ranked pool spanning engines) ────────────────────────────
@@ -135,66 +153,11 @@ def _max_pairwise_cer(recognitions: list) -> float:
 
 # ── the ensemble ──────────────────────────────────────────────────────────────
 
-def select_best(recognitions: list, ran: list):
-    """The single best candidate at high disagreement (#300) → ``(rec, pick)``.
-
-    Ranked by the pick's **source-match score** — how well that model fits the
-    script/century Agent B identified — and NOT by length: the garbage candidates
-    on BAT_664 were the *longest* ones (kraken-mccatmus 586 chars of noise vs
-    TrOCR's 645 of real text; length says nothing).
-
-    The VLM is deliberately ranked as a generalist with **no** source match.
-    ``plan_models`` hands it a hardcoded ``1.0``, which reads like a perfect score
-    but only means "always run the VLM first" — it is not a match score, and no
-    script/century selector ever produced it. Ranking on it as-is would make the
-    VLM win *every* selection, and the VLM is precisely the engine that
-    repetition-collapsed into "uuuu" on u-17__ and "Infer fremdlichs grüe" on
-    BAT_664. It wins here only when nothing else produced text.
-
-    Candidates that errored or came back empty are not eligible.
-    """
-    ranked = rank_candidates(recognitions, ran)
-    return ranked[0] if ranked else None
-
-
-def rank_candidates(recognitions: list, ran: list) -> list:
-    """Eligible ``(rec, pick)`` pairs, best first — the selector's own ordering.
-
-    Exposed separately so consumers can record **the rank the selector actually
-    used** (#332's ``auto_rank``) instead of re-deriving it. A re-derivation would
-    drift from this function the moment either changes, and the whole point of the
-    preference log is to measure what the selector did — a metric computed from a
-    copy of the ranking logic can quietly lie about that.
-    """
-    # _text_of returns (text, error) — reuse it rather than re-deriving the shape.
-    eligible = []
-    for rec, pick in zip(recognitions, ran):
-        text, err = _text_of(rec)
-        if text.strip() and not err:
-            eligible.append((rec, pick))
-
-    def rank(item):
-        rec, pick = item
-        engine = getattr(pick, "engine", "") or ""
-        # VLM's 1.0 is a placeholder, not a match — see select_best's docstring.
-        match = 0.0 if engine == "vlm" else float(getattr(pick, "score", 0.0) or 0.0)
-        return (match, float(_confidence_of(rec) or 0.0))
-
-    return sorted(eligible, key=rank, reverse=True)
-
-
-def _confidence_of(rec) -> float:
-    if isinstance(rec, dict):
-        return rec.get("confidence", 0.0) or 0.0
-    return getattr(rec, "confidence", 0.0) or 0.0
-
-
 def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                        min_engines: int = 3, max_loops: int = 2,
                        agreement_cer: float = 0.30, llm_fn=None,
                        per_engine: int = 3,
-                       picks: Optional[list] = None,
-                       no_merge_cer: Optional[float] = None) -> EnsembleResult:
+                       picks: Optional[list] = None) -> EnsembleResult:
     """Run ≥ ``min_engines`` recognitions on one page, then keep adding the next
     ranked model while the candidates disagree (max pairwise CER >
     ``agreement_cer``), up to ``max_loops`` extra loops. Fuse all candidates.
@@ -202,22 +165,8 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     ``recognize_fn(pick, image)`` returns a RecognitionResult (or None / raises on
     failure — both are tolerated; a failed pick is skipped and, during the initial
     phase, backfilled from the pool so we still reach ``min_engines`` usable runs).
-
-    **No-merge band (#300):** above ``no_merge_cer`` the candidates are not fused —
-    the best single one is returned verbatim. Majority-voting assumes engines make
-    independent errors around a shared signal; when they genuinely disagree there
-    is no shared signal to recover, and the vote returns noise. Measured on BAT_664
-    at 70% pairwise CER: TrOCR read real Early New High German and the fused text
-    was that reading with its good parts voted out by three garbage candidates —
-    worse than the best single input. Averaging is only valid when the inputs agree.
     """
     from fusion import fuse
-    if no_merge_cer is None:
-        try:
-            import config
-            no_merge_cer = float(getattr(config, "ENSEMBLE_NO_MERGE_CER", 0.35))
-        except Exception:                               # pragma: no cover — defensive
-            no_merge_cer = 0.35
 
     pool = list(picks) if picks is not None else plan_models(criteria, per_engine=per_engine)
     recognitions: list = []
@@ -232,6 +181,11 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
             return False
         if res is None:
             return False
+        # tag with the model_selector score so the no-merge band can rank by it
+        try:
+            res.model_score = pick.score
+        except (AttributeError, TypeError):
+            pass
         recognitions.append(res)
         ran.append(pick)
         return True
@@ -255,22 +209,35 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         logger.info(f"[ensemble] loop {loops}: added {pick.engine}/{pick.model_id}, "
                     f"max pairwise CER now {max_cer:.2%}")
 
-    # No-merge band (#300): at this much disagreement there is no consensus to
-    # find, so select rather than blend.
-    if len(recognitions) >= 2 and max_cer > no_merge_cer:
-        best = select_best(recognitions, ran)
-        if best is not None:
-            rec, pick = best
-            why = (f"no-merge: max pairwise CER {max_cer:.1%} > {no_merge_cer:.1%} — "
-                   f"selected {pick.engine}/{pick.model_id} verbatim "
-                   f"(match score {getattr(pick, 'score', 0.0):.2f}); not blended")
-            logger.info(f"[ensemble] {why}")
-            return EnsembleResult(
-                recognitions=recognitions, text=_text_of(rec)[0], provenance=[why],
-                loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
-                no_merge=True, selected=rec,
-            )
+    # ── no-merge band (#300) ─────────────────────────────────────────────
+    # When candidates disagree too much (max pairwise CER > ENSEMBLE_NO_MERGE_CER),
+    # majority-voting destroys good signal (3 garbage votes outvote 1 good reading).
+    # Instead, select the single best candidate by model_selector score.
+    try:
+        from agentic_historian.config import ENSEMBLE_NO_MERGE_CER as _NO_MERGE_CER
+    except ImportError:
+        _NO_MERGE_CER = 0.35
 
+    if max_cer > _NO_MERGE_CER:
+        _usable = [(r, getattr(r, "model_score", 0.0)) for r in recognitions if getattr(r, "text", "")]
+        if _usable:
+            _best_rec, _best_score = max(_usable, key=lambda x: (x[1], -len(x[0].text)))
+            logger.info(
+                f"[ensemble] no-merge band (CER {max_cer:.1%} > {_NO_MERGE_CER:.1%}): "
+                f"selecting {getattr(_best_rec, 'engine', '?')}/{getattr(_best_rec, 'model_id', '?')} "
+                f"(score={_best_score:.2f}) over {len(recognitions) - 1} other(s)"
+            )
+            _provenance = _make_selection_provenance(recognitions, _best_rec, max_cer, _NO_MERGE_CER)
+            return EnsembleResult(
+                recognitions=recognitions,
+                text=getattr(_best_rec, "text", ""),
+                provenance=_provenance,
+                loops=loops,
+                max_pairwise_cer=max_cer,
+                ran=ran,
+                added=added,
+            )
+    # below threshold or no usable candidates → normal merge
     fr = fuse(recognitions, llm_fn=llm_fn)
     return EnsembleResult(
         recognitions=recognitions, text=fr.text, provenance=fr.provenance,

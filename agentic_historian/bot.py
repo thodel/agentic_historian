@@ -49,6 +49,101 @@ def _job_status(phase: str) -> str:
 # via asyncio.to_thread (#148). Commands/gate clicks enqueue and await a future,
 # so they never race and the event loop stays responsive.
 
+# ── Verbose progress — live Discord status board (#289) ─────────────────────
+
+class _ProgressReporter:
+    """Thread-safe live board: posts ONE message, edits it as steps arrive.
+
+    Events may fire from a worker thread (via on_phase callback from the
+    orchestrator). Thread-safe methods marshal to the event loop via
+    ``call_soon_threadsafe``.
+    """
+
+    # Throttle: at most one edit per this many seconds.
+    _EDIT_THROTTLE_S = 2.0
+
+    def __init__(self, channel_id: int, doc_id: str):
+        self._channel_id = channel_id
+        self._doc_id = doc_id
+        self._events: list[_PE] = []
+        self._msg: discord.Message | None = None   # set after first send
+        self._loop: asyncio.AbstractEventLoop | None = None
+        self._edit_scheduled = False
+        self._last_edit: float = 0.0
+        self._final_state = None   # cached board for final flush
+        self._lock = asyncio.Lock()   # protects _events list
+        self._log = logger.bind(component="progress_reporter")
+
+    # ── public: called from any thread (worker thread via on_phase callback) ──
+    def on_phase(self, ev: _PE) -> None:
+        """Thread-safe event ingestion.  Must be callable from a worker thread."""
+        loop = None
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            # no running loop — can't marshal, drop silently
+            return
+        # Marshal to the event loop
+        loop.call_soon_threadsafe(self._ingest, ev)
+
+    def _ingest(self, ev: _PE) -> None:
+        """Ingress point always called ON the event loop."""
+        # Store event
+        def _do_ingest():
+            self._events.append(ev)
+            self._final_state = format_board(self._events, self._doc_id)
+            self._schedule_edit()
+        # _ingest is called from call_soon_threadsafe so we're on the loop already
+        self._events.append(ev)
+        self._final_state = format_board(self._events, self._doc_id)
+        self._schedule_edit()
+
+    def _schedule_edit(self) -> None:
+        """Throttle: skip if an edit was recently scheduled."""
+        import time
+        now = time.monotonic()
+        if self._edit_scheduled:
+            return
+        if now - self._last_edit < self._EDIT_THROTTLE_S:
+            # Re-schedule a deferred edit
+            self._edit_scheduled = True
+            loop = asyncio.get_running_loop()
+            loop.call_later(self._EDIT_THROTTLE_S, self._flush_edit)
+            return
+        self._flush_edit()
+
+    async def _flush_edit(self) -> None:
+        """Send the first message or edit the existing one (on the event loop)."""
+        self._edit_scheduled = False
+        import time
+        self._last_edit = time.monotonic()
+        board = self._final_state
+        try:
+            if self._msg is None:
+                # First message: POST
+                chan = bot.get_channel(self._channel_id)
+                if chan is None:
+                    self._log.warning("channel {cid} not found — progress dropped",
+                                      cid=self._channel_id)
+                    return
+                self._msg = await chan.send(board)
+            else:
+                # Subsequent edits
+                await self._msg.edit(content=board)
+        except Exception as exc:
+            self._log.warning("Discord progress update failed: {exc}", exc=exc)
+
+    async def flush_final(self) -> None:
+        """Force-flush the final board state (called when pipeline completes)."""
+        if self._msg is None:
+            return
+        try:
+            await self._msg.edit(content=self._final_state or "")
+        except Exception as exc:
+            self._log.warning("final flush edit failed: {exc}", exc=exc)
+
+
+# ── Module-level job queue ─────────────────────────────────────────────────────
 _job_queue: "asyncio.Queue" = asyncio.Queue()
 _worker_task = None
 
@@ -126,14 +221,18 @@ def _ensure_worker() -> None:
         _worker_task = loop.create_task(_worker())
 
 
-async def _run_blocking(ctx, func, *args, **kwargs):
+async def _run_blocking(ctx, func, *args, on_phase=None, **kwargs):
     """Enqueue a blocking job and await its result.
 
     Jobs are serialised through one worker (no per-user race, nothing dropped);
     the event loop stays responsive because the blocking call runs in a thread.
+    Passing ``on_phase`` wires a _ProgressReporter into the pipeline.
     """
     _ensure_worker()
     fut = asyncio.get_running_loop().create_future()
+    # Merge on_phase into kwargs so run_full_pipeline picks it up
+    if on_phase is not None:
+        kwargs = {**kwargs, "on_phase": on_phase}
     await _job_queue.put((func, args, kwargs, fut))
     ahead = _job_queue.qsize()
     if ahead > 1 and ctx is not None:
@@ -142,27 +241,6 @@ async def _run_blocking(ctx, func, *args, **kwargs):
         except Exception:
             pass
     return await fut
-
-
-async def _run_with_board(ctx, channel, func, *args, **kwargs):
-    """Run a pipeline job with a live Discord progress board (#289, V-3).
-
-    Builds a ProgressReporter bound to ``channel`` (the invoking channel for a
-    command, or VERBOSE_PROGRESS_CHANNEL_ID for a background run), passes its
-    thread-safe ``emit`` into the orchestrator as ``on_phase``, and always closes
-    it. Flag off / no channel → no reporter, ``on_phase`` unset, behaviour
-    byte-identical. Reporting never affects the job's result or errors.
-    """
-    import progress_reporter
-    doc_id = Path(str(args[0])).stem if args else "run"
-    reporter = progress_reporter.make_reporter(channel, doc_id)
-    if reporter is not None:
-        kwargs = {**kwargs, "on_phase": reporter.emit}
-    try:
-        return await _run_blocking(ctx, func, *args, **kwargs)
-    finally:
-        if reporter is not None:
-            await reporter.close()
 
 
 # ── Hot-folder watch ────────────────────────────────────────────────────────
@@ -254,9 +332,20 @@ async def _process_hot_queue() -> None:
         try:
             if action == "run":
                 logger.info(f"[hot-watch] new file → run_full_pipeline({stem})")
-                _chan = (bot.get_channel(config.VERBOSE_PROGRESS_CHANNEL_ID)
-                         if config.VERBOSE_PROGRESS_CHANNEL_ID else None)
-                await _run_with_board(None, _chan, run_full_pipeline, path)
+                # Hot-folder has no invoking context — use fallback channel if set
+                hot_reporter: _ProgressReporter | None = None
+                if config.ENABLE_VERBOSE_PROGRESS and config.VERBOSE_PROGRESS_CHANNEL_ID:
+                    try:
+                        hot_reporter = _ProgressReporter(
+                            channel_id=config.VERBOSE_PROGRESS_CHANNEL_ID,
+                            doc_id=stem,
+                        )
+                    except Exception:
+                        pass
+                await _run_blocking(
+                    None, run_full_pipeline, path,
+                    on_phase=hot_reporter.on_phase if hot_reporter else None,
+                )
             else:  # reprocess
                 logger.info(f"[hot-watch] updated file → reprocess({stem})")
                 import ingest as _ingest
@@ -338,47 +427,6 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
         # Persist the message id so the view survives a bot restart (#150).
         if msg is not None:
             persistent_views.store_message_id(state, "gate1", msg.id)
-    except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
-
-
-@bot.slash_command(
-    name="votes",
-    description="Show the Gate-2 voting card for a doc whose engines disagreed (no-merge)",
-)
-async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
-    """Posts the Gate-2 voting card for a document that went through a no-merge
-    decision (#300/#313). At high engine disagreement the pipeline selects by
-    model-MATCH score — a prior on fit-to-source, not output quality (on BAT_664
-    the 0.20-scored engine read better than the 0.80 one) — so the reading is a
-    human call. #313's recording half stored the candidates as ``paths``; this
-    surfaces them for a vote. A vote overrides the auto-pick through the existing
-    voting → apply_path_choice path, and the message id is persisted so the buttons
-    survive a bot restart (#150).
-
-    Pull-based on purpose: the headless grouped pipeline runs in a worker thread,
-    and posting an interactive button view from off-loop is the risky path. The
-    historian sees the no-merge on the live board (#289) and runs this.
-    """
-    await ctx.defer()
-    try:
-        import path_compare
-        import persistent_views
-        import ingest
-        from runstate import RunState
-        state = RunState.load_or_new(doc_id)
-        paths = state.artifacts.get("paths") or {}
-        if len([t for t in paths.values() if (t or "").strip()]) < 2:
-            await ctx.followup.send(
-                f"Keine Abstimmung für `{doc_id}` — die Engines waren sich einig "
-                f"(oder der Lauf lief ohne No-Merge-Entscheidung durch)."
-            )
-            return
-        runners = ingest.build_stage_runners(state) if config.AUTO_RESUME_AFTER_GATE else None
-        view = path_compare.build_view(state, paths, runners=runners)
-        msg = await ctx.followup.send(path_compare.render_vote_card(state, paths), view=view)
-        if msg is not None:
-            persistent_views.store_message_id(state, "gate2", msg.id)
     except Exception as e:
         await ctx.followup.send(f"❌ Error: {e}")
 
@@ -469,8 +517,20 @@ async def run_pipeline(
     if not fp.exists():
         await ctx.followup.send(f"❌ File not found: {filename}")
         return
+    # Verbose progress — post a live board in the invoking channel
+    reporter: _ProgressReporter | None = None
+    if config.ENABLE_VERBOSE_PROGRESS:
+        try:
+            reporter = _ProgressReporter(
+                channel_id=int(ctx.channel.id),
+                doc_id=Path(filename).stem,
+            )
+        except Exception:
+            pass  # never crash the pipeline over reporting
     try:
-        result = await _run_with_board(ctx, ctx.channel, run_full_pipeline, fp)
+        result = await _run_blocking(
+            ctx, run_full_pipeline, fp, on_phase=reporter.on_phase if reporter else None,
+        )
         if result is None:
             return
         doc_id = result.get("doc_id", Path(filename).stem)
@@ -486,6 +546,12 @@ async def run_pipeline(
     except Exception as e:
         logger.exception("Pipeline error")
         await ctx.followup.send(f"❌ Error: {e}")
+    finally:
+        if reporter is not None:
+            try:
+                await reporter.flush_final()
+            except Exception:
+                pass
 
 
 @bot.slash_command(name="run_agent_a", description="Run Agent A (HTR) only")
