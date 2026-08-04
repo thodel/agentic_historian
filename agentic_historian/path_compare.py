@@ -51,7 +51,72 @@ class DisagreementSpan:
 
 
 def _label_for(path: str) -> str:
-    return LABELS.get(path, path.replace("_", " ").title())
+    """Human-readable label for a path.
+
+    Two shapes arrive here: the canonical short names (``"vlm"``, ``"kraken"``) and
+    Gate-2 candidate labels (``"<page>:<engine>/<model>"``, #313). The old fallback
+    title-cased and underscore-stripped whatever it was given, which is right for
+    ``"vlm-legacy"`` and wrong for an identifier — live on tei every button read
+
+        Bat 664 R 00027.Jpg:Trocr/Trocr-Medieval-Escriptmask
+
+    Three costs, all real: the page prefix repeats on every one of nine buttons and
+    is identical on a single-page card, so it crowds out the part that differs;
+    ``.title()`` mangles the model id so it no longer matches what the preference
+    log stores, making the card impossible to reconcile with the data by eye; and at
+    ~52 chars it eats Discord's 80-char button budget with noise.
+
+    The engine gets its display name; the model id is left **verbatim**, because it
+    is an identifier and not prose.
+    """
+    if path in LABELS:
+        return LABELS[path]
+    engine_model = path.split(":", 1)[1] if ":" in path else path
+    engine, _, model = engine_model.partition("/")
+    if not model:
+        # A bare canonical-style name ("custom_engine") is prose-ish and unknown to
+        # LABELS — title-casing it is the right display and the case this fallback
+        # was written for. Only the identifier shape below must stay verbatim.
+        return LABELS.get(engine, engine.replace("_", " ").title())
+    # The model id usually repeats its own engine ("trocr/trocr-medieval-escriptmask");
+    # saying it twice on a button costs width and tells the reader nothing.
+    if model.lower().startswith(f"{engine.lower()}-"):
+        model = model[len(engine) + 1:]
+    return f"{LABELS.get(engine, engine)} · {model}"
+
+
+def _page_of(path: str) -> str:
+    """The page part of a Gate-2 label, or ``""`` for a canonical path name."""
+    return path.split(":", 1)[0] if ":" in path else ""
+
+
+def _card_label(path: str, *, show_page: bool) -> str:
+    """Button and card label for one candidate.
+
+    The page is dropped when every candidate on the card comes from the same page —
+    there it is a constant repeated on every button, and the header already names
+    it. On a card spanning several pages it is exactly what distinguishes two
+    otherwise identical engine/model entries, so it stays.
+    """
+    base = _label_for(path)
+    page = _page_of(path)
+    return f"{page} · {base}" if (show_page and page) else base
+
+
+def _multi_page(names) -> bool:
+    return len({_page_of(n) for n in names if _page_of(n)}) > 1
+
+
+def _quote(text: str) -> str:
+    """Discord blockquote covering EVERY line of an excerpt.
+
+    ``"> " + text`` quotes only the first line; the rest render as body text, which
+    on the live card made each candidate look like a quote followed by loose prose
+    and destroyed the visual separation between candidates. Transcription line
+    breaks are meaningful, so they are kept rather than collapsed.
+    """
+    lines = (text or "").splitlines() or [""]
+    return "\n".join(f"> {ln}" for ln in lines)
 
 
 # Content-keyed cache for compare_paths. Measured on tei with a real 9-candidate
@@ -260,11 +325,17 @@ def render_vote_card(state: RunState, paths: dict[str, str], *,
         return f"📊 **{state.doc_id}** · keine Lesarten vorhanden"
 
     sel = _selected(state)
-    header = (f"📊 **{state.doc_id}** · {len(names)} Lesart(en) — wähle **eine oder "
-              f"mehrere** und dann **Bestätigen** (mehrere werden kombiniert).")
+    multi = _multi_page(names)
+    # On a single-page card the page is named once here instead of on all nine
+    # buttons; on a multi-page card it stays on each label, where it disambiguates.
+    pages = sorted({_page_of(n) for n in names if _page_of(n)})
+    page_part = f" · `{pages[0]}`" if (pages and not multi) else ""
+    header = (f"📊 **{state.doc_id}**{page_part} · {len(names)} Lesart(en) — wähle "
+              f"**eine oder mehrere** und dann **Bestätigen** "
+              f"(mehrere werden kombiniert).")
     cer_line = (f"`max. paarweise CER {comp['max_cer']:.0%}` — die Engines sind uneinig."
                 if len(names) >= 2 else "")
-    footer = (f"✅ Ausgewählt: {', '.join(_label_for(n) for n in sel)}"
+    footer = (f"✅ Ausgewählt: {', '.join(_card_label(n, show_page=multi) for n in sel)}"
               if sel else "▫️ Noch nichts ausgewählt.")
 
     reserved = len(header) + len(cer_line) + len(footer) + 14
@@ -274,7 +345,8 @@ def render_vote_card(state: RunState, paths: dict[str, str], *,
         mark = "☑" if n in sel else "☐"
         text = paths[n]
         more = "…" if len(text) > per else ""
-        blocks.append(f"{mark} **{_label_for(n)}** ({len(text)} Z.):\n> {text[:per]}{more}")
+        blocks.append(f"{mark} **{_card_label(n, show_page=multi)}** ({len(text)} Z.):\n"
+                      f"{_quote(text[:per])}{more}")
 
     blocks_text = "\n".join(blocks)
     avail = max_chars - reserved
@@ -294,7 +366,7 @@ def render_decided_card(state: RunState, paths: dict[str, str],
                 f"_Die Engines haben für diese Seite nichts Verwertbares geliefert._")
     if not chosen:
         return f"📊 **{state.doc_id}** · abgebrochen — nichts ausgewählt."
-    labels = ", ".join(_label_for(c) for c in chosen)
+    labels = ", ".join(_card_label(c, show_page=_multi_page(chosen)) for c in chosen)
     how = "kombiniert aus" if len(chosen) > 1 else "gewählt:"
     preview = (text or "")[:400]
     more = "…" if len(text or "") > 400 else ""
@@ -397,7 +469,7 @@ def build_view(state: RunState, paths: dict[str, str],
             self.path = path
             selected = path in _selected(state)
             super().__init__(
-                label=_label_for(path),
+                label=_card_label(path, show_page=_multi_page(comp["names"])),
                 style=discord.ButtonStyle.success if selected
                       else discord.ButtonStyle.secondary,
                 custom_id=f"ah:{state.doc_id}:gate2:{path}",
