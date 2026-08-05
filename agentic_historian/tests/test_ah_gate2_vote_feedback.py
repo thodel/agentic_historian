@@ -46,7 +46,22 @@ class _Interaction:
         self.user = SimpleNamespace(id=1, display_name="Anna", name="Anna")
         self.edited = []
         self.views = []
-        self.response = SimpleNamespace(edit_message=self._edit)
+        # Model the real interaction lifecycle: a callback defers (marking the
+        # response done) and then edits via edit_original_response. A mock that
+        # only offers edit_message cannot catch a callback responding too late,
+        # which is exactly the 10062 "Unknown interaction" seen live on tei.
+        self._done = False
+        self.response = SimpleNamespace(
+            edit_message=self._edit,
+            defer=self._defer,
+            is_done=lambda: self._done,
+        )
+
+    async def _defer(self):
+        self._done = True
+
+    async def edit_original_response(self, *, content=None, view=None):
+        await self._edit(content=content, view=view)
 
     async def _edit(self, *, content=None, view=None):
         self.edited.append(content)
@@ -131,3 +146,61 @@ def test_a_failing_confirm_still_acks(monkeypatch):
 
     inter = asyncio.run(go())
     assert inter.edited, "confirm must ack even when apply fails"
+
+
+# ── the 3-second budget: ack BEFORE the work (live 10062 on tei) ─────────────
+
+class _OrderTrackingInteraction(_Interaction):
+    """Records the order of defer vs. the callback's side effects."""
+    def __init__(self):
+        super().__init__()
+        self.events = []
+
+    async def _defer(self):
+        self.events.append("defer")
+        await super()._defer()
+
+    async def _edit(self, *, content=None, view=None):
+        self.events.append("edit")
+        await super()._edit(content=content, view=view)
+
+
+def _first_event(field, state=None):
+    async def go():
+        st = state or RunState(doc_id="d-ack")
+        inter = _OrderTrackingInteraction()
+        await _btn(st, field).callback(inter)
+        return inter.events
+    return asyncio.run(go())
+
+
+def test_a_reject_acks_before_recording():
+    """Live on tei the reject WAS recorded ("0 chosen of 9 offered") and the card
+    update still died with 10062 Unknown interaction — Discord kills the token 3s
+    after the click, and all the work sat inside that budget. The historian saw
+    "This component is no longer valid" for a click that had in fact been recorded,
+    and the natural response is to click again and double-record."""
+    assert _first_event(path_compare._REJECT_FIELD)[0] == "defer"
+
+
+def test_a_toggle_acks_before_re_rendering():
+    assert _first_event(list(PATHS)[0])[0] == "defer"
+
+
+def test_a_confirm_acks_before_applying():
+    """Confirm does the heaviest work of the three (fuse + record + resume)."""
+    st = RunState(doc_id="d-ack-confirm")
+    st.gate_decisions["gate2_selected"] = [list(PATHS)[0]]
+    assert _first_event(path_compare._CONFIRM_FIELD, st)[0] == "defer"
+
+
+def test_the_card_is_still_updated_after_deferring():
+    """Deferring must not cost the visible update — it moves to
+    edit_original_response, which the historian sees identically."""
+    async def go():
+        st = RunState(doc_id="d-ack-visible")
+        inter = _OrderTrackingInteraction()
+        await _btn(st, list(PATHS)[0]).callback(inter)
+        return inter
+    inter = asyncio.run(go())
+    assert "edit" in inter.events and inter.edited, "no visible update after defer"
