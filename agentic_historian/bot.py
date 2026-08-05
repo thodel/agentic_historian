@@ -366,6 +366,18 @@ async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
         import persistent_views
         import ingest
         from runstate import RunState
+        # Three distinct states, and they must not be conflated (#351). load_or_new
+        # invents an empty state for any string, so an unknown doc_id used to be
+        # reported as "die Engines waren sich einig" — a positive claim about a run
+        # that never happened, which sends the historian looking in the wrong place.
+        if not RunState.exists(doc_id):
+            hint = ""
+            near = RunState.suggest_doc_ids(doc_id)
+            if near:
+                hint = "\nMeintest du: " + ", ".join(f"`{n}`" for n in near) + "?"
+            await ctx.followup.send(
+                f"❓ Kein Lauf mit der ID `{doc_id}` gefunden.{hint}")
+            return
         state = RunState.load_or_new(doc_id)
         paths = state.artifacts.get("paths") or {}
         if len([t for t in paths.values() if (t or "").strip()]) < 2:
