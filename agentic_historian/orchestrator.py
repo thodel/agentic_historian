@@ -210,6 +210,36 @@ def _log_phase(ev) -> None:
                     f"{ev.decision or ev.excerpt[:80]}")
 
 
+# Extensions chat_vision can actually read. A PDF is deliberately NOT here: `fp`
+# may be a PDF, and handing that path to a vision model fails — so Agent B is given
+# an image only when one really exists (#320).
+_VISION_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".bmp", ".gif"}
+
+
+def _vision_image_path(img, fp):
+    """The image to hand Agent B on a single-doc run, or ``None``.
+
+    The old guard was ``str(img) if img != fp else None`` — "withhold the image
+    whenever the file IS the image", which is precisely the /run case. So Agent B
+    ran text-only on every single-doc run, and when Phase 1 produced a `uuuu`
+    repetition-collapse it took the honest #276 refusal instead of looking at the
+    page. The image-only path (#301) and "send the image" (#308) could never fire,
+    even though the page was sitting right there in ``fp``.
+
+    Withholding is now driven by whether we have a readable image at all, not by
+    where the path came from.
+    """
+    try:
+        candidate = Path(img)
+    except TypeError:                                   # pragma: no cover — defensive
+        return None
+    if candidate.suffix.lower() not in _VISION_EXTS:
+        return None                                     # PDF or unknown container
+    if not candidate.exists():
+        return None
+    return str(candidate)
+
+
 def run_full_pipeline(
     file_path: str | Path,
     image_path: Optional[str | Path] = None,
@@ -340,7 +370,7 @@ def run_full_pipeline(
             ctx.description = agent_b.describe(
                 doc_id=doc_id,
                 transcription=ctx.transcription,
-                image_path=str(img) if img != fp else None,
+                image_path=_vision_image_path(img, fp),
             )
             logger.info("[Orchestrator] Phase 2 (Agent B) fertig")
             _emit(on_phase, doc_id, "agent_b", "B",
