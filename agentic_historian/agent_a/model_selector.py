@@ -139,8 +139,28 @@ LANG_ALIASES: dict[str, str] = {
     "urdu": "ur", "urdū": "ur",
     "hindi": "hi",
     "sanskrit": "sa",
-    "mittel": "de",         # Mittellatein → Latin
+    # Historical stages of German and Latin, spelled out. Substring matching below
+    # would already resolve most of them via "deutsch"/"latein", but the manuscripts
+    # this project reads ARE these stages, so they are named rather than inferred.
+    # The former catch-all `"mittel": "de"` is gone: it could not tell
+    # Mittelhochdeutsch (de) from Mittellatein (la), and its comment claimed Latin
+    # while its value said German.
+    "mittelhochdeutsch": "de", "middle high german": "de",
+    "mittelniederdeutsch": "de", "middle low german": "de",
+    "althochdeutsch": "de", "old high german": "de",
+    "frühneuhochdeutsch": "de", "fruehneuhochdeutsch": "de",
+    "early new high german": "de",
+    "neuhochdeutsch": "de",
+    "alemannisch": "de", "schweizerdeutsch": "de", "oberdeutsch": "de",
+    "niederdeutsch": "de",
+    "mittellatein": "la", "mittellateinisch": "la", "medieval latin": "la",
+    "neulatein": "la", "kirchenlatein": "la",
+    "altfranzösisch": "fr", "altfranzoesisch": "fr", "old french": "fr",
+    "französisch": "fr",
 }
+
+# ISO codes we may legitimately be handed already-normalised.
+_LANG_CODES: frozenset = frozenset(LANG_ALIASES.values())
 
 
 def normalise_script(raw: str) -> str:
@@ -153,9 +173,38 @@ def normalise_script(raw: str) -> str:
 
 
 def normalise_lang(raw: str) -> str:
-    """Map a raw language description to an ISO 639-1 code."""
-    s = raw.lower().strip()
-    return LANG_ALIASES.get(s, s[:2])
+    """Map a raw language description to an ISO 639-1 code, or ``""`` if unknown.
+
+    The old fallback was ``s[:2]`` — a blind truncation. Agent B described a 15th c.
+    Swiss manuscript as *"Mittelhochdeutsch"*, which is not an exact key, so the
+    criteria came back ``lang="mi"``: Māori (#348).
+
+    Returning ``""`` for an unrecognised input is the point of this rewrite. A
+    wrong-but-well-formed code is worse than no code at all:
+
+    - it **splits** a preference bucket, since #335 keys strengths on
+      ``(script, century, lang)``. "de" and "mi" pages that belong together each
+      stay below ``MIN_COMPARISONS``, so neither ever yields a prior.
+    - it costs a real match score in ``score_model``, where a language mismatch is
+      penalised rather than merely unrewarded.
+    - unlike an empty value it looks valid, so nothing flags it. The 2-letter shape
+      is exactly what makes it plausible.
+
+    Matching order: exact alias, then an already-valid ISO code, then the longest
+    matching alias as a substring — longest first so a compound is decided by its
+    most specific part ("mittellatein" by "latein", never by a shorter accident).
+    """
+    s = (raw or "").lower().strip()
+    if not s:
+        return ""
+    if s in LANG_ALIASES:
+        return LANG_ALIASES[s]
+    if s in _LANG_CODES:                               # already normalised
+        return s
+    for alias in sorted(LANG_ALIASES, key=len, reverse=True):
+        if alias in s:
+            return LANG_ALIASES[alias]
+    return ""
 
 
 # ── Score function ───────────────────────────────────────────────────────────

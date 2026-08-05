@@ -214,6 +214,37 @@ class RunState(BaseModel):
         return cls._path(doc_id).exists()
 
     @classmethod
+    def known_doc_ids(cls) -> list[str]:
+        """Every doc_id with a saved run state, sorted.
+
+        Lets a read-only command tell "no such document" from "document exists but
+        has nothing to show" — ``load_or_new`` cannot, because it invents an empty
+        state for any string and the caller then reads the emptiness as a fact
+        about the run (#351).
+        """
+        try:
+            return sorted(p.stem for p in (config.DATA_DIR / "runs").glob("*.json"))
+        except OSError:                                  # pragma: no cover — defensive
+            return []
+
+    @classmethod
+    def suggest_doc_ids(cls, doc_id: str, *, limit: int = 5) -> list[str]:
+        """Known doc_ids closest to *doc_id* — for typo recovery on a slash command.
+
+        Doc ids are long, near-identical and typed by hand with no autocomplete, so
+        a one-character slip is the common case (``prefs-test-BAT66`` for
+        ``prefs-test-BAT664`` cost a full round-trip on tei).
+        """
+        import difflib
+        known = cls.known_doc_ids()
+        close = difflib.get_close_matches(doc_id, known, n=limit, cutoff=0.6)
+        if close:
+            return close
+        # difflib misses a pure prefix of a much longer id; catch that separately.
+        lowered = (doc_id or "").lower()
+        return [k for k in known if lowered and lowered in k.lower()][:limit]
+
+    @classmethod
     def load(cls, doc_id: str, path: Optional[Path] = None) -> "RunState":
         p = path or cls._path(doc_id)
         return cls.model_validate_json(p.read_text(encoding="utf-8"))
