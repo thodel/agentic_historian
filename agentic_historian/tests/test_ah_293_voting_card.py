@@ -44,7 +44,22 @@ class _Interaction:
         self.user = SimpleNamespace(id=1, display_name="Anna", name="Anna")
         self.edited = []
         self.views = []
-        self.response = SimpleNamespace(edit_message=self._edit)
+        # Model the real interaction lifecycle: a callback defers (marking the
+        # response done) and then edits via edit_original_response. A mock that
+        # only offers edit_message cannot catch a callback responding too late,
+        # which is exactly the 10062 "Unknown interaction" seen live on tei.
+        self._done = False
+        self.response = SimpleNamespace(
+            edit_message=self._edit,
+            defer=self._defer,
+            is_done=lambda: self._done,
+        )
+
+    async def _defer(self):
+        self._done = True
+
+    async def edit_original_response(self, *, content=None, view=None):
+        await self._edit(content=content, view=view)
 
     async def _edit(self, *, content=None, view=None):
         self.edited.append(content)

@@ -458,9 +458,32 @@ def build_view(state: RunState, paths: dict[str, str],
 
     comp = compare_paths(paths)
 
-    async def _ack(interaction, content, view):
+    async def _defer(interaction):
+        """Acknowledge the click BEFORE doing any work.
+
+        Discord invalidates an interaction token 3s after the click (error 10062,
+        "Unknown interaction"). Every callback here recorded/applied first and
+        responded afterwards, so the whole of that work sat inside the budget.
+        Live on tei the reject click *was* recorded — the log shows "0 chosen of 9
+        offered" — and the historian still saw "This component is no longer valid",
+        which is the worst possible feedback: the data says yes, the UI says no, and
+        the natural response is to click again and double-record.
+
+        Deferring costs one cheap round-trip and buys 15 minutes for the real work.
+        """
         try:
-            await interaction.response.edit_message(content=content, view=view)
+            if not interaction.response.is_done():
+                await interaction.response.defer()
+        except Exception as e:
+            logger.warning(f"[gate2] {state.doc_id}: defer failed: {e}")
+
+    async def _ack(interaction, content, view):
+        """Update the card, whether or not the interaction was already deferred."""
+        try:
+            if interaction.response.is_done():
+                await interaction.edit_original_response(content=content, view=view)
+            else:
+                await interaction.response.edit_message(content=content, view=view)
         except Exception as e:
             logger.warning(f"[gate2] {state.doc_id}: card update failed: {e}")
 
@@ -476,6 +499,7 @@ def build_view(state: RunState, paths: dict[str, str],
             )
 
         async def callback(self, interaction):
+            await _defer(interaction)
             sel = _selected(state)
             if self.path in sel:
                 sel.remove(self.path)
@@ -501,6 +525,7 @@ def build_view(state: RunState, paths: dict[str, str],
 
         async def callback(self, interaction):
             import asyncio
+            await _defer(interaction)
             chosen = _selected(state)
             applied = None
             try:
@@ -553,6 +578,7 @@ def build_view(state: RunState, paths: dict[str, str],
             )
 
         async def callback(self, interaction):
+            await _defer(interaction)
             try:
                 import preferences
                 user = getattr(interaction, "user", None)
