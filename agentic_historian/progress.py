@@ -98,16 +98,24 @@ def snippet(value: Any, n: int = 3, max_chars: int = 300) -> str:
 def format_phase_event(ev: Any) -> str:
     """One Discord line from a ``runstate.PhaseEvent``.
 
-    - ``✅`` / ``❌`` from ``ev.status`` (``done`` / ``error``).
+    - ``✅`` / ``❌`` / ``🗳️`` from ``ev.status`` (``done`` / ``error`` / ``waiting``).
     - Phase + agent; then ``ev.excerpt`` (or ``ev.error`` on failure).
     - ``ev.decision`` appended when set.
     - Hard-capped to fit comfortably in a Discord message.
+
+    ``waiting`` exists because a step that needs the HISTORIAN is neither done nor
+    failed, and rendering it as ✅ buries the one line on the board that asks for
+    an action (#313). It is the board's only call to act, so it must not read like
+    a completion.
 
     Raises AttributeError if ``ev`` lacks the expected fields.
     """
     if ev.status == "error":
         icon = "❌"
         detail = _collapse(ev.error, 300)
+    elif ev.status == "waiting":
+        icon = "🗳️"
+        detail = _collapse(ev.excerpt, 300)
     else:
         icon = "✅"
         detail = _collapse(ev.excerpt, 300)
@@ -115,7 +123,10 @@ def format_phase_event(ev: Any) -> str:
     agent_badge = f"**{ev.agent}**"
     decision_str = f" · `{ev.decision}`" if ev.decision else ""
 
-    line = f"{icon} {agent_badge} ({ev.phase}) — {detail}{decision_str}"
+    # A waiting event carries no excerpt (nothing was produced — something is being
+    # asked for), so the em dash would dangle in front of the decision.
+    body = f" — {detail}" if detail else ""
+    line = f"{icon} {agent_badge} ({ev.phase}){body}{decision_str}"
     return _hard_cap(line, 1900)
 
 
