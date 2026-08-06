@@ -731,7 +731,8 @@ def _emit_model_select(on_phase, doc_id: str, criteria, *, label: str) -> None:
         logger.warning(f"[Orchestrator] model_select emit skipped: {e}")
 
 
-def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None) -> None:
+def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None,
+                          on_phase=None) -> None:
     """Record a no-merge page's candidates as Gate-2 vote paths (#313).
 
     #300 selects the best single candidate at high disagreement rather than blend —
@@ -822,6 +823,16 @@ def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None) -> None:
         state.save()
         logger.info(f"[Orchestrator] {page}: recorded {len(paths)} no-merge "
                     f"candidate(s) as Gate-2 vote paths (#313)")
+        # Tell the historian a vote is waiting (#313). Until now a no-merge produced
+        # a logger.info and nothing else: gate2_vote_warranted was written and read
+        # by no one, and the card was reachable only by someone who already knew to
+        # run /votes. #313's acceptance is that the historian is SHOWN the readings,
+        # and an unannounced card does not meet it — the preference log (#332) held
+        # a single event for days because nothing ever surfaced one.
+        _emit(on_phase, doc_id, "gate2_vote", "A", status="waiting",
+              decision=(f"{len(paths)} Lesarten uneinig "
+                        f"(max. paarweise CER {getattr(er, 'max_pairwise_cer', 0.0):.0%}) "
+                        f"— /votes {doc_id}"))
     except Exception as e:
         logger.warning(f"[Orchestrator] no-merge vote record skipped ({page}): {e}")
 
@@ -852,7 +863,7 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
             logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
                         f"{len(er.recognitions)} engine(s), {er.loops} loop(s), "
                         f"agreement CER {er.max_pairwise_cer:.2%}")
-            _record_no_merge_vote(doc_id, img.name, er, criteria)
+            _record_no_merge_vote(doc_id, img.name, er, criteria, on_phase=on_phase)
             # One event per candidate, so the historian sees WHICH engine read what —
             # the u-17__ failure was invisible precisely because only the merged text
             # was ever shown.
