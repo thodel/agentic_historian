@@ -294,8 +294,45 @@ def run_full_pipeline(
     # ════════════════════════════════════════════════════════════════════════
     # PHASE 1: Agent A — VLM-only erste Transkription ( fuer Agent B )
     # ════════════════════════════════════════════════════════════════════════
+    # #320: the single-doc path used transcribe_dual (VLM + kraken + party) while
+    # the grouped path ran the multi-engine ensemble, so /run got no TrOCR, no #300
+    # no-merge band and no #299 criteria re-run — every recognition-quality fix from
+    # #298 reached grouped orders and not /run, which still produced uuuu garbage on
+    # a page the grouped path reads correctly. Same machinery for both now.
+    # OFF → the original behaviour, byte-identical.
+    use_ensemble = getattr(config, "ENABLE_ENSEMBLE_HTR", False) and DUAL_AVAILABLE
+    p1_criteria = None
+    if use_ensemble:
+        try:
+            from agent_a.model_selector import SourceCriteria
+            p1_criteria = SourceCriteria()   # blind: no description exists yet
+        except Exception as e:
+            logger.warning(f"[Orchestrator] ensemble disabled (criteria init failed): {e}")
+            use_ensemble = False
+
     try:
-        if use_dual_htr and DUAL_AVAILABLE:
+        if use_ensemble:
+            _emit_model_select(on_phase, doc_id, p1_criteria,
+                               label="blind (no description yet)")
+            parts, scores = _ensemble_pass([img], p1_criteria, ctx, doc_id, on_phase,
+                                           label="pass 1", page_headers=False)
+            ctx.transcription = "\n\n".join(parts).strip()
+            qa = round(sum(scores) / len(scores), 2) if scores else 0.0
+            ctx.a_meta = {"qa_score": qa, "source": "single-ensemble"}
+            logger.info(f"[Orchestrator] Phase 1 (ensemble) fertig — "
+                        f"{len(ctx.transcription)} chars, QA {qa:.2f}")
+            try:
+                from runstate import RunState, DONE
+                state = RunState.load_or_new(doc_id)
+                state.stage_status["vlm"] = DONE
+                state.artifacts["transcription"] = ctx.transcription
+                state.artifacts["a_meta"] = ctx.a_meta
+                if ctx.recognitions:
+                    state.artifacts["recognitions"] = ctx.recognitions
+                state.save()
+            except Exception as e2:
+                logger.warning(f"[Orchestrator] Phase 1 RunState persist skipped: {e2}")
+        elif use_dual_htr and DUAL_AVAILABLE:
             # Phase 1: nur VLM-Pfad (ohne kraken — das kommt in Phase 3)
             logger.info("[Orchestrator] Phase 1: VLM-only HTR (preliminary for Agent B)")
             dual = transcribe_dual(
@@ -394,7 +431,14 @@ def run_full_pipeline(
     # Nur wenn das kraken/dual-HTR-Paket verfügbar ist (sonst ist
     # select_best_kraken_model nicht importiert → NameError).
     # ════════════════════════════════════════════════════════════════════════
-    if DUAL_AVAILABLE and ctx.transcription and ctx.description:
+    if use_ensemble:
+        # The ensemble's own Phase 3 (#299) — same helper the grouped path uses, so
+        # the two cannot drift apart.
+        ctx.transcription, _ = _criteria_rerun(
+            [img], ctx, doc_id, on_phase,
+            avg_qa=float(ctx.a_meta.get("qa_score", 0.0) or 0.0),
+            source_tag="single-ensemble-criteria", page_headers=False)
+    elif DUAL_AVAILABLE and ctx.transcription and ctx.description:
         try:
             source_desc_text = ctx.description.get("source_description", "")
             src_json = ctx.description.get("source_json")
@@ -837,19 +881,25 @@ def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None,
         logger.warning(f"[Orchestrator] no-merge vote record skipped ({page}): {e}")
 
 
-def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
+def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
+                   page_headers: bool = True):
     """Run the page ensemble over every page with one set of criteria (#299).
 
     Shared by Phase 1 (blind criteria) and Phase 3 (Agent B's criteria) so the two
-    passes cannot drift apart. New candidates are appended to ``ctx.recognitions``
-    — the first pass is never discarded, it is evidence, and #284 exports every
-    candidate for comparison.
+    passes cannot drift apart, and by the grouped and single-doc pipelines so those
+    cannot either (#320). New candidates are appended to ``ctx.recognitions`` — the
+    first pass is never discarded, it is evidence, and #284 exports every candidate
+    for comparison.
+
+    ``page_headers`` writes a ``--- <page> ---`` separator before each page. A
+    multi-page order needs it to stay attributable; a single-doc run has exactly one
+    page, where it would be new noise in an output format that never had it.
     """
     parts, scores = [], []
     for img in pages:
         try:
             er = _recognize_page_ensemble(img, criteria)
-            parts.append(f"--- {img.name} ---\n{er.text}")
+            parts.append(f"--- {img.name} ---\n{er.text}" if page_headers else er.text)
             # Agreement-based QA, clamped to [0, 1]. CER is unbounded above: it is
             # edits/reference-length, so when candidates disagree in LENGTH as well
             # as content it exceeds 100% — a real run measured 194.8% CER, giving a
@@ -882,6 +932,70 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str):
             _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e),
                   decision=img.name)
     return parts, scores
+
+
+def _criteria_rerun(pages, ctx, doc_id: str, on_phase, *, avg_qa: float,
+                    source_tag: str, page_headers: bool = True):
+    """Phase 3 (#299): re-read the pages with the models Agent B's description implies.
+
+    Phase 1 runs blind — no description exists yet — so its criteria are empty and
+    every model scores "no match" (measured on tei: kraken 0.05, TrOCR 0.20). Agent
+    B then identifies the source correctly, and without this the knowledge is thrown
+    away: the right model is only ever reached by accident, when the disagreement
+    loop happens to add it.
+
+    Shared by both pipelines (#320). Returns ``(transcription, avg_qa)`` — unchanged
+    from the arguments when the re-run does not apply, so the caller can assign
+    unconditionally.
+    """
+    if not (ctx.transcription and ctx.description):
+        return ctx.transcription, avg_qa
+    try:
+        from agent_a.model_selector import SourceCriteria
+        criteria_b = SourceCriteria.from_agent_b_and_json(
+            ctx.description.get("source_description", ""),
+            ctx.description.get("source_json"),
+        )
+        # Gate on the CRITERIA, not on low_confidence. #301 describes from the IMAGE
+        # when the transcription is unreadable — honestly flagged low_confidence but
+        # carrying real script/century, which is precisely the case this re-run
+        # exists to rescue. Gating on the flag would make #301 inert.
+        if not (criteria_b.script or criteria_b.century or criteria_b.lang):
+            logger.info("[Orchestrator] Phase 3 (#299) skipped — Agent B "
+                        "produced no criteria to match on")
+            return ctx.transcription, avg_qa
+        _emit_model_select(on_phase, doc_id, criteria_b, label="from Agent B")
+        parts_b, scores_b = _ensemble_pass(pages, criteria_b, ctx, doc_id, on_phase,
+                                           label="pass 2 (criteria)",
+                                           page_headers=page_headers)
+        if not parts_b:
+            return ctx.transcription, avg_qa
+        text = "\n\n".join(parts_b).strip()
+        new_qa = round(sum(scores_b) / len(scores_b), 2) if scores_b else avg_qa
+        ctx.a_meta["qa_score"] = new_qa
+        ctx.a_meta["source"] = source_tag
+        ctx.a_meta["criteria_rerun"] = True
+        agent_a.save_transcription(doc_id, text, new_qa, "grouped")
+        logger.info(f"[Orchestrator] Phase 3 (#299): criteria re-run done — "
+                    f"QA {new_qa:.2f}, {len(text)} chars")
+        try:
+            from runstate import RunState, DONE
+            state = RunState.load_or_new(doc_id)
+            state.stage_status["model_select"] = DONE
+            state.stage_status["kraken"] = DONE
+            state.artifacts["transcription"] = text
+            state.artifacts["a_meta"] = ctx.a_meta
+            if ctx.recognitions:          # BOTH passes — the first is evidence
+                state.artifacts["recognitions"] = ctx.recognitions
+            state.save()
+        except Exception as e2:
+            logger.warning(f"[Orchestrator] Phase 3 RunState persist skipped: {e2}")
+        return text, new_qa
+    except Exception as e:
+        logger.error(f"[Orchestrator] Phase 3 (#299) criteria re-run failed: {e}")
+        ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
+        _emit(on_phase, doc_id, "kraken", "A", status="error", error=str(e))
+        return ctx.transcription, avg_qa
 
 
 def run_full_pipeline_group(
@@ -992,52 +1106,10 @@ def run_full_pipeline_group(
     # to add it. This closes the loop — describe the source, then read it again
     # with the model that description implies.
     # ════════════════════════════════════════════════════════════════════════
-    if use_ensemble and ctx.transcription and ctx.description:
-        try:
-            from agent_a.model_selector import SourceCriteria
-            criteria_b = SourceCriteria.from_agent_b_and_json(
-                ctx.description.get("source_description", ""),
-                ctx.description.get("source_json"),
-            )
-            # Gate on the CRITERIA, not on low_confidence. #301 describes from the
-            # IMAGE when the transcription is unreadable — honestly flagged
-            # low_confidence, but carrying real script/century, which is precisely
-            # the case this re-run exists to rescue. Gating on the flag would make
-            # #301 inert. What matters is whether there is anything to match on.
-            if not (criteria_b.script or criteria_b.century or criteria_b.lang):
-                logger.info("[Orchestrator] Phase 3 (#299) skipped — Agent B "
-                            "produced no criteria to match on")
-                raise _NoCriteria
-            _emit_model_select(on_phase, doc_id, criteria_b, label="from Agent B")
-            parts_b, scores_b = _ensemble_pass(pages, criteria_b, ctx, doc_id,
-                                               on_phase, label="pass 2 (criteria)")
-            if parts_b:
-                ctx.transcription = "\n\n".join(parts_b).strip()
-                avg_qa = round(sum(scores_b) / len(scores_b), 2) if scores_b else avg_qa
-                ctx.a_meta["qa_score"] = avg_qa
-                ctx.a_meta["source"] = "grouped-ensemble-criteria"
-                ctx.a_meta["criteria_rerun"] = True
-                agent_a.save_transcription(doc_id, ctx.transcription, avg_qa, "grouped")
-                logger.info(f"[Orchestrator] Phase 3 (#299): criteria re-run done — "
-                            f"QA {avg_qa:.2f}, {len(ctx.transcription)} chars")
-                try:
-                    from runstate import RunState, DONE, ERROR
-                    state = RunState.load_or_new(doc_id)
-                    state.stage_status["model_select"] = DONE
-                    state.stage_status["kraken"] = DONE
-                    state.artifacts["transcription"] = ctx.transcription
-                    state.artifacts["a_meta"] = ctx.a_meta
-                    if ctx.recognitions:      # BOTH passes — the first is evidence
-                        state.artifacts["recognitions"] = ctx.recognitions
-                    state.save()
-                except Exception as e2:
-                    logger.warning(f"[Orchestrator] Phase 3 RunState persist skipped: {e2}")
-        except _NoCriteria:
-            pass          # nothing to match on — a re-run would repeat Phase 1 blind
-        except Exception as e:
-            logger.error(f"[Orchestrator] Phase 3 (#299) criteria re-run failed: {e}")
-            ctx.errors.append({"agent": "kraken_rerun", "phase": 3, "error": str(e)})
-            _emit(on_phase, doc_id, "kraken", "A", status="error", error=str(e))
+    if use_ensemble:
+        ctx.transcription, avg_qa = _criteria_rerun(
+            pages, ctx, doc_id, on_phase, avg_qa=avg_qa,
+            source_tag="grouped-ensemble-criteria")
 
     # PHASE 4: Agent C — entities across the order
     if ctx.transcription:
