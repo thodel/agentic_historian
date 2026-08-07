@@ -135,7 +135,92 @@ def _max_pairwise_cer(recognitions: list) -> float:
 
 # ── the ensemble ──────────────────────────────────────────────────────────────
 
-def select_best(recognitions: list, ran: list):
+# ── script plausibility ──────────────────────────────────────────────────────
+
+# Languages whose readings are NOT written in Latin script. Everything else in
+# model_selector.LANG_ALIASES is Latin, so Latin is the default expectation.
+_NON_LATIN_LANGS = {
+    "el": "GREEK", "he": "HEBREW", "ar": "ARABIC", "ur": "ARABIC",
+    "syr": "SYRIAC", "cop": "COPTIC", "hi": "DEVANAGARI", "sa": "DEVANAGARI",
+}
+
+_SCRIPT_PREFIXES = ("LATIN", "GREEK", "HEBREW", "ARABIC", "SYRIAC", "COPTIC",
+                    "DEVANAGARI", "CJK", "HIRAGANA", "KATAKANA", "CYRILLIC")
+
+# Below this share of same-script letters the text is a reading in a DIFFERENT
+# writing system, not a poor reading in the right one. Deliberately high: the point
+# is to catch the impossible, never to judge a bad-but-plausible transcription.
+_WRONG_SCRIPT_SHARE = 0.5
+
+
+def dominant_script(text: str) -> str:
+    """The writing system most of ``text``'s letters belong to, or ``""``.
+
+    CJK, Hiragana and Katakana collapse to ``"CJK"`` — for this purpose they are
+    one answer: "not the Latin alphabet".
+    """
+    import unicodedata
+    from collections import Counter
+    counts: Counter = Counter()
+    for ch in text or "":
+        if not ch.isalpha():
+            continue
+        try:
+            name = unicodedata.name(ch)
+        except ValueError:                                # unnamed codepoint
+            continue
+        for prefix in _SCRIPT_PREFIXES:
+            if name.startswith(prefix):
+                counts["CJK" if prefix in ("CJK", "HIRAGANA", "KATAKANA")
+                       else prefix] += 1
+                break
+    if not counts:
+        return ""
+    return counts.most_common(1)[0][0]
+
+
+def script_implausible(text: str, lang) -> bool:
+    """True when ``text`` cannot be a reading of a source written in ``lang``.
+
+    Live on tei (#358), ``kraken-medieval_15_16`` returned 283 characters of
+    Japanese for a 15th c. German Kurrent page and was SELECTED as the run's
+    transcription, because ranking looks only at the model's metadata match and
+    never at what the model produced. In the same run ``kraken-catmus_caroline``
+    returned Hebrew script.
+
+    This is not the quality judgement #313 says we cannot make without ground
+    truth. Ranking two German readings by correctness needs a reference; observing
+    that a CJK string is not a reading of a Latin-script manuscript does not.
+
+    Conservative by construction: an unknown language, an empty text or a mixed
+    script all return False. Only a text whose letters are MOSTLY a different
+    writing system is rejected.
+    """
+    if not text or not str(text).strip():
+        return False
+    code = (lang or "").strip().lower()
+    if not code:
+        return False                                # blind pass — nothing to check
+    expected = _NON_LATIN_LANGS.get(code, "LATIN")
+    letters = [c for c in text if c.isalpha()]
+    if not letters:
+        return False
+    found = dominant_script(text)
+    if not found or found == expected:
+        return False
+    import unicodedata
+    same = 0
+    for ch in letters:
+        try:
+            name = unicodedata.name(ch)
+        except ValueError:
+            continue
+        if name.startswith(expected):
+            same += 1
+    return (same / len(letters)) < (1.0 - _WRONG_SCRIPT_SHARE)
+
+
+def select_best(recognitions: list, ran: list, criteria=None):
     """The single best candidate at high disagreement (#300) → ``(rec, pick)``.
 
     Ranked by the pick's **source-match score** — how well that model fits the
@@ -153,11 +238,11 @@ def select_best(recognitions: list, ran: list):
 
     Candidates that errored or came back empty are not eligible.
     """
-    ranked = rank_candidates(recognitions, ran)
+    ranked = rank_candidates(recognitions, ran, criteria)
     return ranked[0] if ranked else None
 
 
-def rank_candidates(recognitions: list, ran: list) -> list:
+def rank_candidates(recognitions: list, ran: list, criteria=None) -> list:
     """Eligible ``(rec, pick)`` pairs, best first — the selector's own ordering.
 
     Exposed separately so consumers can record **the rank the selector actually
@@ -173,12 +258,19 @@ def rank_candidates(recognitions: list, ran: list) -> list:
         if text.strip() and not err:
             eligible.append((rec, pick))
 
+    lang = getattr(criteria, "lang", None)
+
     def rank(item):
         rec, pick = item
         engine = getattr(pick, "engine", "") or ""
         # VLM's 1.0 is a placeholder, not a match — see select_best's docstring.
         match = 0.0 if engine == "vlm" else float(getattr(pick, "score", 0.0) or 0.0)
-        return (match, float(_confidence_of(rec) or 0.0))
+        # A candidate written in the wrong script sorts below EVERY plausible one,
+        # whatever its metadata match (#358). It stays in the list — a misconfigured
+        # model is evidence, and the Gate-2 card should show what each engine did —
+        # but it can never become the automatic pick.
+        plausible = 0 if script_implausible(_text_of(rec)[0], lang) else 1
+        return (plausible, match, float(_confidence_of(rec) or 0.0))
 
     return sorted(eligible, key=rank, reverse=True)
 
@@ -258,7 +350,7 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     # No-merge band (#300): at this much disagreement there is no consensus to
     # find, so select rather than blend.
     if len(recognitions) >= 2 and max_cer > no_merge_cer:
-        best = select_best(recognitions, ran)
+        best = select_best(recognitions, ran, criteria)
         if best is not None:
             rec, pick = best
             why = (f"no-merge: max pairwise CER {max_cer:.1%} > {no_merge_cer:.1%} — "

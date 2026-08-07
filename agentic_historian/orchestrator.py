@@ -833,7 +833,8 @@ def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None,
         # this is the only moment all three are known together.
         try:
             from agent_a.ensemble import rank_candidates
-            ranked = rank_candidates(er.recognitions, getattr(er, "ran", []) or [])
+            ranked = rank_candidates(er.recognitions, getattr(er, "ran", []) or [],
+                                    criteria)
             ranks = {_label(rec): i + 1 for i, (rec, _pick) in enumerate(ranked)}
             # The recognitions carry the GATEWAY id (resolve_gateway_id, #277) while
             # the model selector and the routing prior work in LOCAL ids (kraken =
