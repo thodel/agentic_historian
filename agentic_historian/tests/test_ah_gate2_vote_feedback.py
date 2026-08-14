@@ -204,3 +204,76 @@ def test_the_card_is_still_updated_after_deferring():
         return inter
     inter = asyncio.run(go())
     assert "edit" in inter.events and inter.edited, "no visible update after defer"
+
+
+# ── #368: the click must be visibly acknowledged BEFORE the work ─────────────
+
+class _OrderedInteraction(_OrderTrackingInteraction):
+    """Records each edit's content so the pending repaint is identifiable."""
+    async def _edit(self, *, content=None, view=None):
+        self.events.append(f"edit:{'pending' if (content or '').startswith('⏳') else 'final'}")
+        self.edited.append(content)
+        self.views.append(view)
+
+
+def _sequence(field, state=None):
+    async def go():
+        st = state or RunState(doc_id="d-368")
+        inter = _OrderedInteraction()
+        await _btn(st, field).callback(inter)
+        return inter
+    return asyncio.run(go())
+
+
+def test_a_confirm_repaints_before_applying():
+    """#353 made the ack invisible (a component defer shows nothing) while the
+    visible change still waited on apply_combined_choice — so the click looked like
+    it had done nothing, and a second click double-records a preference (#332)."""
+    st = RunState(doc_id="d-368-confirm")
+    st.gate_decisions["gate2_selected"] = [list(PATHS)[0]]
+    inter = _sequence(path_compare._CONFIRM_FIELD, st)
+
+    assert inter.events[0] == "defer"
+    assert inter.events[1] == "edit:pending"
+
+
+def test_a_reject_repaints_before_recording():
+    inter = _sequence(path_compare._REJECT_FIELD)
+    assert inter.events[:2] == ["defer", "edit:pending"]
+
+
+def test_the_pending_card_removes_the_buttons():
+    """A disabled card cannot be submitted twice — that matters more than the
+    reassurance itself."""
+    st = RunState(doc_id="d-368-view")
+    st.gate_decisions["gate2_selected"] = [list(PATHS)[0]]
+    inter = _sequence(path_compare._CONFIRM_FIELD, st)
+    assert inter.views[0] is None
+
+
+def test_the_final_card_still_replaces_the_pending_one():
+    st = RunState(doc_id="d-368-final")
+    st.gate_decisions["gate2_selected"] = [list(PATHS)[0]]
+    inter = _sequence(path_compare._CONFIRM_FIELD, st)
+
+    assert inter.events[-1] == "edit:final"
+    assert not (inter.edited[-1] or "").startswith("⏳")
+
+
+def test_a_failing_confirm_still_reaches_a_terminal_card(monkeypatch):
+    """A card stuck on "wird angewendet" is worse than one showing a bad outcome."""
+    monkeypatch.setattr(path_compare, "apply_combined_choice",
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+    st = RunState(doc_id="d-368-boom")
+    st.gate_decisions["gate2_selected"] = [list(PATHS)[0]]
+    inter = _sequence(path_compare._CONFIRM_FIELD, st)
+    assert inter.events[-1] == "edit:final"
+
+
+def test_the_pending_card_names_what_is_being_applied():
+    """"wird angewendet" with no subject leaves the historian unsure which of ten
+    candidates was taken."""
+    st = RunState(doc_id="d-368-name")
+    st.gate_decisions["gate2_selected"] = [list(PATHS)[0]]
+    inter = _sequence(path_compare._CONFIRM_FIELD, st)
+    assert path_compare._card_label(list(PATHS)[0], show_page=False) in inter.edited[0]
