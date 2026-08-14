@@ -40,6 +40,10 @@ class EnsembleResult:
     provenance: list = field(default_factory=list)
     loops: int = 0                                     # feedback loops executed
     max_pairwise_cer: float = 0.0                      # final disagreement measure
+    #: Candidates that produced usable text. Below 2 there are no pairs, so
+    #: ``max_pairwise_cer`` is 0.0 for want of a comparison rather than because the
+    #: engines agreed — the caller must not read that as quality (#367).
+    usable: int = 0
     ran: list = field(default_factory=list)            # ModelPicks actually run
     added: list = field(default_factory=list)          # ModelPicks the loop added
     no_merge: bool = False                             # #300: selected, not blended
@@ -348,6 +352,12 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                     f"max pairwise CER now {max_cer:.2%}")
 
     # No-merge band (#300): at this much disagreement there is no consensus to
+    # Candidates that actually produced text. This is what makes max_cer readable:
+    # below 2 there was nothing to compare, so a 0.0 means "unmeasured", not
+    # "in agreement" (#367).
+    usable = len([t for t, e in (_text_of(r) for r in recognitions)
+                  if t.strip() and not e])
+
     # find, so select rather than blend.
     if len(recognitions) >= 2 and max_cer > no_merge_cer:
         best = select_best(recognitions, ran, criteria)
@@ -360,11 +370,12 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
             return EnsembleResult(
                 recognitions=recognitions, text=_text_of(rec)[0], provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
-                no_merge=True, selected=rec,
+                no_merge=True, selected=rec, usable=usable,
             )
 
     fr = fuse(recognitions, llm_fn=llm_fn)
     return EnsembleResult(
         recognitions=recognitions, text=fr.text, provenance=fr.provenance,
         loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
+        usable=usable,
     )
