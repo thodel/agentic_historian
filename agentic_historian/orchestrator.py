@@ -907,13 +907,23 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
             # QA of -0.95, which was then averaged into the order's score and
             # written into the .txt header. "Negative quality" is not a reading
             # anyone can act on; total disagreement is simply 0.
-            scores.append(round(max(0.0, min(1.0, 1.0 - er.max_pairwise_cer)), 2))
+            # Only a page with something to compare gets a quality score. With a
+            # single usable candidate max_pairwise_cer is 0.0 for want of a pair,
+            # and 1.0 - 0.0 = 1.0 reported PERFECT agreement on a page where two of
+            # three engines had failed (#367). That is the inverse of #300: it
+            # manufactures certainty from absence, and does so exactly when the
+            # system is broken and the number is least likely to be questioned.
+            if getattr(er, "usable", 0) >= 2:
+                scores.append(round(max(0.0, min(1.0, 1.0 - er.max_pairwise_cer)), 2))
             for rec in er.recognitions:
                 if rec not in ctx.recognitions:
                     ctx.recognitions.append(rec)
+            _usable = getattr(er, "usable", 0)
+            _agree = (f"agreement CER {er.max_pairwise_cer:.2%}" if _usable >= 2
+                      else "agreement not measurable (<2 usable candidates)")
             logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
-                        f"{len(er.recognitions)} engine(s), {er.loops} loop(s), "
-                        f"agreement CER {er.max_pairwise_cer:.2%}")
+                        f"{_usable} usable of {len(er.recognitions)} attempted, "
+                        f"{er.loops} loop(s), {_agree}")
             _record_no_merge_vote(doc_id, img.name, er, criteria, on_phase=on_phase)
             # One event per candidate, so the historian sees WHICH engine read what —
             # the u-17__ failure was invisible precisely because only the merged text
@@ -924,9 +934,14 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
                       output=rec.text, error=rec.error or "",
                       decision=f"{img.name} · {label} · {rec.engine}/{rec.model_id}")
             _emit(on_phase, doc_id, "vlm", "A", output=er.text,
-                  decision=f"{img.name} · {label} ensemble: {len(er.recognitions)} "
-                           f"engine(s), {er.loops} loop(s), "
-                           f"agreement CER {er.max_pairwise_cer:.1%}")
+                  status="done" if _usable >= 2 else "error",
+                  error=("" if _usable >= 2 else
+                         f"only {_usable} of {len(er.recognitions)} engine(s) "
+                         f"produced text — no agreement measurable"),
+                  decision=f"{img.name} · {label} ensemble: {_usable} usable of "
+                           f"{len(er.recognitions)} attempted, {er.loops} loop(s), "
+                           + (f"agreement CER {er.max_pairwise_cer:.1%}"
+                              if _usable >= 2 else "agreement n/a"))
         except Exception as e:
             logger.error(f"[Orchestrator] Agent A Seite {img.name} fehlgeschlagen: {e}")
             ctx.errors.append({"agent": "A", "page": img.name, "error": str(e)})

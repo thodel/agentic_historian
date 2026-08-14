@@ -32,10 +32,18 @@ from agent_a.model_selector import RecognitionResult  # noqa: E402
 def rig(tmp_path, monkeypatch):
     def make(cer):
         def fake(img, criteria):
+            # TWO candidates: a pairwise CER is only defined between a pair, and
+            # the old single-candidate rig quietly asserted a comparison that could
+            # not exist. #367 made that inconsistency load-bearing — a page with
+            # one usable candidate now gets no QA score at all, because a 0.0
+            # disagreement there means "nothing to compare", not "they agree".
             return SimpleNamespace(
                 recognitions=[RecognitionResult(engine="trocr", model_id="t0",
-                                                text="eine lesart", confidence=0.9)],
-                text="eine lesart", loops=1, max_pairwise_cer=cer)
+                                                text="eine lesart", confidence=0.9),
+                              RecognitionResult(engine="kraken", model_id="k0",
+                                                text="eine andere lesart",
+                                                confidence=0.8)],
+                text="eine lesart", loops=1, max_pairwise_cer=cer, usable=2)
         monkeypatch.setattr(orchestrator, "_recognize_page_ensemble", fake)
 
     monkeypatch.setattr(orchestrator, "DUAL_AVAILABLE", True)
