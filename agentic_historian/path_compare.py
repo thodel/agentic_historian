@@ -356,6 +356,26 @@ def render_vote_card(state: RunState, paths: dict[str, str], *,
     return "\n".join([header, "", blocks_text, "", cer_line, "", footer])
 
 
+def render_pending_card(state: RunState, chosen: list, *, rejected: bool = False,
+                       multi: bool = False) -> str:
+    """The card while a decision is being applied (#368).
+
+    #353 moved the acknowledgement before the work so a slow confirm could not
+    outrun Discord's 3 s token. But ``response.defer()`` on a COMPONENT interaction
+    is invisible by design, and the visible change still waited for
+    ``apply_combined_choice`` to fuse, save and record — so the click looked like
+    it had done nothing. That invites a second click, and a second confirm
+    double-records a preference (#332), corrupting the measurement #326 exists to
+    produce. One repaint here closes that window.
+    """
+    if rejected:
+        return (f"⏳ **{state.doc_id}** · wird als Abdeckungslücke erfasst …")
+    labels = ", ".join(_card_label(c, show_page=multi) for c in chosen)
+    what = "kombiniert" if len(chosen) > 1 else "übernommen"
+    return (f"⏳ **{state.doc_id}** · {labels} wird {what} …\n"
+            f"_B/C laufen anschliessend auf diesem Text neu._")
+
+
 def render_decided_card(state: RunState, paths: dict[str, str],
                         chosen: list[str], text: str, *,
                         rejected: bool = False) -> str:
@@ -527,6 +547,11 @@ def build_view(state: RunState, paths: dict[str, str],
             import asyncio
             await _defer(interaction)
             chosen = _selected(state)
+            # Repaint BEFORE the work and drop the view: a disabled card cannot be
+            # submitted twice, which matters more than the reassurance (#368).
+            await _ack(interaction,
+                       render_pending_card(state, chosen,
+                                           multi=_multi_page(chosen)), None)
             applied = None
             try:
                 if chosen:
@@ -579,6 +604,8 @@ def build_view(state: RunState, paths: dict[str, str],
 
         async def callback(self, interaction):
             await _defer(interaction)
+            await _ack(interaction,
+                       render_pending_card(state, [], rejected=True), None)
             try:
                 import preferences
                 user = getattr(interaction, "user", None)
