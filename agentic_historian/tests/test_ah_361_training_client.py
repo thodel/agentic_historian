@@ -46,9 +46,15 @@ from agent_a.training_client import (
 def mock_httpx():
     """Patch httpx.Client so we can inject fake responses."""
     with patch("agent_a.training_client.httpx.Client") as mock_cls:
-        mock_client = MagicMock()
-        mock_cls.return_value.__enter__ = MagicMock(return_value=mock_client)
-        mock_cls.return_value.__exit__  = MagicMock(return_value=None)
+        # TrainingClient.__enter__ assigns httpx.Client(...) DIRECTLY — it never
+        # enters it as a context manager — so the object the client calls is
+        # mock_cls.return_value itself. Yielding __enter__.return_value handed the
+        # tests a different mock whose auto-created .status_code is a MagicMock, and
+        # every test that reached _check died on `MagicMock >= 400`.
+        mock_client = mock_cls.return_value
+        # Constructor assertions need the CLASS mock, method assertions the
+        # instance. Both are reachable from one fixture value rather than two.
+        mock_client.ctor = mock_cls
         yield mock_client
 
 
@@ -475,16 +481,16 @@ class TestAuthHeader:
     def test_header_sent_when_api_key_set(self, mock_httpx):
         """TrainingClient.__enter__ passes X-API-Key to the httpx.Client ctor."""
         mock_httpx.get.return_value = _make_response({"jobs": []})
-        with TrainingClient(base_url="http://localhost", api_key="***") as client:
+        with TrainingClient(base_url="http://localhost", api_key="my-secret") as client:
             # verify X-API-Key was captured from api_key param
-            assert client.api_key == "***"
+            assert client.api_key == "my-secret"
             # trigger a call so mock_httpx.get() is invoked
             client.list_jobs()
 
         # Verify get was called
         mock_httpx.get.assert_called_once()
         # Verify the X-API-Key header was passed when constructing httpx.Client
-        construct_kwargs = mock_httpx.call_args[1]
+        construct_kwargs = mock_httpx.ctor.call_args[1]
         assert construct_kwargs.get("headers", {}).get("X-API-Key") == "my-secret"
 
     def test_no_header_when_api_key_empty(self, mock_httpx):
@@ -493,7 +499,7 @@ class TestAuthHeader:
         with TrainingClient(base_url="http://localhost", api_key="") as client:
             client.list_jobs()
 
-        construct_kwargs = mock_httpx.call_args[1]
+        construct_kwargs = mock_httpx.ctor.call_args[1]
         headers = construct_kwargs.get("headers", {})
         assert "X-API-Key" not in headers
 
@@ -510,13 +516,13 @@ class TestConvenienceHelpers:
             cfg.ATR_API_KEY      = ""
             cfg.ATR_HTTP_TIMEOUT = 300.0
 
-            mock_client = MagicMock()
+            # TrainingClient.__enter__ assigns httpx.Client(...) directly
+            # (mirroring KrakenHTTPClient), so this IS the object it calls.
+            mock_client = mock_cls.return_value
             mock_response = _make_response({
                 "id": "j1", "status": "queued", "preset": "x", "model_id": "y"
             })
             mock_client.post.return_value = mock_response
-            mock_cls.return_value.__enter__ = MagicMock(return_value=mock_client)
-            mock_cls.return_value.__exit__  = MagicMock(return_value=None)
 
             job = create_training_job("preset-x", "model-y")
 
@@ -532,13 +538,13 @@ class TestConvenienceHelpers:
             cfg.ATR_API_KEY      = ""
             cfg.ATR_HTTP_TIMEOUT = 300.0
 
-            mock_client = MagicMock()
+            # TrainingClient.__enter__ assigns httpx.Client(...) directly
+            # (mirroring KrakenHTTPClient), so this IS the object it calls.
+            mock_client = mock_cls.return_value
             mock_response = _make_response({
                 "id": "j5", "status": "training", "preset": "x", "model_id": "y"
             })
             mock_client.get.return_value = mock_response
-            mock_cls.return_value.__enter__ = MagicMock(return_value=mock_client)
-            mock_cls.return_value.__exit__  = MagicMock(return_value=None)
 
             job = get_training_job("j5")
 
@@ -552,11 +558,11 @@ class TestConvenienceHelpers:
             cfg.ATR_API_KEY      = ""
             cfg.ATR_HTTP_TIMEOUT = 300.0
 
-            mock_client = MagicMock()
+            # TrainingClient.__enter__ assigns httpx.Client(...) directly
+            # (mirroring KrakenHTTPClient), so this IS the object it calls.
+            mock_client = mock_cls.return_value
             mock_response = _make_response({"jobs": []})
             mock_client.get.return_value = mock_response
-            mock_cls.return_value.__enter__ = MagicMock(return_value=mock_client)
-            mock_cls.return_value.__exit__  = MagicMock(return_value=None)
 
             jobs = list_training_jobs(limit=5, status=JobStatus.DONE)
 
