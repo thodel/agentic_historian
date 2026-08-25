@@ -76,6 +76,7 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 | `/agent_e` | Meta report |
 | `/search <name>` | Federated person search across the KH MCP sources (HLS/HBLS/KF/EOS) |
 | `/route <doc_id>` | HITL Gate-1 routing card — correct inferred metadata, re-route HTR |
+| `/votes <doc_id>` | HITL Gate-2 card — pick the closest reading when the engines disagree (see *Quality without ground truth*) |
 | `/status`, `/progress` | Status |
 
 Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races).
@@ -101,6 +102,13 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `ENABLE_GITHUB_PUBLISH` | Publish processed outputs to the public catalogue repo (default `false`) |
 | `GITHUB_OUTPUT_REPO` / `_BRANCH` | Output repo (default `thodel/agentic-historian-outputs`, `main`) |
 | `SOURCE_URL_BASE` | Base URL for source-image links on published pages (empty = no link) |
+| `ENABLE_ENSEMBLE_HTR` | Multi-engine ensemble per page (VLM + kraken + TrOCR) instead of VLM-only (default `false`) |
+| `ENSEMBLE_MIN_ENGINES` / `_PER_ENGINE` / `_MAX_LOOPS` | Engines per page (3), models ranked per engine (3), extra loops while candidates disagree (4) |
+| `ENSEMBLE_AGREEMENT_CER` | Pairwise CER above which the loop widens the pool (default `0.30`) |
+| `ENSEMBLE_NO_MERGE_CER` | Pairwise CER above which candidates are **selected, not merged** (default `0.35`) |
+| `ENABLE_VERBOSE_PROGRESS` | Live per-step progress board in Discord (default `false`) |
+| `VERBOSE_PROGRESS_CHANNEL_ID` | Channel for background runs; unset = the invoking channel |
+| `AUTO_RESUME_AFTER_GATE` | Re-run B/C automatically after a gate decision (default `false`) |
 | `ENABLE_ROUTING_PRIOR` | Additive routing prior from historian feedback in model selection (default `false`) |
 | `ORCHESTRATOR_LLM_ENABLED` | Optional LLM routing overlay for Phase 4+ decisions (default `false`) |
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
@@ -296,6 +304,53 @@ def analyse_with_voyant(text: str, endpoint: str = "https://tei.dh.unibe.ch/voya
 
 **Important:** The Voyant endpoint is internal-only (`localhost:8888` proxy) — always route through `https://tei.dh.unibe.ch/voyant/`.
 
+## Quality without ground truth
+
+When several engines read the same page and disagree badly, there is no automatic
+way to tell which reading is right. The pipeline does not pretend otherwise.
+
+**Above `ENSEMBLE_NO_MERGE_CER` the candidates are selected, not merged.** Merging
+assumes engines make independent errors around a shared signal; when they genuinely
+disagree there is no shared signal, and the vote returns noise. Measured on BAT_664
+at 70 % pairwise CER, the fused text was a good TrOCR reading with its correct parts
+voted out by three garbage candidates.
+
+**A Gate-2 selection is the closest available reading, never ground truth.** The
+historian picks from what *we* produced, bounded by the pool. Measuring CER against
+that choice would certify our own errors, cap quality at "reproduces the existing
+pool", and penalise any better model that disagrees with it. So `/votes` records
+**comparisons**, not text:
+
+    chosen ≻ each offered-but-not-chosen   (within one page)
+
+`data/feedback/preferences.jsonl` therefore contains no transcription at all, and
+voter ids are pseudonymised with a per-deployment salt.
+
+What that buys, none of it needing a reference text:
+
+| Signal | Question it answers |
+|---|---|
+| **Coverage** | Did the ensemble produce *anything* usable? ("Keine brauchbar" is a recorded answer, not silence) |
+| **Selection agreement** | Did the automatic pick match the historian's? — measures the *selector* |
+| **`regret_cer`** | How far apart were they? A distance between two of our own candidates — **not** an accuracy |
+| **Engine strength** | Which engine wins for e.g. Kurrent 15th c., via Bradley–Terry over the comparisons |
+
+One click over N candidates yields N-1 comparisons, which is why the log stores
+comparisons rather than texts. Below ~10 comparisons a bucket reports *insufficient
+data* rather than a number: a confident-looking strength from three clicks would
+steer model selection on nothing.
+
+Two things the card deliberately does **not** show: the model's match score, and
+which candidate the selector picked. Both would anchor the choice, and the choice
+is the evidence the agreement and strength metrics are computed from — a display
+that steers it would make those metrics measure the display.
+
+Match score ranks *fit to the source's metadata*, not output quality. Live on
+BAT_664 the 0.20-scored model read the page correctly and the 0.80-scored one did
+not. A candidate whose output is in the wrong writing system altogether (CJK for a
+Latin-script German page) can never be selected — that is not a quality judgement
+but a statement about possibility.
+
 ## Models
 
 Model registry lives in the sibling repo **serving-atr-inference**:
@@ -326,10 +381,25 @@ be segmented first (e.g. via kraken `blla`).
 
 ## Status
 
-The core pipeline is operational and verified live end-to-end (2026-07): VLM
-HTR → Ad-Fontes description → kraken re-run with script-aware model selection →
+The core pipeline is operational and verified live end-to-end: VLM HTR →
+Ad-Fontes description → criteria-driven re-run with script-aware model selection →
 entities with 4/4 MCP knowledge-hub sources. CI runs the full offline suite on
 every PR. See `IMPLEMENTATION_PLAN.md` and `AGENTIC_HITL_PLAN.md` for history.
+
+Since 2026-08 the recognition path is the **multi-engine ensemble** on both the
+grouped and the single-document route (they share one code path, so they cannot
+drift apart), with a two-pass design: pass 1 runs blind, Agent B describes the
+source, pass 2 reads it again with the models that description implies. Gate-2
+voting, the preference log and the progress board are live on tei.
+
+Honest about its own limits — each of these was a real defect, found live:
+
+- a page where fewer than two candidates are usable gets **no quality score**;
+  "nothing to compare" is not "perfect agreement"
+- a candidate in the wrong writing system is never the automatic pick
+- a language or script that cannot be recognised yields **no value** rather than a
+  plausible-looking wrong one
+- `/votes` on an unknown document says so, instead of reporting that the engines agreed
 
 - Scaffold + Discord bot, Agents A–E, hot-folder/SwitchDrive ingestion ✅
 - **Knowledge Hub — MCP federation ✅** (SSE + streamable-HTTP transports; HLS/HBLS/KF/EOS live; federated `/search`; Agent C linking)
@@ -337,6 +407,10 @@ every PR. See `IMPLEMENTATION_PLAN.md` and `AGENTIC_HITL_PLAN.md` for history.
 - **Agentic HITL ✅ as machinery** (Gates 1–3, RunState invalidation, uncertainty rules, feedback log, routing prior, optional LLM router) — auto-wiring the gates into the pipeline is a Phase-0 follow-up
 - **Publishing to GitHub + Pages ✅** (opt-in; see "Publishing outputs")
 - NL/SitL planner prototype, semantic clustering, agent tool registry ✅ (built + tested; Discord wiring lands in Phase 1)
+- **Multi-engine ensemble + no-merge band ✅** (#298/#300; one recognition path for `/run` and grouped orders)
+- **Gate-2 voting + preference log ✅** (#313/#332; comparisons only, never text — see *Quality without ground truth*)
+- **Live progress board ✅** (#287/#289; per-candidate events, so an engine failure is visible instead of averaged away)
+- **Measurement layer ✅ as machinery** (#326: coverage, selection agreement, `regret_cer`, Bradley–Terry engine strength) — it needs *votes*, not code: with one manuscript voted on, every figure is still n≈1, and `ENABLE_ROUTING_PRIOR` stays off until preferences span several documents
 
 ## Roadmap — Phase 1 (in progress)
 
