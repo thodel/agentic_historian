@@ -163,6 +163,32 @@ LANG_ALIASES: dict[str, str] = {
 _LANG_CODES: frozenset = frozenset(LANG_ALIASES.values())
 
 
+# Scripts of the same family. A source described with the GENUS ("Kursive") and a
+# model tagged with a SPECIES ("Kurrent") are not a mismatch — Deutsche Kurrent is
+# a German cursive, and Sütterlin is a Kurrent variant.
+#
+# Live on tei (#358), Agent B called BAT_664 "Kursive" where an earlier run said
+# "Kurrent". Same page, same models, and the ranking inverted: kraken-medieval_15_16
+# (tagged "Humanistische Kursive", and whose output for this page is Japanese) took
+# a full script match at 0.80, while catmus-medieval and every other Kurrent model
+# was pushed to 0.15 by SCRIPT_MISMATCH. The penalty is what did the damage — not a
+# missing match, an active demotion of the right models.
+SCRIPT_FAMILIES: tuple[frozenset, ...] = (
+    frozenset({"kursive", "halbkursive", "kurrent", "sütterlin", "humanistisch"}),
+)
+
+
+def scripts_related(a: str, b: str) -> bool:
+    """True when two canonical script keys belong to the same family.
+
+    Deliberately narrow: only the cursive family, where the genus/species relation
+    is real. Textura and Rotunda are both gothic book hands but a model trained on
+    one does produce garbage on the other, which is exactly what SCRIPT_MISMATCH
+    exists to catch (#191).
+    """
+    return a != b and any(a in fam and b in fam for fam in SCRIPT_FAMILIES)
+
+
 def normalise_script(raw: str) -> str:
     """Map a raw script description to a canonical key."""
     s = raw.lower().strip()
@@ -261,7 +287,9 @@ def score_model(
             score += SCRIPT_EXACT
             matched.append("script")
             reasons.append(f"script={model.script}")
-        elif norm_script in norm_model_script or norm_model_script in norm_script:
+        elif (norm_script in norm_model_script
+              or norm_model_script in norm_script
+              or scripts_related(norm_script, norm_model_script)):
             score += SCRIPT_FUZZY
             matched.append("script~")
             reasons.append(f"script fuzzy: {model.script}")
