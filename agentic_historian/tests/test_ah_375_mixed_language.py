@@ -99,9 +99,14 @@ def _model(lang, script="Kurrent", centuries=(15, 16), model_id="m"):
 
 def test_the_second_language_is_no_longer_a_mismatch():
     """The live defect: with lang="de" alone, a Latin model scored no language
-    credit on a source that declares Latin."""
+    credit on a source that declares Latin.
+
+    It now scores as `lang2` rather than `lang` — credit, but less than the leading
+    language. That distinction came later, after equal credit let a Latin model win
+    a German page on a century tie-break; see the "eligible is not equal" block."""
     m = score_model(_model("la"), script="kursive", lang=["de", "la"], century=16)
-    assert "lang" in m.matched_on
+    assert "lang2" in m.matched_on
+    assert "lang-mismatch" not in m.matched_on
 
 
 def test_the_primary_language_still_matches():
@@ -139,3 +144,64 @@ def test_a_wrong_script_candidate_is_still_caught_for_either_language():
     assert script_implausible(cjk, "la") is True
     # and a real Latin reading is untouched
     assert script_implausible("modios trititi cum prato sito iuxta", "la") is False
+
+
+# ── eligible is not equal (live regression from #376) ────────────────────────
+
+def _trocr_scores(criteria):
+    from agent_a.model_selector import select_tocr_model
+    return {getattr(getattr(m, "model", None), "model_id", "?"): m.score
+            for m in (select_tocr_model(criteria, top_k=6) or [])}
+
+
+GERMAN_PAGE = SourceCriteria(script="fraktur", century=15, lang="de",
+                             langs=["de", "la"])
+LATIN_PAGE = SourceCriteria(script="fraktur", century=15, lang="la",
+                            langs=["la", "de"])
+
+
+def test_a_german_page_prefers_the_german_model():
+    """#376 gave every declared language the same credit, so a page confidently
+    detected as German gained no advantage from that detection: on saa-0428 001r a
+    Middle Latin model won on a century tie-break and opened its reading with a
+    hallucinated 'affidavit'."""
+    s = _trocr_scores(GERMAN_PAGE)
+    assert s["dh-unibe/trocr-kurrent-XVI-XVII"] > s["dh-unibe/trocr-essoins-middle-latin"]
+
+
+def test_a_latin_page_still_prefers_the_latin_model():
+    s = _trocr_scores(LATIN_PAGE)
+    assert s["dh-unibe/trocr-essoins-middle-latin"] > s["dh-unibe/trocr-kurrent-XVI-XVII"]
+
+
+def test_the_secondary_language_stays_in_contention():
+    """Eligible, not equal. Even a Latin charter names German persons and places, so
+    the German model must not be scored as a mismatch on a Latin page."""
+    s = _trocr_scores(LATIN_PAGE)
+    assert s["dh-unibe/trocr-kurrent-XVI-XVII"] > 0.0
+
+
+def test_the_secondary_language_is_marked_as_such():
+    from agent_a.model_selector import select_tocr_model
+    for m in (select_tocr_model(GERMAN_PAGE, top_k=6) or []):
+        if getattr(getattr(m, "model", None), "model_id", "") == \
+                "dh-unibe/trocr-essoins-middle-latin":
+            assert any("secondary" in r for r in m.matched_on)
+            return
+    pytest.fail("the Latin model was not offered at all")
+
+
+def test_kraken_ranks_the_primary_language_first_too():
+    """Both scorers, or the two drift apart on the same criteria."""
+    m_primary = score_model(_model("de"), script="fraktur",
+                            lang=["de", "la"], century=15)
+    m_secondary = score_model(_model("la"), script="fraktur",
+                              lang=["de", "la"], century=15)
+    assert m_primary.score > m_secondary.score
+    assert "lang" in m_primary.matched_on and "lang2" in m_secondary.matched_on
+
+
+def test_a_single_declared_language_is_unaffected():
+    """No secondary exists — scoring must be exactly as before."""
+    m = score_model(_model("de"), script="fraktur", lang=["de"], century=15)
+    assert "lang" in m.matched_on and "lang2" not in m.matched_on
