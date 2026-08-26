@@ -198,6 +198,51 @@ def normalise_script(raw: str) -> str:
     return s
 
 
+def normalise_langs(raw: str) -> list[str]:
+    """Every language a source declares, in the order they appear. May be empty.
+
+    A cartulary is genuinely bilingual. Agent B described saa-0428 accurately as
+    *"Deutsch und Latein, gemischt"* — German front matter, Latin charters — and
+    ``normalise_lang`` collapsed that to ``"de"`` because the longest matching alias
+    wins. The Latin models were then scored as a language mismatch on every page,
+    and a Latin charter was read with a German Kurrent model while
+    ``trocr-essoins-middle-latin`` sat unused in the pool (#375).
+
+    A better tie-break would not help: preferring Latin would simply invert the
+    error. The type was wrong — a source language is a set, not a value.
+
+    Overlapping aliases are resolved by position and length, so
+    "mittelhochdeutsch" yields ``de`` once rather than also matching the "deutsch"
+    inside it.
+    """
+    s = (raw or "").lower().strip()
+    if not s:
+        return []
+    if s in LANG_ALIASES:
+        return [LANG_ALIASES[s]]
+    if s in _LANG_CODES:
+        return [s]
+
+    hits: list[tuple[int, int, str]] = []      # (position, -length, code)
+    for alias, code in LANG_ALIASES.items():
+        start = s.find(alias)
+        while start != -1:
+            hits.append((start, -len(alias), code))
+            start = s.find(alias, start + 1)
+    hits.sort()
+
+    out: list[str] = []
+    claimed: list[tuple[int, int]] = []
+    for pos, neg_len, code in hits:
+        end = pos + (-neg_len)
+        if any(pos < c_end and c_start < end for c_start, c_end in claimed):
+            continue                            # inside a longer alias already taken
+        claimed.append((pos, end))
+        if code not in out:
+            out.append(code)
+    return out
+
+
 def normalise_lang(raw: str) -> str:
     """Map a raw language description to an ISO 639-1 code, or ``""`` if unknown.
 
@@ -273,7 +318,14 @@ def score_model(
     reasons: list[str] = []
 
     norm_script = normalise_script(script) if script else None
-    norm_lang   = normalise_lang(lang) if lang else None
+    # `lang` may be a single code, a raw description, or a list of codes — a
+    # bilingual source declares more than one (#375).
+    if isinstance(lang, str):
+        norm_langs = normalise_langs(lang)
+    elif lang:
+        norm_langs = [c for c in (normalise_lang(str(x)) for x in lang) if c]
+    else:
+        norm_langs = []
 
     # Script match — the strongest signal for HTR: a kraken model trained on the
     # wrong script produces garbage even when language/century agree. So an exact
@@ -298,13 +350,16 @@ def score_model(
             matched.append("script-mismatch")
             reasons.append(f"script mismatch: want {script}, model {model.script}")
 
-    # Language match
-    if norm_lang and model.lang:
-        if norm_lang == model.lang:
+    # Language match — the BEST match across every language the source declares.
+    # A bilingual source must not have its second language scored as a mismatch:
+    # saa-0428 is "Deutsch und Latein" and its Latin charters were read with a
+    # German Kurrent model while a Middle Latin model sat unused (#375).
+    if norm_langs and model.lang:
+        if model.lang in norm_langs:
             score += 0.3
             matched.append("lang")
             reasons.append(f"lang={model.lang}")
-        elif norm_lang in model.lang or model.lang in norm_lang:
+        elif any(nl in model.lang or model.lang in nl for nl in norm_langs):
             score += 0.15
             matched.append("lang~")
             reasons.append(f"lang fuzzy: {model.lang}")
@@ -356,7 +411,11 @@ class SourceCriteria:
     Construct via SourceCriteria.from_agent_b() or directly.
     """
     script: Optional[str] = None        # e.g. "Caroline minuscule"
-    lang: Optional[str] = None          # ISO code, e.g. "de", "la"
+    lang: Optional[str] = None          # primary ISO code, e.g. "de", "la"
+    #: Every language the source declares, primary first. A cartulary is genuinely
+    #: bilingual ("Deutsch und Latein"), and collapsing that to `lang` alone scored
+    #: the other language's models as a mismatch on every page (#375).
+    langs: list = field(default_factory=list)
     century: Optional[int] = None       # integer 10–20
     date_raw: Optional[str] = None       # raw date string (e.g. "14. Jh.")
     document_type: Optional[str] = None # e.g. "charter", "ledger", "chronicle"
@@ -371,12 +430,11 @@ class SourceCriteria:
         """
         desc = description.lower()
 
-        # Extract language
-        lang = None
-        for kw, code in LANG_ALIASES.items():
-            if kw in desc:
-                lang = code
-                break
+        # Extract language. The FULL set, not the first hit: a source described as
+        # "Deutsch und Latein" declares two, and keeping only one scored the other's
+        # models as a mismatch on every page (#375).
+        langs = normalise_langs(desc)
+        lang = langs[0] if langs else None
 
         # Extract script
         script = None
@@ -431,6 +489,7 @@ class SourceCriteria:
         return cls(
             script=script,
             lang=lang,
+            langs=langs,
             century=century,
             date_raw=description,
             document_type=doc_type,
@@ -467,7 +526,8 @@ class SourceCriteria:
 
         # Sprache -> lang
         lang_raw = _unwrap(source_json.get("Sprache"))
-        lang = normalise_lang(lang_raw) if lang_raw else None
+        langs = normalise_langs(lang_raw) if lang_raw else []
+        lang = langs[0] if langs else None
 
         # Datierung -> century
         dat_raw = _unwrap(source_json.get("Datierung"))
@@ -497,6 +557,7 @@ class SourceCriteria:
         return cls(
             script=script if script is not None else (fb.script if fb else None),
             lang=lang if lang is not None else (fb.lang if fb else None),
+            langs=langs or (list(getattr(fb, 'langs', []) or []) if fb else []),
             century=century if century is not None else (fb.century if fb else None),
             date_raw=dat_raw or (fb.date_raw if fb else ""),
             document_type=doc_type if doc_type is not None else (fb.document_type if fb else None),
@@ -555,7 +616,7 @@ def select_kraken_model(
         match = score_model(
             m,
             script=criteria.script,
-            lang=criteria.lang,
+            lang=(criteria.langs or criteria.lang),
             century=criteria.century,
             document_type=criteria.document_type,
         )
@@ -619,9 +680,12 @@ def _score_tocr_model(
     score = 0.0
     reasons: list[str] = []
 
-    # Language match (primary signal for TrOCR — it is script-specific)
-    if lang and model.lang:
-        if lang.lower() == model.lang.lower():
+    # Language match (primary signal for TrOCR — it is script-specific). Accepts a
+    # set: a bilingual source keeps both languages' models eligible (#375).
+    _langs = ([lang] if isinstance(lang, str) else list(lang or []))
+    _langs = [str(x).lower() for x in _langs if x]
+    if _langs and model.lang:
+        if model.lang.lower() in _langs:
             score += 0.6
             reasons.append(f"lang={model.lang}")
         elif model.lang == "mul":
@@ -677,7 +741,8 @@ def select_tocr_model(
         if m.task not in ("line-ocr", "htr"):
             continue
 
-        sc, reason = _score_tocr_model(m, lang=criteria.lang, century=criteria.century)
+        sc, reason = _score_tocr_model(m, lang=(criteria.langs or criteria.lang),
+                                       century=criteria.century)
         if sc >= require_score_above:
             scored.append(_ModelMatchHF(
                 model=m,
