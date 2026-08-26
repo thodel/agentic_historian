@@ -304,6 +304,41 @@ def analyse_with_voyant(text: str, endpoint: str = "https://tei.dh.unibe.ch/voya
 
 **Important:** The Voyant endpoint is internal-only (`localhost:8888` proxy) — always route through `https://tei.dh.unibe.ch/voyant/`.
 
+## Language is an approximation, at every level
+
+Model selection needs a language. The sources do not reliably have one.
+
+A cartulary such as `saa-0428` (Königsfelden, e-codices) has German front matter
+and Latin charters. Agent B describes it correctly as *"Deutsch und Latein,
+gemischt"*, and the pipeline keeps **both** — a declared language is a set, so both
+languages' models stay eligible on every page.
+
+Pass 2 then narrows that per page, from the pass-1 text, choosing only **between
+the languages the source already declared**. It never proposes a language nobody
+claimed: guessing freely from 500-year-old HTR output, with its systematic
+misreadings, would invent evidence. When a page is genuinely mixed, or the sample is
+thin, the detector returns nothing and the order-level criteria apply — a wrong page
+language is worse than no page language, because it removes the right models from
+contention.
+
+**A page is not a language.** This is the part worth stating plainly rather than
+burying in a docstring: in these manuscripts the register can change **between
+sentences, and within them** — a German entry quoting a Latin formula, a Latin
+charter naming German persons and places, an abbreviation that belongs to neither.
+Agent B reported exactly this for `saa-0428`: *"überwiegend mittelhochdeutsche
+Formen, aber mit lateinischen Floskeln und Abkürzungen."*
+
+The page is simply the unit the recognition pipeline already has. It is a better
+approximation than the order, and it is still an approximation. Sub-page language
+would need line- or region-level criteria, which the ensemble has no shape for
+today — and even a line is not safe, since a single line can carry a German name
+inside a Latin formula. Whatever granularity is chosen, the honest position is that
+a mixed source has no single correct answer, only a level at which the error is
+tolerable.
+
+That is why the other language is never dropped, even on a page confidently
+identified: the specialised language leads the ranking, the rest stay eligible.
+
 ## Quality without ground truth
 
 When several engines read the same page and disagree badly, there is no automatic

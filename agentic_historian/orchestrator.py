@@ -883,7 +883,7 @@ def _record_no_merge_vote(doc_id: str, page: str, er, criteria=None,
 
 
 def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
-                   page_headers: bool = True):
+                   page_headers: bool = True, criteria_for=None):
     """Run the page ensemble over every page with one set of criteria (#299).
 
     Shared by Phase 1 (blind criteria) and Phase 3 (Agent B's criteria) so the two
@@ -895,11 +895,21 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
     ``page_headers`` writes a ``--- <page> ---`` separator before each page. A
     multi-page order needs it to stay attributable; a single-doc run has exactly one
     page, where it would be new noise in an output format that never had it.
+
+    ``criteria_for(img)`` may override the criteria for a single page. An order is
+    not uniform: saa-0428 has German front matter and Latin charters, and one set of
+    criteria for the whole cartulary read the Latin with a German model (#375).
     """
     parts, scores = [], []
     for img in pages:
         try:
-            er = _recognize_page_ensemble(img, criteria)
+            page_criteria = criteria
+            if criteria_for is not None:
+                try:
+                    page_criteria = criteria_for(img) or criteria
+                except Exception as e:            # never let this break the page
+                    logger.warning(f"[Orchestrator] page criteria failed ({img.name}): {e}")
+            er = _recognize_page_ensemble(img, page_criteria)
             parts.append(f"--- {img.name} ---\n{er.text}" if page_headers else er.text)
             # Agreement-based QA, clamped to [0, 1]. CER is unbounded above: it is
             # edits/reference-length, so when candidates disagree in LENGTH as well
@@ -924,7 +934,7 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
             logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
                         f"{_usable} usable of {len(er.recognitions)} attempted, "
                         f"{er.loops} loop(s), {_agree}")
-            _record_no_merge_vote(doc_id, img.name, er, criteria, on_phase=on_phase)
+            _record_no_merge_vote(doc_id, img.name, er, page_criteria, on_phase=on_phase)
             # One event per candidate, so the historian sees WHICH engine read what —
             # the u-17__ failure was invisible precisely because only the merged text
             # was ever shown.
@@ -948,6 +958,59 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
             _emit(on_phase, doc_id, "vlm", "A", status="error", error=str(e),
                   decision=img.name)
     return parts, scores
+
+
+def _page_criteria_fn(criteria_b, ctx, doc_id: str, on_phase):
+    """Per-page criteria for pass 2, differing only in ``lang``.
+
+    Script and dating are properties of the codex and hold across an order; the
+    LANGUAGE does not. saa-0428 is a cartulary with German front matter and Latin
+    charters, and one language for the whole order read the Latin charters with a
+    German Kurrent model while a Middle Latin model sat unused (#375).
+
+    **A page is not a language either.** The register can switch between sentences —
+    a German entry quoting a Latin formula, a Latin charter naming German persons —
+    and Agent B said exactly that about this manuscript. The page is simply the unit
+    the pipeline already has; it is a better approximation than the order, not a
+    correct one. Sub-page language would need line- or region-level criteria, which
+    the ensemble has no shape for today.
+
+    Returns ``None`` when there is nothing to specialise: fewer than two declared
+    languages, no pass-1 text for the page, or a page the detector cannot call. The
+    order-level criteria then apply unchanged, which is the pre-#375 behaviour.
+    """
+    langs = list(getattr(criteria_b, "langs", None) or [])
+    if len(langs) < 2:
+        return None
+
+    from agent_a.model_selector import detect_language
+    from dataclasses import replace
+
+    def _page_text(name: str) -> str:
+        out = []
+        for rec in (getattr(ctx, "recognitions", None) or []):
+            page = rec.get("page") if isinstance(rec, dict) else getattr(rec, "page", "")
+            if page != name:
+                continue
+            text = rec.get("text") if isinstance(rec, dict) else getattr(rec, "text", "")
+            err = rec.get("error") if isinstance(rec, dict) else getattr(rec, "error", "")
+            if text and not err:
+                out.append(text)
+        return "\n".join(out)
+
+    def _for(img):
+        name = Path(img).name
+        found = detect_language(_page_text(name), langs)
+        if not found or found == getattr(criteria_b, "lang", None):
+            return None                      # nothing to change
+        _emit(on_phase, doc_id, "model_select", "A",
+              decision=f"{name} · Seitensprache {found} (Auftrag: "
+                       f"{'/'.join(langs)})")
+        logger.info(f"[Orchestrator] {name}: page language {found} "
+                    f"(order declares {'/'.join(langs)})")
+        return replace(criteria_b, lang=found, langs=[found] + [l for l in langs
+                                                               if l != found])
+    return _for
 
 
 def _criteria_rerun(pages, ctx, doc_id: str, on_phase, *, avg_qa: float,
@@ -983,7 +1046,9 @@ def _criteria_rerun(pages, ctx, doc_id: str, on_phase, *, avg_qa: float,
         _emit_model_select(on_phase, doc_id, criteria_b, label="from Agent B")
         parts_b, scores_b = _ensemble_pass(pages, criteria_b, ctx, doc_id, on_phase,
                                            label="pass 2 (criteria)",
-                                           page_headers=page_headers)
+                                           page_headers=page_headers,
+                                           criteria_for=_page_criteria_fn(
+                                               criteria_b, ctx, doc_id, on_phase))
         if not parts_b:
             return ctx.transcription, avg_qa
         text = "\n\n".join(parts_b).strip()

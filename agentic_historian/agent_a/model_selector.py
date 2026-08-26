@@ -243,6 +243,66 @@ def normalise_langs(raw: str) -> list[str]:
     return out
 
 
+# Function words that separate the languages this corpus actually mixes. These are
+# used ONLY to disambiguate between languages the source already declares — never
+# to detect a language nobody claimed. Guessing freely from 500-year-old HTR output,
+# with its systematic misreadings, would invent evidence; choosing between two
+# stated options is a much smaller claim.
+_LANG_MARKERS: dict[str, frozenset] = {
+    "de": frozenset({"und", "der", "die", "das", "von", "mit", "dem", "den", "ze",
+                     "ist", "sol", "haben", "brief", "sind", "nach", "auch", "sich",
+                     "als", "aber", "durch", "über", "vnd", "vnnd", "daz"}),
+    "la": frozenset({"cum", "et", "ad", "per", "qui", "quod", "quae", "sito",
+                     "iuxta", "anno", "domini", "item", "sunt", "est", "eius",
+                     "atque", "sive", "prato", "modios", "conventum", "nostri"}),
+    "fr": frozenset({"pour", "dans", "avec", "les", "une", "ledit", "icelui",
+                     "lesquels", "aussi"}),
+    "it": frozenset({"che", "della", "delle", "questo", "sono", "anche"}),
+    "nl": frozenset({"ende", "van", "den", "dat", "heeft", "ende"}),
+}
+
+#: Below this share of the marker hits, the leader is not distinct enough to act on.
+_LANG_MARGIN = 0.60
+#: Fewer marker hits than this and the sample says nothing either way.
+_LANG_MIN_HITS = 4
+
+
+def detect_language(text: str, among: list) -> Optional[str]:
+    """Which of the *declared* languages this text is mostly written in, or None.
+
+    **A page is not a language.** In a cartulary the register can switch between
+    sentences — a German entry quoting a Latin formula, a Latin charter naming
+    German places and persons — and Agent B said as much about saa-0428:
+    "überwiegend mittelhochdeutsche Formen, aber mit lateinischen Floskeln". Page
+    granularity is a working approximation chosen because it is the unit the
+    recognition pipeline already has, not because language changes by page (#375).
+
+    So this deliberately answers a narrow question: given that the source declares
+    e.g. {de, la}, which one dominates THIS page? It never proposes a language the
+    source did not claim, and it returns None whenever the evidence is thin or the
+    lead is slim — a wrong page language is worse than the order-level default,
+    because it silently removes the right models from contention.
+
+    Input is HTR output, so the markers are common function words that survive
+    moderate misreading; a marker missed costs a hit, never a wrong answer.
+    """
+    if not text or len(among or []) < 2:
+        return None
+    words = re.findall(r"[a-zäöüàèéìòùæœ]+", text.lower())
+    if not words:
+        return None
+    seen = set(words)
+    hits = {code: len(seen & _LANG_MARKERS.get(code, frozenset()))
+            for code in among if code in _LANG_MARKERS}
+    total = sum(hits.values())
+    if total < _LANG_MIN_HITS:
+        return None                       # too little evidence to overrule the order
+    best = max(hits, key=lambda c: hits[c])
+    if hits[best] / total < _LANG_MARGIN:
+        return None                       # the page is genuinely mixed — say nothing
+    return best
+
+
 def normalise_lang(raw: str) -> str:
     """Map a raw language description to an ISO 639-1 code, or ``""`` if unknown.
 
