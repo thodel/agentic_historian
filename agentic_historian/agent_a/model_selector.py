@@ -415,12 +415,23 @@ def score_model(
     # saa-0428 is "Deutsch und Latein" and its Latin charters were read with a
     # German Kurrent model while a Middle Latin model sat unused (#375).
     if norm_langs and model.lang:
-        if model.lang in norm_langs:
+        # The FIRST declared language leads. #376 made every declared language score
+        # identically, so a page confidently detected as German gained no ranking
+        # advantage from that detection and a Latin model won it on a century match
+        # (#375, live on saa-0428 001r). "Eligible" and "equal" are not the same
+        # thing: a secondary language keeps a model in contention — even a Latin
+        # charter names German persons — without letting it outrank the language the
+        # page is actually written in.
+        if model.lang == norm_langs[0]:
             score += 0.3
             matched.append("lang")
             reasons.append(f"lang={model.lang}")
-        elif any(nl in model.lang or model.lang in nl for nl in norm_langs):
+        elif model.lang in norm_langs[1:]:
             score += 0.15
+            matched.append("lang2")
+            reasons.append(f"lang secondary: {model.lang}")
+        elif any(nl in model.lang or model.lang in nl for nl in norm_langs):
+            score += 0.10
             matched.append("lang~")
             reasons.append(f"lang fuzzy: {model.lang}")
 
@@ -745,10 +756,17 @@ def _score_tocr_model(
     _langs = ([lang] if isinstance(lang, str) else list(lang or []))
     _langs = [str(x).lower() for x in _langs if x]
     if _langs and model.lang:
-        if model.lang.lower() in _langs:
+        ml = model.lang.lower()
+        if ml == _langs[0]:
             score += 0.6
             reasons.append(f"lang={model.lang}")
-        elif model.lang == "mul":
+        elif ml in _langs[1:]:
+            # Eligible, not equal — see the kraken branch. On saa-0428 this is the
+            # difference between a German page keeping its German model and losing
+            # it to a Middle Latin one on a century tie-break.
+            score += 0.3
+            reasons.append(f"lang secondary: {model.lang}")
+        elif ml == "mul":
             score += 0.3  # multilingual model
             reasons.append("lang=mul (multilingual)")
 
