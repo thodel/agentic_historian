@@ -138,6 +138,21 @@ VLM_PRESENCE_PENALTY = float(_get("VLM_PRESENCE_PENALTY", "0.0"))
 # Add a small additive routing prior from historian feedback to kraken model
 # scores (#155). OFF by default → byte-identical scoring; the prior is capped
 # below a full script match so it only breaks near-ties.
+# Agent B's description is the INPUT to model selection, so its sampling decides
+# which engines a page is read with. Free sampling made the same manuscript come
+# back as "Kursive", then "Fraktur", then "Gothische Textura" across three runs of
+# identical images — three different script families, and three different winning
+# model pools (#379). Deterministic by default; raise only for experiments.
+# Reuse Agent B's description when the same page images are seen again (#387).
+# On by default: it is what makes two runs of the same document comparable at all.
+# Off for experiments where a fresh description is the point.
+AGENT_B_CACHE = _get("AGENT_B_CACHE", "true").lower() == "true"
+
+AGENT_B_TEMPERATURE = float(_get("AGENT_B_TEMPERATURE", "0.0"))
+# Sent when set; backends may ignore it. Temperature 0 is what actually pins the
+# output, the seed only helps where the endpoint honours it.
+AGENT_B_SEED: int | None = int(_get("AGENT_B_SEED", "0")) or None
+
 ENABLE_ROUTING_PRIOR = _get("ENABLE_ROUTING_PRIOR", "false").lower() == "true"
 
 # ── Multi-engine HTR fusion (#237) ───────────────────────────────────────────

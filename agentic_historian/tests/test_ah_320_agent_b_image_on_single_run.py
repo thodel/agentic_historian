@@ -97,5 +97,8 @@ def test_the_pipeline_uses_the_helper_not_the_old_identity_guard():
     substring scan would match the documentation and fail forever.
     """
     src = Path(orchestrator.__file__).read_text(encoding="utf-8")
-    assert "image_path=_vision_image_path(img, fp)" in src
+    # The call moved behind _describe_cached (#387), so the helper is now passed
+    # positionally. What this test guards is unchanged: the IMAGE decides, not
+    # whether the path happens to equal fp.
+    assert "_vision_image_path(img, fp)" in src
     assert "image_path=str(img) if img != fp else None" not in src
