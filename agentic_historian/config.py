@@ -196,6 +196,12 @@ ENSEMBLE_MIN_ENGINES = int(_get("ENSEMBLE_MIN_ENGINES", "3"))
 ENSEMBLE_PER_ENGINE = int(_get("ENSEMBLE_PER_ENGINE", "3"))
 ENSEMBLE_MAX_LOOPS = int(_get("ENSEMBLE_MAX_LOOPS", "4"))
 ENSEMBLE_AGREEMENT_CER = float(_get("ENSEMBLE_AGREEMENT_CER", "0.30"))
+# #389: the initial batch runs its engine calls concurrently — they are
+# independent network calls (ATR gateway / GPUStack), so page latency approaches
+# the slowest engine instead of the sum. Bounded because the gateway box is
+# shared; 1 restores the sequential behaviour. The feedback loop stays
+# sequential — each extra pick is a decision made from the previous results.
+ENSEMBLE_CONCURRENCY = int(_get("ENSEMBLE_CONCURRENCY", "3"))
 
 # ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
 # Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway

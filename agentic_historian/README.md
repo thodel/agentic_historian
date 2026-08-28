@@ -104,6 +104,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `SOURCE_URL_BASE` | Base URL for source-image links on published pages (empty = no link) |
 | `ENABLE_ENSEMBLE_HTR` | Multi-engine ensemble per page (VLM + kraken + TrOCR) instead of VLM-only (default `false`) |
 | `ENSEMBLE_MIN_ENGINES` / `_PER_ENGINE` / `_MAX_LOOPS` | Engines per page (3), models ranked per engine (3), extra loops while candidates disagree (4) |
+| `ENSEMBLE_CONCURRENCY` | Engine calls of the initial batch run concurrently, bounded (default `3`; `1` = sequential, #389) |
 | `ENSEMBLE_AGREEMENT_CER` | Pairwise CER above which the loop widens the pool (default `0.30`) |
 | `ENSEMBLE_NO_MERGE_CER` | Pairwise CER above which candidates are **selected, not merged** (default `0.35`) |
 | `ENABLE_VERBOSE_PROGRESS` | Live per-step progress board in Discord (default `false`) |
