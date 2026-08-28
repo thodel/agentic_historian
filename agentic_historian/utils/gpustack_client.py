@@ -113,6 +113,7 @@ def _create(
     max_tokens: int,
     frequency_penalty: Optional[float] = None,
     presence_penalty: Optional[float] = None,
+    seed: Optional[int] = None,
 ) -> tuple[Optional[str], str]:
     client = get_client()
     request = dict(
@@ -122,6 +123,11 @@ def _create(
         top_p=1,
         max_tokens=max_tokens,
     )
+    # Seed is best-effort: the OpenAI-compatible schema accepts it, but a backend
+    # is free to ignore it, and vLLM only honours it per-request on some versions.
+    # Sent when asked for, never relied on — temperature 0 does the actual work.
+    if seed is not None:
+        request["seed"] = seed
     # Omit unset OpenAI-compatible options entirely.  This keeps every existing
     # caller byte-for-byte equivalent while allowing the HTR VLM call to opt in
     # to anti-repetition decoding (#275).
@@ -144,6 +150,7 @@ def chat(
     agent_name: str = "unknown",
     frequency_penalty: Optional[float] = None,
     presence_penalty: Optional[float] = None,
+    seed: Optional[int] = None,
 ) -> str:
     """Generischer Chat-Call an GPUStack. Returns the model's text `content`."""
     model = model or config.GPUSTACK_MODEL_TEXT
@@ -157,6 +164,7 @@ def chat(
         budget,
         frequency_penalty,
         presence_penalty,
+        seed,
     )
 
     # Reasoning models can exhaust the budget on reasoning before emitting content.

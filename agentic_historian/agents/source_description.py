@@ -65,6 +65,23 @@ def _apply_pins(source_json: dict, pins: dict) -> dict:
     return source_json
 
 
+def _sampling() -> dict:
+    """Sampling params for every Agent B call, from config.
+
+    Agent B's answer is the INPUT to model selection, so its sampling decides which
+    engines read the page. Free sampling described the same manuscript as "Kursive",
+    then "Fraktur", then "Gothische Textura" across three runs of identical images
+    (#379) — three script families, three different winning model pools, and any
+    downstream A/B rendered meaningless.
+
+    Returned as one dict so a new call site cannot quietly omit it.
+    """
+    out = {"temperature": config.AGENT_B_TEMPERATURE}
+    if config.AGENT_B_SEED is not None:
+        out["seed"] = config.AGENT_B_SEED
+    return out
+
+
 def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
              pins: Optional[dict] = None) -> dict:
     """
@@ -170,14 +187,15 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
     if image_path:
         try:
             raw = gs.chat_vision(full_prompt, image_source=str(image_path),
-                                 system=None, max_tokens=3500)
+                                 system=None, max_tokens=3500, **_sampling())
             image_sent = True
         except Exception as e:
             # Don't lose the description over it: fall back to text-only, but say so.
             logger.warning(f"[Agent B] Bild-Call fehlgeschlagen, Fallback auf Text: {e}")
     if not raw:
         try:
-            raw = gs.chat_text(full_prompt, system=None, max_tokens=3500)
+            raw = gs.chat_text(full_prompt, system=None, max_tokens=3500,
+                               **_sampling())
         except Exception as e:
             logger.warning(f"[Agent B] VLM-Beschreibung fehlgeschlagen: {e}")
             raw = ""
@@ -195,6 +213,9 @@ def describe(doc_id: str, transcription: str, image_path: Optional[str] = None,
         "doc_id": doc_id,
         "source_description": description_md,
         "source_json": source_json,
+        # How this description was produced, so a published document carries its
+        # own provenance and a later diff can be attributed (#386).
+        "sampling": _sampling(),
         "care_flag": care,
         # Provenance, not aspiration (#308): only claim the image when it was sent.
         "image_path": str(image_path) if image_sent else "none",
@@ -242,6 +263,7 @@ def _describe_from_image(doc_id: str, image_path: str, pins: Optional[dict]) -> 
     )
     try:
         raw = gs.chat_vision(prompt, image_source=str(image_path), system=None,
+                             **_sampling(),
                              max_tokens=3500)
     except Exception as e:
         logger.warning(f"[Agent B] Bild-Beschreibung fehlgeschlagen: {e}")
@@ -361,7 +383,7 @@ def _care_flag(transcription: str) -> dict:
     try:
         # gpt-oss is a reasoning model — it spends tokens on reasoning_content
         # before the JSON, so 800 truncated the answer to null. Give it room.
-        raw = gs.chat_text(prompt, system=None, max_tokens=2500)
+        raw = gs.chat_text(prompt, system=None, max_tokens=2500, **_sampling())
         # Parse defensively: the JSON may be wrapped in reasoning text / fences.
         json_text = _extract_balanced_json(raw or "")
         if not json_text:

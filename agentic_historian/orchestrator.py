@@ -216,6 +216,38 @@ def _log_phase(ev) -> None:
 _VISION_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".bmp", ".gif"}
 
 
+def _describe_cached(doc_id: str, transcription: str, pages, image_path,
+                     on_phase=None) -> dict:
+    """Agent B's description, reused when these exact page images were described
+    before (#387).
+
+    The cache key is the image bytes, not the doc_id or the run: the description is
+    a property of the source. Two runs of the same pages then hand pass-2 model
+    selection the same criteria, which is what makes any before/after comparison
+    possible — three runs of saa-0428 otherwise produced three different script
+    families and three different winning model pools (#379).
+
+    A cached description is a cached mistake too, so a miss is always safe and
+    invalidation is explicit (Gate-1 correction, reprocess); see description_cache.
+    """
+    import description_cache as dc
+
+    key = dc.content_key(pages)
+    hit = dc.load(key)
+    if hit:
+        logger.info(f"[Orchestrator] Phase 2: description reused (cache {key[:8]})")
+        _emit(on_phase, doc_id, "agent_b", "B",
+              output=hit.get("source_json"),
+              decision=f"description reused (cache {key[:8]})")
+        return hit
+
+    desc = agent_b.describe(doc_id=doc_id, transcription=transcription,
+                            image_path=image_path)
+    if desc:
+        dc.store(key, desc)
+    return desc
+
+
 def _vision_image_path(img, fp):
     """The image to hand Agent B on a single-doc run, or ``None``.
 
@@ -404,11 +436,9 @@ def run_full_pipeline(
     # ════════════════════════════════════════════════════════════════════════
     if ctx.transcription:
         try:
-            ctx.description = agent_b.describe(
-                doc_id=doc_id,
-                transcription=ctx.transcription,
-                image_path=_vision_image_path(img, fp),
-            )
+            ctx.description = _describe_cached(
+                doc_id, ctx.transcription, [img],
+                _vision_image_path(img, fp), on_phase)
             logger.info("[Orchestrator] Phase 2 (Agent B) fertig")
             _emit(on_phase, doc_id, "agent_b", "B",
                   output=(ctx.description or {}).get("source_json"),
@@ -960,6 +990,57 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
     return parts, scores
 
 
+def _apply_gate1_pins(criteria, doc_id: str, ctx, on_phase=None):
+    """Let fields a historian confirmed at Gate 1 override the fresh description.
+
+    ``RunState.invalidate`` already pins a corrected field into ``state.criteria``
+    (CRITERIA_FIELDS), but nothing read it back: pass 2 rebuilt SourceCriteria from
+    whatever Agent B said this time, so a correction survived in the record and was
+    ignored in the routing. With #379's variance that is not a rare collision — the
+    describer changes its mind between runs on its own.
+
+    The superseded value is recorded on the description rather than dropped: it says
+    something about the describer's reliability, which #380 wants to measure.
+    """
+    try:
+        from dataclasses import replace
+        from runstate import CRITERIA_FIELDS, RunState
+
+        pinned = {k: v for k, v in (RunState.load_or_new(doc_id).criteria or {}).items()
+                  if k in CRITERIA_FIELDS and v is not None}
+        if not pinned:
+            return criteria
+
+        superseded = {}
+        for field, value in pinned.items():
+            fresh = getattr(criteria, field, None)
+            if fresh is not None and fresh != value:
+                superseded[field] = fresh
+            criteria = replace(criteria, **{field: value})
+        # keep the language SET consistent with a pinned primary language
+        if "lang" in pinned:
+            rest = [l for l in (getattr(criteria, "langs", None) or []) if l != pinned["lang"]]
+            criteria = replace(criteria, langs=[pinned["lang"]] + rest)
+
+        if superseded:
+            # NOT `(ctx.description or {})[...]` — an empty dict is falsy, so that
+            # idiom writes into a fresh throwaway and silently loses the provenance
+            # in exactly the common case.
+            try:
+                if isinstance(getattr(ctx, "description", None), dict):
+                    ctx.description["superseded_by_gate1"] = superseded
+            except Exception:                       # description may be immutable
+                pass
+            logger.info(f"[Orchestrator] Gate-1 pins override Agent B: {superseded}")
+            _emit(on_phase, doc_id, "model_select", "A",
+                  decision="Gate-1 gepinnt: " + ", ".join(
+                      f"{k}={pinned[k]} (statt {v})" for k, v in superseded.items()))
+        return criteria
+    except Exception as e:                          # pins are a refinement, never fatal
+        logger.warning(f"[Orchestrator] Gate-1 pin application failed: {e}")
+        return criteria
+
+
 def _page_criteria_fn(criteria_b, ctx, doc_id: str, on_phase):
     """Per-page criteria for pass 2, differing only in ``lang``.
 
@@ -1035,6 +1116,11 @@ def _criteria_rerun(pages, ctx, doc_id: str, on_phase, *, avg_qa: float,
             ctx.description.get("source_description", ""),
             ctx.description.get("source_json"),
         )
+        # A Gate-1 correction is a historian's statement about the source; a later
+        # re-description is a guess. The guess must not overwrite it (#388). Agent
+        # B's fresh value is kept on the description for provenance — it is
+        # evidence about the describer, not about the manuscript — but never routes.
+        criteria_b = _apply_gate1_pins(criteria_b, doc_id, ctx, on_phase)
         # Gate on the CRITERIA, not on low_confidence. #301 describes from the IMAGE
         # when the transcription is unreadable — honestly flagged low_confidence but
         # carrying real script/century, which is precisely the case this re-run
@@ -1155,11 +1241,9 @@ def run_full_pipeline_group(
     # PHASE 2: Agent B — one source description for the whole order
     if ctx.transcription:
         try:
-            ctx.description = agent_b.describe(
-                doc_id=doc_id,
-                transcription=ctx.transcription,
-                image_path=str(pages[0]) if pages else None,
-            )
+            ctx.description = _describe_cached(
+                doc_id, ctx.transcription, pages,
+                str(pages[0]) if pages else None, on_phase)
             try:
                 from runstate import RunState, DONE, ERROR
                 state = RunState.load_or_new(doc_id)

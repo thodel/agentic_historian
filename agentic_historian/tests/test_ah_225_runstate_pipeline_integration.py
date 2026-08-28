@@ -161,9 +161,35 @@ def test_offline_abc_pipeline_contract_is_deterministic(tmp_path, monkeypatch):
     calls.clear()
     second_result = orch.run_full_pipeline(image)
 
-    assert [call[0] for call in calls] == ["A", "B", "C"]
+    # B is REUSED, not re-run: #387 keys Agent B's description on the image bytes,
+    # so describing the same page twice is one LLM call, not two. That strengthens
+    # this test's actual subject — the second run is now identical BECAUSE the
+    # description cannot drift, rather than despite it being re-derived (#379).
+    assert [call[0] for call in calls] == ["A", "C"]
     assert second_result == first_result
     assert pipeline_path.read_bytes() == first_pipeline_bytes
+
+
+def test_a_changed_page_re_describes(tmp_path, monkeypatch):
+    """The cache must key on CONTENT. A different image is a different source, and
+    reusing a description across them would be the cache becoming a bug."""
+    import description_cache as dc
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+    a, b = tmp_path / "a.jpg", tmp_path / "b.jpg"
+    a.write_bytes(b"\x01\x02")
+    b.write_bytes(b"\x03\x04")
+    assert dc.content_key([a]) != dc.content_key([b])
+    assert dc.content_key([a]) == dc.content_key([a])
+
+
+def test_page_order_does_not_change_the_key(tmp_path, monkeypatch):
+    """An order's pages arrive in whatever order the caller had."""
+    import description_cache as dc
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+    a, b = tmp_path / "a.jpg", tmp_path / "b.jpg"
+    a.write_bytes(b"\x01")
+    b.write_bytes(b"\x02")
+    assert dc.content_key([a, b]) == dc.content_key([b, a])
 
 
 def test_runstate_recorded_after_vlm(tmp_path, monkeypatch):
