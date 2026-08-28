@@ -19,6 +19,7 @@ the VLM — wired by the orchestrator.
 
 from __future__ import annotations
 
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import dataclass, field
 from typing import Any, Callable, Optional
 
@@ -290,7 +291,8 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                        agreement_cer: float = 0.30, llm_fn=None,
                        per_engine: int = 3,
                        picks: Optional[list] = None,
-                       no_merge_cer: Optional[float] = None) -> EnsembleResult:
+                       no_merge_cer: Optional[float] = None,
+                       concurrency: Optional[int] = None) -> EnsembleResult:
     """Run ≥ ``min_engines`` recognitions on one page, then keep adding the next
     ranked model while the candidates disagree (max pairwise CER >
     ``agreement_cer``), up to ``max_loops`` extra loops. Fuse all candidates.
@@ -298,6 +300,18 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     ``recognize_fn(pick, image)`` returns a RecognitionResult (or None / raises on
     failure — both are tolerated; a failed pick is skipped and, during the initial
     phase, backfilled from the pool so we still reach ``min_engines`` usable runs).
+
+    **The initial batch runs concurrently (#389).** Its picks are independent
+    network calls, so they run on a bounded thread pool (``concurrency``, default
+    ``config.ENSEMBLE_CONCURRENCY``) and page latency approaches the slowest
+    engine instead of the sum. Results are kept in POOL order, not completion
+    order — ranking, provenance and the Gate-2 card must not depend on which
+    engine happened to answer first. A failed pick frees its slot and the next
+    pool pick is submitted, exactly like the sequential backfill; no pick is run
+    speculatively beyond the ``min_engines`` budget, so the set of picks that run
+    matches the sequential behaviour. ``concurrency=1`` restores it outright.
+    The feedback loop below stays sequential — each extra pick is a decision made
+    from the previous results.
 
     **No-merge band (#300):** above ``no_merge_cer`` the candidates are not fused —
     the best single one is returned verbatim. Majority-voting assumes engines make
@@ -315,17 +329,30 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         except Exception:                               # pragma: no cover — defensive
             no_merge_cer = 0.35
 
+    if concurrency is None:
+        try:
+            import config
+            concurrency = int(getattr(config, "ENSEMBLE_CONCURRENCY", 3))
+        except Exception:                               # pragma: no cover — defensive
+            concurrency = 3
+    concurrency = max(1, int(concurrency))
+
     pool = list(picks) if picks is not None else plan_models(criteria, per_engine=per_engine)
     recognitions: list = []
     ran: list = []
     added: list = []
 
-    def _run(pick) -> bool:
+    def _attempt(pick):
+        """The result of one pick, or None on failure — never raises."""
         try:
             res = recognize_fn(pick, image)
         except Exception as e:                          # a backend blew up
             logger.warning(f"[ensemble] {pick.engine}/{pick.model_id} failed: {e}")
-            return False
+            return None
+        return res
+
+    def _run(pick) -> bool:
+        res = _attempt(pick)
         if res is None:
             return False
         recognitions.append(res)
@@ -333,10 +360,40 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         return True
 
     idx = 0
-    # 1) initial batch — run until min_engines usable recognitions (backfill on failure)
-    while len(recognitions) < min_engines and idx < len(pool):
-        _run(pool[idx])
-        idx += 1
+    # 1) initial batch — run until min_engines usable recognitions (backfill on
+    #    failure). Concurrent (#389): at most min_engines picks are in flight or
+    #    done-successfully at any time, so a failure triggers exactly one backfill
+    #    submission — the same picks run as sequentially, just overlapped.
+    if concurrency == 1:
+        while len(recognitions) < min_engines and idx < len(pool):
+            _run(pool[idx])
+            idx += 1
+    else:
+        results: dict[int, Any] = {}                    # pool index → result
+        with ThreadPoolExecutor(max_workers=concurrency) as ex:
+            pending: dict = {}                          # future → pool index
+
+            def _submit_next() -> None:
+                nonlocal idx
+                if idx < len(pool) and len(results) + len(pending) < min_engines:
+                    pending[ex.submit(_attempt, pool[idx])] = idx
+                    idx += 1
+
+            for _ in range(min(min_engines, len(pool))):
+                _submit_next()
+            while pending:
+                done, _ = wait(pending, return_when=FIRST_COMPLETED)
+                for fut in done:
+                    i = pending.pop(fut)
+                    res = fut.result()                  # _attempt never raises
+                    if res is None:
+                        _submit_next()                  # backfill the failure
+                    else:
+                        results[i] = res
+        # POOL order, not completion order — the consumers depend on it.
+        for i in sorted(results):
+            recognitions.append(results[i])
+            ran.append(pool[i])
 
     # 2) feedback loop — expand while the candidates disagree
     loops = 0
