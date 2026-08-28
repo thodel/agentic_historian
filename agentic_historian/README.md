@@ -179,17 +179,21 @@ manual or scheduled job.
 
 Voyant Tools is available at **https://tei.dh.unibe.ch/voyant/**.
 
-### Infrastructure
+### Infrastructure (since 2026-08-28, #315)
 
-- **Server:** Voyant runs on `tei.dh.unibe.ch` via Jetty (`jetty-runner.jar`)
-  - Port 8888: Jetty 9.4 (VoyantServer 2.6.21) — **production**
-  - Port 8080: Jetty (VoyantServer 2.4-M45) — legacy/backup
-- **nginx proxy chain:** `/:8889` → `localhost:8888` (Jetty); `/voyant/` → `localhost:8889` (nginx → Jetty)
-- **Systemd:** managed by `/etc/systemd/system/voyant.service`
+- **Server:** VoyantServer **2.6.21** on `tei.dh.unibe.ch`, port 8888, served **with
+  context path `/voyant`** — the app itself emits `baseUrl: '//host/voyant/'`, so no
+  URL rewriting happens anywhere. Runs the `JettyRunTime` child command directly
+  (see the unit), pinned to **Java 11** — 2.6 does not start on Java 17 (silent 503).
+- **Systemd:** `/etc/systemd/system/voyant.service`; working copy + deploy notes in
+  `/home/dh/voyant/voyant26/` (`DEPLOY.md`, rollback backups beside it).
 - **Restart:** `sudo systemctl restart voyant`
-- **Log:** `/home/dh/voyant/voyant-2.6.log`
-- **Voyant 2.6 app root:** `/opt/voyant/voyant-2.6/VoyantServer2_6_21/`
-- **Legacy (2.4):** `/home/dh/voyant/VoyantServer2_4-M45/`
+- **Storage (persistent):** `/home/dh/voyant/voyant26-data/trombone5_2` — corpora
+  survive reboots. (The old 2.4 instance stored in `/tmp`, which is why published
+  `?corpus=` links used to die on every reboot.) Corpus ids are content hashes:
+  re-ingesting identical text yields the identical id.
+- **App root (read-only, root-owned):** `/opt/voyant/voyant-2.6/VoyantServer2_6_21/`
+- **Legacy (2.4, retired):** `/home/dh/voyant/VoyantServer2_4-M45/`
 
 ### How Voyant Receives Text
 
@@ -250,38 +254,34 @@ https://tei.dh.unibe.ch/voyant/?corpus=<corpusId>
 
 ### nginx reverse proxy
 
-The proxy chain (`/voyant/` → nginx:8889 → Jetty:8888) requires several nginx settings to work correctly:
-
-**Key nginx settings** (in `/etc/nginx/sites-available/tei.dh.unibe.ch`, location `/voyant/`):
-
-```nginx
-proxy_http_version 1.1;
-proxy_buffering off;
-proxy_set_header Accept-Encoding "";        # Disable gzip so sub_filter can rewrite
-proxy_redirect / /voyant/;                  # Rewrite Location: / → /voyant/ in 301 responses
-proxy_pass http://127.0.0.1:8889/;
-
-sub_filter_once off;
-sub_filter_types application/javascript;     # text/html is default; just add js here
-sub_filter 'href="/' 'href="/voyant/';
-sub_filter 'src="/' 'src="/voyant/';
-sub_filter 'url('/" 'url('/voyant/';
-sub_filter 'url("/' 'url("/voyant/';
-sub_filter 'window.location.replace("/' 'window.location.replace("/voyant/';
-```
-
-**Key insight:** When `sub_filter_types` is explicitly set, nginx overrides the default (`text/html` only) with the listed types — must include both `text/html` and `application/javascript` explicitly, or just omit `text/html` since it's the default.
-
-**`/resources/` must be proxied separately** — requests for `/resources/...` don't go through `/voyant/` so they need their own location block:
+Because the app runs **with context path `/voyant`**, nginx needs exactly one
+plain proxy block — no `sub_filter` rewriting, no separate `/resources/` or
+`/trombone/` locations, no 8889 helper vhost (all three existed for the old
+root-context deployment and were removed in #315):
 
 ```nginx
-location /resources/ {
-    proxy_pass http://127.0.0.1:8889/resources/;
-    proxy_set_header Accept-Encoding "";
+location /voyant/ {
+    proxy_http_version 1.1;
+    proxy_buffering off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_pass http://127.0.0.1:8888/voyant/;
 }
 ```
 
-This means all navigation links, script tags, and stylesheet references work under the sub-directory — no changes to Voyant's internal `uri_path` setting are needed.
+**Why the sub_filter approach could never work:** the JSP builds the client
+config as `baseUrl: '//<host>/'` from the Host header **and the servlet context
+path**. That protocol-relative URL matches none of the `href="/`/`src="/`
+filters, so the SPA kept calling `/trombone` at the domain root and never loaded
+its corpus. Deploying with the real context path fixes it at the source.
+
+**Cache caveat after the switch:** Jetty serves `/voyant/resources/**` with
+`Last-Modified` only, so browsers apply heuristic freshness. A browser that
+cached the old 2.4 resources may mix stale JS into the 2.6 app (white page,
+`Spyral.Categories is not a constructor`) until a hard reload. If that ever
+matters at scale, add `add_header Cache-Control "no-cache";` to the block above
+— Jetty answers revalidations with cheap 304s.
 
 ### Adding Voyant analysis to agent_d
 
