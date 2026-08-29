@@ -45,6 +45,11 @@ class EnsembleResult:
     #: ``max_pairwise_cer`` is 0.0 for want of a comparison rather than because the
     #: engines agreed — the caller must not read that as quality (#367).
     usable: int = 0
+    #: Where the wall time went, in seconds (#402). Measured in the code rather
+    #: than inferred from log gaps: three separate diagnoses were wrong because a
+    #: gap between two log lines was attributed to the event the first one named
+    #: (the VLM at "141s" is the fastest engine; a "90-130s" model load is 1.5s).
+    timings: dict = field(default_factory=dict)
     ran: list = field(default_factory=list)            # ModelPicks actually run
     added: list = field(default_factory=list)          # ModelPicks the loop added
     no_merge: bool = False                             # #300: selected, not blended
@@ -286,6 +291,25 @@ def _confidence_of(rec) -> float:
     return getattr(rec, "confidence", 0.0) or 0.0
 
 
+def _finish(timings: dict, mark, t_fuse, t_start) -> dict:
+    """Close the last two phases and add the residual.
+
+    ``other`` is what the named phases do NOT account for. It exists because the
+    interesting number in every timing investigation so far has been the part
+    nobody measured: an ensemble page took 152s while its three engine calls summed
+    to 62s, and the missing 90s was attributed — wrongly, three times — to whatever
+    log line sat nearest the gap. A residual that is computed rather than inferred
+    cannot be blamed on the wrong thing.
+    """
+    mark("fuse", t_fuse)
+    total = round(__import__("time").monotonic() - t_start, 2)
+    timings["total"] = total
+    named = sum(timings.get(k, 0.0) for k in ("plan", "initial", "escalation", "fuse"))
+    timings["other"] = round(total - named, 2)
+    timings["calls_sum"] = round(sum(c["s"] for c in timings.get("calls", [])), 2)
+    return timings
+
+
 def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                        min_engines: int = 3, max_loops: int = 2,
                        agreement_cer: float = 0.30, llm_fn=None,
@@ -337,18 +361,35 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
             concurrency = 3
     concurrency = max(1, int(concurrency))
 
+    import time as _time
+    _t_start = _time.monotonic()
+    timings: dict = {"calls": []}
+
+    def _mark(key, since):
+        timings[key] = round(_time.monotonic() - since, 2)
+
+    _t = _time.monotonic()
     pool = list(picks) if picks is not None else plan_models(criteria, per_engine=per_engine)
+    _mark("plan", _t)
     recognitions: list = []
     ran: list = []
     added: list = []
 
     def _attempt(pick):
         """The result of one pick, or None on failure — never raises."""
+        _t0 = _time.monotonic()
         try:
             res = recognize_fn(pick, image)
         except Exception as e:                          # a backend blew up
             logger.warning(f"[ensemble] {pick.engine}/{pick.model_id} failed: {e}")
+            timings["calls"].append({"engine": pick.engine, "model": pick.model_id,
+                                     "s": round(_time.monotonic() - _t0, 2),
+                                     "ok": False})
             return None
+        # Per-CALL, not per-phase: a phase total cannot say whether the cost is one
+        # slow engine or many, and that distinction decides #390 and #402.
+        timings["calls"].append({"engine": pick.engine, "model": pick.model_id,
+                                 "s": round(_time.monotonic() - _t0, 2), "ok": True})
         return res
 
     def _run(pick) -> bool:
@@ -358,6 +399,8 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         recognitions.append(res)
         ran.append(pick)
         return True
+
+    _t_initial = _time.monotonic()
 
     idx = 0
     # 1) initial batch — run until min_engines usable recognitions (backfill on
@@ -395,9 +438,14 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
             recognitions.append(results[i])
             ran.append(pool[i])
 
+    _mark("initial", _t_initial)
+
     # 2) feedback loop — expand while the candidates disagree
     loops = 0
+    _t_esc = _time.monotonic()
+    _t = _time.monotonic()
     max_cer = _max_pairwise_cer(recognitions)
+    timings["cer"] = round(_time.monotonic() - _t, 2)
     while max_cer > agreement_cer and loops < max_loops and idx < len(pool):
         pick = pool[idx]
         idx += 1
@@ -412,6 +460,9 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     # Candidates that actually produced text. This is what makes max_cer readable:
     # below 2 there was nothing to compare, so a 0.0 means "unmeasured", not
     # "in agreement" (#367).
+    _mark("escalation", _t_esc)
+    _t_fuse = _time.monotonic()
+
     usable = len([t for t, e in (_text_of(r) for r in recognitions)
                   if t.strip() and not e])
 
@@ -428,11 +479,12 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                 recognitions=recognitions, text=_text_of(rec)[0], provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
                 no_merge=True, selected=rec, usable=usable,
+                timings=_finish(timings, _mark, _t_fuse, _t_start),
             )
 
     fr = fuse(recognitions, llm_fn=llm_fn)
     return EnsembleResult(
         recognitions=recognitions, text=fr.text, provenance=fr.provenance,
         loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
-        usable=usable,
+        usable=usable, timings=_finish(timings, _mark, _t_fuse, _t_start),
     )

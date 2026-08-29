@@ -961,9 +961,19 @@ def _ensemble_pass(pages, criteria, ctx, doc_id: str, on_phase, *, label: str,
             _usable = getattr(er, "usable", 0)
             _agree = (f"agreement CER {er.max_pairwise_cer:.2%}" if _usable >= 2
                       else "agreement not measurable (<2 usable candidates)")
+            _tm = getattr(er, "timings", None) or {}
+            _tstr = ""
+            if _tm:
+                _calls = " ".join(f"{c['engine']}:{c['s']:.0f}s" for c in _tm.get("calls", []))
+                _tstr = (f" | {_tm.get('total', 0):.0f}s = plan {_tm.get('plan', 0):.0f}"
+                         f" + init {_tm.get('initial', 0):.0f}"
+                         f" + esc {_tm.get('escalation', 0):.0f}"
+                         f" + fuse {_tm.get('fuse', 0):.0f}"
+                         f" + other {_tm.get('other', 0):.0f}"
+                         f" [cer {_tm.get('cer', 0):.0f}, calls Σ{_tm.get('calls_sum', 0):.0f}: {_calls}]")
             logger.info(f"[Orchestrator] {img.name}: {label} ensemble "
                         f"{_usable} usable of {len(er.recognitions)} attempted, "
-                        f"{er.loops} loop(s), {_agree}")
+                        f"{er.loops} loop(s), {_agree}{_tstr}")
             _record_no_merge_vote(doc_id, img.name, er, page_criteria, on_phase=on_phase)
             # One event per candidate, so the historian sees WHICH engine read what —
             # the u-17__ failure was invisible precisely because only the merged text
