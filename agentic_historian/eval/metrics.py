@@ -12,6 +12,44 @@ import string
 from typing import Sequence
 
 
+# rapidfuzz's Levenshtein is the same metric in C. It is OPTIONAL: without it the
+# pure-Python loop below runs unchanged, so an install that lacks it is slower, never
+# wrong. Measured on tei (#404): one ensemble page spent 31s in pairwise CER and 36s
+# in fusion — 55% of a 122s page on alignment, with no engine involved, and the pair
+# count grows quadratically with candidates (3 pairs at 3 engines, 21 at 7).
+try:                                                   # pragma: no cover — env dependent
+    from rapidfuzz.distance import Levenshtein as _rf_lev
+except Exception:                                      # pragma: no cover
+    _rf_lev = None
+
+
+def edit_distance(a: str, b: str) -> int:
+    """Levenshtein distance between two already-normalised strings.
+
+    One implementation for every caller, so the fast path and the fallback cannot
+    disagree: `cer`, `wer` and `levenshtein` all route through here.
+    """
+    if _rf_lev is not None:
+        return int(_rf_lev.distance(a, b))
+    # Space-optimised DP: two rows.
+    m, n = len(a), len(b)
+    if m == 0:
+        return n
+    if n == 0:
+        return m
+    prev = list(range(m + 1))
+    curr = [0] * (m + 1)
+    for i in range(1, n + 1):
+        curr[0] = i
+        for j in range(1, m + 1):
+            if a[j - 1] == b[i - 1]:
+                curr[j] = prev[j - 1]
+            else:
+                curr[j] = 1 + min(prev[j], curr[j - 1], prev[j - 1])
+        prev, curr = curr, prev
+    return prev[m]
+
+
 def normalise(text: str) -> str:
     """
     Normalise historical German text for comparison.
@@ -74,19 +112,7 @@ def cer(
     if not ref:
         return 0.0 if not hyp else 1.0
 
-    m, n = len(ref), len(hyp)
-    # Space-optimised DP: two rows
-    prev = list(range(m + 1))
-    curr = [0] * (m + 1)
-    for i in range(1, n + 1):
-        curr[0] = i
-        for j in range(1, m + 1):
-            if ref[j - 1] == hyp[i - 1]:
-                curr[j] = prev[j - 1]
-            else:
-                curr[j] = 1 + min(prev[j], curr[j - 1], prev[j - 1])
-        prev, curr = curr, prev
-    return prev[m] / m
+    return edit_distance(ref, hyp) / len(ref)
 
 
 # ─── Private helpers (not exported at package level) ─────────────────────────
@@ -167,24 +193,7 @@ def levenshtein(s1: str, s2: str) -> int:
         t = re.sub(r"\s+", " ", t).strip()
         t = t.translate(str.maketrans("", "", string.punctuation))
         return t
-    ref = _n(s1)
-    hyp = _n(s2)
-    m, n = len(ref), len(hyp)
-    if m == 0:
-        return n
-    if n == 0:
-        return m
-    prev = list(range(m + 1))
-    curr = [0] * (m + 1)
-    for i in range(1, n + 1):
-        curr[0] = i
-        for j in range(1, m + 1):
-            if ref[j - 1] == hyp[i - 1]:
-                curr[j] = prev[j - 1]
-            else:
-                curr[j] = 1 + min(prev[j], curr[j - 1], prev[j - 1])
-        prev, curr = curr, prev
-    return prev[m]
+    return edit_distance(_n(s1), _n(s2))
 
 
 def normalise(text: str) -> str:

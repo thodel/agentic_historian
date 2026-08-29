@@ -3,3 +3,8 @@ requests>=2.31.0
 rdflib>=6.0.0
 webdav4>=0.11.0   # SwitchDrive (WebDAV) ingestion — utils/switchdrive.py (/pull)
 numpy>=1.24.0   # semantic.py (#28): embeddings clustering
+
+# Optional C-backed Levenshtein for eval.metrics (#404). Without it the pure-
+# Python fallback runs unchanged — slower, never different. Measured 4930x on a
+# 2400-character page pair, which is the size the ensemble actually compares.
+rapidfuzz>=3.9
