@@ -316,5 +316,18 @@ def _llm_merge(cands: list[Candidate], llm: LLMFn) -> FusionResult:
 
 
 def _default_llm(prompt: str) -> str:
+    """The arbitration LLM call.
+
+    The budget starts at `FUSION_ARBITRATE_MAX_TOKENS` (8192) rather than 4096.
+    The TEXT model is a reasoning model and spends its budget thinking before it
+    writes anything: at 4096 it returned empty with finish=length and the client
+    retried at double, so the page paid for an attempt that produced nothing.
+    Measured on saa-0428/001r, where fusion was 51.8s of a 104s page (#406).
+
+    The client's retry stays as the safety net for pages with more conflict slots
+    than this budget covers — it is a fallback again, rather than the normal path.
+    """
     from utils import gpustack_client as gs
-    return gs.chat_text(prompt, system=None, max_tokens=4096)
+    import config as _cfg
+    budget = int(getattr(_cfg, "FUSION_ARBITRATE_MAX_TOKENS", 8192))
+    return gs.chat_text(prompt, system=None, max_tokens=budget, agent_name="fusion")
