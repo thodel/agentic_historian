@@ -178,6 +178,14 @@ FUSION_AGREEMENT_CER_THRESHOLD = float(_get("FUSION_AGREEMENT_CER_THRESHOLD", "0
 ENSEMBLE_NO_MERGE_CER = float(_get("ENSEMBLE_NO_MERGE_CER", "0.35"))
 # ensemble adds the next-ranked kraken/TrOCR model, up to ENSEMBLE_MAX_LOOPS extra
 # loops, then fuses. OFF by default → grouped orders keep the VLM-only behaviour.
+# Token budget for fusion's arbitration call. The default TEXT model is a REASONING
+# model: it spends tokens on reasoning before emitting content, so too small a
+# budget returns nothing and the client retries at double — the page pays for both.
+# Measured on saa-0428/001r: 4096 returned empty (finish=length), the 8192 retry
+# succeeded, and fusion took 51.8s, half of a 104s page (#406). Starting at the
+# budget that works removes an attempt that structurally cannot finish.
+FUSION_ARBITRATE_MAX_TOKENS = int(_get("FUSION_ARBITRATE_MAX_TOKENS", "8192"))
+
 ENABLE_ENSEMBLE_HTR = _get("ENABLE_ENSEMBLE_HTR", "false").lower() == "true"
 
 # ── V-3 (#289): live progress board in Discord ───────────────────────────────
