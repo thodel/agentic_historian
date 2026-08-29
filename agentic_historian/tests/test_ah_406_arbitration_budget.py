@@ -34,13 +34,18 @@ def test_the_default_budget_is_the_one_that_empirically_works():
 def test_the_default_llm_asks_for_the_configured_budget(monkeypatch):
     seen = {}
 
+    import utils
+
     class _Stub:
         @staticmethod
         def chat_text(prompt, system=None, **kw):
             seen.update(kw)
             return "{}"
 
-    monkeypatch.setitem(sys.modules, "utils.gpustack_client", _Stub)
+    # `_default_llm` does `from utils import gpustack_client`, which reads the
+    # ATTRIBUTE off the package. Patching sys.modules only works while `utils` is
+    # still unimported — these tests passed alone and failed in the full suite.
+    monkeypatch.setattr(utils, "gpustack_client", _Stub, raising=False)
     fusion._default_llm("frage")
     assert seen.get("max_tokens") == config.FUSION_ARBITRATE_MAX_TOKENS
 
@@ -49,13 +54,18 @@ def test_the_budget_is_configurable(monkeypatch):
     """An operator on a smaller model must be able to lower it."""
     seen = {}
 
+    import utils
+
     class _Stub:
         @staticmethod
         def chat_text(prompt, system=None, **kw):
             seen.update(kw)
             return "{}"
 
-    monkeypatch.setitem(sys.modules, "utils.gpustack_client", _Stub)
+    # `_default_llm` does `from utils import gpustack_client`, which reads the
+    # ATTRIBUTE off the package. Patching sys.modules only works while `utils` is
+    # still unimported — these tests passed alone and failed in the full suite.
+    monkeypatch.setattr(utils, "gpustack_client", _Stub, raising=False)
     monkeypatch.setattr(config, "FUSION_ARBITRATE_MAX_TOKENS", 2048)
     fusion._default_llm("frage")
     assert seen.get("max_tokens") == 2048
@@ -66,13 +76,18 @@ def test_the_call_is_attributed_to_fusion(monkeypatch):
     measurement to find where 50s were going."""
     seen = {}
 
+    import utils
+
     class _Stub:
         @staticmethod
         def chat_text(prompt, system=None, **kw):
             seen.update(kw)
             return "{}"
 
-    monkeypatch.setitem(sys.modules, "utils.gpustack_client", _Stub)
+    # `_default_llm` does `from utils import gpustack_client`, which reads the
+    # ATTRIBUTE off the package. Patching sys.modules only works while `utils` is
+    # still unimported — these tests passed alone and failed in the full suite.
+    monkeypatch.setattr(utils, "gpustack_client", _Stub, raising=False)
     fusion._default_llm("frage")
     assert seen.get("agent_name") == "fusion"
 
