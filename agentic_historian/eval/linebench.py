@@ -54,6 +54,21 @@ class Line:
 
 
 @dataclass
+class ErrorProfile:
+    """How a model is wrong, not just how much.
+
+    CER alone cannot separate a model that reads badly from one that will not stop
+    writing: both raise the number. A VLM asked for a line can produce a paragraph,
+    a CTC model cannot — its output is bounded by the input width. The distinction
+    is the point of comparing architectures at all (serving-atr#55).
+    """
+    length_ratio: float = 0.0       # hypothesis chars / reference chars
+    over: int = 0                   # lines where the hypothesis is >1.5x the reference
+    under: int = 0                  # lines where it is <0.5x
+    empty: int = 0                  # lines returning nothing
+
+
+@dataclass
 class ModelScore:
     """Corpus-level accuracy for one model over a set of lines."""
     model: str
@@ -64,6 +79,32 @@ class ModelScore:
     failures: int = 0
     seconds: float = 0.0
     per_line: list = field(default_factory=list)      # (image, cer) — for outliers
+    hyp_chars: int = 0
+    texts: dict = field(default_factory=dict)         # image -> hypothesis, for the judge
+    profile: ErrorProfile = field(default_factory=ErrorProfile)
+
+    @property
+    def cer_mean(self) -> Optional[float]:
+        """Mean of the per-line rates — the column Hodel et al. (2021) report.
+
+        Kept alongside the corpus rate because the published numbers for this very
+        test set use it, and comparing a corpus CER against a mean CER would be
+        comparing different quantities (the trap in serving-atr#80). On a corpus
+        with 4-character and 90-character lines the two differ substantially.
+        """
+        vals = [c for _n, c in self.per_line]
+        return (sum(vals) / len(vals)) if vals else None
+
+    @property
+    def cer_median(self) -> Optional[float]:
+        vals = sorted(c for _n, c in self.per_line)
+        return vals[len(vals) // 2] if vals else None
+
+    @property
+    def cer_worst(self) -> Optional[float]:
+        """The 95th percentile — the paper's "upper bound (worst)" column."""
+        vals = sorted(c for _n, c in self.per_line)
+        return vals[min(len(vals) - 1, int(0.95 * len(vals)))] if vals else None
 
     @property
     def cer(self) -> Optional[float]:
@@ -133,6 +174,16 @@ def score_model(lines: Iterable[Line], recognise: Callable[[Path], str],
                 ignore_punctuation=False)
         s.errors += round(c * len(ln.gt))
         s.per_line.append((ln.image.name, round(c, 4)))
+        s.hyp_chars += len(hyp)
+        s.texts[ln.image.name] = hyp
+        ratio = len(hyp) / len(ln.gt) if ln.gt else 0.0
+        if not hyp.strip():
+            s.profile.empty += 1
+        elif ratio > 1.5:
+            s.profile.over += 1
+        elif ratio < 0.5:
+            s.profile.under += 1
+    s.profile.length_ratio = (s.hyp_chars / s.chars) if s.chars else 0.0
     return s
 
 
@@ -141,12 +192,117 @@ def format_scores(scores: list[ModelScore]) -> str:
     rows = sorted((s for s in scores if s.cer is not None), key=lambda s: s.cer)
     if not rows:
         return "linebench: keine auswertbaren Ergebnisse"
-    out = [f"{'model':40} {'CER':>8} {'Zeilen':>7} {'Fehler':>7} {'s/Zeile':>8}"]
+    out = [f"{'model':38} {'CER':>7} {'mean':>7} {'med':>7} {'p95':>7} "
+           f"{'Zeilen':>6} {'Ausf':>5} {'s/Z':>6}"]
     for s in rows:
-        out.append(f"{s.model[:40]:40} {s.cer:8.1%} {s.lines:7} {s.failures:7} "
-                   f"{(s.seconds / max(1, s.lines)):8.2f}")
+        out.append(f"{s.model[:38]:38} {s.cer:7.1%} {s.cer_mean:7.1%} "
+                   f"{s.cer_median:7.1%} {s.cer_worst:7.1%} "
+                   f"{s.lines:6} {s.failures:5} {(s.seconds / max(1, s.lines)):6.2f}")
     out.append("")
+    out.append("CER = korpusweit (errors/chars). mean/med/p95 = über Zeilen, wie")
+    out.append("Hodel et al. 2021 auf DIESEM Testset berichten (HTR+ M2: 3.43/2.76/9.13).")
     out.append("19. Jh. Kurrent — der Korpus dieses Projekts ist 14.-16. Jh.")
     out.append("Absolute Werte sind nicht auf die Zielmaterie übertragbar; die")
     out.append("Rangfolge zwischen den Modellen ist die belastbare Aussage.")
+    return "\n".join(out)
+
+
+# ── LLM as a judge ───────────────────────────────────────────────────────────
+
+_JUDGE_PROMPT = """Du beurteilst Transkriptionen einer historischen Handschrift.
+
+Unten stehen mehrere Lesarten DERSELBEN Zeile, von verschiedenen Systemen erzeugt.
+Ordne sie von der besten zur schlechtesten Lesart.
+
+Antworte NUR mit JSON: {"ranking": ["A", "C", "B"]}
+
+Zeile:
+"""
+
+
+def judge_lines(lines: list[Line], scores: list[ModelScore], llm_fn,
+                sample: int = 20) -> dict:
+    """Ask an LLM to rank the candidate readings, and compare it with real CER.
+
+    This is the experiment's centre and its weakest joint at once. The judge never
+    sees the image — only strings — so it cannot check a reading against the page;
+    it can only prefer the text that looks most like plausible German. That biases
+    it toward MODERNISED spelling and toward fluent invention, which is precisely
+    what a historical transcription must not be rewarded for.
+
+    Returned: agreement between the judge's top pick and the CER-best reading, plus
+    the cases where they part company — the disagreements are the finding, not the
+    agreement rate.
+    """
+    import json as _json
+    import random
+
+    labels = [chr(65 + i) for i in range(len(scores))]
+    by_label = dict(zip(labels, scores))
+    picked = [ln for ln in lines if all(ln.image.name in s.texts for s in scores)]
+    random.Random(4746342).shuffle(picked)
+    picked = picked[:sample]
+
+    agree = 0
+    judged = 0
+    disagreements: list[dict] = []
+    for ln in picked:
+        # Shuffle which model gets which letter, per line: a judge that always sees
+        # the same system as "A" can learn a position preference from nothing.
+        order = labels[:]
+        random.Random(hash(ln.image.name) & 0xffff).shuffle(order)
+        shown = {lab: by_label[lab].texts[ln.image.name] for lab in order}
+
+        best_cer_label = min(
+            labels, key=lambda l: cer(ln.gt, by_label[l].texts[ln.image.name],
+                                      ignore_case=False, ignore_whitespace=False,
+                                      ignore_punctuation=False))
+
+        prompt = _JUDGE_PROMPT + "\n".join(f"{lab}: {shown[lab]!r}" for lab in order)
+        try:
+            raw = llm_fn(prompt)
+            a, b = raw.find("{"), raw.rfind("}")
+            ranking = _json.loads(raw[a:b + 1]).get("ranking") if a != -1 else None
+            top = ranking[0] if ranking else None
+        except Exception as e:
+            logger.warning(f"[linebench] judge failed on {ln.image.name}: {e}")
+            continue
+        if top not in by_label:
+            continue
+        judged += 1
+        if top == best_cer_label:
+            agree += 1
+        else:
+            disagreements.append({
+                "line": ln.image.name,
+                "gt": ln.gt,
+                "judge_picked": by_label[top].model,
+                "judge_text": by_label[top].texts[ln.image.name],
+                "cer_best": by_label[best_cer_label].model,
+                "cer_best_text": by_label[best_cer_label].texts[ln.image.name],
+                "judge_cer": round(cer(ln.gt, by_label[top].texts[ln.image.name],
+                                       ignore_case=False, ignore_whitespace=False,
+                                       ignore_punctuation=False), 3),
+                "best_cer": round(cer(ln.gt, by_label[best_cer_label].texts[ln.image.name],
+                                      ignore_case=False, ignore_whitespace=False,
+                                      ignore_punctuation=False), 3),
+            })
+    return {"judged": judged, "agreed": agree,
+            "rate": (agree / judged) if judged else None,
+            "disagreements": disagreements}
+
+
+def format_profiles(scores: list[ModelScore]) -> str:
+    """Error shape per model — what CER cannot separate."""
+    rows = [s for s in scores if s.lines]
+    if not rows:
+        return ""
+    out = [f"{'model':40} {'len_ratio':>10} {'über':>6} {'unter':>6} {'leer':>6}"]
+    for s in sorted(rows, key=lambda s: s.cer if s.cer is not None else 9):
+        p = s.profile
+        out.append(f"{s.model[:40]:40} {p.length_ratio:10.2f} {p.over:6} "
+                   f"{p.under:6} {p.empty:6}")
+    out.append("")
+    out.append("len_ratio >1 = das System schreibt mehr als dasteht. Ein CTC-Modell")
+    out.append("kann das kaum, ein VLM schon — CER allein trennt beides nicht.")
     return "\n".join(out)
