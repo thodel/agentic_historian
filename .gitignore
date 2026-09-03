@@ -27,6 +27,14 @@ openclaw-workspace-state.json
 *_master.py
 add-z
 
+# ── Corpora and pipeline inputs — keep the directory, never its contents ─────
+# Evaluation sets and ingest material: third-party images and ground truth from
+# Zenodo and HTR-United, fetched per run, tens of megabytes, and licence-bound in
+# ways this repository does not carry. Only the .gitkeep is tracked, so `git add
+# -A` would otherwise sweep the lot in — which is how #259 happened.
+/agentic_historian/data/*
+!/agentic_historian/data/.gitkeep
+
 # Virtual envs
 .venv/
 agentic_historian/.venv/
