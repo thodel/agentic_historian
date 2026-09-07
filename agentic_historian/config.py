@@ -93,6 +93,9 @@ ENABLE_MCP_LINKING = _get("ENABLE_MCP_LINKING", "true").lower() == "true"
 #          qwen3-coder-30b-a3b-instruct (146K)
 #   Embeddings: qwen3-embedding-0.6b, granite-embedding-107m-multilingual
 #   Reranker  : jina-reranker-v2-base-multilingual
+# Re-checked 2026-09-07: the qwen3-vl-* entries are no longer served. The vision
+# role moves to qwen3.8-27b, which is vision-capable and measured at 27.7 % CER
+# on the Inzigkofen page set (docs/PIPELINE_CONSEQUENCES.md §1, §6).
 GPUSTACK_BASE_URL = _get("GPUSTACK_BASE_URL", "https://gpustack.unibe.ch/v1")
 GPUSTACK_API_KEY = _get("GPUSTACK_API_KEY")
 
@@ -100,7 +103,7 @@ GPUSTACK_API_KEY = _get("GPUSTACK_API_KEY")
 #   VISION  → Agent A (HTR) and Agent B (source description)
 #   TEXT/LLM→ Agent C (NER), corpus/meta agents, reconciliation, care-flag
 #   ORCH    → reserved for the future natural-language / SitL orchestrator (WP1)
-GPUSTACK_MODEL_VISION = _get("GPUSTACK_MODEL_VISION", "qwen3-vl-30b-a3b-instruct")
+GPUSTACK_MODEL_VISION = _get("GPUSTACK_MODEL_VISION", "qwen3.8-27b")
 GPUSTACK_MODEL_TEXT = _get("GPUSTACK_MODEL_TEXT", "gpt-oss-120b")
 GPUSTACK_MODEL_ORCHESTRATOR = _get("GPUSTACK_MODEL_ORCHESTRATOR", "minimax-m2.7")
 ORCHESTRATOR_LLM_ENABLED = _get("ORCHESTRATOR_LLM_ENABLED", "false").lower() == "true"
