@@ -54,6 +54,16 @@ class EnsembleResult:
     added: list = field(default_factory=list)          # ModelPicks the loop added
     no_merge: bool = False                             # #300: selected, not blended
     selected: Any = None                               # #313: the winning candidate
+    #: #390: no escalation was needed — the initial batch agreed. With
+    #: ENSEMBLE_MIN_ENGINES=2 that is the two-engine fast path. Recorded per page
+    #: so the saving is auditable rather than assumed: a run that never takes the
+    #: fast path is paying for a threshold that is set wrong.
+    fast_path: bool = False
+    #: The same fact in words, for the run record and the progress board. Kept out
+    #: of ``provenance``: that list is ``list[Span]`` on the fused path and the
+    #: #300 reason on the other, and a bare string in either would be a lie about
+    #: its type.
+    path: str = ""
 
 
 RecognizeFn = Callable[[ModelPick, Any], Any]          # (pick, image) -> RecognitionResult
@@ -311,7 +321,7 @@ def _finish(timings: dict, mark, t_fuse, t_start) -> dict:
 
 
 def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
-                       min_engines: int = 3, max_loops: int = 2,
+                       min_engines: int = 2, max_loops: int = 5,
                        agreement_cer: float = 0.30, llm_fn=None,
                        per_engine: int = 3,
                        picks: Optional[list] = None,
@@ -336,6 +346,12 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     matches the sequential behaviour. ``concurrency=1`` restores it outright.
     The feedback loop below stays sequential — each extra pick is a decision made
     from the previous results.
+
+    **Two-engine fast path (#390).** ``min_engines`` defaults to 2. Where the two
+    candidates agree the third engine buys nothing and is not run; where they do
+    not, the loop adds it and the page is in exactly the state the old three-engine
+    batch produced, so nothing downstream sees a different set of candidates. The
+    result records which path was taken in ``fast_path`` and ``path``.
 
     **No-merge band (#300):** above ``no_merge_cer`` the candidates are not fused —
     the best single one is returned verbatim. Majority-voting assumes engines make
@@ -466,6 +482,21 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     usable = len([t for t, e in (_text_of(r) for r in recognitions)
                   if t.strip() and not e])
 
+    # Three states, not two. "loops == 0" alone would also cover a page that
+    # wanted to escalate and could not — pool exhausted or max_loops spent — and
+    # calling that a fast path would report a saving that never happened.
+    fast_path = loops == 0 and max_cer <= agreement_cer
+    if fast_path:
+        path_note = (f"ensemble: {len(ran)} engines, max pairwise CER "
+                     f"{max_cer:.1%} ≤ {agreement_cer:.1%} — no escalation needed")
+    elif loops:
+        path_note = (f"ensemble: {len(ran)} engines after {loops} escalation(s), "
+                     f"max pairwise CER {max_cer:.1%}")
+    else:
+        path_note = (f"ensemble: {len(ran)} engines, max pairwise CER "
+                     f"{max_cer:.1%} > {agreement_cer:.1%} — escalation unavailable")
+    logger.info(f"[ensemble] {path_note}")
+
     # find, so select rather than blend.
     if len(recognitions) >= 2 and max_cer > no_merge_cer:
         best = select_best(recognitions, ran, criteria)
@@ -476,15 +507,19 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                    f"(match score {getattr(pick, 'score', 0.0):.2f}); not blended")
             logger.info(f"[ensemble] {why}")
             return EnsembleResult(
-                recognitions=recognitions, text=_text_of(rec)[0], provenance=[why],
+                recognitions=recognitions, text=_text_of(rec)[0],
+                provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
                 no_merge=True, selected=rec, usable=usable,
+                fast_path=fast_path, path=path_note,
                 timings=_finish(timings, _mark, _t_fuse, _t_start),
             )
 
     fr = fuse(recognitions, llm_fn=llm_fn)
     return EnsembleResult(
-        recognitions=recognitions, text=fr.text, provenance=fr.provenance,
+        recognitions=recognitions, text=fr.text,
+        provenance=fr.provenance,
         loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
-        usable=usable, timings=_finish(timings, _mark, _t_fuse, _t_start),
+        usable=usable, fast_path=fast_path, path=path_note,
+        timings=_finish(timings, _mark, _t_fuse, _t_start),
     )

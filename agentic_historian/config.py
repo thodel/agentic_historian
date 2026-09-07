@@ -203,9 +203,15 @@ VERBOSE_PROGRESS_CHANNEL_ID: int | None = int(_get("VERBOSE_PROGRESS_CHANNEL_ID"
 # ENSEMBLE_PER_ENGINE per HTR engine, so the pool is 1 + 2*PER_ENGINE picks;
 # MAX_LOOPS caps how many of the extras actually run. Each extra candidate is real
 # GPU inference (~30–60 s/model/page) — this is the coverage/cost dial.
-ENSEMBLE_MIN_ENGINES = int(_get("ENSEMBLE_MIN_ENGINES", "3"))
+# #390: two, not three. Where the first two candidates already agree the third
+# buys nothing — the machinery for disagreement is the escalation loop below, and
+# it runs whenever they do not. MAX_LOOPS is raised by one in exchange, so a
+# disagreeing page reaches exactly the depth it reached before: 3+4 and 2+5 both
+# cap at seven picks, and after the first escalation the state is identical to
+# the old initial batch. The saving falls entirely on agreeing pages.
+ENSEMBLE_MIN_ENGINES = int(_get("ENSEMBLE_MIN_ENGINES", "2"))
 ENSEMBLE_PER_ENGINE = int(_get("ENSEMBLE_PER_ENGINE", "3"))
-ENSEMBLE_MAX_LOOPS = int(_get("ENSEMBLE_MAX_LOOPS", "4"))
+ENSEMBLE_MAX_LOOPS = int(_get("ENSEMBLE_MAX_LOOPS", "5"))
 ENSEMBLE_AGREEMENT_CER = float(_get("ENSEMBLE_AGREEMENT_CER", "0.30"))
 # #389: the initial batch runs its engine calls concurrently — they are
 # independent network calls (ATR gateway / GPUStack), so page latency approaches

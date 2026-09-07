@@ -115,9 +115,11 @@ def test_concurrency_makes_the_wall_time_shorter_than_the_call_sum():
 
 
 def test_sequential_wall_time_matches_the_call_sum():
+    # min_engines is explicit: this measures the instrument on a three-call
+    # initial batch, not the default batch size, which #390 moved to two.
     er = ensemble.recognize_ensemble(
         "img.jpg", SourceCriteria(), _fn({"vlm": 0.2, "kraken": 0.2, "trocr": 0.2}),
-        picks=list(PICKS), concurrency=1)
+        picks=list(PICKS), concurrency=1, min_engines=3)
     assert er.timings["initial"] >= 0.55
 
 
@@ -128,7 +130,11 @@ def test_timing_does_not_alter_the_result():
     kw = dict(picks=list(PICKS), concurrency=1)
     a = ensemble.recognize_ensemble("img.jpg", SourceCriteria(), _fn({}), **kw)
     assert a.text and len(a.recognitions) == 3
-    assert a.usable == 3 and a.loops == 0
+    # The three canned readings disagree, so under #390 the third arrives through
+    # one escalation instead of the initial batch. What must not change is the
+    # outcome: the same three picks ran and all three are usable.
+    assert a.usable == 3 and len(a.ran) == 3
+    assert a.fast_path is False and a.loops == 1
 
 
 def test_timings_survive_the_no_merge_path():
