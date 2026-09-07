@@ -196,7 +196,7 @@ def chat_text(prompt: str, system: Optional[str] = None, **kwargs) -> str:
 
 
 def chat_vision(prompt: str, image_source: str, system: Optional[str] = None, **kwargs) -> str:
-    """Vision-Call (VLM, default qwen3-vl-30b-a3b-instruct)."""
+    """Vision-Call (VLM, default qwen3.8-27b)."""
     return chat(
         prompt,
         model=config.GPUSTACK_MODEL_VISION,

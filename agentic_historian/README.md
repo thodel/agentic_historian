@@ -45,7 +45,7 @@ config.py         — central config + role-based GPUStack routing
 docs/knowledge_hub.md — MCP-federation methodology + how to add a source
 ```
 
-All models run on the **unibe GPUStack** (`gpustack.unibe.ch`, OpenAI-compatible): vision `qwen3-vl-30b-a3b-instruct` (A/B), text `gpt-oss-120b` (C/D/E), `minimax-m2.7` reserved for orchestration. HTR's kraken/TrOCR path is served by the companion **serving-atr-inference** gateway (`ATR_GATEWAY_URL`, `X-API-Key`). Knowledge-hub authority data (persons/places — HLS, HBLS, KF, EOS, plus GND/Wikidata) is federated over **MCP**; the registry lives in `knowledge_hub/mcp_registry.py` and the methodology in `docs/knowledge_hub.md`. See `IMPLEMENTATION_PLAN.md` and `AGENTIC_HITL_PLAN.md`.
+All models run on the **unibe GPUStack** (`gpustack.unibe.ch`, OpenAI-compatible): vision `qwen3.8-27b` (A/B), text `gpt-oss-120b` (C/D/E), `minimax-m2.7` reserved for orchestration. HTR's kraken/TrOCR path is served by the companion **serving-atr-inference** gateway (`ATR_GATEWAY_URL`, `X-API-Key`). Knowledge-hub authority data (persons/places — HLS, HBLS, KF, EOS, plus GND/Wikidata) is federated over **MCP**; the registry lives in `knowledge_hub/mcp_registry.py` and the methodology in `docs/knowledge_hub.md`. See `IMPLEMENTATION_PLAN.md` and `AGENTIC_HITL_PLAN.md`.
 
 ## Prompt Framework
 
@@ -154,7 +154,7 @@ rules exist because we have hit each of these failure modes — follow them.
 - **Don't close another contributor's/agent's issue** as done without confirming the artifact is on `main`.
 
 ### Models & infrastructure
-- **GPUStack only** (`gpustack.unibe.ch`) — no Claude/Gemini. Routing is role-based in `config.py`: vision `qwen3-vl-30b-a3b-instruct`, text `gpt-oss-120b`, orchestration `minimax-m2.7`.
+- **GPUStack only** (`gpustack.unibe.ch`) — no Claude/Gemini. Routing is role-based in `config.py`: vision `qwen3.8-27b`, text `gpt-oss-120b`, orchestration `minimax-m2.7`.
 - **`gpt-oss-120b` is a reasoning model** — it spends tokens on reasoning before emitting `content`; give text calls a generous `max_tokens` (the client enforces a floor + retry).
 - **The endpoint is VPN-gated** — live LLM calls need the unibe VPN (off-VPN returns `403`).
 
