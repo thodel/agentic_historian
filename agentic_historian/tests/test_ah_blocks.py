@@ -41,3 +41,45 @@ def test_ladder_is_monotone_and_folds_the_long_s():
 def test_show_makes_a_combining_mark_visible():
     assert B.show("́").startswith("◌")
     assert B.show(" ") == "␣"
+
+
+def _apply(a, ops, b):
+    """Reconstruct b from a by applying the operations, to prove they are valid."""
+    out = list(a)
+    for op, i, j in reversed(ops):          # right to left keeps indices valid
+        if op == "replace":
+            out[i] = b[j]
+        elif op == "delete":
+            del out[i]
+        else:
+            out.insert(i, b[j])
+    return "".join(out)
+
+
+def test_editops_fallback_matches_the_fast_path():
+    """The pure-Python backtrace must be as correct as rapidfuzz, not identical.
+
+    Ties are resolved differently, so the invariant is the one that matters: the
+    operation count equals the edit distance, and applying them reconstructs the
+    target. Both paths are checked whenever rapidfuzz is installed.
+    """
+    import random
+    from agentic_historian.eval.metrics import edit_distance
+
+    rnd = random.Random(20260907)
+    alphabet = "abcſ·ö ͤ"
+    for _ in range(200):
+        a = "".join(rnd.choice(alphabet) for _ in range(rnd.randint(0, 12)))
+        b = "".join(rnd.choice(alphabet) for _ in range(rnd.randint(0, 12)))
+        ops = B.editops(a, b)
+        assert len(ops) == edit_distance(a, b)
+        assert _apply(a, ops, b) == b
+
+        if B._rf_lev is not None:           # compare the two implementations
+            saved, B._rf_lev = B._rf_lev, None
+            try:
+                slow = B.editops(a, b)
+            finally:
+                B._rf_lev = saved
+            assert len(slow) == len(ops)
+            assert _apply(a, slow, b) == b

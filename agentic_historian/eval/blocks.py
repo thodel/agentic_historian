@@ -17,12 +17,59 @@ Normalisation of this kind is a diagnostic, never a deliverable: an edition with
 long s and diacritics is worthless.
 """
 import unicodedata
-from collections import Counter, defaultdict
+from collections import Counter
 
-try:
-    from rapidfuzz.distance import Levenshtein as L
-except ImportError:  # pragma: no cover
-    import Levenshtein as L
+from eval.metrics import edit_distance
+
+# rapidfuzz gives the alignment in C. It is OPTIONAL, on the same terms as in
+# metrics.py: without it the backtrace below runs unchanged, so an install that
+# lacks it is slower, never wrong. Distances always route through
+# metrics.edit_distance, so the fast path and the fallback cannot disagree.
+try:                                                   # pragma: no cover — env dependent
+    from rapidfuzz.distance import Levenshtein as _rf_lev
+except Exception:                                      # pragma: no cover
+    _rf_lev = None
+
+
+def editops(a: str, b: str):
+    """Operations turning `a` into `b`, as (op, i, j) with rapidfuzz semantics.
+
+    `replace` swaps a[i] for b[j], `delete` drops a[i], `insert` adds b[j]. Read
+    against a reference and a hypothesis that means: an insertion is a character
+    the hypothesis added, a deletion one it lost. This is the CERberus
+    orientation and the reverse of kraken's.
+    """
+    if _rf_lev is not None:
+        return [(op.tag, op.src_pos, op.dest_pos) for op in _rf_lev.editops(a, b)]
+    m, n = len(a), len(b)
+    # Full matrix: the backtrace needs every cell, unlike the two-row distance.
+    d = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        d[i][0] = i
+    for j in range(1, n + 1):
+        d[0][j] = j
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if a[i - 1] == b[j - 1]:
+                d[i][j] = d[i - 1][j - 1]
+            else:
+                d[i][j] = 1 + min(d[i - 1][j - 1], d[i - 1][j], d[i][j - 1])
+    ops = []
+    i, j = m, n
+    while i > 0 or j > 0:
+        if i > 0 and j > 0 and a[i - 1] == b[j - 1] and d[i][j] == d[i - 1][j - 1]:
+            i, j = i - 1, j - 1
+        elif i > 0 and j > 0 and d[i][j] == d[i - 1][j - 1] + 1:
+            i, j = i - 1, j - 1
+            ops.append(("replace", i, j))
+        elif i > 0 and d[i][j] == d[i - 1][j] + 1:
+            i -= 1
+            ops.append(("delete", i, j))
+        else:
+            j -= 1
+            ops.append(("insert", i, j))
+    ops.reverse()
+    return ops
 
 # Only the blocks that occur in Latin-script manuscripts; everything else falls
 # into "other". Order is search order.
@@ -92,7 +139,7 @@ def profile(pairs):
     for ref, hyp in pairs:
         for ch in ref:
             gt_count[block_of(ch)] += 1
-        for op, i, j in L.editops(ref, hyp):
+        for op, i, j in editops(ref, hyp):
             if op == "replace":
                 sub[block_of(ref[i])] += 1
                 confusion[(ref[i], hyp[j])] += 1
@@ -202,7 +249,7 @@ def ladder(pairs):
             r, h = ref, hyp
             for f in steps:
                 r, h = f(r), f(h)
-            e += L.distance(r, h)
+            e += edit_distance(r, h)
             n += len(r)
         c = 100 * e / max(1, n)
         rows.append((label, c, None if prev is None else c - prev))
