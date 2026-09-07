@@ -456,21 +456,40 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
 
     _mark("initial", _t_initial)
 
-    # 2) feedback loop — expand while the candidates disagree
+    def _usable() -> int:
+        return len([t for t, e in (_text_of(r) for r in recognitions)
+                    if t.strip() and not e])
+
+    # 2) feedback loop — expand while the candidates disagree, or while there are
+    #    too few of them to disagree at all.
+    #
+    #    The second reason is not a refinement (#390 follow-up). With three engines
+    #    a page that lost one to an empty answer still had a pair; with two it has
+    #    a single unchecked reading and `_max_pairwise_cer` returns 0.0 for want of
+    #    a comparison — which the disagreement test then reads as agreement and
+    #    stops. Measured on eight Inzigkofen pages: all three pages that stopped
+    #    this way had one usable candidate and scored 53.5 %, 89.4 % and 104.3 %
+    #    CER, against 24.7-35.4 % for the five that escalated. A page transcribed
+    #    from one unchecked reading is the case the ensemble exists to prevent.
     loops = 0
     _t_esc = _time.monotonic()
     _t = _time.monotonic()
     max_cer = _max_pairwise_cer(recognitions)
     timings["cer"] = round(_time.monotonic() - _t, 2)
-    while max_cer > agreement_cer and loops < max_loops and idx < len(pool):
+    usable = _usable()
+    while ((max_cer > agreement_cer or usable < 2)
+           and loops < max_loops and idx < len(pool)):
+        why_loop = "disagreement" if usable >= 2 else "only %d usable" % usable
         pick = pool[idx]
         idx += 1
         loops += 1
         if _run(pick):
             added.append(pick)
         max_cer = _max_pairwise_cer(recognitions)
-        logger.info(f"[ensemble] loop {loops}: added {pick.engine}/{pick.model_id}, "
-                    f"max pairwise CER now {max_cer:.2%}")
+        usable = _usable()
+        logger.info(f"[ensemble] loop {loops} ({why_loop}): added "
+                    f"{pick.engine}/{pick.model_id}, max pairwise CER now "
+                    f"{max_cer:.2%}, usable {usable}")
 
     # No-merge band (#300): at this much disagreement there is no consensus to
     # Candidates that actually produced text. This is what makes max_cer readable:
@@ -479,16 +498,28 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     _mark("escalation", _t_esc)
     _t_fuse = _time.monotonic()
 
-    usable = len([t for t, e in (_text_of(r) for r in recognitions)
-                  if t.strip() and not e])
+    usable = _usable()
 
     # Three states, not two. "loops == 0" alone would also cover a page that
     # wanted to escalate and could not — pool exhausted or max_loops spent — and
     # calling that a fast path would report a saving that never happened.
-    fast_path = loops == 0 and max_cer <= agreement_cer
+    #
+    # `usable >= 2` is the second half of that same guard. Below two candidates
+    # `max_cer` is 0.0 because there was no pair to compare (#367), so the CER
+    # test alone passes and the page is filed as an agreement that never
+    # happened. On the first live run this mislabelled every fast path there was.
+    fast_path = loops == 0 and usable >= 2 and max_cer <= agreement_cer
     if fast_path:
         path_note = (f"ensemble: {len(ran)} engines, max pairwise CER "
                      f"{max_cer:.1%} ≤ {agreement_cer:.1%} — no escalation needed")
+    elif usable < 2:
+        # The fact an operator has to see: this page carries a single unchecked
+        # reading. Whether the budget was spent getting there or the pool was
+        # empty is secondary, so it is said either way.
+        spent = (f"after {loops} escalation(s)" if loops
+                 else "pool exhausted")
+        path_note = (f"ensemble: {len(ran)} engines, only {usable} usable "
+                     f"candidate(s) — {spent}; the reading is unchecked")
     elif loops:
         path_note = (f"ensemble: {len(ran)} engines after {loops} escalation(s), "
                      f"max pairwise CER {max_cer:.1%}")

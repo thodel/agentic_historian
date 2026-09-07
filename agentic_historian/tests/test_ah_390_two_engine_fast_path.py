@@ -105,9 +105,38 @@ def test_a_failed_pick_is_still_backfilled_to_reach_two():
     assert len(r.ran) == 2 and r.usable == 2
 
 
-def test_a_single_usable_candidate_still_reports_two_usable_only_when_it_has_them():
-    """#367: below two usable candidates the pairwise CER is unmeasured, not 0."""
-    fn = _fn({"v0": AGREE, "k0": ""}, )
+def test_a_single_usable_candidate_escalates_instead_of_stopping():
+    """The page with one reading is the case the ensemble exists to prevent.
+
+    `_max_pairwise_cer` returns 0.0 below two candidates for want of a pair
+    (#367), so the disagreement test alone reads that as agreement and stops.
+    Measured live on eight Inzigkofen pages: every page that stopped this way had
+    one usable candidate and scored 53.5-104.3 % CER against 24.7-35.4 % for the
+    pages that escalated.
+    """
+    fn = _fn({"v0": AGREE, "k0": ""})              # only the VLM produced text
     r = recognize_ensemble("img", None, fn, picks=list(PICKS), concurrency=1)
+    assert len(fn.calls) > 2, "a single unchecked reading must not end the page"
+    assert r.fast_path is False
+    assert r.usable == 1                           # the pool held nothing better
+    assert r.max_pairwise_cer == 0.0               # still unmeasured, not agreement
+    assert "only 1 usable" in r.path and "unchecked" in r.path
+
+
+def test_one_usable_candidate_is_never_a_fast_path_even_below_the_threshold():
+    """max_cer 0.0 <= agreement_cer is true, and means nothing here."""
+    fn = _fn({"v0": AGREE, "k0": ""})
+    r = recognize_ensemble("img", None, fn, picks=PICKS[:2], concurrency=1)
+    assert r.max_pairwise_cer <= 0.30              # the test that used to pass
     assert r.usable == 1
-    assert r.max_pairwise_cer == 0.0               # no pair existed to compare
+    assert r.fast_path is False
+    assert "pool exhausted" in r.path and "only 1 usable" in r.path
+
+
+def test_escalation_stops_once_a_second_reading_arrives():
+    """It escalates for want of a pair, not indefinitely."""
+    fn = _fn({"v0": AGREE, "k0": "", "t0": AGREE})
+    r = recognize_ensemble("img", None, fn, picks=list(PICKS), concurrency=1)
+    assert fn.calls == ["v0", "k0", "t0"]          # one loop, then a usable pair
+    assert r.usable == 2 and r.loops == 1
+    assert r.fast_path is False                    # it escalated; no saving to claim
