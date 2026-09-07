@@ -79,6 +79,27 @@ it scales to a fixed height and a wide, flat crop blows up.
 .venv/bin/python -m pytest agentic_historian/tests/test_ah_linebench.py
 ```
 
+## Localising the error, and pricing the convention
+
+`eval/blocks.py` uses the same edit operations for a different question. `profile(pairs)`
+attributes every substitution and deletion to the Unicode block of the reference character, and
+every insertion to the block of the invented one, then normalises by how often each block occurs
+in the reference. Without that normalisation Basic Latin always wins: it is around nine tenths of
+the text.
+
+On 15th-century bastarda the corpus leader reads Basic Latin at 10.2 % and is scored at 100.0 % on
+Latin Extended-A, which holds the long s. One confusion carries that block: `ſ → s`, 599 times in
+291 lines.
+
+`ladder(pairs)` folds one transcription convention at a time — whitespace, case, long s,
+ligatures, punctuation, combining marks — and re-scores the same output. Nothing is recognised
+again. It separates "cannot read the hand" from "does not follow our conventions": two fifths of
+the leader's measured error on that corpus, under a tenth on 19th-century Kurrent. The share
+scales with how much of the reference sits outside plain ASCII.
+
+Applied across systems it changed every number and no position. Use it to price the gap, not to
+report a rate — and never as an output. An edition without long s and diacritics is worthless.
+
 ## Two traps worth knowing before trusting a number
 
 **Check the crops by eye before measuring.** The first run against the Swiss
