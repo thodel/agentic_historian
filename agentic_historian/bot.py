@@ -691,6 +691,63 @@ async def progress(ctx):
     await ctx.followup.send("\n".join(lines))
 
 
+# ── ATR training server (#414) ───────────────────────────────────────────────
+#
+# Read-only. The bot has the queue's view, asterAIx has the machine's, and the
+# two drift apart with nothing to surface the gap. Actions — cancelling a job,
+# killing a process — are a separate decision with their own confirm flow.
+#
+# All four are ephemeral: they are operational chatter, and a channel that fills
+# with them stops being read.
+
+async def _atr(ctx, coro, formatter, *args):
+    """Await one gateway call and post its formatted answer, or say why not."""
+    import atr_status
+    try:
+        payload = await coro
+    except atr_status.AtrStatusError as exc:
+        await ctx.followup.send(f"❌ {exc}", ephemeral=True)
+        return
+    except Exception as exc:                        # pragma: no cover — defensive
+        await ctx.followup.send(f"❌ {type(exc).__name__}: {exc}", ephemeral=True)
+        return
+    await ctx.followup.send(formatter(payload, *args), ephemeral=True)
+
+
+@bot.slash_command(name="atr_jobs", description="Training jobs on asterAIx")
+@require_role
+async def atr_jobs_cmd(ctx):
+    import atr_status
+    await ctx.defer(ephemeral=True)
+    await _atr(ctx, atr_status.jobs(), atr_status.format_jobs)
+
+
+@bot.slash_command(name="atr_job", description="One training job in detail")
+@require_role
+async def atr_job_cmd(ctx, job_id: Option(str, "Job id", required=True)):
+    import atr_status
+    await ctx.defer(ephemeral=True)
+    await _atr(ctx, atr_status.job(job_id), atr_status.format_job)
+
+
+@bot.slash_command(
+    name="atr_gpu",
+    description="GPU memory, and what holds it without a job to explain it")
+@require_role
+async def atr_gpu_cmd(ctx):
+    import atr_status
+    await ctx.defer(ephemeral=True)
+    await _atr(ctx, atr_status.gpu(), atr_status.format_gpu)
+
+
+@bot.slash_command(name="atr_progress", description="Tail of a training job's log")
+@require_role
+async def atr_progress_cmd(ctx, job_id: Option(str, "Job id", required=True)):
+    import atr_status
+    await ctx.defer(ephemeral=True)
+    await _atr(ctx, atr_status.log(job_id), atr_status.format_log, job_id)
+
+
 # ── Boot ─────────────────────────────────────────────────────────────────────
 
 @bot.event
