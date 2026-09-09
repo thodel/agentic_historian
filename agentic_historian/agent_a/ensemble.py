@@ -69,6 +69,13 @@ class EnsembleResult:
     #: rather than discarded — the reading exists and the Gate-2 card may as well
     #: have it — but counted, because it is what batching costs.
     overshoot: int = 0
+    #: #421: candidates held out of the numbers — ``[(engine/model, why)]``. They
+    #: are still in ``recognitions`` and still on the Gate-2 card: a misconfigured
+    #: model is evidence, and a person should see what each engine did. They are
+    #: only kept from deciding anything, because a page of "u\nuuu\nuu" is not a
+    #: second opinion. Reported rather than silently dropped — a run where this is
+    #: never empty is a model-selection problem, not an ensemble one.
+    set_aside: list = field(default_factory=list)
     #: The same fact in words, for the run record and the progress board. Kept out
     #: of ``provenance``: that list is ``list[Span]`` on the fused path and the
     #: #300 reason on the other, and a bare string in either would be a lie about
@@ -300,6 +307,99 @@ def script_implausible(text: str, lang) -> bool:
     return (same / len(letters)) < (1.0 - _WRONG_SCRIPT_SHARE)
 
 
+# A reading this far from the median length of the others is not a poor reading
+# of the page; it is not a reading of the page. Deliberately wide, in the spirit
+# of _WRONG_SCRIPT_SHARE: the point is to catch the impossible, never to judge a
+# bad-but-plausible transcription.
+#
+# This is NOT "shorter is worse" — select_best's docstring records the opposite
+# lesson from BAT_664, where the *longest* candidates were the garbage ones
+# (kraken-mccatmus 586 chars of noise against TrOCR's 645 of real text). That is
+# a ratio of 1.1 and would not come near this gate, which is the distinction:
+# length is worthless for RANKING two plausible readings, and decisive for
+# telling a reading from a non-reading. #421 measured `kraken-bohemian_19th`
+# returning 203 characters of "u\nuuu\nuu\nuu" for a page the other engines read
+# as 3198 — a factor of 15.
+_LENGTH_FACTOR = 4.0
+
+# Below this many candidates there is no set to be an outlier in.
+_LENGTH_MIN_CANDIDATES = 3
+
+# A transcription of a text page uses an alphabet. The measured failure used two
+# letters — `u` and `i` — across 203 characters. Anything at or above this is not
+# judged here: the gate exists to catch the impossible, not the poor.
+_MIN_DISTINCT_LETTERS = 5
+
+# …and only once there is enough text to have an alphabet at all. A three-letter
+# reading is short, which is the other arm's business, not this one's.
+_ALPHABET_MIN_LETTERS = 10
+
+
+def implausible_reading(text: str, others: list[str], lang=None) -> str:
+    """Why ``text`` cannot be a reading of the same page as ``others`` — or ``""``.
+
+    Three impossibilities, one answer: the wrong writing system (#358), an
+    alphabet too poor to be a transcription, and a length no reading of the same
+    page could have (#421).
+
+    **The alphabet test does not look at the other candidates**, and that is the
+    point. A first version measured length against the *median* and inverted the
+    moment fragments outnumbered readings: with one real reading and three
+    "u\\nuuu\\nuu", the median IS the fragment, and the one true reading is what
+    gets set aside. Caught by the test for exactly that case, not by review.
+
+    The length arm therefore measures against the LONGEST candidate, which cannot
+    invert — the longest is never itself too short — and only fires downward.
+    There is no upward arm: a runaway that invents ten times the page would be
+    just as wrong, but no such case has been measured here, and a gate this
+    consequential should not be built on a guess.
+
+    ``others`` is every usable candidate, including ``text`` itself.
+    """
+    if script_implausible(text, lang):
+        return "wrong script"
+    letters = [c for c in text if c.isalpha()]
+    distinct = {c.lower() for c in letters}
+    if len(letters) >= _ALPHABET_MIN_LETTERS and len(distinct) < _MIN_DISTINCT_LETTERS:
+        return f"{len(distinct)} distinct letters in {len(letters)}"
+    lens = [len(t) for t in others if t.strip()]
+    if len(lens) < _LENGTH_MIN_CANDIDATES:
+        return ""
+    longest = max(lens)
+    if longest and len(text) * _LENGTH_FACTOR < longest:
+        return f"{len(text)} characters against a longest reading of {longest}"
+    return ""
+
+
+def _partition(recognitions: list, lang=None) -> tuple[list, list]:
+    """(candidates the measures may use, ``[(label, why)]`` set aside).
+
+    Set-aside candidates stay in ``recognitions`` — a misconfigured model is
+    evidence, and the Gate-2 card should show what each engine did (#313). They
+    are only kept out of the numbers that decide things: ``usable`` (#367), the
+    spread that drives the no-merge band (#300), the consensus the escalation
+    loop stops on (#419), and the vote that fusion takes.
+    """
+    live = [(r, _text_of(r)) for r in recognitions]
+    texts = [t for _, (t, e) in live if t.strip() and not e]
+    kept, aside = [], []
+    for r, (t, e) in live:
+        if not t.strip() or e:
+            continue
+        why = implausible_reading(t, texts, lang)
+        if why:
+            aside.append((f"{_engine_of(r)}/{_model_of(r)}", why))
+        else:
+            kept.append(r)
+    return kept, aside
+
+
+def _model_of(r) -> str:
+    if isinstance(r, dict):
+        return r.get("model_id", "") or ""
+    return getattr(r, "model_id", "") or ""
+
+
 def select_best(recognitions: list, ran: list, criteria=None):
     """The single best candidate at high disagreement (#300) → ``(rec, pick)``.
 
@@ -339,17 +439,20 @@ def rank_candidates(recognitions: list, ran: list, criteria=None) -> list:
             eligible.append((rec, pick))
 
     lang = getattr(criteria, "lang", None)
+    texts = [t for t, e in (_text_of(rec) for rec, _ in eligible) if t.strip() and not e]
 
     def rank(item):
         rec, pick = item
         engine = getattr(pick, "engine", "") or ""
         # VLM's 1.0 is a placeholder, not a match — see select_best's docstring.
         match = 0.0 if engine == "vlm" else float(getattr(pick, "score", 0.0) or 0.0)
-        # A candidate written in the wrong script sorts below EVERY plausible one,
-        # whatever its metadata match (#358). It stays in the list — a misconfigured
-        # model is evidence, and the Gate-2 card should show what each engine did —
-        # but it can never become the automatic pick.
-        plausible = 0 if script_implausible(_text_of(rec)[0], lang) else 1
+        # A candidate that cannot be a reading of this page sorts below EVERY
+        # plausible one, whatever its metadata match — the wrong writing system
+        # (#358) or a length no transcription of this page could have (#421). It
+        # stays in the list — a misconfigured model is evidence, and the Gate-2
+        # card should show what each engine did — but it can never become the
+        # automatic pick.
+        plausible = 0 if implausible_reading(_text_of(rec)[0], texts, lang) else 1
         return (plausible, match, float(_confidence_of(rec) or 0.0))
 
     return sorted(eligible, key=rank, reverse=True)
@@ -525,9 +628,24 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
 
     _mark("initial", _t_initial)
 
+    _lang = getattr(criteria, "lang", None)
+    set_aside: list = []
+
+    def _measured() -> list:
+        """The candidates the numbers may use (#421).
+
+        A reading that cannot be of this page — wrong script, or a length no
+        transcription of it could have — is kept in `recognitions` for Gate 2 and
+        held out of every number that decides something. Recomputed rather than
+        cached: each added candidate moves the median the gate is measured
+        against, so a verdict from three candidates ago may no longer hold.
+        """
+        kept, aside = _partition(recognitions, _lang)
+        set_aside[:] = aside
+        return kept
+
     def _usable() -> int:
-        return len([t for t, e in (_text_of(r) for r in recognitions)
-                    if t.strip() and not e])
+        return len(_measured())
 
     # 2) feedback loop — expand while the candidates disagree, or while there are
     #    too few of them to disagree at all.
@@ -555,10 +673,11 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     overshoot = 0
     _t_esc = _time.monotonic()
     _t = _time.monotonic()
-    max_cer = _max_pairwise_cer(recognitions)
-    agreed, best_cer = _consensus(recognitions, agreement_cer)
+    measured = _measured()
+    max_cer = _max_pairwise_cer(measured)
+    agreed, best_cer = _consensus(measured, agreement_cer)
     timings["cer"] = round(_time.monotonic() - _t, 2)
-    usable = _usable()
+    usable = len(measured)
 
     def _needs_more() -> bool:
         return not agreed or usable < 2
@@ -583,9 +702,10 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                 recognitions.append(res)
                 ran.append(pick)
                 added.append(pick)
-            max_cer = _max_pairwise_cer(recognitions)
-            agreed, best_cer = _consensus(recognitions, agreement_cer)
-            usable = _usable()
+            measured = _measured()
+            max_cer = _max_pairwise_cer(measured)
+            agreed, best_cer = _consensus(measured, agreement_cer)
+            usable = len(measured)
             if not _needs_more():
                 satisfied = True
         logger.info(f"[ensemble] loop {loops} ({why_loop}): added "
@@ -601,7 +721,8 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     _mark("escalation", _t_esc)
     _t_fuse = _time.monotonic()
 
-    usable = _usable()
+    measured = _measured()
+    usable = len(measured)
 
     # Three states, not two. "loops == 0" alone would also cover a page that
     # wanted to escalate and could not — pool exhausted or max_loops spent — and
@@ -632,6 +753,10 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     else:
         path_note = (f"ensemble: {len(ran)} engines, closest pair "
                      f"{best_cer:.1%} > {agreement_cer:.1%} — escalation unavailable")
+    if set_aside:
+        why = "; ".join(f"{lbl} ({reason})" for lbl, reason in set_aside)
+        path_note += (f" — {len(set_aside)} candidate(s) held out of the numbers: "
+                      f"{why}")
     logger.info(f"[ensemble] {path_note}")
 
     # find, so select rather than blend.
@@ -647,18 +772,18 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                 recognitions=recognitions, text=_text_of(rec)[0],
                 provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
-                consensus_cer=best_cer,
+                consensus_cer=best_cer, set_aside=list(set_aside),
                 no_merge=True, selected=rec, usable=usable,
                 fast_path=fast_path, path=path_note, overshoot=overshoot,
                 timings=_finish(timings, _mark, _t_fuse, _t_start),
             )
 
-    fr = fuse(recognitions, llm_fn=llm_fn)
+    fr = fuse(measured or recognitions, llm_fn=llm_fn)
     return EnsembleResult(
         recognitions=recognitions, text=fr.text,
         provenance=fr.provenance,
         loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
-        consensus_cer=best_cer,
+        consensus_cer=best_cer, set_aside=list(set_aside),
         usable=usable, fast_path=fast_path, path=path_note,
         overshoot=overshoot,
         timings=_finish(timings, _mark, _t_fuse, _t_start),
