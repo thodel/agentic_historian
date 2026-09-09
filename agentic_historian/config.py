@@ -219,6 +219,15 @@ ENSEMBLE_AGREEMENT_CER = float(_get("ENSEMBLE_AGREEMENT_CER", "0.30"))
 # shared; 1 restores the sequential behaviour. The feedback loop stays
 # sequential — each extra pick is a decision made from the previous results.
 ENSEMBLE_CONCURRENCY = int(_get("ENSEMBLE_CONCURRENCY", "3"))
+# #402: the escalation loop was 64% of a run and strictly serial — each added
+# model waited for the previous one before the code decided whether to add
+# another. It now sends this many at a time. Two is the honest compromise the
+# issue names: a batch can overshoot when the first pick alone would have
+# settled the disagreement, and the wider the batch the more often that happens.
+# The overshoot is counted on the result rather than hidden, because an extra
+# candidate changes what the Gate-2 card offers (#313). 1 restores the serial
+# behaviour exactly.
+ENSEMBLE_ESCALATION_BATCH = int(_get("ENSEMBLE_ESCALATION_BATCH", "2"))
 
 # ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
 # Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway
