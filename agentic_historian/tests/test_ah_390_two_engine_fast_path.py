@@ -17,10 +17,17 @@ if str(PKG) not in sys.path:
 from agent_a.ensemble import ModelPick, recognize_ensemble  # noqa: E402
 
 AGREE = "Wir Hans von Wiler tuend kund allen die disen brief ansehent"
+# Seven readings, all different from each other. The list used to hold four and
+# was cycled over seven picks, so k0 and t1 got the same text — two engines in
+# verbatim agreement, which is precisely what the loop now stops on. A fixture
+# for "this page has no consensus" must not contain one.
 DIS = ["voellig andere zeichen xyz qrs mno abc def ghi jkl ohne jeden sinn",
        "1234567890 !!! ??? zzz yyy xxx www vvv uuu ttt sss rrr qqq ppp ooo",
        "noch eine ganz verschiedene lesart mit voellig anderem inhalt hier",
-       "und hier steht wieder etwas komplett anderes als in allen anderen"]
+       "und hier steht wieder etwas komplett anderes als in allen anderen",
+       "qqq www eee rrr ttt zzz uuu iii ooo ppp aaa sss ddd fff ggg hhh jj",
+       "eine sechste lesart die mit keiner der uebrigen etwas gemein hat!!",
+       "%%% &&& /// ((( ))) === ??? ;;; ::: ___ ### @@@ +++ *** ~~~ <<< >>"]
 
 PICKS = [ModelPick("vlm", "v0", 1.0), ModelPick("kraken", "k0", 0.9),
          ModelPick("trocr", "t0", 0.8), ModelPick("kraken", "k1", 0.7),
@@ -46,7 +53,8 @@ def _agreeing():
 
 
 def _disagreeing():
-    return _fn({p.model_id: DIS[i % len(DIS)] for i, p in enumerate(PICKS)})
+    assert len(DIS) >= len(PICKS), "each pick needs its own disagreeing reading"
+    return _fn({p.model_id: DIS[i] for i, p in enumerate(PICKS)})
 
 
 # ── the saving ───────────────────────────────────────────────────────────────

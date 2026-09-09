@@ -52,6 +52,9 @@ D1 = "Wir Hans von Wiler tuend kund allen die disen brief ansehent"
 D2 = "voellig andere zeichen xyz qrs mno abc def ghi jkl ohne jeden sinn"
 D3 = "1234567890 !!! ??? ... zzz yyy xxx www vvv uuu ttt sss rrr qqq ppp"
 D4 = "noch eine ganz verschiedene lesart mit voellig anderem inhalt hier"
+D5 = "qqq www eee rrr ttt zzz uuu iii ooo ppp aaa sss ddd fff ggg hhh jjj"
+D6 = "und hier steht wieder etwas komplett anderes als in allen uebrigen"
+D7 = "%%% &&& /// ((( ))) === ??? ;;; ::: ___ ### @@@ +++ *** ~~~ <<< >>>"
 
 
 def _picks(*ids):
@@ -288,7 +291,11 @@ def test_per_engine_controls_pool_depth(monkeypatch):
 def test_more_loops_yield_more_transcriptions():
     """Start with 3, keep adding while they disagree — max_loops is the dial."""
     ids = ["vlm", "k0", "t0", "k1", "t1", "k2", "t2"]
-    texts = {i: t for i, t in zip(ids, [D1, D2, D3, D4, D2, D3, D1])}  # all disagree
+    # Genuinely seven different readings. The list used to repeat D2/D3/D1 while
+    # claiming "all disagree", so two engines held identical text — which is the
+    # corroboration the stopping rule now looks for, and the loop rightly stopped
+    # early. A test for "keep adding while they disagree" has to disagree.
+    texts = {i: t for i, t in zip(ids, [D1, D2, D3, D4, D5, D6, D7])}
     r = recognize_ensemble("img", None, _rec_fn(texts), picks=_picks(*ids),
                            min_engines=3, max_loops=4, agreement_cer=0.30)
     assert r.loops == 4 and len(r.recognitions) == 7      # 3 initial + 4 added

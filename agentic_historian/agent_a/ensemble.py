@@ -59,6 +59,11 @@ class EnsembleResult:
     #: so the saving is auditable rather than assumed: a run that never takes the
     #: fast path is paying for a threshold that is set wrong.
     fast_path: bool = False
+    #: The closest agreeing pair, across two engines where two engines produced
+    #: usable text. This is what the escalation loop stops on; ``max_pairwise_cer``
+    #: above is the spread and keeps driving #300/#313/#332. Recorded so a run can
+    #: be audited on the number the loop actually read, not on a neighbouring one.
+    consensus_cer: float = 0.0
     #: #402: picks that ran after the stopping condition was already met, because
     #: their batch had gone out together. Zero when escalation_batch is 1. Kept
     #: rather than discarded — the reading exists and the Gate-2 card may as well
@@ -146,7 +151,12 @@ def _text_of(r) -> tuple[str, str]:
 
 def _max_pairwise_cer(recognitions: list) -> float:
     """Max pairwise CER across the usable (non-empty, error-free) candidates —
-    the disagreement signal that drives the feedback loop. <2 candidates → 0."""
+    how far apart the candidates are. <2 candidates → 0.
+
+    This is the *spread*, and it is what #300's no-merge band, #313's vote card
+    and #332 read. It is deliberately NOT the escalation loop's stopping rule any
+    more: see ``_consensus`` for why a maximum cannot serve as one.
+    """
     from eval.metrics import cer
     texts = [t for t, e in (_text_of(r) for r in recognitions) if t.strip() and not e]
     if len(texts) < 2:
@@ -156,6 +166,51 @@ def _max_pairwise_cer(recognitions: list) -> float:
         for b in texts[i + 1:]:
             worst = max(worst, cer(a, b), cer(b, a))   # symmetric
     return worst
+
+
+def _engine_of(r) -> str:
+    if isinstance(r, dict):
+        return r.get("engine", "") or ""
+    return getattr(r, "engine", "") or ""
+
+
+def _consensus(recognitions: list, agreement_cer: float) -> tuple[bool, float]:
+    """Do two candidates corroborate each other? → (reached, best pairwise CER).
+
+    The escalation loop asks "have the candidates converged yet", and
+    ``_max_pairwise_cer`` cannot answer that question. A maximum over a growing
+    set never falls, so ``max_cer > agreement_cer`` is unreachable BY ESCALATING:
+    once the initial pair disagrees, every added candidate can only hold or raise
+    the maximum, and the loop runs to ``max_loops`` by construction. Measured over
+    28 recorded live pages, ``loops`` was 0 or 5 and never once in between — the
+    loop has a fast path and a full budget, and nothing in the middle.
+
+    What the ensemble actually needs is evidence that a reading is trustworthy,
+    and two INDEPENDENT engines agreeing is that evidence. A third candidate that
+    disagrees with both is evidence about that engine, not about the reading.
+    Escalation can reach this condition, which is the whole point.
+
+    Independence is why the agreeing pair must span two engines: two TrOCR models
+    off one base model agree from family resemblance, not corroboration. When the
+    usable candidates come from a single engine there is no independence to be
+    had — demanding it would only replace one unreachable condition with another —
+    so any pair counts, and the ``no_merge`` band still guards what that is worth.
+    """
+    from eval.metrics import cer
+    items = [(_engine_of(r), t) for r, (t, e) in
+             ((r, _text_of(r)) for r in recognitions) if t.strip() and not e]
+    if len(items) < 2:
+        return False, 0.0
+    cross = len({e for e, _ in items}) > 1
+    best = float("inf")
+    for i, (ea, a) in enumerate(items):
+        for eb, b in items[i + 1:]:
+            if cross and ea == eb:
+                continue
+            best = min(best, max(cer(a, b), cer(b, a)))   # symmetric
+    if best == float("inf"):                              # pragma: no cover
+        return False, 0.0
+    return best <= agreement_cer, best
 
 
 # ── the ensemble ──────────────────────────────────────────────────────────────
@@ -501,14 +556,15 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     _t_esc = _time.monotonic()
     _t = _time.monotonic()
     max_cer = _max_pairwise_cer(recognitions)
+    agreed, best_cer = _consensus(recognitions, agreement_cer)
     timings["cer"] = round(_time.monotonic() - _t, 2)
     usable = _usable()
 
     def _needs_more() -> bool:
-        return max_cer > agreement_cer or usable < 2
+        return not agreed or usable < 2
 
     while _needs_more() and loops < max_loops and idx < len(pool):
-        why_loop = "disagreement" if usable >= 2 else "only %d usable" % usable
+        why_loop = "no consensus" if usable >= 2 else "only %d usable" % usable
         take = min(max(1, escalation_batch), max_loops - loops, len(pool) - idx)
         batch = pool[idx:idx + take]
         idx += take
@@ -528,12 +584,14 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                 ran.append(pick)
                 added.append(pick)
             max_cer = _max_pairwise_cer(recognitions)
+            agreed, best_cer = _consensus(recognitions, agreement_cer)
             usable = _usable()
             if not _needs_more():
                 satisfied = True
         logger.info(f"[ensemble] loop {loops} ({why_loop}): added "
                     f"{', '.join(f'{p.engine}/{p.model_id}' for p in batch)}, "
-                    f"max pairwise CER now {max_cer:.2%}, usable {usable}"
+                    f"closest pair now {best_cer:.2%}, spread {max_cer:.2%}, "
+                    f"usable {usable}"
                     + (f", overshoot {overshoot}" if overshoot else ""))
 
     # No-merge band (#300): at this much disagreement there is no consensus to
@@ -553,10 +611,10 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     # `max_cer` is 0.0 because there was no pair to compare (#367), so the CER
     # test alone passes and the page is filed as an agreement that never
     # happened. On the first live run this mislabelled every fast path there was.
-    fast_path = loops == 0 and usable >= 2 and max_cer <= agreement_cer
+    fast_path = loops == 0 and usable >= 2 and agreed
     if fast_path:
-        path_note = (f"ensemble: {len(ran)} engines, max pairwise CER "
-                     f"{max_cer:.1%} ≤ {agreement_cer:.1%} — no escalation needed")
+        path_note = (f"ensemble: {len(ran)} engines, closest pair "
+                     f"{best_cer:.1%} ≤ {agreement_cer:.1%} — no escalation needed")
     elif usable < 2:
         # The fact an operator has to see: this page carries a single unchecked
         # reading. Whether the budget was spent getting there or the pool was
@@ -566,11 +624,14 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         path_note = (f"ensemble: {len(ran)} engines, only {usable} usable "
                      f"candidate(s) — {spent}; the reading is unchecked")
     elif loops:
+        reached = ("consensus reached" if agreed
+                   else "no consensus, budget spent")
         path_note = (f"ensemble: {len(ran)} engines after {loops} escalation(s), "
-                     f"max pairwise CER {max_cer:.1%}")
+                     f"{reached}; closest pair {best_cer:.1%}, "
+                     f"spread {max_cer:.1%}")
     else:
-        path_note = (f"ensemble: {len(ran)} engines, max pairwise CER "
-                     f"{max_cer:.1%} > {agreement_cer:.1%} — escalation unavailable")
+        path_note = (f"ensemble: {len(ran)} engines, closest pair "
+                     f"{best_cer:.1%} > {agreement_cer:.1%} — escalation unavailable")
     logger.info(f"[ensemble] {path_note}")
 
     # find, so select rather than blend.
@@ -586,6 +647,7 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                 recognitions=recognitions, text=_text_of(rec)[0],
                 provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
+                consensus_cer=best_cer,
                 no_merge=True, selected=rec, usable=usable,
                 fast_path=fast_path, path=path_note, overshoot=overshoot,
                 timings=_finish(timings, _mark, _t_fuse, _t_start),
@@ -596,6 +658,7 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         recognitions=recognitions, text=fr.text,
         provenance=fr.provenance,
         loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
+        consensus_cer=best_cer,
         usable=usable, fast_path=fast_path, path=path_note,
         overshoot=overshoot,
         timings=_finish(timings, _mark, _t_fuse, _t_start),
