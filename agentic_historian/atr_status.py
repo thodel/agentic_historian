@@ -121,52 +121,96 @@ def format_job(item: dict) -> str:
     return _fence("\n".join(lines))
 
 
-def format_gpu(payload: dict) -> str:
-    """Cards, and every process that holds memory without a job to explain it.
+def _classify(proc: dict) -> str:
+    """Which of the four things a process holding GPU memory can be.
 
-    Ordered so the unexplained comes first. A card whose unaccounted total is
-    zero prints one line: a report that is long when everything is fine trains
-    people to skim it, which is how the sixteen-hour orphan stayed invisible.
+    The server's ``unaccounted_mib`` means "memory our jobs cannot have", which
+    is the right number for a queued job and the wrong one for an alarm: the
+    neighbours' RAG service is unavailable to us *and* perfectly well explained.
+    Collapsing those two ideas made every ``/atr_gpu`` open with a red banner
+    over four gunicorn workers that had been running for 657 hours — and a
+    warning that is always on is not a warning.
+    """
+    if proc.get("registered") or proc.get("own_service"):
+        return "ours"          # our engine, or a process a job accounts for
+    if proc.get("orphaned"):
+        return "orphaned"      # no owner resolvable — the sixteen-hour case
+    if not proc.get("service"):
+        return "unmanaged"     # someone's shell, e.g. sweep_seed43.sh: real
+                               # work, invisible to the API, and 15.6 GB a
+                               # queued job will be told it cannot have
+    return "foreign"           # a named unit belonging to somebody else
+
+
+def format_gpu(payload: dict) -> str:
+    """Cards, and what is holding them.
+
+    Ordered by what needs a person. The banner is reserved for memory nothing
+    accounts for; a neighbour's named service is a capacity fact and prints
+    without one, because a report that shouts when all is well is one nobody
+    reads when it is not.
     """
     cards = (payload or {}).get("cards") or []
     if not cards:
         return "Keine GPU-Daten."
-    out = []
+    out: list[str] = []
     alarm = False
+
     for card in cards:
-        unaccounted = card.get("unaccounted_mib", 0)
-        orphaned = card.get("orphaned_mib", 0)
-        mark = "⚠ " if unaccounted or orphaned else ""
+        procs = card.get("processes") or []
+        buckets: dict[str, list[dict]] = {}
+        for proc in procs:
+            buckets.setdefault(_classify(proc), []).append(proc)
+
+        unexplained = buckets.get("orphaned", []) + buckets.get("unmanaged", [])
+        foreign = buckets.get("foreign", [])
+        mark = "⚠ " if unexplained else ""
+        if unexplained:
+            alarm = True
+
         out.append(
             f"{mark}GPU {card.get('index')} {card.get('name','')}  "
             f"{card.get('memory_used_mib',0)}/{card.get('memory_total_mib',0)} MiB  "
             f"{card.get('utilisation_pct',0)}% util")
-        if not unaccounted and not orphaned:
-            services = card.get("service_mib", 0)
-            out.append(f"    alles zugeordnet ({services} MiB eigene Dienste)")
+
+        if not unexplained and not foreign:
+            out.append(f"    alles zugeordnet ({card.get('service_mib', 0)} MiB "
+                       "eigene Dienste)")
             continue
-        alarm = True
-        out.append(f"    unerklärt {unaccounted} MiB"
-                   + (f", davon verwaist {orphaned} MiB" if orphaned else ""))
-        rows = sorted(
-            (p for p in card.get("processes") or []
-             if not p.get("registered") and not p.get("own_service")),
-            key=lambda p: -p.get("used_mib", 0))
-        for p in rows:
-            flag = "VERWAIST" if p.get("orphaned") else (p.get("service") or "—")
+
+        # Never collapsed: each one is its own incident, and the command line is
+        # what turned "what is pid 2771780?" into an answer.
+        for proc in sorted(unexplained, key=lambda p: -p.get("used_mib", 0)):
+            label = "VERWAIST" if proc.get("orphaned") else "OHNE DIENST"
             out.append("    {:>7} MiB  pid {:<9} {:<8} {:>7}  {}".format(
-                p.get("used_mib", 0), p.get("pid"), p.get("user") or "?",
-                _hours(p.get("age_s")), flag))
-            if p.get("command"):
-                out.append(f"        {p['command'][:88]}")
+                proc.get("used_mib", 0), proc.get("pid"),
+                proc.get("user") or "?", _hours(proc.get("age_s")), label))
+            if proc.get("command"):
+                out.append(f"        {proc['command'][:88]}")
+
+        # Collapsed: four workers of one unit are one fact, not four. Printing
+        # them separately is how the row that matters gets read past.
+        if foreign:
+            total = sum(p.get("used_mib", 0) for p in foreign)
+            out.append(f"    {total} MiB fremd, für uns nicht verfügbar")
+            groups: dict[tuple, list[dict]] = {}
+            for proc in foreign:
+                groups.setdefault((proc.get("service"), proc.get("user")), []).append(proc)
+            for (service, user), group in sorted(
+                    groups.items(), key=lambda kv: -sum(p.get("used_mib", 0) for p in kv[1])):
+                count = f"{len(group)}× " if len(group) > 1 else ""
+                oldest = max((p.get("age_s") or 0) for p in group)
+                out.append("    {:>7} MiB  {}{} ({}) {:>9}".format(
+                    sum(p.get("used_mib", 0) for p in group),
+                    count, service, user or "?", _hours(oldest)))
+
     if not payload.get("job_attribution_available", True):
         out.append("")
         out.append("Trainer nicht erreichbar — nichts ist einem Job zugeordnet, "
                    "die Speicherzahlen stimmen trotzdem.")
     text = _fence("\n".join(out))
     if alarm:
-        text = ("**Speicher, den kein Job und kein eigener Dienst erklärt.**\n"
-                + text)
+        text = ("**Speicher, den kein Job und kein Dienst erklärt.**\n" + text)
     return text
 
 
