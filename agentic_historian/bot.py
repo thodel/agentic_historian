@@ -269,6 +269,57 @@ async def _process_hot_queue() -> None:
             logger.exception(f"[hot-watch] error processing {stem}: {e}")
 
 
+
+async def _atr_watch_loop() -> None:
+    """Poll the training server and announce what changed (#418).
+
+    The deciding is in ``atr_watch.decide``, which is pure and tested offline;
+    this is the part that cannot be — a socket, a clock and a channel.
+
+    The state is saved **after** the messages are away, so a crash in between
+    repeats an announcement rather than losing one. A repeat is noise; a loss is
+    the eleven-hour failure nobody heard about, which is the thing this exists
+    to prevent.
+    """
+    import atr_status
+    import atr_watch
+
+    channel = bot.get_channel(config.ATR_WATCH_CHANNEL_ID)
+    if channel is None:
+        logger.warning("[atr-watch] channel %s not visible to the bot — not started",
+                       config.ATR_WATCH_CHANNEL_ID)
+        return
+    state = atr_watch.load_state(config.ATR_WATCH_STATE)
+    logger.info("[atr-watch] every %.0fs into #%s (seeded=%s)",
+                config.ATR_WATCH_INTERVAL_S, config.ATR_WATCH_CHANNEL_ID, state.seeded)
+
+    while True:
+        try:
+            jobs_payload = await atr_status.jobs()
+            gpu_payload = await atr_status.gpu()
+        except atr_status.AtrStatusError as exc:
+            # Expected: the box is VPN-only and the gateway is restarted for
+            # every deploy. Logged, never announced — a watcher that reports its
+            # own connectivity is the one that gets muted.
+            logger.info("[atr-watch] gateway unreachable: %s", exc)
+            await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
+            continue
+        except Exception as exc:  # noqa: BLE001 — the loop must outlive one bad poll
+            logger.warning("[atr-watch] poll failed: %s", exc)
+            await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
+            continue
+
+        try:
+            announcements, state = atr_watch.decide(state, jobs_payload, gpu_payload)
+            for item in announcements:
+                await channel.send(str(item)[:1900])
+            atr_watch.save_state(config.ATR_WATCH_STATE, state)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("[atr-watch] announcing failed: %s", exc)
+
+        await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
+
+
 # ── Commands ─────────────────────────────────────────────────────────────────
 
 @bot.slash_command(name="status", description="Overall pipeline status")
@@ -791,6 +842,14 @@ async def on_ready():
         asyncio.create_task(_process_hot_queue())
     except Exception as e:
         logger.warning(f"[hot-watch] start failed: {e}")
+
+    # Announce training outcomes and unexplained GPU memory (#418). Off unless a
+    # channel was chosen; see ENABLE_ATR_WATCH.
+    if config.ENABLE_ATR_WATCH:
+        try:
+            asyncio.create_task(_atr_watch_loop())
+        except Exception as e:
+            logger.warning(f"[atr-watch] start failed: {e}")
 
 
 # ── Update command (P3-3, #248) ───────────────────────────────────────────────

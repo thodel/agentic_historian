@@ -249,6 +249,18 @@ ATR_API_KEY = _get("ATR_API_KEY")
 # the gateway ran a cold model load plus ~4s/line across a full page — the engine
 # itself is healthy and answers a line in ~7s.
 ATR_HTTP_TIMEOUT = float(_get("ATR_HTTP_TIMEOUT", "300"))
+# Announce training outcomes and unexplained GPU memory into a channel (#418).
+# Default OFF and no channel: a watcher that posts somewhere nobody chose is a
+# watcher that gets muted, and muting it removes the pull commands' value too.
+# Set both to switch it on.
+ATR_WATCH_CHANNEL_ID: int | None = int(_get("ATR_WATCH_CHANNEL_ID", "0")) or None
+ENABLE_ATR_WATCH = (_get("ENABLE_ATR_WATCH", "false").lower() == "true"
+                    and ATR_WATCH_CHANNEL_ID is not None)
+# How often to look. A training run is measured in hours, so this is not a
+# latency problem; five minutes keeps the gateway quiet and still catches a
+# failure long before anybody would have thought to ask.
+ATR_WATCH_INTERVAL_S = float(_get("ATR_WATCH_INTERVAL_S", "300"))
+# NB: defined below, next to DATA_DIR — it does not exist yet at this point.
 
 # ── Hot Folder ───────────────────────────────────────────────────────────────
 ENABLE_HOT_FOLDER_WATCH = _get("ENABLE_HOT_FOLDER_WATCH", "true").lower() == "true"
@@ -263,6 +275,8 @@ WATCHED_EXTENSIONS = frozenset(
 
 # ── Datenverzeichnisse ───────────────────────────────────────────────────────
 DATA_DIR = BASE_DIR / "data"
+# What the ATR watcher has already announced (#418), see above.
+ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 TRANSCRIPTIONS_DIR = DATA_DIR / "transcriptions"
 DESCRIPTIONS_DIR = DATA_DIR / "descriptions"
 OUTPUTS_DIR = DATA_DIR / "outputs"
