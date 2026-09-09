@@ -767,6 +767,7 @@ def _recognize_page_ensemble(img, criteria):
         max_loops=config.ENSEMBLE_MAX_LOOPS,
         agreement_cer=config.ENSEMBLE_AGREEMENT_CER,
         per_engine=getattr(config, "ENSEMBLE_PER_ENGINE", 3),
+        escalation_batch=getattr(config, "ENSEMBLE_ESCALATION_BATCH", 2),
     )
     # Tag every candidate with its source page (#284) so a multi-page order's
     # exports can be attributed to the page they transcribe.

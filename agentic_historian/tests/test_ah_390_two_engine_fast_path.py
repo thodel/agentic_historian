@@ -134,9 +134,15 @@ def test_one_usable_candidate_is_never_a_fast_path_even_below_the_threshold():
 
 
 def test_escalation_stops_once_a_second_reading_arrives():
-    """It escalates for want of a pair, not indefinitely."""
+    """It escalates for want of a pair, not indefinitely.
+
+    escalation_batch=1 is the serial behaviour; #402 batches by default, and the
+    batched form of this same page is asserted in the #402 tests.
+    """
     fn = _fn({"v0": AGREE, "k0": "", "t0": AGREE})
-    r = recognize_ensemble("img", None, fn, picks=list(PICKS), concurrency=1)
+    r = recognize_ensemble("img", None, fn, picks=list(PICKS), concurrency=1,
+                           escalation_batch=1)
     assert fn.calls == ["v0", "k0", "t0"]          # one loop, then a usable pair
     assert r.usable == 2 and r.loops == 1
+    assert r.overshoot == 0
     assert r.fast_path is False                    # it escalated; no saving to claim

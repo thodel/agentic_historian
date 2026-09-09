@@ -59,6 +59,11 @@ class EnsembleResult:
     #: so the saving is auditable rather than assumed: a run that never takes the
     #: fast path is paying for a threshold that is set wrong.
     fast_path: bool = False
+    #: #402: picks that ran after the stopping condition was already met, because
+    #: their batch had gone out together. Zero when escalation_batch is 1. Kept
+    #: rather than discarded — the reading exists and the Gate-2 card may as well
+    #: have it — but counted, because it is what batching costs.
+    overshoot: int = 0
     #: The same fact in words, for the run record and the progress board. Kept out
     #: of ``provenance``: that list is ``list[Span]`` on the fused path and the
     #: #300 reason on the other, and a bare string in either would be a lie about
@@ -326,7 +331,8 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                        per_engine: int = 3,
                        picks: Optional[list] = None,
                        no_merge_cer: Optional[float] = None,
-                       concurrency: Optional[int] = None) -> EnsembleResult:
+                       concurrency: Optional[int] = None,
+                       escalation_batch: int | None = None) -> EnsembleResult:
     """Run ≥ ``min_engines`` recognitions on one page, then keep adding the next
     ranked model while the candidates disagree (max pairwise CER >
     ``agreement_cer``), up to ``max_loops`` extra loops. Fuse all candidates.
@@ -376,6 +382,14 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         except Exception:                               # pragma: no cover — defensive
             concurrency = 3
     concurrency = max(1, int(concurrency))
+
+    if escalation_batch is None:
+        try:
+            import config
+            escalation_batch = int(getattr(config, "ENSEMBLE_ESCALATION_BATCH", 2))
+        except (ImportError, TypeError, ValueError):    # pragma: no cover — defensive
+            escalation_batch = 2
+    escalation_batch = max(1, int(escalation_batch))
 
     import time as _time
     _t_start = _time.monotonic()
@@ -471,25 +485,56 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
     #    this way had one usable candidate and scored 53.5 %, 89.4 % and 104.3 %
     #    CER, against 24.7-35.4 % for the five that escalated. A page transcribed
     #    from one unchecked reading is the case the ensemble exists to prevent.
+    #    The loop runs its picks in batches (#402). Escalation was 64 % of a run
+    #    and strictly serial: each added model waited for the previous one before
+    #    the code decided whether to add another. A batch of `escalation_batch`
+    #    goes out at once instead, on the same bounded pool as the initial phase.
+    #
+    #    A batch can overshoot: the first of two may already satisfy the stopping
+    #    condition, and the second then ran for nothing. That is the price of not
+    #    waiting, and it is counted rather than hidden — `overshoot` on the result
+    #    — because an extra candidate changes what the Gate-2 card offers (#313).
+    #    Overshot candidates are kept: they are already computed, and discarding a
+    #    real reading to make a counter look tidy would be the wrong trade.
     loops = 0
+    overshoot = 0
     _t_esc = _time.monotonic()
     _t = _time.monotonic()
     max_cer = _max_pairwise_cer(recognitions)
     timings["cer"] = round(_time.monotonic() - _t, 2)
     usable = _usable()
-    while ((max_cer > agreement_cer or usable < 2)
-           and loops < max_loops and idx < len(pool)):
+
+    def _needs_more() -> bool:
+        return max_cer > agreement_cer or usable < 2
+
+    while _needs_more() and loops < max_loops and idx < len(pool):
         why_loop = "disagreement" if usable >= 2 else "only %d usable" % usable
-        pick = pool[idx]
-        idx += 1
-        loops += 1
-        if _run(pick):
-            added.append(pick)
-        max_cer = _max_pairwise_cer(recognitions)
-        usable = _usable()
+        take = min(max(1, escalation_batch), max_loops - loops, len(pool) - idx)
+        batch = pool[idx:idx + take]
+        idx += take
+        loops += take
+        if take == 1 or concurrency == 1:
+            outcomes = [_attempt(pick) for pick in batch]
+        else:
+            with ThreadPoolExecutor(max_workers=min(concurrency, take)) as ex:
+                outcomes = list(ex.map(_attempt, batch))   # pool order, not completion
+        satisfied = False
+        for pick, res in zip(batch, outcomes):
+            if satisfied:
+                # Ran while the condition was already met — the cost of the batch.
+                overshoot += 1
+            if res is not None:
+                recognitions.append(res)
+                ran.append(pick)
+                added.append(pick)
+            max_cer = _max_pairwise_cer(recognitions)
+            usable = _usable()
+            if not _needs_more():
+                satisfied = True
         logger.info(f"[ensemble] loop {loops} ({why_loop}): added "
-                    f"{pick.engine}/{pick.model_id}, max pairwise CER now "
-                    f"{max_cer:.2%}, usable {usable}")
+                    f"{', '.join(f'{p.engine}/{p.model_id}' for p in batch)}, "
+                    f"max pairwise CER now {max_cer:.2%}, usable {usable}"
+                    + (f", overshoot {overshoot}" if overshoot else ""))
 
     # No-merge band (#300): at this much disagreement there is no consensus to
     # Candidates that actually produced text. This is what makes max_cer readable:
@@ -542,7 +587,7 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
                 provenance=[why],
                 loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
                 no_merge=True, selected=rec, usable=usable,
-                fast_path=fast_path, path=path_note,
+                fast_path=fast_path, path=path_note, overshoot=overshoot,
                 timings=_finish(timings, _mark, _t_fuse, _t_start),
             )
 
@@ -552,5 +597,6 @@ def recognize_ensemble(image, criteria, recognize_fn: RecognizeFn, *,
         provenance=fr.provenance,
         loops=loops, max_pairwise_cer=max_cer, ran=ran, added=added,
         usable=usable, fast_path=fast_path, path=path_note,
+        overshoot=overshoot,
         timings=_finish(timings, _mark, _t_fuse, _t_start),
     )
