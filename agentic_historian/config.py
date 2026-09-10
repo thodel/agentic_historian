@@ -260,6 +260,13 @@ ENABLE_ATR_WATCH = (_get("ENABLE_ATR_WATCH", "false").lower() == "true"
 # latency problem; five minutes keeps the gateway quiet and still catches a
 # failure long before anybody would have thought to ask.
 ATR_WATCH_INTERVAL_S = float(_get("ATR_WATCH_INTERVAL_S", "300"))
+# Prefixed to the announcements that warrant interrupting someone — a failed run,
+# or memory nothing accounts for. Discord only pushes to a phone reliably when the
+# message mentions the reader, so without this the watcher reaches a laptop and
+# not a pocket. Raw mention syntax, because a user and a role differ: "<@123…>"
+# for a person, "<@&123…>" for a role. Empty = never mention, and then a failure
+# is something you find when you next look at the channel.
+ATR_WATCH_MENTION = _get("ATR_WATCH_MENTION", "").strip()
 # NB: defined below, next to DATA_DIR — it does not exist yet at this point.
 
 # ── Hot Folder ───────────────────────────────────────────────────────────────

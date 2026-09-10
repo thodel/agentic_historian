@@ -63,8 +63,20 @@ class Announcement:
     kind: str          # "job" | "memory"
     key: str           # job id, or pid
     text: str
+    #: Worth pulling someone out of whatever they are doing. A Discord message
+    #: without a mention does not reliably reach a phone — that depends on the
+    #: reader's channel setting — and one that always mentions gets the channel
+    #: muted, which costs the non-urgent messages too. So: a failure and memory
+    #: nothing accounts for are urgent; a run that finished well is not.
+    urgent: bool = False
 
     def __str__(self) -> str:
+        return self.text
+
+    def render(self, mention: str = "") -> str:
+        """The message as posted, with the mention only where it is earned."""
+        if mention and self.urgent:
+            return f"{mention} {self.text}"
         return self.text
 
 
@@ -200,12 +212,15 @@ def decide(state: WatchState, jobs_payload: dict, gpu_payload: dict,
     out: list[Announcement] = []
     for job_id, status in seen_jobs.items():
         if status in TERMINAL and state.jobs.get(job_id) != status:
-            out.append(Announcement("job", job_id, _job_line(jobs[job_id])))
+            # "cancelled" is someone's own doing, so it is news but not an alarm.
+            out.append(Announcement("job", job_id, _job_line(jobs[job_id]),
+                                    urgent=status == "failed"))
 
     for proc, card_index in candidates:
         pid = str(proc.get("pid"))
         if pid not in state.flagged:
-            out.append(Announcement("memory", pid, _memory_line(proc, card_index)))
+            out.append(Announcement("memory", pid, _memory_line(proc, card_index),
+                                    urgent=True))
 
     return out, fresh
 

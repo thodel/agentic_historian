@@ -224,3 +224,46 @@ def test_the_eleven_hour_run_would_have_been_announced():
     assert len(out) == 1
     assert "8.16 GiB" in out[0].text
     assert "qwen3vl-german-pages-v1" in out[0].text
+
+
+# ── reaching a phone, not just a channel ────────────────────────────────────
+#
+# Discord pushes to the mobile app reliably only when the message mentions the
+# reader; a plain channel message depends on that reader's per-channel setting.
+# So the mention is how this reaches a pocket — and a watcher that mentions on
+# every message gets the channel muted, which costs the quiet messages too.
+
+def test_a_failure_is_urgent():
+    out, _ = decide(WatchState(jobs={"j1": "training"}, seeded=True),
+                    _jobs(_job("j1", "failed", error=REAL_ERROR)), _gpu())
+    assert out[0].urgent is True
+    assert out[0].render("<@&42>").startswith("<@&42> ")
+
+
+def test_a_successful_run_is_not_urgent():
+    """Good news can wait for the next time someone looks."""
+    out, _ = decide(WatchState(jobs={"j1": "testing"}, seeded=True),
+                    _jobs(_job("j1", "completed", metrics={"cer": 0.2054})), _gpu())
+    assert out[0].urgent is False
+    assert "<@&42>" not in out[0].render("<@&42>")
+
+
+def test_a_cancellation_is_news_but_not_an_alarm():
+    """Someone did it on purpose; they know."""
+    out, _ = decide(WatchState(jobs={"j1": "training"}, seeded=True),
+                    _jobs(_job("j1", "cancelled")), _gpu())
+    assert out[0].urgent is False
+
+
+def test_memory_nothing_accounts_for_is_urgent():
+    out, _ = decide(SEEDED, _jobs(), _gpu(_proc(2771780)))
+    assert out[0].urgent is True
+
+
+def test_without_a_configured_mention_nothing_is_prefixed():
+    """Empty is the default: the feature ships reaching a channel, and reaching a
+    phone is opted into with an id only the user can supply."""
+    out, _ = decide(WatchState(jobs={"j1": "training"}, seeded=True),
+                    _jobs(_job("j1", "failed", error=REAL_ERROR)), _gpu())
+    assert out[0].render("") == out[0].text
+    assert not out[0].render("").startswith(" ")

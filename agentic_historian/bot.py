@@ -312,7 +312,7 @@ async def _atr_watch_loop() -> None:
         try:
             announcements, state = atr_watch.decide(state, jobs_payload, gpu_payload)
             for item in announcements:
-                await channel.send(str(item)[:1900])
+                await channel.send(item.render(config.ATR_WATCH_MENTION)[:1900])
             atr_watch.save_state(config.ATR_WATCH_STATE, state)
         except Exception as exc:  # noqa: BLE001
             logger.warning("[atr-watch] announcing failed: %s", exc)
