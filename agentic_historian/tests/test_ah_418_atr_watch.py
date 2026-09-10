@@ -333,3 +333,59 @@ def test_the_outage_clock_survives_a_restart(tmp_path):
     back = atr_watch.load_state(path)
     assert back.unreachable_since == NOW
     assert back.unreachable_told is True
+
+
+# ── answering "but what happened?" ──────────────────────────────────────────
+#
+# The first real notification this feature sent read:
+#
+#     **20260909T190659Z-qwen3vl-german-pages-v2** — failed
+#     runner process 2786095 is gone while the job was training; see logs/ …
+#     Epoche ?/1
+#
+# and the reply to it was "but what happened with the job?". Both extra lines
+# were the problem: the first is what reconciliation *observed*, not the cause,
+# and the second is a placeholder wearing a number's clothes.
+
+RECONCILED = ("runner process 2786095 is gone while the job was training; "
+              "see logs/ in the job directory")
+
+
+def test_an_unknown_epoch_is_not_printed_as_a_question_mark():
+    """A VLM run that dies inside its first epoch has recorded no epoch at all."""
+    out, _ = decide(WatchState(jobs={"j1": "training"}, seeded=True),
+                    _jobs(_job("j1", "failed", error=REAL_ERROR,
+                               progress={"epoch": None, "epochs": 1})), _gpu())
+    assert "Epoche" not in out[0].text
+
+
+def test_a_known_epoch_is_still_printed():
+    out, _ = decide(WatchState(jobs={"j1": "training"}, seeded=True),
+                    _jobs(_job("j1", "failed", error=REAL_ERROR,
+                               progress={"epoch": 2, "epochs": 3})), _gpu())
+    assert "Epoche 2/3" in out[0].text
+
+
+def test_a_failure_found_after_an_outage_says_so():
+    """The job record cannot know why it died; the watcher knows the server was
+    gone, and that is the more useful half of the answer."""
+    state = WatchState(jobs={"j1": "training"}, seeded=True,
+                       unreachable_since=NOW, unreachable_told=True)
+    out, _ = decide(state, _jobs(_job("j1", "failed", error=RECONCILED)), _gpu())
+    assert "Ausfall des Servers" in out[0].text
+    assert out[0].urgent is True
+
+
+def test_an_ordinary_failure_does_not_blame_the_server():
+    out, _ = decide(WatchState(jobs={"j1": "training"}, seeded=True),
+                    _jobs(_job("j1", "failed", error=REAL_ERROR)), _gpu())
+    assert "Ausfall des Servers" not in out[0].text
+    assert "8.16 GiB" in out[0].text          # the real cause still leads
+
+
+def test_a_completed_job_after_an_outage_is_not_blamed_on_it():
+    """Only failures. A run that finished during an outage finished."""
+    state = WatchState(jobs={"j1": "testing"}, seeded=True,
+                       unreachable_since=NOW, unreachable_told=True)
+    out, _ = decide(state, _jobs(_job("j1", "completed", metrics={"cer": 0.2})), _gpu())
+    assert "Ausfall" not in out[0].text

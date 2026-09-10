@@ -183,8 +183,11 @@ def _job_line(job: dict) -> str:
         if job.get("published"):
             bits.append(str(job["published"])[:120])
     epoch, epochs = progress.get("epoch"), progress.get("epochs")
-    if epoch or epochs:
-        bits.append(f"Epoche {epoch or '?'}/{epochs or '?'}")
+    # Only when it says something. A VLM run that dies inside its first epoch has
+    # recorded no epoch at all, and "Epoche ?/1" is a line that costs a reader
+    # attention and gives nothing back.
+    if epoch:
+        bits.append(f"Epoche {epoch}/{epochs or '?'}")
     return "\n".join(bits)
 
 
@@ -230,11 +233,22 @@ def decide(state: WatchState, jobs_payload: dict, gpu_payload: dict,
         # Cold start: record the world, say nothing about how it got that way.
         return [], fresh
 
+    # A failure discovered on the far side of an outage is almost never about the
+    # job. The record can only say "runner process 2786095 is gone while the job
+    # was training", which is what reconciliation observed and not what happened —
+    # and that is the message that reached a phone and left the reader asking.
+    after_outage = state.unreachable_told
+
     out: list[Announcement] = []
     for job_id, status in seen_jobs.items():
         if status in TERMINAL and state.jobs.get(job_id) != status:
+            text = _job_line(jobs[job_id])
+            if status == "failed" and after_outage:
+                text += ("\nDas fiel erst nach einem Ausfall des Servers auf — der "
+                         "Lauf ist wahrscheinlich mit ihm gestorben, nicht an sich "
+                         "selbst. Das Trainingslog endet dort, wo der Server ging.")
             # "cancelled" is someone's own doing, so it is news but not an alarm.
-            out.append(Announcement("job", job_id, _job_line(jobs[job_id]),
+            out.append(Announcement("job", job_id, text,
                                     urgent=status == "failed"))
 
     for proc, card_index in candidates:
