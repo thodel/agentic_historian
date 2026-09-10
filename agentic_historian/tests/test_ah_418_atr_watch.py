@@ -267,3 +267,69 @@ def test_without_a_configured_mention_nothing_is_prefixed():
                     _jobs(_job("j1", "failed", error=REAL_ERROR)), _gpu())
     assert out[0].render("") == out[0].text
     assert not out[0].render("").startswith(" ")
+
+
+# ── the server itself going away ────────────────────────────────────────────
+#
+# On 2026-09-10 asterAIx left the network entirely while a 33-hour page run was at
+# step 532 of 2352. The first draft of this loop logged "gateway unreachable" and
+# announced nothing, by design — and would have stayed silent for the whole
+# outage. The principle was right for a blip and wrong for this.
+
+NOW = 1_757_500_000.0
+
+
+def test_a_blip_is_not_announced():
+    """The gateway is restarted for every deploy of the serving stack."""
+    notice, state = atr_watch.note_unreachable(WatchState(seeded=True), NOW)
+    assert notice is None
+    assert state.unreachable_since == NOW          # but the clock has started
+
+    notice, state = atr_watch.note_unreachable(state, NOW + 600)
+    assert notice is None
+
+
+def test_a_held_outage_is_announced_once_and_urgently():
+    state = WatchState(seeded=True, unreachable_since=NOW)
+    notice, state = atr_watch.note_unreachable(state, NOW + atr_watch.UNREACHABLE_GRACE_S + 1)
+    assert notice is not None
+    assert notice.urgent is True                   # this is a phone case
+    assert "antwortet seit" in notice.text
+
+    again, _ = atr_watch.note_unreachable(state, NOW + 7200)
+    assert again is None                           # once, not every poll
+
+
+def test_recovery_closes_an_announced_outage():
+    state = WatchState(seeded=True, unreachable_since=NOW, unreachable_told=True)
+    notice, state = atr_watch.note_reachable(state, NOW + 5400)
+    assert notice is not None
+    assert notice.urgent is False                  # good news does not buzz
+    assert "wieder" in notice.text
+    assert state.unreachable_since is None and state.unreachable_told is False
+
+
+def test_recovery_from_an_unannounced_blip_says_nothing():
+    """Otherwise every deploy produces a recovery message for an absence nobody
+    was told about."""
+    state = WatchState(seeded=True, unreachable_since=NOW)
+    notice, state = atr_watch.note_reachable(state, NOW + 60)
+    assert notice is None
+    assert state.unreachable_since is None
+
+
+def test_a_healthy_poll_on_a_healthy_state_is_a_no_op():
+    state = WatchState(seeded=True)
+    notice, out = atr_watch.note_reachable(state, NOW)
+    assert notice is None and out == state
+
+
+def test_the_outage_clock_survives_a_restart(tmp_path):
+    """The streak is what decides, so losing it on every bot restart would mean a
+    flapping box is never reported."""
+    path = tmp_path / "watch.json"
+    atr_watch.save_state(path, WatchState(seeded=True, unreachable_since=NOW,
+                                          unreachable_told=True))
+    back = atr_watch.load_state(path)
+    assert back.unreachable_since == NOW
+    assert back.unreachable_told is True

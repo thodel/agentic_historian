@@ -7,6 +7,7 @@ directly from this Discord channel.
 import asyncio
 import logging
 import threading
+import time
 from pathlib import Path
 
 from watchdog.events import FileSystemEventHandler
@@ -286,36 +287,45 @@ async def _atr_watch_loop() -> None:
 
     channel = bot.get_channel(config.ATR_WATCH_CHANNEL_ID)
     if channel is None:
-        logger.warning("[atr-watch] channel %s not visible to the bot — not started",
+        logger.warning("[atr-watch] channel {} not visible to the bot — not started",
                        config.ATR_WATCH_CHANNEL_ID)
         return
     state = atr_watch.load_state(config.ATR_WATCH_STATE)
-    logger.info("[atr-watch] every %.0fs into #%s (seeded=%s)",
-                config.ATR_WATCH_INTERVAL_S, config.ATR_WATCH_CHANNEL_ID, state.seeded)
+    logger.info("[atr-watch] every {:.0f}s into #{} (mention={}, seeded={})",
+                config.ATR_WATCH_INTERVAL_S, config.ATR_WATCH_CHANNEL_ID,
+                bool(config.ATR_WATCH_MENTION), state.seeded)
 
     while True:
         try:
             jobs_payload = await atr_status.jobs()
             gpu_payload = await atr_status.gpu()
-        except atr_status.AtrStatusError as exc:
-            # Expected: the box is VPN-only and the gateway is restarted for
-            # every deploy. Logged, never announced — a watcher that reports its
-            # own connectivity is the one that gets muted.
-            logger.info("[atr-watch] gateway unreachable: %s", exc)
-            await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
-            continue
-        except Exception as exc:  # noqa: BLE001 — the loop must outlive one bad poll
-            logger.warning("[atr-watch] poll failed: %s", exc)
+        except (atr_status.AtrStatusError, Exception) as exc:  # noqa: BLE001
+            # A blip is expected — the gateway is restarted for every deploy of
+            # the serving stack — so this is logged and not announced. A *held*
+            # outage is different: on 2026-09-10 the box left the network with a
+            # 33-hour run on it, and the first draft of this loop would never have
+            # said so. note_unreachable draws that line at half an hour.
+            logger.info("[atr-watch] gateway unreachable: {}", exc)
+            try:
+                notice, state = atr_watch.note_unreachable(state, time.time())
+                if notice is not None:
+                    await channel.send(notice.render(config.ATR_WATCH_MENTION)[:1900])
+                atr_watch.save_state(config.ATR_WATCH_STATE, state)
+            except Exception as inner:  # noqa: BLE001
+                logger.warning("[atr-watch] outage notice failed: {}", inner)
             await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
             continue
 
         try:
+            back, state = atr_watch.note_reachable(state, time.time())
+            if back is not None:
+                await channel.send(back.render(config.ATR_WATCH_MENTION)[:1900])
             announcements, state = atr_watch.decide(state, jobs_payload, gpu_payload)
             for item in announcements:
                 await channel.send(item.render(config.ATR_WATCH_MENTION)[:1900])
             atr_watch.save_state(config.ATR_WATCH_STATE, state)
         except Exception as exc:  # noqa: BLE001
-            logger.warning("[atr-watch] announcing failed: %s", exc)
+            logger.warning("[atr-watch] announcing failed: {}", exc)
 
         await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
 

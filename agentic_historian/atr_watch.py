@@ -32,13 +32,16 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
 __all__ = [
     "TERMINAL",
     "ORPHAN_GRACE_S",
+    "UNREACHABLE_GRACE_S",
+    "note_unreachable",
+    "note_reachable",
     "Announcement",
     "WatchState",
     "decide",
@@ -54,6 +57,15 @@ TERMINAL = ("completed", "failed", "cancelled")
 #: second it starts; one still holding a card an hour later is worth knowing
 #: about, whoever started it.
 ORPHAN_GRACE_S = 3600.0
+
+#: How long the training server must stay unreachable before that is itself
+#: announced. The first draft logged it and never said a word, on the principle
+#: that a watcher reporting its own connectivity is the one that gets muted. That
+#: principle holds for a blip — the gateway is restarted for every deploy — and
+#: fails for the case that proved it: on 2026-09-10 asterAIx went off the network
+#: entirely while a 33-hour page run was at step 532, and nothing would ever have
+#: said so. Half an hour distinguishes the two.
+UNREACHABLE_GRACE_S = 1800.0
 
 
 @dataclass(frozen=True)
@@ -90,16 +102,25 @@ class WatchState:
     flagged: dict[str, int] = field(default_factory=dict)
     #: False until the first poll has been recorded; nothing is announced before.
     seeded: bool = False
+    #: When the server first failed to answer in the current streak, and whether
+    #: that streak has already been announced. Cleared the moment it answers.
+    unreachable_since: float | None = None
+    unreachable_told: bool = False
 
     def to_json(self) -> str:
         return json.dumps({"jobs": self.jobs, "flagged": self.flagged,
-                           "seeded": self.seeded}, indent=2)
+                           "seeded": self.seeded,
+                           "unreachable_since": self.unreachable_since,
+                           "unreachable_told": self.unreachable_told}, indent=2)
 
     @classmethod
     def from_dict(cls, raw: dict) -> "WatchState":
+        since = raw.get("unreachable_since")
         return cls(jobs=dict(raw.get("jobs") or {}),
                    flagged={str(k): int(v) for k, v in (raw.get("flagged") or {}).items()},
-                   seeded=bool(raw.get("seeded", False)))
+                   seeded=bool(raw.get("seeded", False)),
+                   unreachable_since=float(since) if since else None,
+                   unreachable_told=bool(raw.get("unreachable_told", False)))
 
 
 def _hours(seconds: float | None) -> str:
@@ -223,6 +244,46 @@ def decide(state: WatchState, jobs_payload: dict, gpu_payload: dict,
                                     urgent=True))
 
     return out, fresh
+
+
+def note_unreachable(state: WatchState, now: float,
+                     grace_s: float = UNREACHABLE_GRACE_S
+                     ) -> tuple[Announcement | None, WatchState]:
+    """Call on a failed poll. Announces the outage once, after ``grace_s``.
+
+    Not on the first failure: the gateway is restarted for every deploy of the
+    serving stack, and a message for each of those is how this channel gets
+    muted. Not on every failure either — once, and then silence until it returns.
+    """
+    started = state.unreachable_since or now
+    held = now - started
+    if state.unreachable_told or held < grace_s:
+        return None, replace(state, unreachable_since=started)
+
+    text = (f"**Der Trainingsserver antwortet seit {_hours(held)} nicht.** "
+            f"Laufende Jobs sind von hier aus nicht mehr einsehbar — ob sie noch "
+            f"laufen, sagt nur die Box selbst.")
+    return (Announcement("server", "unreachable", text, urgent=True),
+            replace(state, unreachable_since=started, unreachable_told=True))
+
+
+def note_reachable(state: WatchState, now: float
+                   ) -> tuple[Announcement | None, WatchState]:
+    """Call on a successful poll. Closes an announced outage, once.
+
+    Only when the outage was announced: otherwise a deploy would produce a
+    recovery message for an absence nobody was told about.
+    """
+    if state.unreachable_since is None:
+        return None, state
+    held = now - state.unreachable_since
+    clean = replace(state, unreachable_since=None, unreachable_told=False)
+    if not state.unreachable_told:
+        return None, clean
+    return (Announcement("server", "reachable",
+                         f"Der Trainingsserver antwortet wieder, nach {_hours(held)}.",
+                         urgent=False),
+            clean)
 
 
 # ── persistence ─────────────────────────────────────────────────────────────
