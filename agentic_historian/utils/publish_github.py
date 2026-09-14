@@ -355,3 +355,79 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
     except Exception as e:  # network, HTTP, encoding — never fatal to the pipeline
         logger.warning(f"[Publish] {doc_id} failed: {e}")
         return None
+
+
+# ── publishing a directory tree (#batch) ─────────────────────────────────────
+
+#: What may be published from a local directory. An allowlist, not a denylist:
+#: these trees sit next to the source images they were produced from, and the one
+#: mistake that cannot be taken back is committing somebody's digitised holdings
+#: to a public repository. A format nobody anticipated is skipped and named in the
+#: log, which is the safe direction to be wrong in.
+PUBLISHABLE_SUFFIXES = frozenset({".txt", ".json", ".md", ".jsonl", ".csv", ".xml"})
+
+
+def publish_tree(local_dir: Path, *, repo: str, path_prefix: str,
+                 branch: str = "main", message: str = "Publish outputs",
+                 suffixes: frozenset[str] = PUBLISHABLE_SUFFIXES,
+                 chunk: int = 200,
+                 session: Optional[requests.Session] = None) -> list[str]:
+    """Commit every publishable file under ``local_dir`` to ``repo`` at
+    ``path_prefix/``, preserving the tree. Returns the commit URLs.
+
+    Unlike :func:`publish_doc` this is **not** gated on ``ENABLE_GITHUB_PUBLISH``:
+    that flag exists so the pipeline does not publish as a side effect of
+    processing. Calling this is not a side effect of anything — it is someone
+    asking for these files to be pushed — so the only precondition is a token.
+
+    Large trees are split into several commits of at most ``chunk`` files. One
+    commit would be tidier, and it is not worth it: each file costs a blob API
+    call, so a thousand-file tree is a thousand requests, and a failure at request
+    900 of a single commit publishes nothing at all. Chunked, the same failure
+    leaves the completed chunks published and the rest to retry — and re-running
+    is safe, because a chunk that rewrites identical bytes produces an empty tree
+    delta rather than a duplicate.
+
+    Raises on a failed API call. This is an explicit, outward-facing action; a
+    publish that quietly published half a run and returned would be worse than one
+    that stops and says where it stopped.
+    """
+    local_dir = Path(local_dir)
+    if not local_dir.is_dir():
+        raise FileNotFoundError(f"not a directory: {local_dir}")
+    if not config.GITHUB_TOKEN:
+        raise RuntimeError("GITHUB_TOKEN is not set — cannot publish")
+
+    prefix = path_prefix.strip("/")
+    files: dict[str, bytes] = {}
+    skipped: list[str] = []
+    for p in sorted(local_dir.rglob("*")):
+        if not p.is_file():
+            continue
+        if p.suffix.lower() not in suffixes:
+            skipped.append(p.name)
+            continue
+        rel = p.relative_to(local_dir).as_posix()
+        files[f"{prefix}/{rel}" if prefix else rel] = p.read_bytes()
+
+    if skipped:
+        logger.info(
+            f"[Publish] {len(skipped)} file(s) not published (unpublishable type): "
+            + ", ".join(sorted({Path(s).suffix or s for s in skipped}))
+        )
+    if not files:
+        logger.warning(f"[Publish] nothing publishable under {local_dir}")
+        return []
+
+    paths = sorted(files)
+    urls: list[str] = []
+    s = session or _session()
+    batches = [paths[i:i + chunk] for i in range(0, len(paths), chunk)]
+    for n, batch in enumerate(batches, 1):
+        part = f" ({n}/{len(batches)})" if len(batches) > 1 else ""
+        url = _commit_files({p: files[p] for p in batch}, f"{message}{part}",
+                            session=s, repo=repo, branch=branch)
+        logger.info(f"[Publish] {repo}@{branch}: {len(batch)} file(s){part} → {url}")
+        if url:
+            urls.append(url)
+    return urls
