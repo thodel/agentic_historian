@@ -141,8 +141,15 @@ class KrakenHTTPClient:
 
         ``/ocr`` only accepts kraken + trocr (it auto-segments a page). ``party``
         is a page-level engine and the gateway rejects it on ``/ocr`` with
-        ``400: use /recognize for 'party'`` — so party must come through here.
-        Same response shape (text/confidence/model).
+        ``400: use /recognize for 'party'`` — so party must come through here, and
+        so must every ``vllm`` model (``400: use /recognize for 'vllm'``).
+
+        Unlike ``/ocr``, this endpoint returns the **whole** ``RecognitionResult``:
+        the per-line readings with their geometry, how long it took, what did the
+        segmentation, and party's parallel reading of the same image. The extra
+        fields are carried through rather than dropped — a batch that keeps only
+        the concatenated page text cannot say afterwards *which* line a model got
+        wrong, and re-running to find out costs the whole run again.
         """
         files: dict = self._prepare_files(image)
         resp = self._post("/recognize", files=files, data={"model": model})
@@ -152,6 +159,12 @@ class KrakenHTTPClient:
             confidence=data.get("confidence", 0.0),
             model_used=data.get("model", model),
             service_version=data.get("version", "?"),
+            lines=list(data.get("lines") or []),
+            engine=data.get("engine", ""),
+            segmented_by=data.get("segmented_by"),
+            timing_ms=int(data.get("timing_ms") or 0),
+            truncated=bool(data.get("truncated", False)),
+            second_opinion=data.get("second_opinion"),
         )
 
     def list_models(self) -> list[dict]:
@@ -225,31 +238,66 @@ class KrakenHTTPClient:
         if resp.status_code >= 400:
             raise KrakenClientError(
                 f"Kraken service {resp.status_code} at {self.base_url}{path}: "
-                f"{resp.text[:400]}"
+                f"{resp.text[:400]}",
+                status_code=resp.status_code,
             )
         return resp
 
 
 # ── result dataclass ──────────────────────────────────────────────────────────
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass
 class KrakenResult:
-    """Result of a remote kraken HTR/OCR call."""
+    """Result of a remote kraken HTR/OCR call.
+
+    The first four fields are the legacy ``/ocr`` shape and every existing caller
+    reads only those. The rest are what ``/recognize`` additionally returns; they
+    default to empty, so a result built from an ``/ocr`` response is unchanged and
+    no caller has to learn about them to keep working.
+    """
 
     text: str
     confidence: float
     model_used: str
     service_version: str = "?"
+    #: Per-line readings as the gateway returned them (order, baseline/bbox, text,
+    #: confidence). Empty for the page-level engines that never expose lines.
+    lines: list[dict] = field(default_factory=list)
+    #: Which engine answered ("kraken" | "trocr" | "party" | "vllm"), as reported
+    #: by the gateway — not inferred from the model id.
+    engine: str = ""
+    #: What produced the line geometry, when the engine did not segment itself.
+    segmented_by: str | None = None
+    #: Gateway-measured duration of the recognition, in milliseconds.
+    timing_ms: int = 0
+    #: The model stopped at its token ceiling rather than at the end of the text,
+    #: so this reading is cut off. False also when the gateway cannot tell — see
+    #: serving-atr-inference#123; absence of the signal is not evidence of one.
+    truncated: bool = False
+    #: Party's reading of the same image, attached by the gateway to every
+    #: non-party result. ``None`` when it is switched off or party *is* the engine.
+    second_opinion: dict | None = None
 
 
 # ── exceptions ───────────────────────────────────────────────────────────────
 
 class KrakenClientError(Exception):
-    """Raised when the kraken HTTP service returns an error or is unreachable."""
-    pass
+    """Raised when the kraken HTTP service returns an error or is unreachable.
+
+    ``status_code`` is the gateway's HTTP status, or ``None`` when the request
+    never got an answer (unreachable host, connection reset, timeout). The
+    distinction matters to anything that retries: ``None`` and 5xx are worth
+    trying again, 404 (unknown model) and 401/403 will fail identically for ever,
+    and retrying them just delays the report that says so. Parsing the status back
+    out of the message would work until someone reworded the message.
+    """
+
+    def __init__(self, message: str, status_code: Optional[int] = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
 
 
 # ── convenience helper ───────────────────────────────────────────────────────

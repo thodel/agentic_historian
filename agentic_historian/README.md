@@ -97,6 +97,9 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `MCP_BASE_URL` / `MCP_TIMEOUT` | Knowledge-hub MCP federation base + per-request timeout |
 | `ENABLE_MCP_LINKING` | Agent C links persons via the MCP federation (falls back to the local hub) |
 | `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
+| `NEXTCLOUD_SHARE_URL` / `_PASS` / `NEXTCLOUD_REMOTE_DIR` | Nextcloud **public share** ingestion — the share token is the WebDAV user (`docs/BATCH_ATR.md`) |
+| `NEXTCLOUD_STAGING_DIR` / `VLM_TEST_ROOT` | Where a share is mirrored to, and the root for multi-model comparison runs |
+| `ATR_BATCH_PAGE_CONCURRENCY` / `ATR_BATCH_RETRIES` | Pages in flight per model (default `1`) and per-page retries for timeouts/5xx (default `2`) |
 | `VOYANT_API_URL` | Self-hosted Voyant instance (Agent D) |
 | `ENABLE_HLS_LOOKUP` / `HLS_DATA_PATH` | Offline HLS fallback (primary path is the HLS MCP) |
 | `ENABLE_GITHUB_PUBLISH` | Publish processed outputs to the public catalogue repo (default `false`) |
@@ -115,6 +118,28 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
 
 See `workspace/gpustack.env.example` for the full template.
+
+## Reading a collection with several models — batch ATR
+
+`atr_batch.py` answers a different question from the pipeline: not "read this
+document well" but "how do these models read this collection". No selection, no
+fusion, no gate — every model's reading of every page, kept apart and kept whole.
+
+```bash
+python -m agentic_historian pull-share --folder digitalisate
+python -m agentic_historian atr-batch --source data/nextcloud/digitalisate \
+    --models m1,m2,m3 --run atr_test_lassberg
+python -m agentic_historian publish-batch --run-dir … --repo owner/name --path data/vlm-outputs/…
+```
+
+It iterates **model-major** — every page of one model, then the next — because the
+gateway's VLMs are `residency: lazy` on one GPU that holds one at a time, so
+page-major pays an evict-and-reload cycle per page. It is resumable (a page whose
+result is on disk is skipped; the output *is* the state), it classifies failures
+rather than just catching them (a 404 abandons that model at once, a timeout is
+retried, a bad page is stepped over), and its report says what each model produced
+and what it cost — explicitly **not** a ranking, because there is no ground truth
+in a run like this. Full runbook: [`docs/BATCH_ATR.md`](../docs/BATCH_ATR.md).
 
 ## Publishing outputs — GitHub + Pages
 

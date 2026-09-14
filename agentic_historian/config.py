@@ -126,6 +126,15 @@ SWITCHDRIVE_USER = _get("SWITCHDRIVE_USER", "")
 SWITCHDRIVE_PASS = _get("SWITCHDRIVE_PASS", "")
 SWITCHDRIVE_REMOTE_DIR = _get("SWITCHDRIVE_REMOTE_DIR", "agentic_historian_hotfolder")
 
+# ── Nextcloud public share (WebDAV ingestion) ────────────────────────────────
+# A *public share*, not an account: the share token is the WebDAV username and
+# NEXTCLOUD_SHARE_PASS its password (empty for a share without one). See
+# utils/nextcloud.py — paste the browser URL, any of Nextcloud's shapes parses.
+NEXTCLOUD_SHARE_URL = _get("NEXTCLOUD_SHARE_URL", "")
+NEXTCLOUD_SHARE_PASS = _get("NEXTCLOUD_SHARE_PASS", "")
+# Subfolder inside the share to ingest ("" = the share root).
+NEXTCLOUD_REMOTE_DIR = _get("NEXTCLOUD_REMOTE_DIR", "")
+
 # gpt-oss-120b is a REASONING model: it spends tokens on reasoning_content before
 # emitting content. Give text calls a generous budget or content comes back null.
 GPUSTACK_TEXT_MAX_TOKENS = int(_get("GPUSTACK_TEXT_MAX_TOKENS", "4096"))
@@ -287,6 +296,23 @@ ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 TRANSCRIPTIONS_DIR = DATA_DIR / "transcriptions"
 DESCRIPTIONS_DIR = DATA_DIR / "descriptions"
 OUTPUTS_DIR = DATA_DIR / "outputs"
+# Where a Nextcloud share is mirrored to (utils/nextcloud.py). Kept apart from the
+# hot folder on purpose: the hot folder is watched and consumed, and a mirror of a
+# share is neither — it is the corpus a batch reads repeatedly, once per model.
+NEXTCLOUD_STAGING_DIR = Path(_get("NEXTCLOUD_STAGING_DIR", str(DATA_DIR / "nextcloud")))
+
+# ── Batch ATR (atr_batch.py) ─────────────────────────────────────────────────
+# Root for model-comparison runs: <VLM_TEST_ROOT>/<run>/<model id>/.
+VLM_TEST_ROOT = Path(_get("VLM_TEST_ROOT", str(DATA_DIR / "vlm_test")))
+# Pages in flight per model. Default 1: the gateway already recognises the lines
+# of one page ~6 at a time, so a second page in flight queues against the same
+# GPU rather than using an idle one, and it makes a failure harder to attribute.
+# Raise it only for engines that leave the GPU idle between lines.
+ATR_BATCH_PAGE_CONCURRENCY = max(1, int(_get("ATR_BATCH_PAGE_CONCURRENCY", "1")))
+# Retries for a page-level failure (timeout / 5xx), with exponential backoff.
+# A 4xx is never retried — it means the request itself is wrong, and repeating it
+# just burns the budget before the model-level abort that should follow.
+ATR_BATCH_RETRIES = max(0, int(_get("ATR_BATCH_RETRIES", "2")))
 
 # ── HuggingFace (optional) ───────────────────────────────────────────────────
 HF_TOKEN = _get("HF_TOKEN", "")
