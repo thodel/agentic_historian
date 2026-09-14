@@ -163,6 +163,7 @@ class KrakenHTTPClient:
             engine=data.get("engine", ""),
             segmented_by=data.get("segmented_by"),
             timing_ms=int(data.get("timing_ms") or 0),
+            truncated=bool(data.get("truncated", False)),
             second_opinion=data.get("second_opinion"),
         )
 
@@ -272,6 +273,10 @@ class KrakenResult:
     segmented_by: str | None = None
     #: Gateway-measured duration of the recognition, in milliseconds.
     timing_ms: int = 0
+    #: The model stopped at its token ceiling rather than at the end of the text,
+    #: so this reading is cut off. False also when the gateway cannot tell — see
+    #: serving-atr-inference#123; absence of the signal is not evidence of one.
+    truncated: bool = False
     #: Party's reading of the same image, attached by the gateway to every
     #: non-party result. ``None`` when it is switched off or party *is* the engine.
     second_opinion: dict | None = None

@@ -204,8 +204,20 @@ chunk that rewrites identical bytes is an empty diff.
 
 ## 5 · Reading the result
 
-`report.md` gives, per model: pages read, pages skipped, pages failed, characters
-per page, seconds per page, wall time.
+`report.md` gives, per model: pages read, pages skipped, pages failed, **pages cut
+off**, characters per page, seconds per page, wall time.
+
+**Check the "cut off" column first.** It counts pages where the model stopped at
+its token ceiling instead of at the end of the text. Those readings are real but
+short, and they end mid-sentence — indistinguishable, reading them, from a model
+that gave up. If the column is not zero, raise `ATR_VLLM_MAX_NEW_TOKENS` on the
+gateway, restart it, delete the affected `.json` files, and re-run the same
+command: only the missing pages are read again.
+
+It counts zero if the gateway does not report truncation at all (before
+serving-atr-inference#123), so a zero there is "not reported", not "did not
+happen" — which is another reason to read the end of a page by hand on the first
+run.
 
 **None of those columns is quality.** There is no ground truth in a run like this.
 Characters per page says how much a model wrote, not how much of it is right, and

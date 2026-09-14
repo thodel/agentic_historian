@@ -357,3 +357,59 @@ def test_write_report_leaves_both_shapes_in_the_run_directory(tmp_path):
     assert md == out / "report.md" and md.exists()
     data = json.loads((out / "report.json").read_text())
     assert data["run"] == "run1" and data["models"][0]["model"] == "m1"
+
+
+# ── truncation ───────────────────────────────────────────────────────────────
+
+def test_a_cut_off_reading_is_kept_counted_and_named(tmp_path):
+    """The one number in the report that means the corpus is wrong rather than
+    merely expensive. A truncated reading is not a failure — the request
+    succeeded and the text is real — so it is kept, and counted apart from both
+    the successes and the failures."""
+    names = ("a.jpg", "b.jpg", "c.jpg")
+    src, out = make_corpus(tmp_path / "src", names), tmp_path / "out"
+    cut = reading(text="Lieber Freund, ich ha")
+    cut.truncated = True
+    rec = Recorder(script={("m", "a"): cut, ("m", "c"): cut}, root=src)
+
+    result = batch.run_model(batch.discover_pages(src), "m", "run1", out, rec)
+
+    assert (result.done, result.failed, result.truncated) == (3, 0, 2)
+    assert (out / "m" / "a.txt").read_text() == "Lieber Freund, ich ha", "text was dropped"
+    assert json.loads((out / "m" / "a.json").read_text())["truncated"] is True
+    assert json.loads((out / "m" / "b.json").read_text())["truncated"] is False
+
+
+def test_the_report_explains_a_cut_off_reading_rather_than_just_counting_it(tmp_path):
+    """Truncated text ends mid-sentence and reads exactly like a model that gave
+    up, so the natural response is to blame the model. The report has to point at
+    the ceiling instead."""
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    cut = reading(text="ich ha")
+    cut.truncated = True
+    report = batch.run_batch(batch.discover_pages(src), ["m"], "run1", out,
+                             Recorder(default=cut, root=src))
+    text = batch.format_report(report)
+
+    assert "## Readings that were cut off" in text
+    assert "ATR_VLLM_MAX_NEW_TOKENS" in text
+    assert "`m`: 1 of 1 page(s)" in text
+
+
+def test_a_clean_run_says_nothing_about_truncation(tmp_path):
+    """A section that is always there is a section nobody reads."""
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    report = batch.run_batch(batch.discover_pages(src), ["m"], "run1", out, Recorder())
+    assert "cut off" not in batch.format_report(report).replace("| cut off |", "")
+
+
+def test_a_gateway_that_cannot_report_truncation_never_flags_it(tmp_path):
+    """Older gateways have no such field. Absence of a signal is not evidence of
+    one, and a flag that fires on a missing key is a flag people learn to ignore."""
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    old = SimpleNamespace(text="hi", confidence=0.5, model_used="m", service_version="0.1",
+                          lines=[], engine="vllm", segmented_by=None, timing_ms=5)
+    result = batch.run_model(batch.discover_pages(src), "m", "run1", out,
+                             Recorder(default=old, root=src))
+    assert result.truncated == 0
+    assert json.loads((out / "m" / "a.json").read_text())["truncated"] is False

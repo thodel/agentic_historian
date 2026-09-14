@@ -135,3 +135,16 @@ def test_a_request_that_never_got_an_answer_has_no_status():
     """None is the signal that distinguishes "no reply" from "a reply that said
     no" — the first is worth retrying and the second is not."""
     assert KrakenClientError("unreachable").status_code is None
+
+
+def test_recognize_carries_the_truncation_flag():
+    """serving-atr-inference#123: a page reading that hit the token ceiling comes
+    back as a normal 200 whose text ends mid-sentence. The gateway reports it, and
+    dropping the field here would put the flag back out of reach."""
+    client, _ = _client_with(_Response({**GATEWAY_RESULT, "truncated": True}))
+    assert client.recognize(b"x", model="m").truncated is True
+
+
+def test_a_gateway_without_the_flag_is_not_reported_as_truncated():
+    client, _ = _client_with(_Response(GATEWAY_RESULT))    # no "truncated" key
+    assert client.recognize(b"x", model="m").truncated is False

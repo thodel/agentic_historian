@@ -193,6 +193,10 @@ class PageOutcome:
     lines: int = 0
     timing_ms: int = 0
     error: str = ""
+    #: The reading stopped at the model's token ceiling, not at the end of the
+    #: page. Not a failure — the text is real, there is just less of it than the
+    #: page has — so it is counted separately rather than folded into either.
+    truncated: bool = False
     #: Set when the failure is one that ends the model rather than the page.
     fatal: bool = False
 
@@ -211,6 +215,7 @@ class ModelOutcome:
     failed: int = 0
     chars: int = 0
     lines: int = 0
+    truncated: int = 0
     recognition_ms: int = 0
     elapsed_s: float = 0.0
     #: Why the model was abandoned before the end of the corpus, if it was.
@@ -254,7 +259,7 @@ class BatchReport:
                 {
                     "model": m.model, "done": m.done, "skipped": m.skipped,
                     "failed": m.failed, "chars": m.chars, "lines": m.lines,
-                    "recognition_ms": m.recognition_ms,
+                    "truncated": m.truncated, "recognition_ms": m.recognition_ms,
                     "elapsed_s": round(m.elapsed_s, 1),
                     "aborted": m.aborted, "errors": m.errors[:20],
                 }
@@ -345,6 +350,7 @@ def _result_payload(page: PageRef, model: str, run: str, result) -> dict:
         "confidence": getattr(result, "confidence", 0.0),
         "segmented_by": getattr(result, "segmented_by", None),
         "timing_ms": int(getattr(result, "timing_ms", 0) or 0),
+        "truncated": bool(getattr(result, "truncated", False)),
         "second_opinion": getattr(result, "second_opinion", None),
         "gateway_version": getattr(result, "service_version", "?"),
         "recognised_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -392,7 +398,7 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
     return PageOutcome(
         key=page.key, model=model, status="done",
         chars=len(payload["text"]), lines=len(payload["lines"]),
-        timing_ms=payload["timing_ms"],
+        timing_ms=payload["timing_ms"], truncated=payload["truncated"],
     )
 
 
@@ -443,6 +449,7 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             outcome.chars += res.chars
             outcome.lines += res.lines
             outcome.recognition_ms += res.timing_ms
+            outcome.truncated += int(res.truncated)
         elif res.status == "skipped":
             outcome.skipped += 1
         else:
@@ -452,7 +459,7 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             _append_manifest(manifest, {
                 "model": model, "key": res.key, "status": res.status,
                 "chars": res.chars, "lines": res.lines, "timing_ms": res.timing_ms,
-                "error": res.error,
+                "truncated": res.truncated, "error": res.error,
                 "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             })
 
@@ -541,6 +548,32 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     return report
 
 
+def _truncation_section(report: BatchReport) -> list[str]:
+    """The "cut off" column, spelled out — because it is the one number here that
+    means the corpus is wrong rather than merely expensive.
+
+    A truncated reading is not a failure: the request succeeded, the text is real,
+    there is just less of it than the page has. It ends mid-sentence and reads
+    exactly like a model that gave up — so without this note, the natural response
+    is to blame the model and try another one, when the fix is a larger ceiling.
+    """
+    hit = [m for m in report.models if m.truncated]
+    if not hit:
+        return []
+    out = ["", "## Readings that were cut off", ""]
+    out += [f"- `{m.model}`: {m.truncated} of {m.done} page(s)" for m in hit]
+    out += [
+        "",
+        "These pages hit the model's token ceiling and stop mid-text. The request "
+        "succeeded and the text is real — there is just less of it than the page "
+        "has, and it reads like a model that gave up rather than one that was "
+        "interrupted. Raise `ATR_VLLM_MAX_NEW_TOKENS` on the gateway, restart it, "
+        "delete the affected results and re-run: the batch re-reads only what is "
+        "missing.",
+    ]
+    return out
+
+
 def format_report(report: BatchReport) -> str:
     """A Markdown summary of the run — what each model produced and what it cost.
 
@@ -557,12 +590,12 @@ def format_report(report: BatchReport) -> str:
         f"- started: {report.started_at}",
         f"- wall time: {report.elapsed_s / 60:.1f} min",
         "",
-        "| model | read | skipped | failed | chars/page | s/page | wall |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| model | read | skipped | failed | cut off | chars/page | s/page | wall |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for m in report.models:
         lines.append(
-            f"| `{m.model}` | {m.done} | {m.skipped} | {m.failed} | "
+            f"| `{m.model}` | {m.done} | {m.skipped} | {m.failed} | {m.truncated} | "
             f"{m.mean_chars:.0f} | {m.mean_ms / 1000:.1f} | {m.elapsed_s / 60:.1f} min |"
         )
     lines += [
@@ -573,6 +606,7 @@ def format_report(report: BatchReport) -> str:
         "readings is the point; the numbers only say what each run cost and whether it "
         "completed. Measuring accuracy needs transcribed lines and `eval/linebench.py`.",
     ]
+    lines += _truncation_section(report)
     aborted = [m for m in report.models if m.aborted]
     if aborted:
         lines += ["", "## Abandoned", ""]
