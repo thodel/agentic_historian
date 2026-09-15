@@ -19,7 +19,6 @@ Offline. No gateway, no GPU, no network. Run from the repo root::
     pytest agentic_historian/tests/test_mcp_atr.py
 """
 
-import asyncio
 import os
 import signal
 import sys
@@ -34,7 +33,6 @@ if str(PKG) not in sys.path:
 
 import config                                    # noqa: E402
 from mcp_atr import jobs                         # noqa: E402
-from mcp_atr.server import BearerAuth            # noqa: E402
 
 
 @pytest.fixture
@@ -251,81 +249,64 @@ def test_progress_for_a_run_that_has_not_started_is_empty(sandbox):
     assert jobs.run_progress(None) == {}
 
 
-# ── the bearer check ─────────────────────────────────────────────────────────
+# ── configuration refusals ───────────────────────────────────────────────────
+#
+# Authentication itself moved to OAuth (mcp_atr/oauth.py) when it turned out the
+# claude.ai connector cannot send a header — see tests/test_mcp_atr_oauth.py.
+# What stays here is the refusal to start at all without one.
 
-class _Recorder:
-    def __init__(self):
-        self.called = False
-
-    async def __call__(self, scope, receive, send):
-        self.called = True
-
-
-def _request(auth, header: "bytes | None") -> list[dict]:
-    """One HTTP request through the middleware, as plain ASGI.
-
-    Driven with ``asyncio.run`` rather than an async test: four tests are not
-    worth a pytest plugin dependency, and the middleware is a coroutine, not a
-    framework.
-    """
-    headers = [(b"authorization", header)] if header is not None else []
-    sent: list[dict] = []
-
-    async def send(message):
-        sent.append(message)
-
-    asyncio.run(auth({"type": "http", "headers": headers}, None, send))
-    return sent
-
-
-def test_the_right_token_passes_through():
-    inner = _Recorder()
-    _request(BearerAuth(inner, "s" * 40), b"Bearer " + b"s" * 40)
-    assert inner.called
-
-
-@pytest.mark.parametrize("header", [
-    None,                       # no header at all
-    b"",
-    b"Bearer wrong",
-    b"Bearer ",
-    b"s" * 40,                  # the token without the scheme
-    b"bearer " + b"s" * 40,     # scheme is case-sensitive here; be strict
-    b"Basic " + b"s" * 40,
+@pytest.mark.parametrize("url,ok", [
+    ("https://tei.dh.unibe.ch/mcp/atr", True),
+    ("http://127.0.0.1:8300", True),        # loopback, for driving the flow locally
+    ("http://localhost:8300", True),
+    ("http://tei.dh.unibe.ch/mcp/atr", False),   # clear-text off the loopback
+    ("tei.dh.unibe.ch/mcp/atr", False),
+    ("", False),
 ])
-def test_everything_else_is_401(header):
-    inner = _Recorder()
-    sent = _request(BearerAuth(inner, "s" * 40), header)
-    assert not inner.called, "the app must not see an unauthenticated request"
-    assert sent[0]["status"] == 401
+def test_the_public_url_must_be_public_and_encrypted(url, ok, monkeypatch):
+    """Every OAuth redirect and both metadata documents are absolute and are read
+    by a browser on the far side of nginx. A wrong value here yields a flow that
+    looks like it works and lands the user on 127.0.0.1."""
+    from mcp_atr import server as srv
+
+    monkeypatch.setenv("ATR_MCP_PUBLIC_URL", url)
+    if ok:
+        assert srv.public_base() == url.rstrip('/')
+    else:
+        with pytest.raises(srv.ConfigError):
+            srv.public_base()
 
 
-def test_a_prefix_of_the_token_does_not_pass():
-    """compare_digest, not ==. A comparison that returns early leaks the length
-    and then, request by request, the token."""
-    inner = _Recorder()
-    sent = _request(BearerAuth(inner, "s" * 40), b"Bearer " + b"s" * 39)
-    assert not inner.called and sent[0]["status"] == 401
+def test_the_public_url_loses_its_trailing_slash(monkeypatch):
+    """It is concatenated with /authorize, /token and /mcp; a trailing slash would
+    produce // in every one of them, and RFC 8414 compares issuers as strings."""
+    from mcp_atr import server as srv
+
+    monkeypatch.setenv("ATR_MCP_PUBLIC_URL", "https://tei.dh.unibe.ch/mcp/atr/")
+    assert srv.public_base() == "https://tei.dh.unibe.ch/mcp/atr"
 
 
-def test_a_websocket_is_not_an_http_request(monkeypatch):
-    """The middleware must pass non-HTTP scopes through rather than 401 them —
-    sending an HTTP response into a lifespan scope would break startup."""
-    inner = _Recorder()
-    asyncio.run(BearerAuth(inner, "s" * 40)({"type": "lifespan"}, None, None))
-    assert inner.called
-
-
-def test_the_server_refuses_to_start_without_a_token(monkeypatch):
-    """A deployment accident must fail loudly at boot, not quietly serve an open
+def test_the_server_refuses_to_start_without_a_password(monkeypatch):
+    """A deployment accident must fail loudly at boot, not quietly serve an
     endpoint that starts GPU jobs."""
     from mcp_atr import server as srv
 
-    for value in ("", "short", "x" * 31):
-        monkeypatch.setenv("ATR_MCP_TOKEN", value)
-        with pytest.raises(srv.ConfigError):
+    monkeypatch.setenv("ATR_MCP_PUBLIC_URL", "https://tei.dh.unibe.ch/mcp/atr")
+    for value in ("", "short", "x" * 15):
+        monkeypatch.setenv("ATR_MCP_PASSWORD", value)
+        with pytest.raises(Exception) as err:
             srv.build_app()
+        assert "ATR_MCP_PASSWORD" in str(err.value)
+
+
+def test_an_optional_static_token_still_has_to_be_long(monkeypatch):
+    """It is optional — the web connector cannot send one — but a short one is a
+    mistake, not a choice."""
+    from mcp_atr import server as srv
+
+    monkeypatch.setenv("ATR_MCP_TOKEN", "too-short")
+    with pytest.raises(srv.ConfigError):
+        srv._token()
 
     monkeypatch.delenv("ATR_MCP_TOKEN", raising=False)
-    with pytest.raises(srv.ConfigError):
-        srv.build_app()
+    assert srv._token() == "", "absent is allowed; OAuth is the other door"
