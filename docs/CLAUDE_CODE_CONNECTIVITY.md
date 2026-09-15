@@ -45,14 +45,19 @@ MCP calls succeed from the same session — the HBLS, Königsfelden and
 Economies-of-Space servers answer normally. They do **not** go through the egress
 proxy: MCP traverses Anthropic's MCP broker, which is a different network path
 with a different policy. This matters twice below: it is why "the network is
-broken" is the wrong description, and it is why option **C** works at all.
+broken" is the wrong description, and it is why the MCP fallback at the end works
+at all.
 
 ---
 
-## The request (option 4) — copy this and send it
+## The request (option 4) — worth sending, but it is not a shell
 
-Adding two hostnames to this environment's egress allowlist is the whole fix. It
-is one change, it is made once, and every future session inherits it.
+Two hostnames on 443, one change, inherited by every future session. **Ports
+cannot be adjusted**, though (confirmed 2026-09-15), so ssh is out of reach: this
+gets a cloud session the Nextcloud share and anything tei serves over HTTPS, and
+it does not get it a command line on either box. For the GPU work, see
+[*The local session*](#the-local-session-what-actually-works) below — the two are
+complementary, not alternatives.
 
 **Who it goes to:** whoever administers the Claude.ai organisation that owns this
 environment. For an organisation-level policy that is an org owner, in the
@@ -68,10 +73,7 @@ the environment itself.
 > | `tei.dh.unibe.ch` | the DH research server (Uni Bern). Hosts the agentic_historian checkout, the MCP endpoint, Voyant and the QLever SPARQL endpoint. It is where batch ATR runs are driven from. |
 > | `cloud.gugw.tu-darmstadt.de` | Nextcloud at TU Darmstadt, holding the *Laßberg* scans to be transcribed. Public share, read-only, password-protected. |
 >
-> And, if the policy can express host+port rather than host only, additionally
-> **TCP 22 on `tei.dh.unibe.ch`**, so the session can drive a run over ssh
-> instead of having every command pasted through a person.
->
+
 > **What this grants.** Outbound connections from the container to those two
 > hosts. Both are already reachable from the public internet and both are behind
 > their own authentication (ssh keys / an API key / a share password) — the
@@ -89,28 +91,97 @@ the environment itself.
 
 ---
 
-## If the request is declined
+## The local session — what actually works
 
-Three fallbacks, worst to best, all of which we can build:
+**A Claude Code session running on your own machine has no agent proxy.** The
+proxy is a property of *this* environment (`kind: anthropic_cloud`); a local
+session uses the machine's own network stack — its VPN, its `~/.ssh/config`, its
+ssh agent, its resolver. Everything that works in your terminal works there, with
+nothing to request from anybody.
 
-**A — keep pasting.** What happens today. Works, and costs a person's attention
-for the length of every run. The runbooks
-([BATCH_ATR.md](BATCH_ATR.md), `serving-atr-inference/docs/GERMAN_XIX_MODELS.md`)
-are written so that this is at least mechanical rather than exploratory.
+Nothing is lost by switching. Both repositories are merged to `main`, and the
+runbooks were written for a person at a terminal, not for this session's memory:
 
-**B — run the agent on tei.** Claude Code CLI on `tei.dh.unibe.ch` itself, inside
-tmux. Then there is no proxy between the agent and the machine, and asterAIx is
-one hop away over the existing `:8200` gateway. Needs the CLI installed there and
-an API key on the box; that key then lives on a shared research server, which is
-the trade.
+- [`BATCH_ATR.md`](BATCH_ATR.md) — pull the share, run the batch, publish
+- `serving-atr-inference/docs/GERMAN_XIX_MODELS.md` — the models, the merge, the
+  two failure modes met so far
+- `serving-atr-inference/docs/DEPLOY.md` — the services and the GPU budget
 
-**C — expose the operations as MCP tools.** tei already serves MCP at
-`https://tei.dh.unibe.ch/mcp`, and MCP reaches this session when plain HTTPS does
-not. A small server there — `pull_share`, `start_batch`, `batch_status`,
-`tail_journal` — would let any future session drive a run through a typed,
-auditable surface instead of a shell. More work than an allowlist entry, and
-strictly better than ssh in one respect: the session can only do the four things
-the server offers.
+```bash
+# on the laptop, VPN up
+git clone https://github.com/thodel/agentic_historian
+git clone https://github.com/thodel/serving-atr-inference
+cd agentic_historian && claude
+```
 
-C is the durable answer if the allowlist is a policy the institution will not
-change. Option 4 is the cheap one, and it is cheap enough to ask for first.
+Then `/permissions` once, adding `Bash(ssh:*)` and `Bash(scp:*)`, or the run is
+one confirmation prompt per command — which is the same hand-pasting loop in a
+different costume.
+
+### Better still: on tei, in tmux
+
+```bash
+ssh tei.dh.unibe.ch
+tmux new -s atr
+claude          # detach Ctrl-B d, reattach: tmux attach -t atr
+```
+
+No VPN between the agent and the machine at all, asterAIx one hop away over the
+existing `:8200` gateway, and a dropped laptop connection no longer kills a
+multi-hour run. The trade is an Anthropic login on a shared research server.
+
+### The handoff
+
+A local session starts with no memory of this one. This is the whole of what it
+needs; paste it as the first message.
+
+> Two repos, both checked out here and both merged to `main`: `agentic_historian`
+> and `serving-atr-inference`. Read `agentic_historian/docs/BATCH_ATR.md` first —
+> it is the runbook for exactly this task.
+>
+> The job: transcribe the Laßberg *digitalisate* from the Nextcloud share at
+> `cloud.gugw.tu-darmstadt.de` with the dh-unibe German-XIX models on the ATR
+> gateway, and publish the output to `thodel/lassberg` under
+> `data/vlm-outputs/atr_test_lassberg`.
+>
+> State you should know before you start:
+>
+> - **The machines.** `tei.dh.unibe.ch` has the checkout, the venv and the
+>   gateway key; asterAIx (`130.92.59.240`) has the two A40s and serves the ATR
+>   gateway on `:8200`. Drive the run from tei.
+> - **Only one of the three models is servable.** `qwen3vl-german-xix-v1` works.
+>   `qwen3.5-4b/2b-german-xix-v1` are registered `enabled: false`: no transformers
+>   on the box can load a `qwen3_5` base, and the vLLM that could serve it needs a
+>   driver newer than asterAIx's 565. Pair qwen3vl with `kraken-fondue_gd_v2` and
+>   `party` for the comparison instead.
+> - **The GPU budget is computed now**, from `vram_mb` and `nvidia-smi`
+>   (serving-atr-inference#127). Do not set
+>   `ATR_VLLM_GPU_MEMORY_UTILIZATION` by hand. Each launch logs its arithmetic:
+>   `journalctl --user -u atr-gateway | grep "gpu budget"`. A 502 that names
+>   free/total means the card is genuinely full — `GET /gpu` says who has it, and
+>   twice that was an orphaned training process.
+> - **`ATR_VLLM_MAX_NEW_TOKENS` must be 4096**, not the default 512. These models
+>   are served page-level; past the ceiling vLLM returns a normal 200 whose text
+>   simply stops mid-sentence. `report.md` has a "cut off" column — read it.
+> - **The API key in `.env` on asterAIx and `.env.gpustack` on tei was exposed in
+>   a terminal transcript on 2026-09-14.** Rotate it before the first run if that
+>   has not happened.
+>
+> Start with `pull-share --list`, then `atr-batch --dry-run`, then `--limit 3`,
+> and read the *end* of one transcription before letting the full run go.
+
+---
+
+## The other two fallbacks
+
+**Keep pasting.** What has happened so far. It works, and it costs a person's
+attention for the length of every run.
+
+**Expose the operations as MCP tools.** tei already serves MCP at
+`https://tei.dh.unibe.ch/mcp`, and MCP reaches a cloud session when plain HTTPS
+does not. A small server there — `pull_share`, `start_batch`, `batch_status`,
+`tail_journal` — would let any future *cloud* session drive a run through a typed,
+auditable surface. More work than everything above, and better than ssh in one
+respect: the session can only do the four things the server offers. Worth building
+if cloud sessions are to stay useful for this work; not worth blocking the first
+run on.
