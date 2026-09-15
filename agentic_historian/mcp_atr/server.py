@@ -23,14 +23,25 @@ would reach a machine with two A40s, so the blast radius of the token is exactly
 the set of tools below — which is why the set is short and why none of them takes
 free text that becomes a command.
 
-**Auth.** A single bearer token from ``ATR_MCP_TOKEN``. The server refuses to
-start without one: a deployment accident must fail loudly at boot rather than
-quietly serve an open endpoint. Compared in constant time, because a token
-comparison that returns early leaks its length and then its content.
+**Auth.** OAuth, because the claude.ai web connector cannot send anything else:
+its dialog takes a URL and, under Advanced settings, an OAuth client id and
+secret. Given a 401 it discovers the protected-resource metadata, discovers the
+authorization server, registers itself and runs authorization-code with PKCE —
+and against a server without OAuth it fails at the first step, which is what it
+did here on 2026-09-15.
+
+The MCP SDK implements every endpoint of that. What it cannot supply is who is
+allowed in: that is `mcp_atr/oauth.py`, one shared password guarding the
+`/authorize` step. Without a login an authorization server hands tokens to
+whoever asks, which is an open door with extra steps.
+
+``ATR_MCP_TOKEN`` still works, for clients that *can* send a header — the Claude
+Code CLI takes one with ``--header``. Both paths end at the same tools.
 
 Run it::
 
-    ATR_MCP_TOKEN=… uvicorn mcp_atr.server:app --host 127.0.0.1 --port 8300
+    ATR_MCP_PASSWORD=… ATR_MCP_PUBLIC_URL=https://tei.dh.unibe.ch/mcp/atr \
+        uvicorn mcp_atr.server:app --host 127.0.0.1 --port 8300
 
 Loopback only — nginx does TLS and the public name. See `deploy/mcp-atr/`.
 """
@@ -38,11 +49,11 @@ Loopback only — nginx does TLS and the public name. See `deploy/mcp-atr/`.
 from __future__ import annotations
 
 import os
-import secrets
 import subprocess
 import sys
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlsplit
 
 _PKG = Path(__file__).resolve().parents[1]
 if str(_PKG) not in sys.path:               # same flat-import arrangement as __main__
@@ -60,8 +71,35 @@ class ConfigError(RuntimeError):
     """The server is not safe to start."""
 
 
+def public_base() -> str:
+    """The URL this server is reachable at from the outside.
+
+    Every OAuth redirect and every metadata document is absolute and is read by a
+    browser on the far side of nginx, so this cannot be derived from the request:
+    a wrong value here produces a flow that appears to work and lands the user on
+    127.0.0.1.
+    """
+    url = os.environ.get("ATR_MCP_PUBLIC_URL", "").rstrip("/")
+    host = urlsplit(url).hostname or ""
+    # https, except on the loopback — which is what RFC 8414 allows and what the
+    # SDK's own issuer validation allows, so that the flow can be driven end to
+    # end without a certificate. Anything else published over http would put the
+    # authorization code on the wire in clear.
+    if not (url.startswith("https://")
+            or (url.startswith("http://") and host in ("localhost", "127.0.0.1", "[::1]"))):
+        raise ConfigError(
+            "ATR_MCP_PUBLIC_URL must be the https URL this server is published at, "
+            "e.g. https://tei.dh.unibe.ch/mcp/atr (http is allowed on the loopback "
+            "only). OAuth redirects and metadata are absolute; they cannot be "
+            "guessed from a proxied request."
+        )
+    return url
+
+
 def _token() -> str:
     token = os.environ.get("ATR_MCP_TOKEN", "")
+    if not token:
+        return ""                    # OAuth only; see build_app
     if len(token) < 32:
         raise ConfigError(
             "ATR_MCP_TOKEN is unset or shorter than 32 characters. This endpoint "
@@ -70,36 +108,6 @@ def _token() -> str:
             "`python3 -c 'import secrets; print(secrets.token_urlsafe(32))'`."
         )
     return token
-
-
-class BearerAuth:
-    """ASGI middleware: one shared secret, constant-time, before anything else.
-
-    Plain ASGI rather than a framework's auth stack because the requirement is
-    one comparison, and because the SDK's auth settings describe an OAuth
-    resource server — advertising metadata endpoints that do not exist would be a
-    worse answer than a header check.
-    """
-
-    def __init__(self, app, token: str) -> None:
-        self.app = app
-        self._expected = f"Bearer {token}".encode()
-
-    async def __call__(self, scope, receive, send):
-        if scope["type"] != "http":
-            return await self.app(scope, receive, send)
-        provided = b""
-        for key, value in scope.get("headers", []):
-            if key.lower() == b"authorization":
-                provided = value
-                break
-        if not secrets.compare_digest(provided, self._expected):
-            await send({"type": "http.response.start", "status": 401,
-                        "headers": [(b"content-type", b"text/plain; charset=utf-8"),
-                                    (b"www-authenticate", b'Bearer realm="atr"')]})
-            await send({"type": "http.response.body", "body": b"unauthorized\n"})
-            return
-        await self.app(scope, receive, send)
 
 
 def _run_sync(argv: list[str]) -> dict:
@@ -115,7 +123,35 @@ def _run_sync(argv: list[str]) -> dict:
             "stdout": proc.stdout[-8000:], "stderr": proc.stderr[-4000:]}
 
 
-def build_server():
+#: The password form. Deliberately one file, no assets, no JavaScript: it is
+#: reached by a browser mid-redirect and the only thing it has to do is take one
+#: field and post it back.
+LOGIN_PAGE = """<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATR operations — sign in</title>
+<style>
+ body{{font:16px/1.5 system-ui,sans-serif;background:#f6f5f3;color:#1a1a1a;
+      display:flex;min-height:100vh;margin:0;align-items:center;justify-content:center}}
+ form{{background:#fff;padding:2rem;border-radius:8px;box-shadow:0 1px 3px #0002;max-width:22rem}}
+ h1{{font-size:1.1rem;margin:0 0 .25rem}}
+ p{{color:#555;font-size:.875rem;margin:0 0 1.25rem}}
+ input,button{{font:inherit;width:100%;box-sizing:border-box;padding:.6rem;border-radius:5px}}
+ input{{border:1px solid #ccc;margin-bottom:.75rem}}
+ button{{border:0;background:#1a1a1a;color:#fff;cursor:pointer}}
+ .err{{color:#a11;font-size:.875rem;margin:0 0 .75rem}}
+</style>
+<form method="post">
+  <h1>ATR operations on tei</h1>
+  <p>This connector can start recognition jobs on asterAIx.</p>
+  {error}
+  <input type="hidden" name="rid" value="{rid}">
+  <input type="password" name="password" placeholder="Password" autofocus required>
+  <button type="submit">Sign in</button>
+</form>
+"""
+
+
+def build_server(provider=None, auth_settings=None):
     from mcp.server.mcpserver import MCPServer
 
     server = MCPServer(
@@ -130,7 +166,46 @@ def build_server():
             "full run; read the END of a transcription, since a page that hit the "
             "token ceiling comes back as a normal success that stops mid-sentence."
         ),
+        auth_server_provider=provider,
+        auth=auth_settings,
     )
+
+    if provider is not None:
+        from starlette.responses import HTMLResponse, RedirectResponse
+
+        @server.custom_route("/login", methods=["GET", "POST"])
+        async def login(request):                       # noqa: ANN001, ANN202
+            """The one step the SDK cannot supply: is this person allowed in.
+
+            Registered with ``custom_route``, which is explicitly exempt from the
+            bearer requirement — it has to be, since it is how a bearer token is
+            obtained in the first place.
+            """
+            rid = (request.query_params.get("rid")
+                   if request.method == "GET"
+                   else (await request.form()).get("rid", ""))
+            error = ""
+
+            if request.method == "POST":
+                form = await request.form()
+                if not provider.password_ok(str(form.get("password", ""))):
+                    # Same page, same wording, whether the password was wrong or
+                    # the request had expired: a form that distinguishes them
+                    # tells an attacker which half to work on.
+                    error = '<p class="err">Wrong password, or the request expired.</p>'
+                else:
+                    target = provider.complete_login(str(rid))
+                    if target:
+                        return RedirectResponse(target, status_code=302)
+                    error = '<p class="err">Wrong password, or the request expired.</p>'
+
+            if provider.pending(str(rid)) is None and not error:
+                return HTMLResponse(
+                    "<p>No pending sign-in request. Start again from the connector.</p>",
+                    status_code=400)
+            return HTMLResponse(LOGIN_PAGE.format(rid=str(rid), error=error),
+                                status_code=401 if error else 200)
+
 
     @server.tool()
     def gateway_models() -> dict:
@@ -253,17 +328,56 @@ def build_server():
 
 
 def build_app():
-    """The ASGI app nginx proxies to: the MCP transport behind the bearer check.
+    """The ASGI app nginx proxies to.
 
-    The token is read **first**, on its own line. Written as one expression,
-    Python evaluates the arguments left to right and builds the whole server
-    before ever looking at the token — so a deployment with no token would
-    construct an MCP server, register eight tools, and only then fail. Nothing
-    reaches a socket either way, but "refuses to start without a token" should
-    mean the first thing it does is check.
+    Credentials are read **first**, on their own lines. Written as one
+    expression, Python evaluates arguments left to right and would build the
+    whole server before ever looking at them — nothing reaches a socket either
+    way, but "refuses to start without a credential" should mean the first thing
+    it does is check.
+
+    Two ways in, both ending at the same tools:
+
+    * **OAuth**, for the claude.ai web connector, which can send nothing else.
+      The SDK mounts ``/authorize``, ``/token``, ``/register`` and both metadata
+      documents; :mod:`mcp_atr.oauth` supplies the password step.
+    * **A static bearer token**, for clients that can set a header — the Claude
+      Code CLI takes one with ``--header``. Kept because it costs one wrapper and
+      it is the only thing that works without a browser.
+
+    ``ATR_MCP_TOKEN``, when set, is seeded into the token store as if it had been
+    issued here. One place decides whether a request is authorised — the SDK's
+    own middleware — rather than a second check bolted in front of the door, and
+    a request without a recognised token gets the ``WWW-Authenticate`` carrying
+    ``resource_metadata``, which is where OAuth discovery begins.
     """
+    from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
+
+    from mcp_atr.oauth import AtrAuthProvider, password_from_env
+
+    base = public_base()
+    provider = AtrAuthProvider(
+        public_base=base,
+        store_path=Path(config.DATA_DIR) / "mcp_oauth.json",
+        password=password_from_env(),
+    )
+    settings = AuthSettings(
+        issuer_url=base,
+        resource_server_url=f"{base}/mcp",
+        # The connector registers itself; the alternative is pasting a client id
+        # into the dialog by hand, which is the fallback its error message
+        # suggests and not a nicer first experience.
+        client_registration_options=ClientRegistrationOptions(enabled=True),
+        revocation_options=RevocationOptions(enabled=True),
+        # Our own tokens carry the resource they were issued for, so the check
+        # costs nothing and refuses a token minted for a different resource.
+        validate_token_resource=True,
+    )
+
     token = _token()
-    return BearerAuth(build_server().streamable_http_app(), token)
+    if token:
+        provider.seed_static_token(token, f"{base}/mcp")
+    return build_server(provider, settings).streamable_http_app()
 
 
-app = build_app() if os.environ.get("ATR_MCP_TOKEN") else None
+app = build_app() if os.environ.get("ATR_MCP_PASSWORD") else None
