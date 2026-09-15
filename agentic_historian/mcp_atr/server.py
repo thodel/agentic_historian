@@ -248,7 +248,8 @@ def build_server(provider=None, auth_settings=None):
 
     @server.tool()
     def start_batch(models: list[str], run: str, source: str,
-                    limit: Optional[int] = None, dry_run: bool = False,
+                    limit: Optional[int] = None, sample: Optional[int] = None,
+                    dry_run: bool = False,
                     concurrency: Optional[int] = None) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
@@ -258,8 +259,14 @@ def build_server(provider=None, auth_settings=None):
         interrupted run is resumed by starting it again — there is no separate
         resume call and no state to reconcile.
 
+        ``limit`` takes the first N pages, ``sample`` takes N at random — they
+        are alternatives. On a share that is one folder per document, ``limit``
+        gives consecutive pages of a single document: enough to prove the path,
+        misleading as an impression of how a model reads the collection. Sampling
+        is deterministic, so a resumed run reads the pages the first one did.
+
         Use ``dry_run`` first (it prints pages x models and exits), then
-        ``limit=3``, then the whole corpus.
+        ``sample=10``, then the whole corpus.
         """
         try:
             checked_models = jobs.validate_models(models)
@@ -268,8 +275,12 @@ def build_server(provider=None, auth_settings=None):
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 
+        if limit is not None and sample is not None:
+            return {"ok": False, "error": "limit and sample are alternatives: "
+                                          "the first N pages, or N at random"}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
-                               limit=limit, concurrency=concurrency, dry_run=dry_run)
+                               limit=limit, sample=sample, concurrency=concurrency,
+                               dry_run=dry_run)
         if dry_run:
             # The plan is the answer, so it is worth waiting for — but only as
             # long as the caller will, and several thousand pages take longer to

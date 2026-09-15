@@ -128,7 +128,24 @@ starts:
 python -m agentic_historian atr-batch --source … --models … --run … --dry-run
 ```
 
-**Smoke-run second.** `--limit 3` reads three pages with each model. Do this
+### `--limit` or `--sample`
+
+`--limit N` takes the first N pages, `--sample N` takes N at random. They are
+alternatives, and the difference decides what a short run can tell you.
+
+This share is one folder per document, so `--limit 10` is ten consecutive pages
+of one letter: the same hand, the same ink, usually the same scanner setting. It
+proves the path works and says almost nothing about how a model reads the
+collection. `--sample 10` crosses documents.
+
+Sampling is deterministic — a fixed seed, overridable with `--seed`. That is not
+tidiness: the runner treats what is on disk as its state, so a sample that moved
+between runs would mean a resumed run reading pages the first one never saw, and
+a second model reading a different corpus than the first. The same seed on
+another machine draws the same pages, which is what lets two people compare notes
+about the same ten.
+
+**Smoke-run second.** `--sample 10` reads ten pages with each model. Do this
 once per new corpus: it pays the cold vLLM start for each model and proves the
 whole path end to end in minutes, instead of finding out at 3 a.m. that the
 models will not take this scanner's TIFFs or that every reading is stopping at

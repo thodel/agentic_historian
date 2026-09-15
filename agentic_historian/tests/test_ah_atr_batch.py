@@ -413,3 +413,75 @@ def test_a_gateway_that_cannot_report_truncation_never_flags_it(tmp_path):
                              Recorder(default=old, root=src))
     assert result.truncated == 0
     assert json.loads((out / "m" / "a.json").read_text())["truncated"] is False
+
+
+# ── sampling ─────────────────────────────────────────────────────────────────
+#
+# `--limit` takes the first N, which on a share that is one folder per document
+# means N consecutive pages of a single letter: the same hand, the same ink,
+# often the same scanner setting. Enough to prove the path works; misleading as
+# an impression of how a model reads the collection. `--sample` crosses
+# documents — deterministically, because the runner treats what is on disk as its
+# state and a sample that moved between runs would break resuming.
+
+def _corpus(tmp_path, documents=5, pages=20):
+    """A share shaped like the real one: one folder per document."""
+    for d in range(documents):
+        folder = tmp_path / f"letter-{d:02d}"
+        folder.mkdir()
+        for p in range(pages):
+            (folder / f"{p:03d}.jpg").write_bytes(b"x")
+    return tmp_path
+
+
+def test_sampling_crosses_documents_where_limit_does_not(tmp_path):
+    root = _corpus(tmp_path)
+    first_ten = batch.discover_pages(root, limit=10)
+    sampled = batch.discover_pages(root, sample=10)
+
+    assert len({p.doc_id for p in first_ten}) == 1, "the very problem being fixed"
+    assert len({p.doc_id for p in sampled}) > 1
+    assert len(sampled) == 10
+
+
+def test_the_same_sample_twice(tmp_path):
+    """The property the runner depends on: resuming must re-read the same pages,
+    and a second model must see the same corpus as the first."""
+    root = _corpus(tmp_path)
+    assert [p.key for p in batch.discover_pages(root, sample=10)] == \
+           [p.key for p in batch.discover_pages(root, sample=10)]
+
+
+def test_a_different_seed_gives_a_different_sample(tmp_path):
+    root = _corpus(tmp_path)
+    a = [p.key for p in batch.discover_pages(root, sample=10, seed=1)]
+    b = [p.key for p in batch.discover_pages(root, sample=10, seed=2)]
+    assert a != b
+
+
+def test_a_sample_is_still_processed_in_corpus_order(tmp_path):
+    """Sorted back after drawing, so "it failed on page 40" still means something
+    and a resumed run walks the sequence it walked before."""
+    keys = [p.key for p in batch.discover_pages(_corpus(tmp_path), sample=10)]
+    assert keys == sorted(keys)
+
+
+def test_sampling_more_than_there_is_takes_everything(tmp_path):
+    root = _corpus(tmp_path, documents=2, pages=3)
+    assert len(batch.discover_pages(root, sample=999)) == 6
+
+
+def test_limit_and_sample_are_alternatives(tmp_path):
+    """A request for both has no obvious reading, and guessing one would be worse
+    than refusing."""
+    with pytest.raises(ValueError):
+        batch.discover_pages(_corpus(tmp_path), limit=5, sample=5)
+
+
+def test_a_negative_sample_is_refused(tmp_path):
+    with pytest.raises(ValueError):
+        batch.discover_pages(_corpus(tmp_path), sample=-1)
+
+
+def test_neither_flag_still_means_the_whole_corpus(tmp_path):
+    assert len(batch.discover_pages(_corpus(tmp_path, documents=3, pages=4))) == 12

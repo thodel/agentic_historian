@@ -41,6 +41,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import random
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -113,14 +114,36 @@ def _key_for(rel: Path) -> str:
     return "__".join(rel.with_suffix("").parts)
 
 
+#: Seed for ``--sample``. A constant rather than the clock, because the whole
+#: runner treats what is on disk as its state: a sample that changed between runs
+#: would mean a resumed run reading pages the first one never saw, and a second
+#: model reading a different corpus than the first. Reproducible across machines
+#: for the same reason — two people comparing notes need the same ten pages.
+SAMPLE_SEED = 20260915
+
+
 def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
-                   limit: Optional[int] = None) -> list[PageRef]:
+                   limit: Optional[int] = None, sample: Optional[int] = None,
+                   seed: int = SAMPLE_SEED) -> list[PageRef]:
     """Every page under ``root``, in a stable order.
 
     Sorted by relative path, so two runs over the same corpus process it in the
     same sequence — which is what lets a resumed run's progress be compared with
     the first one's, and what makes "it failed on page 40" reproducible.
+
+    ``limit`` takes the first N; ``sample`` takes N at random and then sorts them
+    back into corpus order. The difference matters for what a short run can tell
+    you: a share that is one folder per document gives ``limit 10`` ten
+    consecutive pages of one letter — the same hand, the same ink, often the same
+    scanner setting — while ``sample 10`` crosses documents. For a smoke test
+    that proves the path, the first is enough; for any impression of how a model
+    reads *this collection*, it is misleading.
+
+    They are mutually exclusive, because a request for both has no obvious
+    reading and guessing one would be worse than asking.
     """
+    if limit is not None and sample is not None:
+        raise ValueError("limit and sample are alternatives: first N, or N at random")
     root = Path(root)
     exts = {e.lower() for e in exts}
     rels = sorted(
@@ -128,6 +151,12 @@ def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
         for p in root.rglob("*")
         if p.is_file() and p.suffix.lower() in exts
     )
+    if sample is not None:
+        if sample < 0:
+            raise ValueError(f"sample must not be negative: {sample}")
+        # Sorted back afterwards, so the processing order stays corpus order and
+        # a resumed run walks the same sequence it did the first time.
+        rels = sorted(random.Random(seed).sample(rels, min(sample, len(rels))))
     pages = [
         PageRef(path=root / rel, doc_id=rel.parent.as_posix().strip("."), key=_key_for(rel))
         for rel in rels

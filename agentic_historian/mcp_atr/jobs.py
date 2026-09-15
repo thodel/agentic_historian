@@ -159,7 +159,8 @@ RUNNER = Path(__file__).resolve().parent / "_run.py"
 
 
 def batch_argv(source: Path, models: Sequence[str], run: str, *,
-               limit: Optional[int] = None, concurrency: Optional[int] = None,
+               limit: Optional[int] = None, sample: Optional[int] = None,
+               concurrency: Optional[int] = None,
                retries: Optional[int] = None, dry_run: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
@@ -173,6 +174,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
             "--run", run]
     if limit is not None:
         argv += ["--limit", str(int(limit))]
+    if sample is not None:
+        argv += ["--sample", str(int(sample))]
     if concurrency is not None:
         argv += ["--concurrency", str(int(concurrency))]
     if retries is not None:
