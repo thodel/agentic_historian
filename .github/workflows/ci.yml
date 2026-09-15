@@ -51,3 +51,51 @@ jobs:
           pip install -e agentic_historian/ --no-deps
           python -m pytest agentic_historian/tests/ \
                   -v --tb=short
+
+  deployment-imports:
+    name: "Deployment: requirements.txt alone has to import what runs"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # Three times in one day a deployment died on a module that was in
+    # requirements-dev.txt and not in requirements.txt — python-dotenv, then
+    # openai, then tenacity. CI installs both files (see the smoke job), which is
+    # right for the tests and hides exactly this: the deployment installs only the
+    # smaller one, and nothing ever exercised it.
+    #
+    # So this job builds what the deployment builds and starts what the deployment
+    # starts. It does not run the tests; it only proves the imports resolve.
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ONLY the runtime requirements
+        run: pip install -r agentic_historian/requirements.txt
+
+      - name: The import chains a deployment actually starts
+        working-directory: agentic_historian
+        run: |
+          python -c "import config; print('config ok')"
+
+          # The batch runner, through the import that killed it on tei:
+          # gateway_recogniser pulls agent_a.kraken_client, and agent_a/__init__
+          # drags in the whole LLM stack behind it.
+          python -c "
+          import sys; sys.path.insert(0, '.')
+          import atr_batch
+          atr_batch.gateway_recogniser()
+          print('batch ok')"
+
+          # The MCP server, which is what a fresh venv on tei runs.
+          ATR_MCP_PUBLIC_URL=https://example.org/mcp/atr \
+          ATR_MCP_PASSWORD=$(python -c 'import secrets; print(secrets.token_urlsafe(24))') \
+          python -c "
+          import sys; sys.path.insert(0, '.')
+          import mcp_atr.server as srv
+          assert srv.app is not None
+          print('mcp server ok')"

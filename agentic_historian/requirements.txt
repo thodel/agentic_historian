@@ -6,6 +6,13 @@ requests>=2.31.0
 # to start from a venv built off *this* file died on it (the MCP server on tei,
 # 2026-09-15). tests/test_ah_runtime_requirements.py now checks the whole list.
 python-dotenv>=1.0.0
+# agent_a/__init__ imports the dual pipeline, which imports the GPUStack client,
+# which imports openai — so anything that reaches agent_a.kraken_client (the batch
+# runner does, through gateway_recogniser) needs both of these. They were in
+# requirements-dev.txt only, which is why CI was green while the batch died on tei
+# at its first real run. See the deployment-imports CI job.
+openai>=1.40.0
+tenacity>=8.2.0
 rdflib>=6.0.0
 webdav4>=0.11.0   # SwitchDrive (WebDAV) ingestion — utils/switchdrive.py (/pull)
 numpy>=1.24.0   # semantic.py (#28): embeddings clustering
