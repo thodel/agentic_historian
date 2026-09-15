@@ -1,0 +1,65 @@
+# ATR operations MCP server — the door a Claude session comes through.
+# Install:
+#     sudo cp deploy/mcp-atr/atr-mcp.service /etc/systemd/system/
+#     sudo systemctl daemon-reload && sudo systemctl enable --now atr-mcp
+#
+# A system unit rather than `systemctl --user`: nginx is a system service, this
+# sits behind it, and it must come up on boot without anyone logging in.
+
+[Unit]
+Description=ATR operations MCP server (agentic_historian)
+Documentation=https://github.com/thodel/agentic_historian/blob/main/deploy/mcp-atr/README.md
+After=network-online.target
+Wants=network-online.target
+
+# ── Three values below are placeholders. Set them before installing: ─────────
+#   User=              the account that owns the checkout and the venv
+#   WorkingDirectory=  <checkout>/agentic_historian  (the inner package dir —
+#                      its modules import each other flatly, as `import config`)
+#   ExecStart=         <checkout>/.venv/bin/uvicorn
+# If the checkout lives under a home directory rather than /srv, also drop
+# ProtectHome or set it to `tmpfs` with the checkout in ReadWritePaths —
+# `read-only` there would make the data directory unwritable and every job fail
+# at its first write.
+
+[Service]
+Type=exec
+User=CHANGEME
+WorkingDirectory=/srv/agentic_historian/agentic_historian
+
+# The token, and whatever else the tools need (ATR_GATEWAY_URL, ATR_API_KEY,
+# NEXTCLOUD_*). Root-owned, mode 0600: it is the only thing between the public
+# internet and a machine with two A40s.
+EnvironmentFile=/etc/atr-mcp.env
+
+ExecStart=/srv/agentic_historian/.venv/bin/uvicorn mcp_atr.server:app \
+    --host 127.0.0.1 --port 8300 --log-level info
+
+# Loopback only. Ports other than 80 and 443 cannot be opened on this host, and
+# this one must not be: nginx is the only way in, and it is where TLS and the
+# public name live.
+
+Restart=on-failure
+RestartSec=5s
+
+# Jobs are started detached (start_new_session), so they are in their own
+# process groups and this must stay `mixed`: on stop, systemd signals the main
+# process only. Restarting or redeploying the server must never kill a batch
+# that is four hours in.
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+# The server reads a corpus and writes results; it has no business anywhere else.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/srv/agentic_historian/agentic_historian/data
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target
