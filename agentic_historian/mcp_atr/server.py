@@ -352,6 +352,7 @@ def build_app():
     ``resource_metadata``, which is where OAuth discovery begins.
     """
     from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
+    from mcp.server.transport_security import TransportSecuritySettings
 
     from mcp_atr.oauth import AtrAuthProvider, password_from_env
 
@@ -377,7 +378,24 @@ def build_app():
     token = _token()
     if token:
         provider.seed_static_token(token, f"{base}/mcp")
-    return build_server(provider, settings).streamable_http_app()
+
+    # DNS-rebinding protection, configured rather than inherited. Left alone,
+    # `streamable_http_app()` sees its default `host="127.0.0.1"` and allows only
+    # loopback Host headers — behind nginx the header says `tei.dh.unibe.ch`, and
+    # every request would come back 421. Testing against 127.0.0.1 hides this
+    # completely, which is why it is set explicitly and named here.
+    #
+    # Turning the protection off would be the other way out and a worse one: it
+    # is what stops a hostile page in the operator's browser from reaching this
+    # endpoint through a rebound name.
+    host = urlsplit(base).netloc
+    security = TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[host, f"{host}:*", "127.0.0.1:*", "localhost:*"],
+        allowed_origins=[f"https://{host}", f"http://{host}",
+                         "http://127.0.0.1:*", "http://localhost:*"],
+    )
+    return build_server(provider, settings).streamable_http_app(transport_security=security)
 
 
 app = build_app() if os.environ.get("ATR_MCP_PASSWORD") else None

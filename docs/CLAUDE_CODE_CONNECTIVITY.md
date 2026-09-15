@@ -214,6 +214,13 @@ the port constraint below never comes up.
 
 It is better than ssh in one respect — the session can only do those eight things
 — and it costs one thing ssh does not: the endpoint starts jobs on a GPU host and
-sits on the public internet. A bearer token (the server refuses to boot without
-one) and argv that a caller can never reach are what stand in for the shell's
-absence, which is why `mcp_atr/jobs.py` has more tests than code.
+sits on the public internet. Argv a caller can never reach is what stands in for
+the shell's absence, which is why `mcp_atr/jobs.py` has more tests than code.
+
+**Authentication had to be OAuth.** The first build used a static bearer token,
+which the claude.ai connector cannot send: its dialog takes a URL and, under
+Advanced settings, an OAuth client id and secret, and nothing else. Given a 401 it
+runs the MCP discovery flow and, against a server without OAuth, stops at dynamic
+client registration — which is what it reported on 2026-09-15. So the server is
+now its own authorization server, with a password form in front of `/authorize`:
+without a login, an authorization server hands tokens to whoever asks.
