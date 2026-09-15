@@ -25,6 +25,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
+      # …and what the *deployment* installs, which is a different file. Only
+      # requirements-dev.txt was ever installed here, so the two drifted twice in
+      # one day: python-dotenv was missing from requirements.txt and CI stayed
+      # green while nothing could start from it (#427), then mcp was missing from
+      # requirements-dev.txt and CI went red on tests that pass everywhere else.
+      # Installing both closes the gap in both directions. The dev pins come
+      # first and satisfy these ranges, so this only adds what is absent.
+      - name: Install runtime dependencies
+        run: pip install -r agentic_historian/requirements.txt
+
       # Smoke: import the top-level modules.  All modules live under
       # agentic_historian/ so we cd into it first.
       - name: Import smoke test
