@@ -1,5 +1,11 @@
 loguru>=0.7.0
 requests>=2.31.0
+# config.py imports it at module level, and every module in the package imports
+# config — so this is not optional for anything. It was listed only in
+# requirements-dev.txt, which CI installs, so CI never noticed; the first process
+# to start from a venv built off *this* file died on it (the MCP server on tei,
+# 2026-09-15). tests/test_ah_runtime_requirements.py now checks the whole list.
+python-dotenv>=1.0.0
 rdflib>=6.0.0
 webdav4>=0.11.0   # SwitchDrive (WebDAV) ingestion — utils/switchdrive.py (/pull)
 numpy>=1.24.0   # semantic.py (#28): embeddings clustering
