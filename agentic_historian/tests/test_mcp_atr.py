@@ -20,6 +20,8 @@ Offline. No gateway, no GPU, no network. Run from the repo root::
 """
 
 import asyncio
+import os
+import signal
 import sys
 import time
 from pathlib import Path
@@ -192,11 +194,18 @@ def test_a_job_whose_process_vanished_is_not_reported_as_done(sandbox):
     is no exit code and no process. Calling that success would cost somebody a
     re-run they did not know they needed."""
     job = jobs.start("test", [sys.executable, "-c", "import time; time.sleep(30)"])
+    real_pid = job.pid
     directory = jobs.jobs_root() / job.job_id
     meta = (directory / "meta.json").read_text()
-    (directory / "meta.json").write_text(meta.replace(f'"pid": {job.pid}', '"pid": 2147483646'))
-    assert jobs.status(job.job_id).state == "vanished"
-    jobs.stop(job.job_id)      # leave nothing behind for the next test
+    (directory / "meta.json").write_text(meta.replace(f'"pid": {real_pid}', '"pid": 2147483646'))
+    try:
+        assert jobs.status(job.job_id).state == "vanished"
+    finally:
+        # Not jobs.stop(): it reads the pid from meta.json, which this test just
+        # replaced with a fiction. Signalling that would leave the real wrapper
+        # and its child running for 30 seconds — which is exactly what CI
+        # reported as two orphan processes at cleanup.
+        os.killpg(os.getpgid(real_pid), signal.SIGTERM)
 
 
 def test_the_log_tail_is_bounded_at_both_ends(sandbox):

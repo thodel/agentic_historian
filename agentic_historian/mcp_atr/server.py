@@ -253,8 +253,17 @@ def build_server():
 
 
 def build_app():
-    """The ASGI app nginx proxies to: the MCP transport behind the bearer check."""
-    return BearerAuth(build_server().streamable_http_app(), _token())
+    """The ASGI app nginx proxies to: the MCP transport behind the bearer check.
+
+    The token is read **first**, on its own line. Written as one expression,
+    Python evaluates the arguments left to right and builds the whole server
+    before ever looking at the token — so a deployment with no token would
+    construct an MCP server, register eight tools, and only then fail. Nothing
+    reaches a socket either way, but "refuses to start without a token" should
+    mean the first thing it does is check.
+    """
+    token = _token()
+    return BearerAuth(build_server().streamable_http_app(), token)
 
 
 app = build_app() if os.environ.get("ATR_MCP_TOKEN") else None
