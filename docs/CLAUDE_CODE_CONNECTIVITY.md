@@ -120,15 +120,42 @@ different costume.
 
 ### Better still: on tei, in tmux
 
-```bash
-ssh tei.dh.unibe.ch
-tmux new -s atr
-claude          # detach Ctrl-B d, reattach: tmux attach -t atr
-```
-
 No VPN between the agent and the machine at all, asterAIx one hop away over the
 existing `:8200` gateway, and a dropped laptop connection no longer kills a
 multi-hour run. The trade is an Anthropic login on a shared research server.
+
+**Claude Code is not installed on tei** (checked 2026-09-15). The native installer
+needs no root, no Node and no package manager — it drops a binary in
+`~/.local/bin/claude` with its versions under `~/.local/share/claude/`, which is
+what a user without sudo on a shared box needs:
+
+```bash
+ssh tei.dh.unibe.ch
+curl -fsSL https://claude.ai/install.sh | bash
+export PATH="$HOME/.local/bin:$PATH"     # and into ~/.bashrc, same as ATR_API_KEY
+claude --version                         # expect e.g. "2.1.211 (Claude Code)"
+claude doctor                            # install + settings diagnostics, no session
+```
+
+Two things that bite on a headless server:
+
+- **Login has no browser.** `claude` prints a URL; open it on the laptop, and paste
+  the code back into the ssh session. Needs a Pro, Max, Team, Enterprise or Console
+  account — the free plan does not include Claude Code.
+- **tei needs outbound HTTPS to Anthropic.** It serves the public web, so this is
+  near-certain, but it is the one thing that can make the install useless after the
+  fact. `claude doctor` says so before a run does.
+
+Then:
+
+```bash
+tmux new -s atr
+cd ~/agentic_historian && claude      # detach Ctrl-B d, reattach: tmux attach -t atr
+```
+
+The installer auto-updates in the background, so this is a one-time cost. If a
+shared server should not follow `latest`, put `{"autoUpdatesChannel": "stable"}`
+in `~/.claude/settings.json`.
 
 ### The handoff
 
