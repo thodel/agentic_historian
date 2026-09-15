@@ -7,6 +7,7 @@ the network. Run from the repo root::
 """
 
 import sys
+from itertools import islice
 from pathlib import Path
 
 import pytest
@@ -313,3 +314,68 @@ def test_the_error_survives_as_a_nextcloud_error_not_an_httpx_one(monkeypatch):
     monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
     with pytest.raises(nextcloud.NextcloudError):
         nextcloud._ls(_Listing(failures=1), "x")
+
+
+# ── the enumeration is the expensive part ────────────────────────────────────
+#
+# Measured against the Laßberg share, 2026-09-15: one PROPFIND per folder,
+# 1.75 s each. `pull-share --limit 10` walked 100 folders and ran three minutes
+# before fetching a single byte, because the limit applied to a list that had to
+# be complete first.
+
+class _Tree:
+    """A share with counted listings, so a test can see what was not walked."""
+
+    def __init__(self, tree):
+        self.tree = tree
+        self.listed: list[str] = []
+
+    def ls(self, rdir, detail=True):
+        self.listed.append(rdir)
+        # Returned deliberately unsorted: the server's order is not the walk's.
+        return list(reversed(self.tree.get(rdir, [])))
+
+
+def _d(name):
+    return {"name": name, "type": "directory"}
+
+
+def _f(name, size=10):
+    return {"name": name, "type": "file", "content_length": size}
+
+
+TREE = {
+    "d": [_d("d/a"), _d("d/b"), _d("d/c")],
+    "d/a": [_f("d/a/1.jpg"), _f("d/a/2.jpg")],
+    "d/b": [_f("d/b/1.jpg"), _f("d/b/2.jpg")],
+    "d/c": [_f("d/c/1.jpg")],
+}
+
+
+def test_a_limited_walk_stops_before_the_last_folders():
+    """The point: three minutes of PROPFINDs for ten files, and none of it needed."""
+    client = _Tree(TREE)
+    found = list(islice(nextcloud._walk(client, "d", True), 3))
+    assert [p for p, _ in found] == ["d/a/1.jpg", "d/a/2.jpg", "d/b/1.jpg"]
+    assert "d/c" not in client.listed, "the folder past the limit was never listed"
+
+
+def test_an_unlimited_walk_still_sees_everything():
+    client = _Tree(TREE)
+    assert len(list(nextcloud._walk(client, "d", True))) == 5
+    assert "d/c" in client.listed
+
+
+def test_the_walk_sorts_each_level_whatever_the_server_returned():
+    """`_Tree` hands entries back reversed. Without the sort the traversal order
+    is the server's, and "the first ten" is a different ten on a re-run — which a
+    runner that resumes from what is on disk cannot survive."""
+    client = _Tree(TREE)
+    paths = [p for p, _ in nextcloud._walk(client, "d", True)]
+    assert paths == sorted(paths)
+
+
+def test_the_same_first_files_every_time():
+    a = [p for p, _ in islice(nextcloud._walk(_Tree(TREE), "d", True), 3)]
+    b = [p for p, _ in islice(nextcloud._walk(_Tree(TREE), "d", True), 3)]
+    assert a == b
