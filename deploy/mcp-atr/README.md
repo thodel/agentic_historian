@@ -85,12 +85,23 @@ sudo cp deploy/mcp-atr/nginx-mcp-atr-proxy.conf /etc/nginx/snippets/mcp-atr-prox
 sudo cp deploy/mcp-atr/nginx-mcp-atr.conf       /etc/nginx/snippets/mcp-atr.conf
 ```
 
-One line inside the existing `tei.dh.unibe.ch` server block, next to the one
-QLever added:
+One line inside the `tei.dh.unibe.ch` server block that already holds the
+federation's `/mcp/...` locations — `/etc/nginx/sites-available/tei.dh.unibe.ch`
+as of 2026-09-15. Insert it before the first of them, with a backup and a
+rollback, because a bad config takes the whole site down:
 
-```nginx
-include /etc/nginx/snippets/mcp-atr.conf;
+```bash
+F=/etc/nginx/sites-available/tei.dh.unibe.ch
+B=$F.bak-$(date +%Y%m%d-%H%M%S)
+sudo cp "$F" "$B"
+sudo sed -i '0,/^[[:space:]]*location \/mcp\//s//    include \/etc\/nginx\/snippets\/mcp-atr.conf;\n\n&/' "$F"
+sudo diff "$B" "$F"
+if sudo nginx -t; then sudo systemctl reload nginx; else sudo cp "$B" "$F"; echo ROLLBACK; fi
 ```
+
+`0,/re/` makes sed act on the first match only — there are two `server_name
+tei.dh.unibe.ch` blocks (the TLS one and the HTTP redirect), and anchoring on the
+first `location /mcp/` lands inside the right one without depending on which.
 
 Then — **always test before reloading**, a bad config takes the whole site down:
 
@@ -101,8 +112,8 @@ sudo nginx -t && sudo systemctl reload nginx
 ### 4. Verify from outside
 
 ```bash
-curl -s -o /dev/null -w '%{http_code}\n' https://tei.dh.unibe.ch/mcp/atr          # 401
-curl -s -o /dev/null -w '%{http_code}\n' -X POST https://tei.dh.unibe.ch/mcp/atr \
+curl -s -o /dev/null -w '%{http_code}\n' https://tei.dh.unibe.ch/mcp/atr/mcp          # 401
+curl -s -o /dev/null -w '%{http_code}\n' -X POST https://tei.dh.unibe.ch/mcp/atr/mcp \
   -H "Authorization: Bearer $ATR_MCP_TOKEN" \
   -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"probe","version":"0"}}}'
@@ -115,7 +126,7 @@ server.
 
 In claude.ai → Settings → Connectors, add a custom connector:
 
-- URL `https://tei.dh.unibe.ch/mcp/atr`
+- URL `https://tei.dh.unibe.ch/mcp/atr/mcp` — the house convention on this host; every federation server is published as `/mcp/<name>/mcp`
 - header `Authorization: Bearer <token>`
 
 From then on every Claude session — cloud included — can drive a run.
