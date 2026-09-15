@@ -204,11 +204,16 @@ needs; paste it as the first message.
 **Keep pasting.** What has happened so far. It works, and it costs a person's
 attention for the length of every run.
 
-**Expose the operations as MCP tools.** tei already serves MCP at
+**Expose the operations as MCP tools — built, see
+[`deploy/mcp-atr/`](../deploy/mcp-atr/README.md).** tei already serves MCP at
 `https://tei.dh.unibe.ch/mcp`, and MCP reaches a cloud session when plain HTTPS
-does not. A small server there — `pull_share`, `start_batch`, `batch_status`,
-`tail_journal` — would let any future *cloud* session drive a run through a typed,
-auditable surface. More work than everything above, and better than ssh in one
-respect: the session can only do the four things the server offers. Worth building
-if cloud sessions are to stay useful for this work; not worth blocking the first
-run on.
+does not. `mcp_atr/` is a fifth server for that endpoint which can *do* something:
+`gateway_models`, `share_list`, `pull_share`, `start_batch`, `job_status`,
+`job_log`, `stop_job`, `batch_report`. Behind the same nginx, on the same 443, so
+the port constraint below never comes up.
+
+It is better than ssh in one respect — the session can only do those eight things
+— and it costs one thing ssh does not: the endpoint starts jobs on a GPU host and
+sits on the public internet. A bearer token (the server refuses to boot without
+one) and argv that a caller can never reach are what stand in for the shell's
+absence, which is why `mcp_atr/jobs.py` has more tests than code.

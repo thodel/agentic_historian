@@ -8,3 +8,9 @@ numpy>=1.24.0   # semantic.py (#28): embeddings clustering
 # Python fallback runs unchanged — slower, never different. Measured 4930x on a
 # 2400-character page pair, which is the size the ensemble actually compares.
 rapidfuzz>=3.9
+
+# The ATR operations MCP server (deploy/mcp-atr/) — only needed on the host that
+# actually serves it. Everything else in the package imports fine without them:
+# mcp_atr.server defers both imports until an app is built.
+mcp>=2.0        # server SDK; the corpus servers on tei use the same
+uvicorn>=0.30   # ASGI server behind nginx on 127.0.0.1
