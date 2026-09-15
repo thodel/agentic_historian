@@ -30,6 +30,7 @@ import re
 import signal
 import subprocess
 import sys
+import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -54,6 +55,7 @@ __all__ = [
     "read_log",
     "list_jobs",
     "run_progress",
+    "start_and_peek",
     "stop",
 ]
 
@@ -157,7 +159,8 @@ RUNNER = Path(__file__).resolve().parent / "_run.py"
 
 
 def batch_argv(source: Path, models: Sequence[str], run: str, *,
-               limit: Optional[int] = None, concurrency: Optional[int] = None,
+               limit: Optional[int] = None, sample: Optional[int] = None,
+               concurrency: Optional[int] = None,
                retries: Optional[int] = None, dry_run: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
@@ -171,6 +174,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
             "--run", run]
     if limit is not None:
         argv += ["--limit", str(int(limit))]
+    if sample is not None:
+        argv += ["--sample", str(int(sample))]
     if concurrency is not None:
         argv += ["--concurrency", str(int(concurrency))]
     if retries is not None:
@@ -328,6 +333,48 @@ def list_jobs(limit: int = 20) -> list[Job]:
     ids = sorted((d.name for d in root.iterdir() if (d / "meta.json").is_file()),
                  reverse=True)[:max(1, limit)]
     return [status(i) for i in ids]
+
+
+#: How long a tool may block before the client gives up on it. The MCP broker cut
+#: a `share_list` call at exactly 60 s on 2026-09-15 while the listing was still
+#: running on tei — the worst of both answers: the caller sees a failure and the
+#: work continues unseen. Everything synchronous has to finish well inside this.
+BROKER_TIMEOUT_S = 60
+
+#: How long :func:`start_and_peek` waits before handing back a handle instead of
+#: an answer. Comfortably inside the broker's patience, and long enough that
+#: anything quick — a small share, a dry run — still answers in one call.
+PEEK_S = 25
+
+
+def start_and_peek(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
+                   grace_s: float = PEEK_S, poll_s: float = 0.5,
+                   lines: int = 300) -> dict:
+    """Start a job, wait a little, and report whatever is true by then.
+
+    The shape that fits a protocol with a request timeout and work that does not
+    respect one. A listing of forty files answers inline and the caller never
+    learns there was a job; a listing of four thousand comes back as a handle
+    with the work still running, which is an answer rather than a timeout.
+
+    Deliberately not a longer synchronous call with a bigger timeout: the ceiling
+    belongs to the client, not to us, so raising ours only moves the failure to a
+    place where the job is also lost.
+    """
+    job = start(kind, argv, run=run)
+    deadline = time.monotonic() + max(0.0, grace_s)
+    while time.monotonic() < deadline:
+        current = status(job.job_id)
+        if current.state != "running":
+            return {"done": True, **current.as_dict(),
+                    "output": read_log(job.job_id, lines)}
+        time.sleep(poll_s)
+    return {
+        "done": False,
+        **status(job.job_id).as_dict(),
+        "note": (f"still running after {grace_s:.0f}s — poll job_status and read "
+                 f"job_log with this job_id"),
+    }
 
 
 def read_log(job_id: str, lines: int = 50) -> str:

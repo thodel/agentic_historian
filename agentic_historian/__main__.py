@@ -90,7 +90,12 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"Error: --source is not a directory: {source}", file=sys.stderr)
         return 2
 
-    pages = batch.discover_pages(source, limit=args.limit)
+    try:
+        pages = batch.discover_pages(source, limit=args.limit, sample=args.sample,
+                                     seed=args.seed)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
     if not pages:
         print(f"Error: no page images under {source}", file=sys.stderr)
         return 1
@@ -102,7 +107,8 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"source    : {source}")
         print(f"out       : {out_root}")
         print(f"gateway   : {config.ATR_GATEWAY_URL}")
-        print(f"pages     : {len(pages)}")
+        print(f"pages     : {len(pages)}"
+              + (f"  (sampled at random, seed {args.seed})" if args.sample else ""))
         print(f"models    : {', '.join(models)}")
         print(f"calls     : {len(pages) * len(models)}")
         for page in pages[:5]:
@@ -148,6 +154,17 @@ def publish_batch(args: argparse.Namespace) -> int:
     return 0 if urls else 1
 
 
+def batch_seed() -> int:
+    """The default sampling seed, read without importing the batch runner.
+
+    ``build_parser`` runs on every invocation including ``--help``; ``atr_batch``
+    pulls in the recogniser and its clients. One constant is not worth that.
+    """
+    import atr_batch as batch
+
+    return batch.SAMPLE_SEED
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agentic-historian",
@@ -180,6 +197,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_batch.add_argument("--run", default="atr_batch", help="Run name = output subdirectory")
     p_batch.add_argument("--out-root", help="Output root (default: VLM_TEST_ROOT/<run>)")
     p_batch.add_argument("--limit", type=int, help="Only the first N pages (smoke run)")
+    p_batch.add_argument("--sample", type=int,
+                         help="N pages at random instead of the first N. Deterministic: "
+                              "the same corpus and seed give the same pages, so a resumed "
+                              "run reads what the first one did")
+    p_batch.add_argument("--seed", type=int, default=batch_seed(),
+                         help="Seed for --sample (default: fixed, so samples are "
+                              "reproducible across runs and machines)")
     p_batch.add_argument("--concurrency", type=int, default=config.ATR_BATCH_PAGE_CONCURRENCY,
                          help="Pages in flight per model (default 1 — the gateway already "
                               "parallelises the lines of one page)")

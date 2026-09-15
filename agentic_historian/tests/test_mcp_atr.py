@@ -226,6 +226,53 @@ def test_a_job_id_cannot_address_anything_but_a_job(sandbox, job_id):
         jobs.status(job_id)
 
 
+# ── the bounded wait ─────────────────────────────────────────────────────────
+#
+# A protocol with a request timeout, and work that does not respect one. The MCP
+# broker cut a `share_list` call at 60 s on 2026-09-15 while the listing was
+# still running on tei — a failure for the caller and work nobody could see.
+
+def test_quick_work_answers_inline(sandbox):
+    """Then the caller never learns there was a job at all."""
+    result = jobs.start_and_peek("test", [sys.executable, "-c", "print('forty files')"])
+    assert result["done"] is True
+    assert result["state"] == "done" and result["exit_code"] == 0
+    assert "forty files" in result["output"]
+
+
+def test_slow_work_hands_back_a_handle(sandbox):
+    """Not a timeout, and not a longer wait: the ceiling belongs to the client, so
+    raising ours would only move the failure somewhere the job is lost too."""
+    result = jobs.start_and_peek("test", [sys.executable, "-c", "import time; time.sleep(30)"],
+                                 grace_s=1, poll_s=0.2)
+    assert result["done"] is False
+    assert result["state"] == "running" and result["job_id"]
+    assert "job_log" in result["note"], "the caller has to be told what to do next"
+    jobs.stop(result["job_id"])
+
+
+def test_a_handle_from_a_peek_is_a_normal_job(sandbox):
+    """The work continues either way — the peek only decides what is reported."""
+    result = jobs.start_and_peek("test", [sys.executable, "-c", "print('late'); import time; time.sleep(0.2)"],
+                                 grace_s=0)
+    assert result["done"] is False
+    assert _wait_for(lambda: jobs.status(result["job_id"]).state == "done")
+    assert "late" in jobs.read_log(result["job_id"])
+
+
+def test_failure_inside_the_grace_is_reported_as_failure(sandbox):
+    """A job that died fast must not read as success just because it was quick."""
+    result = jobs.start_and_peek("test", [sys.executable, "-c", "raise SystemExit(2)"])
+    assert result["done"] is True and result["state"] == "failed"
+    assert result["exit_code"] == 2
+
+
+def test_the_wait_stays_inside_the_brokers_patience():
+    """The one number that has to hold: whatever we wait for must leave the client
+    room to still receive the answer."""
+    assert jobs.PEEK_S < jobs.BROKER_TIMEOUT_S / 2
+
+
 # ── progress ─────────────────────────────────────────────────────────────────
 
 def test_progress_counts_the_runs_own_output(sandbox):

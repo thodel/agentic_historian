@@ -300,6 +300,17 @@ OUTPUTS_DIR = DATA_DIR / "outputs"
 # hot folder on purpose: the hot folder is watched and consumed, and a mirror of a
 # share is neither — it is the corpus a batch reads repeatedly, once per model.
 NEXTCLOUD_STAGING_DIR = Path(_get("NEXTCLOUD_STAGING_DIR", str(DATA_DIR / "nextcloud")))
+# Per-request timeout for the share's WebDAV calls. httpx defaults to 5 s, which
+# webdav4 inherits, and a PROPFIND over a folder of several hundred scans does not
+# finish in five seconds on a server that stats each entry — the walk died on one
+# after nine minutes of work (2026-09-15). This is a directory listing budget, not
+# a transfer budget: downloads stream and are not covered by it.
+NEXTCLOUD_TIMEOUT = float(_get("NEXTCLOUD_TIMEOUT", "120"))
+# How often a listing that times out is tried again before the walk gives up. A
+# slow directory is usually slow once; a directory that fails three times is a
+# problem worth stopping for, because silently skipping it would mean a corpus
+# quietly missing pages.
+NEXTCLOUD_LS_ATTEMPTS = int(_get("NEXTCLOUD_LS_ATTEMPTS", "3"))
 
 # ── Batch ATR (atr_batch.py) ─────────────────────────────────────────────────
 # Root for model-comparison runs: <VLM_TEST_ROOT>/<run>/<model id>/.

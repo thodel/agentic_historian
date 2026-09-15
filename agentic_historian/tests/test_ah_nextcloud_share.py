@@ -233,8 +233,8 @@ def test_auth_is_the_token_and_the_password(monkeypatch):
     seen = {}
 
     class _Client:
-        def __init__(self, url, auth=None):
-            seen["url"], seen["auth"] = url, auth
+        def __init__(self, url, auth=None, **opts):
+            seen["url"], seen["auth"], seen["opts"] = url, auth, opts
 
     module = type(sys)("webdav4.client")
     module.Client = _Client
@@ -242,3 +242,74 @@ def test_auth_is_the_token_and_the_password(monkeypatch):
     nextcloud._client(SHARE)
     assert seen["auth"] == ("TOK", "pw")
     assert seen["url"].startswith("https://cloud.example.org/nc/public.php/webdav")
+
+
+# ── the walk, after it died on a slow folder ─────────────────────────────────
+#
+# 2026-09-15: `pull-share --limit 10` ran for nine minutes against the Laßberg
+# share and then raised `httpx.ReadTimeout` from a single PROPFIND. httpx
+# defaults to five seconds and webdav4 inherits it; a listing of a few hundred
+# scans on a server that stats each entry does not finish in five. Nine minutes
+# of completed listings went with it, and the only log line in all that time was
+# the one announcing which endpoint had been chosen.
+
+class _Listing:
+    """A client whose `ls` fails a given number of times before answering."""
+
+    def __init__(self, failures=0, entries=None):
+        self.failures = failures
+        self.entries = entries if entries is not None else []
+        self.calls = 0
+
+    def ls(self, rdir, detail=True):
+        import httpx
+
+        self.calls += 1
+        if self.calls <= self.failures:
+            raise httpx.ReadTimeout("The read operation timed out")
+        return self.entries
+
+
+def test_the_client_is_given_a_timeout_at_all(monkeypatch):
+    """The whole failure in one assertion: without this, httpx's five seconds
+    apply and a large folder cannot be listed."""
+    captured = {}
+
+    class _Client:
+        def __init__(self, url, auth=None, **opts):
+            captured.update(opts)
+
+    module = type(sys)("webdav4.client")
+    module.Client = _Client
+    monkeypatch.setitem(sys.modules, "webdav4.client", module)
+    nextcloud._client(nextcloud.ShareRef("https://x/nc", "tok", "pw"))
+    assert captured.get("timeout") == config.NEXTCLOUD_TIMEOUT
+    assert captured["timeout"] > 5, "five is httpx's default and the reason this exists"
+
+
+def test_a_slow_listing_is_retried_not_abandoned(monkeypatch):
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 3)
+    client = _Listing(failures=2, entries=[{"name": "a/p.jpg", "type": "file",
+                                            "content_length": 7}])
+    assert nextcloud._ls(client, "a") == client.entries
+    assert client.calls == 3
+
+
+def test_a_folder_that_keeps_failing_stops_the_walk(monkeypatch):
+    """Not skipped. A directory quietly missing from the walk is a corpus quietly
+    missing pages — the one failure nobody would notice."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 2)
+    client = _Listing(failures=99)
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud._ls(client, "letters/03")
+    assert "letters/03" in str(err.value)
+    assert "NEXTCLOUD_TIMEOUT" in str(err.value), "the message has to name the lever"
+    assert client.calls == 2
+
+
+def test_the_error_survives_as_a_nextcloud_error_not_an_httpx_one(monkeypatch):
+    """So `pull_folder`'s caller sees a configured failure rather than a
+    transport detail leaking out of a utility module."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    with pytest.raises(nextcloud.NextcloudError):
+        nextcloud._ls(_Listing(failures=1), "x")
