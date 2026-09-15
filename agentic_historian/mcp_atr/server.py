@@ -49,7 +49,6 @@ Loopback only — nginx does TLS and the public name. See `deploy/mcp-atr/`.
 from __future__ import annotations
 
 import os
-import subprocess
 import sys
 from pathlib import Path
 from typing import Optional
@@ -62,9 +61,11 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
 import config                                # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
 
-#: Seconds a synchronous helper (share listing, gateway probe) may take. Past
-#: this the answer is not worth an MCP call blocked on it.
-SYNC_TIMEOUT_S = 120
+#: Per-request budget for the gateway probes in :func:`gateway_models`. Three run
+#: in sequence, so this is a third of what the caller waits — and the caller is an
+#: MCP broker that gives up at 60 s (`jobs.BROKER_TIMEOUT_S`). At the 120 s this
+#: was, two slow probes would already have blown past that.
+PROBE_TIMEOUT_S = 10
 
 
 class ConfigError(RuntimeError):
@@ -108,19 +109,6 @@ def _token() -> str:
             "`python3 -c 'import secrets; print(secrets.token_urlsafe(32))'`."
         )
     return token
-
-
-def _run_sync(argv: list[str]) -> dict:
-    """Run a short command and return its output. Never a shell; never unbounded."""
-    try:
-        proc = subprocess.run(  # noqa: S603 — argv built by mcp_atr.jobs
-            argv, cwd=str(Path(config.BASE_DIR).parent), capture_output=True,
-            text=True, timeout=SYNC_TIMEOUT_S,
-        )
-    except subprocess.TimeoutExpired:
-        return {"ok": False, "error": f"timed out after {SYNC_TIMEOUT_S}s", "argv": argv}
-    return {"ok": proc.returncode == 0, "exit_code": proc.returncode,
-            "stdout": proc.stdout[-8000:], "stderr": proc.stderr[-4000:]}
 
 
 #: The password form. Deliberately one file, no assets, no JavaScript: it is
@@ -218,8 +206,12 @@ def build_server(provider=None, auth_settings=None):
 
         headers = {"X-API-Key": config.ATR_API_KEY} if config.ATR_API_KEY else {}
         out: dict = {"gateway": config.ATR_GATEWAY_URL}
-        with httpx.Client(timeout=30.0, headers=headers) as client:
-            for name, path in (("health", "/health"), ("models", "/models"), ("gpu", "/gpu")):
+        with httpx.Client(timeout=PROBE_TIMEOUT_S, headers=headers) as client:
+            # /train/gpu, not /gpu — the route lives on the trainer's router and
+            # carries its prefix. Asking the wrong path cost a 404 in the first
+            # live call, and the docs that named `/gpu` were wrong with it.
+            for name, path in (("health", "/health"), ("models", "/models"),
+                               ("gpu", "/train/gpu")):
                 try:
                     response = client.get(f"{config.ATR_GATEWAY_URL}{path}")
                     out[name] = (response.json() if response.status_code == 200
@@ -235,8 +227,14 @@ def build_server(provider=None, auth_settings=None):
 
         Also the cheapest check that the share password is right: a wrong one
         fails here in a second rather than an hour into a transfer.
+
+        Answers inline when the listing is quick — `done: true` and the output. A
+        large share takes longer than the caller will wait, so past that it comes
+        back as `done: false` with a `job_id` to poll. It was a plain synchronous
+        call once, and the broker cut it at 60 s while the listing was still
+        running on tei: a failure for the caller and work nobody could see.
         """
-        return _run_sync(jobs.pull_argv(folder, list_only=True))
+        return jobs.start_and_peek("share-list", jobs.pull_argv(folder, list_only=True))
 
     @server.tool()
     def pull_share(folder: Optional[str] = None, limit: Optional[int] = None) -> dict:
@@ -272,8 +270,12 @@ def build_server(provider=None, auth_settings=None):
 
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
                                limit=limit, concurrency=concurrency, dry_run=dry_run)
-        if dry_run:                    # seconds, and the answer is the point
-            return {"ok": True, "dry_run": True, **_run_sync(argv)}
+        if dry_run:
+            # The plan is the answer, so it is worth waiting for — but only as
+            # long as the caller will, and several thousand pages take longer to
+            # enumerate than that.
+            return {"ok": True, "dry_run": True, **jobs.start_and_peek(
+                "atr-batch-dry-run", argv, run=checked_run)}
         job = jobs.start("atr-batch", argv, run=checked_run)
         return job.as_dict()
 
