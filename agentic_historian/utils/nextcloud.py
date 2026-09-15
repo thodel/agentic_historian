@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import os
 import re
+from itertools import islice
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator, Optional
@@ -224,7 +225,16 @@ def _walk(client, rdir: str, recursive: bool, _seen: Optional[list] = None
     if progress[0] % 20 == 0:
         logger.info(f"[Nextcloud] walked {progress[0]} folders, "
                     f"{progress[1]} ingestable file(s) so far …")
-    for entry in _ls(client, rdir):
+    # Sorted per level, so the traversal order is deterministic and a caller that
+    # stops early gets the same files every time. Without this the order is
+    # whatever the server returned, and "the first ten" would be a different ten
+    # on a re-run — which the batch runner, resuming from what is on disk, cannot
+    # survive.
+    entries = sorted(
+        _ls(client, rdir),
+        key=lambda e: (e.get("name") or e.get("href") or "").rstrip("/"),
+    )
+    for entry in entries:
         name = (entry.get("name") or entry.get("href") or "").rstrip("/")
         if not name or name == rdir.rstrip("/"):
             continue
@@ -239,16 +249,22 @@ def _walk(client, rdir: str, recursive: bool, _seen: Optional[list] = None
 
 
 def list_files(remote_dir: Optional[str] = None, recursive: bool = True,
-               share: Optional[ShareRef] = None) -> list[tuple[str, int]]:
+               share: Optional[ShareRef] = None,
+               limit: Optional[int] = None) -> list[tuple[str, int]]:
     """``(remote path, size)`` for every ingestable file under ``remote_dir``.
 
     Sorted, so a run over the same share processes pages in the same order twice —
     which is what makes a resumed run's progress comparable to the first one's.
+
+    ``limit`` stops the walk early, for the same reason it does in
+    :func:`pull_folder`: the enumeration is the expensive part, and a caller that
+    only wants to see the shape of the material should not pay for all of it.
     """
     share = share or share_from_config()
     remote_dir = (remote_dir if remote_dir is not None else config.NEXTCLOUD_REMOTE_DIR).strip("/")
     client = _connect(share, remote_dir)
-    return sorted(_walk(client, remote_dir, recursive))
+    walk = _walk(client, remote_dir, recursive)
+    return sorted(islice(walk, max(0, limit)) if limit is not None else walk)
 
 
 def _relative(remote_path: str, root: str) -> str:
@@ -287,9 +303,19 @@ def pull_folder(
     local_dir.mkdir(parents=True, exist_ok=True)
 
     client = _connect(share, root)
-    remote_files = sorted(_walk(client, root, recursive))
     if limit is not None:
-        remote_files = remote_files[:limit]
+        # Stop walking once there are enough. The whole enumeration is the
+        # expensive part — one PROPFIND per folder, measured at 1.75 s against
+        # this share — and a ten-file smoke run used to pay all of it: 100 folders
+        # and three minutes before the first byte was fetched (2026-09-15).
+        #
+        # "The first N in traversal order", then, rather than "the first N of the
+        # sorted whole". Deterministic either way, because the traversal is; and
+        # for a representative subset the tool is `atr-batch --sample`, which
+        # draws across documents instead of taking whatever comes first.
+        remote_files = sorted(islice(_walk(client, root, recursive), max(0, limit)))
+    else:
+        remote_files = sorted(_walk(client, root, recursive))
     if not remote_files:
         logger.warning(f"[Nextcloud] no ingestable files under '{root or '/'}' in {share}")
         return []

@@ -91,6 +91,13 @@ download lands through a `.part` file, so an interrupted transfer is never
 mistaken for a finished one. `--limit 5` first, if you want to see the shape of
 the material before committing to all of it.
 
+`--limit` stops the walk as soon as it has enough, which matters more than it
+sounds. The enumeration is one `PROPFIND` per folder — measured at **1.75 s**
+against this share — so before that, a ten-file test walked 100 folders and ran
+three minutes before fetching a single byte. What you get is the first N in
+*traversal* order, not the first N of the sorted whole; for a subset that
+represents the collection, the tool is `atr-batch --sample`.
+
 ---
 
 ## 3 · Read every page with every model
