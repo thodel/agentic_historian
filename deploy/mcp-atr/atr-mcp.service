@@ -42,11 +42,20 @@ ExecStart=/srv/agentic_historian/.venv/bin/uvicorn mcp_atr.server:app \
 Restart=on-failure
 RestartSec=5s
 
-# Jobs are started detached (start_new_session), so they are in their own
-# process groups and this must stay `mixed`: on stop, systemd signals the main
-# process only. Restarting or redeploying the server must never kill a batch
-# that is four hours in.
-KillMode=mixed
+# `process`, not `mixed`, and the difference is a batch run.
+#
+# Jobs are started with start_new_session=True, which gives them their own
+# session and process group — and leaves them in this unit's cgroup, which is
+# what systemd actually kills by. Under `mixed`, systemd SIGTERMs the main
+# process and then SIGKILLs everything still in the cgroup: every running job.
+# A walk of the Laßberg share died exactly that way on 2026-09-15, 18 minutes
+# in, on a routine restart, and reported itself `vanished` — which was the honest
+# answer and not the one anybody wanted.
+#
+# `process` signals the main process and leaves the rest of the cgroup alone. The
+# jobs that survive a stop are deliberate, not strays: `job_status` still finds
+# them by pid, and a redeploy is not a reason to lose four hours of GPU time.
+KillMode=process
 KillSignal=SIGTERM
 TimeoutStopSec=30
 

@@ -8,6 +8,12 @@ handle. Everything here exists for that gap:
 * **Detached children.** A job is started with ``start_new_session=True`` and
   keeps running when the MCP server is restarted or redeployed. The server is a
   door, not a supervisor.
+
+  That takes ``KillMode=process`` in the unit as well, and it is not obvious why:
+  ``start_new_session`` gives the child its own session and process group, but
+  leaves it in the service's **cgroup**, and the cgroup is what systemd kills by.
+  Under ``mixed`` a restart takes every running job with it — an 18-minute share
+  walk on 2026-09-15 is how that was found.
 * **State on disk, not in memory.** A restarted server must still be able to
   answer about jobs it did not start. Everything needed lives in the job
   directory, and progress is read from the run's own output, which
@@ -237,9 +243,11 @@ def start(kind: str, argv: Sequence[str], *, run: Optional[str] = None,
           cwd: Optional[Path] = None) -> Job:
     """Launch ``argv`` detached, and return the handle immediately.
 
-    ``start_new_session=True`` puts the child in its own process group, so it
-    survives the server being restarted — which will happen, because deploying a
-    new version of the server must not kill a run that is four hours in.
+    ``start_new_session=True`` puts the child in its own session and process
+    group. That is necessary and not sufficient: the child stays in the service's
+    cgroup, so surviving a restart also takes ``KillMode=process`` in the unit.
+    With the ``mixed`` this shipped with, systemd SIGKILLed the whole cgroup after
+    the main process went, and every running job died with the deploy.
     """
     job_id = f"{datetime.now(timezone.utc):%Y%m%dT%H%M%S}-{uuid.uuid4().hex[:6]}"
     directory = jobs_root() / job_id

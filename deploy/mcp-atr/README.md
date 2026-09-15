@@ -181,8 +181,16 @@ fixed at session start.
 ## Operating it
 
 A batch is detached from the server on purpose: `start_new_session`, and the unit
-is `KillMode=mixed`. **Redeploying or restarting `atr-mcp` does not kill a running
-batch.** That is deliberate — a run is hours long and a deploy is not a reason to
+is **`KillMode=process`**. **Redeploying or restarting `atr-mcp` does not kill a
+running batch.**
+
+It did until 2026-09-15, and the reason is worth knowing: `start_new_session`
+gives a child its own session and process group, and leaves it in the unit's
+**cgroup** — which is what systemd kills by. Under the `KillMode=mixed` this unit
+shipped with, a restart SIGTERMed the server and then SIGKILLed everything left in
+the cgroup, jobs included. An 18-minute share walk died that way on a routine
+restart. If you see a job report `vanished` right after a deploy, check this
+setting first. That is deliberate — a run is hours long and a deploy is not a reason to
 lose it — and it is also why `job_status` can report on jobs the current server
 process never started.
 
