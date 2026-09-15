@@ -154,7 +154,11 @@ def _client(share: ShareRef, endpoint: Optional[str] = None):
     from webdav4.client import Client  # lazy import; optional dependency
 
     url = (endpoint or share.webdav_url).rstrip("/") + "/"
-    return Client(url, auth=(share.token, share.password))
+    # The timeout is the point of passing anything here. webdav4 hands **client_opts
+    # to httpx, whose default is five seconds — enough for a small share and not for
+    # a PROPFIND over a few hundred scans.
+    return Client(url, auth=(share.token, share.password),
+                  timeout=config.NEXTCLOUD_TIMEOUT)
 
 
 def _connect(share: ShareRef, probe_dir: str = ""):
@@ -180,17 +184,56 @@ def _connect(share: ShareRef, probe_dir: str = ""):
     )
 
 
-def _walk(client, rdir: str, recursive: bool) -> Iterator[tuple[str, int]]:
-    """Yield ``(remote_path, size)`` for every ingestable file under ``rdir``."""
-    for entry in client.ls(rdir, detail=True):
+def _ls(client, rdir: str) -> list[dict]:
+    """One directory listing, retried, and loud about what it is doing.
+
+    A single ``PROPFIND`` that times out used to end the whole walk — nine minutes
+    of listings thrown away because one folder was slow (2026-09-15). Retried
+    rather than skipped: a directory quietly missing from the walk is a corpus
+    quietly missing pages, which is the one failure nobody would notice.
+    """
+    import httpx
+
+    last: Exception | None = None
+    for attempt in range(1, max(1, config.NEXTCLOUD_LS_ATTEMPTS) + 1):
+        try:
+            return list(client.ls(rdir, detail=True))
+        except (httpx.TimeoutException, httpx.TransportError) as exc:
+            last = exc
+            logger.warning(
+                f"[Nextcloud] listing '{rdir or '/'}' timed out "
+                f"(attempt {attempt}/{config.NEXTCLOUD_LS_ATTEMPTS}): {type(exc).__name__}"
+            )
+    raise NextcloudError(
+        f"cannot list '{rdir or '/'}' after {config.NEXTCLOUD_LS_ATTEMPTS} attempts: "
+        f"{type(last).__name__}: {last}. Raise NEXTCLOUD_TIMEOUT if the share is "
+        f"large or the server slow; it is a per-request budget, not a total one."
+    ) from last
+
+
+def _walk(client, rdir: str, recursive: bool, _seen: Optional[list] = None
+          ) -> Iterator[tuple[str, int]]:
+    """Yield ``(remote_path, size)`` for every ingestable file under ``rdir``.
+
+    Reports progress, because it did not: the walk over this share took nine
+    minutes and printed one line, which is indistinguishable from a hang for
+    anyone watching — and somebody is always watching a job that long.
+    """
+    progress = _seen if _seen is not None else [0, 0]     # [directories, files]
+    progress[0] += 1
+    if progress[0] % 20 == 0:
+        logger.info(f"[Nextcloud] walked {progress[0]} folders, "
+                    f"{progress[1]} ingestable file(s) so far …")
+    for entry in _ls(client, rdir):
         name = (entry.get("name") or entry.get("href") or "").rstrip("/")
         if not name or name == rdir.rstrip("/"):
             continue
         if entry.get("type") == "directory":
             if recursive:
-                yield from _walk(client, name, recursive)
+                yield from _walk(client, name, recursive, progress)
             continue
         if Path(name).suffix.lower() in INGEST_EXTS:
+            progress[1] += 1
             size = entry.get("content_length") or entry.get("size") or 0
             yield name, int(size or 0)
 
