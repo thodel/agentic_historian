@@ -35,6 +35,8 @@ the list is short and why `mcp_atr/jobs.py` has more tests than code.
 | `start_batch` | read every page with every model (async → job id) |
 | `job_status` · `job_log` · `stop_job` | poll, tail, interrupt |
 | `batch_report` | the run's `report.md` and per-model page counts |
+| `run_files` | which pages a run has read, per model; no text |
+| `read_pages` | the transcriptions themselves, paged and capped |
 
 ## Authentication: OAuth, because the connector speaks nothing else
 

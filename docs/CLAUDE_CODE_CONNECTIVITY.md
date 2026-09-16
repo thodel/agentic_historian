@@ -209,10 +209,10 @@ attention for the length of every run.
 `https://tei.dh.unibe.ch/mcp`, and MCP reaches a cloud session when plain HTTPS
 does not. `mcp_atr/` is a fifth server for that endpoint which can *do* something:
 `gateway_models`, `share_list`, `pull_share`, `start_batch`, `job_status`,
-`job_log`, `stop_job`, `batch_report`. Behind the same nginx, on the same 443, so
-the port constraint below never comes up.
+`job_log`, `stop_job`, `batch_report`, `run_files`, `read_pages`. Behind the same
+nginx, on the same 443, so the port constraint below never comes up.
 
-It is better than ssh in one respect — the session can only do those eight things
+It is better than ssh in one respect — the session can only do those ten things
 — and it costs one thing ssh does not: the endpoint starts jobs on a GPU host and
 sits on the public internet. Argv a caller can never reach is what stands in for
 the shell's absence, which is why `mcp_atr/jobs.py` has more tests than code.

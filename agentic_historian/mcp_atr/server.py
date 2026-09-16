@@ -1,5 +1,5 @@
 """
-mcp_atr/server.py — four operations on tei, reachable from a Claude session.
+mcp_atr/server.py — a handful of operations on tei, reachable from a Claude session.
 
 **Why this exists.** A Claude Code session in the cloud cannot open a socket to
 `tei.dh.unibe.ch`: the egress proxy refuses the CONNECT, only ports 80 and 443
@@ -11,11 +11,18 @@ behind the same nginx on the same 443.
 
 See `docs/CLAUDE_CODE_CONNECTIVITY.md` for how that was established.
 
-**What it deliberately is not.** Not a shell, not an interpreter, not a file
-server. Every tool is either read-only or starts one fixed command whose
-arguments have been checked against a charset and a root directory
-(`mcp_atr/jobs.py`). A caller chooses *which* corpus and *which* models; it can
-never choose a command, a path outside the corpus roots, or a flag.
+**What it deliberately is not.** Not a shell and not an interpreter. Every tool
+is either read-only or starts one fixed command whose arguments have been checked
+against a charset and a root directory (`mcp_atr/jobs.py`). A caller chooses
+*which* corpus and *which* models; it can never choose a command, a path outside
+the corpus roots, or a flag.
+
+It does hand back file contents — `read_pages` returns transcriptions — and that
+is the one place worth being exact about. It reads ``.txt`` files under
+``VLM_TEST_ROOT/<run>/<model>/``, and the run and model names are validated
+before the join while every page path is checked *after* resolution to still be
+inside that directory. So it is a reader of what this stack itself wrote, not a
+file server: there is no argument that reaches the rest of the disk.
 
 That restraint is load-bearing rather than tasteful. The corpus servers next door
 are read-only, so a stolen token there costs a public-domain lexicon. Here it
@@ -315,6 +322,37 @@ def build_server(provider=None, auth_settings=None):
         same start_batch call resumes from there."""
         try:
             return jobs.stop(job_id).as_dict()
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def run_files(run: str, model: Optional[str] = None) -> dict:
+        """Which pages a run has read, per model. Returns no text.
+
+        The inventory to ask for first: `read_pages` walks the same keys in the
+        same order, so an offset here means the same page there.
+        """
+        try:
+            return jobs.list_outputs(run, model)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def read_pages(run: str, model: str, keys: Optional[list[str]] = None,
+                   offset: int = 0, limit: int = 10) -> dict:
+        """The transcriptions themselves — one model's reading of a run's pages.
+
+        Without ``keys`` it pages through the model's output from ``offset``;
+        with them it reads exactly those. Read the END of each text: a page that
+        hit the token ceiling comes back as an ordinary success and stops
+        mid-sentence, which `truncated_by_model` is the only warning of.
+
+        Paged deliberately. The reply states what it left out — `remaining`,
+        `next_offset`, and `text_cut` on a page too long to carry — so a caller
+        copying these somewhere else cannot end up with a silent gap.
+        """
+        try:
+            return jobs.read_outputs(run, model, keys=keys, offset=offset, limit=limit)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 
