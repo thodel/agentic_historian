@@ -89,6 +89,18 @@ MAX_CONSECUTIVE_FAILURES = 5
 #: unknown model id, 401/403 a rejected key — both are true of every call.
 FATAL_STATUSES = frozenset({401, 403, 404})
 
+#: The gateway says this when a training run holds the GPU: nothing is broken,
+#: the box is busy, and the same request works later (serving-atr-inference#129,
+#: which sends it with a Retry-After). Ending the model rather than retrying is
+#: the honest reading of that — a training run lasts hours, and the alternative
+#: is fifteen requests spent discovering what the first reply already said.
+#:
+#: Not in FATAL_STATUSES, because the reason and the remedy are different: a 404
+#: means the model will never work here, a 503 means not now. The report has to
+#: say which, or somebody re-runs a batch that could not have succeeded — or
+#: worse, does not re-run one that would.
+BUSY_STATUS = 503
+
 
 # ── the corpus ───────────────────────────────────────────────────────────────
 
@@ -228,6 +240,10 @@ class PageOutcome:
     truncated: bool = False
     #: Set when the failure is one that ends the model rather than the page.
     fatal: bool = False
+    #: Why, in the words the report should use. "Abandoned" alone leaves the
+    #: reader to guess whether to re-run, and a busy GPU and an unknown model id
+    #: want opposite actions.
+    reason: str = ""
 
     @property
     def ok(self) -> bool:
@@ -307,19 +323,46 @@ def classify_failure(exc: BaseException) -> tuple[bool, bool]:
 
     * **no answer / 5xx** — the gateway is loading a model, restarting, or the
       connection dropped. Retryable; not fatal.
+    * **503** — the GPU is claimed by a training run. Not retryable and not the
+      next page's problem either: the claim lasts as long as the run does, so it
+      ends the model. Measured on 2026-09-15, this cost fifteen requests across
+      five pages before the runner gave up on a reply that said so the first time.
     * **401 / 403 / 404** — a rejected key or a model id the gateway does not
       have. Neither a retry nor the next page changes it, so it ends the model.
     * **anything else (4xx)** — the request was wrong for *this* page (an image
       the engine rejected, a 422). The page is lost, the model goes on.
+
+    503 and 404 both end the model and mean opposite things: *not now* against
+    *not here*. :func:`abandon_reason` keeps them apart in the report, because a
+    run abandoned for a busy GPU is one to repeat and a run abandoned for an
+    unknown model id is one to fix.
     """
     status = getattr(exc, "status_code", None)
     if status is None:
         return True, False                      # unreachable / timeout / reset
+    if status == BUSY_STATUS:
+        return False, True
     if status in FATAL_STATUSES:
         return False, True
     if status >= 500:
         return True, False
     return False, False
+
+
+def abandon_reason(exc: BaseException) -> str:
+    """Why a model stopped, in the words the report should use.
+
+    Not decoration: "abandoned" alone leaves the reader to guess whether to
+    re-run, and the two common causes want opposite actions.
+    """
+    status = getattr(exc, "status_code", None)
+    if status == BUSY_STATUS:
+        return ("the GPU is claimed by a training run — nothing is wrong with the "
+                "model or this batch; re-run when the run finishes")
+    if status in FATAL_STATUSES:
+        return ("the gateway rejected the request outright (auth, or a model id it "
+                "does not have) — re-running changes nothing")
+    return "too many consecutive failures"
 
 
 # ── the recogniser ───────────────────────────────────────────────────────────
@@ -410,7 +453,8 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
             last_exc = exc
             if fatal:
                 return PageOutcome(key=page.key, model=model, status="failed",
-                                   error=f"{type(exc).__name__}: {exc}", fatal=True)
+                                   error=f"{type(exc).__name__}: {exc}", fatal=True,
+                                   reason=abandon_reason(exc))
             if not retryable or attempt == retries:
                 return PageOutcome(key=page.key, model=model, status="failed",
                                    error=f"{type(exc).__name__}: {exc}")
@@ -498,7 +542,10 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             consecutive += 1
             logger.error(f"[batch] {model} {res.key}: {res.error}")
             if res.fatal:
-                outcome.aborted = f"fatal on {res.key}: {res.error}"
+                # Reason *and* error. The reason tells a reader whether to
+                # re-run; the error tells them what the gateway actually said,
+                # and dropping it would make the report less useful than the log.
+                outcome.aborted = f"{res.reason or 'fatal'} — {res.error} (on {res.key})"
                 return False
             if consecutive >= max_consecutive_failures:
                 outcome.aborted = (
