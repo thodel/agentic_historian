@@ -30,6 +30,7 @@ can never be mistaken for a complete one on the next pass.
 
 from __future__ import annotations
 
+import errno
 import os
 import re
 from itertools import islice
@@ -41,6 +42,7 @@ from urllib.parse import urlsplit, urlunsplit
 from loguru import logger
 
 import config
+from utils import images
 
 __all__ = [
     "INGEST_EXTS",
@@ -278,13 +280,16 @@ def pull_folder(
     recursive: bool = True,
     share: Optional[ShareRef] = None,
     limit: Optional[int] = None,
+    convert: Optional[bool] = None,
 ) -> list[Path]:
     """Mirror ``remote_dir`` into ``local_dir``, preserving the folder tree.
 
     Idempotent and resumable, which a several-hundred-page share needs:
 
     * a file already on disk **at the remote size** is skipped, so re-running
-      after an interruption transfers only what is missing;
+      after an interruption transfers only what is missing — and when the file
+      was converted on ingest, its *working copy* is what counts as present,
+      because the mirror deliberately no longer holds the original;
     * every download goes to ``<name>.part`` and is renamed only once complete,
       so a transfer killed halfway cannot be mistaken for a finished file by the
       next pass (a truncated JPEG is the kind of input that produces a
@@ -293,6 +298,12 @@ def pull_folder(
     The tree is preserved rather than flattened the way the SwitchDrive pull does:
     a share's subfolders are usually the documents, and that grouping is worth
     keeping. Output names downstream flatten it back with ``/`` → ``__``.
+
+    **Conversion on ingest** (``convert``, default from config). Archival scans of
+    this collection are uncompressed TIFF at 25 MB a page; a full mirror is about
+    160 GB against tei's 92 GB, and the first attempt filled the disk at page 899.
+    What lands is a JPEG working copy at full resolution — the same pixels, an
+    order of magnitude smaller, and the archive keeps the original.
 
     Returns every local path belonging to the share — skipped files included, so
     the caller gets the corpus, not just the delta.
@@ -320,25 +331,51 @@ def pull_folder(
         logger.warning(f"[Nextcloud] no ingestable files under '{root or '/'}' in {share}")
         return []
 
+    convert = config.NEXTCLOUD_CONVERT if convert is None else convert
+
     out: list[Path] = []
     fetched = skipped = 0
     for remote_path, size in remote_files:
         dest = local_dir / _relative(remote_path, root)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        if dest.exists() and (size == 0 or dest.stat().st_size == size):
+        # The working copy is what the mirror keeps, so it is also what decides
+        # whether this file is already here. Checking only the original name
+        # would re-download every converted page on the next run — the archive
+        # has a .tif that the mirror deliberately no longer holds.
+        landed = images.working_path(dest) if (convert and images.needs_conversion(dest)) else dest
+        if landed.exists() and (landed != dest or size == 0 or landed.stat().st_size == size):
             skipped += 1
-            out.append(dest)
+            out.append(landed)
             continue
+
         tmp = dest.with_name(dest.name + ".part")
         try:
+            dest.parent.mkdir(parents=True, exist_ok=True)
             client.download_file(remote_path, str(tmp))
-            os.replace(tmp, dest)
+            if landed != dest:
+                images.convert_file(tmp, remove_source=True)
+                os.replace(images.working_path(tmp), landed)
+            else:
+                os.replace(tmp, landed)
+        except OSError as exc:
+            tmp.unlink(missing_ok=True)
+            if exc.errno == errno.ENOSPC:
+                # Every later file fails the same way. The first version logged
+                # one error per remaining file and spent fifteen minutes doing
+                # it before crashing on a mkdir — noise around a fact that was
+                # already established by the first failure.
+                raise NextcloudError(
+                    f"out of disk space at {dest.parent} after {fetched} file(s). "
+                    f"Free space, then run the pull again — it resumes from what "
+                    f"is already here."
+                ) from exc
+            logger.error(f"[Nextcloud] {remote_path} failed: {exc}")
+            continue
         except Exception as exc:  # noqa: BLE001 — one bad file must not lose the rest
             tmp.unlink(missing_ok=True)
             logger.error(f"[Nextcloud] {remote_path} failed: {exc}")
             continue
         fetched += 1
-        out.append(dest)
+        out.append(landed)
         if fetched % 25 == 0:
             logger.info(f"[Nextcloud] {fetched} fetched, {skipped} already present …")
 

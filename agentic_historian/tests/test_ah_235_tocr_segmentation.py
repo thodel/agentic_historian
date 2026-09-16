@@ -13,7 +13,6 @@ if PKG not in sys.path:
     sys.path.insert(0, PKG)
 
 import numpy as np
-from PIL import Image as PILImage
 from unittest.mock import MagicMock, patch
 
 # torch isn't installed in CI (it's a heavy GPU dep pulled only on the ATR host).
@@ -28,6 +27,22 @@ if "torch" not in sys.modules:
 # ── helpers ──────────────────────────────────────────────────────────────────
 
 def _make_temp_image(width=300, height=100) -> Path:
+    """A real JPEG on disk.
+
+    Pillow is resolved **here**, not at module import. A sibling module
+    (``test_ah_108_hf_ocr_trocr_seq2seq``) installs a ``MagicMock`` PIL into
+    ``sys.modules`` while pytest is collecting, and a module-level
+    ``from PIL import Image`` would bind to it — so this wrote a zero-byte file
+    and the code under test, which imports PIL lazily and therefore got the real
+    one, failed with "cannot identify image file". Both sides were mocked before,
+    which is why the segmentation path passed against a file that was never an
+    image.
+    """
+    for name in [n for n in list(sys.modules) if n == "PIL" or n.startswith("PIL.")]:
+        if type(sys.modules[name]).__module__.startswith("unittest.mock"):
+            del sys.modules[name]
+    from PIL import Image as PILImage
+
     arr = np.zeros((height, width, 3), dtype=np.uint8)
     fd, path = tempfile.mkstemp(suffix=".jpg")
     os.close(fd)

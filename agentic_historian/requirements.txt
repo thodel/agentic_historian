@@ -13,6 +13,12 @@ python-dotenv>=1.0.0
 # at its first real run. See the deployment-imports CI job.
 openai>=1.40.0
 tenacity>=8.2.0
+# Ingest converts archival TIFF to a JPEG working copy (utils/images.py), and
+# service/kraken_service.py + agent_a/dual_pipeline.py have imported PIL from
+# inside functions since long before that. Deferred imports are why the
+# deployment-imports CI job never caught this one: nothing fails until the code
+# path runs, which on tei meant the pull, not the start-up.
+Pillow>=10.0.0
 rdflib>=6.0.0
 webdav4>=0.11.0   # SwitchDrive (WebDAV) ingestion — utils/switchdrive.py (/pull)
 numpy>=1.24.0   # semantic.py (#28): embeddings clustering
