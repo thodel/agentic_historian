@@ -261,6 +261,12 @@ class ModelOutcome:
     chars: int = 0
     lines: int = 0
     truncated: int = 0
+    #: Pages the model read without producing a single character. A success by
+    #: every other measure — 200, no error, a file on disk — and empty. Counted
+    #: and named, because a corpus is silently short by however many of these it
+    #: contains and no other column moves when one happens.
+    empty: int = 0
+    empty_keys: list[str] = field(default_factory=list)
     recognition_ms: int = 0
     elapsed_s: float = 0.0
     #: Why the model was abandoned before the end of the corpus, if it was.
@@ -304,7 +310,9 @@ class BatchReport:
                 {
                     "model": m.model, "done": m.done, "skipped": m.skipped,
                     "failed": m.failed, "chars": m.chars, "lines": m.lines,
-                    "truncated": m.truncated, "recognition_ms": m.recognition_ms,
+                    "truncated": m.truncated, "empty": m.empty,
+                    "empty_keys": list(m.empty_keys),
+                    "recognition_ms": m.recognition_ms,
                     "elapsed_s": round(m.elapsed_s, 1),
                     "aborted": m.aborted, "errors": m.errors[:20],
                 }
@@ -523,6 +531,10 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             outcome.lines += res.lines
             outcome.recognition_ms += res.timing_ms
             outcome.truncated += int(res.truncated)
+            if res.chars == 0:
+                outcome.empty += 1
+                if len(outcome.empty_keys) < 20:
+                    outcome.empty_keys.append(res.key)
         elif res.status == "skipped":
             outcome.skipped += 1
         else:
@@ -622,6 +634,44 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
         )
     report.elapsed_s = time.perf_counter() - started
     return report
+
+
+def _empty_section(report: BatchReport) -> list[str]:
+    """The "empty" column, spelled out — the quietest way this pipeline fails.
+
+    A page that comes back with no text at all is a success on every signal the
+    runner has: HTTP 200, no exception, a ``.txt`` and a ``.json`` on disk, and
+    ``is_complete`` will skip it for ever after. Nothing in the other columns
+    moves. Measured on a 25-page sample of the Lassberg share on 2026-09-16:
+    **three pages**, 12%, which over the whole corpus is several hundred.
+
+    Two causes, and they want opposite responses. A blank verso or an envelope
+    flap *should* be empty, and the count is then a property of the corpus worth
+    knowing before anyone extrapolates a cost per page. A written page that comes
+    back empty means the segmenter found no lines on it, and that is a defect —
+    invisible in every other number here.
+    """
+    hit = [m for m in report.models if m.empty]
+    if not hit:
+        return []
+    out = ["", "## Pages that came back empty", ""]
+    for m in hit:
+        share = 100.0 * m.empty / m.done if m.done else 0.0
+        out.append(f"- `{m.model}`: {m.empty} of {m.done} page(s) ({share:.0f}%)")
+        out += [f"  - {key}" for key in m.empty_keys]
+        if m.empty > len(m.empty_keys):
+            out.append(f"  - … {m.empty - len(m.empty_keys)} more (see `manifest.jsonl`)")
+    out += [
+        "",
+        "These are successes by every signal this runner has: a 200, no error, "
+        "both files on disk, and `is_complete` will skip them on every later run. "
+        "**Look at the images before reading anything into the number.** A blank "
+        "verso or an envelope flap is genuinely empty, and knowing how many the "
+        "corpus holds is worth having before extrapolating a cost per page; a "
+        "written page that comes back empty means the segmenter found no lines "
+        "on it, which no other column in this report would ever show.",
+    ]
+    return out
 
 
 def _truncation_section(report: BatchReport) -> list[str]:
@@ -749,12 +799,13 @@ def format_report(report: BatchReport) -> str:
         f"- started: {report.started_at}",
         f"- wall time: {report.elapsed_s / 60:.1f} min",
         "",
-        "| model | read | skipped | failed | cut off | chars/page | s/page | wall |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| model | read | skipped | failed | empty | cut off | chars/page | s/page | wall |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for m in report.models:
         lines.append(
-            f"| `{m.model}` | {m.done} | {m.skipped} | {m.failed} | {m.truncated} | "
+            f"| `{m.model}` | {m.done} | {m.skipped} | {m.failed} | {m.empty} | "
+            f"{m.truncated} | "
             f"{m.mean_chars:.0f} | {m.mean_ms / 1000:.1f} | {m.elapsed_s / 60:.1f} min |"
         )
     lines += [
@@ -766,6 +817,7 @@ def format_report(report: BatchReport) -> str:
         "completed. Measuring accuracy needs transcribed lines and `eval/linebench.py`.",
     ]
     lines += _truncation_section(report)
+    lines += _empty_section(report)
     aborted = [m for m in report.models if m.aborted]
     if aborted:
         lines += ["", "## Abandoned", ""]
