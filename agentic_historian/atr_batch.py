@@ -650,6 +650,89 @@ def _truncation_section(report: BatchReport) -> list[str]:
     return out
 
 
+#: A readings appendix is for a run a person is about to read — a smoke run, a
+#: sample, the ten pages someone is deciding a model on. Past this many pages per
+#: model the file stops being a document and becomes a dump, so the appendix
+#: names the directory instead.
+READINGS_MAX_PAGES = 25
+
+#: And a ceiling on the whole appendix, because pages differ. Kept well under the
+#: 40 000 characters `mcp_atr` hands back for a report, so what a remote caller
+#: receives is the whole file rather than a slice of one.
+READINGS_BUDGET_CHARS = 30_000
+
+
+def _readings_section(report: BatchReport) -> list[str]:
+    """The transcriptions themselves, for a run small enough to read.
+
+    The report has always said "comparing the readings is the point" and then
+    shown every column except the readings. This is that appendix.
+
+    Read from **disk**, not from this invocation's outcomes, so a run resumed one
+    model at a time still shows all of them — and so the pages a run skipped
+    because they were already read are in it too.
+    """
+    out_root = report.out_root
+    if not out_root.is_dir():
+        return []
+
+    per_model: list[tuple[str, list[Path]]] = []
+    for child in sorted(out_root.iterdir()):
+        if child.is_dir():
+            per_model.append((child.name, sorted(child.glob("*.txt"))))
+    per_model = [(name, files) for name, files in per_model if files]
+    if not per_model:
+        return []
+
+    biggest = max(len(files) for _, files in per_model)
+    if biggest > READINGS_MAX_PAGES:
+        return [
+            "",
+            "## Readings",
+            "",
+            f"{biggest} page(s) per model — too many to put in one file. The "
+            f"transcriptions are in `{out_root}`, one `.txt` per page per model.",
+        ]
+
+    lines = [
+        "",
+        "## Readings",
+        "",
+        "The texts themselves, so the comparison the table refuses to make can be "
+        "made by eye. **Read to the end of each one**: a page that hit the token "
+        "ceiling comes back as an ordinary success and stops mid-sentence, and it "
+        "is marked here where that happened.",
+    ]
+    budget = READINGS_BUDGET_CHARS
+    omitted = 0
+    for model, files in per_model:
+        lines += ["", f"### `{model}`"]
+        for path in files:
+            text = path.read_text(encoding="utf-8").strip()
+            if len(text) > budget:
+                omitted += 1
+                continue
+            budget -= len(text)
+            note = ""
+            if _truncated_flag(path):
+                note = " — stopped at the token ceiling"
+            lines += ["", f"#### {path.stem} ({len(text)} characters{note})", "",
+                      "~~~text", text or "(empty)", "~~~"]
+    if omitted:
+        lines += ["", f"*{omitted} page(s) omitted here for length — all of them "
+                      f"are in `{out_root}`.*"]
+    return lines
+
+
+def _truncated_flag(txt_path: Path) -> bool:
+    """Whether this page stopped at the token ceiling, per its sibling JSON."""
+    try:
+        data = json.loads(txt_path.with_suffix(".json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    return bool(data.get("truncated"))
+
+
 def format_report(report: BatchReport) -> str:
     """A Markdown summary of the run — what each model produced and what it cost.
 
@@ -695,6 +778,7 @@ def format_report(report: BatchReport) -> str:
             lines += [f"  - {e}" for e in m.errors[:10]]
             if m.failed > 10:
                 lines.append(f"  - … {m.failed - 10} more (see `manifest.jsonl`)")
+    lines += _readings_section(report)
     return "\n".join(lines) + "\n"
 
 
