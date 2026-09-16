@@ -638,3 +638,71 @@ def test_a_run_with_no_output_on_disk_has_no_appendix(tmp_path):
     report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
 
     assert "## Readings" not in batch.format_report(report)
+
+
+# ── pages that came back empty ───────────────────────────────────────────────
+
+def test_an_empty_reading_is_counted_rather_than_passing_as_a_success(tmp_path):
+    """The quietest failure this pipeline has: a 200, no error, both files on
+    disk, and no text. Every other column stays still."""
+    src, out = make_corpus(tmp_path / "src", ("a.jpg", "b.jpg")), tmp_path / "out"
+    rec = Recorder(script={("m1", "a"): reading(text="")})
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
+
+    assert report.models[0].done == 2, "an empty page still read successfully"
+    assert report.models[0].empty == 1
+    assert report.models[0].empty_keys == ["a"]
+
+
+def test_the_empty_pages_are_named_in_the_report(tmp_path):
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    rec = Recorder(default=reading(text=""))
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
+    text = batch.format_report(report)
+
+    assert "## Pages that came back empty" in text
+    assert "1 of 1 page(s) (100%)" in text
+    assert "- a" in text
+    assert "segmenter found no lines" in text, "the defect case has to be named"
+
+
+def test_a_run_with_no_empty_pages_says_nothing_about_them(tmp_path):
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, Recorder())
+
+    assert "came back empty" not in batch.format_report(report)
+
+
+def test_the_empty_column_is_in_the_table(tmp_path):
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    rec = Recorder(default=reading(text=""))
+    text = batch.format_report(
+        batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec))
+
+    header = [ln for ln in text.splitlines() if ln.startswith("| model |")][0]
+    assert "empty" in header and "cut off" in header
+    row = [ln for ln in text.splitlines() if ln.startswith("| `m1`")][0]
+    assert row.count("|") == header.count("|"), "row and header must line up"
+
+
+def test_the_named_pages_are_capped_but_the_count_is_not(tmp_path):
+    """Twenty names is a hint, not an inventory; the number stays exact."""
+    names = tuple(f"p{i:03d}.jpg" for i in range(30))
+    src, out = make_corpus(tmp_path / "src", names), tmp_path / "out"
+    rec = Recorder(default=reading(text=""))
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
+
+    assert report.models[0].empty == 30
+    assert len(report.models[0].empty_keys) == 20
+    assert "… 10 more" in batch.format_report(report)
+
+
+def test_the_empty_count_reaches_report_json(tmp_path):
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    rec = Recorder(default=reading(text=""))
+    batch.write_report(
+        batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec))
+
+    data = json.loads((out / "report.json").read_text())
+    assert data["models"][0]["empty"] == 1
+    assert data["models"][0]["empty_keys"] == ["a"]
