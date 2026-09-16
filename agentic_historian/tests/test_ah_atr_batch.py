@@ -555,3 +555,86 @@ def test_a_busy_run_leaves_the_pages_re_runnable(tmp_path):
     pages = [batch.PageRef(path=tmp_path / "a.jpg", doc_id="", key="a")]
     batch.run_model(pages, "m", "run", tmp_path, _always_busy, retries=1)
     assert list((tmp_path / "m").glob("*.json")) == []
+
+
+# ── the readings appendix ────────────────────────────────────────────────────
+
+def test_the_report_shows_the_readings_it_says_are_the_point(tmp_path):
+    """The table's own caveat says comparing the readings is the point, and the
+    file used to show every column except them."""
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    rec = Recorder(default=reading(text="Hochgeehrter Herr von Lassberg"))
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
+    text = batch.format_report(report)
+
+    assert "## Readings" in text
+    assert "Hochgeehrter Herr von Lassberg" in text
+
+
+def test_the_appendix_is_read_from_disk_so_a_resumed_run_shows_every_model(tmp_path):
+    """The one that matters for a comparison: reading a single model into an
+    existing run must not drop the models that were already read."""
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out,
+                    Recorder(default=reading(text="first model")))
+    report = batch.run_batch(batch.discover_pages(src), ["m2"], "run1", out,
+                             Recorder(default=reading(text="second model")))
+    text = batch.format_report(report)
+
+    assert "first model" in text, "the earlier model's reading is still on disk"
+    assert "second model" in text
+
+
+def test_a_page_cut_off_at_the_ceiling_is_marked_in_the_appendix(tmp_path):
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    cut = reading(text="stops mid-sen")
+    cut.truncated = True
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out,
+                             Recorder(default=cut))
+
+    assert "token ceiling" in batch.format_report(report).split("## Readings")[1]
+
+
+def test_a_run_too_big_to_inline_names_the_directory_instead(tmp_path, monkeypatch):
+    """Past a handful of pages the appendix would stop being a document."""
+    monkeypatch.setattr(batch, "READINGS_MAX_PAGES", 2)
+    src = make_corpus(tmp_path / "src", ("a.jpg", "b.jpg", "c.jpg"))
+    out = tmp_path / "out"
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, Recorder())
+    text = batch.format_report(report)
+
+    assert "## Readings" in text
+    assert "3 page(s) per model" in text and str(out) in text
+    assert "~~~text" not in text
+
+
+def test_the_appendix_stops_at_its_budget_and_says_how_many_it_dropped(tmp_path):
+    src = make_corpus(tmp_path / "src", ("a.jpg", "b.jpg", "c.jpg"))
+    out = tmp_path / "out"
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out,
+                             Recorder(default=reading(text="x" * 400)))
+
+    with_budget = batch.READINGS_BUDGET_CHARS
+    try:
+        batch.READINGS_BUDGET_CHARS = 500
+        text = batch.format_report(report)
+    finally:
+        batch.READINGS_BUDGET_CHARS = with_budget
+
+    assert "omitted here for length" in text
+    assert str(out) in text
+
+
+def test_the_appendix_fits_inside_what_a_remote_caller_is_handed(tmp_path):
+    """`mcp_atr.server.batch_report` slices report.md at 40 000 characters. An
+    appendix that could exceed that would hand a caller a file cut mid-page with
+    nothing saying so."""
+    assert batch.READINGS_BUDGET_CHARS < 40_000
+
+
+def test_a_run_with_no_output_on_disk_has_no_appendix(tmp_path):
+    src, out = make_corpus(tmp_path / "src", ("a.jpg",)), tmp_path / "out"
+    rec = Recorder(script={("m1", "a"): gateway_error(503)})
+    report = batch.run_batch(batch.discover_pages(src), ["m1"], "run1", out, rec)
+
+    assert "## Readings" not in batch.format_report(report)
