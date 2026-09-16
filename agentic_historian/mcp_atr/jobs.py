@@ -61,6 +61,8 @@ __all__ = [
     "read_log",
     "list_jobs",
     "run_progress",
+    "list_outputs",
+    "read_outputs",
     "start_and_peek",
     "stop",
 ]
@@ -82,6 +84,20 @@ MODEL_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$")
 #: How many models one request may ask for. Each is a full pass over the corpus;
 #: a list of forty is a mistake or an attack, never an intention.
 MAX_MODELS = 8
+
+#: Caps on one read of a run's transcriptions. A page of Kurrent is a couple of
+#: kilobytes, so ten pages travel comfortably — but a caller can name a run of
+#: several thousand, and the answer would then be neither carryable by the broker
+#: nor readable by anyone. Paged instead, with the remainder stated rather than
+#: silently dropped: an answer that stops without saying so is the same failure
+#: as a transcription that stops at the token ceiling and looks complete.
+MAX_READ_PAGES = 25
+MAX_PAGE_CHARS = 20_000
+READ_BUDGET_CHARS = 150_000
+
+#: Keys listed in one inventory. Past this the count is still exact; the names
+#: are not all there, and the reply says so.
+MAX_LISTED_KEYS = 500
 
 
 def jobs_root() -> Path:
@@ -307,6 +323,130 @@ def run_progress(run: Optional[str]) -> dict:
     if report.is_file():
         out["report"] = str(report)
     return out
+
+
+# ── reading a run's transcriptions ───────────────────────────────────────────
+
+def _run_dir(run: str) -> Path:
+    """The run's directory under ``VLM_TEST_ROOT``, or a ``JobError``.
+
+    The name is validated first, so the join cannot leave the root.
+    """
+    directory = Path(config.VLM_TEST_ROOT) / validate_run(run)
+    if not directory.is_dir():
+        raise JobError(f"no run directory for {run!r}")
+    return directory
+
+
+def _model_dir(run: str, model: str) -> Path:
+    directory = _run_dir(run) / validate_models([model])[0]
+    if not directory.is_dir():
+        raise JobError(f"run {run!r} has no output for model {model!r}")
+    return directory
+
+
+def _page_path(directory: Path, key: str) -> Path:
+    """``<key>.txt`` inside ``directory``, or a ``JobError``.
+
+    Keys are filenames the runner chose from the corpus, so they carry whatever
+    the archive's folders carry — spaces, umlauts, parentheses. A charset check
+    would reject real pages, so this checks the thing that actually matters: the
+    *resolved* path has to stay inside the model's directory. That catches
+    ``../`` and a symlink pointing out of it alike, which a regex would not.
+    """
+    root = directory.resolve()
+    candidate = (directory / f"{key}.txt").resolve()
+    if candidate != root and root not in candidate.parents:
+        raise JobError(f"key {key!r} does not name a page in this run")
+    if not candidate.is_file():
+        raise JobError(f"no transcription for key {key!r}")
+    return candidate
+
+
+def _was_truncated(txt_path: Path) -> Optional[bool]:
+    """Whether the model stopped at the token ceiling, from the sibling JSON.
+
+    A page cut off at the ceiling comes back as an ordinary success and reads as
+    a normal transcription until the last line; the flag is the only thing that
+    distinguishes it, so it travels with every text this module hands out.
+    """
+    try:
+        data = json.loads(txt_path.with_suffix(".json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return bool(data.get("truncated"))
+
+
+def list_outputs(run: str, model: Optional[str] = None) -> dict:
+    """What a run holds: per model, how many pages and which keys.
+
+    The inventory a caller needs before asking for text — `read_outputs` pages
+    through the same keys in the same order.
+    """
+    directory = _run_dir(run)
+    wanted = validate_models([model])[0] if model else None
+    models: dict = {}
+    for child in sorted(directory.iterdir()):
+        if not child.is_dir() or (wanted and child.name != wanted):
+            continue
+        keys = sorted(p.stem for p in child.glob("*.txt"))
+        entry: dict = {"pages": len(keys), "keys": keys[:MAX_LISTED_KEYS]}
+        if len(keys) > MAX_LISTED_KEYS:
+            entry["keys_omitted"] = len(keys) - MAX_LISTED_KEYS
+        models[child.name] = entry
+    if wanted and wanted not in models:
+        raise JobError(f"run {run!r} has no output for model {model!r}")
+    out: dict = {"run": run, "run_dir": str(directory), "models": models}
+    extras = sorted(p.name for p in directory.glob("*.*") if p.is_file())
+    if extras:
+        out["run_files"] = extras
+    return out
+
+
+def read_outputs(run: str, model: str, keys: Optional[Sequence[str]] = None,
+                 offset: int = 0, limit: int = 10) -> dict:
+    """The transcriptions themselves, capped and paged.
+
+    Without ``keys`` it walks the model's pages in key order from ``offset``;
+    with them it reads exactly those. Either way the reply says what it left
+    out — how many pages remain, and whether a text was cut to fit — because the
+    caller is usually copying these somewhere else, and a silent gap there
+    becomes a corpus with holes nobody can see.
+    """
+    directory = _model_dir(run, model)
+    limit = max(1, min(int(limit), MAX_READ_PAGES))
+    offset = max(0, int(offset))
+
+    if keys:
+        selected = [str(k) for k in keys][:MAX_READ_PAGES]
+        remaining = 0
+    else:
+        available = sorted(p.stem for p in directory.glob("*.txt"))
+        selected = available[offset:offset + limit]
+        remaining = max(0, len(available) - (offset + len(selected)))
+
+    pages, budget = [], READ_BUDGET_CHARS
+    for index, key in enumerate(selected):
+        path = _page_path(directory, key)
+        text = path.read_text(encoding="utf-8")
+        entry: dict = {"key": key, "chars": len(text),
+                       "truncated_by_model": _was_truncated(path)}
+        room = min(MAX_PAGE_CHARS, budget)
+        if len(text) > room:
+            entry["text"] = text[:room]
+            entry["text_cut"] = True
+        else:
+            entry["text"] = text
+        budget -= len(entry["text"])
+        pages.append(entry)
+        if budget <= 0 and index + 1 < len(selected):
+            remaining += len(selected) - (index + 1)
+            break
+
+    return {"run": run, "model": model, "offset": offset,
+            "returned": len(pages), "remaining": remaining,
+            "next_offset": offset + len(pages) if remaining and not keys else None,
+            "pages": pages}
 
 
 def status(job_id: str) -> Job:

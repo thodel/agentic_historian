@@ -19,6 +19,7 @@ Offline. No gateway, no GPU, no network. Run from the repo root::
     pytest agentic_historian/tests/test_mcp_atr.py
 """
 
+import json
 import os
 import signal
 import sys
@@ -357,3 +358,151 @@ def test_an_optional_static_token_still_has_to_be_long(monkeypatch):
 
     monkeypatch.delenv("ATR_MCP_TOKEN", raising=False)
     assert srv._token() == "", "absent is allowed; OAuth is the other door"
+
+
+# ── reading a run's transcriptions ───────────────────────────────────────────
+
+def _write_run(vlm, run="lassberg", model="modelA", pages=3, text="Hochgeehrter Herr"):
+    directory = vlm / run / model
+    directory.mkdir(parents=True, exist_ok=True)
+    for i in range(pages):
+        (directory / f"p{i}.txt").write_text(f"{text} {i}", encoding="utf-8")
+        (directory / f"p{i}.json").write_text(
+            json.dumps({"schema": 1, "text": f"{text} {i}", "truncated": False}),
+            encoding="utf-8")
+    return directory
+
+
+def test_the_inventory_lists_pages_per_model(sandbox):
+    """What a caller needs before asking for text, and no text in it."""
+    _write_run(config.VLM_TEST_ROOT, pages=3)
+    _write_run(config.VLM_TEST_ROOT, model="modelB", pages=1)
+    (config.VLM_TEST_ROOT / "lassberg" / "report.md").write_text("# report")
+
+    out = jobs.list_outputs("lassberg")
+    assert out["models"]["modelA"]["pages"] == 3
+    assert out["models"]["modelA"]["keys"] == ["p0", "p1", "p2"]
+    assert out["models"]["modelB"]["pages"] == 1
+    assert "report.md" in out["run_files"]
+    assert "text" not in json.dumps(out["models"])
+
+
+def test_the_inventory_can_name_one_model(sandbox):
+    _write_run(config.VLM_TEST_ROOT)
+    _write_run(config.VLM_TEST_ROOT, model="modelB")
+    assert list(jobs.list_outputs("lassberg", "modelA")["models"]) == ["modelA"]
+
+
+def test_a_long_inventory_says_how_many_keys_it_left_out(sandbox, monkeypatch):
+    """The count stays exact even when the names do not all fit."""
+    monkeypatch.setattr(jobs, "MAX_LISTED_KEYS", 2)
+    _write_run(config.VLM_TEST_ROOT, pages=5)
+    entry = jobs.list_outputs("lassberg")["models"]["modelA"]
+    assert entry["pages"] == 5 and len(entry["keys"]) == 2
+    assert entry["keys_omitted"] == 3
+
+
+def test_reading_returns_the_text_and_the_ceiling_flag(sandbox):
+    """`truncated_by_model` travels with every text, because a page cut off at
+    the token ceiling reads as a normal success right up to where it stops."""
+    directory = _write_run(config.VLM_TEST_ROOT, pages=1)
+    (directory / "p0.json").write_text(
+        json.dumps({"schema": 1, "text": "x", "truncated": True}), encoding="utf-8")
+
+    page = jobs.read_outputs("lassberg", "modelA")["pages"][0]
+    assert page["key"] == "p0"
+    assert page["text"] == "Hochgeehrter Herr 0"
+    assert page["truncated_by_model"] is True
+
+
+def test_reading_pages_through_the_run_and_states_the_remainder(sandbox):
+    _write_run(config.VLM_TEST_ROOT, pages=5)
+    first = jobs.read_outputs("lassberg", "modelA", limit=2)
+    assert [p["key"] for p in first["pages"]] == ["p0", "p1"]
+    assert first["remaining"] == 3 and first["next_offset"] == 2
+
+    second = jobs.read_outputs("lassberg", "modelA", offset=first["next_offset"], limit=2)
+    assert [p["key"] for p in second["pages"]] == ["p2", "p3"]
+
+    last = jobs.read_outputs("lassberg", "modelA", offset=4, limit=2)
+    assert [p["key"] for p in last["pages"]] == ["p4"]
+    assert last["remaining"] == 0 and last["next_offset"] is None
+
+
+def test_named_keys_are_read_exactly(sandbox):
+    _write_run(config.VLM_TEST_ROOT, pages=5)
+    out = jobs.read_outputs("lassberg", "modelA", keys=["p3", "p1"])
+    assert [p["key"] for p in out["pages"]] == ["p3", "p1"]
+
+
+def test_a_page_too_long_to_carry_is_cut_and_says_so(sandbox, monkeypatch):
+    """Cut, never silently: the caller is usually copying this somewhere else."""
+    monkeypatch.setattr(jobs, "MAX_PAGE_CHARS", 10)
+    directory = _write_run(config.VLM_TEST_ROOT, pages=1)
+    (directory / "p0.txt").write_text("y" * 50, encoding="utf-8")
+
+    page = jobs.read_outputs("lassberg", "modelA")["pages"][0]
+    assert page["chars"] == 50, "the real length is still reported"
+    assert page["text"] == "y" * 10 and page["text_cut"] is True
+
+
+def test_the_budget_stops_the_reply_and_counts_what_is_left(sandbox, monkeypatch):
+    monkeypatch.setattr(jobs, "READ_BUDGET_CHARS", 25)
+    _write_run(config.VLM_TEST_ROOT, pages=5)
+    out = jobs.read_outputs("lassberg", "modelA", limit=5)
+    assert out["returned"] < 5
+    assert out["returned"] + out["remaining"] == 5
+
+
+def test_a_read_cannot_ask_for_more_pages_than_the_cap(sandbox):
+    _write_run(config.VLM_TEST_ROOT, pages=3)
+    assert jobs.read_outputs("lassberg", "modelA", limit=10_000)["returned"] == 3
+
+
+@pytest.mark.parametrize("key", [
+    "../../../../etc/passwd", "..", "../report", "p0/../../../secret",
+])
+def test_a_key_cannot_climb_out_of_the_model_directory(sandbox, key):
+    """The check is on the resolved path, not the spelling: page keys legitimately
+    carry spaces and umlauts, so a charset test would reject real pages while
+    still having to do this one."""
+    _write_run(config.VLM_TEST_ROOT, pages=1)
+    (config.VLM_TEST_ROOT / "lassberg" / "secret.txt").write_text("not yours")
+
+    with pytest.raises(jobs.JobError):
+        jobs.read_outputs("lassberg", "modelA", keys=[key])
+
+
+def test_a_symlink_out_of_the_run_is_refused_too(sandbox):
+    directory = _write_run(config.VLM_TEST_ROOT, pages=1)
+    outside = sandbox / "outside.txt"
+    outside.write_text("not yours")
+    (directory / "escape.txt").symlink_to(outside)
+
+    with pytest.raises(jobs.JobError):
+        jobs.read_outputs("lassberg", "modelA", keys=["escape"])
+
+
+def test_a_key_with_spaces_and_umlauts_is_read(sandbox):
+    """What the archive's folders actually look like."""
+    directory = _write_run(config.VLM_TEST_ROOT, pages=0)
+    key = "Aarau__Brief an Lassberg (Entwurf)__00002-scan"
+    (directory / f"{key}.txt").write_text("Hochgeehrter Herr", encoding="utf-8")
+
+    out = jobs.read_outputs("lassberg", "modelA", keys=[key])
+    assert out["pages"][0]["text"] == "Hochgeehrter Herr"
+
+
+def test_reading_a_run_or_model_that_is_not_there_explains_which(sandbox):
+    _write_run(config.VLM_TEST_ROOT, pages=1)
+    with pytest.raises(jobs.JobError, match="no run directory"):
+        jobs.read_outputs("never-run", "modelA")
+    with pytest.raises(jobs.JobError, match="no output for model"):
+        jobs.read_outputs("lassberg", "modelZ")
+    with pytest.raises(jobs.JobError, match="no transcription"):
+        jobs.read_outputs("lassberg", "modelA", keys=["p99"])
+
+
+def test_a_run_name_that_climbs_is_refused_before_the_join(sandbox):
+    with pytest.raises(jobs.JobError, match="invalid run name"):
+        jobs.list_outputs("../../etc")
