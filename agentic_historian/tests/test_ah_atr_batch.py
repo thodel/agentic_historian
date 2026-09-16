@@ -199,7 +199,9 @@ def test_an_unknown_model_id_ends_that_model_at_the_first_page(tmp_path):
     rec = Recorder(default=gateway_error(404))
 
     result = batch.run_model(batch.discover_pages(src), "typo", "run1", out, rec, retries=3)
-    assert result.aborted.startswith("fatal on")
+    assert "re-running changes nothing" in result.aborted, \
+        "the report has to say whether a re-run would help"
+    assert "404" in result.aborted, "and what the gateway actually said"
     assert len(rec.calls) == 1, "kept calling after a failure that cannot change"
 
 
@@ -485,3 +487,71 @@ def test_a_negative_sample_is_refused(tmp_path):
 
 def test_neither_flag_still_means_the_whole_corpus(tmp_path):
     assert len(batch.discover_pages(_corpus(tmp_path, documents=3, pages=4))) == 12
+
+
+# ── 503: busy, not broken ────────────────────────────────────────────────────
+#
+# 2026-09-15, the first real batch. A training run held GPU 1, the gateway
+# answered every page with the 503 it was designed to answer with
+# (serving-atr-inference#129 — "nothing is broken, the box is busy, the same
+# request works later"), and the runner spent fifteen requests across five pages
+# discovering what the first reply had already said.
+
+class _Busy(Exception):
+    status_code = 503
+
+
+class _Gone(Exception):
+    status_code = 404
+
+
+class _Wobble(Exception):
+    status_code = 502
+
+
+def test_a_busy_gpu_ends_the_model_at_the_first_page():
+    """Not retryable and not the next page's problem: the claim lasts as long as
+    the training run does."""
+    retryable, fatal = batch.classify_failure(_Busy())
+    assert (retryable, fatal) == (False, True)
+
+
+def test_an_ordinary_5xx_is_still_worth_retrying():
+    """The distinction that makes 503 worth special-casing at all — a gateway
+    loading a model or restarting is exactly what retries are for."""
+    assert batch.classify_failure(_Wobble()) == (True, False)
+
+
+def test_busy_and_gone_end_the_model_and_mean_opposite_things():
+    """Both stop it; one is worth re-running and the other is worth fixing, and a
+    report that says only "abandoned" leaves the reader to guess which."""
+    busy = batch.abandon_reason(_Busy())
+    gone = batch.abandon_reason(_Gone())
+    assert "training run" in busy and "re-run" in busy
+    assert "re-running changes nothing" in gone
+    assert busy != gone
+
+
+def test_the_reason_reaches_the_report(tmp_path):
+    """Through PageOutcome and into `aborted`, which is what report.md prints."""
+    def _always_busy(path, model):
+        raise _Busy()
+
+    pages = [batch.PageRef(path=tmp_path / f"{i}.jpg", doc_id="", key=str(i))
+             for i in range(5)]
+    outcome = batch.run_model(pages, "m", "run", tmp_path, _always_busy, retries=2)
+
+    assert outcome.done == 0
+    assert "training run" in outcome.aborted
+    assert outcome.failed == 1, "one page, not five — the first reply was enough"
+
+
+def test_a_busy_run_leaves_the_pages_re_runnable(tmp_path):
+    """No .json is written for a failure, so the same command picks them all up
+    once the GPU is free. The batch that hit this had ten pages waiting."""
+    def _always_busy(path, model):
+        raise _Busy()
+
+    pages = [batch.PageRef(path=tmp_path / "a.jpg", doc_id="", key="a")]
+    batch.run_model(pages, "m", "run", tmp_path, _always_busy, retries=1)
+    assert list((tmp_path / "m").glob("*.json")) == []
