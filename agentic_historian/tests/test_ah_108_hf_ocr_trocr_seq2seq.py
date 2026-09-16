@@ -55,6 +55,29 @@ from agent_a.models import HFModel
 from agent_a.models import hf_model_for_lang as _real_hf_model_for_lang
 
 
+@pytest.fixture(scope="module", autouse=True)
+def _hand_back_the_real_libraries():
+    """Undo the ``sys.modules`` stubs when this module is finished.
+
+    They are installed at import time because the module under test imports
+    torch, transformers and PIL at *its* import time, and this suite must run
+    without any of them. Leaving the **PIL** stub in ``sys.modules`` afterwards
+    is the part that was wrong: every later test in the session then saw a
+    ``MagicMock`` where it expected Pillow, and nothing said so — an image
+    conversion "succeeded" while writing no file at all, and the failure
+    surfaced three frames later as a rename of something that was never there.
+
+    Only PIL is handed back. Pillow is installed and real code uses it, so a
+    stub of it is actively misleading; torch and transformers are not installed
+    in CI at all, and sibling modules (``test_ah_235_tocr_segmentation``) install
+    their torch stub only ``if "torch" not in sys.modules`` — removing it here
+    takes it away from tests that were relying on it being there.
+    """
+    yield
+    for name in ("PIL", "PIL.Image"):
+        sys.modules.pop(name, None)
+
+
 # ── Mock instances (module-level so they persist across tests) ─────────────────
 
 # model.to(device) must return itself so the model is still usable after .to()

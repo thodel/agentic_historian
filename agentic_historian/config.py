@@ -312,6 +312,12 @@ NEXTCLOUD_TIMEOUT = float(_get("NEXTCLOUD_TIMEOUT", "120"))
 # quietly missing pages.
 NEXTCLOUD_LS_ATTEMPTS = int(_get("NEXTCLOUD_LS_ATTEMPTS", "3"))
 
+#: Convert archival scans to a JPEG working copy as they are mirrored. The
+#: Lassberg digitisations are uncompressed TIFF — 25 MB a page, ~160 GB for the
+#: share against the 92 GB tei has — and the first full pull filled the disk at
+#: page 899. Full resolution is kept; only the encoding changes.
+NEXTCLOUD_CONVERT = _get("NEXTCLOUD_CONVERT", "true").lower() not in ("0", "false", "no")
+
 # ── Batch ATR (atr_batch.py) ─────────────────────────────────────────────────
 # Root for model-comparison runs: <VLM_TEST_ROOT>/<run>/<model id>/.
 VLM_TEST_ROOT = Path(_get("VLM_TEST_ROOT", str(DATA_DIR / "vlm_test")))

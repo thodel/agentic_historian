@@ -76,6 +76,53 @@ def pull_share(args: argparse.Namespace) -> int:
     return 0 if files else 1
 
 
+def convert_mirror(args: argparse.Namespace) -> int:
+    """Re-encode archival scans already in the mirror as JPEG working copies.
+
+    For a mirror pulled before conversion existed. ``pull-share`` converts on
+    ingest now, but it cannot help with what is already on disk: re-fetching
+    those pages is exactly the transfer the conversion is meant to avoid, and on
+    a full disk it cannot happen at all.
+    """
+    from utils import images
+
+    root = Path(args.root) if args.root else config.NEXTCLOUD_STAGING_DIR
+    if not root.is_dir():
+        print(f"Error: not a directory: {root}", file=sys.stderr)
+        return 2
+
+    quality = args.quality or images.WORKING_QUALITY
+    sources = sorted(p for p in root.rglob("*") if p.is_file() and images.needs_conversion(p))
+    if not sources:
+        print(f"Nothing to convert under {root}")
+        return 0
+
+    before = sum(p.stat().st_size for p in sources)
+    print(f"{len(sources)} file(s), {before / 1e9:.2f} GB under {root}")
+    if args.dry_run:
+        print("Dry run — nothing written.")
+        return 0
+
+    converted = failed = 0
+    after = 0
+    for index, src in enumerate(sources, start=1):
+        size = src.stat().st_size
+        dest = images.convert_file(src, quality=quality, remove_source=True)
+        if dest is None:
+            failed += 1
+            after += size
+            continue
+        converted += 1
+        after += dest.stat().st_size
+        if index % 50 == 0:
+            print(f"  {index}/{len(sources)} … {after / 1e9:.2f} GB written so far")
+
+    freed = before - after
+    print(f"{converted} converted, {failed} failed — "
+          f"{before / 1e9:.2f} GB → {after / 1e9:.2f} GB, {freed / 1e9:.2f} GB freed")
+    return 0 if not failed else 1
+
+
 def atr_batch(args: argparse.Namespace) -> int:
     """Read every page under --source with every --models entry, model-major."""
     import atr_batch as batch
@@ -186,6 +233,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_pull.add_argument("--list", action="store_true",
                         help="List what is in the share and exit, without downloading")
     p_pull.set_defaults(func=pull_share)
+
+    p_conv = sub.add_parser(
+        "convert-mirror",
+        help="Re-encode archival TIFFs already in the mirror as JPEG working copies")
+    p_conv.add_argument("--root", help="Directory to walk (default: NEXTCLOUD_STAGING_DIR)")
+    p_conv.add_argument("--quality", type=int, default=None,
+                        help="JPEG quality (default: 85)")
+    p_conv.add_argument("--dry-run", action="store_true",
+                        help="Report what would be converted and exit")
+    p_conv.set_defaults(func=convert_mirror)
 
     p_batch = sub.add_parser(
         "atr-batch",
