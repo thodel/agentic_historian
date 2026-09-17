@@ -298,13 +298,38 @@ def open_pr(head_branch: str, title: str, body: str, *,
             repo: Optional[str] = None, base: str = "main",
             session: Optional[requests.Session] = None) -> Optional[str]:
     """Open a pull request ``head_branch`` → ``base`` on ``repo``. Returns the
-    PR html_url. Used by /mcp_propose (#229) after committing the source patch."""
+    PR html_url. Used by /mcp_propose (#229) after committing the source patch.
+
+    ``head_branch`` may be ``owner:branch`` to propose from a fork.
+
+    An open PR for the same head is **returned rather than an error**. A batch
+    that grows — more pages recognised, then published again — should land in the
+    one pull request its earlier commits are already in; GitHub answers the second
+    attempt with a 422, and treating that as a failure would report a successful
+    publish as a broken one.
+    """
     repo = repo or config.GITHUB_CODE_REPO
     s = session or _session()
     r = s.post(f"{_API}/repos/{repo}/pulls", timeout=_TIMEOUT,
                json={"title": title, "head": head_branch, "base": base, "body": body})
+    if r.status_code == 422:
+        existing = _find_pr(repo, head_branch, s)
+        if existing:
+            logger.info(f"[Publish] pull request for {head_branch} already open: {existing}")
+            return existing
     r.raise_for_status()
     return r.json().get("html_url")
+
+
+def _find_pr(repo: str, head_branch: str, session: requests.Session) -> Optional[str]:
+    """The open PR whose head is ``head_branch`` (``owner:branch``), if any."""
+    head = head_branch if ":" in head_branch else f"{repo.split('/')[0]}:{head_branch}"
+    r = session.get(f"{_API}/repos/{repo}/pulls", timeout=_TIMEOUT,
+                    params={"head": head, "state": "open"})
+    if r.status_code != 200:
+        return None
+    items = r.json()
+    return items[0].get("html_url") if items else None
 
 
 def publish_doc(doc_id: str, source_url: Optional[str] = None,
@@ -367,30 +392,12 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
 PUBLISHABLE_SUFFIXES = frozenset({".txt", ".json", ".md", ".jsonl", ".csv", ".xml"})
 
 
-def publish_tree(local_dir: Path, *, repo: str, path_prefix: str,
-                 branch: str = "main", message: str = "Publish outputs",
-                 suffixes: frozenset[str] = PUBLISHABLE_SUFFIXES,
-                 chunk: int = 200,
-                 session: Optional[requests.Session] = None) -> list[str]:
-    """Commit every publishable file under ``local_dir`` to ``repo`` at
-    ``path_prefix/``, preserving the tree. Returns the commit URLs.
+def collect_tree(local_dir: Path, path_prefix: str,
+                 suffixes: frozenset[str] = PUBLISHABLE_SUFFIXES) -> dict[str, bytes]:
+    """``{remote path: bytes}`` for everything publishable under ``local_dir``.
 
-    Unlike :func:`publish_doc` this is **not** gated on ``ENABLE_GITHUB_PUBLISH``:
-    that flag exists so the pipeline does not publish as a side effect of
-    processing. Calling this is not a side effect of anything — it is someone
-    asking for these files to be pushed — so the only precondition is a token.
-
-    Large trees are split into several commits of at most ``chunk`` files. One
-    commit would be tidier, and it is not worth it: each file costs a blob API
-    call, so a thousand-file tree is a thousand requests, and a failure at request
-    900 of a single commit publishes nothing at all. Chunked, the same failure
-    leaves the completed chunks published and the rest to retry — and re-running
-    is safe, because a chunk that rewrites identical bytes produces an empty tree
-    delta rather than a duplicate.
-
-    Raises on a failed API call. This is an explicit, outward-facing action; a
-    publish that quietly published half a run and returned would be worse than one
-    that stops and says where it stopped.
+    Shared by the two ways a run reaches a repository — a direct commit and a
+    pull request — so they cannot disagree about what a publish contains.
     """
     local_dir = Path(local_dir)
     if not local_dir.is_dir():
@@ -417,6 +424,36 @@ def publish_tree(local_dir: Path, *, repo: str, path_prefix: str,
         )
     if not files:
         logger.warning(f"[Publish] nothing publishable under {local_dir}")
+    return files
+
+
+def publish_tree(local_dir: Path, *, repo: str, path_prefix: str,
+                 branch: str = "main", message: str = "Publish outputs",
+                 suffixes: frozenset[str] = PUBLISHABLE_SUFFIXES,
+                 chunk: int = 200,
+                 session: Optional[requests.Session] = None) -> list[str]:
+    """Commit every publishable file under ``local_dir`` to ``repo`` at
+    ``path_prefix/``, preserving the tree. Returns the commit URLs.
+
+    Unlike :func:`publish_doc` this is **not** gated on ``ENABLE_GITHUB_PUBLISH``:
+    that flag exists so the pipeline does not publish as a side effect of
+    processing. Calling this is not a side effect of anything — it is someone
+    asking for these files to be pushed — so the only precondition is a token.
+
+    Large trees are split into several commits of at most ``chunk`` files. One
+    commit would be tidier, and it is not worth it: each file costs a blob API
+    call, so a thousand-file tree is a thousand requests, and a failure at request
+    900 of a single commit publishes nothing at all. Chunked, the same failure
+    leaves the completed chunks published and the rest to retry — and re-running
+    is safe, because a chunk that rewrites identical bytes produces an empty tree
+    delta rather than a duplicate.
+
+    Raises on a failed API call. This is an explicit, outward-facing action; a
+    publish that quietly published half a run and returned would be worse than one
+    that stops and says where it stopped.
+    """
+    files = collect_tree(local_dir, path_prefix, suffixes)
+    if not files:
         return []
 
     paths = sorted(files)
@@ -431,3 +468,126 @@ def publish_tree(local_dir: Path, *, repo: str, path_prefix: str,
         if url:
             urls.append(url)
     return urls
+
+
+# ── publishing as a pull request (#lassberg) ─────────────────────────────────
+
+def _branch_ref(repo: str, branch: str, session: requests.Session) -> Optional[str]:
+    """The sha ``branch`` points at in ``repo``, or None when it does not exist."""
+    r = session.get(f"{_API}/repos/{repo}/git/ref/heads/{branch}", timeout=_TIMEOUT)
+    if r.status_code == 404:
+        return None
+    r.raise_for_status()
+    return r.json()["object"]["sha"]
+
+
+def _fork_branch_at_upstream(head_repo: str, branch: str, upstream_sha: str,
+                             session: requests.Session) -> str:
+    """Make ``branch`` exist in ``head_repo``, starting at ``upstream_sha``.
+
+    Branching off the **upstream's** head rather than the fork's own default
+    branch is the whole trick. A fork that has not been synced for a while has a
+    stale ``main``, and a pull request from a branch off that stale main shows
+    every upstream commit since as a deletion — a two-file publish arrives
+    looking like it reverts a month of somebody else's work. A fork shares its
+    parent's object store, so a ref in the fork can point straight at an upstream
+    commit, and the pull request then contains exactly the files this publish
+    wrote.
+
+    An existing branch is left alone and returned: a run that grows should add
+    commits to the pull request it already has, not open a second one.
+    """
+    existing = _branch_ref(head_repo, branch, session)
+    if existing:
+        return existing
+    r = session.post(f"{_API}/repos/{head_repo}/git/refs", timeout=_TIMEOUT,
+                     json={"ref": f"refs/heads/{branch}", "sha": upstream_sha})
+    r.raise_for_status()
+    return upstream_sha
+
+
+def _pr_body(local_dir: Path, files: dict[str, bytes], path_prefix: str) -> str:
+    """What the pull request says about the run that produced it.
+
+    The run's own ``report.md`` is the description — it already states what each
+    model produced, what it cost, how many pages were cut off and how many came
+    back empty, along with the standing warning that none of those columns is
+    quality. Restating it in the pull request would be a second version of the
+    same numbers, free to drift from the first.
+    """
+    report = local_dir / "report.md"
+    lines = [
+        f"Machine transcription of {len(files)} file(s) under `{path_prefix}/`, "
+        f"from run `{local_dir.name}`.",
+        "",
+        "Produced by [agentic_historian](https://github.com/thodel/agentic_historian) "
+        "`atr-batch`. Two files per page: `<page>.txt` is the transcription alone, "
+        "`<page>.json` adds timings, the engine that answered, the per-line readings "
+        "with their geometry, and the **sha256 of the source scan** the reading came "
+        "from. The scans themselves are not in this pull request and are not in this "
+        "repository — they stay in the Nextcloud share.",
+        "",
+        "**This is uncorrected machine output.** It has not been proofread against "
+        "the originals and it is not an edition.",
+    ]
+    if report.exists():
+        try:
+            lines += ["", "---", "", report.read_text(encoding="utf-8").strip()]
+        except OSError:
+            pass
+    return "\n".join(lines) + "\n"
+
+
+def publish_pr(local_dir: Path, *, repo: str, path_prefix: str,
+               head_repo: Optional[str] = None, base: str = "main",
+               branch: Optional[str] = None, title: Optional[str] = None,
+               body: Optional[str] = None, message: Optional[str] = None,
+               suffixes: frozenset[str] = PUBLISHABLE_SUFFIXES,
+               chunk: int = 200,
+               session: Optional[requests.Session] = None) -> dict:
+    """Publish a run directory to ``repo`` as a **pull request**, not a push.
+
+    The readings go to somebody else's repository, and the edition's maintainer
+    decides what enters it — a token with write access would work and would make
+    that decision for them. Proposing instead needs no rights on ``repo`` at all:
+    the commits land in ``head_repo`` (a fork we do own) and the pull request asks.
+
+    Returns ``{"branch", "head", "files", "commits", "pull_request"}``. Re-running
+    with the same ``branch`` adds to the same pull request rather than opening a
+    second one, which is what makes "publish once everything is collected" safe to
+    run twice — a corpus that gains pages is published again, not restarted.
+    """
+    local_dir = Path(local_dir)
+    files = collect_tree(local_dir, path_prefix, suffixes)
+    if not files:
+        return {"branch": None, "head": None, "files": 0, "commits": [],
+                "pull_request": None}
+
+    head_repo = head_repo or repo
+    branch = branch or f"textrecognition/{local_dir.name}"
+    s = session or _session()
+
+    upstream = _branch_ref(repo, base, s)
+    if not upstream:
+        raise RuntimeError(f"{repo} has no branch {base!r} to propose against")
+    _fork_branch_at_upstream(head_repo, branch, upstream, s)
+
+    paths = sorted(files)
+    batches = [paths[i:i + chunk] for i in range(0, len(paths), chunk)]
+    urls: list[str] = []
+    msg = message or f"Add machine transcription: {local_dir.name}"
+    for n, batch in enumerate(batches, 1):
+        part = f" ({n}/{len(batches)})" if len(batches) > 1 else ""
+        url = _commit_files({p: files[p] for p in batch}, f"{msg}{part}",
+                            session=s, repo=head_repo, branch=branch)
+        logger.info(f"[Publish] {head_repo}@{branch}: {len(batch)} file(s){part} → {url}")
+        if url:
+            urls.append(url)
+
+    head = branch if head_repo == repo else f"{head_repo.split('/')[0]}:{branch}"
+    pr = open_pr(head, title or f"Machine transcription: {local_dir.name}",
+                 body or _pr_body(local_dir, files, path_prefix.strip("/")),
+                 repo=repo, base=base, session=s)
+    logger.info(f"[Publish] {len(files)} file(s) proposed to {repo}: {pr}")
+    return {"branch": branch, "head": head, "files": len(files),
+            "commits": urls, "pull_request": pr}

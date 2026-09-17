@@ -146,18 +146,20 @@ def _cli():
     return mod
 
 
-def test_publish_batch_defaults_to_the_lassberg_text_repo(commits, tmp_path):
+def test_publish_batch_push_uses_the_configured_destination(commits, tmp_path):
     """Recognised text has exactly one home, and it is named in config.
 
     The scans stay in the Nextcloud share — mounted, never copied into git — and
     the readings go to the edition repository. Requiring ``--repo`` on every
     publish meant the destination lived in whoever's shell history ran it last.
+    (``--push`` is the direct-commit path; the default is a pull request, covered
+    in ``test_ah_publish_pr.py``.)
     """
     mod = _cli()
 
     run_dir = make_run(tmp_path / "atr_trocr_corpus")
     args = mod.build_parser().parse_args(
-        ["publish-batch", "--run-dir", str(run_dir)])
+        ["publish-batch", "--run-dir", str(run_dir), "--push"])
     assert mod.publish_batch(args) == 0
 
     assert commits, "nothing was published"
@@ -171,7 +173,7 @@ def test_publish_batch_still_takes_an_explicit_destination(commits, tmp_path):
 
     run_dir = make_run(tmp_path / "run")
     args = mod.build_parser().parse_args([
-        "publish-batch", "--run-dir", str(run_dir),
+        "publish-batch", "--run-dir", str(run_dir), "--push",
         "--repo", "someone/else", "--path", "elsewhere", "--branch", "wip",
     ])
     assert mod.publish_batch(args) == 0
