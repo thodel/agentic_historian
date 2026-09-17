@@ -123,10 +123,15 @@ To git, and only to git:
     --run-dir agentic_historian/data/vlm_test/atr_trocr_corpus
 ```
 
-→ [`michaelscho/lassberg`](https://github.com/michaelscho/lassberg/tree/main/data)
-`main`, under `data/textrecognition/<model id>/`, one `.txt` and one `.json` per
-page. Needs `GITHUB_TOKEN` with `contents: write` on that repository in tei's
-`.env`.
+This opens a **pull request** against
+[`michaelscho/lassberg`](https://github.com/michaelscho/lassberg/tree/main/data)
+`main`, adding `data/textrecognition/<model id>/` — one `.txt` and one `.json` per
+page. The commits go to our fork `thodel/lassberg`, so tei's `GITHUB_TOKEN` needs
+`contents: write` on **the fork only**; nothing is written to the edition
+repository until its maintainer merges.
+
+Run it again after more pages are recognised and the new files join the same pull
+request.
 
 Nothing is written back to the Nextcloud. The mount is read-only by design, and
 the division is the point: the share holds the scans, the repository holds the

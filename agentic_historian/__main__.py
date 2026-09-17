@@ -195,25 +195,49 @@ def atr_batch(args: argparse.Namespace) -> int:
 
 
 def publish_batch(args: argparse.Namespace) -> int:
-    """Publish a finished run directory to a GitHub repository."""
-    from utils.publish_github import publish_tree
+    """Propose a finished run directory to a GitHub repository as a pull request.
+
+    A pull request rather than a push, because the edition repository is somebody
+    else's and its maintainer decides what enters it. The commits land in our own
+    fork, so this needs no write access to the target at all. ``--push`` is the
+    old behaviour, for a repository we do own.
+    """
+    from utils.publish_github import publish_pr, publish_tree
 
     run_dir = Path(args.run_dir).resolve()
     repo = args.repo or config.GITHUB_TEXT_REPO
     path = args.path if args.path is not None else config.GITHUB_TEXT_PATH
-    branch = args.branch or config.GITHUB_TEXT_BRANCH
-    print(f"publishing {run_dir} → {repo}@{branch}:{path or '/'}")
+    base = args.base or config.GITHUB_TEXT_BRANCH
+
     try:
-        urls = publish_tree(
-            run_dir, repo=repo, path_prefix=path, branch=branch,
-            message=args.message or f"Add ATR outputs: {run_dir.name}",
+        if args.push:
+            branch = args.branch or base
+            print(f"publishing {run_dir} → {repo}@{branch}:{path or '/'}")
+            urls = publish_tree(
+                run_dir, repo=repo, path_prefix=path, branch=branch,
+                message=args.message or f"Add ATR outputs: {run_dir.name}",
+            )
+            for url in urls:
+                print(url)
+            return 0 if urls else 1
+
+        fork = args.fork or config.GITHUB_TEXT_FORK or repo
+        print(f"proposing {run_dir} → {repo}@{base}:{path or '/'}  (via {fork})")
+        result = publish_pr(
+            run_dir, repo=repo, path_prefix=path, head_repo=fork, base=base,
+            branch=args.branch, message=args.message,
         )
     except Exception as exc:  # noqa: BLE001 — a CLI reports, it does not traceback
         print(f"Error: publish failed: {exc}", file=sys.stderr)
         return 1
-    for url in urls:
-        print(url)
-    return 0 if urls else 1
+
+    if not result["files"]:
+        print(f"Error: nothing publishable under {run_dir}", file=sys.stderr)
+        return 1
+    print(f"{result['files']} file(s) on {result['head']} "
+          f"in {len(result['commits'])} commit(s)")
+    print(result["pull_request"] or "(no pull request URL returned)")
+    return 0 if result["pull_request"] else 1
 
 
 def batch_seed() -> int:
@@ -291,13 +315,24 @@ def build_parser() -> argparse.ArgumentParser:
                          help="Print the plan (pages, models, calls) and exit")
     p_batch.set_defaults(func=atr_batch)
 
-    p_pub = sub.add_parser("publish-batch", help="Publish a run directory to a GitHub repo")
+    p_pub = sub.add_parser("publish-batch",
+                           help="Propose a run directory to a GitHub repo as a PR")
     p_pub.add_argument("--run-dir", required=True, help="The run directory to publish")
     p_pub.add_argument("--repo", help=f"owner/name (default: {config.GITHUB_TEXT_REPO})")
     p_pub.add_argument("--path",
                        help="Path prefix inside the repo "
                             f"(default: {config.GITHUB_TEXT_PATH})")
-    p_pub.add_argument("--branch", help=f"default: {config.GITHUB_TEXT_BRANCH}")
+    p_pub.add_argument("--base", help="Branch the pull request targets "
+                                      f"(default: {config.GITHUB_TEXT_BRANCH})")
+    p_pub.add_argument("--fork", help="Repository the commits land in "
+                                      f"(default: {config.GITHUB_TEXT_FORK})")
+    p_pub.add_argument("--branch", help="Branch to commit to "
+                                        "(default: textrecognition/<run>). "
+                                        "Re-running with the same one adds to the "
+                                        "same pull request.")
+    p_pub.add_argument("--push", action="store_true",
+                       help="Commit straight to --branch instead of opening a "
+                            "pull request. Needs write access to --repo.")
     p_pub.add_argument("--message", help="Commit message")
     p_pub.set_defaults(func=publish_batch)
 

@@ -77,6 +77,11 @@ GITHUB_CODE_BRANCH = _get("GITHUB_CODE_BRANCH", "main")
 GITHUB_TEXT_REPO = _get("GITHUB_TEXT_REPO", "michaelscho/lassberg")
 GITHUB_TEXT_BRANCH = _get("GITHUB_TEXT_BRANCH", "main")
 GITHUB_TEXT_PATH = _get("GITHUB_TEXT_PATH", "data/textrecognition")
+# The fork the commits land in. The edition is somebody else's repository and its
+# maintainer decides what enters it: `publish-batch` proposes a pull request from
+# here instead of pushing, which needs no write access to GITHUB_TEXT_REPO at all.
+# Set it equal to GITHUB_TEXT_REPO to branch inside the repository itself.
+GITHUB_TEXT_FORK = _get("GITHUB_TEXT_FORK", "thodel/lassberg")
 # Base URL for the source image of a published doc (#208). If set, each doc's
 # page links back to "<SOURCE_URL_BASE>/<filename>" — point it at a SwitchDrive
 # share, a IIIF image server, or any public mirror. Empty = no source link.

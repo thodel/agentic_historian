@@ -241,12 +241,29 @@ tmux new -s atr
 
 ```bash
 python -m agentic_historian publish-batch --run-dir $VLM_TEST_ROOT/atr_test_lassberg
+# → thodel/lassberg  textrecognition/atr_test_lassberg
+# → pull request against michaelscho/lassberg  main
 ```
 
-Recognised text has one home and it is named in `config.py`, not in the command:
+A **pull request, not a push.** The edition repository is somebody else's and its
+maintainer decides what enters it; a token with write access would work and would
+make that decision for them. The commits land in our own fork
+(`GITHUB_TEXT_FORK`), so this needs no rights on the target repository at all.
+
+The branch is cut from the **upstream's** head, not the fork's. A fork that has
+not been synced for a while has a stale `main`, and a pull request from a branch
+off that stale main shows every upstream commit since as a deletion — a two-file
+publish arriving as a mass revert of somebody else's month.
+
+Destination and layout are in `config.py`, not in the command:
 [`michaelscho/lassberg`](https://github.com/michaelscho/lassberg/tree/main/data)
-on `main`, under `data/textrecognition/<model id>/`. `--repo`, `--path` and
-`--branch` still override it for a one-off.
+`main`, under `data/textrecognition/<model id>/`. `--repo`, `--path`, `--base` and
+`--fork` override for a one-off; `--push` commits directly, for a repository we
+do own.
+
+**Safe to run twice.** Re-running with the same branch adds commits to the pull
+request that is already open rather than starting a second one — so "publish once
+everything is collected" survives a corpus that gains pages afterwards.
 
 The two halves of the corpus live in different places on purpose. The scans stay
 in the Nextcloud share — mounted, never copied into git — and only the readings
@@ -257,7 +274,8 @@ Text only. `publish_tree` works from an allowlist of suffixes
 themselves are never committed, and a format nobody anticipated is left out
 rather than pushed to a public repository.
 
-Needs `GITHUB_TOKEN` with `contents: write` on the target repo. Large trees are
+Needs `GITHUB_TOKEN` with `contents: write` on **the fork** — not on the target.
+Large trees are
 split into commits of 200 files: one commit would be tidier, and a failure at
 file 900 of a single commit publishes nothing at all. Re-running is safe — a
 chunk that rewrites identical bytes is an empty diff.
@@ -310,7 +328,8 @@ Two cautions if you go there with these models:
 | `NEXTCLOUD_STAGING_DIR` | `data/nextcloud` | where the mirror lands |
 | `ATR_PAGE_CACHE` | — | default `--cache-dir`; empty = read pages where they are |
 | `GITHUB_TEXT_REPO` | `michaelscho/lassberg` | where recognised text is published |
-| `GITHUB_TEXT_BRANCH` | `main` | branch published to |
+| `GITHUB_TEXT_BRANCH` | `main` | branch the pull request targets |
+| `GITHUB_TEXT_FORK` | `thodel/lassberg` | where the commits land; set equal to the repo to branch inside it |
 | `GITHUB_TEXT_PATH` | `data/textrecognition` | path prefix inside that repo |
 | `VLM_TEST_ROOT` | `data/vlm_test` | root for comparison runs |
 | `ATR_BATCH_PAGE_CONCURRENCY` | `1` | pages in flight per model |
