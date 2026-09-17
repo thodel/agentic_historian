@@ -148,10 +148,12 @@ def atr_batch(args: argparse.Namespace) -> int:
         return 1
 
     out_root = Path(args.out_root) if args.out_root else config.VLM_TEST_ROOT / args.run
+    cache_dir = Path(args.cache_dir).resolve() if args.cache_dir else None
 
     if args.dry_run:
         print(f"run       : {args.run}")
         print(f"source    : {source}")
+        print(f"cache     : {cache_dir or '(none — pages are read where they are)'}")
         print(f"out       : {out_root}")
         print(f"gateway   : {config.ATR_GATEWAY_URL}")
         print(f"pages     : {len(pages)}"
@@ -164,11 +166,17 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"  … {len(pages) - 5} more")
         return 0
 
+    cache = None
+    if cache_dir:
+        from utils.images import PageCache
+
+        cache = PageCache(source, cache_dir)
+
     recognise = batch.gateway_recogniser()
     try:
         report = batch.run_batch(
             pages, models, args.run, out_root, recognise,
-            retries=args.retries, concurrency=args.concurrency,
+            retries=args.retries, concurrency=args.concurrency, cache=cache,
         )
     finally:
         close = getattr(recognise, "close", None)
@@ -177,6 +185,9 @@ def atr_batch(args: argparse.Namespace) -> int:
 
     path = batch.write_report(report)
     print(batch.format_report(report))
+    if cache is not None:
+        print(f"cache: {cache.hits} hit(s), {cache.misses} fetched "
+              f"({cache.source_bytes / 1e9:.1f} GB read from {source})")
     print(f"report: {path}")
     # A model that was abandoned is a failed run even though the others finished:
     # the exit code is what a wrapper script reads, and it must not say "fine".
@@ -188,9 +199,13 @@ def publish_batch(args: argparse.Namespace) -> int:
     from utils.publish_github import publish_tree
 
     run_dir = Path(args.run_dir).resolve()
+    repo = args.repo or config.GITHUB_TEXT_REPO
+    path = args.path if args.path is not None else config.GITHUB_TEXT_PATH
+    branch = args.branch or config.GITHUB_TEXT_BRANCH
+    print(f"publishing {run_dir} → {repo}@{branch}:{path or '/'}")
     try:
         urls = publish_tree(
-            run_dir, repo=args.repo, path_prefix=args.path, branch=args.branch,
+            run_dir, repo=repo, path_prefix=path, branch=branch,
             message=args.message or f"Add ATR outputs: {run_dir.name}",
         )
     except Exception as exc:  # noqa: BLE001 — a CLI reports, it does not traceback
@@ -266,15 +281,23 @@ def build_parser() -> argparse.ArgumentParser:
                               "parallelises the lines of one page)")
     p_batch.add_argument("--retries", type=int, default=config.ATR_BATCH_RETRIES,
                          help="Retries per page for timeouts and 5xx")
+    p_batch.add_argument("--cache-dir", default=str(config.ATR_PAGE_CACHE)
+                         if config.ATR_PAGE_CACHE else None,
+                         help="Keep a local JPEG working copy of every page here. "
+                              "Use it when --source is a mounted share: each page "
+                              "then crosses the network once instead of once per "
+                              "model. Omit for a corpus already on local disk.")
     p_batch.add_argument("--dry-run", action="store_true",
                          help="Print the plan (pages, models, calls) and exit")
     p_batch.set_defaults(func=atr_batch)
 
     p_pub = sub.add_parser("publish-batch", help="Publish a run directory to a GitHub repo")
     p_pub.add_argument("--run-dir", required=True, help="The run directory to publish")
-    p_pub.add_argument("--repo", required=True, help="owner/name")
-    p_pub.add_argument("--path", required=True, help="Path prefix inside the repo")
-    p_pub.add_argument("--branch", default="main")
+    p_pub.add_argument("--repo", help=f"owner/name (default: {config.GITHUB_TEXT_REPO})")
+    p_pub.add_argument("--path",
+                       help="Path prefix inside the repo "
+                            f"(default: {config.GITHUB_TEXT_PATH})")
+    p_pub.add_argument("--branch", help=f"default: {config.GITHUB_TEXT_BRANCH}")
     p_pub.add_argument("--message", help="Commit message")
     p_pub.set_defaults(func=publish_batch)
 

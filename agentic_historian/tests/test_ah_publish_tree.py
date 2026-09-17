@@ -128,3 +128,54 @@ def test_a_directory_with_nothing_publishable_commits_nothing(commits, tmp_path)
 def test_a_missing_run_directory_says_so(commits, tmp_path):
     with pytest.raises(FileNotFoundError):
         pub.publish_tree(tmp_path / "nope", repo="owner/name", path_prefix="p")
+
+
+# ── the destination is a decision, not a command-line argument (#lassberg) ────
+
+def _cli():
+    """The CLI module, loaded by path.
+
+    ``__main__.py`` is not importable by name from inside the package — it *is*
+    the entry point — so it is loaded from its file, the way ``python -m`` would.
+    """
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("ah_cli", PKG / "__main__.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_publish_batch_defaults_to_the_lassberg_text_repo(commits, tmp_path):
+    """Recognised text has exactly one home, and it is named in config.
+
+    The scans stay in the Nextcloud share — mounted, never copied into git — and
+    the readings go to the edition repository. Requiring ``--repo`` on every
+    publish meant the destination lived in whoever's shell history ran it last.
+    """
+    mod = _cli()
+
+    run_dir = make_run(tmp_path / "atr_trocr_corpus")
+    args = mod.build_parser().parse_args(
+        ["publish-batch", "--run-dir", str(run_dir)])
+    assert mod.publish_batch(args) == 0
+
+    assert commits, "nothing was published"
+    assert commits[0]["repo"] == config.GITHUB_TEXT_REPO == "michaelscho/lassberg"
+    assert commits[0]["branch"] == "main"
+    assert all(p.startswith("data/textrecognition/") for p in commits[0]["files"])
+
+
+def test_publish_batch_still_takes_an_explicit_destination(commits, tmp_path):
+    mod = _cli()
+
+    run_dir = make_run(tmp_path / "run")
+    args = mod.build_parser().parse_args([
+        "publish-batch", "--run-dir", str(run_dir),
+        "--repo", "someone/else", "--path", "elsewhere", "--branch", "wip",
+    ])
+    assert mod.publish_batch(args) == 0
+
+    assert commits[0]["repo"] == "someone/else"
+    assert commits[0]["branch"] == "wip"
+    assert all(p.startswith("elsewhere/") for p in commits[0]["files"])
