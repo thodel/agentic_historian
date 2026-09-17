@@ -67,6 +67,16 @@ ENABLE_GITHUB_PUBLISH = _get("ENABLE_GITHUB_PUBLISH", "false").lower() == "true"
 # This code repo — where /mcp_propose opens a reviewed PR adding a source (#229).
 GITHUB_CODE_REPO = _get("GITHUB_CODE_REPO", "thodel/agentic_historian")
 GITHUB_CODE_BRANCH = _get("GITHUB_CODE_BRANCH", "main")
+
+# ── Where recognised text goes ───────────────────────────────────────────────
+# One destination, named here rather than retyped into every publish command:
+# the Lassberg edition repository. The scans stay in the Nextcloud share (which
+# is mounted, not copied) and the readings are published to git — the two halves
+# of the corpus live in different places on purpose, and only the text half is
+# ours to distribute. `publish-batch` defaults to these and takes overrides.
+GITHUB_TEXT_REPO = _get("GITHUB_TEXT_REPO", "michaelscho/lassberg")
+GITHUB_TEXT_BRANCH = _get("GITHUB_TEXT_BRANCH", "main")
+GITHUB_TEXT_PATH = _get("GITHUB_TEXT_PATH", "data/textrecognition")
 # Base URL for the source image of a published doc (#208). If set, each doc's
 # page links back to "<SOURCE_URL_BASE>/<filename>" — point it at a SwitchDrive
 # share, a IIIF image server, or any public mirror. Empty = no source link.
@@ -317,6 +327,16 @@ NEXTCLOUD_LS_ATTEMPTS = int(_get("NEXTCLOUD_LS_ATTEMPTS", "3"))
 #: share against the 92 GB tei has — and the first full pull filled the disk at
 #: page 899. Full resolution is kept; only the encoding changes.
 NEXTCLOUD_CONVERT = _get("NEXTCLOUD_CONVERT", "true").lower() not in ("0", "false", "no")
+
+#: Where working copies of pages read off a **mounted** share are kept.
+#:
+#: Mirroring the share to tei is no longer the plan: the GWDG Nextcloud is
+#: mounted and the corpus read in place, which removes the copy and its 160 GB
+#: but makes every page open a network transfer of an uncompressed 25 MB TIFF.
+#: With a cache directory set, each page crosses the network once and every later
+#: read — a retry, the next model's pass, a re-run — is local. Empty = no cache,
+#: pages are read where they are, which is right for a corpus already on disk.
+ATR_PAGE_CACHE = Path(_get("ATR_PAGE_CACHE", "")) if _get("ATR_PAGE_CACHE", "") else None
 
 # ── Batch ATR (atr_batch.py) ─────────────────────────────────────────────────
 # Root for model-comparison runs: <VLM_TEST_ROOT>/<run>/<model id>/.

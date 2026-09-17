@@ -47,7 +47,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, Iterable, Optional, Sequence
+from typing import Callable, Iterable, Optional, Protocol, Sequence
 
 from loguru import logger
 
@@ -57,6 +57,7 @@ __all__ = [
     "IMAGE_EXTS",
     "SCHEMA",
     "PageRef",
+    "PageSource",
     "PageOutcome",
     "ModelOutcome",
     "BatchReport",
@@ -379,6 +380,18 @@ def abandon_reason(exc: BaseException) -> str:
 Recogniser = Callable[[Path, str], object]
 
 
+class PageSource(Protocol):
+    """Where the runner gets a page's bytes from.
+
+    One method, so the batch runner never has to know whether the corpus is a
+    directory on local disk or a mounted share with a working-copy cache in front
+    of it — and so a test can hand it a stub instead of a mount.
+    """
+
+    def fetch(self, src: Path) -> tuple[Path, dict]:
+        """``(a local path to read, a record of the original file)``."""
+
+
 def gateway_recogniser(base_url: Optional[str] = None,
                        timeout: Optional[float] = None) -> Recogniser:
     """A recogniser backed by the ATR gateway, holding one HTTP connection open.
@@ -405,26 +418,38 @@ def gateway_recogniser(base_url: Optional[str] = None,
 
 # ── one page ─────────────────────────────────────────────────────────────────
 
-def _result_payload(page: PageRef, model: str, run: str, result) -> dict:
+def _result_payload(page: PageRef, model: str, run: str, result,
+                    source: Optional[dict] = None,
+                    read_path: Optional[Path] = None) -> dict:
     """The JSON written beside the transcription.
 
     It carries the source's **sha256** as well as its name. A comparison that
     outlives the staging directory has to be able to say which bytes produced a
     reading; a filename cannot, and re-scanned or re-cropped images keep their
     names.
+
+    ``source`` is that record, already computed — a page cache hashes the
+    original while it has it in hand, and hashing it again would mean pulling
+    25 MB back across a mount for a number we were handed. Without one the file
+    is hashed here, as it always was. ``read_path`` names the working copy the
+    model actually saw when it was not the original itself, so the digest and
+    the image are never confused for each other.
     """
+    src = dict(source) if source else {
+        "name": page.name,
+        "sha256": _sha256(page.path),
+        "bytes": page.path.stat().st_size,
+    }
+    src["key"] = page.key
+    if read_path is not None and Path(read_path) != page.path:
+        src["working_copy"] = Path(read_path).name
     return {
         "schema": SCHEMA,
         "run": run,
         "model": model,
         "engine": getattr(result, "engine", "") or "",
         "doc_id": page.doc_id,
-        "source": {
-            "name": page.name,
-            "key": page.key,
-            "sha256": _sha256(page.path),
-            "bytes": page.path.stat().st_size,
-        },
+        "source": src,
         "text": getattr(result, "text", "") or "",
         "lines": list(getattr(result, "lines", []) or []),
         "confidence": getattr(result, "confidence", 0.0),
@@ -439,22 +464,37 @@ def _result_payload(page: PageRef, model: str, run: str, result) -> dict:
 
 def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
                     recognise: Recogniser, retries: int,
-                    backoff: float = 2.0, sleep=time.sleep) -> PageOutcome:
+                    backoff: float = 2.0, sleep=time.sleep,
+                    cache: Optional["PageSource"] = None) -> PageOutcome:
     """Read one page with one model, with retries, and write both artifacts.
 
     The text file is written **after** the JSON so that the JSON — the file
     ``is_complete`` checks — is never the newer of the two. A resumed run that
     found the JSON present and the text missing would skip a page whose
     transcription does not exist.
+
+    With a ``cache``, the page is fetched through it: the corpus root may be a
+    mounted share where opening a file is a network transfer, and the cache turns
+    that into one transfer per page for the life of the cache directory. It is
+    consulted **after** the completeness check, so a resumed run does not touch
+    the mount for pages it already has.
     """
     txt_path, json_path = result_paths(out_dir, page.key)
     if is_complete(json_path):
         return PageOutcome(key=page.key, model=model, status="skipped")
 
+    read_path, source = page.path, None
+    if cache is not None:
+        try:
+            read_path, source = cache.fetch(page.path)
+        except Exception as exc:  # noqa: BLE001 — an unfetchable page is that page's failure
+            return PageOutcome(key=page.key, model=model, status="failed",
+                               error=f"{type(exc).__name__}: {exc}")
+
     last_exc: Optional[BaseException] = None
     for attempt in range(retries + 1):
         try:
-            result = recognise(page.path, model)
+            result = recognise(read_path, model)
             break
         except Exception as exc:  # noqa: BLE001 — classified below, never swallowed
             retryable, fatal = classify_failure(exc)
@@ -473,7 +513,8 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
         return PageOutcome(key=page.key, model=model, status="failed",
                            error=f"{type(last_exc).__name__}: {last_exc}")
 
-    payload = _result_payload(page, model, run, result)
+    payload = _result_payload(page, model, run, result, source=source,
+                              read_path=read_path)
     _write_atomic(json_path, json.dumps(payload, ensure_ascii=False, indent=2))
     _write_atomic(txt_path, payload["text"])
     return PageOutcome(
@@ -501,6 +542,7 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
               concurrency: Optional[int] = None,
               max_consecutive_failures: int = MAX_CONSECUTIVE_FAILURES,
               manifest: Optional[Path] = None,
+              cache: Optional["PageSource"] = None,
               sleep=time.sleep) -> ModelOutcome:
     """Read every page with one model, writing into ``out_root/<model>/``.
 
@@ -520,7 +562,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     total = len(pages)
 
     def _one(page: PageRef) -> PageOutcome:
-        return _recognise_page(page, model, run, out_dir, recognise, retries, sleep=sleep)
+        return _recognise_page(page, model, run, out_dir, recognise, retries,
+                               sleep=sleep, cache=cache)
 
     def _record(index: int, res: PageOutcome) -> bool:
         """Fold one page's outcome in. Returns False when the model must stop."""

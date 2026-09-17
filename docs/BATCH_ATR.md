@@ -75,16 +75,33 @@ hour into a transfer.
 
 ---
 
-## 2 · Mirror it
+## 2 · Get the pages within reach
+
+Two ways, and the choice is about disk, not convenience.
+
+### Mount it (the Laßberg corpus, since 2026-09-17)
+
+The scans are uncompressed TIFF — 2636 × 3212 at three bytes a pixel is 25 MB a
+page, about 160 GB for the share against the 92 GB tei has in total. There is no
+mirror that fits, so the share is **mounted read-only** and read in place:
+
+```bash
+# once, as root (tei has sudo); see docs/NEXTCLOUD_MOUNT.md for the whole setup
+sudo mount -a                                   # /mnt/gwdg/digitalisate
+ls /mnt/gwdg/digitalisate | head
+```
+
+A mount makes opening a page a network transfer, and a batch opens every page at
+least once per model — so pair it with `--cache-dir` (§3), which converts each
+page to its JPEG working copy on first read and serves every later read locally.
+One transfer per page, ~0.7 MB on disk instead of 25 MB, full resolution kept.
+
+### Mirror it (a corpus that fits)
 
 ```bash
 python -m agentic_historian pull-share --folder digitalisate
 # → agentic_historian/data/nextcloud/digitalisate/…
 ```
-
-Mirrored rather than mounted: the recogniser uploads bytes per page, so the files
-have to be local anyway, and a fuse mount only moves the same transfer somewhere
-a dropped connection kills a multi-hour run instead of one download.
 
 Safe to re-run. A file already present at the remote size is skipped, and every
 download lands through a `.part` file, so an interrupted transfer is never
@@ -92,7 +109,7 @@ mistaken for a finished one. `--limit 5` first, if you want to see the shape of
 the material before committing to all of it.
 
 `--limit` stops the walk as soon as it has enough, which matters more than it
-sounds. The enumeration is one `PROPFIND` per folder — measured at **1.75 s**
+sounds for a mirror. The enumeration is one `PROPFIND` per folder — measured at **1.75 s**
 against this share — so before that, a ten-file test walked 100 folders and ran
 three minutes before fetching a single byte. What you get is the first N in
 *traversal* order, not the first N of the sorted whole; for a subset that
@@ -104,10 +121,25 @@ represents the collection, the tool is `atr-batch --sample`.
 
 ```bash
 python -m agentic_historian atr-batch \
-    --source data/nextcloud/digitalisate \
-    --models qwen3vl-german-xix-v1,qwen3.5-4b-german-xix-v1,qwen3.5-2b-german-xix-v1 \
-    --run    atr_test_lassberg
+    --source     /mnt/gwdg/digitalisate \
+    --cache-dir  data/page_cache/lassberg \
+    --models     qwen3vl-german-xix-v1,qwen3.5-4b-german-xix-v1,qwen3.5-2b-german-xix-v1 \
+    --run        atr_test_lassberg
 ```
+
+`--cache-dir` is what makes `--source` on a mount affordable. Without it every
+model's pass re-reads 25 MB a page across the network; with it the first pass
+pays that once, converts to JPEG at full resolution, and every later read — a
+retry, the next model, next week's re-run — is a local file. Its state is what is
+on disk, like the rest of the runner: deleting the cache costs time, never
+correctness. Omit it for a corpus already on local disk, where it would only
+duplicate files.
+
+The result JSON still carries the **sha256 of the archival file**, not of the
+working copy, and names the working copy separately under
+`source.working_copy`. The digest is taken from the one read the cache already
+makes; hashing the original again would mean pulling it back across the mount
+for a number we were handed.
 
 Output lands in `$VLM_TEST_ROOT/atr_test_lassberg/<model id>/`, two files per page:
 
@@ -208,11 +240,17 @@ tmux new -s atr
 ## 4 · Publish the outputs
 
 ```bash
-python -m agentic_historian publish-batch \
-    --run-dir $VLM_TEST_ROOT/atr_test_lassberg \
-    --repo    thodel/lassberg \
-    --path    data/vlm-outputs/atr_test_lassberg
+python -m agentic_historian publish-batch --run-dir $VLM_TEST_ROOT/atr_test_lassberg
 ```
+
+Recognised text has one home and it is named in `config.py`, not in the command:
+[`michaelscho/lassberg`](https://github.com/michaelscho/lassberg/tree/main/data)
+on `main`, under `data/textrecognition/<model id>/`. `--repo`, `--path` and
+`--branch` still override it for a one-off.
+
+The two halves of the corpus live in different places on purpose. The scans stay
+in the Nextcloud share — mounted, never copied into git — and only the readings
+are published.
 
 Text only. `publish_tree` works from an allowlist of suffixes
 (`.txt .json .md .jsonl .csv .xml`) and names anything it skipped — the scans
@@ -270,6 +308,10 @@ Two cautions if you go there with these models:
 | `NEXTCLOUD_SHARE_PASS` | — | share password (empty if it has none) |
 | `NEXTCLOUD_REMOTE_DIR` | `""` | folder inside the share |
 | `NEXTCLOUD_STAGING_DIR` | `data/nextcloud` | where the mirror lands |
+| `ATR_PAGE_CACHE` | — | default `--cache-dir`; empty = read pages where they are |
+| `GITHUB_TEXT_REPO` | `michaelscho/lassberg` | where recognised text is published |
+| `GITHUB_TEXT_BRANCH` | `main` | branch published to |
+| `GITHUB_TEXT_PATH` | `data/textrecognition` | path prefix inside that repo |
 | `VLM_TEST_ROOT` | `data/vlm_test` | root for comparison runs |
 | `ATR_BATCH_PAGE_CONCURRENCY` | `1` | pages in flight per model |
 | `ATR_BATCH_RETRIES` | `2` | retries per page for timeouts and 5xx |
