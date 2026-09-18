@@ -4,8 +4,9 @@ Lädt Umgebungsvariablen und stellt Default-Werte bereit.
 """
 
 import os
+import re
 from pathlib import Path
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 # BASE_DIR = Python-Package-Wurzel; REPO_ROOT = project root (git repo or working dir)
 BASE_DIR = Path(__file__).parent.resolve()
@@ -26,13 +27,57 @@ REPO_ROOT = _REPO_ROOT_candidate
 # Reihenfolge = Priorität UNTER den Dateien: bei override=False gewinnt die
 # zuerst geladene Datei. Die dedizierten GPUStack-Secrets (.env.gpustack) haben
 # daher Vorrang vor generischen .env-Dateien und werden zuerst geladen.
+#: Which file first defined each key, so a value can be traced back to the file
+#: that has to be edited. Only keys that came from a file are in here: a key from
+#: the real process environment never reaches the loop.
+ENV_SOURCE: dict[str, Path] = {}
+
 for _env_file in (
     REPO_ROOT / ".env.gpustack",
     REPO_ROOT / ".env",
     BASE_DIR / ".env",
 ):
     if _env_file.exists():
+        for _k in dotenv_values(_env_file):
+            if _k not in os.environ and _k not in ENV_SOURCE:
+                ENV_SOURCE[_k] = _env_file
         load_dotenv(_env_file, override=False)
+
+
+#: What an unfilled template value looks like. Anything in angle brackets, plus
+#: the handful of words people type when they mean "not yet".
+_PLACEHOLDER_RE = re.compile(
+    r"^(<.+>|changeme|change_me|your[-_ ].+|todo|xxx+|\.\.\.)$", re.IGNORECASE
+)
+
+
+def unfilled_secrets() -> dict[str, str]:
+    """``{key: why}`` for every configured value that is still a template.
+
+    **Why this is worth a check of its own.** A missing secret announces itself:
+    the call fails with 401 and the variable is empty. A secret whose value is
+    the literal string ``<Passwort>`` is set, is truthy, passes every "is it
+    configured" test in this repo, and fails at the far end of a network call
+    with an error about the server.
+
+    It also hides behind the load order. The first file to define a key wins
+    (``override=False``), so a committed template at ``.env.gpustack`` shadows the
+    real password three files later and nothing says so — which is exactly what
+    happened on tei on 2026-09-18: two files carried ``<Passwort>`` and the third
+    the real one, and the mount failed with "rejected Basic challenge". So this
+    names the **file**, not just the key: knowing which of three copies to edit is
+    the whole problem.
+    """
+    found: dict[str, str] = {}
+    for key, source in ENV_SOURCE.items():
+        value = os.getenv(key, "")
+        if value and _PLACEHOLDER_RE.match(value.strip()):
+            try:
+                where = source.relative_to(REPO_ROOT)
+            except ValueError:
+                where = source
+            found[key] = f"still a template ({value.strip()}) in {where}"
+    return found
 
 
 def _get(key: str, default: str = "") -> str:
@@ -407,11 +452,18 @@ def ensure_dirs():
 
 
 def check_config() -> list[str]:
-    """Prüft erforderliche Tokens und gibt fehlende Keys zurück."""
+    """Konfigurationsprobleme, die den Start betreffen — leere Liste = in Ordnung.
+
+    Fehlende Pflicht-Tokens **und** Werte, die noch Platzhalter sind. Ein
+    Platzhalter ist der schlimmere der beiden Fälle: er ist gesetzt, er ist
+    truthy, und er scheitert erst am anderen Ende eines Netzwerkaufrufs mit einer
+    Fehlermeldung über den Server.
+    """
     missing = []
     if not DISCORD_BOT_TOKEN:
         missing.append("DISCORD_BOT_TOKEN")
     if not GPUSTACK_API_KEY:
         missing.append("GPUSTACK_API_KEY")
     # KRAKEN_SERVICE_URL is optional — kraken falls back to local CLI if not set
+    missing += [f"{key}: {why}" for key, why in sorted(unfilled_secrets().items())]
     return missing
