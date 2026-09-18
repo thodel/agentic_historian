@@ -31,8 +31,11 @@ can never be mistaken for a complete one on the next pass.
 from __future__ import annotations
 
 import errno
+import hashlib
+import json
 import os
 import re
+import uuid
 from itertools import islice
 from dataclasses import dataclass
 from pathlib import Path
@@ -52,6 +55,10 @@ __all__ = [
     "is_configured",
     "list_files",
     "pull_folder",
+    "DAV_PREFIX",
+    "is_remote_source",
+    "remote_source_root",
+    "WebdavPageSource",
 ]
 
 #: What counts as material to process. Same set as the SwitchDrive ingest, so a
@@ -384,3 +391,135 @@ def pull_folder(
         f"({fetched} fetched, {skipped} already present) → {local_dir}"
     )
     return out
+
+
+# ── reading the share without mirroring it (#dav-source) ─────────────────────
+
+#: Prefix that marks an ``atr-batch --source`` as living in the share rather than
+#: on disk: ``dav:Digitalisate``. One argument instead of two, and unmistakable —
+#: a local directory never starts with it.
+DAV_PREFIX = "dav:"
+
+
+def is_remote_source(source: str) -> bool:
+    return (source or "").startswith(DAV_PREFIX)
+
+
+def remote_source_root(source: str) -> str:
+    """The folder inside the share that ``dav:<folder>`` names ("" = the root)."""
+    return (source or "")[len(DAV_PREFIX):].strip("/")
+
+
+class WebdavPageSource:
+    """Pages read straight from the share, one at a time, cached locally.
+
+    **Why this exists rather than a mount.** The corpus outgrew tei's disk, so
+    the obvious answer was to mount the share and read it in place. Two mount
+    clients were tried on 2026-09-18: davfs2 and rclone both authenticate against
+    this share's endpoint and both are refused with 401, while ``curl`` and *this
+    module* are accepted against the same URL with the same token and password.
+    Whatever the difference is, it is not the credentials and not the endpoint —
+    and debugging somebody else's HTTP client is not what the corpus needs.
+
+    webdav4 already works here; it fetched 899 pages. So this is the mount's job
+    done by the client that can do it: fetch one page, write its JPEG working
+    copy into the cache, hand back the local path. It satisfies the same
+    ``fetch(src) -> (Path, dict)`` protocol as :class:`utils.images.PageCache`, so
+    the batch runner cannot tell the two apart and needed no changes at all.
+
+    The economics are the mount's, without the mount: the archival TIFF crosses
+    the network once and never lands on disk at full size, every later read — a
+    retry, the next model's pass, next week's re-run — is the cached JPEG, and
+    nothing is mirrored.
+    """
+
+    def __init__(self, cache_dir: Path, share: Optional[ShareRef] = None,
+                 root: str = "", quality: Optional[int] = None) -> None:
+        self.share = share or share_from_config()
+        self.root = (root or "").strip("/")
+        self.cache_dir = Path(cache_dir)
+        self.quality = quality if quality is not None else images.WORKING_QUALITY
+        self.hits = 0
+        self.misses = 0
+        self.source_bytes = 0
+        self._client = None
+
+    # -- connection ------------------------------------------------------
+    @property
+    def client(self):
+        """The webdav4 client, opened on first use and then reused.
+
+        Opened lazily so that constructing a source — which the dry run does —
+        costs no network, and reused so a corpus does not pay a TLS handshake and
+        an endpoint probe per page.
+        """
+        if self._client is None:
+            self._client = _connect(self.share, self.root)
+        return self._client
+
+    # -- discovery -------------------------------------------------------
+    def list_pages(self, limit: Optional[int] = None) -> list[str]:
+        """Remote paths of every page under the root, in corpus order.
+
+        Sorted, like every other enumeration here, because the batch runner
+        resumes from what is on disk and a different order would mean a resumed
+        run walking a different sequence.
+        """
+        walk = _walk(self.client, self.root, True)
+        found = sorted(islice(walk, max(0, limit)) if limit is not None else walk)
+        return [path for path, _size in found]
+
+    # -- the PageSource protocol -----------------------------------------
+    def path_for(self, remote: str) -> Path:
+        rel = _relative(str(remote), self.root)
+        dest = self.cache_dir / rel
+        return images.working_path(dest) if images.needs_conversion(dest) else dest
+
+    def fetch(self, remote) -> tuple[Path, dict]:
+        """``(local path to read, record of the file in the share)``.
+
+        The record carries the **archival** file's sha256, taken from the bytes
+        that came over the wire — the only moment they exist in one piece, since
+        what is kept is a JPEG re-encoding of them.
+        """
+        remote = str(remote)
+        dest = self.path_for(remote)
+        side = dest.with_name(dest.name + images.SIDECAR_SUFFIX)
+        record = images._read_sidecar(side)
+        name = Path(remote).name
+        if record and record.get("name") == name and dest.exists():
+            self.hits += 1
+            return dest, record
+
+        data = self._download(remote)
+        record = {
+            "name": name,
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+            "remote": remote,
+        }
+        if images.needs_conversion(Path(remote)):
+            images.convert_bytes(data, dest, self.quality)
+        else:
+            images._write_atomic_bytes(dest, data)
+        images._write_atomic_bytes(
+            side, json.dumps(record, ensure_ascii=False).encode("utf-8"))
+        self.misses += 1
+        self.source_bytes += len(data)
+        return dest, record
+
+    def _download(self, remote: str) -> bytes:
+        """One page's bytes, through a temp file.
+
+        webdav4 downloads to a path rather than to memory, and a page that half
+        arrives must not be mistaken for a page — so the bytes are read back from
+        a file that is deleted either way, rather than streamed into a buffer that
+        a dropped connection would leave short.
+        """
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        tmp = self.cache_dir / f".fetch-{uuid.uuid4().hex}.part"
+        try:
+            self.client.download_file(remote, str(tmp))
+            return tmp.read_bytes()
+        finally:
+            tmp.unlink(missing_ok=True)
