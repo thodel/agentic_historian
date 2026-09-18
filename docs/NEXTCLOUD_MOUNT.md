@@ -114,13 +114,24 @@ cd /home/dh/agentic_historian
 .venv/bin/python3 -m agentic_historian atr-batch \
     --source     /mnt/gwdg/digitalisate \
     --cache-dir  agentic_historian/data/page_cache/lassberg \
-    --models     trocr-kurrent \
-    --run        atr_trocr_corpus \
+    --models     trocr-kurrent,qwen3vl-german-xix-v2 \
+    --run        atr_corpus_v2 \
     --concurrency 4 \
     --dry-run
 ```
 
-Drop `--dry-run` once the page count looks right. Set `ATR_PAGE_CACHE` in `.env`
+Drop `--dry-run` once the page count looks right.
+
+**Smoke-run the new model first.** `--sample 25` on the same seed reads the same
+twenty-five pages every time, so a smoke run and the corpus run are comparable
+and the smoke run's pages are already done when the corpus run reaches them.
+`qwen3vl-german-xix-v2` is served line-level and runs a 4B VLM once per line
+against trocr's once per line, so expect it to be the slower of the two by a
+wide margin — measure it on 25 pages before committing the corpus to it.
+
+The order of `--models` is the order they run in, and the runner is model-major
+(every page of one model, then the next) because the gateway's vLLM models are
+`lazy` on one card and page-major would evict and reload per page. Set `ATR_PAGE_CACHE` in `.env`
 to make the cache the default and leave the flag off.
 
 **The first `--dry-run` is slow.** Discovery is `rglob` over the mount, which is
