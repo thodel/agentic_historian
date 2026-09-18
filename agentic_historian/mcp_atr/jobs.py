@@ -54,6 +54,7 @@ __all__ = [
     "validate_run",
     "validate_models",
     "resolve_source",
+    "cache_dir_for",
     "batch_argv",
     "pull_argv",
     "start",
@@ -136,12 +137,38 @@ def validate_models(models: Sequence[str] | str) -> list[str]:
 def _roots() -> list[Path]:
     """Directories a batch may read pages from.
 
-    The staging area the share is mirrored into, and the comparison root — the
-    second because re-reading a previous run's source is legitimate. Nothing
-    else on the machine is a corpus.
+    The staging area the share is mirrored into, the comparison root — because
+    re-reading a previous run's source is legitimate — and the read-only mount,
+    which since the share outgrew tei's disk is where the corpus actually lives.
+    Nothing else on the machine is a corpus.
+
+    The mount is included whether or not anything is mounted there: an empty
+    directory yields no pages and says so, which is a better error than "outside
+    the corpus roots" for a path the runbook tells people to use.
     """
-    return [Path(config.NEXTCLOUD_STAGING_DIR).resolve(),
-            Path(config.VLM_TEST_ROOT).resolve()]
+    roots = [Path(config.NEXTCLOUD_STAGING_DIR).resolve(),
+             Path(config.VLM_TEST_ROOT).resolve()]
+    if config.ATR_MOUNT_DIR:
+        roots.append(Path(config.ATR_MOUNT_DIR).resolve())
+    return roots
+
+
+def cache_dir_for(source: Path) -> Optional[Path]:
+    """Where working copies of pages read from ``source`` belong, if anywhere.
+
+    A configured ``ATR_PAGE_CACHE`` wins. Otherwise a source under the mount
+    gets one anyway, under the data directory: reading a page off the mount is a
+    25 MB network transfer, a batch opens every page at least once per model, and
+    there is no situation in which paying that twice is what the caller wanted.
+    A source already on local disk gets none — it would only duplicate files.
+    """
+    if config.ATR_PAGE_CACHE:
+        return Path(config.ATR_PAGE_CACHE)
+    if config.ATR_MOUNT_DIR:
+        mount = Path(config.ATR_MOUNT_DIR).resolve()
+        if source == mount or source.is_relative_to(mount):
+            return Path(config.DATA_DIR) / "page_cache"
+    return None
 
 
 def resolve_source(source: str) -> Path:
@@ -183,7 +210,8 @@ RUNNER = Path(__file__).resolve().parent / "_run.py"
 def batch_argv(source: Path, models: Sequence[str], run: str, *,
                limit: Optional[int] = None, sample: Optional[int] = None,
                concurrency: Optional[int] = None,
-               retries: Optional[int] = None, dry_run: bool = False) -> list[str]:
+               retries: Optional[int] = None, dry_run: bool = False,
+               cache_dir: Optional[Path] = None) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
     Deliberately the documented CLI rather than an in-process call: the MCP path
@@ -198,6 +226,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--limit", str(int(limit))]
     if sample is not None:
         argv += ["--sample", str(int(sample))]
+    if cache_dir is not None:
+        argv += ["--cache-dir", str(cache_dir)]
     if concurrency is not None:
         argv += ["--concurrency", str(int(concurrency))]
     if retries is not None:

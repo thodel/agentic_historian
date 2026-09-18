@@ -260,7 +260,10 @@ def build_server(provider=None, auth_settings=None):
                     concurrency: Optional[int] = None) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
-        ``source`` must lie inside the mirror or the comparison root; ``run``
+        ``source`` must lie inside the mirror, the comparison root or the
+        read-only share mount; a source on the mount is read through a local
+        working-copy cache, so each page crosses the network once rather than
+        once per model. ``run``
         names the output directory under VLM_TEST_ROOT and is the handle for
         resuming. Re-running the same run skips pages already on disk, so an
         interrupted run is resumed by starting it again — there is no separate
@@ -287,7 +290,8 @@ def build_server(provider=None, auth_settings=None):
                                           "the first N pages, or N at random"}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
                                limit=limit, sample=sample, concurrency=concurrency,
-                               dry_run=dry_run)
+                               dry_run=dry_run,
+                               cache_dir=jobs.cache_dir_for(checked_source))
         if dry_run:
             # The plan is the answer, so it is worth waiting for — but only as
             # long as the caller will, and several thousand pages take longer to

@@ -401,6 +401,12 @@ NEXTCLOUD_CONVERT = _get("NEXTCLOUD_CONVERT", "true").lower() not in ("0", "fals
 #: pages are read where they are, which is right for a corpus already on disk.
 ATR_PAGE_CACHE = Path(_get("ATR_PAGE_CACHE", "")) if _get("ATR_PAGE_CACHE", "") else None
 
+#: Where the share is mounted read-only. A batch may read pages from here as
+#: well as from the mirror: it *is* the corpus now, and the MCP path's
+#: containment check has to know that or every run over the mount is refused.
+#: Set it to "" on a host with no mount.
+ATR_MOUNT_DIR = Path(_get("ATR_MOUNT_DIR", "/mnt/gwdg")) if _get("ATR_MOUNT_DIR", "/mnt/gwdg") else None
+
 # ── Batch ATR (atr_batch.py) ─────────────────────────────────────────────────
 # Root for model-comparison runs: <VLM_TEST_ROOT>/<run>/<model id>/.
 VLM_TEST_ROOT = Path(_get("VLM_TEST_ROOT", str(DATA_DIR / "vlm_test")))
