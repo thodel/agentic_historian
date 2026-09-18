@@ -127,6 +127,24 @@ def test_a_real_secret_is_not_mistaken_for_one(fresh_config, value):
     assert cfg.unfilled_secrets() == {}
 
 
+@pytest.mark.parametrize("value", [
+    "<@817396581317738546>",       # a user mention — the bot's own, on tei
+    "<@!817396581317738546>",      # a nickname mention
+    "<@&1234567890>",              # a role
+    "<#1234567890>",               # a channel
+    "<:kurrent:1234567890>",       # a custom emoji
+    "<noreply@example.org>",       # an addr-spec in brackets
+    "<1234567890>",
+])
+def test_angle_brackets_are_not_enough_to_be_a_placeholder(fresh_config, value):
+    """The first version of this check reported the bot's own Discord mention as
+    an unfilled template, the first time it ran on tei. Brackets are how Discord
+    writes every id it has; a placeholder is brackets around a *word*."""
+    cfg = fresh_config({".env": f"ATR_WATCH_MENTION={value}\n"})
+
+    assert cfg.unfilled_secrets() == {}
+
+
 def test_an_empty_value_is_missing_not_a_template(fresh_config):
     """Empty is the case that already reports itself; this is for the other one."""
     cfg = fresh_config({".env": "NEXTCLOUD_SHARE_PASS=\n"})

@@ -44,10 +44,23 @@ for _env_file in (
         load_dotenv(_env_file, override=False)
 
 
-#: What an unfilled template value looks like. Anything in angle brackets, plus
-#: the handful of words people type when they mean "not yet".
+#: What an unfilled template value looks like.
+#:
+#: The angle-bracket branch is narrower than "anything in brackets", because
+#: plenty of real values are written that way. A Discord mention is
+#: ``<@817396581317738546>``, a channel is ``<#…>``, a role ``<@&…>``, a custom
+#: emoji ``<:name:id>`` — the first version of this check reported the bot's own
+#: mention as an unfilled template the first time it ran on tei. So the brackets
+#: have to contain a *word*: it starts with a letter, and holds only letters,
+#: digits, spaces, hyphens, dots and underscores. ``<Passwort>`` and
+#: ``<your-token>`` match; ``<@123…>`` and ``<noreply@example.org>`` do not.
+#:
+#: A false positive costs trust in the check, and a check nobody trusts is worse
+#: than no check — it is one more line to scroll past when something is actually
+#: wrong.
 _PLACEHOLDER_RE = re.compile(
-    r"^(<.+>|changeme|change_me|your[-_ ].+|todo|xxx+|\.\.\.)$", re.IGNORECASE
+    r"^(<[A-Za-z][\w .\-]*>|changeme|change_me|your[-_ ].+|todo|xxx+|\.\.\.)$",
+    re.IGNORECASE,
 )
 
 
