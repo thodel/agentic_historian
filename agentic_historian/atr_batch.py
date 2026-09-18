@@ -68,6 +68,7 @@ __all__ = [
     "gateway_recogniser",
     "run_model",
     "run_batch",
+    "report_from_outputs",
     "format_report",
 ]
 
@@ -295,6 +296,10 @@ class BatchReport:
     models: list[ModelOutcome] = field(default_factory=list)
     started_at: str = ""
     elapsed_s: float = 0.0
+    #: True when the report was reconstructed from the files on disk rather than
+    #: observed as the run happened. What is on disk cannot show a page that
+    #: failed and wrote nothing, so a rebuilt report says so where the table is.
+    rebuilt: bool = False
 
     @property
     def any_aborted(self) -> bool:
@@ -307,6 +312,7 @@ class BatchReport:
             "pages": self.pages,
             "started_at": self.started_at,
             "elapsed_s": round(self.elapsed_s, 1),
+            "rebuilt": self.rebuilt,
             "models": [
                 {
                     "model": m.model, "done": m.done, "skipped": m.skipped,
@@ -679,6 +685,88 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     return report
 
 
+def report_from_outputs(run_dir: Path) -> BatchReport:
+    """Rebuild a run's report from the results in its directory.
+
+    The report a run writes is a record of what the runner *observed*, and two
+    things make that an incomplete account of what is actually on disk.
+
+    A **resumed** run sees most of its corpus as `skipped` and counts nothing
+    about it — not its characters, not its timings, and not whether it came back
+    empty. Since a long run is resumed at least once, the empty column, which
+    exists precisely because nothing else moves when a page comes back blank, is
+    the number most likely to be wrong in the direction of "nothing to see".
+
+    A run whose code changed mid-flight is the other: the corpus run of
+    2026-09-17 started before the empty column existed and finished after, so its
+    report simply has no such column while 77 of its 899 pages were blank.
+
+    Rebuilding reads the results themselves, so both cases come out right. What
+    it cannot recover is a page that failed: a failure writes no file, and a
+    missing file is indistinguishable from a page nobody asked for. The rebuilt
+    report is marked and says so rather than reporting a confident zero.
+    """
+    run_dir = Path(run_dir)
+    if not run_dir.is_dir():
+        raise FileNotFoundError(f"not a run directory: {run_dir}")
+
+    report = BatchReport(run=run_dir.name, out_root=run_dir, pages=0, rebuilt=True)
+    stamps: list[datetime] = []
+    for model_dir in sorted(p for p in run_dir.iterdir() if p.is_dir()):
+        outcome = ModelOutcome(model=model_dir.name)
+        seen: list[datetime] = []
+        for json_path in sorted(model_dir.glob("*.json")):
+            data = _read_result(json_path)
+            if data is None:
+                outcome.failed += 1
+                if len(outcome.errors) < 20:
+                    outcome.errors.append(f"{json_path.stem}: unreadable result")
+                continue
+            text = data["text"]
+            outcome.done += 1
+            outcome.chars += len(text)
+            outcome.lines += len(data.get("lines") or [])
+            outcome.recognition_ms += int(data.get("timing_ms") or 0)
+            outcome.truncated += int(bool(data.get("truncated")))
+            if not text:
+                outcome.empty += 1
+                if len(outcome.empty_keys) < 20:
+                    outcome.empty_keys.append(json_path.stem)
+            when = _parse_stamp(data.get("recognised_at"))
+            if when:
+                seen.append(when)
+            if data.get("run"):
+                report.run = data["run"]
+        if seen:
+            outcome.elapsed_s = (max(seen) - min(seen)).total_seconds()
+            stamps += seen
+        report.models.append(outcome)
+
+    report.pages = max((m.attempted for m in report.models), default=0)
+    if stamps:
+        report.started_at = min(stamps).isoformat(timespec="seconds")
+        report.elapsed_s = (max(stamps) - min(stamps)).total_seconds()
+    return report
+
+
+def _read_result(json_path: Path) -> Optional[dict]:
+    """One result file, or None when it is missing, unparsable or another shape."""
+    try:
+        data = json.loads(json_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if data.get("schema") != SCHEMA or not isinstance(data.get("text"), str):
+        return None
+    return data
+
+
+def _parse_stamp(value) -> Optional[datetime]:
+    try:
+        return datetime.fromisoformat(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def _empty_section(report: BatchReport) -> list[str]:
     """The "empty" column, spelled out — the quietest way this pipeline fails.
 
@@ -859,6 +947,16 @@ def format_report(report: BatchReport) -> str:
         "readings is the point; the numbers only say what each run cost and whether it "
         "completed. Measuring accuracy needs transcribed lines and `eval/linebench.py`.",
     ]
+    if report.rebuilt:
+        lines += [
+            "",
+            "_Rebuilt from the files in this directory, not observed as the run "
+            "happened._ **The failed column is not trustworthy here**: a page that "
+            "failed wrote nothing, and nothing is what a rebuilt report cannot see. "
+            "It counts only results that are present and unreadable. Everything "
+            "else — including the empty column, which a resumed run undercounts "
+            "and this does not — is read from the results themselves.",
+        ]
     lines += _truncation_section(report)
     lines += _empty_section(report)
     aborted = [m for m in report.models if m.aborted]

@@ -4,7 +4,8 @@
     python -m agentic_historian run path/to/image.jpg [--lang de]
     python -m agentic_historian pull-share --folder digitalisate
     python -m agentic_historian atr-batch --source DIR --models a,b,c --run NAME
-    python -m agentic_historian publish-batch --run-dir DIR --repo owner/name
+    python -m agentic_historian report-run    --run-dir DIR
+    python -m agentic_historian publish-batch --run-dir DIR
 
 ``run`` drives the full A→B→C pipeline on one image. The other three are the
 batch path: mirror a Nextcloud share, read every page with every model, publish
@@ -194,6 +195,27 @@ def atr_batch(args: argparse.Namespace) -> int:
     return 1 if report.any_aborted else 0
 
 
+def report_run(args: argparse.Namespace) -> int:
+    """Rebuild a run's report from the results on disk."""
+    import atr_batch as batch
+
+    run_dir = Path(args.run_dir).resolve()
+    try:
+        report = batch.report_from_outputs(run_dir)
+    except FileNotFoundError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    if not report.models:
+        print(f"Error: no model output under {run_dir}", file=sys.stderr)
+        return 1
+    print(batch.format_report(report))
+    if args.dry_run:
+        print("(dry run — report.md and report.json not written)")
+        return 0
+    print(f"report: {batch.write_report(report)}")
+    return 0
+
+
 def publish_batch(args: argparse.Namespace) -> int:
     """Propose a finished run directory to a GitHub repository as a pull request.
 
@@ -314,6 +336,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_batch.add_argument("--dry-run", action="store_true",
                          help="Print the plan (pages, models, calls) and exit")
     p_batch.set_defaults(func=atr_batch)
+
+    p_rep = sub.add_parser(
+        "report-run",
+        help="Rebuild a run's report.md/report.json from the results on disk")
+    p_rep.add_argument("--run-dir", required=True, help="The run directory")
+    p_rep.add_argument("--dry-run", action="store_true",
+                       help="Print the report without overwriting the files")
+    p_rep.set_defaults(func=report_run)
 
     p_pub = sub.add_parser("publish-batch",
                            help="Propose a run directory to a GitHub repo as a PR")
