@@ -1,7 +1,15 @@
-# Reading the scans from a mounted Nextcloud
+# Reading the scans out of the Nextcloud
 
-The Laßberg digitisations are not copied to tei any more. The share is mounted
-read-only and the batch runner reads the corpus in place.
+The Laßberg digitisations are not copied to tei any more. The batch runner reads
+the share directly, one page at a time, and keeps a JPEG working copy of each.
+
+**A mount is not needed and did not work.** The obvious route was davfs2 or
+rclone; on 2026-09-18 both were tried and both are refused with `401` against
+this share's endpoint, while `curl` and `utils/nextcloud.py` are accepted at the
+*same URL* with the same token and password. Whatever the difference is, it is
+not the credentials and not the endpoint. §1 keeps the mount recipe for a share
+where it does work; **§2 is the route this corpus uses**, and it needs no mount,
+no root and no second HTTP client.
 
 **Why.** The scans are uncompressed TIFF: 2636 × 3212 at three bytes a pixel is
 25 MB for one page, and the share holds several thousand. A full mirror comes to
@@ -107,7 +115,38 @@ deployments and less forgiving about being left unattended for six hours.
 
 ---
 
-## 2 · Point the runner at it
+## 2 · Read the share directly (`dav:`)
+
+```bash
+cd /home/dh/agentic_historian
+.venv/bin/python3 -m agentic_historian atr-batch \
+    --source     dav:Digitalisate \
+    --cache-dir  agentic_historian/data/page_cache/lassberg \
+    --models     trocr-kurrent,qwen3vl-german-xix-v2 \
+    --run        atr_corpus_v2 \
+    --concurrency 4 --dry-run
+```
+
+`--cache-dir` is **required** for a `dav:` source: it is the only copy of a page
+that ever lands on this disk. Each archival TIFF crosses the network once, is
+written out as a full-resolution JPEG (~0.7 MB against 25 MB), and every later
+read — a retry, the next model's pass, next week's re-run — is that local file.
+Nothing is mirrored and no page is ever stored at full size.
+
+The folder name is the one **in the share**, and it is case-sensitive:
+`Digitalisate`, not `digitalisate`. The share root also holds `atr_test_lassberg`,
+an earlier output folder — naming the root instead of the folder would sweep that
+in as pages.
+
+**The keys are the same as a local walk's.** A page's key is its path relative to
+the root with separators folded, so `dav:Digitalisate` and a mirror of the same
+tree produce identical keys — which means a corpus half-read from the mirror can
+be finished from the share, and the 899 pages already read are skipped rather
+than repeated.
+
+---
+
+## 3 · Or point the runner at a mount
 
 ```bash
 cd /home/dh/agentic_historian
@@ -153,7 +192,7 @@ archive.
 
 ---
 
-## 3 · Check the report before publishing
+## 4 · Check the report before publishing
 
 ```bash
 .venv/bin/python3 -m agentic_historian report-run \
@@ -171,7 +210,7 @@ failed wrote nothing, and nothing is what a rebuilt report cannot see.
 
 ---
 
-## 4 · Where the text goes
+## 5 · Where the text goes
 
 To git, and only to git:
 

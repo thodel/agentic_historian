@@ -62,6 +62,7 @@ __all__ = [
     "ModelOutcome",
     "BatchReport",
     "discover_pages",
+    "pages_from_paths",
     "result_paths",
     "is_complete",
     "classify_failure",
@@ -173,6 +174,37 @@ def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
         rels = sorted(random.Random(seed).sample(rels, min(sample, len(rels))))
     pages = [
         PageRef(path=root / rel, doc_id=rel.parent.as_posix().strip("."), key=_key_for(rel))
+        for rel in rels
+    ]
+    return pages[:limit] if limit is not None else pages
+
+
+def pages_from_paths(paths: Sequence[str], root: str = "",
+                     limit: Optional[int] = None, sample: Optional[int] = None,
+                     seed: int = SAMPLE_SEED) -> list[PageRef]:
+    """The same corpus, built from remote paths instead of a directory walk.
+
+    ``discover_pages`` and this differ only in where the list of paths comes
+    from — ``rglob`` there, a WebDAV listing here. Everything downstream is
+    identical, deliberately: the key is the path relative to the root with
+    separators folded, so a page has the **same key** whether it was read from a
+    mirror, a mount or the share itself, and a corpus half-read one way can be
+    finished the other.
+    """
+    root = (root or "").strip("/")
+    rels = sorted(
+        Path(p[len(root):].strip("/") if root and p.startswith(root) else p)
+        for p in paths
+    )
+    if sample is not None:
+        if sample < 0:
+            raise ValueError(f"sample must not be negative: {sample}")
+        rels = sorted(random.Random(seed).sample(rels, min(sample, len(rels))))
+    if limit is not None and sample is not None:
+        raise ValueError("limit and sample are alternatives: first N, or N at random")
+    pages = [
+        PageRef(path=Path(f"{root}/{rel}" if root else str(rel)),
+                doc_id=rel.parent.as_posix().strip("."), key=_key_for(rel))
         for rel in rels
     ]
     return pages[:limit] if limit is not None else pages

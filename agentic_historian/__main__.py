@@ -133,23 +133,52 @@ def atr_batch(args: argparse.Namespace) -> int:
         print("Error: --models is empty", file=sys.stderr)
         return 2
 
-    source = Path(args.source).resolve()
-    if not source.is_dir():
-        print(f"Error: --source is not a directory: {source}", file=sys.stderr)
-        return 2
+    from utils import nextcloud
 
-    try:
-        pages = batch.discover_pages(source, limit=args.limit, sample=args.sample,
-                                     seed=args.seed)
-    except ValueError as exc:
-        print(f"Error: {exc}", file=sys.stderr)
-        return 2
+    remote = nextcloud.is_remote_source(args.source)
+    cache_dir = Path(args.cache_dir).resolve() if args.cache_dir else None
+    page_source = None
+
+    if remote:
+        # Reading the share directly, with no mirror and no mount. The cache is
+        # not optional here: it is the only copy of a page that ever lands on
+        # this disk, and without it every model's pass would re-download 25 MB a
+        # page.
+        if not cache_dir:
+            print("Error: dav: sources need --cache-dir — it is where the pages "
+                  "land", file=sys.stderr)
+            return 2
+        root = nextcloud.remote_source_root(args.source)
+        source = f"{nextcloud.DAV_PREFIX}{root or '/'}"
+        try:
+            page_source = nextcloud.WebdavPageSource(cache_dir, root=root)
+            paths = page_source.list_pages()
+        except Exception as exc:  # noqa: BLE001 — a CLI reports, it does not traceback
+            print(f"Error: cannot list the share: {exc}", file=sys.stderr)
+            return 1
+        try:
+            pages = batch.pages_from_paths(paths, root, limit=args.limit,
+                                           sample=args.sample, seed=args.seed)
+        except ValueError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+    else:
+        source = Path(args.source).resolve()
+        if not source.is_dir():
+            print(f"Error: --source is not a directory: {source}", file=sys.stderr)
+            return 2
+        try:
+            pages = batch.discover_pages(source, limit=args.limit, sample=args.sample,
+                                         seed=args.seed)
+        except ValueError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+
     if not pages:
         print(f"Error: no page images under {source}", file=sys.stderr)
         return 1
 
     out_root = Path(args.out_root) if args.out_root else config.VLM_TEST_ROOT / args.run
-    cache_dir = Path(args.cache_dir).resolve() if args.cache_dir else None
 
     if args.dry_run:
         print(f"run       : {args.run}")
@@ -167,8 +196,8 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"  … {len(pages) - 5} more")
         return 0
 
-    cache = None
-    if cache_dir:
+    cache = page_source
+    if cache is None and cache_dir:
         from utils.images import PageCache
 
         cache = PageCache(source, cache_dir)
@@ -309,7 +338,9 @@ def build_parser() -> argparse.ArgumentParser:
         "atr-batch",
         help="Read every page under --source with every model, one model at a time",
     )
-    p_batch.add_argument("--source", required=True, help="Directory of page images")
+    p_batch.add_argument("--source", required=True,
+                         help="Directory of page images, or dav:<folder> to read "
+                              "the Nextcloud share directly (needs --cache-dir)")
     p_batch.add_argument("--models", required=True,
                          help="Comma-separated gateway model ids (see GET /models)")
     p_batch.add_argument("--run", default="atr_batch", help="Run name = output subdirectory")
