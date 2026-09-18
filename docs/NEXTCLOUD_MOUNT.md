@@ -125,9 +125,14 @@ Drop `--dry-run` once the page count looks right.
 **Smoke-run the new model first.** `--sample 25` on the same seed reads the same
 twenty-five pages every time, so a smoke run and the corpus run are comparable
 and the smoke run's pages are already done when the corpus run reaches them.
-`qwen3vl-german-xix-v2` is served line-level and runs a 4B VLM once per line
-against trocr's once per line, so expect it to be the slower of the two by a
-wide margin — measure it on 25 pages before committing the corpus to it.
+
+For `qwen3vl-german-xix-v2` the smoke run is not a formality. It is served
+whole-page — one call per page, no dependency on the segmenter — and its
+published 7.65 % CER is a *line*-level number measured at an eighth of the pixel
+budget a page gets. Nothing measures the page shape, so **read the readings**, and
+read them to the end: a page-level VLM that is out of its depth returns a short,
+fluent, entirely correct fragment and a `200`. That is exactly how v1 failed here,
+and no column in `report.md` would have shown it.
 
 The order of `--models` is the order they run in, and the runner is model-major
 (every page of one model, then the next) because the gateway's vLLM models are
