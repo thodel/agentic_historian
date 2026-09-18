@@ -31,20 +31,41 @@ sudo apt-get install -y davfs2
 sudo mkdir -p /mnt/gwdg
 ```
 
-**Credentials.** A public share link is its own account: the username is the
-share token (the part after `/s/`), the password is the share password. A named
+**The endpoint.** A share link is a browser URL, not a WebDAV one. This share,
+
+```
+https://cloud.gugw.tu-darmstadt.de/nextcloud/s/FaGXMmkkoY23eaA
+```
+
+is served by a Nextcloud mounted under `/nextcloud`, so the path prefix belongs
+in the WebDAV URL too — a mount against `https://<host>/public.php/webdav` on this
+server reaches the web root and fails:
+
+```
+https://cloud.gugw.tu-darmstadt.de/nextcloud/public.php/webdav
+```
+
+- public share → `https://<host><prefix>/public.php/webdav`
+- named account → `https://<host><prefix>/remote.php/dav/files/<user>/`
+
+**Credentials.** A public share link is its own account: the username is the share
+token — the part after `/s/`, here `FaGXMmkkoY23eaA` — and the password is the
+share password (the same one already in `.env` as `NEXTCLOUD_SHARE_PASS`). A named
 account uses the account name and an *app password*, never the login password.
 
 ```bash
 # /etc/davfs2/secrets      — root only, or davfs2 refuses to read it
 sudo install -m 600 /dev/null /etc/davfs2/secrets
 sudo tee -a /etc/davfs2/secrets >/dev/null <<'EOF'
-https://cloud.example.org/public.php/webdav    FaGXMmkkoY23eaA    <share password>
+https://cloud.gugw.tu-darmstadt.de/nextcloud/public.php/webdav  FaGXMmkkoY23eaA  <share password>
 EOF
 ```
 
-- public share → `https://<host>/public.php/webdav`
-- named account → `https://<host>/remote.php/dav/files/<user>/`
+`/etc` on tei is under etckeeper, so this file is committed to the local `/etc`
+git repository in clear text on the next `apt` run. The repository does not leave
+the machine and is mode 0700, but `chmod 600` on the file alone no longer removes
+the secret — rotating the share password means rewriting that history or
+accepting it.
 
 **Cache size.** davfs2 caches whole files locally and defaults to 50 MB, which is
 two of these pages. Give it enough to work with and not enough to fill the disk —
@@ -62,7 +83,7 @@ delay_upload  0
 `_netdev` so a boot without the network does not hang:
 
 ```
-https://cloud.example.org/public.php/webdav  /mnt/gwdg  davfs  \
+https://cloud.gugw.tu-darmstadt.de/nextcloud/public.php/webdav  /mnt/gwdg  davfs  \
     ro,noauto,_netdev,uid=dh,gid=dh,dir_mode=0555,file_mode=0444,x-systemd.automount  0  0
 ```
 
@@ -72,8 +93,10 @@ ls /mnt/gwdg/digitalisate | head
 ```
 
 If the listing works and the first `cat … | wc -c` returns 25 MB, the mount is
-done. If it hangs, it is almost always the credentials line — davfs2 matches it
-against the *exact* URL in fstab, character for character.
+done. If it hangs or 401s, it is almost always one of two things: the credentials
+line, which davfs2 matches against the *exact* URL in fstab character for
+character, or a missing path prefix — a Nextcloud under `/nextcloud` answers
+`/public.php/webdav` at the web root with something that is not WebDAV.
 
 ### Alternative: rclone
 
@@ -114,7 +137,25 @@ archive.
 
 ---
 
-## 3 · Where the text goes
+## 3 · Check the report before publishing
+
+```bash
+.venv/bin/python3 -m agentic_historian report-run \
+    --run-dir agentic_historian/data/vlm_test/atr_trocr_corpus --dry-run
+```
+
+The report a run writes records what the runner *observed*, which is not the same
+as what is on disk: a resumed run sees most of its corpus as `skipped` and counts
+nothing about it — not characters, not timings, and **not whether a page came back
+empty**, which is the one failure no other column reveals. `report-run` reads the
+results themselves. Drop `--dry-run` to overwrite `report.md` and `report.json`.
+
+It is marked as rebuilt, and its `failed` column is not trustworthy: a page that
+failed wrote nothing, and nothing is what a rebuilt report cannot see.
+
+---
+
+## 4 · Where the text goes
 
 To git, and only to git:
 

@@ -284,8 +284,14 @@ chunk that rewrites identical bytes is an empty diff.
 
 ## 5 · Reading the result
 
-`report.md` gives, per model: pages read, pages skipped, pages failed, **pages cut
-off**, characters per page, seconds per page, wall time.
+`report.md` gives, per model: pages read, pages skipped, pages failed, **pages
+empty**, **pages cut off**, characters per page, seconds per page, wall time.
+
+**On a resumed run, rebuild it first.** The report records what the runner
+observed, and a resumed run observes most of its corpus as `skipped` — counting
+nothing about it, including how many pages came back empty. `report-run --run-dir
+<dir>` reads the results on disk instead. (The 2026-09-17 corpus run had 77 blank
+pages of 899, 8.6 %, and its original report had no empty column at all.)
 
 **Check the "cut off" column first.** It counts pages where the model stopped at
 its token ceiling instead of at the end of the text. Those readings are real but
