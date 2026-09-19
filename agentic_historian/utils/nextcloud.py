@@ -277,8 +277,31 @@ def list_files(remote_dir: Optional[str] = None, recursive: bool = True,
 
 
 def _relative(remote_path: str, root: str) -> str:
-    rel = remote_path[len(root):] if root and remote_path.startswith(root) else remote_path
+    """``remote_path`` with ``root`` stripped off the front.
+
+    The comparison ignores case, because this share answers to both spellings of
+    the same folder: its root lists ``Digitalisate/`` while a walk requested as
+    ``digitalisate`` comes back spelled that way throughout. Which spelling a
+    caller types would otherwise decide whether the prefix is stripped at all —
+    and an unstripped prefix is not an error, it is a different page key for the
+    same page, so a corpus already half-read would quietly be read again.
+    """
+    rel = remote_path[len(root):] if _under(remote_path, root) else remote_path
     return rel.strip("/") or Path(remote_path).name
+
+
+def _under(path: str, root: str) -> bool:
+    """True when ``path`` is ``root`` or lies inside it, ignoring case.
+
+    The separator check is the whole of it: ``Digitalisate2`` starts with
+    ``Digitalisate`` and is not inside it, and stripping the prefix anyway would
+    turn its pages into ``2__001`` — a key that belongs to nothing.
+    """
+    if not root:
+        return False
+    if path[:len(root)].lower() != root.lower():
+        return False
+    return len(path) == len(root) or path[len(root)] == "/"
 
 
 def pull_folder(
