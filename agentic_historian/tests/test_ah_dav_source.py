@@ -273,3 +273,45 @@ def test_a_page_that_cannot_be_fetched_fails_only_that_page(source, tmp_path):
 
     assert (outcome.done, outcome.failed) == (2, 1)
     assert "letter-0001__002" in outcome.errors[0]
+
+
+# ── the share answers to two spellings of the same folder ────────────────────
+
+@pytest.mark.parametrize("typed", ["Digitalisate", "digitalisate", "DIGITALISATE"])
+def test_the_root_spelling_does_not_change_a_page_key(typed):
+    """This share lists `Digitalisate/` at its root, while a walk requested as
+    `digitalisate` comes back spelled that way throughout. An unstripped prefix
+    is not an error — it is a different key for the same page, so a corpus
+    already half-read would quietly be read again."""
+    paths = [f"{typed}/letter-0001/001.tif", f"{typed}/letter-0002/001.tif"]
+
+    pages = batch.pages_from_paths(paths, typed)
+
+    assert [p.key for p in pages] == ["letter-0001__001", "letter-0002__001"]
+
+
+@pytest.mark.parametrize("listed,typed", [
+    ("digitalisate", "Digitalisate"),
+    ("Digitalisate", "digitalisate"),
+])
+def test_a_root_typed_in_the_other_case_still_strips(listed, typed):
+    pages = batch.pages_from_paths([f"{listed}/letter-0001/001.tif"], typed)
+
+    assert [p.key for p in pages] == ["letter-0001__001"]
+    assert pages[0].doc_id == "letter-0001"
+
+
+def test_a_root_that_merely_shares_a_prefix_is_not_stripped(source):
+    """`Digitalisate2` is not inside `Digitalisate`."""
+    pages = batch.pages_from_paths(["Digitalisate2/001.tif"], "Digitalisate")
+
+    assert pages[0].key == "Digitalisate2__001"
+
+
+def test_the_cache_path_ignores_root_case(tmp_path):
+    src = nextcloud.WebdavPageSource(tmp_path / "cache", share=SHARE,
+                                     root="Digitalisate")
+
+    where = src.path_for("digitalisate/letter-0001/001.tif")
+
+    assert where == tmp_path / "cache" / "letter-0001" / "001.jpg"

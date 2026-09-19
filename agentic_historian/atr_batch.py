@@ -192,10 +192,18 @@ def pages_from_paths(paths: Sequence[str], root: str = "",
     finished the other.
     """
     root = (root or "").strip("/")
-    rels = sorted(
-        Path(p[len(root):].strip("/") if root and p.startswith(root) else p)
-        for p in paths
-    )
+
+    def _strip(p: str) -> str:
+        # Case-insensitive, for the reason utils.nextcloud._relative gives: the
+        # share answers to two spellings of the same folder, and which one the
+        # caller typed must not decide a page's key. The separator check matters
+        # too — `Digitalisate2` starts with `Digitalisate` and is not inside it.
+        if root and p[:len(root)].lower() == root.lower() \
+                and (len(p) == len(root) or p[len(root)] == "/"):
+            return p[len(root):].strip("/")
+        return p
+
+    rels = sorted(Path(_strip(p)) for p in paths)
     if sample is not None:
         if sample < 0:
             raise ValueError(f"sample must not be negative: {sample}")
