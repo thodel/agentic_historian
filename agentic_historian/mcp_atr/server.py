@@ -260,8 +260,10 @@ def build_server(provider=None, auth_settings=None):
                     concurrency: Optional[int] = None) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
-        ``source`` must lie inside the mirror, the comparison root or the
-        read-only share mount; a source on the mount is read through a local
+        ``source`` is either a directory — inside the mirror, the comparison
+        root or the read-only share mount — or ``dav:<folder>``, which reads that
+        folder of the Nextcloud share directly, with no mirror and no mount.
+        Either way a source that is not already on local disk is read through a
         working-copy cache, so each page crosses the network once rather than
         once per model. ``run``
         names the output directory under VLM_TEST_ROOT and is the handle for
