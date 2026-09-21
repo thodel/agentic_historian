@@ -111,3 +111,10 @@ def test_one_unreachable_route_does_not_lose_the_others(probe):
     assert "error" in result["gpu_serving"]
     assert result["gpu_training"]["host"] == "dhserver03"
     assert result["health"]["status"] == "ok"
+
+def test_gateway_models_reports_both_gpu_views(probe):
+    result, fake = probe()
+    assert 'gpu_serving' in result and 'gpu_training' in result
+    assert 'gpu' not in result
+    assert '/gpu' in fake.asked and '/train/gpu' in fake.asked
+    assert result['gpu_training']['host'] == 'dhserver03'

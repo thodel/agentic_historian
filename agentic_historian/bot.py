@@ -793,12 +793,42 @@ async def atr_job_cmd(ctx, job_id: Option(str, "Job id", required=True)):
 
 @bot.slash_command(
     name="atr_gpu",
-    description="GPU memory, and what holds it without a job to explain it")
+    description="GPU memory on both machines -- Serving (idhefix) and Training (asterAIx)")
 @require_role
 async def atr_gpu_cmd(ctx):
+    """Show both machines independently: first the serving box vllm summary,
+    then both cards.  One unreachable machine does not hide the other."""
     import atr_status
+    import asyncio
     await ctx.defer(ephemeral=True)
-    await _atr(ctx, atr_status.gpu(), atr_status.format_gpu)
+
+    async def _safe(coro, label):
+        try:
+            return (label, await coro, None)
+        except atr_status.AtrStatusError as exc:
+            return (label, None, str(exc))
+        except Exception as exc:  # noqa: BLE001
+            return (label, None, f"{type(exc).__name__}: {exc}")
+
+    serving_label = "Serving (idhefix)"
+    training_label = "Training (asterAIx)"
+    serving_res, training_res = await asyncio.gather(
+        _safe(atr_status.serving_gpu(), serving_label),
+        _safe(atr_status.gpu(), training_label),
+    )
+    parts, errors = [], []
+    for label, payload, err in [serving_res, training_res]:
+        if err:
+            errors.append(f"**{label}** -- {err}")
+            continue
+        parts.append(f"**{label}**")
+        if label == serving_label:
+            parts.append(f"  {atr_status.format_serving_gpu(payload)}")
+        parts.append(atr_status.format_gpu(payload))
+    if errors:
+        parts.append("")
+        parts.extend(errors)
+    await ctx.followup.send(chr(10).join(parts)[:1900], ephemeral=True)
 
 
 @bot.slash_command(name="atr_progress", description="Tail of a training job's log")

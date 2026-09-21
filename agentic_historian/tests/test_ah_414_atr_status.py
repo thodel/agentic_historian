@@ -187,3 +187,162 @@ def test_a_card_with_only_our_own_engines_stays_one_line():
     out = atr_status.format_gpu(CLEAN)
     assert "fremd" not in out
     assert "alles zugeordnet" in out
+
+# ── #439: two-machine GPU reports ────────────────────────────────────────────
+
+import asyncio
+import atr_status
+
+def _card(index, **kw):
+    base = dict(index=index, name='A40', memory_used_mib=1619,
+                memory_total_mib=46068, utilisation_pct=0,
+                unaccounted_mib=0, service_mib=0, orphaned_mib=0, processes=[])
+    base.update(kw)
+    return base
+
+VLLM_IDHEFIX = {
+    'host': 'idhefix',
+    'cards': [
+        _card(0, memory_used_mib=10440, unaccounted_mib=10440, processes=[
+            {'pid': 27701, 'used_mib': 2610, 'registered': False,
+             'own_service': False, 'orphaned': False,
+             'service': 'gunicorn.service', 'user': 'change',
+             'age_s': 2365849.0, 'command': 'gunicorn ragchange.wsgi'},
+            {'pid': 27702, 'used_mib': 2610, 'registered': False,
+             'own_service': False, 'orphaned': False,
+             'service': 'gunicorn.service', 'user': 'change',
+             'age_s': 2365849.0, 'command': 'gunicorn ragchange.wsgi'},
+        ]),
+        _card(1, memory_used_mib=1619, service_mib=1619, processes=[
+            {'pid': 27710, 'used_mib': 1619, 'registered': False,
+             'own_service': True, 'orphaned': False,
+             'service': 'atr-kraken.service', 'user': 'tobias',
+             'age_s': 6000.0, 'command': 'kraken engine'},
+        ]),
+    ],
+    'vllm': {
+        'gpu': 1,
+        'service': 'atr-gateway.service',
+        'pids': [27720],
+        'residents': [
+            {'id': 'qwen3vl-german-xix-v1', 'vram_mb': 12000, 'residency': 0.61},
+        ],
+        'budget_mb': 28176,
+        'budget': '28176 MiB = 46068 MiB gpu 1 - 15844 MiB engines - 2048 MiB reserve',
+    },
+}
+
+TRAINING_CARDS = {
+    'cards': [
+        _card(1, service_mib=1600, processes=[
+            {'pid': 2757328, 'used_mib': 1600, 'registered': False,
+             'own_service': True, 'orphaned': False,
+             'service': 'atr-trocr.service', 'user': 'tobias',
+             'age_s': 6000.0, 'command': 'trocr engine'},
+        ]),
+    ],
+    'job_attribution_available': True,
+}
+
+# ── format_serving_gpu ───────────────────────────────────────────────────────
+
+def test_the_serving_view_names_the_residents_and_the_budget():
+    out = atr_status.format_serving_gpu(VLLM_IDHEFIX)
+    assert 'qwen3vl-german-xix-v1' in out
+    assert '12000 MB' in out
+    assert '28176 MiB' in out
+
+def test_serving_view_empty_vllm_is_no_data():
+    assert 'keine Daten' in atr_status.format_serving_gpu({})
+
+def test_serving_view_no_residents_budget_only():
+    payload = {'vllm': {'budget_mb': 28176}}
+    out = atr_status.format_serving_gpu(payload)
+    assert '28176 MiB' in out
+    assert 'keine Daten' not in out
+
+# ── format_gpu on serving data ────────────────────────────────────────────────
+
+def test_a_healthy_idhefix_raises_no_alarm():
+    out = atr_status.format_gpu(VLLM_IDHEFIX)
+    assert not out.startswith('**')
+    assert 'gunicorn.service' in out
+    assert 'VERWAIST' not in out
+    assert '× gunicorn.service' in out
+
+def test_own_service_on_serving_card_does_not_trigger_alarm():
+    out = atr_status.format_gpu(VLLM_IDHEFIX)
+    assert not out.startswith('**')
+    assert 'alles zugeordnet' in out
+
+# ── both-machines helper and tests ───────────────────────────────────────────
+
+async def _safe(coro, label):
+    try:
+        return (label, await coro, None)
+    except atr_status.AtrStatusError as exc:
+        return (label, None, str(exc))
+    except Exception as exc:  # noqa: BLE001
+        return (label, None, f"{type(exc).__name__}: {exc}")
+
+async def _both(serving_payload, training_payload):
+    async def _ms(): return serving_payload
+    async def _mt(): return training_payload
+    serving_label = 'Serving (idhefix)'
+    training_label = 'Training (asterAIx)'
+    serving_res, training_res = await asyncio.gather(
+        _safe(_ms(), serving_label),
+        _safe(_mt(), training_label),
+    )
+    parts, errors = [], []
+    for label, payload, err in [serving_res, training_res]:
+        if err:
+            errors.append(f'**{label}** -- {err}')
+            continue
+        parts.append(f'**{label}**')
+        if label == serving_label:
+            parts.append(f'  {atr_status.format_serving_gpu(payload)}')
+        parts.append(atr_status.format_gpu(payload))
+    if errors:
+        parts.append('')
+        parts.extend(errors)
+    return parts
+
+def test_atr_gpu_shows_both_machines():
+    parts = asyncio.run(_both(VLLM_IDHEFIX, TRAINING_CARDS))
+    text = chr(10).join(parts)
+    assert '**Serving (idhefix)**' in text
+    assert '**Training (asterAIx)**' in text
+    assert 'qwen3vl-german-xix-v1' in text
+    assert '28176 MiB' in text
+    assert 'alles zugeordnet' in text
+
+def test_one_unreachable_machine_does_not_hide_the_other():
+    async def _run():
+        async def _failing():
+            raise atr_status.AtrStatusError('Connection refused')
+        async def _mt(): return TRAINING_CARDS
+        serving_label = 'Serving (idhefix)'
+        training_label = 'Training (asterAIx)'
+        serving_res, training_res = await asyncio.gather(
+            _safe(_failing(), serving_label),
+            _safe(_mt(), training_label),
+        )
+        parts, errors = [], []
+        for label, payload, err in [serving_res, training_res]:
+            if err:
+                errors.append(f'**{label}** -- {err}')
+                continue
+            parts.append(f'**{label}**')
+            if label == serving_label:
+                parts.append(f'  {atr_status.format_serving_gpu(payload)}')
+            parts.append(atr_status.format_gpu(payload))
+        if errors:
+            parts.append('')
+            parts.extend(errors)
+        return chr(10).join(parts)
+    text = asyncio.run(_run())
+    assert 'Training (asterAIx)' in text
+    assert 'alles zugeordnet' in text
+    assert 'Serving (idhefix)' in text
+    assert 'Connection refused' in text

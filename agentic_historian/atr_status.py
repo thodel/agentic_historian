@@ -9,10 +9,11 @@ Everything here is **read-only**. Cancelling a job or killing a process is
 defensible from Discord and deserves its own confirm flow and its own decision
 about who may; reading first, and see what it is actually used for (#414).
 
-The transport is the gateway on :8200, which already carries ``/train/*`` and
-already checks ``X-API-Key``. asterAIx binds the trainer to 127.0.0.1 and opens
-only :8200 to this host, so this is the way in — and the key is the one the bot
-already holds for recognition, read from the environment, never from a message.
+The transport is the gateway on :8200, which carries both ``/train/*`` and
+``/gpu``.  The trainer runs on asterAIx (dhserver03), the gateway on idhefix
+(srv); both are reachable through the same gateway URL.  The key is the one the
+bot already holds for recognition, read from the environment, never from a
+message.
 """
 
 from __future__ import annotations
@@ -58,6 +59,11 @@ async def job(job_id: str) -> dict:
 
 async def gpu() -> dict:
     return await _get("/train/gpu")
+
+
+async def serving_gpu() -> dict:
+    """Cards and vllm state of the serving box (idhefix), via GET /gpu."""
+    return await _get("/gpu")
 
 
 async def log(job_id: str, lines: int = 30, stage: str = "train") -> dict:
@@ -212,6 +218,25 @@ def format_gpu(payload: dict) -> str:
     if alarm:
         text = ("**Speicher, den kein Job und kein Dienst erklärt.**\n" + text)
     return text
+
+
+def format_serving_gpu(payload: dict) -> str:
+    """One-line vllm summary for the serving box: loaded models, VRAM each, budget.
+
+    The full card/process breakdown is in format_gpu (same schema as /train/gpu).
+    This line is what a batch runner reads before starting a model.
+    """
+    vllm = (payload or {}).get("vllm") or {}
+    residents = vllm.get("residents") or []
+    budget_mb = vllm.get("budget_mb")
+    if not residents and budget_mb is None:
+        return "vLLM: keine Daten"
+    models = [r.get("id", "?") for r in residents]
+    model_str = ", ".join(models) if models else "keiner"
+    vram_str = ", ".join(f"{r.get('vram_mb', 0)} MB" for r in residents) if residents else ""
+    budget_line = f" · Budget {budget_mb} MiB" if budget_mb is not None else ""
+    model_line = f" ({vram_str})" if vram_str else ""
+    return f"vLLM: {model_str}{model_line}{budget_line}"
 
 
 def format_log(payload: dict, job_id: str) -> str:
