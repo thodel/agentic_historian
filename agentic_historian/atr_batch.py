@@ -508,6 +508,36 @@ def _result_payload(page: PageRef, model: str, run: str, result,
     }
 
 
+def _fetch_page(page: PageRef, cache: "PageSource", retries: int,
+                backoff: float, sleep) -> tuple[Path, dict]:
+    """The page's bytes, retried the way a recognition is retried.
+
+    **This is the half that was missing.** A recognition that hits a 5xx is
+    retried with backoff; a *fetch* that hit one was not, so a transient error
+    from the share made that page permanently failed — and five in a row
+    abandoned the model. On 2026-09-21 the share answered four concurrent 25 MB
+    downloads with `500 Internal Server Error` and with XML that does not parse,
+    and a 6742-page run died after 29 pages with a report blaming the model.
+
+    Retried on **anything**, because nothing a source can do says "this model is
+    wrong". A file that is genuinely gone still fails after the retries, and it
+    fails as one page rather than as the run.
+    """
+    last: BaseException | None = None
+    for attempt in range(retries + 1):
+        try:
+            return cache.fetch(page.path)
+        except Exception as exc:  # noqa: BLE001 — re-raised below once retries run out
+            last = exc
+            if attempt == retries:
+                break
+            wait = backoff * (2 ** attempt)
+            logger.warning(f"[batch] fetching {page.key}: {type(exc).__name__}: {exc} "
+                           f"— retry in {wait:.0f}s")
+            sleep(wait)
+    raise last  # type: ignore[misc]
+
+
 def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
                     recognise: Recogniser, retries: int,
                     backoff: float = 2.0, sleep=time.sleep,
@@ -532,10 +562,10 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
     read_path, source = page.path, None
     if cache is not None:
         try:
-            read_path, source = cache.fetch(page.path)
+            read_path, source = _fetch_page(page, cache, retries, backoff, sleep)
         except Exception as exc:  # noqa: BLE001 — an unfetchable page is that page's failure
             return PageOutcome(key=page.key, model=model, status="failed",
-                               error=f"{type(exc).__name__}: {exc}")
+                               error=f"source: {type(exc).__name__}: {exc}")
 
     last_exc: Optional[BaseException] = None
     for attempt in range(retries + 1):

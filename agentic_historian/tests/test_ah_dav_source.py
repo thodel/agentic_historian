@@ -315,3 +315,94 @@ def test_the_cache_path_ignores_root_case(tmp_path):
     where = src.path_for("digitalisate/letter-0001/001.tif")
 
     assert where == tmp_path / "cache" / "letter-0001" / "001.jpg"
+
+
+# ── a flaky source must not look like a bad model ────────────────────────────
+
+class Flaky:
+    """A source that fails `fails` times per page before succeeding."""
+
+    def __init__(self, inner, fails: int, exc=None):
+        self.inner = inner
+        self.fails = fails
+        self.exc = exc or RuntimeError("500 Internal Server Error")
+        self.attempts: dict[str, int] = {}
+
+    def fetch(self, src):
+        key = str(src)
+        self.attempts[key] = self.attempts.get(key, 0) + 1
+        if self.attempts[key] <= self.fails:
+            raise self.exc
+        return self.inner.fetch(src)
+
+
+def test_a_transient_source_error_is_retried(source, tmp_path):
+    """The bug this closes: on 2026-09-21 the share answered four concurrent
+    25 MB downloads with 500s and unparsable XML, and a 6742-page run died after
+    29 pages — with a report that blamed the model."""
+    pages = batch.pages_from_paths(source.list_pages(), "Digitalisate")
+    flaky = Flaky(source, fails=2)
+
+    outcome = batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run",
+                              tmp_path / "out", lambda p, m: _result(),
+                              retries=2, concurrency=1, cache=flaky,
+                              sleep=lambda _s: None)
+
+    assert (outcome.done, outcome.failed) == (3, 0)
+    assert all(n == 3 for n in flaky.attempts.values())     # two failures, then through
+
+
+def test_a_page_that_never_arrives_costs_only_that_page(source, tmp_path):
+    pages = batch.pages_from_paths(source.list_pages(), "Digitalisate")
+    one = pages[0].path
+
+    class Gone:
+        def fetch(self, src):
+            if str(src) == str(one):
+                raise RuntimeError("404 Not Found")
+            return source.fetch(src)
+
+    outcome = batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run",
+                              tmp_path / "out", lambda p, m: _result(),
+                              retries=1, concurrency=1, cache=Gone(),
+                              sleep=lambda _s: None)
+
+    assert (outcome.done, outcome.failed) == (2, 1)
+    assert not outcome.aborted
+
+
+def test_the_error_says_it_was_the_source(source, tmp_path):
+    """`ABANDONED — … HTTPStatusError` read like the model's fault. It was not."""
+    pages = batch.pages_from_paths(source.list_pages(), "Digitalisate")
+
+    class Broken:
+        def fetch(self, src):
+            raise RuntimeError("500 Internal Server Error")
+
+    outcome = batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run",
+                              tmp_path / "out", lambda p, m: _result(),
+                              retries=0, concurrency=1, cache=Broken(),
+                              sleep=lambda _s: None)
+
+    assert outcome.errors and all(e.split(": ", 1)[1].startswith("source:")
+                                  for e in outcome.errors)
+
+
+def test_recognition_is_not_retried_by_the_fetch_retry(source, tmp_path):
+    """The two budgets stay separate: a page is fetched once and then read, and
+    a recogniser retry must not re-download it."""
+    pages = batch.pages_from_paths(source.list_pages()[:1], "Digitalisate")
+    calls = {"n": 0}
+
+    def flaky_recognise(path, model):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise TimeoutError("gateway is loading the model")
+        return _result()
+
+    batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run", tmp_path / "out",
+                    flaky_recognise, retries=2, concurrency=1, cache=source,
+                    sleep=lambda _s: None)
+
+    assert calls["n"] == 2                       # the recogniser was retried
+    assert len(source.fake.downloads) == 1       # the page was not
