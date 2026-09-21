@@ -44,6 +44,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 import config
+from utils import nextcloud
 
 __all__ = [
     "JobError",
@@ -81,6 +82,12 @@ RUN_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
 #: ``qwen3.5-4b-german-xix-v1``. Colons are allowed because engine-qualified ids
 #: exist; nothing else is.
 MODEL_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$")
+
+#: A folder inside the share. Not a path on this machine, so the containment
+#: check does not apply — but it becomes part of an argv, and ``..`` in it would
+#: be a request to climb out of the folder the caller named. Spaces are allowed
+#: because this share has them ("wlb stuttgart").
+DAV_FOLDER_RE = re.compile(r"^(?!.*\.\.)[\w .\-/]{0,255}$")
 
 #: How many models one request may ask for. Each is a full pass over the corpus;
 #: a list of forty is a mistake or an attack, never an intention.
@@ -153,17 +160,21 @@ def _roots() -> list[Path]:
     return roots
 
 
-def cache_dir_for(source: Path) -> Optional[Path]:
+def cache_dir_for(source) -> Optional[Path]:
     """Where working copies of pages read from ``source`` belong, if anywhere.
 
-    A configured ``ATR_PAGE_CACHE`` wins. Otherwise a source under the mount
-    gets one anyway, under the data directory: reading a page off the mount is a
-    25 MB network transfer, a batch opens every page at least once per model, and
-    there is no situation in which paying that twice is what the caller wanted.
-    A source already on local disk gets none — it would only duplicate files.
+    A configured ``ATR_PAGE_CACHE`` wins. A ``dav:`` source **must** have one:
+    it is the only copy of a page that ever lands on this disk, and the runner
+    refuses the run without it. A source under the mount gets one anyway —
+    reading a page there is a 25 MB network transfer, a batch opens every page at
+    least once per model, and there is no situation in which paying that twice is
+    what the caller wanted. A source already on local disk gets none, since it
+    would only duplicate files.
     """
     if config.ATR_PAGE_CACHE:
         return Path(config.ATR_PAGE_CACHE)
+    if isinstance(source, str):                     # dav:<folder>
+        return Path(config.DATA_DIR) / "page_cache"
     if config.ATR_MOUNT_DIR:
         mount = Path(config.ATR_MOUNT_DIR).resolve()
         if source == mount or source.is_relative_to(mount):
@@ -171,17 +182,32 @@ def cache_dir_for(source: Path) -> Optional[Path]:
     return None
 
 
-def resolve_source(source: str) -> Path:
-    """Turn a requested source directory into an absolute path, or refuse.
+def resolve_source(source: str):
+    """Turn a requested source into an absolute path, or refuse.
 
-    ``resolve()`` first, then containment: resolving follows symlinks, so a link
-    inside the staging area that points at ``/etc`` is rejected by the same check
-    that rejects ``../../etc`` — which is why the check is on the resolved path
-    and never on the string.
+    A ``dav:<folder>`` source is returned **as the string it is**: it names a
+    folder inside the Nextcloud share, not a path on this machine, so there is
+    nothing to resolve and nothing to contain. What bounds it is the share's own
+    credentials — a caller can choose which folder of the share to read and
+    cannot reach anything else on the box, which is the same guarantee the
+    containment check gives for a local corpus, obtained differently.
+
+    For a local source: ``resolve()`` first, then containment. Resolving follows
+    symlinks, so a link inside the staging area that points at ``/etc`` is
+    rejected by the same check that rejects ``../../etc`` — which is why the
+    check is on the resolved path and never on the string.
     """
     raw = (source or "").strip()
     if not raw:
         raise JobError("no source directory given")
+    if nextcloud.is_remote_source(raw):
+        folder = nextcloud.remote_source_root(raw)
+        if not DAV_FOLDER_RE.match(folder or "."):
+            raise JobError(
+                f"invalid share folder {folder!r} — letters, digits, spaces, "
+                "dots, dashes, underscores and '/' only, and no '..' segment"
+            )
+        return f"{nextcloud.DAV_PREFIX}{folder}"
     candidate = Path(raw)
     if not candidate.is_absolute():
         candidate = Path(config.NEXTCLOUD_STAGING_DIR) / candidate

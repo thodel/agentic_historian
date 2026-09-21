@@ -115,3 +115,43 @@ def test_no_cache_means_no_flag(hosts):
     argv = jobs.batch_argv(hosts["mirror"] / "digitalisate", ["trocr-kurrent"], "r")
 
     assert "--cache-dir" not in argv
+
+
+# ── dav: sources through MCP ─────────────────────────────────────────────────
+
+@pytest.mark.parametrize("value,expected", [
+    ("dav:digitalisate", "dav:digitalisate"),
+    ("dav:/digitalisate/", "dav:digitalisate"),
+    ("dav:wlb stuttgart", "dav:wlb stuttgart"),   # this share has spaces in it
+    ("dav:", "dav:"),
+])
+def test_a_dav_source_passes_through_as_a_share_folder(hosts, value, expected):
+    """It names a folder in the share, not a path here — nothing to resolve."""
+    assert jobs.resolve_source(value) == expected
+
+
+@pytest.mark.parametrize("value", [
+    "dav:../../etc",
+    "dav:digitalisate/../..",
+    "dav:a/../b",
+])
+def test_climbing_out_of_the_named_folder_is_refused(hosts, value):
+    """`..` is not a containment problem here — it is a request to read a folder
+    other than the one the caller named, which is the same thing a caller should
+    not be able to do by writing it into an argument."""
+    with pytest.raises(jobs.JobError, match="invalid share folder"):
+        jobs.resolve_source(value)
+
+
+def test_a_dav_source_always_gets_a_cache(hosts):
+    """The runner refuses a dav: run without one, and it is right to: that cache
+    is the only copy of a page that ever lands on this disk."""
+    assert jobs.cache_dir_for("dav:digitalisate") == hosts["data"] / "page_cache"
+
+
+def test_the_dav_source_reaches_the_command_line(hosts):
+    argv = jobs.batch_argv("dav:digitalisate", ["qwen3.5-4b-german-xix-v2"], "r",
+                           cache_dir=hosts["data"] / "page_cache")
+
+    assert argv[argv.index("--source") + 1] == "dav:digitalisate"
+    assert "--cache-dir" in argv
