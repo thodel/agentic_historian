@@ -138,6 +138,19 @@ The folder name is the one **in the share**, and it is case-sensitive:
 an earlier output folder — naming the root instead of the folder would sweep that
 in as pages.
 
+**The share is enumerated once, then cached.** The walk is one PROPFIND per
+folder — 24 minutes for this share's ~1000 folders — and it runs before a batch
+reads a single page. A 25-page smoke run therefore spent more time listing than
+recognising, and a resumed run paid it again for a list it already had. The
+listing is stored next to the pages for **12 hours** (`NEXTCLOUD_LISTING_TTL_S`,
+0 disables it).
+
+Twelve hours because what it describes is a scanning project's output folder:
+pages arrive in batches days apart. A page added since the listing is simply not
+read until the cache expires — `--no-listing-cache` forces a fresh walk when you
+know something changed. A `--limit` walk never reads or writes the cache, since a
+partial list stored as the corpus would silently shorten every later run.
+
 **The keys are the same as a local walk's.** A page's key is its path relative to
 the root with separators folded, so `dav:Digitalisate` and a mirror of the same
 tree produce identical keys — which means a corpus half-read from the mirror can

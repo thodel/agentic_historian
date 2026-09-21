@@ -385,6 +385,20 @@ NEXTCLOUD_TIMEOUT = float(_get("NEXTCLOUD_TIMEOUT", "120"))
 # quietly missing pages.
 NEXTCLOUD_LS_ATTEMPTS = int(_get("NEXTCLOUD_LS_ATTEMPTS", "3"))
 
+#: How long a cached share listing stays usable, in seconds. 0 disables it.
+#:
+#: The enumeration is one PROPFIND per folder — 24 minutes for this share's 1000
+#: folders, measured three times on 2026-09-21 — and it runs before a batch reads
+#: a single page, at every start. For a 25-page smoke run that is more waiting
+#: than work, and a resumed run pays it again for a list it already had.
+#:
+#: Twelve hours, because what the listing describes is a scanning project's
+#: output folder: pages arrive in batches days apart, not minute by minute. The
+#: cost of being wrong is bounded and visible — a page added since the listing is
+#: simply not read until the cache expires, and `--no-listing-cache` forces a
+#: fresh walk when someone knows something changed.
+NEXTCLOUD_LISTING_TTL_S = float(_get("NEXTCLOUD_LISTING_TTL_S", str(12 * 3600)))
+
 #: Convert archival scans to a JPEG working copy as they are mirrored. The
 #: Lassberg digitisations are uncompressed TIFF — 25 MB a page, ~160 GB for the
 #: share against the 92 GB tei has — and the first full pull filled the disk at

@@ -151,7 +151,9 @@ def atr_batch(args: argparse.Namespace) -> int:
         root = nextcloud.remote_source_root(args.source)
         source = f"{nextcloud.DAV_PREFIX}{root or '/'}"
         try:
-            page_source = nextcloud.WebdavPageSource(cache_dir, root=root)
+            page_source = nextcloud.WebdavPageSource(
+                cache_dir, root=root,
+                listing_ttl=0 if args.no_listing_cache else None)
             paths = page_source.list_pages()
         except Exception as exc:  # noqa: BLE001 — a CLI reports, it does not traceback
             print(f"Error: cannot list the share: {exc}", file=sys.stderr)
@@ -364,6 +366,11 @@ def build_parser() -> argparse.ArgumentParser:
                               "Use it when --source is a mounted share: each page "
                               "then crosses the network once instead of once per "
                               "model. Omit for a corpus already on local disk.")
+    p_batch.add_argument("--no-listing-cache", action="store_true",
+                         help="Walk the share again instead of reusing a recent "
+                              "listing. The walk is one PROPFIND per folder — 24 "
+                              "minutes for the Lassberg share — so this is for "
+                              "when you know pages were added.")
     p_batch.add_argument("--dry-run", action="store_true",
                          help="Print the plan (pages, models, calls) and exit")
     p_batch.set_defaults(func=atr_batch)

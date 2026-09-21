@@ -35,6 +35,7 @@ import hashlib
 import json
 import os
 import re
+import time
 import uuid
 from itertools import islice
 from dataclasses import dataclass
@@ -457,11 +458,14 @@ class WebdavPageSource:
     """
 
     def __init__(self, cache_dir: Path, share: Optional[ShareRef] = None,
-                 root: str = "", quality: Optional[int] = None) -> None:
+                 root: str = "", quality: Optional[int] = None,
+                 listing_ttl: Optional[float] = None) -> None:
         self.share = share or share_from_config()
         self.root = (root or "").strip("/")
         self.cache_dir = Path(cache_dir)
         self.quality = quality if quality is not None else images.WORKING_QUALITY
+        self.listing_ttl = (config.NEXTCLOUD_LISTING_TTL_S if listing_ttl is None
+                            else listing_ttl)
         self.hits = 0
         self.misses = 0
         self.source_bytes = 0
@@ -487,10 +491,74 @@ class WebdavPageSource:
         Sorted, like every other enumeration here, because the batch runner
         resumes from what is on disk and a different order would mean a resumed
         run walking a different sequence.
+
+        Cached: see :meth:`_cached_listing`. A ``limit`` never reads the cache and
+        never writes it — it is a partial walk by construction, and a partial list
+        stored as the corpus would silently shorten every later run.
         """
-        walk = _walk(self.client, self.root, True)
-        found = sorted(islice(walk, max(0, limit)) if limit is not None else walk)
-        return [path for path, _size in found]
+        if limit is not None:
+            walk = _walk(self.client, self.root, True)
+            return [path for path, _size in sorted(islice(walk, max(0, limit)))]
+
+        cached = self._cached_listing()
+        if cached is not None:
+            return cached
+        found = sorted(_walk(self.client, self.root, True))
+        paths = [path for path, _size in found]
+        self._store_listing(paths)
+        return paths
+
+    # -- the listing cache -----------------------------------------------
+    def _listing_path(self) -> Path:
+        """One file per share folder, named by a digest of endpoint and root.
+
+        Keyed by both, because a cache that ignored either would hand one share's
+        corpus to another — and the two differ by a token in a URL, which is
+        exactly the kind of difference a filename hides.
+        """
+        ident = f"{self.share.base_url}|{self.share.token}|{self.root}"
+        digest = hashlib.sha256(ident.encode("utf-8")).hexdigest()[:16]
+        return self.cache_dir / f".listing-{digest}.json"
+
+    def _cached_listing(self) -> Optional[list[str]]:
+        """The stored listing if it is fresh, else None.
+
+        The enumeration is one PROPFIND per folder — 24 minutes for this share —
+        and it runs before a batch reads a single page. A 25-page smoke run spent
+        more time listing than recognising, three times in one day.
+
+        Anything unreadable, wrongly shaped or stale is a miss rather than an
+        error: a cache that can fail a run is worse than no cache, and the only
+        cost of a miss is the walk that would have happened anyway.
+        """
+        if not self.listing_ttl:
+            return None
+        path = self._listing_path()
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            age = time.time() - float(data["at"])
+            paths = data["paths"]
+        except (OSError, ValueError, KeyError, TypeError):
+            return None
+        if age > self.listing_ttl or not isinstance(paths, list):
+            return None
+        if not all(isinstance(p, str) for p in paths):
+            return None
+        logger.info(f"[Nextcloud] listing from cache: {len(paths)} page(s), "
+                    f"{age / 60:.0f} min old ({path.name})")
+        return paths
+
+    def _store_listing(self, paths: list[str]) -> None:
+        """Write the listing beside the pages it describes. Never fatal."""
+        if not self.listing_ttl:
+            return
+        try:
+            images._write_atomic_bytes(
+                self._listing_path(),
+                json.dumps({"at": time.time(), "root": self.root,
+                            "paths": paths}, ensure_ascii=False).encode("utf-8"))
+        except OSError as exc:
+            logger.warning(f"[Nextcloud] could not store the listing: {exc}")
 
     # -- the PageSource protocol -----------------------------------------
     def path_for(self, remote: str) -> Path:
