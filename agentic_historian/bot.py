@@ -793,12 +793,17 @@ async def atr_job_cmd(ctx, job_id: Option(str, "Job id", required=True)):
 
 @bot.slash_command(
     name="atr_gpu",
-    description="GPU memory, and what holds it without a job to explain it")
+    description="GPU memory on both ATR machines, and what holds it")
 @require_role
 async def atr_gpu_cmd(ctx):
+    # Both machines since the 16.09. split (#439): idhefix serves, asteraix
+    # trains. Each is asked on its own, so one that is down does not hide the
+    # other — gpu_views() never raises, it files the failure under its section.
     import atr_status
     await ctx.defer(ephemeral=True)
-    await _atr(ctx, atr_status.gpu(), atr_status.format_gpu)
+    views = await atr_status.gpu_views()
+    for message in atr_status.format_gpu_views(views):
+        await ctx.followup.send(message, ephemeral=True)
 
 
 @bot.slash_command(name="atr_progress", description="Tail of a training job's log")
