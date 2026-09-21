@@ -146,6 +146,48 @@ LOGIN_PAGE = """<!doctype html>
 """
 
 
+#: What the gateway is asked, and under which key the answer is filed.
+#:
+#: Both GPU routes, named for whose cards they are. ``/train/gpu`` was once the
+#: only one — the route lives on the trainer's router and carries its prefix,
+#: and asking ``/gpu`` cost a 404 in the first live call. Since
+#: serving-atr-inference#139 ``/gpu`` answers for the **serving** box's cards,
+#: and since 16.09.2026 the two are different machines: idhefix serves, asteraix
+#: trains.
+GATEWAY_PROBES = (
+    ("health", "/health"),
+    ("models", "/models"),
+    ("gpu_serving", "/gpu"),
+    ("gpu_training", "/train/gpu"),
+)
+
+
+def gateway_probe() -> dict:
+    """Ask the gateway everything this tool reports, and never lose a probe.
+
+    Each route is asked independently and a failure is filed under its own key:
+    a gateway that answers ``/models`` and not ``/gpu`` should still tell a
+    caller which models it serves.
+
+    Separate from the tool so it can be tested without standing up a server —
+    which is the only reason the reporting bug it fixes was ever shipped.
+    """
+    import httpx
+
+    headers = {"X-API-Key": config.ATR_API_KEY} if config.ATR_API_KEY else {}
+    out: dict = {"gateway": config.ATR_GATEWAY_URL}
+    with httpx.Client(timeout=PROBE_TIMEOUT_S, headers=headers) as client:
+        for name, path in GATEWAY_PROBES:
+            try:
+                response = client.get(f"{config.ATR_GATEWAY_URL}{path}")
+                out[name] = (response.json() if response.status_code == 200
+                             else {"status": response.status_code,
+                                   "body": response.text[:800]})
+            except Exception as exc:  # noqa: BLE001 — one probe must not lose the others
+                out[name] = {"error": f"{type(exc).__name__}: {exc}"}
+    return out
+
+
 def build_server(provider=None, auth_settings=None):
     from mcp.server.mcpserver import MCPServer
 
@@ -204,29 +246,29 @@ def build_server(provider=None, auth_settings=None):
 
     @server.tool()
     def gateway_models() -> dict:
-        """Model ids the ATR gateway will actually serve, and its health.
+        """Model ids the ATR gateway will actually serve, its health, and both
+        machines' cards.
 
         Registration is not servability: a model can be in the registry and
         disabled on this host. This is the list a batch may name.
-        """
-        import httpx
 
-        headers = {"X-API-Key": config.ATR_API_KEY} if config.ATR_API_KEY else {}
-        out: dict = {"gateway": config.ATR_GATEWAY_URL}
-        with httpx.Client(timeout=PROBE_TIMEOUT_S, headers=headers) as client:
-            # /train/gpu, not /gpu — the route lives on the trainer's router and
-            # carries its prefix. Asking the wrong path cost a 404 in the first
-            # live call, and the docs that named `/gpu` were wrong with it.
-            for name, path in (("health", "/health"), ("models", "/models"),
-                               ("gpu", "/train/gpu")):
-                try:
-                    response = client.get(f"{config.ATR_GATEWAY_URL}{path}")
-                    out[name] = (response.json() if response.status_code == 200
-                                 else {"status": response.status_code,
-                                       "body": response.text[:800]})
-                except Exception as exc:      # noqa: BLE001 — one probe must not lose the others
-                    out[name] = {"error": f"{type(exc).__name__}: {exc}"}
-        return out
+        **Two GPU reports, named for whose they are.** ``/train/gpu`` was once
+        the only one, and the comment here said so: the route lives on the
+        trainer's router and carries its prefix, and asking ``/gpu`` cost a 404.
+        Since serving-atr-inference#139 that is no longer the whole story —
+        ``/gpu`` answers for the **serving** box's cards, and ``/train/gpu`` for
+        the trainer's, which since 16.09.2026 are a different machine
+        (idhefix serves, asteraix trains).
+
+        Reporting only the trainer's was worse than reporting none. On
+        2026-09-21 a batch died with "GPU 1 has 9742 MB free, needs 15848 MB"
+        while this tool showed two idle A40s — the trainer's, idle and
+        irrelevant — and the one card that mattered could not be seen from here
+        at all. ``gpu_serving`` is the one a batch runs on; the old key name
+        ``gpu`` is gone rather than redefined, because a key that silently
+        changes meaning is how this was missed in the first place.
+        """
+        return gateway_probe()
 
     @server.tool()
     def share_list(folder: Optional[str] = None) -> dict:
