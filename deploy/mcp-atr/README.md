@@ -29,7 +29,7 @@ the list is short and why `mcp_atr/jobs.py` has more tests than code.
 
 | tool | |
 |---|---|
-| `gateway_models` | the ATR gateway's `/health`, `/models`, `/train/gpu` — read-only |
+| `gateway_models` | the ATR gateway's `/health`, `/models`, and both machines' cards: `gpu_serving` (`/gpu`, idhefix) and `gpu_training` (`/train/gpu`, asteraix) — read-only |
 | `share_list` | what is in the Nextcloud share, with sizes; downloads nothing |
 | `pull_share` | mirror a share folder onto tei (async → job id) |
 | `start_batch` | read every page with every model (async → job id) |

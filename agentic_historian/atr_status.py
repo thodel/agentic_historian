@@ -1,6 +1,11 @@
-"""Read the training server from Discord: jobs, and the processes nobody registered.
+"""Read the ATR machines from Discord: jobs, and the processes nobody registered.
 
-The bot has the queue's view; asterAIx has the machine's. The two drift apart and
+Since 16.09.2026 these are two machines. **idhefix** (130.92.59.240) runs the
+gateway and the recognition engines; **asteraix** (130.92.59.242) trains. The
+gateway answers for both: ``/gpu`` with its own cards, ``/train/*`` passed through
+to the trainer (serving-atr-inference#137, #139).
+
+The bot has the queue's view; the machines have theirs. The two drift apart and
 nothing surfaces the gap — three incidents in two weeks were each found by hand
 and late, the worst of them a data-loader worker holding 27 530 MiB for sixteen
 hours while both cards read 0 % utilisation.
@@ -9,10 +14,10 @@ Everything here is **read-only**. Cancelling a job or killing a process is
 defensible from Discord and deserves its own confirm flow and its own decision
 about who may; reading first, and see what it is actually used for (#414).
 
-The transport is the gateway on :8200, which already carries ``/train/*`` and
-already checks ``X-API-Key``. asterAIx binds the trainer to 127.0.0.1 and opens
-only :8200 to this host, so this is the way in — and the key is the one the bot
-already holds for recognition, read from the environment, never from a message.
+The transport is the gateway on idhefix :8200, which already carries ``/train/*``
+and already checks ``X-API-Key``. It is the only way in to either machine from
+this host — and the key is the one the bot already holds for recognition, read
+from the environment, never from a message.
 """
 
 from __future__ import annotations
@@ -57,7 +62,18 @@ async def job(job_id: str) -> dict:
 
 
 async def gpu() -> dict:
+    """The TRAINING machine's cards (asteraix), with jobs attributed."""
     return await _get("/train/gpu")
+
+
+async def serving_gpu() -> dict:
+    """The SERVING machine's cards (idhefix) — the ones recognition runs on.
+
+    Same card and process rows as ``gpu()``, plus a ``vllm`` block: which models
+    are resident and the budget a new one has to fit into. No job attribution,
+    because idhefix runs no jobs.
+    """
+    return await _get("/gpu")
 
 
 async def log(job_id: str, lines: int = 30, stage: str = "train") -> dict:
@@ -74,9 +90,9 @@ def _hours(seconds) -> str:
     return f"{hours:.0f} h" if hours >= 1 else f"{seconds / 60:.0f} min"
 
 
-def _fence(body: str) -> str:
-    if len(body) > LIMIT:
-        body = body[:LIMIT] + "\n… (gekürzt)"
+def _fence(body: str, limit: int = LIMIT) -> str:
+    if len(body) > limit:
+        body = body[:limit] + "\n… (gekürzt)"
     return f"```\n{body}\n```"
 
 
@@ -142,7 +158,7 @@ def _classify(proc: dict) -> str:
     return "foreign"           # a named unit belonging to somebody else
 
 
-def format_gpu(payload: dict) -> str:
+def format_gpu(payload: dict, limit: int = LIMIT) -> str:
     """Cards, and what is holding them.
 
     Ordered by what needs a person. The banner is reserved for memory nothing
@@ -208,10 +224,99 @@ def format_gpu(payload: dict) -> str:
         out.append("")
         out.append("Trainer nicht erreichbar — nichts ist einem Job zugeordnet, "
                    "die Speicherzahlen stimmen trotzdem.")
-    text = _fence("\n".join(out))
+    text = _fence("\n".join(out), limit)
     if alarm:
         text = ("**Speicher, den kein Job und kein Dienst erklärt.**\n" + text)
     return text
+
+
+# ── both machines ────────────────────────────────────────────────────────────
+
+#: Discord's own ceiling, as opposed to LIMIT, which leaves room for a fence.
+MESSAGE_LIMIT = 2000
+
+#: The two views /atr_gpu shows, serving first: "why is recognition slow or
+#: refusing a model" is the question asked mid-run, "why is a job waiting" the
+#: one asked before. Labelled here and not from the payload's ``host`` — that
+#: says ``srv`` and ``dhserver03``, neither of which a reader can place (#436).
+#: Names, not function objects, so each call finds the current binding.
+GPU_VIEWS = (
+    ("Serving — idhefix", "serving_gpu"),
+    ("Training — asteraix", "gpu"),
+)
+
+
+async def gpu_views() -> list[tuple[str, dict | None, str | None]]:
+    """``[(label, payload, error)]`` for both machines, asked independently.
+
+    One machine that does not answer must not hide the other: the training box
+    was off the network for a day on 2026-09-10, and a report that fails whole
+    would have hidden the serving cards exactly while someone needed them.
+    """
+    import asyncio
+    import sys
+    module = sys.modules[__name__]
+    results = await asyncio.gather(
+        *(getattr(module, name)() for _, name in GPU_VIEWS),
+        return_exceptions=True)
+    out = []
+    for (label, _), result in zip(GPU_VIEWS, results):
+        if isinstance(result, AtrStatusError):
+            out.append((label, None, str(result)))
+        elif isinstance(result, BaseException):
+            out.append((label, None, f"{type(result).__name__}: {result}"))
+        else:
+            out.append((label, result, None))
+    return out
+
+
+def format_vllm(vllm: dict | None) -> str:
+    """One line: what is resident, and the budget a new model has to fit.
+
+    The budget is what decides whether a model start is refused. On 2026-09-21
+    a batch died on "GPU 1 has 9742 MB free, needs 15848 MB" while the only card
+    Discord could show was the trainer's, idle.
+    """
+    if not vllm:
+        return ""
+    residents = vllm.get("residents") or []
+    if residents:
+        loaded = ", ".join(
+            f"{r.get('id')} ({r.get('vram_mb', '?')} MB"
+            + (f", {r['residency']}" if r.get("residency") else "") + ")"
+            for r in residents)
+    else:
+        loaded = "nichts geladen"
+    line = f"vLLM: {loaded}"
+    if vllm.get("budget_mb") is not None:
+        line += f" · Budget {vllm['budget_mb']} MiB"
+    return line
+
+
+def _section(label: str, payload: dict | None, error: str | None) -> str:
+    head = f"**{label}**"
+    if error:
+        return f"{head}\n❌ {error}"
+    lines = [head]
+    vllm_line = format_vllm((payload or {}).get("vllm"))
+    if vllm_line:
+        lines.append(vllm_line)
+    header = "\n".join(lines)
+    # Room for the header, the alarm banner format_gpu may prepend, and the fence.
+    body = format_gpu(payload, limit=max(200, LIMIT - len(header) - 80))
+    return f"{header}\n{body}"
+
+
+def format_gpu_views(views: list[tuple[str, dict | None, str | None]]) -> list[str]:
+    """Messages to post, each within Discord's limit — one if both fit."""
+    sections = [_section(*view) for view in views]
+    messages: list[str] = []
+    for section in sections:
+        if messages and len(messages[-1]) + 2 + len(section) <= MESSAGE_LIMIT:
+            messages[-1] += "\n\n" + section
+        else:
+            messages.append(section[:MESSAGE_LIMIT])
+    return messages
 
 
 def format_log(payload: dict, job_id: str) -> str:
