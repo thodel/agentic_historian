@@ -88,6 +88,21 @@ SCHEMA = "atr-batch/1"
 #: and continuing spends the rest of the run's time proving it again.
 MAX_CONSECUTIVE_FAILURES = 5
 
+#: Consecutive *source* failures before the run pauses and retries them. Low,
+#: because five in a row are the share, not the pages — four workers fetching
+#: one folder produce that from a single blip (#456).
+MAX_CONSECUTIVE_SOURCE_FAILURES = 5
+
+#: The first pause, in seconds, doubled on each further round up to the cap.
+SOURCE_PAUSE_BASE = 60
+SOURCE_PAUSE_MAX = 900
+
+#: Source failures in one run before the model is given up on: past this the
+#: share is not coming back within the run, and the pages are read on a re-run.
+SOURCE_PAUSE_BUDGET = 20
+
+#: Module level so a test can shorten them and an operator can read them.
+
 #: Statuses that will never succeed on a retry, whatever the page. 404 is an
 #: unknown model id, 401/403 a rejected key — both are true of every call.
 FATAL_STATUSES = frozenset({401, 403, 404})
@@ -692,10 +707,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     # and retried at the end of the main loop.  Source errors do NOT increment
     # the model-error consecutive counter and do NOT abandon the model.
     source_fail_pages: list[PageRef] = []
-    SOURCE_PAUSE_BUDGET = 20      # total source errors before giving up
-    SOURCE_PAUSE_BASE = 60        # seconds; doubled on each pause up to CAP
-    SOURCE_PAUSE_MAX = 900        # 15 min cap
-    MAX_CONSECUTIVE_SOURCE_FAILURES = 5  # pause-and-retry trigger
+    #: The page behind a key, so a retry has the page and not just its outcome.
+    by_key = {page.key: page for page in pages}
 
     # ── model-error circuit (existing behaviour) ────────────────────────────
     consecutive = 0
@@ -707,6 +720,25 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     def _one(page: PageRef) -> PageOutcome:
         return _recognise_page(page, model, run, out_dir, recognise, retries,
                                sleep=sleep, cache=cache)
+
+    def _recovered(res: PageOutcome) -> None:
+        """A page that failed the source check and then read: undo its failure.
+
+        Counted once, not twice: the page was folded in as failed on the pass
+        that could not fetch it, so the counters, the error line and the source
+        key all have to go before it is counted as done.
+        """
+        outcome.failed = max(0, outcome.failed - 1)
+        outcome.source_errors = max(0, outcome.source_errors - 1)
+        if res.key in outcome.source_error_keys:
+            outcome.source_error_keys.remove(res.key)
+        outcome.errors = [e for e in outcome.errors if not e.startswith(f"{res.key}: ")]
+        source_fail_pages[:] = [p for p in source_fail_pages if p.key != res.key]
+        outcome.done += 1
+        outcome.chars += res.chars
+        outcome.lines += res.lines
+        outcome.recognition_ms += res.timing_ms
+        outcome.truncated += int(res.truncated)
 
     def _record(index: int, res: PageOutcome) -> bool:
         """Fold one page outcome in. Returns False when the model must stop.
@@ -732,14 +764,19 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             outcome.skipped += 1
         else:
             outcome.failed += 1
+            # Every failure is listed, source or model: the report's error list
+            # is what a reader scans, and a page missing from it reads as one
+            # that was never tried. Source failures are *also* counted on their
+            # own, because they mean "fetch it again", not "look at the model".
+            outcome.errors.append(f"{res.key}: {res.error}")
             if res.source_error:
                 outcome.source_errors += 1
                 if len(outcome.source_error_keys) < 20:
                     outcome.source_error_keys.append(res.key)
-                if res not in source_fail_pages:
-                    source_fail_pages.append(res)
-            else:
-                outcome.errors.append(f"{res.key}: {res.error}")
+                # The page, not its outcome: the retry has to fetch something.
+                page = by_key.get(res.key)
+                if page is not None and all(p.key != res.key for p in source_fail_pages):
+                    source_fail_pages.append(page)
         if manifest:
             _append_manifest(manifest, {
                 "model": model, "key": res.key, "status": res.status,
@@ -766,15 +803,18 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
                 logger.warning(f"[batch] {model}: {consecutive_source} consecutive source "
                                f"failures \u2014 pausing {pause_s:.0f}s then retrying")
                 sleep(pause_s)
-                # Retry source-fail pages; success resets the counter.
-                retry_keys = {p.key for p in source_fail_pages}
-                for rp in [p for p in pages if p.key in retry_keys]:
+                # Retry the pages the share owes us; one success says it is back.
+                # Not through _record: those pages are already counted, and a
+                # second failure must not pause again from inside a pause.
+                for rp in list(source_fail_pages):
                     ret = _one(rp)
-                    if ret.ok:
-                        # A page that was a source error is now done — update outcome.
+                    if ret.status == "done":
+                        _recovered(ret)
                         consecutive_source = 0
                         break
-                    _record(total, ret)  # failed retry goes back through _record
+                    if ret.status == "skipped":
+                        source_fail_pages[:] = [p for p in source_fail_pages
+                                                if p.key != ret.key]
         else:
             # Model error: route through model circuit (existing behaviour).
             consecutive += 1
@@ -825,21 +865,21 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     if source_fail_pages and not outcome.aborted:
         logger.info(f"[batch] {model}: second pass \u2014 retrying {len(source_fail_pages)} "
                     "pages that failed the source check")
-        still_failing: list = []
-        for page in source_fail_pages:
+        still_failing: list[str] = []
+        for page in list(source_fail_pages):
             retry_res = _one(page)
-            if retry_res.ok:
-                outcome.failed = max(0, outcome.failed - 1)
-                outcome.done += 1
-                outcome.chars += retry_res.chars
-                outcome.lines += retry_res.lines
-                outcome.recognition_ms += retry_res.timing_ms
-                outcome.source_errors = max(0, outcome.source_errors - 1)
-            elif retry_res.source_error:
-                still_failing.append(retry_res)
+            if retry_res.status == "done":
+                _recovered(retry_res)
+            elif retry_res.status == "skipped":
+                source_fail_pages[:] = [p for p in source_fail_pages
+                                        if p.key != retry_res.key]
             else:
-                # Retry got a model error — hand to model circuit.
-                _record(total, retry_res)
+                # Still failed. It stays counted from the first pass; only the
+                # error line is updated, in case the reason changed.
+                still_failing.append(retry_res.key)
+                outcome.errors = [e for e in outcome.errors
+                                  if not e.startswith(f"{retry_res.key}: ")]
+                outcome.errors.append(f"{retry_res.key}: {retry_res.error}")
         if still_failing:
             logger.warning(f"[batch] {model}: {len(still_failing)} source errors "
                            "persisted after second pass")

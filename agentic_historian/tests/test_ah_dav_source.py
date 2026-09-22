@@ -388,6 +388,41 @@ def test_the_error_says_it_was_the_source(source, tmp_path):
                                   for e in outcome.errors)
 
 
+
+def test_the_share_coming_back_after_the_pause_costs_no_page(source, tmp_path, monkeypatch):
+    """#456: five source failures in a row pause the run and then retry. When the
+    share is back, those pages are read and counted once — done, not failed, and
+    out of the error list. The retry used to be handed a page *outcome* instead
+    of the page, which raised AttributeError and ended the run."""
+    monkeypatch.setattr(batch, "MAX_CONSECUTIVE_SOURCE_FAILURES", 2)
+    pages = batch.pages_from_paths(source.list_pages(), "Digitalisate")
+    slept: list[float] = []
+
+    class DownThenBack:
+        def __init__(self) -> None:
+            self.down = True
+
+        def fetch(self, src):
+            if self.down:
+                raise RuntimeError("500 Internal Server Error")
+            return source.fetch(src)
+
+    share = DownThenBack()
+
+    def wake(seconds: float) -> None:
+        slept.append(seconds)
+        share.down = False          # the share is back while the run waits
+
+    outcome = batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run",
+                              tmp_path / "out", lambda p, m: _result(),
+                              retries=0, concurrency=1, cache=share,
+                              sleep=wake, max_consecutive_failures=5)
+
+    assert slept, "five source failures in a row have to pause the run"
+    assert not outcome.aborted, outcome.aborted
+    assert (outcome.done, outcome.failed) == (len(pages), 0)
+    assert outcome.source_errors == 0 and outcome.errors == []
+
 def test_recognition_is_not_retried_by_the_fetch_retry(source, tmp_path):
     """The two budgets stay separate: a page is fetched once and then read, and
     a recogniser retry must not re-download it."""
