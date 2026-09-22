@@ -197,7 +197,10 @@ def test_a_resumed_run_does_not_touch_the_share(share, tmp_path):
     assert (fresh.hits, fresh.misses) == (0, 0)
 
 
-def test_a_page_that_cannot_be_fetched_fails_only_that_page(share, tmp_path):
+def test_a_fetch_that_fails_once_is_recovered_by_the_second_pass(share, tmp_path):
+    """A page the share refused once is read in the second pass (#456), and it
+    is counted once: done, not failed, and out of the error list. It used to
+    stay failed until somebody re-ran the batch by hand."""
     pages = batch.discover_pages(share)
 
     class Broken:
@@ -214,8 +217,31 @@ def test_a_page_that_cannot_be_fetched_fails_only_that_page(share, tmp_path):
                               lambda p, m: _result(), retries=0, concurrency=1,
                               cache=Broken())
 
+    assert (outcome.failed, outcome.done) == (0, len(pages))
+    assert outcome.errors == [] and outcome.source_error_keys == []
+    assert not outcome.aborted
+
+
+def test_a_page_the_share_never_gives_up_stays_failed(share, tmp_path):
+    """The other half: a fetch that fails every time costs that page and says
+    why, in the error list a reader scans."""
+    pages = batch.discover_pages(share)
+    first = pages[0]
+
+    class AlwaysBroken:
+        def fetch(self, src):
+            if str(src) == str(first.path):
+                raise OSError("mount went away")
+            return src, {"name": Path(src).name, "bytes": 1, "sha256": "x"}
+
+    outcome = batch.run_model(pages, "trocr-kurrent", "run", tmp_path / "out",
+                              lambda p, m: _result(), retries=0, concurrency=1,
+                              cache=AlwaysBroken())
+
     assert (outcome.failed, outcome.done) == (1, len(pages) - 1)
     assert "mount went away" in outcome.errors[0]
+    assert outcome.source_errors == 1 and outcome.source_error_keys == [first.key]
+    assert not outcome.aborted
 
 
 def test_without_a_cache_nothing_changes(share, tmp_path):
