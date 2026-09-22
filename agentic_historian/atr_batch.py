@@ -613,6 +613,39 @@ def _append_manifest(manifest: Path, record: dict) -> None:
         logger.warning(f"[batch] manifest write failed: {exc}")
 
 
+def _progress_line(model: str, done: int, total: int, outcome: "ModelOutcome",
+                   elapsed: float) -> str:
+    """How far a model is, at a rate that is not a lie on a resumed run.
+
+    The rate used to be ``done / elapsed``, where ``done`` counts every position
+    walked — **including pages skipped because they were already on disk**. Those
+    cost microseconds, so a resumed run reported a rate inflated by however much
+    it had already finished: on 2026-09-22, ``18.2 p/min`` against a measured 2.3,
+    and an ETA of 248 minutes against a real 33 hours. The giveaway was the ETA
+    *growing* between lines as the inflated rate decayed toward the true one.
+
+    So the rate counts only pages this run actually worked — read or failed —
+    and the line states the three counts separately, because "2250 of 6742" and
+    "330 of them by this process" are both true and only one of them is a speed.
+
+    The ETA assumes every remaining position still needs work. On a resumed run
+    some of them will be skipped and it will finish earlier, which is the
+    direction an estimate should be wrong in; the ``skipped`` count in the same
+    line is what tells a reader to expect that.
+    """
+    worked = outcome.done + outcome.failed
+    parts = [f"[batch] {model}: {done}/{total} pages",
+             f"({outcome.done} read, {outcome.failed} failed, "
+             f"{outcome.skipped} skipped)"]
+    if worked and elapsed > 0:
+        rate = worked / elapsed
+        eta_min = (total - done) / rate / 60
+        parts.append(f"{rate * 60:.1f} p/min")
+        parts.append(f"ETA {eta_min:.0f} min" if eta_min < 120
+                     else f"ETA {eta_min / 60:.1f} h")
+    return " · ".join(parts)
+
+
 def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
               recognise: Recogniser, *, retries: Optional[int] = None,
               concurrency: Optional[int] = None,
@@ -686,13 +719,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
 
         done = index + 1
         if res.status == "done" and (done % 10 == 0 or done == total):
-            elapsed = time.perf_counter() - started
-            rate = done / elapsed if elapsed else 0.0
-            eta = (total - done) / rate if rate else 0.0
-            logger.info(
-                f"[batch] {model}: {done}/{total} pages "
-                f"({outcome.failed} failed) · {rate * 60:.1f} p/min · ETA {eta / 60:.0f} min"
-            )
+            logger.info(_progress_line(model, done, total, outcome,
+                                       time.perf_counter() - started))
         return True
 
     logger.info(f"[batch] {model}: {total} page(s) → {out_dir}")
