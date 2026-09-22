@@ -137,7 +137,7 @@ LOGIN_PAGE = """<!doctype html>
 </style>
 <form method="post">
   <h1>ATR operations on tei</h1>
-  <p>This connector can start recognition jobs on asterAIx.</p>
+  <p>This connector can start recognition jobs on asteraix.</p>
   {error}
   <input type="hidden" name="rid" value="{rid}">
   <input type="password" name="password" placeholder="Password" autofocus required>

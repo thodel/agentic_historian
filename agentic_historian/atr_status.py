@@ -1,7 +1,7 @@
 """Read the ATR machines from Discord: jobs, and the processes nobody registered.
 
 Since 16.09.2026 these are two machines. **idhefix** (130.92.59.240) runs the
-gateway and the recognition engines; **asteraix** (130.92.59.242) trains. The
+gateway and the recognition engines; **astraix** (130.92.59.242) trains. The
 gateway answers for both: ``/gpu`` with its own cards, ``/train/*`` passed through
 to the trainer (serving-atr-inference#137, #139).
 

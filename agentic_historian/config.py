@@ -311,7 +311,7 @@ ENSEMBLE_CONCURRENCY = int(_get("ENSEMBLE_CONCURRENCY", "3"))
 # behaviour exactly.
 ENSEMBLE_ESCALATION_BATCH = int(_get("ENSEMBLE_ESCALATION_BATCH", "2"))
 
-# ── ATR gateway (serving-atr-inference on asterAIx) ──────────────────────────
+# ── ATR gateway (serving-atr-inference on asteraix) ──────────────────────────
 # Recognition backend: kraken / TrOCR / party / vllm behind one FastAPI gateway
 # (verified contract: GET /health, GET /models, POST /segment, /recognize, /ocr).
 # Reachable only from tei on port 8200, gated by a static X-API-Key.
