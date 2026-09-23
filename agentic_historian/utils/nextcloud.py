@@ -38,7 +38,7 @@ import re
 import time
 import uuid
 from itertools import islice
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterator, Optional
 from urllib.parse import urlsplit, urlunsplit
@@ -202,46 +202,98 @@ def _ls(client, rdir: str) -> list[dict]:
     of listings thrown away because one folder was slow (2026-09-15). Retried
     rather than skipped: a directory quietly missing from the walk is a corpus
     quietly missing pages, which is the one failure nobody would notice.
+
+    A response that is not well-formed XML is retried for the same reason. It
+    looks like a permanent property of the folder and is almost never one: what
+    arrives is a proxy's HTML error page where a multistatus was expected, and
+    ``ParseError: not well-formed (invalid token): line 2, column 131`` is the
+    parser's way of saying so. Line 2 of a ``multistatus`` does not exist; line 2
+    of an error page is ``<html lang=…>``. Measured 2026-09-23: this ended a walk
+    380 folders in, for the second time in one day.
     """
     import httpx
+    from xml.etree.ElementTree import ParseError
 
+    attempts = max(1, config.NEXTCLOUD_LS_ATTEMPTS)
     last: Exception | None = None
-    for attempt in range(1, max(1, config.NEXTCLOUD_LS_ATTEMPTS) + 1):
+    for attempt in range(1, attempts + 1):
         try:
             return list(client.ls(rdir, detail=True))
-        except (httpx.TimeoutException, httpx.TransportError) as exc:
+        except (httpx.TimeoutException, httpx.TransportError, ParseError) as exc:
             last = exc
             logger.warning(
-                f"[Nextcloud] listing '{rdir or '/'}' timed out "
-                f"(attempt {attempt}/{config.NEXTCLOUD_LS_ATTEMPTS}): {type(exc).__name__}"
+                f"[Nextcloud] listing '{rdir or '/'}' failed "
+                f"(attempt {attempt}/{attempts}): {type(exc).__name__}: {exc}"
             )
+            if attempt < attempts:
+                # Backed off, because an immediate retry asks the same overloaded
+                # server the same question. Three retries inside one second are
+                # one retry with extra logging.
+                time.sleep(min(2.0 ** (attempt - 1), 8.0))
     raise NextcloudError(
-        f"cannot list '{rdir or '/'}' after {config.NEXTCLOUD_LS_ATTEMPTS} attempts: "
+        f"cannot list '{rdir or '/'}' after {attempts} attempts: "
         f"{type(last).__name__}: {last}. Raise NEXTCLOUD_TIMEOUT if the share is "
         f"large or the server slow; it is a per-request budget, not a total one."
     ) from last
 
 
-def _walk(client, rdir: str, recursive: bool, _seen: Optional[list] = None
+@dataclass
+class WalkState:
+    """What a walk has seen, and what it could not read.
+
+    ``unreadable`` is why this is an object rather than the two counters it used
+    to be. A folder the server will not list is a hole in the corpus, and the
+    caller has to be able to ask whether there is one: an incomplete listing may
+    be worth processing, but it is never worth *caching* as the corpus.
+    """
+
+    folders: int = 0
+    files: int = 0
+    unreadable: list[str] = field(default_factory=list)
+
+    @property
+    def complete(self) -> bool:
+        return not self.unreadable
+
+
+def _walk(client, rdir: str, recursive: bool, _state: Optional[WalkState] = None
           ) -> Iterator[tuple[str, int]]:
     """Yield ``(remote_path, size)`` for every ingestable file under ``rdir``.
 
     Reports progress, because it did not: the walk over this share took nine
     minutes and printed one line, which is indistinguishable from a hang for
     anyone watching — and somebody is always watching a job that long.
+
+    A subfolder that cannot be listed after :func:`_ls` has exhausted its retries
+    costs its own pages and nothing else. It used to cost the walk: 380 folders
+    and nine minutes, discarded because the 381st answered with something that
+    was not XML, twice in one day (2026-09-23). Skipping is the lesser evil only
+    because it is recorded — in the log at ERROR, and in ``state.unreadable``,
+    which stops the result being cached as if it were the whole share. The root
+    is still fatal: a walk that cannot list its own starting point has not
+    partially failed, it has nothing to yield.
     """
-    progress = _seen if _seen is not None else [0, 0]     # [directories, files]
-    progress[0] += 1
-    if progress[0] % 20 == 0:
-        logger.info(f"[Nextcloud] walked {progress[0]} folders, "
-                    f"{progress[1]} ingestable file(s) so far …")
+    state = _state if _state is not None else WalkState()
+    is_root = _state is None
+    state.folders += 1
+    if state.folders % 20 == 0:
+        logger.info(f"[Nextcloud] walked {state.folders} folders, "
+                    f"{state.files} ingestable file(s) so far …")
     # Sorted per level, so the traversal order is deterministic and a caller that
     # stops early gets the same files every time. Without this the order is
     # whatever the server returned, and "the first ten" would be a different ten
     # on a re-run — which the batch runner, resuming from what is on disk, cannot
     # survive.
+    try:
+        listing = _ls(client, rdir)
+    except NextcloudError as exc:
+        if is_root:
+            raise
+        state.unreadable.append(rdir)
+        logger.error(f"[Nextcloud] skipping unreadable folder '{rdir}': {exc}")
+        return
     entries = sorted(
-        _ls(client, rdir),
+        listing,
         key=lambda e: (e.get("name") or e.get("href") or "").rstrip("/"),
     )
     for entry in entries:
@@ -250,12 +302,19 @@ def _walk(client, rdir: str, recursive: bool, _seen: Optional[list] = None
             continue
         if entry.get("type") == "directory":
             if recursive:
-                yield from _walk(client, name, recursive, progress)
+                yield from _walk(client, name, recursive, state)
             continue
         if Path(name).suffix.lower() in INGEST_EXTS:
-            progress[1] += 1
+            state.files += 1
             size = entry.get("content_length") or entry.get("size") or 0
             yield name, int(size or 0)
+    if is_root and state.unreadable:
+        logger.error(
+            f"[Nextcloud] {len(state.unreadable)} folder(s) could not be listed "
+            f"and their pages are missing from this walk: "
+            + ", ".join(state.unreadable[:5])
+            + (" …" if len(state.unreadable) > 5 else "")
+        )
 
 
 def list_files(remote_dir: Optional[str] = None, recursive: bool = True,
@@ -494,7 +553,10 @@ class WebdavPageSource:
 
         Cached: see :meth:`_cached_listing`. A ``limit`` never reads the cache and
         never writes it — it is a partial walk by construction, and a partial list
-        stored as the corpus would silently shorten every later run.
+        stored as the corpus would silently shorten every later run. A walk that
+        skipped an unreadable folder is partial for the same reason and is not
+        stored either: a transient outage that got itself cached would go on
+        shortening the corpus for twelve hours after the server recovered.
         """
         if limit is not None:
             walk = _walk(self.client, self.root, True)
@@ -503,9 +565,16 @@ class WebdavPageSource:
         cached = self._cached_listing()
         if cached is not None:
             return cached
-        found = sorted(_walk(self.client, self.root, True))
+        state = WalkState()
+        found = sorted(_walk(self.client, self.root, True, state))
         paths = [path for path, _size in found]
-        self._store_listing(paths)
+        if state.complete:
+            self._store_listing(paths)
+        else:
+            logger.warning(
+                f"[Nextcloud] listing not cached: {len(state.unreadable)} folder(s) "
+                f"unreadable, so these {len(paths)} page(s) are not the whole share"
+            )
         return paths
 
     # -- the listing cache -----------------------------------------------

@@ -170,3 +170,49 @@ def test_an_unwritable_cache_dir_does_not_lose_the_listing(tmp_path, monkeypatch
                         lambda *a, **kw: (_ for _ in ()).throw(OSError("read-only")))
 
     assert len(src.list_pages()) == 2
+
+
+# ── a hole in the walk must not become a hole in the cache ───────────────────
+
+class BrokenFolderClient(CountingClient):
+    """A share where one letter folder answers with something that is not XML."""
+
+    def __init__(self, bad="Digitalisate/letter-0002", **kw):
+        super().__init__(**kw)
+        self.bad = bad
+
+    def ls(self, rdir, detail=True):
+        from xml.etree.ElementTree import ParseError
+        if (rdir or "").strip("/") == self.bad:
+            raise ParseError("not well-formed (invalid token): line 2, column 131")
+        return super().ls(rdir, detail=detail)
+
+
+def test_an_incomplete_listing_is_never_stored(tmp_path, monkeypatch):
+    """Otherwise a five-minute outage on the share shortens the corpus for the
+    next twelve hours, long after the server recovered — and nothing says so."""
+    import config
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    src = make(tmp_path, monkeypatch, ttl=3600, client=BrokenFolderClient())
+    pages = src.list_pages()
+    assert pages == ["Digitalisate/letter-0001/001.tif"], "the bad folder is skipped"
+    assert not src._listing_path().exists(), "a partial corpus was written as the corpus"
+
+
+def test_the_next_run_walks_again_and_gets_the_recovered_folder(tmp_path, monkeypatch):
+    import config
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    src = make(tmp_path, monkeypatch, ttl=3600, client=BrokenFolderClient())
+    src.list_pages()
+    healthy = CountingClient()
+    monkeypatch.setattr(type(src), "client", property(lambda self: healthy))
+    assert len(src.list_pages()) == 2
+    assert src._listing_path().exists(), "a complete walk is cached"
+
+
+def test_a_complete_walk_is_still_cached(tmp_path, monkeypatch):
+    src = make(tmp_path, monkeypatch, ttl=3600)
+    src.list_pages()
+    assert src._listing_path().exists()

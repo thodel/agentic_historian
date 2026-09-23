@@ -379,3 +379,93 @@ def test_the_same_first_files_every_time():
     a = [p for p, _ in islice(nextcloud._walk(_Tree(TREE), "d", True), 3)]
     b = [p for p, _ in islice(nextcloud._walk(_Tree(TREE), "d", True), 3)]
     assert a == b
+
+
+# ── one folder is not the corpus ─────────────────────────────────────────────
+#
+# 2026-09-23, twice in one day: the walk over the Laßberg share reached 380
+# folders and 2445 files and then ended with
+#
+#   Error: cannot list the share: not well-formed (invalid token): line 2, column 131
+#
+# Nine minutes of PROPFINDs discarded, no pages recognised, and — because the
+# listing cache is only written on a completed walk — the next run started the
+# same walk from zero and died in the same place.
+
+class _BadXml:
+    """A share where one folder answers with something that is not XML."""
+
+    def __init__(self, tree, bad, failures=99):
+        from xml.etree.ElementTree import ParseError
+        self.tree, self.bad, self.failures = tree, bad, failures
+        self.calls: dict[str, int] = {}
+        self._error = ParseError("not well-formed (invalid token): line 2, column 131")
+
+    def ls(self, rdir, detail=True):
+        self.calls[rdir] = self.calls.get(rdir, 0) + 1
+        if rdir == self.bad and self.calls[rdir] <= self.failures:
+            raise self._error
+        return list(self.tree.get(rdir, []))
+
+
+def test_a_non_xml_response_is_retried_like_a_timeout(monkeypatch):
+    """It looks permanent and is not: what arrives is a proxy's HTML error page
+    where a multistatus was expected. Line 2 of a multistatus does not exist."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 3)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    client = _BadXml(TREE, "d/b", failures=2)
+    assert nextcloud._ls(client, "d/b") == TREE["d/b"]
+    assert client.calls["d/b"] == 3
+
+
+def test_the_retries_back_off_instead_of_asking_three_times_in_one_second(monkeypatch):
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 3)
+    slept: list[float] = []
+    monkeypatch.setattr(nextcloud.time, "sleep", slept.append)
+    with pytest.raises(nextcloud.NextcloudError):
+        nextcloud._ls(_BadXml(TREE, "d/b"), "d/b")
+    assert slept == [1.0, 2.0], "and nothing after the last attempt"
+
+
+def test_one_unreadable_folder_no_longer_ends_the_walk(monkeypatch):
+    """The whole incident in one assertion: 2445 files were thrown away because
+    the 381st folder did not answer in XML."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    client = _BadXml(TREE, "d/b")
+    paths = [p for p, _ in nextcloud._walk(client, "d", True)]
+    assert paths == ["d/a/1.jpg", "d/a/2.jpg", "d/c/1.jpg"]
+    assert "d/c" in client.calls, "the folders after the bad one were still walked"
+
+
+def test_the_skipped_folder_is_recorded_not_swallowed(monkeypatch):
+    """Skipping is the lesser evil only because it is written down."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    state = nextcloud.WalkState()
+    list(nextcloud._walk(_BadXml(TREE, "d/b"), "d", True, state))
+    assert state.unreadable == ["d/b"]
+    assert not state.complete
+    assert state.files == 3
+
+
+def test_a_walk_that_read_everything_is_complete():
+    state = nextcloud.WalkState()
+    list(nextcloud._walk(_Tree(TREE), "d", True, state))
+    assert state.complete and state.unreadable == []
+    assert state.files == 5
+
+
+def test_an_unreadable_root_is_still_fatal(monkeypatch):
+    """A walk that cannot list its own starting point has not partially failed;
+    it has nothing to yield, and returning an empty corpus would read as success."""
+    monkeypatch.setattr(config, "NEXTCLOUD_LS_ATTEMPTS", 1)
+    monkeypatch.setattr(nextcloud.time, "sleep", lambda _s: None)
+    with pytest.raises(nextcloud.NextcloudError):
+        list(nextcloud._walk(_BadXml(TREE, "d"), "d", True))
+
+
+def test_the_progress_counters_still_count(monkeypatch):
+    state = nextcloud.WalkState()
+    list(nextcloud._walk(_Tree(TREE), "d", True, state))
+    assert state.folders == 4, "the root and its three subfolders"
