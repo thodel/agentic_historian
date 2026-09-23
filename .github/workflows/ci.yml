@@ -35,6 +35,14 @@ jobs:
       - name: Install runtime dependencies
         run: pip install -r agentic_historian/requirements.txt
 
+
+      # Install editable BEFORE smoke test so that entity_agent.py's
+      # import of passage_index resolves. The cd agentic_historian
+      # in the smoke step is fine; site-packages still takes
+      # precedence over the source tree for package-level imports.
+      - name: Install package in editable mode
+        run: pip install -e agentic_historian/ --no-deps
+
       # Smoke: import the top-level modules.  All modules live under
       # agentic_historian/ so we cd into it first.
       - name: Import smoke test
@@ -48,7 +56,6 @@ jobs:
       # python -m pytest ensures pytest uses the same Python that pip installed to.
       - name: Run pytest
         run: |
-          pip install -e agentic_historian/ --no-deps
           python -m pytest agentic_historian/tests/ \
                   -v --tb=short
 
