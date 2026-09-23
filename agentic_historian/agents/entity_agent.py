@@ -35,6 +35,8 @@ import re
 
 from loguru import logger
 
+from agentic_historian import passage_index
+
 import config
 from knowledge_hub import hub
 from utils import gpustack_client as gs
@@ -63,8 +65,13 @@ def extract_entities(doc_id: str, transcription: str) -> dict:
     """Führt Entity Extraction für ein Dokument durch."""
     logger.info(f"[Agent C] Extrahiere Entitäten: {doc_id}")
     raw_entities = _extract_llm(transcription)
-    enriched = _enrich(raw_entities)
+    chunks = _chunk_text(transcription)
+    enriched = _enrich(raw_entities, doc_id=doc_id)
     _save(doc_id, enriched, transcription)
+    # Build and persist passage records after enrichment (Q1)
+    passages = _build_passage_records(enriched.get("entities", []), chunks)
+    if passages:
+        passage_index.upsert_passages(passages)
     count = len(enriched.get("entities", []))
     logger.info(f"[Agent C] Fertig: {doc_id} ({count} Entitäten)")
     return enriched
@@ -144,6 +151,51 @@ def _loads_entities(raw: str) -> list[dict]:
     return salvaged
 
 
+
+
+
+def _build_passage_records(entities, chunks):
+    """Compute global char offsets and build passage records (Q1).
+
+    Chunks are processed in order with a 2000-char overlap.
+    For each entity we find its text in each chunk (case-insensitive) and
+    record the global character offset of the first match per chunk.
+    """
+    passages = []
+    global_offset = 0
+    for ci, chunk in enumerate(chunks):
+        for ent in entities:
+            text = (ent.get("normalised") or ent.get("text") or "").strip()
+            if not text:
+                continue
+            pos = chunk.lower().find(text.lower())
+            if pos == -1:
+                continue
+            char_start = global_offset + pos
+            char_end = char_start + len(text)
+            rec = {
+                "doc_id":     ent.get("_doc_id", ""),
+                "page":       ent.get("_page", 1),
+                "chunk_idx":  ci,
+                "char_start": char_start,
+                "char_end":   char_end,
+                "entity_type":  ent.get("type", ""),
+                "text":         ent.get("text", ""),
+                "normalised":   ent.get("normalised", ""),
+                "context":      ent.get("context", ""),
+                "hub_id":       ent.get("hub_id", ""),
+                "gnd":          ent.get("gnd", ""),
+                "hls":          ent.get("hls", ""),
+                "wikidata":     ent.get("wikidata", ""),
+                "controlled_vocab": ent.get("controlled_vocab", ""),
+                "hub_confidence":   ent.get("hub_confidence", ""),
+                "link_method":      ent.get("link_method", ""),
+            }
+            passages.append(rec)
+        global_offset += len(chunk) - 2000
+    return passages
+
+
 def _extract_llm(transcription: str) -> dict:
     """
     Extract entities from the full transcription (all chunks), not a truncated
@@ -202,8 +254,10 @@ def _extract_llm(transcription: str) -> dict:
 
 
 
-def _enrich(extracted: dict) -> dict:
+def _enrich(extracted: dict, doc_id: str = "", page: int = 1) -> dict:
     for ent in extracted.get("entities", []):
+        ent["_doc_id"] = doc_id
+        ent["_page"] = page
         ent_type = ent.get("type", "")
         text = (ent.get("normalised") or ent.get("text") or "").strip()
         if not text:
@@ -375,6 +429,8 @@ def _hls_lookup(text: str, ent_type: str) -> dict | None:
 # ── Persistence ───────────────────────────────────────────────────────────────
 
 def _save(doc_id: str, result: dict, transcription: str) -> None:
+    # Reset existing passages for this doc so re-runs are clean (Q1)
+    passage_index.reset_doc(doc_id)
     json_path = config.OUTPUTS_DIR / f"{doc_id}_entities.json"
     md_path = config.OUTPUTS_DIR / f"{doc_id}_entities.md"
 
