@@ -46,6 +46,49 @@ mid-sentence, with nothing anywhere saying it was cut off. Set
 first real run, then read the **end** of a smoke-run page: a reading that stops
 mid-word is the ceiling, not the model.
 
+### And is there room on the card?
+
+Registered, servable, and still unable to start: the three engine services hold
+card 1 whether anyone is using them or not, and a vLLM model that does not fit
+finds out at its cold start — which is *after* the share has been walked.
+Measured 2026-09-23 on idhefix, card 1 of 46 068 MiB:
+
+| service | MiB held | used by a corpus run? |
+|---|---|---|
+| `atr-party` | 11 858 | no |
+| `atr-trocr` | 3 908 | no |
+| `atr-kraken` | 988 | no |
+| `qwen3.5-4b-german-xix-v2` needs | 15 848 | — |
+
+With party resident there are 9 742 MiB free and the run dies at page 1 with
+`GPU 1 has 9742 MB free, needs 15848 MB`, 24 minutes of enumeration already
+spent. Check before starting:
+
+```bash
+# from tei — what is on the serving box's cards right now
+curl -sH "X-API-Key: $ATR_API_KEY" "$ATR_GATEWAY_URL/gpu" \
+  | python3 -c "import json,sys; c=json.load(sys.stdin)['cards'][1]; \
+                print(c['memory_free_mib'], 'free'); \
+                [print(' ', p['used_mib'], p['service']) for p in c['processes']]"
+```
+
+Short of the model's `vram_mb`, free the card **on idhefix** — no sudo needed,
+these are user units:
+
+```bash
+systemctl --user stop atr-party         # the big one; restart it after the run
+```
+
+Two things about that line. It frees ~11.8 GB and nothing restarts it — party
+has been down since 2026-09-23 because a chat message is the only record that it
+should come back. And card 0 is not an alternative: its 10 392 MiB belong to
+another user's `rag-change` workers and are never ours to free.
+
+Both are why this is done by hand today and should not be. #470 replaces it: the
+run states what it needs, the gateway frees what it can, and a lease with a
+timeout puts the engines back even when the run dies — which this one did three
+times in a day.
+
 ---
 
 ## 1 · Configure the share
