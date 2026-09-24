@@ -446,7 +446,7 @@ PARTY_MODEL = KrakenModel(
 # Populated from HuggingFace model listings.
 
 HF_MODELS: dict[str, HFModel] = {
-    # TrOCR line-level models (served by trocr engine on asterAIx :8202)
+    # TrOCR line-level models (served by trocr engine on idhefix :8202)
     "trocr_medieval_escriptmask": HFModel(
         model_id="dh-unibe/trocr-medieval-escriptmask",
         name="TrOCR Medieval EscriptMask",

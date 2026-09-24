@@ -137,7 +137,7 @@ LOGIN_PAGE = """<!doctype html>
 </style>
 <form method="post">
   <h1>ATR operations on tei</h1>
-  <p>This connector can start recognition jobs on asterAIx.</p>
+  <p>This connector can start recognition jobs on idhefix.</p>
   {error}
   <input type="hidden" name="rid" value="{rid}">
   <input type="password" name="password" placeholder="Password" autofocus required>
@@ -193,7 +193,7 @@ def build_server(provider=None, auth_settings=None):
 
     server = MCPServer(
         name="atr-ops",
-        title="ATR operations (tei / asterAIx)",
+        title="ATR operations (tei / idhefix)",
         instructions=(
             "Drive ATR batch runs on tei. Long work is asynchronous: start_batch "
             "returns a job id immediately, then poll job_status and read job_log. "

@@ -7,7 +7,7 @@ has no local kraken models, so every run reported
 
     party model not available (run: kraken get 10.5281/zenodo.20642057)
 
-while asterAIx sat there with a healthy atr-party service on :8203 that nobody
+while idhefix sat there with a healthy atr-party service on :8203 that nobody
 called. The error reads like a host instruction, which is how it got mis-filed
 against the gateway host (serving-atr-inference#30).
 

@@ -270,7 +270,7 @@ def _run_party(image_path: Path) -> tuple[str, str]:
     happen here, that is the entire point of the gateway. tei has no local kraken
     models, so party reported
         "party model not available (run: kraken get 10.5281/zenodo.20642057)"
-    on every run, while asterAIx sat there with a healthy atr-party service on
+    on every run, while idhefix sat there with a healthy atr-party service on
     :8203 that nobody called. The error even reads like a host instruction, which
     is how it got mis-filed against the gateway host (serving-atr-inference#30).
 

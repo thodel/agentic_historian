@@ -271,7 +271,7 @@ def test_without_a_configured_mention_nothing_is_prefixed():
 
 # ── the server itself going away ────────────────────────────────────────────
 #
-# On 2026-09-10 asterAIx left the network entirely while a 33-hour page run was at
+# On 2026-09-10 idhefix left the network entirely while a 33-hour page run was at
 # step 532 of 2352. The first draft of this loop logged "gateway unreachable" and
 # announced nothing, by design — and would have stayed silent for the whole
 # outage. The principle was right for a blip and wrong for this.

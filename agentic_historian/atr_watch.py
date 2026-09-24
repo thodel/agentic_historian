@@ -62,7 +62,7 @@ ORPHAN_GRACE_S = 3600.0
 #: announced. The first draft logged it and never said a word, on the principle
 #: that a watcher reporting its own connectivity is the one that gets muted. That
 #: principle holds for a blip — the gateway is restarted for every deploy — and
-#: fails for the case that proved it: on 2026-09-10 asterAIx went off the network
+#: fails for the case that proved it: on 2026-09-10 idhefix went off the network
 #: entirely while a 33-hour page run was at step 532, and nothing would ever have
 #: said so. Half an hour distinguishes the two.
 UNREACHABLE_GRACE_S = 1800.0
