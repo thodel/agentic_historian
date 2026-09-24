@@ -775,7 +775,7 @@ async def _atr(ctx, coro, formatter, *args):
     await ctx.followup.send(formatter(payload, *args), ephemeral=True)
 
 
-@bot.slash_command(name="atr_jobs", description="Training jobs on asterAIx")
+@bot.slash_command(name="atr_jobs", description="Training jobs on asteraix")
 @require_role
 async def atr_jobs_cmd(ctx):
     import atr_status
