@@ -1,10 +1,19 @@
 # Triggering model training from agentic_historian
 
 Draft, 2026-08-07. How the Discord bot on `tei.dh.unibe.ch` starts and monitors
-kraken training runs on asterAIx, and how the results reach the public site.
+kraken training runs, and how the results reach the public site.
+
+> **Since the split (16.09.2026).** Training left the serving box for **asteraix**
+> (130.92.59.242) and its own repository,
+> [training-atr-models](https://github.com/thodel/training-atr-models). The route
+> below is unchanged and that is the point of it: the bot calls `/train/*` on the
+> gateway (`:8200`, idhefix), which proxies to the trainer on `:8204`. Read the
+> topology diagram as two machines rather than one, and "idhefix" in the older
+> sentences as the box that then served *and* trained. T1 (`TrainingClient`) has
+> since landed; it has no caller yet.
 
 Training itself lives in
-[`serving-atr-inference`](https://github.com/thodel/serving-atr-inference) — this
+[training-atr-models](https://github.com/thodel/training-atr-models) — this
 repo does not train anything. It requests, watches, and reports.
 
 ---
@@ -12,15 +21,21 @@ repo does not train anything. It requests, watches, and reports.
 ## 1. Topology and the one hard prerequisite
 
 ```
-Discord  ──▶  bot (tei.dh.unibe.ch)  ──▶  gateway :8200 (asterAIx)  ──▶  atr-train :8204
-             agentic_historian            X-API-Key, ufw-scoped        127.0.0.1 only
+Discord  ──▶  bot (tei.dh.unibe.ch)  ──▶  gateway :8200 (idhefix)  ──▶  atr-train :8204 (asteraix)
+             agentic_historian            X-API-Key                    own key + client allowlist
 ```
 
-The trainer service binds `127.0.0.1` and the `ufw` rule opens **only** `:8200`
-to this host, so the bot can never reach `:8204` directly. Everything goes
+The trainer service could not be reached from this host, so everything goes
 through the gateway's `/train/*` proxy — **serving-atr-inference#35 must land
 first**. Nothing in this plan works without it, and no firewall change is needed
 once it does.
+
+> **What changed with the split.** The proxy landed as serving-atr-inference#137.
+> The trainer now binds `0.0.0.0:8204` on asteraix, because asteraix's `ufw` does
+> not filter high ports and nobody there has sudo to add a rule; what keeps the
+> bot out is the trainer's own key plus a client allowlist that admits only
+> idhefix. The conclusion is the one this section drew: the bot reaches training
+> only through the gateway, with the key it already holds.
 
 Auth is the shared `X-API-Key` the bot already holds for `/ocr` (`kraken_client`).
 
@@ -36,7 +51,7 @@ for training, for three independent reasons:
 2. **Discord's interaction window.** A followup can be edited for ~15 minutes.
    An awaited six-hour job has nowhere to reply to.
 3. **Restarts.** `/update` restarts the bot. An awaited future dies with it,
-   while the training run continues on asterAIx, unwatched.
+   while the training run continues on asteraix, unwatched.
 
 So training is **fire-and-forget plus polling**: the trainer already owns the job
 lifecycle and persists every job to disk (that is what its detached-runner design
@@ -95,11 +110,12 @@ limit, so this is at most a handful of requests per hour.
 
 ## 5. What lands on the public site
 
-On completion the trainer writes `training.json` (serving-atr-inference#38). The
+On completion the trainer writes `training.json` (serving-atr-inference#38, now
+training-atr-models'). The
 publication path mirrors how recognitions already reach the catalogue:
 
 ```
-asterAIx: training.json  ──▶  tei: fetched by the bot/publisher
+asteraix: training.json ──▶  tei: fetched by the bot/publisher
                               ──▶  agentic-historian-outputs: docs/training/<run_id>/
                               ──▶  GitHub Pages: curves, dataset provenance, model card
 ```

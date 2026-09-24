@@ -6,8 +6,8 @@ the Laßberg *digitalisate* through the three `dh-unibe` German-XIX fine-tunes �
 but nothing here is specific to that corpus except the values.
 
 The commands run on **tei**, where the stack, the venv and the gateway key already
-live. The GPU work happens on **asterAIx** either way: tei uploads each page to
-the ATR gateway on `:8200`, and the models run there. Driving it from asterAIx
+live. The GPU work happens on **idhefix** either way: tei uploads each page to
+the ATR gateway on `:8200`, and the models run there. Driving it from idhefix
 instead only changes `ATR_GATEWAY_URL` to `http://127.0.0.1:8200` and needs a
 checkout plus a venv on a box whose single partition has been full before.
 
@@ -17,7 +17,7 @@ checkout plus a venv on a box whose single partition has been full before.
 
 Registration in `config/models.yaml` is not the same as being servable. See
 [`serving-atr-inference/docs/GERMAN_XIX_MODELS.md`](https://github.com/thodel/serving-atr-inference/blob/main/docs/GERMAN_XIX_MODELS.md)
-for the box-side work — in short, on asterAIx:
+for the box-side work — in short, on idhefix:
 
 ```bash
 cd ~/Repo/serving-atr-inference && . ./.env      # HF_TOKEN: the repos are private

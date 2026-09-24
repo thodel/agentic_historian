@@ -754,7 +754,7 @@ async def progress(ctx):
 
 # ── ATR training server (#414) ───────────────────────────────────────────────
 #
-# Read-only. The bot has the queue's view, asterAIx has the machine's, and the
+# Read-only. The bot has the queue's view, the machines have theirs, and the
 # two drift apart with nothing to surface the gap. Actions — cancelling a job,
 # killing a process — are a separate decision with their own confirm flow.
 #

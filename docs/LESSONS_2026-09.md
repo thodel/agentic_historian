@@ -122,6 +122,6 @@ away.**
 | | |
 |---|---|
 | `vram_mb` in the registry | marked "rough estimates" and now used to size every vLLM launch. Wrong values are launch failures. See serving-atr-inference |
-| `ATR_VLLM_MAX_NEW_TOKENS` | defaults to 512, which silently truncates any page-level model. Set to 4096 on asterAIx by hand |
+| `ATR_VLLM_MAX_NEW_TOKENS` | defaults to 512, which silently truncates any page-level model. Set to 4096 on idhefix by hand |
 | the two qwen3.5 fine-tunes | unservable until the driver reaches ≥ 580 and vLLM knows the architecture |
 | the batch itself | never run. Everything above is scaffolding for it |

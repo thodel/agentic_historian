@@ -17,7 +17,7 @@ from agent_a import ensemble  # noqa: E402
 from agent_a.ensemble import ModelPick, recognize_ensemble, plan_models, resolve_gateway_id  # noqa: E402
 
 
-# The real ATR gateway registry shape (captured from asterAIx via /models, #277):
+# The real ATR gateway registry shape (captured from idhefix via /models, #277):
 # kraken is keyed by Zenodo DOI, TrOCR by HF repo — both differ from the gateway id.
 GATEWAY_REGISTRY = [
     {"id": "kraken-early_modern_german", "engine": "kraken",

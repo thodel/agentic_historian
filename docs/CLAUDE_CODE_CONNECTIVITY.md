@@ -1,4 +1,4 @@
-# Reaching tei and asterAIx from a Claude Code session
+# Reaching tei and idhefix from a Claude Code session
 
 Every session so far has ended at the same wall: the model can write the batch
 runner, the registry entries and the runbook, and then cannot run a single line
@@ -120,7 +120,7 @@ different costume.
 
 ### Better still: on tei, in tmux
 
-No VPN between the agent and the machine at all, asterAIx one hop away over the
+No VPN between the agent and the machine at all, idhefix one hop away over the
 existing `:8200` gateway, and a dropped laptop connection no longer kills a
 multi-hour run. The trade is an Anthropic login on a shared research server.
 
@@ -174,12 +174,12 @@ needs; paste it as the first message.
 > State you should know before you start:
 >
 > - **The machines.** `tei.dh.unibe.ch` has the checkout, the venv and the
->   gateway key; asterAIx (`130.92.59.240`) has the two A40s and serves the ATR
+>   gateway key; idhefix (`130.92.59.240`) has the two A40s and serves the ATR
 >   gateway on `:8200`. Drive the run from tei.
 > - **Only one of the three models is servable.** `qwen3vl-german-xix-v1` works.
 >   `qwen3.5-4b/2b-german-xix-v1` are registered `enabled: false`: no transformers
 >   on the box can load a `qwen3_5` base, and the vLLM that could serve it needs a
->   driver newer than asterAIx's 565. Pair qwen3vl with `kraken-fondue_gd_v2` and
+>   driver newer than idhefix's 565. Pair qwen3vl with `kraken-fondue_gd_v2` and
 >   `party` for the comparison instead.
 > - **The GPU budget is computed now**, from `vram_mb` and `nvidia-smi`
 >   (serving-atr-inference#127). Do not set
@@ -190,7 +190,7 @@ needs; paste it as the first message.
 > - **`ATR_VLLM_MAX_NEW_TOKENS` must be 4096**, not the default 512. These models
 >   are served page-level; past the ceiling vLLM returns a normal 200 whose text
 >   simply stops mid-sentence. `report.md` has a "cut off" column — read it.
-> - **The API key in `.env` on asterAIx and `.env.gpustack` on tei was exposed in
+> - **The API key in `.env` on idhefix and `.env.gpustack` on tei was exposed in
 >   a terminal transcript on 2026-09-14.** Rotate it before the first run if that
 >   has not happened.
 >

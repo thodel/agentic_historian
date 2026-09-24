@@ -177,8 +177,10 @@ class TrainingClient:
     Thin HTTP client for the trainer gateway's /train/* routes.
 
     Shares the same auth (X-API-Key), base URL (ATR_GATEWAY_URL), and
-    timeout (ATR_HTTP_TIMEOUT) as KrakenHTTPClient — both services live on
-    the same asterAIx box behind the same gateway.
+    timeout (ATR_HTTP_TIMEOUT) as KrakenHTTPClient — one door for both. Behind
+    it they are two machines since 16.09.2026: recognition is served on idhefix,
+    and the gateway there proxies /train/* to the trainer on asteraix. From this
+    side nothing changes, which is the point of going through the gateway.
 
     Usage::
 
