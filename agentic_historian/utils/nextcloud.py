@@ -64,6 +64,11 @@ __all__ = [
 
 #: What counts as material to process. Same set as the SwitchDrive ingest, so a
 #: folder pulled from either side yields the same files.
+#: ``.pdf`` belongs here and must stay. A PDF is not a page — ``atr_batch``
+#: decides what each one is, skipping a derivative of the scans beside it and
+#: rendering a lone one to a JPEG per sheet (#476) — but it has to be *listed*
+#: first, or the folders where a PDF is the only digitisation vanish before
+#: anything can look at them. Removing it here is the silent half of that bug.
 INGEST_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".pdf"}
 
 #: Trailing path segments Nextcloud appends to a share URL that are part of the
