@@ -43,6 +43,7 @@ import json
 import os
 import random
 import time
+from xml.etree import ElementTree
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -55,6 +56,8 @@ import config
 
 __all__ = [
     "IMAGE_EXTS",
+    "describe_source_error",
+    "is_source_error",
     "SCHEMA",
     "PageRef",
     "PageSource",
@@ -563,10 +566,56 @@ def _fetch_page(page: PageRef, cache: "PageSource", retries: int,
     raise last  # type: ignore[misc]
 
 
+def describe_source_error(exc: BaseException) -> str:
+    """What a failed fetch says, in words that point at the share (#456).
+
+    The manifest kept what the exception printed, and for the failure that ended
+    a 1920-page run that was ``not well-formed (invalid token): line 2, column
+    131`` — a parser complaining about a document nobody in this repo asked for.
+    It comes from webdav4 parsing a WebDAV multistatus body, so the fact worth
+    recording is that the share answered with something that is not XML, which is
+    what a Nextcloud error page is.
+
+    An HTTP status is carried the same way: ``500`` from the share is not a
+    sentence a reader should have to reconstruct. No URL is included — a share
+    URL carries its token.
+    """
+    if isinstance(exc, ElementTree.ParseError):
+        return (f"share answered with a body that is not XML ({exc}) — a WebDAV "
+                "response was expected, and an error page is what this usually is")
+    response = getattr(exc, "response", None)
+    status = getattr(response, "status_code", None)
+    if status is not None:
+        phrase = getattr(response, "reason_phrase", "") or ""
+        return f"share answered {status} {phrase}".rstrip()
+    return str(exc)
+
+
+def log_first_source_error(exc: BaseException, key: str,
+                           seen: Optional[set] = None) -> bool:
+    """Log the traceback the first time each kind of source error turns up.
+
+    Returns whether it logged. The manifest stores the type and the message, so
+    the run that died on a ParseError could not say **where** webdav4 raised it —
+    which left the cause of the outage in #456 open. One traceback per kind per
+    run is cheap and is the missing evidence; the rest stay one line, because a
+    share that is down produces hundreds of them.
+    """
+    kind = type(exc).__name__
+    if seen is None or kind in seen:
+        return False
+    seen.add(kind)
+    logger.opt(exception=exc).warning(
+        f"[batch] first {kind} from the source (page {key}): "
+        f"{describe_source_error(exc)}")
+    return True
+
+
 def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
                     recognise: Recogniser, retries: int,
                     backoff: float = 2.0, sleep=time.sleep,
-                    cache: Optional["PageSource"] = None) -> PageOutcome:
+                    cache: Optional["PageSource"] = None,
+                    source_kinds: Optional[set] = None) -> PageOutcome:
     """Read one page with one model, with retries, and write both artifacts.
 
     The text file is written **after** the JSON so that the JSON — the file
@@ -589,9 +638,11 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
         try:
             read_path, source = _fetch_page(page, cache, retries, backoff, sleep)
         except Exception as exc:  # noqa: BLE001 — an unfetchable page is that page's failure
-            return PageOutcome(key=page.key, model=model, status="failed",
-                               error=f"source: {type(exc).__name__}: {exc}",
-                               source_error=True)
+            log_first_source_error(exc, page.key, source_kinds)
+            return PageOutcome(
+                key=page.key, model=model, status="failed",
+                error=f"source: {type(exc).__name__}: {describe_source_error(exc)}",
+                source_error=True)
 
     last_exc: Optional[BaseException] = None
     for attempt in range(retries + 1):
@@ -709,6 +760,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     source_fail_pages: list[PageRef] = []
     #: The page behind a key, so a retry has the page and not just its outcome.
     by_key = {page.key: page for page in pages}
+    #: Kinds of source error already logged with a traceback, once each (#456).
+    source_kinds: set[str] = set()
 
     # ── model-error circuit (existing behaviour) ────────────────────────────
     consecutive = 0
@@ -719,7 +772,7 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
 
     def _one(page: PageRef) -> PageOutcome:
         return _recognise_page(page, model, run, out_dir, recognise, retries,
-                               sleep=sleep, cache=cache)
+                               sleep=sleep, cache=cache, source_kinds=source_kinds)
 
     def _recovered(res: PageOutcome) -> None:
         """A page that failed the source check and then read: undo its failure.
@@ -865,7 +918,9 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     if source_fail_pages and not outcome.aborted:
         logger.info(f"[batch] {model}: second pass \u2014 retrying {len(source_fail_pages)} "
                     "pages that failed the source check")
-        still_failing: list[str] = []
+        # Pages, not keys: this list is retried and counted, and one that held
+        # strings would break the next reader who iterates it.
+        still_failing: list[PageRef] = []
         for page in list(source_fail_pages):
             retry_res = _one(page)
             if retry_res.status == "done":
@@ -876,16 +931,14 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             else:
                 # Still failed. It stays counted from the first pass; only the
                 # error line is updated, in case the reason changed.
-                still_failing.append(retry_res.key)
+                still_failing.append(page)
                 outcome.errors = [e for e in outcome.errors
                                   if not e.startswith(f"{retry_res.key}: ")]
                 outcome.errors.append(f"{retry_res.key}: {retry_res.error}")
         if still_failing:
             logger.warning(f"[batch] {model}: {len(still_failing)} source errors "
                            "persisted after second pass")
-            source_fail_pages = still_failing
-        else:
-            source_fail_pages = []
+        source_fail_pages = still_failing
         if len(source_fail_pages) >= SOURCE_PAUSE_BUDGET:
             outcome.aborted = (
                 f"share unavailable \u2014 {len(source_fail_pages)} pages could not be "
@@ -1158,6 +1211,64 @@ def _truncated_flag(txt_path: Path) -> bool:
     return bool(data.get("truncated"))
 
 
+#: How an error line records that the share, not the model, was the problem.
+#: ``_recognise_page`` writes ``<key>: source: <Type>: <what the share did>``.
+SOURCE_ERROR_MARKER = ": source: "
+
+
+def is_source_error(entry: str) -> bool:
+    """Whether an error line from the manifest is a fetch failure, not a reading."""
+    return SOURCE_ERROR_MARKER in entry
+
+
+def _failure_sections(report: BatchReport) -> list[str]:
+    """Failed pages, split by whose problem they are (#456).
+
+    One list of "pages that failed" asked the reader to sort out, line by line,
+    which of them meant *fetch it again* and which meant *look at this reading*.
+    In the run this comes from, 31 of 48 were the share: a Nextcloud that answered
+    four concurrent downloads with 500s and an error page where XML belonged. They
+    need a re-run, and it skips everything already on disk. The other 17 were the
+    gateway, and re-running them changes nothing.
+
+    A model that was abandoned is left to the Abandoned section above, as before:
+    its count is not a list of pages anybody should work through.
+    """
+    failed = [m for m in report.models if m.failed and not m.aborted]
+    if not failed:
+        return []
+
+    def block(title: str, blurb: str, pick) -> list[str]:
+        rows: list[str] = []
+        for m in failed:
+            entries = [e for e in m.errors if pick(e)]
+            if not entries:
+                continue
+            rows.append(f"- `{m.model}`: {len(entries)} page(s)")
+            rows += [f"  - {e}" for e in entries[:10]]
+            if len(entries) > 10:
+                rows.append(f"  - … {len(entries) - 10} more (see `manifest.jsonl`)")
+        return ["", title, "", blurb, ""] + rows if rows else []
+
+    out = block(
+        "## Pages the share could not hand over",
+        "_Not the model's doing. Fetch them again — a re-run skips every page "
+        "already on disk._",
+        is_source_error)
+    out += block(
+        "## Pages that failed recognition",
+        "_The model or the gateway. Re-running them alone changes nothing._",
+        lambda e: not is_source_error(e))
+    # An error count without a line — a rebuilt report, or more than the twenty
+    # kept per model — would otherwise vanish from both lists.
+    unlisted = [m for m in failed if not m.errors]
+    if unlisted:
+        out += ["", "## Pages that failed", ""]
+        out += [f"- `{m.model}`: {m.failed} page(s), see `manifest.jsonl`"
+                for m in unlisted]
+    return out
+
+
 def format_report(report: BatchReport) -> str:
     """A Markdown summary of the run — what each model produced and what it cost.
 
@@ -1207,14 +1318,7 @@ def format_report(report: BatchReport) -> str:
     if aborted:
         lines += ["", "## Abandoned", ""]
         lines += [f"- `{m.model}` — {m.aborted}" for m in aborted]
-    failed = [m for m in report.models if m.failed and not m.aborted]
-    if failed:
-        lines += ["", "## Pages that failed", ""]
-        for m in failed:
-            lines.append(f"- `{m.model}`: {m.failed} page(s)")
-            lines += [f"  - {e}" for e in m.errors[:10]]
-            if m.failed > 10:
-                lines.append(f"  - … {m.failed - 10} more (see `manifest.jsonl`)")
+    lines += _failure_sections(report)
     lines += _readings_section(report)
     return "\n".join(lines) + "\n"
 
