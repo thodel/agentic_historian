@@ -66,6 +66,12 @@ class _FakeGitHub:
         body = kw.get("json", {})
         if url.endswith("/blobs"):
             self.blobs.append(base64.b64decode(body["content"]).decode("utf-8"))
+        if url.endswith("/trees"):
+            # Text is inlined in the tree entry now; a blob POST only happens for
+            # bytes that are not UTF-8. Collecting both keeps this fake honest
+            # about what was committed either way.
+            self.blobs.extend(e["content"] for e in body.get("tree", [])
+                              if "content" in e)
             return _Resp(201, {"sha": "BLOBSHA"})
         if url.endswith("/trees"):
             return _Resp(201, {"sha": "TREESHA"})
@@ -144,7 +150,7 @@ def test_propose_happy_path_opens_pr_with_snippet_patch():
     assert result["ok"] is True
     assert result["branch"] == "mcp/add-ssrq"
     assert "pull/999" in result["pr_url"]
-    # exactly one blob committed — the patched registry containing the new source
+    # exactly one file committed — the patched registry containing the new source
     assert len(gh.blobs) == 1
     assert 'name="ssrq"' in gh.blobs[0] and "full_url=" in gh.blobs[0]
     # PR opened head=mcp/add-ssrq → base=main, body carries the probe report
