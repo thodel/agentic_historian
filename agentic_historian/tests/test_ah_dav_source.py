@@ -18,6 +18,7 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+from xml.etree import ElementTree
 from types import SimpleNamespace
 
 import pytest
@@ -441,3 +442,127 @@ def test_recognition_is_not_retried_by_the_fetch_retry(source, tmp_path):
 
     assert calls["n"] == 2                       # the recogniser was retried
     assert len(source.fake.downloads) == 1       # the page was not
+
+
+# ── the cause, kept (#456 point 4) ───────────────────────────────────────────
+#
+# The run that died after 1920 pages recorded `ParseError: not well-formed
+# (invalid token): line 2, column 131` — a parser complaining about a document
+# nobody in this repo asked for, with no traceback and no status. Which webdav4
+# call got a body that is not XML stayed open because of that.
+
+def test_a_parse_error_is_reported_as_the_share_answering_badly():
+    err = ElementTree.ParseError("not well-formed (invalid token): line 2, column 131")
+    said = batch.describe_source_error(err)
+    assert "not XML" in said
+    assert "line 2, column 131" in said
+
+
+def test_an_http_status_is_said_rather_than_reconstructed():
+    class Response:
+        status_code = 500
+        reason_phrase = "Internal Server Error"
+
+    exc = RuntimeError("boom")
+    exc.response = Response()
+    assert batch.describe_source_error(exc) == "share answered 500 Internal Server Error"
+
+
+def test_an_ordinary_error_keeps_its_own_words():
+    assert batch.describe_source_error(TimeoutError("timed out")) == "timed out"
+
+
+def test_the_manifest_line_carries_the_description(source, tmp_path):
+    pages = batch.pages_from_paths(source.list_pages(), "Digitalisate")
+
+    class NotXml:
+        def fetch(self, src):
+            raise ElementTree.ParseError("not well-formed (invalid token): line 2, column 131")
+
+    outcome = batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run",
+                              tmp_path / "out", lambda p, m: _result(),
+                              retries=0, concurrency=1, cache=NotXml(),
+                              sleep=lambda _s: None)
+
+    assert outcome.errors
+    assert all("source: ParseError: share answered with a body that is not XML" in e
+               for e in outcome.errors)
+
+
+def test_the_first_error_of_a_kind_is_logged_with_its_traceback():
+    """One traceback per kind per run: the evidence that was missing, without
+    a share that is down writing hundreds of them."""
+    seen: set[str] = set()
+    err = ElementTree.ParseError("not well-formed: line 2, column 131")
+    assert batch.log_first_source_error(err, "page-1", seen) is True
+    assert batch.log_first_source_error(err, "page-2", seen) is False
+    assert batch.log_first_source_error(RuntimeError("500"), "page-3", seen) is True
+    assert seen == {"ParseError", "RuntimeError"}
+
+
+def test_without_a_set_nothing_is_logged():
+    """`_recognise_page` may be called without the runner's set (a direct call in
+    a test, say), and a missing set must not mean a traceback per page."""
+    assert batch.log_first_source_error(RuntimeError("500"), "page-1", None) is False
+
+
+# ── the report says which failures are whose (#456 point 5) ──────────────────
+
+def _failed_model(model: str, errors: list[str]) -> batch.ModelOutcome:
+    return batch.ModelOutcome(model=model, failed=len(errors), errors=list(errors))
+
+
+def _report(models: list[batch.ModelOutcome], tmp_path) -> batch.BatchReport:
+    return batch.BatchReport(run="run", out_root=tmp_path, pages=3, models=models)
+
+
+def test_the_report_separates_a_share_outage_from_a_bad_reading(tmp_path):
+    """31 of 48 failures in the run this comes from were the share. One list left
+    the reader to sort out which of them meant "fetch again"."""
+    text = batch.format_report(_report([_failed_model("qwen3.5-4b-german-xix-v2", [
+        "Marbach_0001: source: ParseError: share answered with a body that is not XML",
+        "Marbach_0002: source: HTTPStatusError: share answered 500 Internal Server Error",
+        "Marbach_0009: KrakenClientError: Kraken service 502",
+    ])], tmp_path))
+
+    share, reading = "## Pages the share could not hand over", "## Pages that failed recognition"
+    assert share in text and reading in text
+    assert text.index(share) < text.index("Marbach_0001") < text.index(reading)
+    assert text.index(reading) < text.index("Marbach_0009")
+    assert "skips every page already on disk" in text
+
+
+def test_a_model_with_only_reading_failures_gets_no_share_section(tmp_path):
+    text = batch.format_report(_report([_failed_model("m", [
+        "p1: KrakenClientError: Kraken service 502"])], tmp_path))
+    assert "## Pages the share could not hand over" not in text
+    assert "## Pages that failed recognition" in text
+
+
+def test_a_failure_count_without_lines_is_still_reported(tmp_path):
+    """A rebuilt report has counts and no error lines; it must not lose them."""
+    text = batch.format_report(_report([batch.ModelOutcome(model="m", failed=3)], tmp_path))
+    assert "## Pages that failed" in text and "3 page(s)" in text
+
+
+def test_a_share_that_never_comes_back_ends_the_run_saying_so(source, tmp_path, monkeypatch):
+    """#456's second acceptance case: past the budget the run ends — but with the
+    share named, not with "too many consecutive failures", which sent the reader
+    looking at a model that had done nothing wrong."""
+    monkeypatch.setattr(batch, "MAX_CONSECUTIVE_SOURCE_FAILURES", 2)
+    monkeypatch.setattr(batch, "SOURCE_PAUSE_BUDGET", 2)
+    pages = batch.pages_from_paths(source.list_pages(), "Digitalisate")
+
+    class Down:
+        def fetch(self, src):
+            raise ElementTree.ParseError("not well-formed (invalid token): line 2, column 131")
+
+    outcome = batch.run_model(pages, "qwen3.5-4b-german-xix-v2", "run",
+                              tmp_path / "out", lambda p, m: _result(),
+                              retries=0, concurrency=1, cache=Down(),
+                              sleep=lambda _s: None)
+
+    assert "share unavailable" in outcome.aborted
+    assert "nothing is wrong with the model" in outcome.aborted
+    assert "consecutive failures" not in outcome.aborted
+    assert outcome.source_errors == len(pages)
