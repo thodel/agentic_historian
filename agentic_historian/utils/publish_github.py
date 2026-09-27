@@ -18,6 +18,7 @@ from __future__ import annotations
 import base64
 import json
 import re
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -47,6 +48,67 @@ def _session() -> requests.Session:
         "X-GitHub-Api-Version": "2022-11-28",
     })
     return s
+
+
+#: GitHub answers a *secondary* rate limit with 403, not 429, and the body says
+#: so in prose. A publish that makes thousands of write calls will meet it, and
+#: `raise_for_status` turned that into a dead run 24 of 68 commits in
+#: (2026-09-26). These are the statuses worth waiting out rather than failing on.
+_RETRY_STATUS = frozenset({403, 429, 500, 502, 503, 504})
+_RETRY_ATTEMPTS = 5
+
+
+def _retry_after_s(response: requests.Response, attempt: int) -> float:
+    """How long to wait before retrying, taking the server's word for it.
+
+    GitHub says when to come back — ``Retry-After`` in seconds, or
+    ``x-ratelimit-reset`` as an epoch. Guessing instead of reading those is how a
+    backoff loop turns one rate limit into a longer one.
+    """
+    after = response.headers.get("Retry-After")
+    if after:
+        try:
+            return max(1.0, float(after))
+        except ValueError:
+            pass
+    reset = response.headers.get("x-ratelimit-reset")
+    remaining = response.headers.get("x-ratelimit-remaining")
+    if reset and remaining == "0":
+        try:
+            return max(1.0, float(reset) - time.time())
+        except ValueError:
+            pass
+    return min(2.0 ** attempt, 60.0)
+
+
+def _write(session: requests.Session, method: str, url: str, **kw):
+    """One write call to the API, retried when the answer is "not now".
+
+    Only the statuses in :data:`_RETRY_STATUS` are retried, and a 403 that is a
+    genuine permission failure is among them — it costs a few waits before the
+    error surfaces, which is the cheaper mistake: the other way round, an hour of
+    publishing dies on a limit that would have lifted in sixty seconds.
+    """
+    # Dispatched through ``session.post`` / ``.patch`` rather than
+    # ``session.request``: that is the surface the rest of this module already
+    # uses, and the one every test double here implements.
+    call = getattr(session, method.lower())
+    last = None
+    for attempt in range(1, _RETRY_ATTEMPTS + 1):
+        last = call(url, timeout=_TIMEOUT, **kw)
+        if last.status_code not in _RETRY_STATUS:
+            last.raise_for_status()
+            return last
+        if attempt == _RETRY_ATTEMPTS:
+            break
+        wait = _retry_after_s(last, attempt)
+        logger.warning(
+            f"[Publish] {method} {url.rsplit('/', 1)[-1]}: {last.status_code} "
+            f"(attempt {attempt}/{_RETRY_ATTEMPTS}) — waiting {wait:.0f}s"
+        )
+        time.sleep(wait)
+    last.raise_for_status()
+    return last
 
 
 def collect_artifacts(doc_id: str) -> dict[str, Path]:
@@ -261,36 +323,52 @@ def _commit_files(files: dict[str, bytes], message: str,
         r.raise_for_status()
         return None
 
-    # blobs → tree entries
+    # Tree entries carry the **content**, not a blob sha. The create-tree API
+    # writes the blob itself, which is the difference between three write calls
+    # per commit and two hundred and three. Publishing 13 441 files as 68 chunks
+    # of 200 cost ~13 800 write calls the old way and tripped GitHub's secondary
+    # rate limit at chunk 24 (2026-09-26); the same publish is ~204 calls now.
+    #
+    # Only text can be inlined — the field is a JSON string — so anything that is
+    # not valid UTF-8 still goes through a blob, which is also the only way to
+    # commit bytes that are not text at all.
     tree = []
     for path, content in files.items():
-        rb = s.post(f"{git}/blobs", timeout=_TIMEOUT, json={
-            "content": base64.b64encode(content).decode("ascii"),
-            "encoding": "base64",
-        })
-        rb.raise_for_status()
-        tree.append({"path": path, "mode": "100644", "type": "blob",
-                     "sha": rb.json()["sha"]})
+        try:
+            tree.append({"path": path, "mode": "100644", "type": "blob",
+                         "content": content.decode("utf-8")})
+        except UnicodeDecodeError:
+            rb = _write(s, "POST", f"{git}/blobs", json={
+                "content": base64.b64encode(content).decode("ascii"),
+                "encoding": "base64",
+            })
+            tree.append({"path": path, "mode": "100644", "type": "blob",
+                         "sha": rb.json()["sha"]})
 
     tree_payload: dict = {"tree": tree}
     if base_tree:
         tree_payload["base_tree"] = base_tree
-    rt = s.post(f"{git}/trees", json=tree_payload, timeout=_TIMEOUT)
-    rt.raise_for_status()
+    rt = _write(s, "POST", f"{git}/trees", json=tree_payload)
+    tree_sha = rt.json()["sha"]
 
-    commit_payload: dict = {"message": message, "tree": rt.json()["sha"]}
+    # A chunk that rewrites identical bytes produces the identical tree. Committing
+    # it anyway is an empty commit, and a resumed publish would leave a row of them
+    # in the pull request before reaching the work that is actually left.
+    if base_tree and tree_sha == base_tree and not create_ref:
+        logger.debug(f"[Publish] {repo}@{branch}: unchanged, no commit")
+        return None
+
+    commit_payload: dict = {"message": message, "tree": tree_sha}
     if parent:
         commit_payload["parents"] = [parent]
-    rc = s.post(f"{git}/commits", json=commit_payload, timeout=_TIMEOUT)
-    rc.raise_for_status()
+    rc = _write(s, "POST", f"{git}/commits", json=commit_payload)
     new_sha = rc.json()["sha"]
 
     if parent is not None and not create_ref:
-        ru = s.patch(f"{git}/refs/heads/{branch}", json={"sha": new_sha}, timeout=_TIMEOUT)
+        _write(s, "PATCH", f"{git}/refs/heads/{branch}", json={"sha": new_sha})
     else:
-        ru = s.post(f"{git}/refs", json={"ref": f"refs/heads/{branch}", "sha": new_sha},
-                    timeout=_TIMEOUT)
-    ru.raise_for_status()
+        _write(s, "POST", f"{git}/refs",
+               json={"ref": f"refs/heads/{branch}", "sha": new_sha})
     return rc.json().get("html_url")
 
 
@@ -580,7 +658,8 @@ def publish_pr(local_dir: Path, *, repo: str, path_prefix: str,
         part = f" ({n}/{len(batches)})" if len(batches) > 1 else ""
         url = _commit_files({p: files[p] for p in batch}, f"{msg}{part}",
                             session=s, repo=head_repo, branch=branch)
-        logger.info(f"[Publish] {head_repo}@{branch}: {len(batch)} file(s){part} → {url}")
+        logger.info(f"[Publish] {head_repo}@{branch}: {len(batch)} file(s){part} → "
+                    f"{url or 'unchanged, already published'}")
         if url:
             urls.append(url)
 

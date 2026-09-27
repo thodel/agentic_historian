@@ -133,9 +133,12 @@ def test_publish_doc_empty_repo_bootstraps_ref(monkeypatch, tmp_path):
 
 
 def test_publish_doc_failure_is_non_fatal(monkeypatch, tmp_path):
+    """Fails on ``/trees`` rather than ``/blobs``: text content now travels inside
+    the tree entry, so the blob endpoint is no longer on the path at all and a
+    failure injected there would prove nothing."""
     _enable(monkeypatch, tmp_path)
     _write_outputs(tmp_path)
-    assert pg.publish_doc("doc1", session=FakeGitHub(fail_on="/blobs")) is None
+    assert pg.publish_doc("doc1", session=FakeGitHub(fail_on="/trees")) is None
 
 
 def test_publish_doc_no_artifacts_no_http(monkeypatch, tmp_path):

@@ -261,3 +261,150 @@ def test_publish_batch_push_still_commits_directly(monkeypatch, tmp_path, capsys
     assert mod.publish_batch(args) == 0
 
     assert seen[0] == {"repo": "michaelscho/lassberg", "branch": "main"}
+
+
+# ── the secondary rate limit, and the cost that caused it ────────────────────
+#
+# 2026-09-26: publishing the 6719-page corpus (13 441 files, 68 chunks of 200)
+# died at chunk 24 with
+#
+#   Error: publish failed: 403 Client Error: Forbidden for url:
+#   https://api.github.com/repos/thodel/lassberg/git/blobs
+#
+# Not a permission failure — 24 chunks had just succeeded with the same token.
+# GitHub answers a *secondary* rate limit with 403, and one blob POST per file
+# meant ~13 800 write calls for the publish: 203 per chunk, of which 200 were
+# blobs that the create-tree API will write itself if the content is inlined.
+
+class _CountingAPI:
+    """A GitHub that counts writes and can refuse like the real one."""
+
+    def __init__(self, *, refuse_first=0, refuse_status=403, retry_after=None):
+        self.writes: list[str] = []
+        self.refuse_first = refuse_first
+        self.refuse_status = refuse_status
+        self.retry_after = retry_after
+        self.refused = 0
+
+    def post(self, url, timeout=None, json=None):
+        return self.request("POST", url, json=json)
+
+    def patch(self, url, timeout=None, json=None):
+        return self.request("PATCH", url, json=json)
+
+    def request(self, method, url, timeout=None, json=None):
+        kind = url.rsplit("/git/", 1)[-1].split("/")[0]
+        if self.refused < self.refuse_first:
+            self.refused += 1
+            headers = {"Retry-After": str(self.retry_after)} if self.retry_after else {}
+            return _Resp2(self.refuse_status, {}, headers)
+        self.writes.append(f"{method} {kind}")
+        if kind == "trees":
+            return _Resp2(201, {"sha": "t" * 40}, {})
+        if kind == "commits":
+            return _Resp2(201, {"sha": "c" * 40,
+                                "html_url": "https://github.test/commit/1"}, {})
+        if kind == "blobs":
+            return _Resp2(201, {"sha": "b" * 40}, {})
+        return _Resp2(200, {}, {})
+
+    def get(self, url, timeout=None, params=None):
+        if "/git/ref/heads/" in url:
+            return _Resp2(200, {"object": {"sha": "p" * 40}}, {})
+        if "/git/commits/" in url:
+            return _Resp2(200, {"tree": {"sha": "base" + "0" * 36}}, {})
+        raise AssertionError(f"unexpected GET {url}")
+
+
+class _Resp2(_Resp):
+    def __init__(self, status_code, payload, headers):
+        super().__init__(status_code, payload)
+        self.headers = headers
+
+
+@pytest.fixture
+def no_sleep(monkeypatch):
+    slept: list[float] = []
+    monkeypatch.setattr(pub.time, "sleep", slept.append)
+    return slept
+
+
+def test_two_hundred_text_files_cost_three_write_calls_not_two_hundred_and_three():
+    """The whole incident in one assertion. The create-tree API takes the content
+    itself; a blob POST per file is what tripped the limit."""
+    api = _CountingAPI()
+    files = {f"data/p{i}.txt": b"Euer Hochwohlgeboren" for i in range(200)}
+    pub._commit_files(files, "msg", session=api, repo="o/r", branch="b")
+    assert api.writes == ["POST trees", "POST commits", "PATCH refs"]
+    assert not any("blobs" in w for w in api.writes), "no blob may be posted for text"
+
+
+def test_the_content_travels_in_the_tree_entry():
+    api = _CountingAPI()
+    sent = {}
+    original = api.request
+
+    def spy(method, url, timeout=None, json=None):
+        if url.endswith("/git/trees"):
+            sent.update(json)
+        return original(method, url, timeout=timeout, json=json)
+
+    api.request = spy
+    pub._commit_files({"a.txt": "Laßberg".encode("utf-8")}, "m",
+                      session=api, repo="o/r", branch="b")
+    entry = sent["tree"][0]
+    assert entry["content"] == "Laßberg"
+    assert "sha" not in entry
+
+
+def test_bytes_that_are_not_utf8_still_go_through_a_blob():
+    """The tree field is a JSON string, so it cannot carry arbitrary bytes."""
+    api = _CountingAPI()
+    pub._commit_files({"x.bin": b"\xff\xfe\x00"}, "m",
+                      session=api, repo="o/r", branch="b")
+    assert api.writes[0] == "POST blobs"
+
+
+def test_a_403_is_waited_out_rather_than_raised(no_sleep):
+    """It reads as 'forbidden' and means 'not now'."""
+    api = _CountingAPI(refuse_first=2)
+    pub._commit_files({"a.txt": b"x"}, "m", session=api, repo="o/r", branch="b")
+    assert api.refused == 2
+    assert api.writes[0] == "POST trees", "it got through after waiting"
+
+
+def test_the_servers_retry_after_is_obeyed_over_our_own_backoff(no_sleep):
+    api = _CountingAPI(refuse_first=1, retry_after=47)
+    pub._commit_files({"a.txt": b"x"}, "m", session=api, repo="o/r", branch="b")
+    assert no_sleep == [47.0], "guessing instead of reading the header lengthens the limit"
+
+
+def test_a_limit_that_never_lifts_still_fails(no_sleep):
+    api = _CountingAPI(refuse_first=99)
+    with pytest.raises(RuntimeError):
+        pub._commit_files({"a.txt": b"x"}, "m", session=api, repo="o/r", branch="b")
+    assert len(no_sleep) == pub._RETRY_ATTEMPTS - 1, "no wait after the last attempt"
+
+
+def test_a_404_is_not_retried(no_sleep):
+    api = _CountingAPI(refuse_first=1, refuse_status=404)
+    with pytest.raises(RuntimeError):
+        pub._commit_files({"a.txt": b"x"}, "m", session=api, repo="o/r", branch="b")
+    assert no_sleep == [], "a missing resource will not appear by waiting"
+
+
+def test_an_unchanged_chunk_makes_no_commit():
+    """A resumed publish re-sends the chunks it already landed. Committing them
+    again would put a row of empty commits in the pull request."""
+    api = _CountingAPI()
+    original = api.request
+
+    def same_tree(method, url, timeout=None, json=None):
+        if url.endswith("/git/trees"):
+            return _Resp2(201, {"sha": "base" + "0" * 36}, {})   # == base_tree
+        return original(method, url, timeout=timeout, json=json)
+
+    api.request = same_tree
+    assert pub._commit_files({"a.txt": b"x"}, "m", session=api,
+                             repo="o/r", branch="b") is None
+    assert api.writes == [], "no commit, no ref update"
