@@ -19,6 +19,7 @@ belongs to the model's own budget at inference time, not to ingest.
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -30,7 +31,13 @@ __all__ = [
     "WORKING_SUFFIX",
     "WORKING_QUALITY",
     "CONVERTIBLE_SUFFIXES",
+    "PDF_SUFFIXES",
+    "PDF_RENDER_DPI",
     "SIDECAR_SUFFIX",
+    "is_pdf",
+    "pdf_page_count",
+    "render_pdf_page",
+    "pdf_page_path",
     "working_path",
     "needs_conversion",
     "convert_file",
@@ -50,6 +57,79 @@ WORKING_QUALITY = 85
 #: re-encoding it would lose quality for nothing.
 CONVERTIBLE_SUFFIXES = {".tif", ".tiff", ".bmp", ".png"}
 
+#: A PDF is not an image and not a page: it is a *container* of pages, and that
+#: is the whole of #476. `INGEST_EXTS` listed it, nothing converted it, so it was
+#: written into the page cache unchanged and posted to the gateway as an image —
+#: where kraken answered "cannot identify image file", the runner read the 502 as
+#: transient, retried twice, and charged a failed page to the model. Fourteen
+#: times in one corpus run, none of them a page.
+PDF_SUFFIXES = {".pdf"}
+
+#: What a PDF page is rendered at. 300 dpi is the floor for handwriting: the
+#: Lassberg TIFFs are ~2636 x 3212 for an A4-ish leaf, which is about 300 dpi,
+#: and rendering a derivative coarser than the scan it derives from would make
+#: the two incomparable. Higher costs time and buys nothing a PDF derivative
+#: holds — it was compressed once already.
+PDF_RENDER_DPI = 300
+
+#: pdfium renders at 72 dpi x scale.
+_PDF_BASE_DPI = 72
+
+
+def is_pdf(path: Path) -> bool:
+    return Path(path).suffix.lower() in PDF_SUFFIXES
+
+
+def pdf_page_path(path: Path, index: int) -> Path:
+    """Where page ``index`` of a PDF lives: ``letter.pdf`` -> ``letter_p0003.jpg``.
+
+    Zero-padded and sorted-friendly, and ``_p`` rather than a bare number so a
+    rendered page cannot collide with a scan that happens to end in digits —
+    ``Ms-321_0514.tif`` and page 514 of a PDF are different things.
+    """
+    return path.with_name(f"{path.stem}_p{index + 1:04d}{WORKING_SUFFIX}")
+
+
+def pdf_page_count(data: bytes) -> int:
+    """How many pages this PDF holds, or 0 when it cannot be opened.
+
+    0 rather than an exception: a corrupt derivative in a corpus of thousands is
+    a file to report and walk past, not a reason to end the listing.
+    """
+    import pypdfium2 as pdfium
+
+    try:
+        doc = pdfium.PdfDocument(io.BytesIO(data))
+    except Exception as exc:  # noqa: BLE001 — a damaged PDF is data, not a bug
+        logger.error(f"[images] cannot read PDF ({exc})")
+        return 0
+    try:
+        return len(doc)
+    finally:
+        doc.close()
+
+
+def render_pdf_page(data: bytes, index: int, dest: Path,
+                    quality: int = WORKING_QUALITY,
+                    dpi: int = PDF_RENDER_DPI) -> Path:
+    """Render one page of a PDF to ``dest`` as JPEG.
+
+    Same encoder and the same atomic write as every other working copy, so a
+    page that came out of a PDF and a page that came out of a TIFF are the same
+    kind of thing by the time a model sees one.
+    """
+    import pypdfium2 as pdfium
+
+    doc = pdfium.PdfDocument(io.BytesIO(data))
+    try:
+        if not 0 <= index < len(doc):
+            raise ValueError(
+                f"{dest.name}: page {index + 1} of a PDF with {len(doc)} page(s)")
+        image = doc[index].render(scale=dpi / _PDF_BASE_DPI).to_pil()
+        return _save(image, dest, quality)
+    finally:
+        doc.close()
+
 
 def working_path(path: Path) -> Path:
     """Where this file's working copy lives: same name, ``.jpg``."""
@@ -67,8 +147,6 @@ def convert_bytes(data: bytes, dest: Path, quality: int = WORKING_QUALITY) -> Pa
     does not need it, and an ingest-only dependency should not be able to stop
     the batch runner from starting.
     """
-    import io
-
     from PIL import Image
 
     with Image.open(io.BytesIO(data)) as img:
@@ -155,26 +233,38 @@ class PageCache:
         self.misses = 0
         self.source_bytes = 0
 
-    def path_for(self, src: Path) -> Path:
-        """Where ``src``'s working copy belongs in the cache."""
+    def path_for(self, src: Path, pdf_page: Optional[int] = None) -> Path:
+        """Where ``src``'s working copy belongs in the cache.
+
+        ``pdf_page`` is a zero-based page index inside a PDF, and makes the
+        answer one page rather than the container: ``letter.pdf`` with page 2 is
+        ``letter_p0003.jpg``. The pages of one PDF therefore sit beside each
+        other in the cache the way a folder of scans does.
+        """
         rel = Path(src).resolve().relative_to(self.root)
         dest = self.cache_dir / rel
+        if pdf_page is not None:
+            return pdf_page_path(dest, pdf_page)
         return working_path(dest) if needs_conversion(dest) else dest
 
-    def fetch(self, src: Path) -> tuple[Path, dict]:
+    def fetch(self, src: Path, pdf_page: Optional[int] = None) -> tuple[Path, dict]:
         """``(local path to read, record of the original)``, converting on a miss.
 
         The record is ``{"name", "bytes", "sha256"}`` of the file in the share.
         A sidecar naming a *different* file is treated as a miss rather than
         trusted: two sources in one directory can share a working-copy name
         (``a.tif`` and ``a.png`` both become ``a.jpg``), and reusing one for the
-        other would attach a reading to bytes that never produced it.
+        other would attach a reading to bytes that never produced it. The page
+        index is compared for the same reason; a sidecar written before PDFs were
+        rendered carries no ``pdf_page`` and so reads as None, which is what a
+        plain image is, so no existing cache entry is invalidated.
         """
         src = Path(src)
-        dest = self.path_for(src)
+        dest = self.path_for(src, pdf_page)
         side = dest.with_name(dest.name + SIDECAR_SUFFIX)
         record = _read_sidecar(side)
-        if record and record.get("name") == src.name and dest.exists():
+        if record and record.get("name") == src.name \
+                and record.get("pdf_page") == pdf_page and dest.exists():
             self.hits += 1
             return dest, record
 
@@ -184,7 +274,14 @@ class PageCache:
             "bytes": len(data),
             "sha256": hashlib.sha256(data).hexdigest(),
         }
-        if needs_conversion(src):
+        if pdf_page is not None:
+            # The digest is of the whole PDF, which is right: it is the archival
+            # object this page came out of, and naming the rendered bytes would
+            # point at a file the archive does not have. The page index is in
+            # the record so "which page of it" is answerable too.
+            record["pdf_page"] = pdf_page
+            render_pdf_page(data, pdf_page, dest, self.quality)
+        elif needs_conversion(src):
             convert_bytes(data, dest, self.quality)
         else:
             _write_atomic_bytes(dest, data)

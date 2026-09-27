@@ -21,6 +21,11 @@ import config
 # Tracks which orders (subfolders) have already been processed, so re-runs skip them.
 _PROCESSED_FILE = config.DATA_DIR / "processed_orders.json"
 
+#: ``.pdf`` belongs here and must stay. A PDF is not a page — ``atr_batch``
+#: decides what each one is, skipping a derivative of the scans beside it and
+#: rendering a lone one to a JPEG per sheet (#476) — but it has to be *listed*
+#: first, or the folders where a PDF is the only digitisation vanish before
+#: anything can look at them. Removing it here is the silent half of that bug.
 INGEST_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".pdf"}
 
 

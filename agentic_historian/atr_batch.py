@@ -45,6 +45,7 @@ import random
 import time
 from xml.etree import ElementTree
 from concurrent.futures import ThreadPoolExecutor
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -137,14 +138,132 @@ class PageRef:
     #: with separators folded to "__". Flat, so one directory per model holds the
     #: whole corpus, and reversible enough to see where a page came from.
     key: str
+    #: Zero-based page index inside ``path`` when the page lives in a PDF, None
+    #: when the file *is* the page. A PDF is a container, not an image (#476):
+    #: posting one to the gateway got "cannot identify image file" back, which
+    #: the runner read as transient and retried twice before charging a failed
+    #: page to the model.
+    pdf_page: Optional[int] = None
 
     @property
     def name(self) -> str:
-        return self.path.name
+        if self.pdf_page is None:
+            return self.path.name
+        return f"{self.path.name} p.{self.pdf_page + 1}"
 
 
 def _key_for(rel: Path) -> str:
     return "__".join(rel.with_suffix("").parts)
+
+
+def _pdf_key_for(rel: Path, index: int) -> str:
+    """The key of one page inside a PDF.
+
+    ``_p0003`` rather than a bare number, so a rendered page cannot collide with
+    a scan whose name ends in digits — ``Ms-321_0514.tif`` and page 514 of a PDF
+    are different things and must not share an output file.
+    """
+    return f"{_key_for(rel)}__p{index + 1:04d}"
+
+
+@dataclass(frozen=True)
+class SkippedFile:
+    """A file the listing saw and did not turn into a page, and why."""
+
+    rel: str
+    reason: str
+
+
+class PageList(list):
+    """The pages, with what the listing threw away on the way to them.
+
+    A ``list`` subclass rather than a new return type: ``discover_pages`` and
+    ``pages_from_paths`` are called from 79 places, and a mechanical rewrite of
+    all of them would bury the one change that matters. Everything that worked
+    on the list still works — indexing, iteration, ``==`` against a plain list —
+    and ``.skipped`` carries what used to go nowhere.
+    """
+
+    def __init__(self, pages=(), skipped=()) -> None:
+        super().__init__(pages)
+        self.skipped: list[SkippedFile] = list(skipped)
+
+
+def _folders_with_images(rels: list[Path], exts: set) -> set:
+    return {rel.parent for rel in rels if rel.suffix.lower() in exts}
+
+
+def _count_pdf_pages(path: Path) -> int:
+    """Pages in the PDF at ``path``, or 0 when it cannot be read from here.
+
+    A seam, because the two listings stand in different places: the local walk
+    holds the file, a WebDAV listing holds a name. 0 means "cannot say", and a
+    PDF nobody can count is reported rather than guessed at — a container posted
+    to a recogniser as an image is what #476 is.
+    """
+    from utils import images
+
+    try:
+        return images.pdf_page_count(Path(path).read_bytes())
+    except OSError as exc:
+        logger.warning(f"[batch] {Path(path).name}: cannot read the PDF ({exc})")
+        return 0
+
+
+def _expand(rels: list[Path], root: Path, exts: set,
+            count_pages=_count_pdf_pages) -> PageList:
+    """Turn a list of relative paths into pages, deciding what a PDF is.
+
+    A PDF is not a page and not an image; it holds pages. What it *means* in a
+    corpus depends on what is beside it:
+
+    - **Next to scans, it is a derivative.** In the Kantonsbibliothek Appenzell
+      material a PDF of 82 KB sits beside the four 13 MB TIFFs it was made from,
+      and its own name lists them (``…_514-517.pdf`` next to ``…_0514.tif`` …
+      ``_0517.tif``). Reading it as well would transcribe the same leaves twice,
+      which is worse than not reading it at all.
+    - **Alone in its folder, it is the only digitisation there is.** Excluding
+      every PDT wholesale would lose those folders silently, and silent loss is
+      the one failure nobody notices. So they are rendered to one JPEG per page
+      and read like any other scan.
+
+    Either way nothing is posted to a recogniser that is not an image, and
+    everything not turned into a page is reported.
+    """
+    with_images = _folders_with_images(rels, exts)
+    pages: list[PageRef] = []
+    skipped: list[SkippedFile] = []
+
+    for rel in rels:
+        suffix = rel.suffix.lower()
+        if suffix in exts:
+            pages.append(PageRef(path=root / rel if root else Path(str(rel)),
+                                 doc_id=rel.parent.as_posix().strip("."),
+                                 key=_key_for(rel)))
+            continue
+        if suffix not in PDF_EXTS:
+            skipped.append(SkippedFile(rel.as_posix(), "not a page format"))
+            continue
+        if rel.parent in with_images:
+            skipped.append(SkippedFile(
+                rel.as_posix(),
+                "PDF derivative of the scans in the same folder"))
+            continue
+        count = count_pages(root / rel if root else rel)
+        if count <= 0:
+            skipped.append(SkippedFile(rel.as_posix(), "PDF could not be read"))
+            continue
+        for index in range(count):
+            pages.append(PageRef(path=root / rel if root else Path(str(rel)),
+                                 doc_id=rel.parent.as_posix().strip("."),
+                                 key=_pdf_key_for(rel, index),
+                                 pdf_page=index))
+    return PageList(pages, skipped)
+
+
+#: Containers the listing may hand us. Not in ``IMAGE_EXTS``, because a PDF is
+#: not an image — that conflation is the bug (#476).
+PDF_EXTS = frozenset({".pdf"})
 
 
 #: Seed for ``--sample``. A constant rather than the clock, because the whole
@@ -157,7 +276,7 @@ SAMPLE_SEED = 20260915
 
 def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
                    limit: Optional[int] = None, sample: Optional[int] = None,
-                   seed: int = SAMPLE_SEED) -> list[PageRef]:
+                   seed: int = SAMPLE_SEED) -> PageList:
     """Every page under ``root``, in a stable order.
 
     Sorted by relative path, so two runs over the same corpus process it in the
@@ -179,27 +298,34 @@ def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
         raise ValueError("limit and sample are alternatives: first N, or N at random")
     root = Path(root)
     exts = {e.lower() for e in exts}
+    # PDFs are collected too, and _expand decides what each one is. Leaving them
+    # out here would hide the folders where a PDF is the only digitisation, which
+    # is the half of #476 that fails quietly.
     rels = sorted(
         p.relative_to(root)
         for p in root.rglob("*")
-        if p.is_file() and p.suffix.lower() in exts
+        if p.is_file() and p.suffix.lower() in (exts | PDF_EXTS)
     )
+    listed = _expand(rels, root, exts)
+    pages, skipped = list(listed), listed.skipped
     if sample is not None:
         if sample < 0:
             raise ValueError(f"sample must not be negative: {sample}")
-        # Sorted back afterwards, so the processing order stays corpus order and
-        # a resumed run walks the same sequence it did the first time.
-        rels = sorted(random.Random(seed).sample(rels, min(sample, len(rels))))
-    pages = [
-        PageRef(path=root / rel, doc_id=rel.parent.as_posix().strip("."), key=_key_for(rel))
-        for rel in rels
-    ]
-    return pages[:limit] if limit is not None else pages
+        # Sampled over pages, not over files: a PDF of forty pages is forty
+        # chances to be picked, exactly as forty TIFFs would be. Sorted back
+        # afterwards, so the processing order stays corpus order and a resumed
+        # run walks the same sequence it did the first time.
+        chosen = random.Random(seed).sample(pages, min(sample, len(pages)))
+        pages = sorted(chosen, key=lambda ref: ref.key)
+    if limit is not None:
+        pages = pages[:limit]
+    return PageList(pages, skipped)
 
 
 def pages_from_paths(paths: Sequence[str], root: str = "",
                      limit: Optional[int] = None, sample: Optional[int] = None,
-                     seed: int = SAMPLE_SEED) -> list[PageRef]:
+                     seed: int = SAMPLE_SEED,
+                     count_pages=_count_pdf_pages) -> PageList:
     """The same corpus, built from remote paths instead of a directory walk.
 
     ``discover_pages`` and this differ only in where the list of paths comes
@@ -222,18 +348,19 @@ def pages_from_paths(paths: Sequence[str], root: str = "",
         return p
 
     rels = sorted(Path(_strip(p)) for p in paths)
+    if limit is not None and sample is not None:
+        raise ValueError("limit and sample are alternatives: first N, or N at random")
+    listed = _expand(rels, Path(root) if root else Path(""),
+                     {e.lower() for e in IMAGE_EXTS}, count_pages=count_pages)
+    pages, skipped = list(listed), listed.skipped
     if sample is not None:
         if sample < 0:
             raise ValueError(f"sample must not be negative: {sample}")
-        rels = sorted(random.Random(seed).sample(rels, min(sample, len(rels))))
-    if limit is not None and sample is not None:
-        raise ValueError("limit and sample are alternatives: first N, or N at random")
-    pages = [
-        PageRef(path=Path(f"{root}/{rel}" if root else str(rel)),
-                doc_id=rel.parent.as_posix().strip("."), key=_key_for(rel))
-        for rel in rels
-    ]
-    return pages[:limit] if limit is not None else pages
+        pages = sorted(random.Random(seed).sample(pages, min(sample, len(pages))),
+                       key=lambda ref: ref.key)
+    if limit is not None:
+        pages = pages[:limit]
+    return PageList(pages, skipped)
 
 
 # ── results on disk ──────────────────────────────────────────────────────────
@@ -366,6 +493,12 @@ class BatchReport:
     #: observed as the run happened. What is on disk cannot show a page that
     #: failed and wrote nothing, so a rebuilt report says so where the table is.
     rebuilt: bool = False
+    #: Files the listing saw and did not turn into pages, with the reason (#476).
+    #: In the report rather than nowhere: a PDF derivative skipped in silence and
+    #: a folder lost because nobody noticed look identical from the outside, and
+    #: the fourteen failures that opened this issue were invisible for the same
+    #: reason — they were counted against a model.
+    skipped_files: list = field(default_factory=list)
 
     @property
     def any_aborted(self) -> bool:
@@ -379,6 +512,8 @@ class BatchReport:
             "started_at": self.started_at,
             "elapsed_s": round(self.elapsed_s, 1),
             "rebuilt": self.rebuilt,
+            "skipped_files": [{"file": s.rel, "reason": s.reason}
+                              for s in self.skipped_files],
             "models": [
                 {
                     "model": m.model, "done": m.done, "skipped": m.skipped,
@@ -554,7 +689,12 @@ def _fetch_page(page: PageRef, cache: "PageSource", retries: int,
     last: BaseException | None = None
     for attempt in range(retries + 1):
         try:
-            return cache.fetch(page.path)
+            # The page index only when there is one: a cache (or a test double)
+            # that predates PDFs takes one argument, and a plain scan has nothing
+            # to say with a second.
+            if page.pdf_page is None:
+                return cache.fetch(page.path)
+            return cache.fetch(page.path, page.pdf_page)
         except Exception as exc:  # noqa: BLE001 — re-raised below once retries run out
             last = exc
             if attempt == retries:
@@ -972,6 +1112,10 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     report = BatchReport(
         run=run, out_root=out_root, pages=len(pages),
         started_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        # `pages` is a PageList when it came from a listing and a plain list when
+        # a caller built one; getattr rather than a type check, so a hand-made
+        # list still runs and simply reports nothing skipped.
+        skipped_files=list(getattr(pages, "skipped", []) or []),
     )
     started = time.perf_counter()
     for model in models:
@@ -1269,6 +1413,22 @@ def _failure_sections(report: BatchReport) -> list[str]:
     return out
 
 
+def _skipped_lines(report: BatchReport) -> list:
+    """What the listing saw and did not read, by reason (#476).
+
+    One line, not a table: the number is the point, and the reasons are few. It
+    is here at all because the alternative is silence — a PDF derivative skipped
+    quietly and a folder of scans lost to a bad filter look the same from
+    outside, and the fourteen failures that opened this issue went unnoticed
+    precisely because they were charged to a model instead of reported as files.
+    """
+    if not report.skipped_files:
+        return []
+    counts = Counter(s.reason for s in report.skipped_files)
+    reasons = ", ".join(f"{n} {reason}" for reason, n in sorted(counts.items()))
+    return [f"- not pages, skipped: **{len(report.skipped_files)}** ({reasons})"]
+
+
 def format_report(report: BatchReport) -> str:
     """A Markdown summary of the run — what each model produced and what it cost.
 
@@ -1284,6 +1444,7 @@ def format_report(report: BatchReport) -> str:
         f"- pages: **{report.pages}**",
         f"- started: {report.started_at}",
         f"- wall time: {report.elapsed_s / 60:.1f} min",
+        *_skipped_lines(report),
         "",
         "| model | read | skipped | failed | empty | cut off | chars/page | s/page | wall |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|",

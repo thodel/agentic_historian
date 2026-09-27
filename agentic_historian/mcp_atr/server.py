@@ -162,6 +162,9 @@ GATEWAY_PROBES = (
 )
 
 
+from utils import atr_gpu
+
+
 def gateway_probe() -> dict:
     """Ask the gateway everything this tool reports, and never lose a probe.
 
@@ -186,6 +189,19 @@ def gateway_probe() -> dict:
             except Exception as exc:  # noqa: BLE001 — one probe must not lose the others
                 out[name] = {"error": f"{type(exc).__name__}: {exc}"}
     return out
+
+
+def gateway_report() -> dict:
+    """The probe, plus the subtraction between its two halves (#471).
+
+    Module-level for the reason :func:`gateway_probe` is: the reporting bug that
+    one fixes shipped because the logic sat inside the tool, where standing up a
+    server was the only way to look at it. One probe feeds the headroom, so the
+    report and the numbers it is computed from cannot disagree.
+    """
+    probe = gateway_probe()
+    probe["headroom"] = atr_gpu.headroom_report(probe)
+    return probe
 
 
 def build_server(provider=None, auth_settings=None):
@@ -267,8 +283,18 @@ def build_server(provider=None, auth_settings=None):
         at all. ``gpu_serving`` is the one a batch runs on; the old key name
         ``gpu`` is gone rather than redefined, because a key that silently
         changes meaning is how this was missed in the first place.
+
+        **And the subtraction between them.** ``headroom`` answers, per model,
+        the question the two reports only made answerable by hand: does it fit
+        on its card right now, and if not, by how much and what is holding the
+        memory — split into ``ours`` (the ``atr-*`` units, the only rows that
+        could ever be asked to give memory back) and ``theirs`` (the
+        neighbours' RAG workers on card 0, which are never an option). A model
+        whose size or card the registry does not state is ``fits: null``, never
+        ``true``: this is a preflight, and a cheerful default would defeat it
+        (#471).
         """
-        return gateway_probe()
+        return gateway_report()
 
     @server.tool()
     def share_list(folder: Optional[str] = None) -> dict:
