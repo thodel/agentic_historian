@@ -225,12 +225,12 @@ class TestTrainingClientInit:
 
     def test_defaults_from_config(self, mock_httpx):
         with patch("agent_a.training_client.config") as cfg:
-            cfg.ATR_GATEWAY_URL  = "https://asteraiX.example.com"
+            cfg.ATR_GATEWAY_URL  = "https://idhefix.example.com"
             cfg.ATR_API_KEY      = "***"
             cfg.ATR_HTTP_TIMEOUT = 180.0
 
             with TrainingClient() as client:
-                assert client.base_url == "https://asteraiX.example.com"
+                assert client.base_url == "https://idhefix.example.com"
                 assert client.timeout  == 180.0
                 assert client.api_key  == "***"
 
