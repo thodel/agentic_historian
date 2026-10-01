@@ -415,6 +415,24 @@ NEXTCLOUD_CONVERT = _get("NEXTCLOUD_CONVERT", "true").lower() not in ("0", "fals
 #: pages are read where they are, which is right for a corpus already on disk.
 ATR_PAGE_CACHE = Path(_get("ATR_PAGE_CACHE", "")) if _get("ATR_PAGE_CACHE", "") else None
 
+#: A cold tier for the page cache, on the research share. Empty = nothing
+#: changes, which is the default and right for any host but tei.
+#:
+#: tei has 92 GB and no buffer: the page cache grew 3.8 GB to 9.6 GB on
+#: 24.09.2026 and took `/` from 65 to 74 per cent. Since then a daily job moves
+#: anything older than two days to the share (tei-vm-sanity#7), paths preserved,
+#: with a verified copy before the delete. But `fetch` looked in exactly one
+#: directory, so a moved entry was a miss and the next pass re-fetched the 25 MB
+#: TIFF and converted it again — the eviction bought disk and no second life for
+#: the working copies, which is what the cache is for (#487).
+#:
+#: The numbers that make the difference: a working copy is about 1.5 MB against
+#: the original's 25 MB, and the share reads at 410 MB/s. Bringing a page back
+#: is roughly an order of magnitude cheaper than making it again.
+ATR_PAGE_CACHE_ARCHIVE = (
+    Path(_get("ATR_PAGE_CACHE_ARCHIVE", ""))
+    if _get("ATR_PAGE_CACHE_ARCHIVE", "") else None)
+
 #: Where the share is mounted read-only. A batch may read pages from here as
 #: well as from the mirror: it *is* the corpus now, and the MCP path's
 #: containment check has to know that or every run over the mount is refused.

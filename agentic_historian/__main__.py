@@ -235,7 +235,13 @@ def atr_batch(args: argparse.Namespace) -> int:
     path = batch.write_report(report)
     print(batch.format_report(report))
     if cache is not None:
-        print(f"cache: {cache.hits} hit(s), {cache.misses} fetched "
+        # The cold tier is named separately when it carried anything (#487):
+        # folded into `hits` nobody could tell whether evicting to the share is
+        # costing re-downloads or saving them.
+        cold = getattr(cache, "cold_hits", 0)
+        print(f"cache: {cache.hits} hit(s)"
+              + (f", {cold} from the archive" if cold else "")
+              + f", {cache.misses} fetched "
               f"({cache.source_bytes / 1e9:.1f} GB read from {source})")
     print(f"report: {path}")
     # A model that was abandoned is a failed run even though the others finished:
