@@ -27,6 +27,8 @@ from typing import Optional
 
 from loguru import logger
 
+import config
+
 __all__ = [
     "WORKING_SUFFIX",
     "WORKING_QUALITY",
@@ -203,6 +205,59 @@ def _save(img, dest: Path, quality: int) -> Path:
 SIDECAR_SUFFIX = ".src.json"
 
 
+def cold_fetch(dest: Path, cache_dir: Path, accepts, *,
+               archive: Optional[Path] = None) -> Optional[dict]:
+    """A working copy from the cold tier, put back locally. None on a miss (#487).
+
+    tei has 92 GB and no buffer, so a daily job moves anything in the page cache
+    older than two days to the research share — paths preserved, sidecar
+    alongside, verified copy before the delete (tei-vm-sanity#7). ``fetch``
+    looked in exactly one directory, so a moved entry was a miss and the next
+    pass re-fetched the 25 MB original and converted it again. The eviction
+    bought disk and gave the working copies no second life, which is the one
+    thing the cache exists for.
+
+    A working copy is ~1.5 MB against the original's 25 MB and the share reads
+    at 410 MB/s, so bringing one back is about an order of magnitude cheaper
+    than making it again.
+
+    ``accepts`` is the caller's own hit test, passed in rather than repeated
+    here: :class:`PageCache` compares the name *and* the PDF page index,
+    ``WebdavPageSource`` compares the name. Two copies of that rule would be two
+    answers to "is this the right file", and the cold tier must be exactly as
+    strict as the local one — a sidecar naming a different file is a miss here
+    too, for the reason it is a miss there.
+
+    Never raises. An archive that is not set, not mounted, or holds nothing for
+    this page is today's behaviour: read the original, convert, write.
+    """
+    if archive is None:
+        archive = config.ATR_PAGE_CACHE_ARCHIVE
+    if not archive:
+        return None
+    try:
+        rel = Path(dest).resolve().relative_to(Path(cache_dir).resolve())
+    except ValueError:
+        # Not under the cache root, so there is no matching path in the archive.
+        return None
+    cold = Path(archive) / rel
+    cold_side = cold.with_name(cold.name + SIDECAR_SUFFIX)
+    try:
+        record = _read_sidecar(cold_side)
+        if not record or not accepts(record) or not cold.exists():
+            return None
+        data = cold.read_bytes()
+        side_bytes = cold_side.read_bytes()
+    except OSError:
+        # An unmounted share, a permission, a half-moved pair. All of them mean
+        # "not available", and none of them may stop the run.
+        return None
+    _write_atomic_bytes(Path(dest), data)
+    _write_atomic_bytes(Path(dest).with_name(Path(dest).name + SIDECAR_SUFFIX),
+                        side_bytes)
+    return record
+
+
 class PageCache:
     """Local working copies of pages that live somewhere expensive to read.
 
@@ -230,6 +285,11 @@ class PageCache:
         self.cache_dir = Path(cache_dir).resolve()
         self.quality = quality
         self.hits = 0
+        #: Served by the cold tier on the share (#487). Counted apart from
+        #: ``hits`` and ``misses`` so it stays visible how often it carries —
+        #: folded into either one, nobody could tell whether the eviction is
+        #: costing anything.
+        self.cold_hits = 0
         self.misses = 0
         self.source_bytes = 0
 
@@ -262,10 +322,20 @@ class PageCache:
         src = Path(src)
         dest = self.path_for(src, pdf_page)
         side = dest.with_name(dest.name + SIDECAR_SUFFIX)
+        def accepts(candidate: dict) -> bool:
+            return (candidate.get("name") == src.name
+                    and candidate.get("pdf_page") == pdf_page)
+
         record = _read_sidecar(side)
-        if record and record.get("name") == src.name \
-                and record.get("pdf_page") == pdf_page and dest.exists():
+        if record and accepts(record) and dest.exists():
             self.hits += 1
+            return dest, record
+
+        # Before the original: the cold tier holds the working copy this would
+        # otherwise make again (#487).
+        record = cold_fetch(dest, self.cache_dir, accepts)
+        if record is not None:
+            self.cold_hits += 1
             return dest, record
 
         data = src.read_bytes()          # the one and only read of the original

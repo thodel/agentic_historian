@@ -531,6 +531,9 @@ class WebdavPageSource:
         self.listing_ttl = (config.NEXTCLOUD_LISTING_TTL_S if listing_ttl is None
                             else listing_ttl)
         self.hits = 0
+        #: Served by the cold tier on the share, counted apart (#487) — see
+        #: :func:`utils.images.cold_fetch`.
+        self.cold_hits = 0
         self.misses = 0
         self.source_bytes = 0
         self._client = None
@@ -652,8 +655,21 @@ class WebdavPageSource:
         side = dest.with_name(dest.name + images.SIDECAR_SUFFIX)
         record = images._read_sidecar(side)
         name = Path(remote).name
-        if record and record.get("name") == name and dest.exists():
+
+        def accepts(candidate: dict) -> bool:
+            return candidate.get("name") == name
+
+        if record and accepts(record) and dest.exists():
             self.hits += 1
+            return dest, record
+
+        # The cold tier before the wire (#487). This path is the one that pays
+        # for the eviction: the Lassberg corpus is read through here, so a
+        # working copy moved to the share and not looked for is a 25 MB
+        # download and a re-encode.
+        record = images.cold_fetch(dest, self.cache_dir, accepts)
+        if record is not None:
+            self.cold_hits += 1
             return dest, record
 
         data = self._download(remote)
