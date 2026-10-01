@@ -206,3 +206,41 @@ def test_uploading_refuses_rather_than_guessing_the_endpoint():
     with pytest.raises(NotImplementedError) as err:
         tk.create_upload("2536466", tk.Letter(title="t", folder=Path(".")), "SID")
     assert "not confirmed" in str(err.value)
+
+
+# ── the first dry run inventoried the checkout ───────────────────────────────
+#
+# 2026-10-01, on tei: ATR_PAGE_CACHE was unset (every batch passed --cache-dir
+# explicitly), so `Path("")` became `Path(".")` and the plan offered 188 "letters"
+# including scikit-learn's astronaut.png, networkx's test baselines and 735 pages
+# of a different corpus. The dry run is the only reason that is a test and not an
+# incident in somebody else's Transkribus collection.
+
+def test_an_empty_cache_path_is_an_error_not_the_working_directory():
+    """`Path("")` is `Path(".")`. An unset config is a missing answer."""
+    for empty in ("", "."):
+        with pytest.raises(tk.TranskribusError) as err:
+            tk.letters_from_cache(empty)
+        assert "ATR_PAGE_CACHE" in str(err.value)
+
+
+def test_a_checkout_pointed_at_by_mistake_yields_no_letters(tmp_path):
+    """The second line of defence: a page cache never holds a .venv, and a source
+    tree always does."""
+    for folder in (".venv/lib/python3.12/site-packages/skimage/data",
+                   ".git/objects/ab", "__pycache__", "node_modules/x"):
+        d = tmp_path / folder
+        d.mkdir(parents=True)
+        (d / "astronaut.png").write_bytes(b"\x89PNG" + b"x" * 50)
+    assert tk.letters_from_cache(tmp_path) == []
+
+
+def test_the_skip_list_does_not_swallow_a_real_letter(tmp_path):
+    """A Bestand called "Venv" or a letter folder with "git" in its name is a
+    letter. The match is on whole path components, not on substrings."""
+    for folder in ("Venv-Archiv/lassberg-letter-0001",
+                   "Basel/lassberg-letter-git-0002"):
+        d = tmp_path / folder
+        d.mkdir(parents=True)
+        (d / "page_1.jpg").write_bytes(b"\xff\xd8\xff" + b"x" * 50)
+    assert len(tk.letters_from_cache(tmp_path)) == 2
