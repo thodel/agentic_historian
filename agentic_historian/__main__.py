@@ -274,7 +274,13 @@ def upload_transkribus(args: argparse.Namespace) -> int:
     """
     import transkribus as tk
 
-    cache = Path(args.cache_dir or config.ATR_PAGE_CACHE or "").expanduser()
+    raw = args.cache_dir or config.ATR_PAGE_CACHE or ""
+    if not str(raw).strip():
+        print("Error: no page cache — pass --cache-dir or set ATR_PAGE_CACHE. "
+              "Defaulting to the working directory would inventory the checkout.",
+              file=sys.stderr)
+        return 2
+    cache = Path(raw).expanduser()
     colid = args.collection or config._get("TRANSKRIBUS_COLLECTION", "")
     if not colid:
         print("Error: no collection — pass --collection or set "

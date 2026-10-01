@@ -49,6 +49,15 @@ _TIMEOUT = 60
 #: that needed no conversion keeps its own.
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".tif", ".tiff"}
 
+#: Directories a page cache never contains, and a source tree always does. The
+#: first dry run walked `Path("")` — the working directory, because
+#: ATR_PAGE_CACHE was unset — and offered to upload scikit-learn's astronaut.png
+#: and networkx's test baselines as letters of the Laßberg correspondence. The
+#: unset path is an error now (see `letters_from_cache`); this list is the second
+#: line, for the day somebody points `--cache-dir` at a checkout by mistake.
+SKIP_DIRS = {".venv", "venv", "site-packages", ".git", "__pycache__",
+             "node_modules", ".pytest_cache", ".ruff_cache", ".mypy_cache"}
+
 
 class TranskribusError(RuntimeError):
     """Anything that stops an upload, in the words the CLI should print."""
@@ -107,6 +116,14 @@ def letters_from_cache(cache_dir: Path, *,
     means a Bestand that numbers its folders differently still works.
     """
     cache_dir = Path(cache_dir)
+    # An empty path is not a default, it is a missing answer. `Path("")` is
+    # `Path(".")`, so an unset ATR_PAGE_CACHE used to mean "walk the working
+    # directory": the first dry run inventoried the repository, .venv included.
+    if str(cache_dir) in {"", "."}:
+        raise TranskribusError(
+            "no page cache given — pass --cache-dir or set ATR_PAGE_CACHE. "
+            "An empty value would walk the working directory, which on tei is "
+            "the checkout and includes .venv")
     if not cache_dir.is_dir():
         raise TranskribusError(f"no page cache at {cache_dir}")
     wanted = {s.lower() for s in suffixes}
@@ -117,6 +134,9 @@ def letters_from_cache(cache_dir: Path, *,
             continue
         if path.name.startswith("."):
             continue                      # sidecars and partial downloads
+        rel = path.relative_to(cache_dir)
+        if SKIP_DIRS.intersection(rel.parts):
+            continue
         by_folder.setdefault(path.parent, []).append(path)
 
     letters: list[Letter] = []
