@@ -265,6 +265,51 @@ def atr_batch(args: argparse.Namespace) -> int:
     return 1 if report.any_aborted else 0
 
 
+def upload_transkribus(args: argparse.Namespace) -> int:
+    """Put the letters in the page cache into a Transkribus collection.
+
+    `--dry-run` is the whole command for now: it logs in, says whether this API
+    can see the collection, and prints the plan. Nothing moves until the upload
+    endpoint is confirmed — see `transkribus.create_upload`.
+    """
+    import transkribus as tk
+
+    cache = Path(args.cache_dir or config.ATR_PAGE_CACHE or "").expanduser()
+    colid = args.collection or config._get("TRANSKRIBUS_COLLECTION", "")
+    if not colid:
+        print("Error: no collection — pass --collection or set "
+              "TRANSKRIBUS_COLLECTION", file=sys.stderr)
+        return 2
+    try:
+        session = __import__("requests").Session()
+        sid = tk.login(session=session)
+        print(f"logged in as {config._get('TRANSKRIBUS_USER', '')}")
+        seen = tk.list_collections(sid, session=session)
+        names = {str(c.get("colId")): str(c.get("colName", "")) for c in seen}
+        print(f"collections visible to this API: {len(names)}")
+        if str(colid) in names:
+            print(f"  collection {colid} IS visible: {names[str(colid)]!r}")
+        else:
+            print(f"  collection {colid} is NOT among them. This API serves: "
+                  + ", ".join(f"{k} ({v})" for k, v in sorted(names.items())[:20]))
+            print("  → the collection lives on the newer platform; the upload "
+                  "needs its API, not this one.")
+            return 1
+        plan = tk.plan_upload(cache, colid, sid, session=session, limit=args.limit)
+        print()
+        print(tk.format_plan(plan))
+    except tk.TranskribusError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+
+    if args.dry_run:
+        print("\n(dry run — nothing uploaded)")
+        return 0
+    print("Error: uploading is not wired yet — the endpoint is unconfirmed. "
+          "Re-run with --dry-run.", file=sys.stderr)
+    return 2
+
+
 def compare_runs_cmd(args: argparse.Namespace) -> int:
     """Put two or more batch readings of the same pages side by side.
 
@@ -457,6 +502,20 @@ def build_parser() -> argparse.ArgumentParser:
     p_rep.add_argument("--dry-run", action="store_true",
                        help="Print the report without overwriting the files")
     p_rep.set_defaults(func=report_run)
+
+    p_tk = sub.add_parser(
+        "upload-transkribus",
+        help="Put the page cache's letters into a Transkribus collection")
+    p_tk.add_argument("--collection",
+                      help="Collection id (default: TRANSKRIBUS_COLLECTION)")
+    p_tk.add_argument("--cache-dir",
+                      help="Page cache to read (default: ATR_PAGE_CACHE)")
+    p_tk.add_argument("--limit", type=int, default=None,
+                      help="Plan only the first N letters")
+    p_tk.add_argument("--dry-run", action="store_true",
+                      help="Log in, report whether the collection is visible, "
+                           "print the plan, upload nothing")
+    p_tk.set_defaults(func=upload_transkribus)
 
     p_cmp = sub.add_parser(
         "compare-runs",
