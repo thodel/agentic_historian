@@ -27,6 +27,11 @@ from agent_a.models import KRAKEN_MODELS  # noqa: E402
 # Verified segmentation-only on the host — never valid for recognition.
 SEGMENTATION_ONLY_DOIS = {"10.5281/zenodo.19222213"}
 
+#: Same class of defect, found by resolving every DOI (serving-atr-inference#101):
+#: this record publishes a metadata JSON and no .mlmodel at all, so there are no
+#: weights to load. It was listed here as `medieval_charters` until #198.
+WITHOUT_WEIGHTS_DOIS = {"10.5281/zenodo.18732245"}
+
 
 def test_no_segmentation_model_is_offered_for_recognition():
     assert KRAKEN_MODELS, "model table empty — this guard would pass vacuously"
@@ -46,7 +51,19 @@ def test_the_bad_entry_is_gone_by_name():
     assert "early_medieval_latin" not in KRAKEN_MODELS
 
 
+def test_no_doi_without_weights_is_offered():
+    """A DOI with no .mlmodel fails the same way as the segmenter: the ensemble
+    plans from this table and sends the raw DOI, so dropping it from the gateway
+    registry is not enough."""
+    offending = {key: m.model_id for key, m in KRAKEN_MODELS.items()
+                 if m.model_id in WITHOUT_WEIGHTS_DOIS}
+
+    assert not offending, (
+        f"{offending} publish no .mlmodel; kraken has nothing to load. "
+        f"See serving-atr-inference#101.")
+
+
 def test_the_real_models_survive():
     """The removal must not take working models with it."""
-    for key in ("catmus_medieval", "medieval_charters"):
+    for key in ("catmus_medieval", "mccatmus"):
         assert key in KRAKEN_MODELS, key
