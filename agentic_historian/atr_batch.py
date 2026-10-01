@@ -73,6 +73,9 @@ __all__ = [
     "gateway_recogniser",
     "run_model",
     "run_batch",
+    "ModelVerdict",
+    "Preflight",
+    "preflight",
     "report_from_outputs",
     "format_report",
 ]
@@ -1096,6 +1099,120 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             f"in {outcome.elapsed_s / 60:.1f} min"
         )
     return outcome
+
+
+# ── the question that costs 200 ms and was asked after 25 minutes ────────────
+
+
+@dataclass
+class ModelVerdict:
+    """One model held against its card before the run starts (#472)."""
+
+    model: str
+    headroom: "object"          # utils.atr_gpu.Headroom; imported where used
+
+    @property
+    def fits(self) -> bool | None:
+        return getattr(self.headroom, "fits", None)
+
+    @property
+    def runnable(self) -> bool:
+        """Anything but a definite no. Unknown must not block (#472).
+
+        Otherwise the first model whose ``vram_mb`` somebody forgot to fill in
+        stops every run that names it, and the check gets removed instead of
+        the field filled.
+        """
+        return self.fits is not False
+
+    def line(self) -> str:
+        head = self.headroom
+        card = getattr(head, "card", None)
+        where = f"card {card}" if card is not None else "its card"
+        if self.fits is None:
+            return (f"?  {self.model}: {getattr(head, 'reason', '') or 'unknown'} "
+                    "— running anyway")
+        if self.fits:
+            return (f"ok {self.model}: needs {_mib(head.needed_mib)}, "
+                    f"{_mib(head.free_mib)} free on {where}")
+        lines = [f"NO {self.model}: needs {_mib(head.needed_mib)} on {where}, "
+                 f"{_mib(head.free_mib)} free — {_mib(head.shortfall_mib)} short"]
+        if getattr(head, "ours", None):
+            held = " · ".join(f"{o.service or 'pid ' + str(o.pid)} {_mib(o.used_mib)}"
+                              for o in head.ours)
+            lines.append(f"     ours on {where}:   {held}")
+        if getattr(head, "theirs", None):
+            held = " · ".join(f"{o.service or 'pid ' + str(o.pid)}"
+                              f"{' (' + o.user + ')' if o.user else ''} "
+                              f"{_mib(o.used_mib)}" for o in head.theirs)
+            lines.append(f"     not ours:          {held}")
+        return "\n".join(lines)
+
+
+def _mib(value: int | None) -> str:
+    return "?" if value is None else f"{value:,} MiB"
+
+
+@dataclass
+class Preflight:
+    """What the cards say about this run's models, before anything is read."""
+
+    verdicts: list[ModelVerdict] = field(default_factory=list)
+
+    @property
+    def runnable(self) -> list[str]:
+        return [v.model for v in self.verdicts if v.runnable]
+
+    @property
+    def refused(self) -> list[ModelVerdict]:
+        return [v for v in self.verdicts if not v.runnable]
+
+    @property
+    def unknown(self) -> list[ModelVerdict]:
+        return [v for v in self.verdicts if v.fits is None]
+
+    @property
+    def nothing_runs(self) -> bool:
+        """Every model was refused, so there is no run to start."""
+        return bool(self.verdicts) and not self.runnable
+
+    def lines(self) -> list[str]:
+        out = ["preflight:"]
+        out += [f"  {line}" for v in self.verdicts for line in v.line().splitlines()]
+        if self.refused:
+            out.append("  Stop one of ours, or run with --no-preflight.")
+        return out
+
+
+def preflight(models: Sequence[str], probe: dict | None = None,
+              headroom: Callable[..., object] | None = None) -> Preflight:
+    """Ask every model's card whether it has the room — once, and first.
+
+    The order of a corpus run was: 24 minutes enumerating the share, the first
+    page, the vLLM cold start, and *then* ``GPU 1 has 9742 MB free, needs 15848
+    MB``. That is the arrangement that maximises the price of the answer, since
+    the question takes 200 ms (#472).
+
+    One probe for every model, not one each: ``gpu_headroom`` says why — asking
+    the gateway twice for the same two reports is two chances for them to
+    disagree.
+
+    ``headroom`` is the seam the tests use. Never raises: a preflight that
+    throws is one that gets taken out, and ``gpu_headroom`` already answers
+    "could not tell" as ``fits=None``.
+    """
+    if headroom is None:
+        from utils.atr_gpu import gpu_headroom as headroom
+    if probe is None:
+        try:
+            from mcp_atr.server import gateway_probe
+
+            probe = gateway_probe()
+        except Exception as exc:  # noqa: BLE001 — unknown, not fatal
+            logger.warning("preflight could not reach the gateway: {}", exc)
+            probe = {}
+    return Preflight([ModelVerdict(model=model, headroom=headroom(model, probe))
+                      for model in models])
 
 
 def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,

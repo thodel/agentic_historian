@@ -133,6 +133,23 @@ def atr_batch(args: argparse.Namespace) -> int:
         print("Error: --models is empty", file=sys.stderr)
         return 2
 
+    # Before the share is walked and before anything is written (#472). The old
+    # order spent 24 minutes enumerating, one page, and a vLLM cold start to
+    # learn what this answers in 200 ms — and left a half-filled run directory
+    # doing it. A model that does not fit is dropped and the others go on,
+    # because the batch is model-major and one mistyped id never stopped the
+    # rest either.
+    if not getattr(args, "no_preflight", False):
+        checked = batch.preflight(models)
+        for line in checked.lines():
+            print(line, file=sys.stderr if checked.refused else sys.stdout)
+        if checked.nothing_runs:
+            # No run directory, no report: this run did not start.
+            print("Error: no model fits on its card — nothing to run",
+                  file=sys.stderr)
+            return 1
+        models = checked.runnable
+
     from utils import nextcloud
 
     remote = nextcloud.is_remote_source(args.source)
@@ -402,6 +419,11 @@ def build_parser() -> argparse.ArgumentParser:
                               "listing. The walk is one PROPFIND per folder — 24 "
                               "minutes for the Lassberg share — so this is for "
                               "when you know pages were added.")
+    p_batch.add_argument("--no-preflight", action="store_true",
+                         help="Skip the card check and start anyway. For when the "
+                              "arithmetic is wrong and the run should go — a check "
+                              "without an exit gets removed at the first false "
+                              "alarm instead of corrected (#472).")
     p_batch.add_argument("--dry-run", action="store_true",
                          help="Print the plan (pages, models, calls) and exit")
     p_batch.set_defaults(func=atr_batch)
