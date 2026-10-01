@@ -217,7 +217,11 @@ def build_server(provider=None, auth_settings=None):
             "on one GPU — that is the runner's job, not the caller's. "
             "Always dry-run and then smoke-run (limit 3) a new corpus before a "
             "full run; read the END of a transcription, since a page that hit the "
-            "token ceiling comes back as a normal success that stops mid-sentence."
+            "token ceiling comes back as a normal success that stops mid-sentence. "
+            "compare_readings puts two runs of the same pages side by side; its "
+            "numbers are disagreement, never quality — there is no ground truth "
+            "here, and a model that hallucinates fluently disagrees exactly as "
+            "much as one that reads badly."
         ),
         auth_server_provider=provider,
         auth=auth_settings,
@@ -427,6 +431,29 @@ def build_server(provider=None, auth_settings=None):
         """
         try:
             return jobs.read_outputs(run, model, keys=keys, offset=offset, limit=limit)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def compare_readings(runs: list[str], min_chars: int | None = None,
+                         worst: int = 10) -> dict:
+        """Pairwise disagreement between two or more runs' readings of the same
+        pages — the comparison the batch runner never makes.
+
+        **Disagreement, not quality.** Without ground truth nothing here says
+        which reading is right, and a model that hallucinates fluently disagrees
+        exactly as much as one that reads badly. What it settles is whether
+        fusion is worth trying: majority voting was measured LOSING to the best
+        single engine where one candidate dominates weaker ones, and winning only
+        among comparable candidates whose errors are uncorrelated.
+
+        Only the pages every run has are compared. Pages empty on one side only,
+        and pages too short on any side, are counted and kept out of the
+        distribution — a five-character fragment against an eight-character one
+        disagrees by 75% and says nothing about whether the engines read the hand.
+        """
+        try:
+            return jobs.compare_readings(runs, min_chars=min_chars, worst=worst)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

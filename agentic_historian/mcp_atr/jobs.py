@@ -100,6 +100,11 @@ MAX_MODELS = 8
 #: silently dropped: an answer that stops without saying so is the same failure
 #: as a transcription that stops at the token ceiling and looks complete.
 MAX_READ_PAGES = 25
+#: Readings a single comparison may span. Every pair is measured, so the work
+#: grows quadratically: six runs are fifteen pairs. The cap is a guard against a
+#: caller asking for an hour of edit distance in a call that must answer in
+#: seconds, not a statement about how many readings are useful.
+MAX_COMPARE_RUNS = 6
 MAX_PAGE_CHARS = 20_000
 READ_BUDGET_CHARS = 150_000
 
@@ -457,6 +462,60 @@ def list_outputs(run: str, model: Optional[str] = None) -> dict:
     if extras:
         out["run_files"] = extras
     return out
+
+
+def compare_readings(runs: Sequence[str], min_chars: Optional[int] = None,
+                     worst: int = 10) -> dict:
+    """Pairwise disagreement between the readings of two or more runs.
+
+    Runs are named, never pathed: the names go through :func:`validate_run` and
+    are joined onto ``VLM_TEST_ROOT``, so a remote caller chooses *which* runs to
+    compare and can never reach a directory outside the root. Same rule as every
+    other tool on this path.
+
+    Returns the numbers in structured form **and** the rendered report. The
+    structured half is what a caller reasons with; the markdown is what a human
+    reads, and re-deriving one from the other is how the two drift apart.
+    """
+    names: list[str] = []
+    for r in runs or []:
+        name = validate_run(r)
+        if name in names:
+            raise JobError(f"run {name!r} given twice — nothing to compare")
+        names.append(name)
+    if len(names) < 2:
+        raise JobError("comparing needs at least two runs")
+    if len(names) > MAX_COMPARE_RUNS:
+        raise JobError(f"{len(names)} runs requested; at most {MAX_COMPARE_RUNS}")
+
+    from compare_runs import SUBSTANTIAL_CHARS, compare_run_dirs
+
+    comparison, report = compare_run_dirs(
+        [_run_dir(n) for n in names],
+        worst=max(0, min(int(worst), 50)),
+        min_chars=SUBSTANTIAL_CHARS if min_chars is None else max(0, int(min_chars)),
+    )
+    return {
+        "runs": names,
+        "readings": [{"label": r.label, "pages": len(r.pages),
+                      "mean_chars_compared": round(r.chars(comparison.compared), 1)}
+                     for r in comparison.readings],
+        "common_pages": len(comparison.common),
+        "compared_pages": len(comparison.compared),
+        "too_short": len(comparison.short),
+        "empty_everywhere": len(comparison.all_empty),
+        "empty_one_sided": {k: len(v) for k, v in comparison.one_sided_empty.items()},
+        "min_chars": comparison.min_chars,
+        "no_merge_cer": comparison.no_merge_cer,
+        "pairs": [{"a": p.a, "b": p.b, "pages": p.pages,
+                   "median_disagreement": round(p.median_disagreement, 4),
+                   "p90_disagreement": round(p.p90_disagreement, 4),
+                   "above_no_merge": p.above_no_merge,
+                   "worst": [{"key": k, "disagreement": round(v, 4)}
+                             for k, v in p.worst]}
+                  for p in comparison.pairs],
+        "report_md": report[:40000],
+    }
 
 
 def read_outputs(run: str, model: str, keys: Optional[Sequence[str]] = None,
