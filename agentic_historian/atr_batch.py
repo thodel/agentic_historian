@@ -474,6 +474,13 @@ class ModelOutcome:
     #: average that includes it, which `empty` does not.
     repetitive: int = 0
     repetitive_keys: list[str] = field(default_factory=list)
+    #: Every verdict, counted (#483): ``{"ok": n, "empty": n, "short": n,
+    #: "repetitive": n}``. `empty` and `repetitive` have their own columns
+    #: because the report names those pages, but `short` and `ok` had nowhere to
+    #: be counted at all — so the report's numbers could not be held against the
+    #: sum of the page verdicts, which is what the issue asks for. Counted from
+    #: the verdicts themselves, so the two cannot drift apart.
+    verdicts: dict = field(default_factory=dict)
     recognition_ms: int = 0
     elapsed_s: float = 0.0
     #: Why the model was abandoned before the end of the corpus, if it was.
@@ -555,6 +562,7 @@ class BatchReport:
                     "empty_keys": list(m.empty_keys),
                     "repetitive": m.repetitive,
                     "repetitive_keys": list(m.repetitive_keys),
+                    "verdicts": dict(m.verdicts),
                     "recognition_ms": m.recognition_ms,
                     "elapsed_s": round(m.elapsed_s, 1),
                     "aborted": m.aborted,
@@ -999,11 +1007,20 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             outcome.lines += res.lines
             outcome.recognition_ms += res.timing_ms
             outcome.truncated += int(res.truncated)
-            if res.chars == 0:
+            # From the page's own verdict, never recomputed here (#483). `empty`
+            # used to be `res.chars == 0`, which is a *different* question:
+            # `chars` is the length of the raw text and the verdict strips
+            # first, so a page of nothing but whitespace read `empty` on disk
+            # and was not counted empty in the report. The two numbers the
+            # issue asks to agree were already disagreeing, on exactly the case
+            # its fourth test names.
+            verdict = res.verdict or ("empty" if res.chars == 0 else "ok")
+            outcome.verdicts[verdict] = outcome.verdicts.get(verdict, 0) + 1
+            if verdict == "empty":
                 outcome.empty += 1
                 if len(outcome.empty_keys) < 20:
                     outcome.empty_keys.append(res.key)
-            elif res.verdict == "repetitive":
+            elif verdict == "repetitive":
                 outcome.repetitive += 1
                 if len(outcome.repetitive_keys) < 20:
                     outcome.repetitive_keys.append(res.key)
@@ -1348,14 +1365,17 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
             outcome.lines += len(data.get("lines") or [])
             outcome.recognition_ms += int(data.get("timing_ms") or 0)
             outcome.truncated += int(bool(data.get("truncated")))
-            if not text:
+            # Recomputed rather than read from the stored verdict: a run that
+            # finished before `quality` existed has none, and the whole point of
+            # a rebuilt report is to describe what is on disk. One call, so the
+            # four counts come from one classification of each page.
+            verdict = page_quality.classify(text).verdict
+            outcome.verdicts[verdict] = outcome.verdicts.get(verdict, 0) + 1
+            if verdict == "empty":
                 outcome.empty += 1
                 if len(outcome.empty_keys) < 20:
                     outcome.empty_keys.append(json_path.stem)
-            elif page_quality.classify(text).verdict == "repetitive":
-                # Recomputed rather than read from the stored verdict: a run that
-                # finished before `quality` existed has none, and the whole point
-                # of a rebuilt report is to describe what is on disk.
+            elif verdict == "repetitive":
                 outcome.repetitive += 1
                 if len(outcome.repetitive_keys) < 20:
                     outcome.repetitive_keys.append(json_path.stem)
