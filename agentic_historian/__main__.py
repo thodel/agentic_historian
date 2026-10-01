@@ -226,6 +226,37 @@ def atr_batch(args: argparse.Namespace) -> int:
     return 1 if report.any_aborted else 0
 
 
+def compare_runs_cmd(args: argparse.Namespace) -> int:
+    """Put two or more batch readings of the same pages side by side.
+
+    Disagreement, not quality — see the module docstring. The point of the
+    numbers is to say whether the readings are a field of equals (where #416
+    found fusion winning) or one leader among weaker ones (where it lost).
+    """
+    from compare_runs import compare_run_dirs
+
+    dirs = [Path(d).resolve() for d in args.run_dir]
+    try:
+        from compare_runs import SUBSTANTIAL_CHARS
+        comparison, report = compare_run_dirs(
+            dirs, no_merge_cer=args.no_merge_cer, worst=args.worst,
+            min_chars=SUBSTANTIAL_CHARS if args.min_chars is None
+            else args.min_chars)
+    except (NotADirectoryError, ValueError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    if not comparison.common:
+        print("Error: the readings share no page keys — nothing to compare",
+              file=sys.stderr)
+        return 1
+    print(report)
+    if args.out:
+        out = Path(args.out).resolve()
+        out.write_text(report, encoding="utf-8")
+        print(f"\nreport: {out}")
+    return 0
+
+
 def report_run(args: argparse.Namespace) -> int:
     """Rebuild a run's report from the results on disk."""
     import atr_batch as batch
@@ -382,6 +413,22 @@ def build_parser() -> argparse.ArgumentParser:
     p_rep.add_argument("--dry-run", action="store_true",
                        help="Print the report without overwriting the files")
     p_rep.set_defaults(func=report_run)
+
+    p_cmp = sub.add_parser(
+        "compare-runs",
+        help="Pairwise disagreement between two or more batch readings")
+    p_cmp.add_argument("--run-dir", required=True, action="append",
+                       help="A run directory; repeat for each run to compare")
+    p_cmp.add_argument("--no-merge-cer", type=float, default=None,
+                       help=f"Fusion's no-merge threshold "
+                            f"(default: {config.ENSEMBLE_NO_MERGE_CER})")
+    p_cmp.add_argument("--min-chars", type=int, default=None,
+                       help="Pages shorter than this on any side are counted "
+                            "but kept out of the distribution (default: 100)")
+    p_cmp.add_argument("--worst", type=int, default=10,
+                       help="How many widest-disagreement pages to name")
+    p_cmp.add_argument("--out", help="Also write the report to this path")
+    p_cmp.set_defaults(func=compare_runs_cmd)
 
     p_pub = sub.add_parser("publish-batch",
                            help="Propose a run directory to a GitHub repo as a PR")
