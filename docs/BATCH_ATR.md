@@ -325,6 +325,34 @@ chunk that rewrites identical bytes is an empty diff.
 
 ---
 
+## 4b · Comparing two readings
+
+Two runs over the same share produce two directories and, until now, nothing that
+read both. `compare-runs` joins them on the page key — identical across runs by
+construction — and reports pairwise disagreement:
+
+```bash
+python -m agentic_historian compare-runs \
+  --run-dir $VLM_TEST_ROOT/atr_trocr_corpus \
+  --run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line
+```
+
+Only the intersection is compared; two runs of different coverage have no common
+ground outside it. Pages empty on one side only, and pages too short on any side,
+are counted and left out of the distribution — a five-character fragment against
+an eight-character one disagrees by 75 % and says nothing about whether the
+engines can read the hand. On the sample pair that moved the median from 45.9 %
+to 16.8 %.
+
+**The number is disagreement, not quality.** Without ground truth nothing here
+says which reading is right (#326). What it settles is whether fusion is worth
+trying: #416 measured majority voting *losing* to the best single engine where one
+candidate dominates weaker ones, and winning only among comparable candidates with
+uncorrelated errors. The `above no-merge` column is the share of pages
+`fusion.fuse` would decline to blend at all (#300).
+
+---
+
 ## 5 · Reading the result
 
 `report.md` gives, per model: pages read, pages skipped, pages failed, **pages
