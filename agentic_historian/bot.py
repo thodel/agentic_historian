@@ -780,7 +780,9 @@ async def _atr(ctx, coro, formatter, *args):
 async def atr_jobs_cmd(ctx):
     import atr_status
     await ctx.defer(ephemeral=True)
-    await _atr(ctx, atr_status.jobs(), atr_status.format_jobs)
+    # summary: this view shows status, stage and id, not the submitted request
+    # object of every job (serving-atr-inference#107).
+    await _atr(ctx, atr_status.jobs(summary=True), atr_status.format_jobs)
 
 
 @bot.slash_command(name="atr_job", description="One training job in detail")

@@ -53,8 +53,29 @@ async def _get(path: str, params: dict | None = None):
     return response.json()
 
 
-async def jobs() -> dict:
-    return await _get("/train/jobs")
+async def jobs(summary: bool = False) -> dict:
+    """The trainer's job list, newest first.
+
+    ``summary=True`` asks the gateway for the six fields a list view shows
+    (serving-atr-inference#107). The full list carries every job's whole
+    submitted ``request`` object — 807 KB for 42 jobs, measured from this host,
+    over the VPN, for the five rows ``format_jobs`` prints — and it grows with
+    every training run.
+
+    Not the default, and no ``limit`` either, for two reasons that are the
+    whole of why this is a parameter:
+
+    * ``atr_watch`` reads ``progress``, ``metrics`` and ``published`` to decide
+      what to announce, and the summary shape does not carry them. It polls
+      every few seconds, so it is the caller that pays the bytes most often and
+      the one that cannot have them cut.
+    * ``format_jobs`` prints "(N insgesamt)" from ``len(items)``. With
+      ``?limit=5`` N would always be 5 — a wrong number instead of a long
+      answer. Dropping the ``request`` objects is where nearly all the bytes
+      are anyway.
+    """
+    params = {"fields": "summary"} if summary else None
+    return await _get("/train/jobs", params)
 
 
 async def job(job_id: str) -> dict:
