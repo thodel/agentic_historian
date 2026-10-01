@@ -66,366 +66,578 @@ VLM_MODELS: dict[str, VLMModel] = {
     # Add more VLM entries here as they become available:
     # "qwen2.5-vl": VLMModel(...),
 }
-
 # ── Kraken models (Path 2 — baseline detection + OCR) ────────────────────────
-# List will be provided by Tobias. Populated from `kraken list` output.
+# Generated from the ATR gateway's registry after serving-atr-inference#198, which
+# renamed every kraken entry after the Zenodo record its DOI loads. **This table
+# was the source of the error it now reflects**: 28 of its 43 entries described a
+# model other than the one their DOI contains — `catmus_caroline` for a Hebrew
+# Sephardi model, `mccatmus` for LECTAUREP Contemporary French, `medieval_generic_e`
+# for Fanny Mendelssohn's letters — and the gateway registry was ported from here.
+#
+# Every name, language, script and century below is the record's own, and a century
+# list is empty where the record states none: `select_kraken_model` then scores that
+# model on script and language alone, which is better than scoring it on a guess.
+# Keys are the gateway ids without the `kraken-` prefix, so a pick made from this
+# fallback and one made from KRAKEN_MODELS_LIVE name the same model.
+#
+# Two entries are deliberately absent: zenodo.18732245 (MiDRASH Geniza) publishes no
+# .mlmodel at all, so kraken cannot load it, and the party model (zenodo.20642057) is
+# served with `engine: party` and is not a kraken model.
+#
+# This is the FALLBACK. When the gateway answers, KRAKEN_MODELS_LIVE overlays it with
+# the same metadata, straight from `GET /models`.
 
 KRAKEN_MODELS: dict[str, KrakenModel] = {
-    # ── CatMuS family (medieval Latin, multiple scripts) ──────────────────────
-    "catmus_medieval": KrakenModel(
-        model_id="10.5281/zenodo.7516057",
-        name="CatMuS Medieval — full model",
-        lang="la",
-        script="Caroline minuscule",
-        notes="CatMuS Medieval full model. 400+ manuscripts, 14th–16th c.",
-        pretrained_on="Medieval Latin manuscripts (14th–16th c.)",
-        centuries=[14, 15, 16],
-    ),
-    "catmus_caroline": KrakenModel(
-        model_id="10.5281/zenodo.5468665",
-        name="CatMuS — Caroline minuscule",
-        lang="la",
-        script="Caroline minuscule",
-        notes="Trained on Caroline minuscule manuscripts.",
-        pretrained_on="Medieval Latin manuscripts (Carolingian era)",
-        centuries=[9, 10, 11, 12],
-    ),
-    # ── McCATMuS (Medieval Catalan Arabic and beyond) ──────────────────────────
-    "mccatmus": KrakenModel(
-        model_id="10.5281/zenodo.6542744",
-        name="McCATMuS — Medieval Transcription",
-        lang="la",
-        script="Medieval",
-        notes="Medieval Catalan Arabic model.",
-        pretrained_on="Medieval manuscripts (Catalan/Arabic context)",
-        centuries=[13, 14, 15],
-    ),
-    # ── Czech / Bohemian models ────────────────────────────────────────────────
-    "bohemian_19th": KrakenModel(
-        model_id="10.5281/zenodo.2577813",
-        name="Kraken HTR — Bohemian 19th c.",
-        lang="de",
-        script="Kurrent",
-        notes="Czech lands, 19th c. Mostly German-language Jewish registers.",
-        pretrained_on="19th c. Bohemian German-language records",
-        centuries=[19],
-    ),
-    # ── Arabic / Urdu / OpenITI ────────────────────────────────────────────────
-    "printed_urdu": KrakenModel(
-        model_id="10.5281/zenodo.20529753",
-        name="Printed Urdu Base — Kraken",
-        lang="ur",
-        script="Nastaliq",
-        notes="Printed Urdu. OpenITI corpus trained.",
-        pretrained_on="OpenITI Arabic/Urdu printed texts",
-        centuries=[19, 20],
-    ),
-    # ── Early medieval / Insular ───────────────────────────────────────────────
-    # "early_medieval_latin" REMOVED: zenodo.19222213 is RP_Segmenter.mlmodel —
-    # model_type=segmentation, no codec. A layout segmenter, never a Latin
-    # recognition model; the DOI was wrong. Every request 500s with
-    #   AttributeError: 'TorchVGSLModel' object has no attribute 'codec'
-    # Dropped from the ATR gateway registry in serving-atr-inference#31 — but the
-    # ensemble kept requesting the raw DOI straight from THIS table (raw Zenodo
-    # refs pass through per #21), so it had to go here too.
-    # Re-add with the CORRECT recognition DOI once identified.
-    # ── Medieval charter / diplomatic ─────────────────────────────────────────
-    "medieval_charters": KrakenModel(
-        model_id="10.5281/zenodo.18732245",
-        name="Medieval Charters — Latin",
-        lang="la",
-        script="Caroline minuscule",
-        notes="Trained on medieval charters and diplomatic documents.",
-        pretrained_on="Medieval charters (Latin, 11th–15th c.)",
-        centuries=[11, 12, 13, 14, 15],
-    ),
-    # ── Further medieval models (need metadata confirmation) ───────────────────
-    "medieval_generic_a": KrakenModel(
-        model_id="10.5281/zenodo.18207779",
-        name="Medieval HTR Model A",
-        lang="la",
-        script="Medieval",
-        notes="Medieval manuscript HTR.",
-        pretrained_on="Medieval manuscripts",
-        centuries=[13, 14, 15],
-    ),
-    "medieval_generic_b": KrakenModel(
-        model_id="10.5281/zenodo.18220238",
-        name="Medieval HTR Model B",
-        lang="la",
-        script="Medieval",
-        notes="Medieval manuscript HTR.",
-        pretrained_on="Medieval manuscripts",
-        centuries=[14, 15, 16],
-    ),
-    "medieval_generic_c": KrakenModel(
-        model_id="10.5281/zenodo.18207767",
-        name="Medieval HTR Model C",
-        lang="la",
-        script="Medieval",
-        notes="Medieval manuscript HTR.",
-        pretrained_on="Medieval manuscripts",
-        centuries=[13, 14],
-    ),
-    "medieval_generic_d": KrakenModel(
-        model_id="10.5281/zenodo.18207719",
-        name="Medieval HTR Model D",
-        lang="la",
-        script="Medieval",
-        notes="Medieval manuscript HTR.",
-        pretrained_on="Medieval manuscripts",
-        centuries=[14, 15],
-    ),
-    "medieval_generic_e": KrakenModel(
-        model_id="10.5281/zenodo.18207676",
-        name="Medieval HTR Model E",
-        lang="la",
-        script="Medieval",
-        notes="Medieval manuscript HTR.",
-        pretrained_on="Medieval manuscripts",
-        centuries=[15, 16],
-    ),
-    # ── Late medieval / early print ─────────────────────────────────────────────
-    "late_medieval_latin": KrakenModel(
-        model_id="10.5281/zenodo.17690418",
-        name="Late Medieval Latin (14th–16th c.)",
-        lang="la",
-        script="Textura",
-        notes="Late medieval Latin manuscripts, 14th–16th c.",
-        pretrained_on="Late medieval Latin manuscripts",
-        centuries=[14, 15, 16],
-    ),
-    "late_medieval_german": KrakenModel(
-        model_id="10.5281/zenodo.15366732",
-        name="Late Medieval German (14th–16th c.)",
-        lang="de",
-        script="Textura",
-        notes="Late medieval German-language manuscripts, 14th–16th c.",
-        pretrained_on="German-language medieval manuscripts",
-        centuries=[14, 15, 16],
-    ),
-    "early_modern_german": KrakenModel(
-        model_id="10.5281/zenodo.15030337",
-        name="Early Modern German (16th–17th c.)",
-        lang="de",
-        script="Kurrent",
-        notes="Early modern German documents, 16th–17th c.",
-        pretrained_on="German early modern manuscripts",
-        centuries=[16, 17],
-    ),
-    # ── McCATMuS variant ──────────────────────────────────────────────────────
-    "mccatmus_transcription": KrakenModel(
-        model_id="10.5281/zenodo.13788177",
-        name="McCATMuS Transcription model",
-        lang="la",
-        script="Medieval",
-        notes="HTR/OCR generic model for handwritten medieval texts.",
-        pretrained_on="Medieval manuscripts (broad)",
-        centuries=[12, 13, 14, 15],
-    ),
-    # ── Additional medieval / early modern ─────────────────────────────────────
-    "medieval_12_14": KrakenModel(
-        model_id="10.5281/zenodo.13814200",
-        name="Medieval 12th–14th c. Latin",
-        lang="la",
-        script="Caroline minuscule",
-        notes="Medieval Latin 12th–14th c.",
-        pretrained_on="Latin manuscripts 12th–14th c.",
-        centuries=[12, 13, 14],
-    ),
-    "medieval_14_16": KrakenModel(
-        model_id="10.5281/zenodo.13862096",
-        name="Medieval 14th–16th c. Latin",
-        lang="la",
-        script="Textura",
-        notes="Medieval Latin 14th–16th c.",
-        pretrained_on="Latin manuscripts 14th–16th c.",
-        centuries=[14, 15, 16],
-    ),
-    "medieval_15_16": KrakenModel(
-        model_id="10.5281/zenodo.13942714",
-        name="Medieval/Early Modern 15th–16th c.",
-        lang="la",
-        script="Humanistische Kursive",
-        notes="Transition period medieval to early modern, 15th–16th c.",
-        pretrained_on="Late medieval / early modern manuscripts",
-        centuries=[15, 16],
-    ),
-    "early_modern_latin": KrakenModel(
-        model_id="10.5281/zenodo.13741957",
-        name="Early Modern Latin (16th–17th c.)",
-        lang="la",
-        script="Humanistisch",
-        notes="Humanist minuscule / early printed Latin, 16th–17th c.",
-        pretrained_on="Early modern Latin manuscripts",
-        centuries=[16, 17],
-    ),
-    "early_modern_german_16": KrakenModel(
-        model_id="10.5281/zenodo.13736584",
-        name="Early Modern German 16th c.",
-        lang="de",
-        script="Kurrent",
-        notes="German early modern, 16th c.",
-        pretrained_on="German manuscripts 16th c.",
-        centuries=[16],
-    ),
-    # ── Czech 19th c. registers (duplicate variant) ────────────────────────────
-    "bohemian_19th_v2": KrakenModel(
-        model_id="10.5281/zenodo.11673242",
-        name="Kraken HTR — Bohemian 19th c. (v2)",
-        lang="de",
-        script="Kurrent",
-        notes="Czech lands 19th c. German-language Jewish registers.",
-        pretrained_on="19th c. Bohemian registers",
-        centuries=[19],
-    ),
-    # ── OpenITI corpus / Arabic ────────────────────────────────────────────────
-    "openiti_arabic": KrakenModel(
-        model_id="10.5281/zenodo.11113737",
-        name="OpenITI Arabic — Kraken",
-        lang="ar",
-        script="Arabic",
-        notes="OpenITI Arabic corpus.",
-        pretrained_on="OpenITI Arabic printed/manuscript texts",
-        centuries=[12, 13, 14, 15, 16, 17, 18, 19],
-    ),
-    "openiti_urdu": KrakenModel(
-        model_id="10.5281/zenodo.10886224",
-        name="OpenITI Urdu — Kraken",
-        lang="ur",
-        script="Nastaliq",
-        notes="OpenITI Urdu/Arabic script model.",
-        pretrained_on="OpenITI Urdu printed texts",
-        centuries=[19, 20],
-    ),
-    # ── General purpose / printed ──────────────────────────────────────────────
-    "printed_latin": KrakenModel(
-        model_id="10.5281/zenodo.10599911",
-        name="Printed Latin — general",
-        lang="la",
-        script="Printed",
-        notes="General printed Latin model.",
-        pretrained_on="Printed Latin texts",
-        centuries=[15, 16, 17, 18],
-    ),
-    "printed_french": KrakenModel(
-        model_id="10.5281/zenodo.10592716",
-        name="Printed French — Kraken default",
-        lang="fr",
-        script="Antiqua",
-        notes="Default model for printed French. kraken default.",
-        pretrained_on="Printed French texts",
-        centuries=[16, 17, 18, 19],
-    ),
-    "printed_generic": KrakenModel(
-        model_id="10.5281/zenodo.10556673",
-        name="Generic Printed model",
-        lang="la",
-        script="Printed",
-        notes="Generic printed text model.",
-        pretrained_on="Printed texts",
-        centuries=[15, 16, 17, 18],
-    ),
-    "printed_medieval": KrakenModel(
-        model_id="10.5281/zenodo.10519596",
-        name="Printed Medieval Latin",
-        lang="la",
-        script="Textura",
-        notes="Printed medieval Latin (incunabula, early print).",
-        pretrained_on="Incunabula and early printed Latin",
-        centuries=[15, 16],
-    ),
-    "printed_arabic": KrakenModel(
-        model_id="10.5281/zenodo.8193498",
-        name="Printed Arabic — Kraken",
-        lang="ar",
-        script="Arabic",
-        notes="Printed Arabic OCR.",
-        pretrained_on="Printed Arabic texts",
-        centuries=[18, 19, 20],
-    ),
-    "printed_urdu_base": KrakenModel(
+    "austrian_fraktur": KrakenModel(
         model_id="10.5281/zenodo.7933402",
-        name="Printed Urdu Base (OpenITI)",
-        lang="ur",
-        script="Nastaliq",
-        notes="OpenITI Urdu base model.",
-        pretrained_on="OpenITI Urdu printed texts",
-        centuries=[19, 20],
-    ),
-    "printed_urdu_wide": KrakenModel(
-        model_id="10.5281/zenodo.7755504",
-        name="Printed Urdu — wide",
-        lang="ur",
-        script="Nastaliq",
-        notes="Printed Urdu, wide coverage.",
-        pretrained_on="OpenITI Urdu printed corpus",
-        centuries=[19, 20],
-    ),
-    "printed_urdu_openiti": KrakenModel(
-        model_id="10.5281/zenodo.7755483",
-        name="Printed Urdu (OpenITI extended)",
-        lang="ur",
-        script="Nastaliq",
-        notes="OpenITI Urdu, extended training.",
-        pretrained_on="OpenITI Urdu extended corpus",
-        centuries=[19, 20],
-    ),
-    "printed_urdu_extended": KrakenModel(
-        model_id="10.5281/zenodo.7631619",
-        name="Printed Urdu Extended",
-        lang="ur",
-        script="Nastaliq",
-        notes="OpenITI Urdu extended model.",
-        pretrained_on="OpenITI Urdu extended corpus",
-        centuries=[19, 20],
-    ),
-    "printed_generic_v2": KrakenModel(
-        model_id="10.5281/zenodo.7516310",
-        name="Printed generic v2",
-        lang="la",
-        script="Printed",
-        notes="Generic printed text model v2.",
-        pretrained_on="Printed texts",
-        centuries=[16, 17, 18],
-    ),
-    # ── Additional Czech / Germanic ─────────────────────────────────────────────
-    "czech_historic": KrakenModel(
-        model_id="10.5281/zenodo.7050270",
-        name="Czech Historic — Kraken",
-        lang="cs",
-        script="Kurrent",
-        notes="Czech historical documents.",
-        pretrained_on="Czech historical records",
-        centuries=[18, 19],
-    ),
-    "czech_historic_v2": KrakenModel(
-        model_id="10.5281/zenodo.7050342",
-        name="Czech Historic v2 — Kraken",
-        lang="cs",
-        script="Kurrent",
-        notes="Czech historical documents v2.",
-        pretrained_on="Czech historical records",
+        name="Fraktur model trained from the enhanced Austrian Newspapers dataset",
+        lang="de",
+        script="Fraktur",
+        notes=(
+            "Weil & Kamlah, 2023. 19th c. German Fraktur."
+        ),
+        pretrained_on="Fraktur model trained from the enhanced Austrian Newspapers dataset",
         centuries=[19],
+        scripts=['Fraktur'],
+        languages=['de'],
     ),
-    # ── OpenITI Arabic variants ─────────────────────────────────────────────────
-    "openiti_arabic_v2": KrakenModel(
-        model_id="10.5281/zenodo.7051644",
-        name="OpenITI Arabic v2",
-        lang="ar",
-        script="Arabic",
-        notes="OpenITI Arabic v2 (extended training).",
-        pretrained_on="OpenITI Arabic corpus v2",
-        centuries=[12, 13, 14, 15, 16, 17, 18, 19],
+    "bastarda_inzigkofen": KrakenModel(
+        model_id="10.5281/zenodo.18207779",
+        name="Bastarda HTR model related to the Augustinian canonesses in Inzigkofen",
+        lang="de",
+        script="Bastarda",
+        notes=(
+            "Eichenberger, 2026. The hand of Jos von Pfullendorf (d. ca. 1430), German. "
+            "Fine-tune of 10.5281/zenodo.15030337 (served as kraken-catmus_medieval): not "
+            "an independent candidate beside it. Trained on "
+            "https://doi.org/10.5281/zenodo.17978574."
+        ),
+        pretrained_on="Bastarda HTR model related to the Augustinian canonesses in Inzigkofen",
+        centuries=[15],
+        scripts=['Bastarda'],
+        languages=['de'],
     ),
-    "openiti_arabic_v3": KrakenModel(
+    "bifrost_old_norse": KrakenModel(
+        model_id="10.5281/zenodo.15366732",
+        name="Bifrost",
+        lang="non",
+        script="Latin",
+        notes=(
+            "Kapitan & Vidal-Gorène, 2025. Old Norse manuscripts, fine-tuned from CATMuS "
+            "Medieval. The record states no century range. Fine-tune of "
+            "10.5281/zenodo.15030337 (served as kraken-catmus_medieval): not an "
+            "independent candidate beside it. Trained on "
+            "https://doi.org/10.5281/zenodo.15366896."
+        ),
+        pretrained_on="Bifrost",
+        centuries=[],
+        scripts=[],
+        languages=['non'],
+    ),
+    "bohemian_19th": KrakenModel(
+        model_id="10.5281/zenodo.11673242",
+        name="Kraken HTR recognition model, Bohemian provenance 19th century",
+        lang="de",
+        script="Kurrent",
+        notes=(
+            "Baránek, 2024. Mostly German-language Jewish registers from the Czech lands. "
+            "Kurrent is inferred from that material; the record does not name a script."
+        ),
+        pretrained_on="Kraken HTR recognition model, Bohemian provenance 19th century",
+        centuries=[19],
+        scripts=['Kurrent'],
+        languages=['de', 'cs'],
+    ),
+    "catmus_gothic_print": KrakenModel(
+        model_id="10.5281/zenodo.10599911",
+        name="CATMuS Gothic Print",
+        lang="fr",
+        script="Gothic",
+        notes=(
+            "Solfrini & Gabay, 2024. Prints in Gothic typefaces and 16th c. French (SETAF "
+            "data), fine-tuned on CATMuS Medieval. Fine-tune of 10.5281/zenodo.15030337 "
+            "(served as kraken-catmus_medieval): not an independent candidate beside it."
+        ),
+        pretrained_on="CATMuS Gothic Print",
+        centuries=[16],
+        scripts=['Gothic'],
+        languages=['fr', 'la'],
+    ),
+    "catmus_medieval": KrakenModel(
+        model_id="10.5281/zenodo.15030337",
+        name="CATMuS Medieval",
+        lang="fro",
+        script="Medieval",
+        notes=(
+            "Pinche & Clérice, 2025. Graphematic transcriptions, no abbreviations "
+            "resolved; Old/Middle French, Latin, Spanish, Italian. The record names no "
+            "century range, so centuries stays empty rather than invented."
+        ),
+        pretrained_on="CATMuS Medieval",
+        centuries=[],
+        scripts=['Medieval'],
+        languages=['fro', 'la', 'es', 'it'],
+    ),
+    "catmus_print_large": KrakenModel(
+        model_id="10.5281/zenodo.10592716",
+        name="CATMuS-Print [Large]",
+        lang="fr",
+        script="Latin",
+        notes=(
+            "Gabay & Clérice, 2024. Diachronic model for French and other West European "
+            "prints, first prints of the 16th c. to digital documents of the 21st. "
+            "Typefaces various; the record names no single script."
+        ),
+        pretrained_on="CATMuS-Print [Large]",
+        centuries=[16, 17, 18, 19, 20, 21],
+        scripts=[],
+        languages=['fr', 'es', 'de', 'en', 'it', 'la'],
+    ),
+    "cremma_medieval": KrakenModel(
+        model_id="10.5281/zenodo.7631619",
+        name="Generic CREMMA model for medieval manuscripts (Latin and Old French), 8th–15th c.",
+        lang="la",
+        script="Medieval",
+        notes=(
+            "Clérice & Pinche, 2023."
+        ),
+        pretrained_on="Generic CREMMA model for medieval manuscripts (Latin and Old French), 8th–15th c.",
+        centuries=[8, 9, 10, 11, 12, 13, 14, 15],
+        scripts=['Medieval'],
+        languages=['la', 'fro'],
+    ),
+    "cursive_inzigkofen": KrakenModel(
+        model_id="10.5281/zenodo.18207767",
+        name="Cursive HTR model related to the Augustinian canonesses in Inzigkofen",
+        lang="de",
+        script="Cursive",
+        notes=(
+            "Eichenberger, 2026. The hand of Johannes Jaeck (d. 1466), German. Fine-tune "
+            "of 10.5281/zenodo.15030337 (served as kraken-catmus_medieval): not an "
+            "independent candidate beside it. Trained on "
+            "https://doi.org/10.5281/zenodo.17978574."
+        ),
+        pretrained_on="Cursive HTR model related to the Augustinian canonesses in Inzigkofen",
+        centuries=[15],
+        scripts=['Cursive'],
+        languages=['de'],
+    ),
+    "cyrillic_uncial": KrakenModel(
+        model_id="10.5281/zenodo.7755483",
+        name="Generic HTR model for Old Cyrillic uncial and semi-uncial, 11th–16th c.",
+        lang="cu",
+        script="Cyrillic uncial",
+        notes=(
+            "Rabus & Thompson, 2023. Church Slavonic."
+        ),
+        pretrained_on="Generic HTR model for Old Cyrillic uncial and semi-uncial, 11th–16th c.",
+        centuries=[11, 12, 13, 14, 15, 16],
+        scripts=['Cyrillic uncial'],
+        languages=['cu'],
+    ),
+    "english_print": KrakenModel(
+        model_id="10.5281/zenodo.2577813",
+        name="A generalized model for English printed text",
+        lang="en",
+        script="Latin",
+        notes=(
+            "Kiessling, 2019. Modern printed English plus ~10 000 lines of historical "
+            "print."
+        ),
+        pretrained_on="A generalized model for English printed text",
+        centuries=[],
+        scripts=[],
+        languages=['en'],
+    ),
+    "estournelles_typewritten": KrakenModel(
+        model_id="10.5281/zenodo.10556673",
+        name="Transcription model for Paul d'Estournelles de Constant's French typewritten letters (1914–1924)",
+        lang="fr",
+        script="Typewritten",
+        notes=(
+            "Chiffoleau, 2024."
+        ),
+        pretrained_on="Transcription model for Paul d'Estournelles de Constant's French typewritten letters (1914–1924)",
+        centuries=[20],
+        scripts=['Typewritten'],
+        languages=['fr'],
+    ),
+    "fondue_gd_v2": KrakenModel(
+        model_id="10.5281/zenodo.21536798",
+        name="FoNDUE-GD",
+        lang="fr",
+        script="Latn",
+        notes=(
+            "Simon Gabay, Université de Genève, 2026. A large multilingual model "
+            "aggregating 28 published corpora; the widest coverage in this registry, and "
+            "the reason training_datasets is recorded: two of those corpora are test sets "
+            "this project measures on, which is not visible from the model's name. "
+            "Trained on https://doi.org/10.5281/zenodo.4746342, "
+            "https://github.com/PonteIneptique/valais-recensement, "
+            "https://doi.org/10.5281/zenodo.5153262, "
+            "https://doi.org/10.5281/zenodo.3517776, "
+            "https://doi.org/10.5281/zenodo.7695130, "
+            "https://doi.org/10.5281/zenodo.3945087, https://github.com/FoNDUE- "
+            "HTR/FONDUE-DE-MSS-18, https://github.com/FoNDUE-HTR/FONDUE-DE-AAEB-17, "
+            "https://github.com/FoNDUE-HTR/FONDUE-FR-MSS-19, https://github.com/FoNDUE- "
+            "HTR/FONDUE-FR-MSS-18, https://github.com/HTR-United/CREMMA-MSS-18, "
+            "https://github.com/HTR-United/CREMMA-MSS-20, https://github.com/HTR- "
+            "United/cremma-wikipedia, https://github.com/HTR-United/lectaurep- "
+            "repertoires, https://github.com/HTR-United/lectaurep-bronod, "
+            "https://github.com/HTR-United/CREMMA-AN-TestamentsDePoilus, "
+            "https://github.com/HTRomance-Project/modern-roman-languages, "
+            "https://github.com/Proyecto-Ocupacion-Araucania-UChile/HTR_Araucania_XIX, "
+            "https://github.com/16thExegesisDH/HTR-Corpus-A, "
+            "https://github.com/16thExegesisDH/HTR-Corpus-C, https://github.com/ARCHEO- "
+            "POL/OCR_corpus_principal, https://github.com/Masculinites- "
+            "Esclavagistes/MEGV-FR-MSS-18, "
+            "https://github.com/PaulineJac/GasparoSardiToponomasia, "
+            "https://github.com/alix-tz/moonshines, https://github.com/alix-tz/peraire- "
+            "ground-truth, https://github.com/FoNDUE-HTR/FoNDUE_Wolfflin_Fotosammlung."
+        ),
+        pretrained_on="FoNDUE-GD",
+        centuries=[16, 17, 18, 19, 20, 21],
+        scripts=['Latn'],
+        languages=['fr', 'de', 'es', 'la', 'nl'],
+    ),
+    "french_vietnamese": KrakenModel(
+        model_id="10.5281/zenodo.17690418",
+        name="HTR model for 19th–20th century French-Vietnamese historical documents (KQNBSEI)",
+        lang="vi",
+        script="Latin",
+        notes=(
+            "Le & Bui, 2025. Quốc Ngữ, Bulletin de la Société des Études Indochinoises. "
+            "Fine-tune of 10.5281/zenodo.10592716 (served as kraken-catmus_print_large): "
+            "not an independent candidate beside it."
+        ),
+        pretrained_on="HTR model for 19th–20th century French-Vietnamese historical documents (KQNBSEI)",
+        centuries=[19, 20],
+        scripts=[],
+        languages=['vi', 'fr'],
+    ),
+    "gallicorpora": KrakenModel(
         model_id="10.5281/zenodo.7410529",
-        name="OpenITI Arabic v3",
+        name="Gallicorpora+",
+        lang="fr",
+        script="Latin",
+        notes=(
+            "Pinche & Gabay, 2022. OCR for French prints, 16th–19th c."
+        ),
+        pretrained_on="Gallicorpora+",
+        centuries=[16, 17, 18, 19],
+        scripts=[],
+        languages=['fr'],
+    ),
+    "german_print": KrakenModel(
+        model_id="10.5281/zenodo.10519596",
+        name="OCR model for German prints trained from several datasets (german_print)",
+        lang="de",
+        script="Fraktur, Antiqua",
+        notes=(
+            "Weil & Kamlah, 2023. Generic: 15th c. incunabula to 20th c. prints."
+        ),
+        pretrained_on="OCR model for German prints trained from several datasets (german_print)",
+        centuries=[15, 16, 17, 18, 19, 20],
+        scripts=['Fraktur', 'Antiqua'],
+        languages=['de', 'la'],
+    ),
+    "glagolitic_print": KrakenModel(
+        model_id="10.5281/zenodo.7755504",
+        name="HTR model for Glagolitic sources printed in the 16th c. Tübingen-Urach style",
+        lang="cu",
+        script="Glagolitic",
+        notes=(
+            "Rabus & Thompson, 2023. Transcribes INTO Latin script."
+        ),
+        pretrained_on="HTR model for Glagolitic sources printed in the 16th c. Tübingen-Urach style",
+        centuries=[16],
+        scripts=['Glagolitic'],
+        languages=['cu'],
+    ),
+    "hebrew_sephardi": KrakenModel(
+        model_id="10.5281/zenodo.5468665",
+        name="Medieval Hebrew manuscripts in Sephardi bookhand v1.0",
+        lang="he",
+        script="Sephardi bookhand",
+        notes=(
+            "Stökl Ben Ezra, 2021. Trained on the Sephardi part of the BiblIA dataset."
+        ),
+        pretrained_on="Medieval Hebrew manuscripts in Sephardi bookhand v1.0",
+        centuries=[],
+        scripts=['Sephardi bookhand'],
+        languages=['he'],
+    ),
+    "kuzushiji": KrakenModel(
+        model_id="10.5281/zenodo.13942714",
+        name="HTR model for (Japanese) Kuzushiji",
+        lang="ja",
+        script="Kuzushiji",
+        notes=(
+            "Stökl Ben Ezra, 2024. Kuronet dataset."
+        ),
+        pretrained_on="HTR model for (Japanese) Kuzushiji",
+        centuries=[],
+        scripts=['Kuzushiji'],
+        languages=['ja'],
+    ),
+    "latin_expanded_11c": KrakenModel(
+        model_id="10.5281/zenodo.13736584",
+        name="Expanded transcription of 11th c. Latin manuscripts",
+        lang="la",
+        script="Latin",
+        notes=(
+            "Schonhardt, 2024. The companion of the graphematic model above, same "
+            "project."
+        ),
+        pretrained_on="Expanded transcription of 11th c. Latin manuscripts",
+        centuries=[11],
+        scripts=[],
+        languages=['la'],
+    ),
+    "latin_graphematic_11c": KrakenModel(
+        model_id="10.5281/zenodo.13741957",
+        name="Graphematic transcription of 11th c. Latin manuscripts",
+        lang="la",
+        script="Latin",
+        notes=(
+            "Schonhardt, 2024. Burchards Dekret Digital (Akademie Mainz)."
+        ),
+        pretrained_on="Graphematic transcription of 11th c. Latin manuscripts",
+        centuries=[11],
+        scripts=[],
+        languages=['la'],
+    ),
+    "latin_incunabula": KrakenModel(
+        model_id="10.5281/zenodo.11113737",
+        name="Latin Incunabula and Early Prints",
+        lang="la",
+        script="Gothic, Antiqua",
+        notes=(
+            "Ost, 2024. Reichenau incunabula, Badische Landesbibliothek. Centuries "
+            "inferred from 'incunabula' (pre-1501) and 'early prints'; the record gives "
+            "no range. Fine-tune of 10.5281/zenodo.10592716 (served as kraken- "
+            "catmus_print_large): not an independent candidate beside it. Trained on "
+            "https://doi.org/10.5281/zenodo.11046062."
+        ),
+        pretrained_on="Latin Incunabula and Early Prints",
+        centuries=[15, 16],
+        scripts=['Gothic', 'Antiqua'],
+        languages=['la'],
+    ),
+    "lectaurep_french": KrakenModel(
+        model_id="10.5281/zenodo.6542744",
+        name="LECTAUREP Contemporary French Model (Administration)",
+        lang="fr",
+        script="Latin",
+        notes=(
+            "Chagué, 2022. Ground truth from French administrative documents produced "
+            "between 1742 and 1928."
+        ),
+        pretrained_on="LECTAUREP Contemporary French Model (Administration)",
+        centuries=[18, 19, 20],
+        scripts=[],
+        languages=['fr'],
+    ),
+    "manu_mcfondue": KrakenModel(
+        model_id="10.5281/zenodo.10886224",
+        name="HTR-United",
+        lang="fr",
+        script="Latin",
+        notes=(
+            "Manu Mc Fondue (Manu McFrench v4) — Gabay & Chagué, 2024. Centuries and "
+            "languages from the corpus table in the record (la 16th, fr 17th–19th, de "
+            "18th)."
+        ),
+        pretrained_on="HTR-United",
+        centuries=[16, 17, 18, 19],
+        scripts=[],
+        languages=['fr', 'la', 'de'],
+    ),
+    "mccatmus": KrakenModel(
+        model_id="10.5281/zenodo.13788177",
+        name="McCATMuS",
+        lang="fr",
+        script="Latn",
+        notes=(
+            "Chagué, 2024. Handwritten, printed and typewritten documents, 16th to 21st "
+            "c.; 180+ manuscripts in 7 languages."
+        ),
+        pretrained_on="McCATMuS",
+        centuries=[16, 17, 18, 19, 20, 21],
+        scripts=['Latn'],
+        languages=['fr', 'la', 'es', 'en', 'de', 'it', 'oc'],
+    ),
+    "medieval_latin_french_abbreviated": KrakenModel(
+        model_id="10.5281/zenodo.7516310",
+        name="HTR Model",
+        lang="la",
+        script="Medieval",
+        notes=(
+            "Medieval Latin and French 12th–15th c. WITH abbreviations (no expansion) — "
+            "Camps & Vidal-Gorène, 2023. Manuscripts and charters."
+        ),
+        pretrained_on="HTR Model",
+        centuries=[12, 13, 14, 15],
+        scripts=['Medieval'],
+        languages=['la', 'fro'],
+    ),
+    "medieval_latin_french_expanded": KrakenModel(
+        model_id="10.5281/zenodo.7516057",
+        name="HTR Model",
+        lang="la",
+        script="Medieval",
+        notes=(
+            "Medieval Latin and French 12th–15th c. EXPANDED (no abbreviation signs) — "
+            "Camps & Vidal-Gorène, 2023. The companion of the abbreviated model. This is "
+            "the model outremer measured as 'kraken-catmus_medieval' (#124)."
+        ),
+        pretrained_on="HTR Model",
+        centuries=[12, 13, 14, 15],
+        scripts=['Medieval'],
+        languages=['la', 'fro'],
+    ),
+    "mendelssohn_letters": KrakenModel(
+        model_id="10.5281/zenodo.18207676",
+        name="Fanny loves Wilhelm",
+        lang="de",
+        script="Latin",
+        notes=(
+            "Kuhn, 2026. Letters and notes by Fanny Mendelssohn (Hensel, 1805–1847). "
+            "Script not stated in the record. Trained on "
+            "https://doi.org/10.5281/zenodo.15223354."
+        ),
+        pretrained_on="Fanny loves Wilhelm",
+        centuries=[19],
+        scripts=[],
+        languages=['de'],
+    ),
+    "old_norse_am305": KrakenModel(
+        model_id="10.5281/zenodo.20529753",
+        name="HTR model for AM 305 fol (Járnsíða/Magnúsbók, Old Norse law, 13th c.)",
+        lang="non",
+        script="Latin",
+        notes=(
+            "Forester, 2026. Fine-tuned from a base trained on AM 302 fol (Grágás)."
+        ),
+        pretrained_on="HTR model for AM 305 fol (Járnsíða/Magnúsbók, Old Norse law, 13th c.)",
+        centuries=[13],
+        scripts=[],
+        languages=['non'],
+    ),
+    "openiti_arabic_print": KrakenModel(
+        model_id="10.5281/zenodo.7050270",
+        name="Printed Arabic-Script Base Model Trained on the OpenITI Corpus",
         lang="ar",
         script="Arabic",
-        notes="OpenITI Arabic v3 (broader coverage).",
-        pretrained_on="OpenITI Arabic extended corpus",
-        centuries=[12, 13, 14, 15, 16, 17, 18, 19],
+        notes=(
+            "Kiessling, 2022. Arabic, Persian, Urdu and Ottoman print in diverse "
+            "typefaces; the record calls it a base model for fine-tuning, not extensively "
+            "verified."
+        ),
+        pretrained_on="Printed Arabic-Script Base Model Trained on the OpenITI Corpus",
+        centuries=[],
+        scripts=['Arabic'],
+        languages=['ar', 'fa', 'ur', 'ota'],
+    ),
+    "openiti_ottoman_print": KrakenModel(
+        model_id="10.5281/zenodo.7050342",
+        name="Printed Ottoman Base Model Trained on the OpenITI Corpus",
+        lang="ota",
+        script="Arabic",
+        notes=(
+            "Kiessling, 2022. ~7100 lines of Ottoman print, fine-tuned from the Arabic- "
+            "script base. Fine-tune of 10.5281/zenodo.7050270 (served as kraken- "
+            "openiti_arabic_print): not an independent candidate beside it."
+        ),
+        pretrained_on="Printed Ottoman Base Model Trained on the OpenITI Corpus",
+        centuries=[],
+        scripts=['Arabic'],
+        languages=['ota'],
+    ),
+    "openiti_persian_print": KrakenModel(
+        model_id="10.5281/zenodo.7051644",
+        name="Printed Persian Base Model Trained on the OpenITI Corpus",
+        lang="fa",
+        script="Arabic",
+        notes=(
+            "Kiessling, 2022. ~17k lines of Persian print, fine-tuned from the Arabic- "
+            "script base. Fine-tune of 10.5281/zenodo.7050270 (served as kraken- "
+            "openiti_arabic_print): not an independent candidate beside it."
+        ),
+        pretrained_on="Printed Persian Base Model Trained on the OpenITI Corpus",
+        centuries=[],
+        scripts=['Arabic'],
+        languages=['fa'],
+    ),
+    "peraire_french": KrakenModel(
+        model_id="10.5281/zenodo.8193498",
+        name="Transcription model for Lucien Peraire's handwriting (French, 20th c.)",
+        lang="fr",
+        script="Latin",
+        notes=(
+            "Chagué, 2023. Fine-tuned from Manu McFrench."
+        ),
+        pretrained_on="Transcription model for Lucien Peraire's handwriting (French, 20th c.)",
+        centuries=[20],
+        scripts=[],
+        languages=['fr'],
+    ),
+    "prima": KrakenModel(
+        model_id="10.5281/zenodo.18220238",
+        name="PRIMA HTR",
+        lang="it",
+        script="Latin",
+        notes=(
+            "Crespi, 2026. Italian early modern manuscripts, late 16th–18th c."
+        ),
+        pretrained_on="PRIMA HTR",
+        centuries=[16, 17, 18],
+        scripts=[],
+        languages=['it'],
+    ),
+    "samaritan": KrakenModel(
+        model_id="10.5281/zenodo.13814200",
+        name="Recognition model for historical Samaritan manuscripts, one-column pages",
+        lang="sam",
+        script="Samaritan",
+        notes=(
+            "trained on 13 pentateuchal manuscripts, 2024. No century range in the "
+            "record."
+        ),
+        pretrained_on="Recognition model for historical Samaritan manuscripts, one-column pages",
+        centuries=[],
+        scripts=['Samaritan'],
+        languages=['sam'],
+    ),
+    "textualis_inzigkofen": KrakenModel(
+        model_id="10.5281/zenodo.18207719",
+        name="Textualis HTR model related to the Augustinian canonesses in Inzigkofen",
+        lang="de",
+        script="Textualis",
+        notes=(
+            "Eichenberger, 2026. The hand of Anna Jaeck (d. 1481); German, 15th c. Fine- "
+            "tune of 10.5281/zenodo.13862096 (served as kraken-tridis_v2): not an "
+            "independent candidate beside it. Trained on "
+            "https://doi.org/10.5281/zenodo.17978574."
+        ),
+        pretrained_on="Textualis HTR model related to the Augustinian canonesses in Inzigkofen",
+        centuries=[15],
+        scripts=['Textualis'],
+        languages=['de'],
+    ),
+    "tridis_v2": KrakenModel(
+        model_id="10.5281/zenodo.13862096",
+        name="TRIDIS v2",
+        lang="la",
+        script="Medieval",
+        notes=(
+            "Torres Aguilar, 2024. Documentary manuscripts (legal, administrative), "
+            "11th–16th c. per the title, mostly 13th c. onwards per the description."
+        ),
+        pretrained_on="TRIDIS v2",
+        centuries=[11, 12, 13, 14, 15, 16],
+        scripts=['Medieval'],
+        languages=['la', 'fr', 'es'],
     ),
 }
 

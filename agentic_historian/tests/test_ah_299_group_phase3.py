@@ -119,14 +119,22 @@ def test_agent_b_criteria_pick_the_right_models_not_blind_fallbacks(rig):
     Uses the real plan_models/selector (pure, no I/O) rather than a stub: the claim
     is about model selection, so stubbing the selector would prove nothing.
 
-    Measured, blind → from Agent B:
-        kraken  0.05 (zenodo.7516057)   → 0.80 (Early Modern German 16.-17. Jh.)
+    Measured, blind → from Agent B (re-measured 2026-10-01):
+        kraken  0.05 (zenodo.18207779)  → 0.70 (zenodo.11673242, Bohemian 19th c.)
         trocr   0.20 (escriptmask)      → 0.40 (trocr-kurrent-XVI-XVII)
 
     The issue text claimed "score >= 0.8" for the TrOCR pick; that was a guess when
     it was written and it is wrong — the scorer gives the correct Kurrent model
     0.40. What matters is the identity of the pick and that criteria beat blindness,
     so that is what this asserts.
+
+    **The kraken pick used to score 0.80**, as "Early Modern German 16.-17. Jh."
+    (zenodo.15030337). That entry's metadata was invented: the DOI is CATMuS
+    Medieval, a medieval multilingual manuscript model, and no served kraken model
+    is 16th/17th-century German Kurrent (serving-atr-inference#101/#198). The
+    registry holds exactly one Kurrent model and it is 19th-century, so 0.70 — right
+    script, wrong period — is the best honest match for this source. The drop is the
+    correction, not a regression.
     """
     from agent_a import ensemble
     from agent_a.model_selector import SourceCriteria
@@ -145,10 +153,14 @@ def test_agent_b_criteria_pick_the_right_models_not_blind_fallbacks(rig):
     assert b_trocr.model_id == "dh-unibe/trocr-kurrent-XVI-XVII", b_trocr.model_id
     assert b_trocr.score > blind_trocr.score          # 0.40 > 0.20
 
-    # kraken: a Kurrent/16th-c. model instead of a medieval Latin fallback
+    # kraken: a Kurrent model instead of a medieval Latin fallback
     b_kraken, blind_kraken = top(b_picks, "kraken"), top(blind_picks, "kraken")
-    assert b_kraken.score >= 0.8                      # 0.80 — a real match
-    assert b_kraken.score > blind_kraken.score        # 0.80 > 0.05
+    from agent_a.models import KRAKEN_MODELS
+
+    picked = next(m for m in KRAKEN_MODELS.values() if m.model_id == b_kraken.model_id)
+    assert "kurrent" in picked.script.lower(), picked.script
+    assert b_kraken.score == 0.7                      # the best honest match
+    assert b_kraken.score > blind_kraken.score        # 0.70 > 0.05
     assert b_kraken.model_id != blind_kraken.model_id
 
 
