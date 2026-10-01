@@ -139,8 +139,23 @@ def atr_batch(args: argparse.Namespace) -> int:
     # doing it. A model that does not fit is dropped and the others go on,
     # because the batch is model-major and one mistyped id never stopped the
     # rest either.
+    # One probe, used twice: the preflight asks it whether each model fits, and
+    # the provenance header asks it which weights each model is (#482). Taken
+    # even with --no-preflight, which switches off the *gate* rather than the
+    # question — a run whose model versions nobody can name afterwards is not
+    # worth the 200 ms it would have cost to ask. Never fatal: a probe that
+    # failed files its error and reads as "no answer" at both call sites.
+    probe = None
+    try:
+        from mcp_atr.server import gateway_probe
+
+        probe = gateway_probe()
+    except Exception as exc:  # noqa: BLE001 — provenance is not worth a run
+        print(f"Warning: no gateway probe ({exc}) — the run's model "
+              "versions will read as unreported", file=sys.stderr)
+
     if not getattr(args, "no_preflight", False):
-        checked = batch.preflight(models)
+        checked = batch.preflight(models, probe=probe)
         for line in checked.lines():
             print(line, file=sys.stderr if checked.refused else sys.stdout)
         if checked.nothing_runs:
@@ -226,6 +241,7 @@ def atr_batch(args: argparse.Namespace) -> int:
         report = batch.run_batch(
             pages, models, args.run, out_root, recognise,
             retries=args.retries, concurrency=args.concurrency, cache=cache,
+            probe=probe, source=str(source), gateway=config.ATR_GATEWAY_URL,
         )
     finally:
         close = getattr(recognise, "close", None)

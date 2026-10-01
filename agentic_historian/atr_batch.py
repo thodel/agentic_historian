@@ -53,6 +53,8 @@ from typing import Callable, Iterable, Optional, Protocol, Sequence
 
 from loguru import logger
 
+import provenance
+
 import config
 
 __all__ = [
@@ -502,6 +504,18 @@ class BatchReport:
     #: the fourteen failures that opened this issue were invisible for the same
     #: reason — they were counted against a model.
     skipped_files: list = field(default_factory=list)
+    #: The run-level provenance header's facts (#482). The corpus root, the
+    #: gateway that answered, when the run finished, and the gateway's identity
+    #: for each model — said once here rather than six thousand times in the
+    #: page records, because six thousand copies of a fact are six thousand
+    #: chances for one of them to differ.
+    source: Optional[str] = None
+    gateway: Optional[str] = None
+    ended_at: str = ""
+    #: ``{model: provenance.ModelIdentity}``. Empty when no probe was taken, in
+    #: which case the header says ``revision_kind: "unreported"`` rather than
+    #: naming a version nobody established.
+    identities: dict = field(default_factory=dict)
 
     @property
     def any_aborted(self) -> bool:
@@ -517,6 +531,11 @@ class BatchReport:
             "rebuilt": self.rebuilt,
             "skipped_files": [{"file": s.rel, "reason": s.reason}
                               for s in self.skipped_files],
+            "provenance": provenance.run_header(
+                self.run, source=self.source, gateway=self.gateway,
+                models=[m.model for m in self.models],
+                identities=self.identities,
+                started_at=self.started_at, ended_at=self.ended_at),
             "models": [
                 {
                     "model": m.model, "done": m.done, "skipped": m.skipped,
@@ -632,7 +651,8 @@ def gateway_recogniser(base_url: Optional[str] = None,
 
 def _result_payload(page: PageRef, model: str, run: str, result,
                     source: Optional[dict] = None,
-                    read_path: Optional[Path] = None) -> dict:
+                    read_path: Optional[Path] = None,
+                    identity: Optional["provenance.ModelIdentity"] = None) -> dict:
     """The JSON written beside the transcription.
 
     It carries the source's **sha256** as well as its name. A comparison that
@@ -647,14 +667,10 @@ def _result_payload(page: PageRef, model: str, run: str, result,
     model actually saw when it was not the original itself, so the digest and
     the image are never confused for each other.
     """
-    src = dict(source) if source else {
-        "name": page.name,
-        "sha256": _sha256(page.path),
-        "bytes": page.path.stat().st_size,
-    }
-    src["key"] = page.key
-    if read_path is not None and Path(read_path) != page.path:
-        src["working_copy"] = Path(read_path).name
+    src = provenance.source_ref(page, source, read_path, digest=_sha256)
+    # One timestamp for both: the payload and its provenance block naming
+    # different seconds would be a contradiction nobody could resolve later.
+    recognised_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     return {
         "schema": SCHEMA,
         "run": run,
@@ -670,7 +686,16 @@ def _result_payload(page: PageRef, model: str, run: str, result,
         "truncated": bool(getattr(result, "truncated", False)),
         "second_opinion": getattr(result, "second_opinion", None),
         "gateway_version": getattr(result, "service_version", "?"),
-        "recognised_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "recognised_at": recognised_at,
+        # Where this reading came from, as data rather than as prose in the
+        # report (#482): the image, the model the *gateway* named, its revision
+        # with the kind of revision it is, and the recognition level. Beside the
+        # existing keys rather than replacing them, so `is_complete` still
+        # accepts pages written before it and a resumed run does not rewrite
+        # their provenance.
+        "provenance": provenance.page_provenance(
+            page, model, run, result, source=source, read_path=read_path,
+            identity=identity, recognised_at=recognised_at),
     }
 
 
@@ -758,7 +783,8 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
                     recognise: Recogniser, retries: int,
                     backoff: float = 2.0, sleep=time.sleep,
                     cache: Optional["PageSource"] = None,
-                    source_kinds: Optional[set] = None) -> PageOutcome:
+                    source_kinds: Optional[set] = None,
+                    identity: Optional["provenance.ModelIdentity"] = None) -> PageOutcome:
     """Read one page with one model, with retries, and write both artifacts.
 
     The text file is written **after** the JSON so that the JSON — the file
@@ -810,7 +836,7 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
                            error=f"{type(last_exc).__name__}: {last_exc}")
 
     payload = _result_payload(page, model, run, result, source=source,
-                              read_path=read_path)
+                              read_path=read_path, identity=identity)
     _write_atomic(json_path, json.dumps(payload, ensure_ascii=False, indent=2))
     _write_atomic(txt_path, payload["text"])
     return PageOutcome(
@@ -872,6 +898,7 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
               max_consecutive_failures: int = MAX_CONSECUTIVE_FAILURES,
               manifest: Optional[Path] = None,
               cache: Optional["PageSource"] = None,
+              identity: Optional["provenance.ModelIdentity"] = None,
               sleep=time.sleep) -> ModelOutcome:
     """Read every page with one model, writing into ``out_root/<model>/``.
 
@@ -915,7 +942,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
 
     def _one(page: PageRef) -> PageOutcome:
         return _recognise_page(page, model, run, out_dir, recognise, retries,
-                               sleep=sleep, cache=cache, source_kinds=source_kinds)
+                               sleep=sleep, cache=cache, source_kinds=source_kinds,
+                               identity=identity)
 
     def _recovered(res: PageOutcome) -> None:
         """A page that failed the source check and then read: undo its failure.
@@ -1216,7 +1244,9 @@ def preflight(models: Sequence[str], probe: dict | None = None,
 
 
 def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
-              out_root: Path, recognise: Recogniser, **kwargs) -> BatchReport:
+              out_root: Path, recognise: Recogniser, *,
+              probe: Optional[dict] = None, source: Optional[str] = None,
+              gateway: Optional[str] = None, **kwargs) -> BatchReport:
     """Every model over every page, **model-major** — see the module docstring.
 
     One model being abandoned never stops the batch: the others still run, and the
@@ -1226,9 +1256,16 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     out_root = Path(out_root)
     out_root.mkdir(parents=True, exist_ok=True)
     manifest = kwargs.pop("manifest", out_root / "manifest.jsonl")
+    # The gateway's word on every model, taken once for the whole run (#482).
+    # Once because the alternative is asking per page and letting six thousand
+    # answers drift, and from the gateway because our own registry only says
+    # which line stood in a configuration file when the run began.
+    identities = provenance.model_identities(
+        models, (probe or {}).get("models") if isinstance(probe, dict) else None)
     report = BatchReport(
         run=run, out_root=out_root, pages=len(pages),
         started_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        source=source, gateway=gateway, identities=identities,
         # `pages` is a PageList when it came from a listing and a plain list when
         # a caller built one; getattr rather than a type check, so a hand-made
         # list still runs and simply reports nothing skipped.
@@ -1237,9 +1274,11 @@ def run_batch(pages: Sequence[PageRef], models: Sequence[str], run: str,
     started = time.perf_counter()
     for model in models:
         report.models.append(
-            run_model(pages, model, run, out_root, recognise, manifest=manifest, **kwargs)
+            run_model(pages, model, run, out_root, recognise, manifest=manifest,
+                      identity=identities.get(model), **kwargs)
         )
     report.elapsed_s = time.perf_counter() - started
+    report.ended_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     return report
 
 
