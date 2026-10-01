@@ -89,6 +89,7 @@ class Comparison:
     common: list[str] = field(default_factory=list)
     compared: list[str] = field(default_factory=list)
     short: list[str] = field(default_factory=list)
+    repetitive: dict[str, list[str]] = field(default_factory=dict)
     one_sided_empty: dict[str, list[str]] = field(default_factory=dict)
     all_empty: list[str] = field(default_factory=list)
     pairs: list[PairStat] = field(default_factory=list)
@@ -207,15 +208,31 @@ def compare(readings: list[Reading], *,
         common &= set(r.pages)
     out.common = sorted(common)
 
+    # One definition of "empty", "short" and "repetitive" for the whole project:
+    # page_quality.classify. A second set of thresholds here would drift from the
+    # runner's report, and then the same corpus would have two empty counts.
+    from page_quality import classify
+
     for key in out.common:
-        texts = [r.pages[key].strip() for r in readings]
-        empties = [r.label for r, t in zip(readings, texts) if not t]
-        if len(empties) == len(readings):
+        texts = [r.pages[key] for r in readings]
+        graded = [(r.label, classify(t, short_chars=min_chars))
+                  for r, t in zip(readings, texts)]
+        verdicts = {label: q.verdict for label, q in graded}
+        if all(v == "empty" for v in verdicts.values()):
             out.all_empty.append(key)
-        elif empties:
-            for label in empties:
-                out.one_sided_empty.setdefault(label, []).append(key)
-        elif min(len(t) for t in texts) < min_chars:
+        elif any(v == "empty" for v in verdicts.values()):
+            for label, v in verdicts.items():
+                if v == "empty":
+                    out.one_sided_empty.setdefault(label, []).append(key)
+        elif any(v == "repetitive" for v in verdicts.values()):
+            # Recorded against the reading that lost control, not merely counted:
+            # which model pads a page is the diagnostically useful half, and a
+            # page carrying 8 000 characters of one digit would otherwise sit in
+            # the distribution and move every average that includes it.
+            for label, v in verdicts.items():
+                if v == "repetitive":
+                    out.repetitive.setdefault(label, []).append(key)
+        elif any(v == "short" for v in verdicts.values()):
             out.short.append(key)
         else:
             out.compared.append(key)
@@ -253,6 +270,9 @@ def format_report(c: Comparison) -> str:
               f"- too short to compare (under {c.min_chars} chars somewhere): "
               f"{len(c.short)}",
               f"- empty in every reading: {len(c.all_empty)}"]
+    for label, keys in sorted(c.repetitive.items()):
+        lines.append(f"- **repetitive** (the model lost control and padded the "
+                     f"page) in `{label}`: {len(keys)}")
     for label, keys in sorted(c.one_sided_empty.items()):
         lines.append(f"- empty **only** in `{label}`: {len(keys)}")
     lines.append("")

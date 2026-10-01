@@ -54,6 +54,7 @@ from typing import Callable, Iterable, Optional, Protocol, Sequence
 from loguru import logger
 
 import config
+import page_quality
 
 __all__ = [
     "IMAGE_EXTS",
@@ -428,6 +429,10 @@ class PageOutcome:
     #: page. Not a failure — the text is real, there is just less of it than the
     #: page has — so it is counted separately rather than folded into either.
     truncated: bool = False
+    #: What kind of reading it is (#483), carried from the page's own JSON rather
+    #: than recomputed here: the number in the report and the verdict on disk are
+    #: then the same value, and cannot drift into disagreeing about one page.
+    verdict: str = ""
     #: Set when the failure is one that ends the model rather than the page.
     fatal: bool = False
     #: Why, in the words the report should use. "Abandoned" alone leaves the
@@ -461,6 +466,12 @@ class ModelOutcome:
     #: contains and no other column moves when one happens.
     empty: int = 0
     empty_keys: list[str] = field(default_factory=list)
+    #: Pages where the model lost control and padded: 8 000 characters of one
+    #: digit, `truncated` false, a 200 and two files on disk. The same class of
+    #: silent failure as `empty`, and it had no column either — while moving every
+    #: average that includes it, which `empty` does not.
+    repetitive: int = 0
+    repetitive_keys: list[str] = field(default_factory=list)
     recognition_ms: int = 0
     elapsed_s: float = 0.0
     #: Why the model was abandoned before the end of the corpus, if it was.
@@ -523,6 +534,8 @@ class BatchReport:
                     "failed": m.failed, "chars": m.chars, "lines": m.lines,
                     "truncated": m.truncated, "empty": m.empty,
                     "empty_keys": list(m.empty_keys),
+                    "repetitive": m.repetitive,
+                    "repetitive_keys": list(m.repetitive_keys),
                     "recognition_ms": m.recognition_ms,
                     "elapsed_s": round(m.elapsed_s, 1),
                     "aborted": m.aborted,
@@ -668,6 +681,11 @@ def _result_payload(page: PageRef, model: str, run: str, result,
         "segmented_by": getattr(result, "segmented_by", None),
         "timing_ms": int(getattr(result, "timing_ms", 0) or 0),
         "truncated": bool(getattr(result, "truncated", False)),
+        # What kind of reading this is (#483). Written here because the verdict is
+        # cheap to compute once and expensive to recover: a corpus whose pages do
+        # not carry it can only be judged by reading all of it again.
+        "quality": page_quality.classify(
+            getattr(result, "text", "") or "").as_dict(),
         "second_opinion": getattr(result, "second_opinion", None),
         "gateway_version": getattr(result, "service_version", "?"),
         "recognised_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -817,6 +835,7 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
         key=page.key, model=model, status="done",
         chars=len(payload["text"]), lines=len(payload["lines"]),
         timing_ms=payload["timing_ms"], truncated=payload["truncated"],
+        verdict=(payload.get("quality") or {}).get("verdict", ""),
     )
 
 
@@ -956,6 +975,10 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
                 outcome.empty += 1
                 if len(outcome.empty_keys) < 20:
                     outcome.empty_keys.append(res.key)
+            elif res.verdict == "repetitive":
+                outcome.repetitive += 1
+                if len(outcome.repetitive_keys) < 20:
+                    outcome.repetitive_keys.append(res.key)
         elif res.status == "skipped":
             outcome.skipped += 1
         else:
@@ -1290,6 +1313,13 @@ def report_from_outputs(run_dir: Path) -> BatchReport:
                 outcome.empty += 1
                 if len(outcome.empty_keys) < 20:
                     outcome.empty_keys.append(json_path.stem)
+            elif page_quality.classify(text).verdict == "repetitive":
+                # Recomputed rather than read from the stored verdict: a run that
+                # finished before `quality` existed has none, and the whole point
+                # of a rebuilt report is to describe what is on disk.
+                outcome.repetitive += 1
+                if len(outcome.repetitive_keys) < 20:
+                    outcome.repetitive_keys.append(json_path.stem)
             when = _parse_stamp(data.get("recognised_at"))
             if when:
                 seen.append(when)
@@ -1323,6 +1353,37 @@ def _parse_stamp(value) -> Optional[datetime]:
         return datetime.fromisoformat(value)
     except (TypeError, ValueError):
         return None
+
+
+def _repetitive_section(report: BatchReport) -> list[str]:
+    """The pages the model padded — the other way a reading fails silently.
+
+    `empty` at least leaves a number at zero. A looped page comes back as an
+    ordinary success carrying thousands of characters, so it inflates every
+    average rather than lowering one, and the report that reads best is the run
+    that failed worst. Measured 2026-10-01: one such page carried 8 824
+    characters against a corpus mean of 1 183.
+    """
+    hit = [m for m in report.models if m.repetitive]
+    if not hit:
+        return []
+    out = ["", "## Pages the model padded", ""]
+    for m in hit:
+        share = 100.0 * m.repetitive / m.done if m.done else 0.0
+        out.append(f"- `{m.model}`: {m.repetitive} of {m.done} page(s) "
+                   f"({share:.0f}%)")
+        for key in m.repetitive_keys:
+            out.append(f"  - {key}")
+        if m.repetitive > len(m.repetitive_keys):
+            out.append(f"  - … {m.repetitive - len(m.repetitive_keys)} more "
+                       f"(see `manifest.jsonl`)")
+    out += ["",
+            "A run of one character twenty long or half the lines repeating is not "
+            "a reading of a page. **These carry text, so every average over them "
+            "is wrong** — characters per page most of all. They are described, not "
+            "removed: whether the page itself is a table, a ruled form or a scan "
+            "the model could not hold on to is settled by looking at it."]
+    return out
 
 
 def _empty_section(report: BatchReport) -> list[str]:
@@ -1563,13 +1624,14 @@ def format_report(report: BatchReport) -> str:
         f"- wall time: {report.elapsed_s / 60:.1f} min",
         *_skipped_lines(report),
         "",
-        "| model | read | skipped | failed | empty | cut off | chars/page | s/page | wall |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| model | read | skipped | failed | empty | looped | cut off | "
+        "chars/page | s/page | wall |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for m in report.models:
         lines.append(
             f"| `{m.model}` | {m.done} | {m.skipped} | {m.failed} | {m.empty} | "
-            f"{m.truncated} | "
+            f"{m.repetitive} | {m.truncated} | "
             f"{m.mean_chars:.0f} | {m.mean_ms / 1000:.1f} | {m.elapsed_s / 60:.1f} min |"
         )
     lines += [
@@ -1591,7 +1653,7 @@ def format_report(report: BatchReport) -> str:
             "and this does not — is read from the results themselves.",
         ]
     lines += _truncation_section(report)
-    lines += _empty_section(report)
+    lines += _empty_section(report) + _repetitive_section(report)
     aborted = [m for m in report.models if m.aborted]
     if aborted:
         lines += ["", "## Abandoned", ""]
