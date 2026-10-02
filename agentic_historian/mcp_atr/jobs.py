@@ -157,11 +157,28 @@ def _roots() -> list[Path]:
     The mount is included whether or not anything is mounted there: an empty
     directory yields no pages and says so, which is a better error than "outside
     the corpus roots" for a path the runbook tells people to use.
+
+    **And the page cache**, which on 2026-10-02 was the difference between
+    measuring eight models and waiting for somebody else's server. The GWDG share
+    answered 500 to every PROPFIND, both URL forms, and ``ATR_MOUNT_DIR`` was an
+    empty directory — so neither route to the pages worked, while some 6700 of
+    them sat on local disk as JPEG working copies and could not be named as a
+    source.
+
+    It belongs here on its own merits, not only as a fallback. The cache is keyed
+    by each page's path relative to the corpus root, so it mirrors the share's
+    structure and a page read from it gets the **same key** it would have from the
+    share or the mount — which is the property that lets one corpus be read partly
+    one way and partly another. It is also, like ``VLM_TEST_ROOT``, a directory
+    this stack wrote itself, so admitting it widens nothing: a caller could
+    already read every page of it through the runs it produced.
     """
     roots = [Path(config.NEXTCLOUD_STAGING_DIR).resolve(),
              Path(config.VLM_TEST_ROOT).resolve()]
     if config.ATR_MOUNT_DIR:
         roots.append(Path(config.ATR_MOUNT_DIR).resolve())
+    if config.ATR_PAGE_CACHE:
+        roots.append(Path(config.ATR_PAGE_CACHE).resolve())
     return roots
 
 
@@ -175,7 +192,18 @@ def cache_dir_for(source) -> Optional[Path]:
     least once per model, and there is no situation in which paying that twice is
     what the caller wanted. A source already on local disk gets none, since it
     would only duplicate files.
+
+    **The cache is never its own cache.** Now that it can be named as a source
+    (see :func:`_roots`), the unconditional ``ATR_PAGE_CACHE`` below would have
+    handed a run reading *from* the cache the same directory to write working
+    copies *into* — each pass re-encoding a JPEG onto the file it just read, one
+    generation of quality per model. A page that is already a local working copy
+    needs no working copy.
     """
+    cache = Path(config.ATR_PAGE_CACHE).resolve() if config.ATR_PAGE_CACHE else None
+    if cache is not None and not isinstance(source, str):
+        if source == cache or source.is_relative_to(cache):
+            return None
     if config.ATR_PAGE_CACHE:
         return Path(config.ATR_PAGE_CACHE)
     if isinstance(source, str):                     # dav:<folder>
