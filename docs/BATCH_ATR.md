@@ -404,6 +404,16 @@ chunk that rewrites identical bytes is an empty diff.
 
 ---
 
+## 4a · To the hub
+
+The hand-corrected pages go to `dh-unibe` as a private dataset, built by
+`pagexml-hf` from a tree this repository assembles. **[docs/HF_DATASET.md](HF_DATASET.md)**
+has the run, and the geometry check that decides whether the export is usable at
+all — mismatched line polygons crop the wrong strip of every page, and nothing
+downstream says so.
+
+---
+
 ## 4b · Comparing two readings
 
 Two runs over the same share produce two directories and, until now, nothing that

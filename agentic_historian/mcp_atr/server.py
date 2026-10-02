@@ -327,7 +327,8 @@ def build_server(provider=None, auth_settings=None):
     def start_batch(models: list[str], run: str, source: str,
                     limit: Optional[int] = None, sample: Optional[int] = None,
                     dry_run: bool = False,
-                    concurrency: Optional[int] = None) -> dict:
+                    concurrency: Optional[int] = None,
+                    keys_from: Optional[str] = None) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
         ``source`` is either a directory — inside the mirror, the comparison
@@ -347,6 +348,14 @@ def build_server(provider=None, auth_settings=None):
         misleading as an impression of how a model reads the collection. Sampling
         is deterministic, so a resumed run reads the pages the first one did.
 
+        ``keys_from`` names a page-key list written by ``score_ground_truth``'s
+        ``keys_out`` — a **name**, not a path, resolved under the ground-truth
+        root. With it a run reads only the pages that list names, which is how a
+        model reads the pages we can grade instead of the corpus: on 2026-10-02
+        the eight candidates over all 6723 pages came to 53,784 calls and about
+        two weeks of one card, against 276 pages that have hand-corrected text.
+        A key that names no page under ``source`` is reported, never dropped.
+
         Use ``dry_run`` first (it prints pages x models and exits), then
         ``sample=10``, then the whole corpus.
         """
@@ -360,9 +369,14 @@ def build_server(provider=None, auth_settings=None):
         if limit is not None and sample is not None:
             return {"ok": False, "error": "limit and sample are alternatives: "
                                           "the first N pages, or N at random"}
+        try:
+            checked_keys = (jobs.resolve_keys_file(keys_from)
+                            if keys_from else None)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
                                limit=limit, sample=sample, concurrency=concurrency,
-                               dry_run=dry_run,
+                               dry_run=dry_run, keys_from=checked_keys,
                                cache_dir=jobs.cache_dir_for(checked_source))
         if dry_run:
             # The plan is the answer, so it is worth waiting for — but only as
@@ -434,7 +448,8 @@ def build_server(provider=None, auth_settings=None):
 
     @server.tool()
     def score_ground_truth(runs: list[str], gt_dir: str | None = None,
-                           limit: int | None = None) -> dict:
+                           limit: int | None = None,
+                           keys_out: str | None = None) -> dict:
         """Score runs' readings against hand-corrected Transkribus pages.
 
         **The one measurement here that is quality**, not disagreement: the
@@ -446,9 +461,18 @@ def build_server(provider=None, auth_settings=None):
         by content. Every match carries its runner-up and whether it is
         `confident`: a best at 20 % against a second-best at 80 % is certain, two
         at 70 % mean the page is not in that run and the number describes nothing.
+        Measured on this corpus, two unrelated German pages score about 68 %, so
+        a best near that figure is the floor rather than a reading.
+
+        ``keys_out`` names a file to write the **located** pages' keys to, under
+        the ground-truth root, for ``start_batch``'s ``keys_from``. That is the
+        handover that makes a targeted run possible: only pages whose identity is
+        settled, because a wrong key there does not produce a bad number — it
+        sends every model to read a different page.
         """
         try:
-            return jobs.score_ground_truth(runs, gt_dir=gt_dir, limit=limit)
+            return jobs.score_ground_truth(runs, gt_dir=gt_dir, limit=limit,
+                                           keys_out=keys_out)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

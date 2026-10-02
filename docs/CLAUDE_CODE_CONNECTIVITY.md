@@ -213,6 +213,14 @@ does not. `mcp_atr/` is a fifth server for that endpoint which can *do* somethin
 `compare_readings`, `score_ground_truth`. Behind the same nginx, on the same 443,
 so the port constraint below never comes up.
 
+`start_batch` takes a `keys_from` and `score_ground_truth` a `keys_out`, both
+naming a file under the ground-truth root rather than a path: the list one writes
+is the list the other reads, so a targeted run can be driven from a session
+without either tool taking a filename from the caller. Without it the only run an
+MCP caller could start was the whole corpus — on 2026-10-02 that was 53,784 calls
+and about two weeks of one card, to compare the 276 pages that have
+hand-corrected text.
+
 The last two are there because they are where a decision gets made. Until they
 existed, every measurement had to be run over ssh on tei and pasted back, which
 put the one step that produces a judgement furthest from where the judgement
