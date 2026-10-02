@@ -45,7 +45,24 @@ class Span:
 class FusionResult:
     text: str = ""
     provenance: list[Span] = field(default_factory=list)
-    arbitrated: int = 0               # number of disagreement slots the LLM decided
+    #: Columns where the candidates did not reach a majority. The work the
+    #: arbitration was *offered*, whether or not it did any.
+    disagreed: int = 0
+    #: Of those, how many the LLM actually decided. This used to be set to the
+    #: number of disagreements, which is a different quantity: when the call
+    #: failed or was switched off, every slot fell to the deterministic vote and
+    #: the field still reported the full count. `rdf_export` publishes it
+    #: (`sdhss:arbitrated`), so a knowledge graph asserted that a model had
+    #: arbitrated N readings it had never seen (#406).
+    arbitrated: int = 0
+    #: Of those it decided, how many it decided **against** the most-backed
+    #: reading — the only ones where arbitration changed the transcription.
+    #:
+    #: This is the quantity #406's measurement had to reconstruct offline, and
+    #: #416 says widening that 13-page sample is the next step. Counted here, a
+    #: production run accumulates it on every page: `arbitrated` without
+    #: `changed` is an LLM agreeing with the vote at 3.7-42 s a page.
+    changed: int = 0
     strategy: str = "vote"
     n_candidates: int = 0
 
@@ -169,6 +186,23 @@ _ARBITRATE_SYSTEM = (
 )
 
 
+def _most_backed(opts: dict) -> tuple[str, list[str]]:
+    """The reading the most candidates offer, and who offered it.
+
+    The deterministic answer for a slot with no majority. Factored out because
+    two callers need it and must not disagree: it is both the fallback when the
+    LLM does not answer, and the baseline `changed` is counted against. Two
+    implementations would be two answers to "what would the vote have said".
+
+    With all-singleton readings `max` returns the first, which is arbitrary but
+    never empty — unlike the arbitration, which may legitimately answer "".
+    """
+    tally: dict[str, list[str]] = {}
+    for lbl, tok in opts.items():
+        tally.setdefault(tok, []).append(lbl)
+    return max(tally.items(), key=lambda kv: len(kv[1]))
+
+
 def _arbitrate(slots: list[dict], llm_fn: LLMFn) -> dict[int, str]:
     """Ask the LLM to resolve the disagreement slots in one call.
 
@@ -196,7 +230,8 @@ def _arbitrate(slots: list[dict], llm_fn: LLMFn) -> dict[int, str]:
 # ── public API ───────────────────────────────────────────────────────────────
 
 def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
-         no_merge_cer: Optional[float] = None) -> FusionResult:
+         no_merge_cer: Optional[float] = None,
+         arbitrate: Optional[bool] = None) -> FusionResult:
     """Fuse engine candidates into a best-fit transcription.
 
     ``strategy="vote"`` (default): align → majority-vote → arbitrate disagreements.
@@ -210,6 +245,21 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
     rule (it ranks by source-match score, which fuse never sees) and short-circuits
     before calling fuse — this guard is the safety net for the direct callers, i.e.
     run_full_pipeline's Phase 3 under ENABLE_MULTI_ENGINE_FUSION.
+
+    **``arbitrate=False``** resolves every disagreement with the most-backed
+    reading and makes no LLM call. The slot-level fallback for a failed call
+    already did exactly this, so "off" is a path the code has always run — it is
+    now reachable deliberately instead of only by failure.
+
+    Worth switching off? The only measurement says probably (#406): 13 pages of
+    the 2021 Federal Council minutes, scored against ground truth, gave 4.82 %
+    CER voting alone against 5.01 % arbitrated, identical output on 7 of the 13
+    pages and a coin flip on the rest — 3.7 s a page there and 42 s on the tei
+    page that opened the issue. The default is left **on** regardless, because
+    13 pages of three CTC candidates is the sample whose limits #416 cites for
+    not changing the pipeline yet, and production fuses three to seven including
+    a VLM whose errors are distributed differently. ``changed`` is what turns
+    that into evidence from real runs rather than another small sample.
     """
     if no_merge_cer is None:
         try:
@@ -217,6 +267,12 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
             no_merge_cer = float(getattr(config, "ENSEMBLE_NO_MERGE_CER", 0.35))
         except Exception:                              # pragma: no cover — defensive
             no_merge_cer = 0.35
+    if arbitrate is None:
+        try:
+            import config
+            arbitrate = bool(getattr(config, "FUSION_ARBITRATE", True))
+        except Exception:                              # pragma: no cover — defensive
+            arbitrate = True
 
     cands = _candidates(recognitions)
     if not cands:
@@ -268,22 +324,20 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
             slots.append({"idx": k, "options": {l: col[l] for l in labels if l in col},
                           "context": " ".join(ctx_toks)})
 
-    choices = _arbitrate(slots, llm) if slots else {}
+    choices = _arbitrate(slots, llm) if (slots and arbitrate) else {}
+    llm_decided = llm_changed = 0
     for s in slots:
         k = s["idx"]
-        opts = s["options"]
+        fallback, fb_backers = _most_backed(s["options"])
         chosen = choices.get(k)
-        if chosen is not None and chosen != "":
+        if chosen is not None:
+            # "" is a decision — "nothing stands here" — and is dropped from the
+            # text below like any empty token. Counted as decided either way.
             decided[k], sources[k], backers_l[k] = chosen, "llm", []
-        elif chosen == "":
-            decided[k], sources[k], backers_l[k] = "", "llm", []
+            llm_decided += 1
+            llm_changed += chosen != fallback
         else:
-            # deterministic fallback: the reading backed by the most engines
-            tally: dict[str, list[str]] = {}
-            for l, t in opts.items():
-                tally.setdefault(t, []).append(l)
-            best, bk = max(tally.items(), key=lambda kv: len(kv[1]))
-            decided[k], sources[k], backers_l[k] = best, "vote", bk
+            decided[k], sources[k], backers_l[k] = fallback, "vote", fb_backers
 
     # Reconstruct text + merge consecutive same-source tokens into provenance spans.
     out_tokens = [t for t in decided if t]
@@ -296,7 +350,8 @@ def fuse(recognitions, llm_fn: Optional[LLMFn] = None, strategy: str = "vote",
             prov[-1].text += " " + tok
         else:
             prov.append(Span(tok, sources[k], backers_l[k]))
-    return FusionResult(text=fused, provenance=prov, arbitrated=len(slots),
+    return FusionResult(text=fused, provenance=prov, disagreed=len(slots),
+                        arbitrated=llm_decided, changed=llm_changed,
                         strategy="vote", n_candidates=len(cands))
 
 

@@ -541,15 +541,26 @@ def run_full_pipeline(
                     ctx.transcription = _fuse_result.text
                     ctx.a_meta["fusion_strategy"] = _fuse_result.strategy
                     ctx.a_meta["fusion_arbitrated"] = _fuse_result.arbitrated
+                    # Beside it, because `arbitrated` alone cannot say whether the
+                    # call was worth making (#406): how many columns disagreed,
+                    # and in how many the model chose against the vote. An
+                    # arbitration that changed nothing is a majority confirmed at
+                    # 3.7-42 s a page, and that is the number #416 needs widened.
+                    ctx.a_meta["fusion_disagreed"] = _fuse_result.disagreed
+                    ctx.a_meta["fusion_changed"] = _fuse_result.changed
                     ctx.a_meta["fusion_agreement_cer"] = _max_cer
                     ctx.a_meta["fusion_llm_skipped"] = _skip_llm
                     _emit(on_phase, doc_id, "fusion", "A", output=ctx.transcription,
                           decision=f"{_fuse_result.strategy}, "
+                                   f"{_fuse_result.disagreed} disagreed, "
                                    f"{_fuse_result.arbitrated} arbitrated, "
+                                   f"{_fuse_result.changed} changed, "
                                    f"agreement CER {_max_cer:.1%}")
                     logger.info(
                         f"[Orchestrator] Phase 3: fused ({_fuse_result.strategy}), "
-                        f"arbitrated={_fuse_result.arbitrated} slots, "
+                        f"disagreed={_fuse_result.disagreed} slots, "
+                        f"arbitrated={_fuse_result.arbitrated}, "
+                        f"changed={_fuse_result.changed}, "
                         f"agreement={_max_cer:.2%}, llm_skipped={_skip_llm}, "
                         f"{len(ctx.transcription)} chars"
                     )
