@@ -153,20 +153,30 @@ class Plan:
 def page_index(source_root: Path) -> dict[str, Path]:
     """``{page key: image path}`` for a corpus directory.
 
-    Built by walking the directory and asking the **runner's own** discovery for
-    each page's key, rather than by unfolding ``__`` back into separators. The
-    fold is lossy — a folder whose own name contains a double underscore would
-    unfold into the wrong path — and more importantly a reconstruction here could
-    drift from the runner's rule, which would silently pair a ground-truth page
-    with a different page's image.
+    Built by walking the directory and asking the **runner's own** key rule for
+    each image, rather than by unfolding ``__`` back into separators. The fold is
+    lossy — a folder whose own name contains a double underscore would unfold
+    into the wrong path — and more importantly a reconstruction here could drift
+    from the runner's rule, which would silently pair a ground-truth page with a
+    different page's image.
+
+    Only standalone images, and deliberately *not* through
+    :func:`atr_batch.discover_pages`. That is where this started: discovery
+    expands every PDF in the corpus into its page count, and this function
+    discarded those pages anyway, because a page inside a PDF has no file of its
+    own for the export to copy. Paying for the expansion was merely wasteful
+    until a host without `pypdfium2` turned it into a `ModuleNotFoundError` four
+    frames below anything that mentions PDFs, which ended the export on the first
+    PDF in the cache.
     """
     import atr_batch as batch
 
-    listed = batch.discover_pages(Path(source_root))
+    root = Path(source_root)
+    exts = {e.lower() for e in batch.IMAGE_EXTS}
     out: dict[str, Path] = {}
-    for ref in listed:
-        if ref.pdf_page is None:          # a PDF page has no standalone image here
-            out[ref.key] = ref.path
+    for path in sorted(root.rglob("*")):
+        if path.is_file() and path.suffix.lower() in exts:
+            out[batch.page_key(path.relative_to(root))] = path
     return out
 
 

@@ -158,8 +158,22 @@ class PageRef:
         return f"{self.path.name} p.{self.pdf_page + 1}"
 
 
-def _key_for(rel: Path) -> str:
+def page_key(rel: Path) -> str:
+    """The output key of a standalone page image at ``rel`` under the corpus root.
+
+    Public because a caller that wants *only* the keys should not have to go
+    through :func:`discover_pages` to get them. `hf_export.page_index` did, and
+    paid for it twice: it expanded every PDF in the corpus into page counts it
+    then discarded, and on a host without `pypdfium2` that expansion ended the
+    export entirely (#524). Reimplementing the rule there instead would be worse
+    — a ground-truth page would be paired with a different page's image the day
+    the two spellings drifted.
+    """
     return "__".join(rel.with_suffix("").parts)
+
+
+#: The former name, kept because it is used throughout this module.
+_key_for = page_key
 
 
 def _pdf_key_for(rel: Path, index: int) -> str:
@@ -211,7 +225,11 @@ def _count_pdf_pages(path: Path) -> int:
 
     try:
         return images.pdf_page_count(Path(path).read_bytes())
-    except OSError as exc:
+    except Exception as exc:  # noqa: BLE001 — 0 *is* this function's error path
+        # Was `except OSError`, which is the error a missing file raises and not
+        # the only one a PDF can produce. The contract here is "0 when it cannot
+        # be read from here", and narrowing the catch to one cause turned every
+        # other cause into an aborted walk.
         logger.warning(f"[batch] {Path(path).name}: cannot read the PDF ({exc})")
         return 0
 

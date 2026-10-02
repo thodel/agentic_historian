@@ -272,3 +272,70 @@ def test_the_plan_counts_what_it_left_out_by_reason(tmp_path):
     text = hf.format_plan(p)
     assert "left out: 1" in text
     assert "not located" in text
+
+
+# ── the index, and what it must not need ─────────────────────────────────────
+#
+# 2026-10-02, the first real run of `export-hf`:
+#
+#     File "hf_export.py", line 165, in page_index
+#       listed = batch.discover_pages(Path(source_root))
+#     ...
+#     File "utils/images.py", line 101, in pdf_page_count
+#       import pypdfium2 as pdfium
+#     ModuleNotFoundError: No module named 'pypdfium2'
+#
+# The export ended on the first PDF in the page cache, four frames below
+# anything that mentions PDFs. Two separate faults met there: this function went
+# through `discover_pages`, which expands every PDF into a page count it then
+# discarded, and `pdf_page_count` imported its renderer outside its own `try`
+# although its docstring promised 0 when a PDF "cannot be opened".
+
+def test_the_index_keys_images_by_the_runners_rule(tmp_path):
+    import atr_batch as batch
+
+    for rel in ("Basel/lassberg-letter-1/p1.jpg", "Aarau/upload/x/p2.jpg"):
+        _image(tmp_path / rel)
+
+    index = hf.page_index(tmp_path)
+
+    assert set(index) == {"Basel__lassberg-letter-1__p1", "Aarau__upload__x__p2"}
+    assert index["Basel__lassberg-letter-1__p1"].name == "p1.jpg"
+    # the same function the runner names its outputs with, not a second spelling
+    assert batch.page_key(Path("Basel/lassberg-letter-1/p1.jpg")) in index
+
+
+def test_a_pdf_in_the_source_is_ignored_without_being_opened(tmp_path, monkeypatch):
+    """The export has nothing to copy for a page inside a PDF, so counting those
+    pages was work it discarded — and on a host without the renderer it was the
+    end of the run."""
+    import utils.images as images
+
+    _image(tmp_path / "Basel" / "p1.jpg")
+    (tmp_path / "Basel" / "letter.pdf").write_bytes(b"%PDF-1.4 not really")
+
+    def explode(_data):
+        raise AssertionError("page_index must not count PDF pages")
+
+    monkeypatch.setattr(images, "pdf_page_count", explode)
+    index = hf.page_index(tmp_path)
+
+    assert set(index) == {"Basel__p1"}
+
+
+def test_the_index_survives_a_host_without_the_pdf_renderer(tmp_path, monkeypatch):
+    """The failure as it happened: import the renderer and there is none."""
+    import builtins
+
+    real = builtins.__import__
+
+    def no_pypdfium(name, *a, **k):
+        if name == "pypdfium2":
+            raise ModuleNotFoundError("No module named 'pypdfium2'")
+        return real(name, *a, **k)
+
+    _image(tmp_path / "Basel" / "p1.jpg")
+    (tmp_path / "Basel" / "letter.pdf").write_bytes(b"%PDF-1.4")
+    monkeypatch.setattr(builtins, "__import__", no_pypdfium)
+
+    assert set(hf.page_index(tmp_path)) == {"Basel__p1"}
