@@ -92,13 +92,39 @@ def pdf_page_path(path: Path, index: int) -> Path:
     return path.with_name(f"{path.stem}_p{index + 1:04d}{WORKING_SUFFIX}")
 
 
+#: Whether the missing-renderer message has been said. Once, not once per file:
+#: the corpus holds thirteen PDFs and thirteen identical lines is how a real
+#: message gets scrolled past.
+_SAID_NO_RENDERER = False
+
+
 def pdf_page_count(data: bytes) -> int:
     """How many pages this PDF holds, or 0 when it cannot be opened.
 
     0 rather than an exception: a corrupt derivative in a corpus of thousands is
     a file to report and walk past, not a reason to end the listing.
+
+    **A missing renderer is the same kind of answer.** ``pypdfium2`` is declared
+    in requirements.txt and is optional in practice — an environment that never
+    meets a PDF never needs it. Importing it outside this function's own `try`
+    meant that an environment without it did not get "cannot say" but a
+    `ModuleNotFoundError` out of the middle of a directory walk: on 2026-10-02
+    that ended an export over 6742 pages on the first PDF it met, from four
+    frames below anything that mentions PDFs. The docstring above already said
+    what should happen; the import was simply on the wrong side of the line.
     """
-    import pypdfium2 as pdfium
+    global _SAID_NO_RENDERER
+    try:
+        import pypdfium2 as pdfium
+    except ImportError:
+        if not _SAID_NO_RENDERER:
+            _SAID_NO_RENDERER = True
+            logger.error(
+                "[images] pypdfium2 is not installed, so no PDF can be counted "
+                "or rendered — every PDF in this corpus will be reported as 'not "
+                "pages, skipped'. Install it (`pip install pypdfium2`, it is in "
+                "requirements.txt) if those PDFs hold pages you want read.")
+        return 0
 
     try:
         doc = pdfium.PdfDocument(io.BytesIO(data))

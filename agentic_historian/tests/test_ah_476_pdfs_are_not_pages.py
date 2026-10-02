@@ -277,3 +277,65 @@ def test_a_hand_built_page_list_still_runs(tmp_path: Path):
                          recognise=lambda *a, **k: None)
 
     assert report.skipped_files == []
+
+
+# ── a missing renderer is "cannot say", not an aborted walk ──────────────────
+#
+# `pdf_page_count`'s docstring says 0 "rather than an exception: a corrupt
+# derivative in a corpus of thousands is a file to report and walk past, not a
+# reason to end the listing". The `import pypdfium2` sat outside its own `try`,
+# so an environment without the module got the exception the docstring rules out
+# — and on 2026-10-02 that ended an export over 6742 pages on its first PDF.
+
+def _without_pypdfium(monkeypatch):
+    import builtins
+
+    real = builtins.__import__
+
+    def fake(name, *a, **k):
+        if name == "pypdfium2":
+            raise ModuleNotFoundError("No module named 'pypdfium2'")
+        return real(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", fake)
+
+
+def test_a_missing_renderer_counts_zero_rather_than_raising(monkeypatch):
+    from utils import images
+
+    _without_pypdfium(monkeypatch)
+    monkeypatch.setattr(images, "_SAID_NO_RENDERER", False)
+
+    assert images.pdf_page_count(b"%PDF-1.4") == 0
+
+
+def test_it_says_so_once_not_once_per_file(monkeypatch, caplog):
+    """Thirteen PDFs and thirteen identical lines is how a real message gets
+    scrolled past."""
+    from utils import images
+
+    _without_pypdfium(monkeypatch)
+    monkeypatch.setattr(images, "_SAID_NO_RENDERER", False)
+    said = []
+    monkeypatch.setattr(images.logger, "error", lambda msg: said.append(msg))
+
+    for _ in range(5):
+        images.pdf_page_count(b"%PDF-1.4")
+
+    assert len(said) == 1
+    assert "pypdfium2" in said[0]
+    assert "pip install" in said[0]
+
+
+def test_the_walk_counts_a_pdf_zero_instead_of_dying(tmp_path, monkeypatch):
+    """The caller's contract is the same: 0 means "cannot say from here". It
+    caught only OSError, which is the error a *missing file* raises."""
+    import atr_batch as batch
+    from utils import images
+
+    pdf = tmp_path / "letter.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    _without_pypdfium(monkeypatch)
+    monkeypatch.setattr(images, "_SAID_NO_RENDERER", False)
+
+    assert batch._count_pdf_pages(pdf) == 0
