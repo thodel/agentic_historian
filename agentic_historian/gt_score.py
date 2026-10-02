@@ -351,6 +351,20 @@ def expand_gt_paths(paths: Iterable[str]) -> list[Path]:
     """
     out: list[Path] = []
     for raw in paths:
+        # `Path("")` is `Path(".")`, which is a directory, so an unset
+        # `$GT_ROOT` turns into a walk of the whole working directory. That is
+        # not theoretical: on 2026-10-02 `--gt "$GT_ROOT"` with the variable
+        # unset in an interactive shell offered
+        # `.venv/.../setuptools/command/launcher manifest.xml` as ground truth
+        # and only failed later, on the run directory. Same trap as #503, where
+        # the Transkribus dry-run inventoried the checkout and proposed
+        # `astronaut.png` as a Laßberg letter.
+        if not str(raw).strip():
+            raise GroundTruthError(
+                "empty ground-truth path — `$GT_ROOT` is probably unset in this "
+                "shell. It lives in `.env`, which only Python reads; pass "
+                "`--gt` with a real path or leave it out to use GT_ROOT from "
+                "the config")
         p = Path(raw).expanduser()
         if p.is_dir():
             out.extend(sorted(p.rglob("*.xml")))

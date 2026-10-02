@@ -276,3 +276,88 @@ def test_a_doubtful_match_contributes_no_key(tmp_path, capsys):
     assert code == 1
     assert not keyfile.exists()
     assert "no page was matched confidently" in capsys.readouterr().err
+
+
+# ── the arguments a human can actually type ──────────────────────────────────
+#
+# Pasted into tei's shell on 2026-10-02:
+#
+#     --gt "$GT_ROOT" --run-dir "$VLM_TEST_ROOT/atr_corpus_qwen35_line"
+#     → Error: not a run directory: /atr_corpus_qwen35_line
+#
+# Both variables live in `.env`, which dotenv loads for Python and an interactive
+# bash has never seen. The run name collapsed to an absolute path and the empty
+# `--gt` was worse: `Path("")` is `Path(".")`, so it walked the whole checkout
+# and offered `setuptools/command/launcher manifest.xml` as ground truth, then
+# failed later on the run directory. Same trap as #503.
+
+def test_an_empty_gt_path_is_refused_not_walked(tmp_path, monkeypatch):
+    """The #503 trap: an unset variable must not become a walk of the checkout."""
+    import gt_score as gs
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "junk.xml").write_text("<x/>", encoding="utf-8")
+    with pytest.raises(gs.GroundTruthError) as err:
+        gs.expand_gt_paths([""])
+    assert "GT_ROOT" in str(err.value)
+
+
+def test_a_blank_gt_path_is_refused_too(tmp_path, monkeypatch):
+    import gt_score as gs
+    monkeypatch.chdir(tmp_path)
+    with pytest.raises(gs.GroundTruthError):
+        gs.expand_gt_paths(["   "])
+
+
+def test_a_bare_run_name_resolves_under_the_run_root(tmp_path, monkeypatch):
+    import config
+    root = tmp_path / "vlm_test"
+    (root / "atr_corpus_qwen35_line" / "m").mkdir(parents=True)
+    monkeypatch.setattr(config, "VLM_TEST_ROOT", root)
+    assert _cli().resolve_run_dir("atr_corpus_qwen35_line") == \
+        root / "atr_corpus_qwen35_line"
+
+
+def test_a_collapsed_variable_still_resolves(tmp_path, monkeypatch):
+    """`$VLM_TEST_ROOT/atr_corpus_qwen35_line` with the variable unset. The
+    leading slash is what bash left behind, not something the user typed."""
+    import config
+    root = tmp_path / "vlm_test"
+    (root / "atr_corpus_qwen35_line" / "m").mkdir(parents=True)
+    monkeypatch.setattr(config, "VLM_TEST_ROOT", root)
+    assert _cli().resolve_run_dir("/atr_corpus_qwen35_line") == \
+        root / "atr_corpus_qwen35_line"
+
+
+def test_a_real_path_still_wins(tmp_path, monkeypatch):
+    """Nothing that worked before changes: an existing directory is used as given,
+    even if a run of the same name exists under the root."""
+    import config
+    root = tmp_path / "vlm_test"
+    (root / "run" / "m").mkdir(parents=True)
+    elsewhere = tmp_path / "elsewhere" / "run"
+    (elsewhere / "m").mkdir(parents=True)
+    monkeypatch.setattr(config, "VLM_TEST_ROOT", root)
+    assert _cli().resolve_run_dir(str(elsewhere)) == elsewhere
+
+
+def test_an_unknown_name_is_reported_as_given(tmp_path, monkeypatch):
+    """The error has to name what the user typed, not a path they never wrote."""
+    import config
+    monkeypatch.setattr(config, "VLM_TEST_ROOT", tmp_path / "vlm_test")
+    assert _cli().resolve_run_dir("nope") == Path("nope")
+
+
+def test_score_gt_without_gt_uses_the_configured_root(tmp_path, monkeypatch, capsys):
+    """`--gt` can be left out entirely, which is the point."""
+    import config
+    gt_root = tmp_path / "gt"
+    gt_root.mkdir()
+    _gt(gt_root, "doc1682295_page1_ts1.xml")
+    _run_dir(tmp_path, {KEYS[0]: "\n".join(LETTER_LINES), KEYS[1]: DECOY})
+    monkeypatch.setattr(config, "GT_ROOT", gt_root)
+    monkeypatch.setattr(config, "VLM_TEST_ROOT", tmp_path)
+
+    code = _cli().score_gt(_score_args(tmp_path, gt=None, run_dir=["run"]))
+
+    assert code == 0
+    assert "1 ground-truth page(s)" in capsys.readouterr().out

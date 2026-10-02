@@ -246,17 +246,24 @@ So the two commands are a pair. Scoring writes the keys it located:
 
 ```bash
 python -m agentic_historian score-gt \
-  --gt $GT_ROOT --run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line \
-  --keys-out /tmp/gt-keys.txt
+  --run-dir atr_corpus_qwen35_line --keys-out /tmp/gt-keys.txt
 ```
 
 and the runner reads them back:
 
 ```bash
 python -m agentic_historian atr-batch \
-  --source /mnt/lassberg --keys-from /tmp/gt-keys.txt \
+  --source /mnt/gwdg/digitalisate --keys-from /tmp/gt-keys.txt \
   --models trocr-kurrent,trocr-kurrent-xvi-xvii --run atr_gt_trocr
 ```
+
+**Neither command takes an environment variable, deliberately.** `VLM_TEST_ROOT`
+and `GT_ROOT` live in `.env`, which dotenv loads for Python and an interactive
+bash has never seen — so `--run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line` pasted
+into a shell expands to `/atr_corpus_qwen35_line`. `--run-dir` therefore takes a
+bare run name and resolves it against `VLM_TEST_ROOT` itself, and `--gt` defaults
+to `GT_ROOT` and can be left out. An existing path still wins, so a full path
+works as before.
 
 One page per line, `#` comments allowed, duplicates collapsed — two ground-truth
 files can match the same page and reading it twice would double its weight in
