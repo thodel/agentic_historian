@@ -189,13 +189,72 @@ def scripts_related(a: str, b: str) -> bool:
     return a != b and any(a in fam and b in fam for fam in SCRIPT_FAMILIES)
 
 
-def normalise_script(raw: str) -> str:
-    """Map a raw script description to a canonical key."""
-    s = raw.lower().strip()
+def normalise_scripts(raw: str) -> list[str]:
+    """Every script a description declares, in the order they appear (#379).
+
+    The same defect `normalise_langs` was written for, in the neighbouring
+    field, and found separately. Agent B described `saa-0428` as
+    *"Kursivschrift (Fraktur), schwarze Tinte"* — naming two hands in one
+    breath — and `normalise_script` returned whichever alias it met first in a
+    dict. Every model of the other hand then took `SCRIPT_MISMATCH`: not a
+    missing reward but an **active demotion** of models the describer had just
+    named.
+
+    Three runs of those pages called the hand Kursive, then Fraktur, then
+    Textura, and picked three unrelated model families. The descriptions are all
+    defensible readings of a transitional 15th/16th-century Swiss chancery hand
+    — palaeographers disagree about such hands too. The fault was never accuracy
+    but that the pipeline took one reading as a fact and demoted the rest.
+
+    So the type was wrong here as it was for language: what a description
+    declares is a **ranked set**, the first named leading. `score_model` then
+    treats an alternative the way `lang2` works — it keeps a model in
+    contention without letting it outrank the leading reading.
+
+    Overlapping aliases are resolved by position and length, as in
+    `normalise_langs`, so "halbkursive" yields that and not also the "kursive"
+    inside it.
+    """
+    s = (raw or "").lower().strip()
+    if not s:
+        return []
     for key, aliases in SCRIPT_ALIASES.items():
-        if s in aliases or any(a in s for a in aliases):
-            return key
-    return s
+        if s in aliases:
+            return [key]
+
+    hits: list[tuple[int, int, str]] = []      # (position, -length, key)
+    for key, aliases in SCRIPT_ALIASES.items():
+        for alias in aliases:
+            start = s.find(alias)
+            while start != -1:
+                hits.append((start, -len(alias), key))
+                start = s.find(alias, start + 1)
+    hits.sort()
+
+    out: list[str] = []
+    claimed: list[tuple[int, int]] = []
+    for pos, neg_len, key in hits:
+        end = pos + (-neg_len)
+        if any(pos < c_end and c_start < end for c_start, c_end in claimed):
+            continue                            # inside a longer alias already taken
+        claimed.append((pos, end))
+        if key not in out:
+            out.append(key)
+    # Nothing recognised: the raw string is the key, as before, so an
+    # unknown-but-stated script still matches a model tagged the same way.
+    return out or [s]
+
+
+def normalise_script(raw: str) -> str:
+    """The leading script a description declares, canonicalised.
+
+    Kept because the run state, the Gate-1 card and the routing prior all carry
+    one script string, and that string is the *leading* reading. The set lives
+    in `normalise_scripts`, exactly as `normalise_langs` sits behind the single
+    `lang` field.
+    """
+    found = normalise_scripts(raw)
+    return found[0] if found else (raw or "").lower().strip()
 
 
 def normalise_langs(raw: str) -> list[str]:
@@ -357,6 +416,16 @@ class ModelMatch:
 # script-agnostic pick. Tuned so script_exact > lang+century and a mismatch pulls
 # a lang+century model below a correct-script one.
 SCRIPT_EXACT = 0.6
+#: An exact match on a script the description named *after* the leading one
+#: (#379). Half the lead, which is the ratio `lang2` already has to `lang`
+#: (0.15 to 0.3) — derived from the neighbouring field rather than invented,
+#: because nothing here has been measured against ground truth.
+#:
+#: It happens to equal `SCRIPT_FUZZY`. Whether an exact match on a declared
+#: alternative deserves more than a family relation to the leading one is a real
+#: question and an unmeasured one, so the two are left equal rather than
+#: separated by a number somebody made up.
+SCRIPT_SECONDARY = 0.3
 SCRIPT_FUZZY = 0.3
 SCRIPT_MISMATCH = -0.35
 
@@ -377,7 +446,7 @@ def score_model(
     matched: list[str] = []
     reasons: list[str] = []
 
-    norm_script = normalise_script(script) if script else None
+    norm_scripts = normalise_scripts(script) if script else []
     # `lang` may be a single code, a raw description, or a list of codes — a
     # bilingual source declares more than one (#375).
     if isinstance(lang, str):
@@ -393,15 +462,27 @@ def score_model(
     # wrong-script model can't win on lang+century alone (#191 follow-up: a
     # Textura model was picked for a cursive hand). When the script is unknown
     # (criteria has none), scoring is unchanged.
-    if norm_script and model.script:
+    # Script match — against EVERY script the description declares, the first
+    # leading (#379). A description naming two hands ("Kursivschrift (Fraktur)")
+    # used to yield whichever alias came first in a dict, and every model of the
+    # other hand took SCRIPT_MISMATCH: an active demotion of models the
+    # describer had just named. "Eligible" and "equal" are not the same thing
+    # here either — the leading reading keeps its advantage, an alternative only
+    # stays in contention.
+    if norm_scripts and model.script:
         norm_model_script = normalise_script(model.script)
-        if norm_script == norm_model_script:
+        if norm_scripts[0] == norm_model_script:
             score += SCRIPT_EXACT
             matched.append("script")
             reasons.append(f"script={model.script}")
-        elif (norm_script in norm_model_script
-              or norm_model_script in norm_script
-              or scripts_related(norm_script, norm_model_script)):
+        elif norm_model_script in norm_scripts[1:]:
+            score += SCRIPT_SECONDARY
+            matched.append("script2")
+            reasons.append(f"script secondary: {model.script}")
+        elif any(ns in norm_model_script
+                 or norm_model_script in ns
+                 or scripts_related(ns, norm_model_script)
+                 for ns in norm_scripts):
             score += SCRIPT_FUZZY
             matched.append("script~")
             reasons.append(f"script fuzzy: {model.script}")
