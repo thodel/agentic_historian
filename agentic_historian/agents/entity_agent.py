@@ -32,6 +32,7 @@ Fixes AH-43: semantic entity linking via embedding + reranker.
 
 import json
 import re
+from typing import NamedTuple, Optional
 
 from loguru import logger
 
@@ -70,20 +71,112 @@ def extract_entities(doc_id: str, transcription: str) -> dict:
     return enriched
 
 
-def _chunk_text(text: str, chunk_size: int = 25_000, overlap: int = 2000) -> list[str]:
+#: The chunking rule, in one place (#466). It used to be a default argument
+#: here and a literal `len(chunk) - 2000` at the call site that needed an
+#: offset — the coupling where changing the chunker makes every offset in the
+#: database silently wrong. Nothing recomputes a chunk's position any more:
+#: `_chunk_text` reports it.
+CHUNK_SIZE = 25_000
+CHUNK_OVERLAP = 2_000
+
+
+class Chunk(NamedTuple):
+    """One piece of a transcription, and where it begins in that transcription.
+
+    `start` is what makes an offset expressible at all. A plain list of strings
+    cannot say where a hit was found, which is why #395 could not be built on
+    top of it three times running.
     """
-    Split text into overlapping chunks of chunk_size chars.
-    Overlap ensures entities at boundaries are not lost.
+
+    start: int
+    text: str
+
+    @property
+    def end(self) -> int:
+        return self.start + len(self.text)
+
+
+def _chunk_text(text: str, chunk_size: Optional[int] = None,
+                overlap: Optional[int] = None) -> list[Chunk]:
+    """Split text into overlapping chunks, each carrying its start offset.
+
+    The overlap exists so an entity sitting on a boundary is not lost. It has a
+    cost that only shows up once offsets are kept: a hit inside the overlap is
+    seen by two chunks and must still come out **once**. That is resolved by
+    identity, not by arithmetic — two sightings of the same characters map to
+    the same absolute span, so they collapse on their own (see `_locate`).
     """
+    chunk_size = CHUNK_SIZE if chunk_size is None else chunk_size
+    overlap = CHUNK_OVERLAP if overlap is None else overlap
     if len(text) <= chunk_size:
-        return [text]
-    chunks = []
+        return [Chunk(0, text)]
+    chunks: list[Chunk] = []
     start = 0
     while start < len(text):
-        chunk = text[start:start + chunk_size]
-        chunks.append(chunk)
+        chunks.append(Chunk(start, text[start:start + chunk_size]))
         start += chunk_size - overlap
     return chunks
+
+
+def occurrences_in(haystack: str, needle: str) -> list[int]:
+    """Every start position at which `needle` occurs verbatim, non-overlapping.
+
+    Exact, not case-folded and not normalised. The acceptance for #466 is
+    ``transcription[char_start:char_end] == ent["text"]``, and only an exact
+    match can satisfy it.
+
+    The first attempt at #395 used ``chunk.lower().find(text.lower())``, which
+    fails twice over: a normalised form usually does not appear verbatim in a
+    15th-century transcription, so ``find`` returns -1 and the record vanished
+    without a word; and where it does appear, ``find`` returns the *first*
+    occurrence rather than the one the model was looking at. Returning every
+    position replaces a guess with the list of candidates, and a term that
+    occurs three times becomes three records instead of one.
+    """
+    if not needle:
+        return []
+    found: list[int] = []
+    pos = haystack.find(needle)
+    while pos != -1:
+        found.append(pos)
+        pos = haystack.find(needle, pos + len(needle))
+    return found
+
+
+def _locate(ents: list[dict], chunk: Chunk) -> tuple[list[dict], list[dict]]:
+    """Expand each entity into one record per occurrence. ``(located, unlocated)``.
+
+    An occurrence record is **two claims of different kinds**, and the split is
+    worth knowing when reading one. The *type* is the model's judgement about a
+    term it read in this chunk. The *positions* are found mechanically, by
+    matching that term's characters. So a record says "this term, typed thus,
+    stands here" — not "the model classified this position".
+
+    The search is confined to the chunk the entity came from, deliberately. A
+    term the model named while reading chunk 1 says nothing about the same
+    characters in chunk 7, which it never saw, and claiming a position there
+    would be asserting a judgement nobody made.
+
+    `unlocated` is the entity whose text does not appear verbatim — a normalised
+    or silently corrected form. It keeps no offsets, because inventing one is
+    how #395's first attempt put wrong spans in a database; and it is returned
+    rather than dropped, because it is an entity the extraction found and
+    #466's third acceptance point is that today's output survives.
+    """
+    located: list[dict] = []
+    unlocated: list[dict] = []
+    for ent in ents:
+        text = ent.get("text") or ""
+        hits = occurrences_in(chunk.text, text)
+        if not hits:
+            unlocated.append({**ent, "char_start": None, "char_end": None,
+                              "located": False})
+            continue
+        for local in hits:
+            start = chunk.start + local
+            located.append({**ent, "char_start": start,
+                            "char_end": start + len(text), "located": True})
+    return located, unlocated
 
 
 def _strip_code_fences(raw: str) -> str:
@@ -149,10 +242,12 @@ def _extract_llm(transcription: str) -> dict:
     Extract entities from the full transcription (all chunks), not a truncated
     prefix.  Each chunk is processed separately and entities are merged.
     """
-    all_entities = []
+    located_all: list[dict] = []
+    unlocated_all: list[dict] = []
     chunks = _chunk_text(transcription)
     total = len(chunks)
-    for i, chunk in enumerate(chunks):
+    for i, piece in enumerate(chunks):
+        chunk = piece.text
         offset_info = (
             f"[Hinweis: Teil {i+1}/{total}]\n\n"
             if total > 1 else ""
@@ -189,16 +284,53 @@ def _extract_llm(transcription: str) -> dict:
             if not ents:
                 logger.warning(
                     f"[Agent C] Chunk {i+1}: auch nach Retry kein JSON — übersprungen")
-        all_entities.extend(ents)
+        chunk_located, chunk_unlocated = _locate(ents, piece)
+        located_all.extend(chunk_located)
+        unlocated_all.extend(chunk_unlocated)
 
-    # Deduplicate by (text, type) — last occurrence wins for duplicates
+    return {"entities": _merge(located_all, unlocated_all)}
+
+
+def _merge(located: list[dict], unlocated: list[dict]) -> list[dict]:
+    """One record per occurrence, and one per entity that has none.
+
+    The old rule deduplicated by ``(text, type)``, which turned a term
+    occurring twelve times into a single entry. An index over such entries is
+    not a passage index (#466), so the key for a located record is **where it
+    stands**: ``(char_start, char_end, type)``.
+
+    That also settles the overlap by identity rather than by arithmetic. A hit
+    inside the 2000 characters two chunks share is reported twice, once by each
+    chunk, at the same absolute span — so the two collapse to one without
+    anybody computing which chunk "owns" the boundary. A rule that worked out
+    ownership would be a third copy of the chunking constants.
+
+    Unlocated entities keep the old key, because without a position there is
+    nothing else to distinguish them by.
+
+    Within a key, a record carrying `context` beats one without, which is the
+    preference the previous rule had and the reason it was not simply
+    "last wins".
+    """
     seen: dict[tuple, dict] = {}
-    for ent in all_entities:
+    for ent in located:
+        key = (ent["char_start"], ent["char_end"], ent.get("type", ""))
+        if key not in seen or (ent.get("context") and not seen[key].get("context")):
+            seen[key] = ent
+    for ent in unlocated:
         key = (ent.get("text", ""), ent.get("type", ""))
-        if key not in seen or ent.get("context"):
+        if key not in seen or (ent.get("context") and not seen[key].get("context")):
             seen[key] = ent
 
-    return {"entities": list(seen.values())}
+    if unlocated:
+        # Said out loud, because a record without a position cannot enter the
+        # passage store (`char_start INTEGER NOT NULL`) and would otherwise
+        # leave the corpus one entity short with nothing to show for it.
+        kinds = sorted({e.get("type", "?") for e in unlocated})
+        logger.info(
+            f"[Agent C] {len(unlocated)} Entität(en) ohne wörtliche Fundstelle "
+            f"im Text ({', '.join(kinds)}) — behalten, aber ohne Offset")
+    return list(seen.values())
 
 
 

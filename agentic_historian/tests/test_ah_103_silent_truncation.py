@@ -4,6 +4,12 @@ Run offline (no GPUStack/VPN) — file-level checks + functional tests.
 """
 
 import re
+import sys
+from pathlib import Path
+
+PKG = Path(__file__).resolve().parents[1]
+if str(PKG) not in sys.path:
+    sys.path.insert(0, str(PKG))
 
 
 SD_PATH = "agentic_historian/agents/source_description.py"
@@ -67,20 +73,18 @@ def test_chunk_text_splits_large_text_into_correct_chunks():
     Chunks:  [0:25000], [23000:48000], [46000:71000]
     Step = chunk_size - overlap = 23000; 3 steps to cover 50000.
     Each chunk ≤ 25000 chars.  Last chunk extends to end of text (with padding).
+
+    Against the real `_chunk_text` (#466). This test used to define its own
+    copy of the function and check that — so it proved a copy correct while the
+    shipped chunker was never exercised here, and would have stayed green if
+    that one broke. A second copy of the chunking rule is also exactly the
+    coupling #466 is about: change the step and every offset in the passage
+    database is silently wrong.
     """
-    def _chunk_text(text, chunk_size=25_000, overlap=2_000):
-        if len(text) <= chunk_size:
-            return [text]
-        chunks = []
-        start = 0
-        while start < len(text):
-            chunk = text[start:start + chunk_size]
-            chunks.append(chunk)
-            start += chunk_size - overlap
-        return chunks
+    from agents.entity_agent import _chunk_text
 
     long_text = "X" * 50_000
-    chunks = _chunk_text(long_text)
+    chunks = [c.text for c in _chunk_text(long_text)]
 
     # With 25k/2k, 50k → 3 chunks
     assert len(chunks) == 3, f"Expected 3 chunks for 50k, got {len(chunks)}"
@@ -100,22 +104,54 @@ def test_chunk_text_splits_large_text_into_correct_chunks():
 
     # Small text returns single chunk
     short = "A" * 1000
-    assert _chunk_text(short) == ["A" * 1000]
+    assert [c.text for c in _chunk_text(short)] == ["A" * 1000]
 
     # Exact chunk_size returns single chunk
     exact = "B" * 25_000
-    assert _chunk_text(exact) == ["B" * 25_000]
+    assert [c.text for c in _chunk_text(exact)] == ["B" * 25_000]
+
+    # And each chunk now says where it begins, which is what makes an offset
+    # expressible at all (#466). Checked against the slice it claims to be.
+    for piece in _chunk_text(long_text):
+        assert long_text[piece.start:piece.end] == piece.text
 
 
 # ── Acceptance: all chunks processed for >30k input ─────────────────────────
 
-def test_all_chunks_processed_for_large_input():
-    src = read(EA_PATH)
-    idx = src.find("def _extract_llm(")
-    func = src[idx:idx + 2000]
-    assert "for i, chunk in enumerate(chunks)" in func or \
-           "for chunk in chunks" in func
-    assert "all_entities.extend" in func
+def test_all_chunks_processed_for_large_input(monkeypatch):
+    """Every chunk reaches the model, measured rather than grepped.
+
+    This asserted that the source of `_extract_llm` contained the literal text
+    `for i, chunk in enumerate(chunks)`, so renaming a loop variable broke it
+    while the behaviour it cares about was untouched (#466 renamed it to
+    `piece`, which carries a chunk and its offset). Counting the calls is what
+    the test was always trying to say, and it still fails on the defect #103
+    opened for: a `transcription[:30_000]` prefix would make one call where
+    three are due.
+    """
+    from agents import entity_agent as ec
+
+    seen = []
+
+    def fake(prompt, **kw):
+        seen.append(prompt)
+        return '{"entities": []}'
+
+    monkeypatch.setattr(ec.gs, "chat_text", fake)
+    # Distinct markers, so a prompt says which chunk it carries. All-"X" text
+    # cannot: every chunk is a substring of every other.
+    long_text = "".join(f"<<{i:05d}>>" + "X" * 90 for i in range(500))
+    chunks = ec._chunk_text(long_text)
+    ec._extract_llm(long_text)
+
+    assert len(chunks) == 3
+    # Coverage, not call count: a chunk with no entities in it answers
+    # `{"entities": []}`, which the retry path treats as an unparsable reply and
+    # asks again, so the number of calls is not the number of chunks. What #103
+    # is about is that no chunk is skipped.
+    for piece in chunks:
+        assert any(piece.text in prompt for prompt in seen), \
+            f"chunk at {piece.start} never reached the model"
 
 
 if __name__ == "__main__":
@@ -129,6 +165,7 @@ if __name__ == "__main__":
     print("PASS: test_agent_c_maxtokens_raised")
     test_chunk_text_splits_large_text_into_correct_chunks()
     print("PASS: test_chunk_text_splits_large_text_into_correct_chunks")
-    test_all_chunks_processed_for_large_input()
-    print("PASS: test_all_chunks_processed_for_large_input")
-    print("\nAll #103 tests passed.")
+    # test_all_chunks_processed_for_large_input takes pytest's monkeypatch
+    # fixture (it counts real calls now instead of grepping the source), so it
+    # runs under pytest rather than from here.
+    print("\nAll #103 tests passed (run pytest for the full set).")
