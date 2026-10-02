@@ -280,6 +280,43 @@ PDF_EXTS = frozenset({".pdf"})
 SAMPLE_SEED = 20260915
 
 
+def read_keys(path: Path) -> list[str]:
+    """Page keys from a file, one per line, ``#`` comments and blanks dropped.
+
+    Written by hand or by `score-gt --keys-out`, which is where the interesting
+    case comes from: the eight candidate models have to read *the pages we have
+    ground truth for* and nothing else. Running them over the whole corpus to
+    compare sixteen pages would cost some 60 GPU-hours a model.
+    """
+    text = Path(path).read_text(encoding="utf-8")
+    out, seen = [], set()
+    for line in text.splitlines():
+        key = line.split("#", 1)[0].strip()
+        if key and key not in seen:
+            seen.add(key)
+            out.append(key)
+    if not out:
+        raise ValueError(f"no page keys in {path}")
+    return out
+
+
+def select_keys(pages: Sequence[PageRef], keys: Sequence[str],
+                ) -> tuple[list[PageRef], list[str]]:
+    """The pages with these keys, in corpus order, and the keys that matched none.
+
+    The second half of the return is the point. A key list is produced somewhere
+    else — a scoring run against a different corpus, a hand-edited file — so some
+    of it may name pages this source does not have. Filtering silently would turn
+    "three of your sixteen pages are missing" into a run that looks complete and
+    is measured as if it were.
+    """
+    wanted = list(dict.fromkeys(keys))
+    by_key = {ref.key: ref for ref in pages}
+    chosen = [by_key[k] for k in wanted if k in by_key]
+    missing = [k for k in wanted if k not in by_key]
+    return sorted(chosen, key=lambda ref: ref.key), missing
+
+
 def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
                    limit: Optional[int] = None, sample: Optional[int] = None,
                    seed: int = SAMPLE_SEED) -> PageList:

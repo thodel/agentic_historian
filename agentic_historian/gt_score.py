@@ -124,6 +124,31 @@ class Scored:
         keys = {m.key for m in self.matches if m.key}
         return keys.pop() if len(keys) == 1 else ""
 
+    @property
+    def located(self) -> str:
+        """The key, but only when we actually know which page this is.
+
+        `agreed_key` answers a different question: whether the readings *agree*.
+        With one reading they agree trivially, and with two bad ones they can
+        agree on the wrong page — on 2026-10-02 a single reading agreed with
+        itself at 106.9 % against a runner-up at 107.7 %, which is not a located
+        page, it is a coin landing on its edge.
+
+        So agreement **and** at least one confident match. One is enough: if any
+        reading places the page clearly, the page is that one, and another
+        reading being doubtful at the same key says something about the reading
+        rather than about the identification.
+
+        This is the property `score-gt --keys-out` writes from, because a wrong
+        key there does not produce a bad number — it sends eight models to read a
+        different page and then scores their readings of it against this page's
+        ground truth.
+        """
+        agreed = self.agreed_key
+        if not agreed:
+            return ""
+        return agreed if any(m.confident for m in self.matches) else ""
+
 
 def read_pagexml(path: Path) -> PageGT:
     """The page's text from a PAGE XML file, with its Transkribus identity.

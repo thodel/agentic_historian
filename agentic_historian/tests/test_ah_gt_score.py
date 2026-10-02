@@ -390,3 +390,46 @@ def test_nothing_scorable_is_still_an_error(tmp_path):
         gs.score_run_dirs([tmp_path / "a.xml"], [run])
     assert "none of the 1 ground-truth file(s)" in str(err.value)
     assert "a.xml" in str(err.value)
+
+
+# ── agreement is not identification ──────────────────────────────────────────
+
+def test_one_reading_agrees_with_itself_but_locates_nothing(tmp_path):
+    """2026-10-02: a single reading matched at 106.9 % against a runner-up at
+    107.7 % and `agreed_key` said yes, because there was nobody to disagree. That
+    key must not reach `atr-batch --keys-from`: it would send eight models to read
+    a different page and score them against this page's ground truth."""
+    gt = tmp_path / "gt.xml"
+    gt.write_text(_pagexml(LETTER_LINES), encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": DECOY, "p2": DECOY.replace("Dinge", "Sachen")})
+
+    scored, _, _ = gs.score_run_dirs([gt], [run])
+
+    assert scored[0].agreed_key          # it agreed — with itself
+    assert not scored[0].located         # and located nothing
+    assert not scored[0].matches[0].confident
+
+
+def test_a_clear_match_is_located(gt_file, tmp_path):
+    run = _run(tmp_path / "run", "m", {"p1": "\n".join(LETTER_LINES), "p2": DECOY})
+    scored, _, _ = gs.score_run_dirs([gt_file], [run])
+    assert scored[0].located == "p1"
+
+
+def test_one_confident_reading_locates_the_page_for_all_of_them(gt_file, tmp_path):
+    """A second reading being doubtful at the same key says something about that
+    reading, not about which page this is."""
+    good = _run(tmp_path / "good", "m", {"p1": "\n".join(LETTER_LINES), "p2": DECOY})
+    weak = _run(tmp_path / "weak", "m", {"p1": DECOY, "p2": DECOY.replace("Dinge", "Sachen")})
+    # the weak run's best is p1 too, but only just
+    scored, _, _ = gs.score_run_dirs([gt_file], [good, weak])
+    if scored[0].agreed_key:             # only assert the rule when they agree
+        assert scored[0].located == "p1"
+        assert [m.confident for m in scored[0].matches] == [True, False]
+
+
+def test_readings_that_disagree_locate_nothing(gt_file, tmp_path):
+    a = _run(tmp_path / "a", "m", {"p1": "\n".join(LETTER_LINES), "p2": DECOY})
+    b = _run(tmp_path / "b", "m", {"p1": DECOY, "p2": "\n".join(LETTER_LINES)})
+    scored, _, _ = gs.score_run_dirs([gt_file], [a, b])
+    assert not scored[0].agreed_key and not scored[0].located

@@ -520,6 +520,9 @@ def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
             "lines": s.gt.lines,
             "chars": len(s.gt.text),
             "agreed_key": s.agreed_key,
+            # Agreement is not identification: one reading agrees with itself.
+            # This is the key that is safe to hand to `atr-batch --keys-from`.
+            "located_key": s.located,
             "readings": [{"reading": m.reading, "cer": round(m.cer, 4),
                           "key": m.key, "runner_up_cer": round(m.runner_up_cer, 4),
                           "confident": m.confident} for m in s.matches],
