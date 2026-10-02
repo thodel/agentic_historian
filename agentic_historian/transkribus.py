@@ -274,11 +274,11 @@ def format_plan(plan: Plan, *, show: int = 10) -> str:
 # Fetching all of them is the difference between one indicative page and a
 # measurement.
 
-#: Statuses that mean a human has been over the page. Transkribus' ladder runs
-#: NEW → IN_PROGRESS → DONE → FINAL → GT; anything below DONE is a machine's
-#: output and scoring our readings against it would be scoring one model by
-#: another (#326 again, one layer down).
-GT_STATUSES = ("DONE", "FINAL", "GT")
+#: Statuses that mean a human has been over the page — one definition, kept in
+#: `gt_score` where "is this ground truth" is decided. DONE counts: this project's
+#: collection never used the GT tag, and requiring FINAL would discard the larger
+#: half of what has actually been corrected.
+from gt_score import CORRECTED_STATUSES as GT_STATUSES  # noqa: E402
 
 
 def document_content(colid: str, docid: str, sid: str,
