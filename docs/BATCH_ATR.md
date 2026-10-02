@@ -130,14 +130,43 @@ mirror that fits, so the share is **mounted read-only** and read in place:
 
 ```bash
 # once, as root (tei has sudo); see docs/NEXTCLOUD_MOUNT.md for the whole setup
-sudo mount -a                                   # /mnt/gwdg/digitalisate
-ls /mnt/gwdg/digitalisate | head
+sudo mount -a
+ls "$ATR_MOUNT_DIR" | head      # on tei: /home/dh/gwdg
 ```
+
+**Take the path from `ATR_MOUNT_DIR`, not from this page.** Its default is
+`/mnt/gwdg` and tei's `.env` sets `/home/dh/gwdg`; a batch validates `--source`
+against the configured value, so a hardcoded path from a document is refused with
+"outside the corpus roots" even when it is where the corpus used to be. That cost
+two wrong turns on 2026-10-02. `gateway_models` and a refused `atr-batch` both
+print the roots in force.
 
 A mount makes opening a page a network transfer, and a batch opens every page at
 least once per model — so pair it with `--cache-dir` (§3), which converts each
 page to its JPEG working copy on first read and serves every later read locally.
 One transfer per page, ~0.7 MB on disk instead of 25 MB, full resolution kept.
+
+### Read the cache (when the share is not there)
+
+The page cache is a corpus root in its own right. It is keyed by each page's path
+relative to the corpus root, so it mirrors the share's structure and a page read
+from it gets the **same key** it would have from the share or the mount — which is
+what lets one corpus be read partly one way and partly another.
+
+```bash
+python -m agentic_historian atr-batch --source "$ATR_PAGE_CACHE" --models … --run …
+```
+
+This stopped being a convenience on 2026-10-02, when the share answered **500 to
+every PROPFIND** — both `public.php/webdav` and `public.php/dav/files/…` — and
+`ATR_MOUNT_DIR` was an empty directory. Neither route to the pages worked, while
+some 6700 of them sat on local disk and could not be named as a source.
+
+Two things to know. A run reading from the cache gets **no** `--cache-dir`: a page
+that is already a working copy needs no working copy, and pointing one at itself
+would re-encode the JPEG a generation per model. And the cache holds the pages a
+previous run actually fetched, so it is not necessarily the whole corpus — a dry
+run says how many it has, and the share or the mount is still what fills the gaps.
 
 ### Mirror it (a corpus that fits)
 
@@ -164,7 +193,7 @@ represents the collection, the tool is `atr-batch --sample`.
 
 ```bash
 python -m agentic_historian atr-batch \
-    --source     /mnt/gwdg/digitalisate \
+    --source     "$ATR_MOUNT_DIR" \
     --cache-dir  data/page_cache/lassberg \
     --models     qwen3vl-german-xix-v1,qwen3.5-4b-german-xix-v1,qwen3.5-2b-german-xix-v1 \
     --run        atr_test_lassberg
@@ -253,7 +282,7 @@ and the runner reads them back:
 
 ```bash
 python -m agentic_historian atr-batch \
-  --source /mnt/gwdg/digitalisate --keys-from /tmp/gt-keys.txt \
+  --source "$ATR_PAGE_CACHE" --keys-from /tmp/gt-keys.txt \
   --models trocr-kurrent,trocr-kurrent-xvi-xvii --run atr_gt_trocr
 ```
 
