@@ -32,7 +32,7 @@ from __future__ import annotations
 import xml.etree.ElementTree as et
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Optional
 
 from loguru import logger
 
@@ -91,6 +91,21 @@ class Match:
         """
         return bool(self.key) and (
             not self.runner_up_key or self.cer * 1.5 < self.runner_up_cer)
+
+
+@dataclass
+class Unusable:
+    """A ground-truth file that could not be scored, and why.
+
+    Collected rather than raised. One empty file used to end the whole scoring
+    run — 15 pages measured and thrown away because the 16th had no transcribed
+    text (2026-10-02, doc14662279_page3). That is the same shape as the share walk
+    a single unreadable folder used to kill: the cost of one bad input must be that
+    input, not the job.
+    """
+
+    source: Path
+    reason: str
 
 
 @dataclass
@@ -173,31 +188,55 @@ def match_in_reading(gt: PageGT, label: str, pages: dict[str, str]) -> Match:
     return match
 
 
-def score(gt_files: Iterable[Path], readings: dict[str, dict[str, str]]) -> list[Scored]:
-    """Every ground-truth page against every reading."""
+def score(gt_files: Iterable[Path], readings: dict[str, dict[str, str]],
+          unusable: Optional[list] = None) -> list[Scored]:
+    """Every usable ground-truth page against every reading.
+
+    A file that cannot be read is appended to ``unusable`` and the rest are scored.
+    Raising instead cost fifteen measured pages to one empty file.
+    """
     if not readings:
         raise GroundTruthError("no readings to score — give at least one run dir")
     out: list[Scored] = []
     for path in gt_files:
-        gt = read_pagexml(Path(path))
+        try:
+            gt = read_pagexml(Path(path))
+        except GroundTruthError as exc:
+            logger.warning(f"[gt] skipped: {exc}")
+            if unusable is not None:
+                unusable.append(Unusable(source=Path(path), reason=str(exc)))
+            continue
         if gt.status and gt.status.upper() not in CORRECTED_STATUSES:
             logger.warning(
                 f"[gt] {gt.source.name}: status is {gt.status!r}, below DONE — "
                 f"this is a model's output, not ground truth, and scoring against "
                 f"it measures agreement between two machines")
+            if unusable is not None:
+                unusable.append(Unusable(
+                    source=Path(path),
+                    reason=f"status {gt.status!r} is below DONE"))
+            continue
         out.append(Scored(gt=gt, matches=[
             match_in_reading(gt, label, pages) for label, pages in readings.items()
         ]))
     return out
 
 
-def format_scores(scored: list[Scored]) -> str:
+def format_scores(scored: list[Scored], unusable: Optional[list] = None) -> str:
     """The numbers, with the match's own reliability beside them."""
     lines = ["# Readings against ground truth", ""]
     counts: dict[str, int] = {}
     for item in scored:
         counts[item.gt.status or "unknown"] = counts.get(
             item.gt.status or "unknown", 0) + 1
+    if unusable:
+        lines += [f"**{len(unusable)} file(s) could not be scored** and were "
+                  f"skipped, not counted:", ""]
+        for u in unusable[:10]:
+            lines.append(f"- `{u.source.name}` — {u.reason}")
+        if len(unusable) > 10:
+            lines.append(f"- … {len(unusable) - 10} more")
+        lines.append("")
     if counts:
         mix = ", ".join(f"{n}× {st}" for st, n in sorted(counts.items()))
         lines += [f"{len(scored)} ground-truth page(s): {mix}.", "",
@@ -259,13 +298,23 @@ def readings_from_run_dirs(run_dirs: Iterable[Path]) -> dict[str, dict[str, str]
 
 
 def score_run_dirs(gt_files: Iterable[Path], run_dirs: Iterable[Path],
-                   ) -> tuple[list[Scored], str]:
-    """Load, score and render. The one call a CLI or MCP tool needs."""
+                   ) -> tuple[list[Scored], list, str]:
+    """Load, score and render. The one call a CLI or MCP tool needs.
+
+    Returns the scored pages, the ones that could not be scored, and the report.
+    The second of those is why it is a triple: a run that quietly dropped files
+    would overstate how much ground truth it had.
+    """
     files = [Path(f) for f in gt_files]
     if not files:
         raise GroundTruthError("no ground-truth files given")
-    scored = score(files, readings_from_run_dirs(run_dirs))
-    return scored, format_scores(scored)
+    unusable: list[Unusable] = []
+    scored = score(files, readings_from_run_dirs(run_dirs), unusable=unusable)
+    if not scored:
+        raise GroundTruthError(
+            f"none of the {len(files)} ground-truth file(s) could be scored — "
+            + "; ".join(f"{u.source.name}: {u.reason}" for u in unusable[:3]))
+    return scored, unusable, format_scores(scored, unusable)
 
 
 def expand_gt_paths(paths: Iterable[str]) -> list[Path]:
