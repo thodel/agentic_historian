@@ -159,9 +159,15 @@ def atr_batch(args: argparse.Namespace) -> int:
         for line in checked.lines():
             print(line, file=sys.stderr if checked.refused else sys.stdout)
         if checked.nothing_runs:
-            # No run directory, no report: this run did not start.
-            print("Error: no model fits on its card — nothing to run",
-                  file=sys.stderr)
+            # No run directory, no report: this run did not start. The two
+            # reasons are different enough to name: a card that is full is a
+            # "later", a model id the gateway does not have is a "never".
+            why = ("no model fits on its card"
+                   if not checked.unlisted
+                   else "the gateway has none of these model ids"
+                   if len(checked.unlisted) == len(checked.verdicts)
+                   else "no model both exists on the gateway and fits")
+            print(f"Error: {why} — nothing to run", file=sys.stderr)
             return 1
         models = checked.runnable
 

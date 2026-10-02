@@ -71,8 +71,22 @@ def roomy(model=MEDIEVAL) -> Headroom:
 
 
 def unknown(model=XIX) -> Headroom:
-    return Headroom(model=model, reason=f"{model} is not in /models — "
-                                        "it is not registered, or not servable")
+    """A genuine unknown: the gateway has the model, the registry is incomplete.
+
+    This is the case #472 insists must still run — the one where somebody forgot
+    to fill in `vram_mb`. `registered=True`, because /models listed it.
+    """
+    return Headroom(model=model, card=1, registered=True,
+                    reason=f"{model} declares no vram_mb; "
+                           "how much it needs is unrecorded, not zero")
+
+
+def unlisted(model="kraken-bohemian_19th_v2") -> Headroom:
+    """The 23 minutes of 2026-10-01: an id the gateway answered about and does
+    not have. One character off `kraken-bohemian_19th`."""
+    return Headroom(model=model, registered=False,
+                    reason=f"{model} is not in /models — "
+                           "it is not registered, or not servable on this host")
 
 
 def checked(*headrooms) -> batch.Preflight:
@@ -173,7 +187,7 @@ def test_a_fitting_model_says_so_in_one_line():
 def test_an_unknown_model_says_why_and_that_it_runs():
     text = "\n".join(checked(unknown()).lines())
 
-    assert "not in /models" in text
+    assert "declares no vram_mb" in text
     assert "running anyway" in text
 
 
@@ -363,3 +377,91 @@ def test_the_flag_defaults_to_checking():
         ["atr-batch", "--source", "x", "--models", "m"])
 
     assert parsed.no_preflight is False
+
+
+# ── a model id the gateway does not have (2026-10-01) ────────────────────────
+#
+# `--models kraken-bohemian_19th_v2`, one character off `kraken-bohemian_19th`.
+# The preflight said
+#
+#     ?  kraken-bohemian_19th_v2: is not in /models — running anyway
+#
+# and the run then enumerated the whole 6742-page share for 23 minutes before
+# taking a 404 on its first page. It would have taken that 404 on all 6742.
+#
+# `fits=None` had come to carry four situations and only three are doubt:
+# /models silent, /gpu silent, no `vram_mb` declared — and this, where the
+# gateway answered, listed the ids it has, and this was not among them. That is
+# not a missing registry field. It is the gateway saying no.
+
+def test_an_unlisted_model_is_refused_not_run_anyway():
+    result = checked(unlisted())
+
+    assert result.runnable == []
+    assert [v.model for v in result.refused] == ["kraken-bohemian_19th_v2"]
+    assert result.nothing_runs
+
+
+def test_an_unlisted_model_is_not_filed_as_unknown():
+    """The distinction is the whole fix: `unknown` means run anyway."""
+    result = checked(unlisted())
+
+    assert result.unknown == []
+    assert [v.model for v in result.unlisted] == ["kraken-bohemian_19th_v2"]
+
+
+def test_a_missing_vram_field_still_runs():
+    """The other half, unchanged: #472's case must not be caught by this."""
+    result = checked(unknown())
+
+    assert result.runnable == [XIX]
+    assert result.unlisted == []
+    assert [v.model for v in result.unknown] == [XIX]
+
+
+def test_the_good_models_in_a_mixed_list_still_run():
+    """A typo in the third model must not throw away the two that exist."""
+    result = checked(roomy(), unlisted())
+
+    assert result.runnable == [MEDIEVAL]
+    assert not result.nothing_runs
+
+
+def test_the_advice_is_not_to_disable_the_preflight():
+    """`--no-preflight` would move the 404 from once to 6742 times."""
+    lines = "\n".join(checked(unlisted()).lines())
+
+    assert "gateway_models" in lines
+    assert "Stop one of ours" not in lines
+
+
+def test_a_full_card_still_gets_the_old_advice():
+    lines = "\n".join(checked(too_small()).lines())
+
+    assert "Stop one of ours, or run with --no-preflight." in lines
+    assert "gateway_models" not in lines
+
+
+def test_the_line_says_every_page_would_fail():
+    line = checked(unlisted()).verdicts[0].line()
+
+    assert line.startswith("NO ")
+    assert "404" in line
+
+
+def test_an_unlisted_model_never_reaches_the_share(cli, capsys):
+    """The 23 minutes. Reaching the share is the failure here."""
+    code, out_root = cli([unlisted()])
+
+    assert code == 1
+    assert not reached_the_share(capsys.readouterr())
+    assert not out_root.exists()
+
+
+def test_the_error_names_the_id_not_the_card(cli, capsys):
+    """"no model fits on its card" was the wrong sentence: the card was fine."""
+    cli([unlisted()])
+
+    err = capsys.readouterr().err
+    assert "the gateway has none of these model ids" in err
+    assert "fits on its card" not in err

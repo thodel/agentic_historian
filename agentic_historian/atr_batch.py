@@ -1221,19 +1221,38 @@ class ModelVerdict:
         return getattr(self.headroom, "fits", None)
 
     @property
+    def registered(self) -> bool | None:
+        """Whether ``/models`` listed this id. None when it did not answer."""
+        return getattr(self.headroom, "registered", None)
+
+    @property
     def runnable(self) -> bool:
         """Anything but a definite no. Unknown must not block (#472).
 
         Otherwise the first model whose ``vram_mb`` somebody forgot to fill in
         stops every run that names it, and the check gets removed instead of
         the field filled.
+
+        **An unlisted id is a definite no, though, not an unknown.** It used to
+        fall under "unknown — running anyway", and on 2026-10-01
+        `kraken-bohemian_19th_v2` — one character off `kraken-bohemian_19th` —
+        enumerated the whole 6742-page share for 23 minutes and then took a 404
+        on its first page. It would have taken that 404 on all 6742: the gateway
+        had already answered, listing the ids it has, and this was not among
+        them. That is not doubt about a missing registry field, it is the
+        gateway saying no.
         """
+        if self.registered is False:
+            return False
         return self.fits is not False
 
     def line(self) -> str:
         head = self.headroom
         card = getattr(head, "card", None)
         where = f"card {card}" if card is not None else "its card"
+        if self.registered is False:
+            return (f"NO {self.model}: {getattr(head, 'reason', '') or 'unknown id'}"
+                    " — every page would take the same 404")
         if self.fits is None:
             return (f"?  {self.model}: {getattr(head, 'reason', '') or 'unknown'} "
                     "— running anyway")
@@ -1274,17 +1293,35 @@ class Preflight:
 
     @property
     def unknown(self) -> list[ModelVerdict]:
-        return [v for v in self.verdicts if v.fits is None]
+        """Doubt, which runs anyway — never a model the gateway denied.
+
+        An unlisted id also has ``fits is None``, because nothing was measured
+        about it. But ``unknown`` is the bucket whose meaning is "run anyway",
+        and that is exactly what must not happen to an id the gateway answered
+        about and does not have.
+        """
+        return [v for v in self.verdicts
+                if v.fits is None and v.registered is not False]
 
     @property
     def nothing_runs(self) -> bool:
         """Every model was refused, so there is no run to start."""
         return bool(self.verdicts) and not self.runnable
 
+    @property
+    def unlisted(self) -> list[ModelVerdict]:
+        """Models ``/models`` answered about and did not have. Typos live here."""
+        return [v for v in self.verdicts if v.registered is False]
+
     def lines(self) -> list[str]:
         out = ["preflight:"]
         out += [f"  {line}" for v in self.verdicts for line in v.line().splitlines()]
-        if self.refused:
+        if self.unlisted:
+            # --no-preflight is the wrong advice here: it would reproduce the 404
+            # on every page instead of once. The gateway listed what it has.
+            out.append("  Check the id against gateway_models — "
+                       "--no-preflight only moves the 404 later.")
+        if [v for v in self.refused if v.registered is not False]:
             out.append("  Stop one of ours, or run with --no-preflight.")
         return out
 

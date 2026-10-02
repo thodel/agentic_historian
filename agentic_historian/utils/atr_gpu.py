@@ -114,6 +114,17 @@ class Headroom:
     shortfall_mib: int | None = None
     #: True, False, or **None for unknown** — never True by default.
     fits: bool | None = None
+    #: Whether ``/models`` knows this id at all. True when it listed it, **False
+    #: when it answered and did not**, None when it did not answer.
+    #:
+    #: Separate from ``fits`` because ``fits=None`` had come to mean four
+    #: different things, only three of which are doubt: /models silent, /gpu
+    #: silent, no ``vram_mb`` declared — and a model the gateway explicitly does
+    #: not have. The last is a certainty, and treating it as doubt cost 23
+    #: minutes on 2026-10-01: `kraken-bohemian_19th_v2` (a typo for
+    #: `kraken-bohemian_19th`) walked the whole 6742-page share and then took a
+    #: 404 on its first page, which it would have taken on all 6742.
+    registered: bool | None = None
     #: Rows in an ``atr-*`` unit: the gateway, its vLLM children, the engines.
     ours: list[Occupant] = field(default_factory=list)
     #: Everybody else's, with the service and user that own it.
@@ -227,7 +238,7 @@ def gpu_headroom(model_id: str, probe: dict | None = None) -> Headroom:
                         reason="/models did not answer; nothing to compare against")
     spec = _spec(models, model_id)
     if spec is None:
-        return Headroom(model=model_id,
+        return Headroom(model=model_id, registered=False,
                         reason=f"{model_id} is not in /models — "
                                "it is not registered, or not servable on this host")
 
@@ -237,20 +248,22 @@ def gpu_headroom(model_id: str, probe: dict | None = None) -> Headroom:
 
     if gpu is None:
         return Headroom(model=model_id, card=card_index, needed_mib=need,
+                        registered=True,
                         reason="/gpu did not answer; free memory is unknown, "
                                "which is not the same as sufficient")
     if need is None:
-        return Headroom(model=model_id, card=card_index,
+        return Headroom(model=model_id, card=card_index, registered=True,
                         reason=f"{model_id} declares no vram_mb; "
                                "how much it needs is unrecorded, not zero")
     if card_index is None:
-        return Headroom(model=model_id, needed_mib=need,
+        return Headroom(model=model_id, needed_mib=need, registered=True,
                         reason=f"{model_id} has no gpu_affinity; which card it "
                                "lands on is the ModelManager's choice at launch")
 
     card = _card(gpu, card_index)
     if card is None:
         return Headroom(model=model_id, card=card_index, needed_mib=need,
+                        registered=True,
                         reason=f"/gpu reports no card {card_index} on "
                                f"{gpu.get('host') or 'the serving host'}")
 
@@ -276,8 +289,8 @@ def gpu_headroom(model_id: str, probe: dict | None = None) -> Headroom:
                   f"{free} MiB free, short {shortfall} MiB{holding}{not_ours}")
 
     return Headroom(model=model_id, card=card_index, needed_mib=need, free_mib=free,
-                    shortfall_mib=shortfall, fits=fits, ours=ours, theirs=theirs,
-                    reason=reason)
+                    shortfall_mib=shortfall, fits=fits, registered=True,
+                    ours=ours, theirs=theirs, reason=reason)
 
 
 def headroom_report(probe: dict) -> dict:
