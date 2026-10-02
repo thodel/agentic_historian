@@ -234,6 +234,49 @@ models will not take this scanner's TIFFs or that every reading is stopping at
 the token ceiling. Read the *end* of one of the transcriptions before you let the
 full run go.
 
+### `--keys-from`: only the pages we can grade
+
+Ground truth arrived for sixteen pages of 6742 (#504, #507). To find out which of
+eight candidate engines reads this hand best, each has to read *those sixteen*.
+Over the whole corpus that is some 36 GPU-hours a model at the 19.3 s a page the
+first run measured, and a fortnight for eight on a card that is also serving
+everything else.
+
+So the two commands are a pair. Scoring writes the keys it located:
+
+```bash
+python -m agentic_historian score-gt \
+  --gt $GT_ROOT --run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line \
+  --keys-out /tmp/gt-keys.txt
+```
+
+and the runner reads them back:
+
+```bash
+python -m agentic_historian atr-batch \
+  --source /mnt/lassberg --keys-from /tmp/gt-keys.txt \
+  --models trocr-kurrent,trocr-kurrent-xvi-xvii --run atr_gt_trocr
+```
+
+One page per line, `#` comments allowed, duplicates collapsed — two ground-truth
+files can match the same page and reading it twice would double its weight in
+every average afterwards. It composes with `--limit` and `--sample`, which apply
+to what is left after the filter.
+
+**A key that names no page under `--source` is printed on stderr, never dropped
+quietly.** The list is produced somewhere else, so some of it may name pages this
+source does not have; a run that silently read thirteen of sixteen would be
+reported as if it had read all sixteen. None of them matching is an error rather
+than an empty run.
+
+`--keys-out` writes only **located** pages, which is stricter than the
+`agreed_key` the report prints. Agreement is not identification: with one reading
+the readings agree trivially, and on 2026-10-02 a single reading agreed with
+itself at 106.9 % CER against a runner-up at 107.7 %. A wrong key here does not
+produce a bad number — it sends eight models to read a different page and then
+scores their readings of it against this page's ground truth. So a key needs
+agreement *and* at least one confident match.
+
 ### Why it iterates model-major
 
 All three models are `residency: lazy` on GPU 1, which holds **one** at a time.

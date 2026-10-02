@@ -212,6 +212,27 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"Error: no page images under {source}", file=sys.stderr)
         return 1
 
+    if getattr(args, "keys_from", None):
+        try:
+            keys = batch.read_keys(Path(args.keys_from).expanduser())
+        except (OSError, ValueError) as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+        chosen, missing = batch.select_keys(pages, keys)
+        # Named, never swallowed: a key list comes from somewhere else, and a run
+        # that quietly dropped three of sixteen pages would be measured as if it
+        # had read them.
+        if missing:
+            print(f"warning: {len(missing)} of {len(keys)} key(s) are not in this "
+                  f"source: {', '.join(missing[:5])}"
+                  + (f", … {len(missing) - 5} more" if len(missing) > 5 else ""),
+                  file=sys.stderr)
+        if not chosen:
+            print(f"Error: none of the {len(keys)} key(s) in {args.keys_from} "
+                  f"name a page under {source}", file=sys.stderr)
+            return 1
+        pages = chosen
+
     out_root = Path(args.out_root) if args.out_root else config.VLM_TEST_ROOT / args.run
 
     if args.dry_run:
@@ -316,6 +337,18 @@ def score_gt(args: argparse.Namespace) -> int:
         out.write_text(report, encoding="utf-8")
         print(f"\nreport: {out}")
     doubtful = [s for s in scored if not s.agreed_key]
+    if getattr(args, "keys_out", None):
+        keys = sorted({s.located for s in scored if s.located})
+        if not keys:
+            print("Error: no page was matched confidently enough to name a key — "
+                  "nothing to write", file=sys.stderr)
+            return 1
+        dest = Path(args.keys_out).expanduser()
+        dest.write_text(
+            "# page keys of the ground-truth pages, for `atr-batch --keys-from`\n"
+            f"# {len(keys)} of {len(scored)} scored page(s); the rest were not "
+            f"matched confidently\n" + "\n".join(keys) + "\n", encoding="utf-8")
+        print(f"\nkeys: {dest}  ({len(keys)} page(s))")
     return 1 if doubtful and len(doubtful) == len(scored) else 0
 
 
@@ -527,6 +560,11 @@ def build_parser() -> argparse.ArgumentParser:
                          help="N pages at random instead of the first N. Deterministic: "
                               "the same corpus and seed give the same pages, so a resumed "
                               "run reads what the first one did")
+    p_batch.add_argument("--keys-from", metavar="FILE",
+                         help="Only the pages whose key is listed in FILE, one per "
+                              "line (# comments allowed). Written by `score-gt "
+                              "--keys-out`: it is how a model reads the pages we "
+                              "have ground truth for instead of the whole corpus")
     p_batch.add_argument("--seed", type=int, default=batch_seed(),
                          help="Seed for --sample (default: fixed, so samples are "
                               "reproducible across runs and machines)")
@@ -582,6 +620,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_sgt.add_argument("--run-dir", required=True, action="append",
                        help="A run directory; repeat for each reading to score")
     p_sgt.add_argument("--out", help="Also write the report to this path")
+    p_sgt.add_argument("--keys-out", metavar="FILE",
+                       help="Write the matched page keys here, one per line, for "
+                            "`atr-batch --keys-from`. Only confident matches: a "
+                            "doubtful one names a page the run does not have, and "
+                            "feeding it to another model would read the wrong page")
     p_sgt.set_defaults(func=score_gt)
 
     p_tk = sub.add_parser(
