@@ -76,9 +76,17 @@ def upsert_passages(doc_id: str, records: list[dict]) -> int:
     Delete then re-insert all passages for one doc (idempotent).
     Returns the number of rows actually written (counted from DB).
     Raises KeyError if a record is missing a required field.
+
+    **An empty `records` clears the document.** This used to return before the
+    delete, so a document whose second pass found no passages kept every row
+    from its first — and zero is the extreme of "fewer hits than last time",
+    which #467 requires to leave no corpses behind. It also made the delete
+    conditional on the thing being deleted, which is the wrong way round: the
+    caller is stating this document's passages, and "none" is a statement.
+
+    Validation still runs before the database is touched, so a malformed batch
+    raises without having deleted anything.
     """
-    if not records:
-        return 0
     # Validate required fields before touching the DB.
     required = {"doc_id", "page", "entity_type", "text", "normalised",
                 "char_start", "char_end"}

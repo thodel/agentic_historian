@@ -169,3 +169,28 @@ def test_empty_records_returns_zero(test_db):
     result = passage_index.upsert_passages("any-doc", [])
     assert result == 0
     assert passage_index.passage_count() == 0
+
+
+def test_empty_records_clear_a_doc_that_had_some(test_db, sample_records):
+    """Zero is the extreme of "fewer than last time" (#467).
+
+    This returned before the delete, so a document whose second pass found no
+    passages kept every row from its first. The test above did not catch it
+    because it only ever ran against a document that had none to begin with.
+    """
+    passage_index.upsert_passages("doc-A", sample_records[:2])
+    assert passage_index.passage_count("doc-A") == 2
+
+    assert passage_index.upsert_passages("doc-A", []) == 0
+    assert passage_index.passage_count("doc-A") == 0
+
+
+def test_a_malformed_batch_deletes_nothing(test_db, sample_records):
+    """Validation before the database is touched: a batch that raises must not
+    leave the document cleared."""
+    passage_index.upsert_passages("doc-A", sample_records[:2])
+
+    with pytest.raises(KeyError):
+        passage_index.upsert_passages("doc-A", [{"doc_id": "doc-A"}])
+
+    assert passage_index.passage_count("doc-A") == 2

@@ -37,6 +37,7 @@ from typing import NamedTuple, Optional
 from loguru import logger
 
 import config
+import passage_index
 from knowledge_hub import hub
 from utils import gpustack_client as gs
 
@@ -60,12 +61,95 @@ SYSTEM = (
 VOCAB_TYPES = {"SOCIAL_GROUP", "CARE_ACTION", "CARE_ACTOR", "ROLE"}
 
 
-def extract_entities(doc_id: str, transcription: str) -> dict:
-    """Führt Entity Extraction für ein Dokument durch."""
+def passage_records(doc_id: str, entities: list[dict],
+                    *, page: int = 1) -> list[dict]:
+    """Index rows for the vocabulary-typed occurrences of one document (#467).
+
+    Two filters, and both are the point.
+
+    **Only `VOCAB_TYPES`.** `PERSON`, `PLACE`, `ORG` and `DATE` do not belong in
+    the passage index: it exists to find care and taxonomy passages (#384), and
+    those four types link to a person or place register instead. A first attempt
+    wrote every type and then pinned that in a test.
+
+    **Only located occurrences.** `char_start` is `NOT NULL` in the store, so an
+    entity whose text does not stand verbatim in the transcription (#466) has no
+    row to write. It stays in `{doc_id}_entities.json`; it simply is not a
+    passage, because nobody can point at where it is.
+
+    Builds **new** dicts and never touches the entities it reads. The same dicts
+    are serialised to `{doc_id}_entities.json`, so an internal key set on them
+    here — a first attempt used `_doc_id` and `_page` — ends up in the published
+    file format.
+
+    `hub_id` carries the controlled-vocabulary term `hub.match_vocabulary`
+    resolved, which within that vocabulary is what identifies the entry; it is
+    what makes `ix_passages_hub_id` mean anything. None where the mention
+    matched no vocabulary entry, which is the ordinary case for a term nobody
+    has added yet and not a defect.
+    """
+    rows: list[dict] = []
+    for ent in entities:
+        if ent.get("type") not in VOCAB_TYPES:
+            continue
+        if ent.get("char_start") is None or ent.get("char_end") is None:
+            continue
+        text = ent.get("text") or ""
+        rows.append({
+            "doc_id": doc_id,
+            "page": page,
+            "entity_type": ent["type"],
+            "text": text,
+            # The store requires one; the model does not always give one.
+            "normalised": ent.get("normalised") or text,
+            "char_start": ent["char_start"],
+            "char_end": ent["char_end"],
+            "context": ent.get("context", ""),
+            "hub_id": ent.get("controlled_vocab"),
+            "gnd_id": ent.get("gnd"),
+            "hls_id": ent.get("hls_id"),
+        })
+    return rows
+
+
+def _index_passages(doc_id: str, enriched: dict, *, page: int = 1) -> int:
+    """Write this document's passages. Returns the row count.
+
+    Its own step rather than a line inside `_save`, which writes two files and
+    is named for it. `upsert_passages` **deletes** the document's existing rows
+    before inserting, and a deletion hidden in a function nobody reads for
+    deletions is how a re-run quietly loses passages (#467).
+
+    Never fatal, on the same terms as the run manifest: an index that cannot be
+    written must not cost a document whose entities were extracted. It is logged
+    at warning, because a silent failure here would leave the corpus searchable
+    and incomplete with nothing to show for it.
+    """
+    rows = passage_records(doc_id, enriched.get("entities", []), page=page)
+    try:
+        written = passage_index.upsert_passages(doc_id, rows)
+    except Exception as e:                      # noqa: BLE001 — see docstring
+        logger.warning(f"[Agent C] Passagen-Index für {doc_id} nicht "
+                       f"geschrieben: {e}")
+        return 0
+    if rows:
+        logger.info(f"[Agent C] {written} Passage(n) indiziert: {doc_id}")
+    return written
+
+
+def extract_entities(doc_id: str, transcription: str, page: int = 1) -> dict:
+    """Führt Entity Extraction für ein Dokument durch.
+
+    ``page`` is the page these offsets are into. It defaults to 1 because a
+    `doc_id` carries exactly one transcription today, and the store's column is
+    `NOT NULL`; the parameter exists so a caller that splits a document into
+    pages can say which one rather than having every row claim page 1.
+    """
     logger.info(f"[Agent C] Extrahiere Entitäten: {doc_id}")
     raw_entities = _extract_llm(transcription)
     enriched = _enrich(raw_entities)
     _save(doc_id, enriched, transcription)
+    _index_passages(doc_id, enriched, page=page)
     count = len(enriched.get("entities", []))
     logger.info(f"[Agent C] Fertig: {doc_id} ({count} Entitäten)")
     return enriched
