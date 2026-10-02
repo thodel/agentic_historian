@@ -265,6 +265,107 @@ def format_plan(plan: Plan, *, show: int = 10) -> str:
     return "\n".join(lines)
 
 
+# ── harvesting ground truth out of a collection ──────────────────────────────
+#
+# A page corrected by hand in Transkribus is the only thing that can say which of
+# our readings is *right* rather than merely different (#326, #416). Collection
+# 36479 holds Laßberg pages at `status="FINAL"` — two of them arrived by hand on
+# 2026-10-01, from docIds 1682295 and 1682311, both letters of Laßberg's own.
+# Fetching all of them is the difference between one indicative page and a
+# measurement.
+
+#: Statuses that mean a human has been over the page. Transkribus' ladder runs
+#: NEW → IN_PROGRESS → DONE → FINAL → GT; anything below DONE is a machine's
+#: output and scoring our readings against it would be scoring one model by
+#: another (#326 again, one layer down).
+GT_STATUSES = ("DONE", "FINAL", "GT")
+
+
+def document_content(colid: str, docid: str, sid: str,
+                     session: Optional[requests.Session] = None) -> dict:
+    """One document with its page list and every page's transcript versions."""
+    s = session or requests.Session()
+    r = s.get(f"{API}/collections/{colid}/{docid}/fulldoc",
+              params={"JSESSIONID": sid}, timeout=_TIMEOUT)
+    if r.status_code != 200:
+        raise TranskribusError(
+            f"cannot read document {docid} of collection {colid}: "
+            f"{r.status_code} — {r.text[:200].strip()}")
+    return r.json()
+
+
+def corrected_pages(content: dict, statuses: Iterable[str] = GT_STATUSES
+                    ) -> list[dict]:
+    """``{page_nr, status, url, ts_id}`` for every page a human has signed off.
+
+    Only ``transcripts[0]`` is looked at — the latest version. An older version
+    that was once FINAL is not the page's current state, and harvesting it would
+    score our readings against a transcription somebody has since corrected away.
+    """
+    wanted = {s.upper() for s in statuses}
+    out: list[dict] = []
+    for page in (content.get("pageList") or {}).get("pages") or []:
+        versions = (page.get("tsList") or {}).get("transcripts") or []
+        if not versions:
+            continue
+        latest = versions[0]
+        status = str(latest.get("status") or "").upper()
+        if status not in wanted:
+            continue
+        url = latest.get("url")
+        if not url:
+            continue
+        out.append({"page_nr": page.get("pageNr"), "status": status,
+                    "url": url, "ts_id": latest.get("tsId")})
+    return out
+
+
+def harvest_ground_truth(colid: str, sid: str, out_dir: Path, *,
+                         statuses: Iterable[str] = GT_STATUSES,
+                         session: Optional[requests.Session] = None,
+                         limit: Optional[int] = None) -> list[Path]:
+    """Download every hand-corrected page of a collection as PAGE XML.
+
+    One file per page, named for the identities that are actually stable —
+    ``doc<docId>_page<pageNr>_ts<tsId>.xml``. The transcript id is in the name
+    because a page can be corrected again: two harvests of the same page then sit
+    side by side instead of one silently overwriting the other, and which was
+    scored stays answerable.
+    """
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    s = session or requests.Session()
+
+    written: list[Path] = []
+    documents = collection_documents(colid, sid, session=s)
+    logger.info(f"[transkribus] collection {colid}: {len(documents)} document(s)")
+    for doc in documents:
+        docid = doc.get("docId")
+        if docid is None:
+            continue
+        pages = corrected_pages(document_content(colid, docid, sid, session=s),
+                                statuses)
+        if not pages:
+            continue
+        logger.info(f"[transkribus] doc {docid} ({doc.get('title', '')!r}): "
+                    f"{len(pages)} corrected page(s)")
+        for page in pages:
+            dest = out_dir / (f"doc{docid}_page{page['page_nr']}"
+                              f"_ts{page['ts_id']}.xml")
+            if dest.exists():
+                written.append(dest)
+                continue           # resumable: already harvested
+            r = s.get(page["url"], params={"JSESSIONID": sid}, timeout=_TIMEOUT)
+            if r.status_code != 200:
+                logger.warning(f"[transkribus] {dest.name}: {r.status_code}, skipped")
+                continue
+            dest.write_text(r.text, encoding="utf-8")
+            written.append(dest)
+            if limit is not None and len(written) >= limit:
+                return written
+    return written
+
+
 # ── the seam: the one call this module cannot yet make ───────────────────────
 
 def create_upload(colid: str, letter: Letter, sid: str,

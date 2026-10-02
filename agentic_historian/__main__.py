@@ -265,6 +265,59 @@ def atr_batch(args: argparse.Namespace) -> int:
     return 1 if report.any_aborted else 0
 
 
+def harvest_gt(args: argparse.Namespace) -> int:
+    """Download every hand-corrected page of a Transkribus collection.
+
+    Only DONE/FINAL/GT: anything below is a machine's output, and scoring our
+    readings against it would be scoring one model by another.
+    """
+    import transkribus as tk
+
+    colid = args.collection or config._get("TRANSKRIBUS_COLLECTION", "")
+    if not colid:
+        print("Error: no collection — pass --collection", file=sys.stderr)
+        return 2
+    out_dir = Path(args.out).expanduser()
+    try:
+        session = __import__("requests").Session()
+        sid = tk.login(session=session)
+        files = tk.harvest_ground_truth(
+            colid, sid, out_dir, session=session, limit=args.limit,
+            statuses=(args.status or list(tk.GT_STATUSES)))
+    except tk.TranskribusError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    if not files:
+        print(f"no corrected pages in collection {colid} "
+              f"(looked for {', '.join(args.status or tk.GT_STATUSES)})")
+        return 1
+    print(f"{len(files)} page(s) of ground truth in {out_dir}")
+    return 0
+
+
+def score_gt(args: argparse.Namespace) -> int:
+    """Score a run's readings against hand-corrected pages.
+
+    The only table in this project that measures quality rather than
+    disagreement — because here one side is truth.
+    """
+    from gt_score import GroundTruthError, expand_gt_paths, score_run_dirs
+
+    try:
+        files = expand_gt_paths(args.gt)
+        scored, report = score_run_dirs(files, [Path(d) for d in args.run_dir])
+    except (GroundTruthError, NotADirectoryError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    print(report)
+    if args.out:
+        out = Path(args.out).expanduser()
+        out.write_text(report, encoding="utf-8")
+        print(f"\nreport: {out}")
+    doubtful = [s for s in scored if not s.agreed_key]
+    return 1 if doubtful and len(doubtful) == len(scored) else 0
+
+
 def upload_transkribus(args: argparse.Namespace) -> int:
     """Put the letters in the page cache into a Transkribus collection.
 
@@ -508,6 +561,27 @@ def build_parser() -> argparse.ArgumentParser:
     p_rep.add_argument("--dry-run", action="store_true",
                        help="Print the report without overwriting the files")
     p_rep.set_defaults(func=report_run)
+
+    p_gt = sub.add_parser(
+        "harvest-gt",
+        help="Download a Transkribus collection's hand-corrected pages as PAGE XML")
+    p_gt.add_argument("--collection", help="Collection id, e.g. 36479")
+    p_gt.add_argument("--out", required=True, help="Directory to write the XML into")
+    p_gt.add_argument("--status", action="append",
+                      help="Statuses to accept (default: DONE, FINAL, GT)")
+    p_gt.add_argument("--limit", type=int, default=None,
+                      help="Stop after N pages")
+    p_gt.set_defaults(func=harvest_gt)
+
+    p_sgt = sub.add_parser(
+        "score-gt",
+        help="Score a run's readings against hand-corrected pages (real CER)")
+    p_sgt.add_argument("--gt", required=True, action="append",
+                       help="A PAGE XML file or a directory of them; repeatable")
+    p_sgt.add_argument("--run-dir", required=True, action="append",
+                       help="A run directory; repeat for each reading to score")
+    p_sgt.add_argument("--out", help="Also write the report to this path")
+    p_sgt.set_defaults(func=score_gt)
 
     p_tk = sub.add_parser(
         "upload-transkribus",
