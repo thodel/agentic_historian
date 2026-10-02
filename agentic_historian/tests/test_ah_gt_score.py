@@ -253,3 +253,57 @@ class _R:
         if self._payload is None:
             raise ValueError("no json")
         return self._payload
+
+
+# ── DONE is ground truth too ──────────────────────────────────────────────────
+#
+# 2026-10-02, from the operator: "bereits mit status 'done' und 'final' wollen wir
+# evaluieren. 'ground truth' wurde nie als tag vergeben". Requiring FINAL would
+# have discarded the larger half of what has been corrected, and told them in a
+# warning that their own corrected pages were "not ground truth yet".
+
+def test_done_counts_as_corrected(tmp_path):
+    path = tmp_path / "done.xml"
+    path.write_text(_pagexml(LETTER_LINES, status="DONE"), encoding="utf-8")
+    assert gs.read_pagexml(path).status == "DONE"
+    assert "DONE" in gs.CORRECTED_STATUSES
+
+
+def test_a_done_page_is_not_warned_about(tmp_path, monkeypatch):
+    """The warning said "not ground truth yet" for a page a human had finished."""
+    warned: list[str] = []
+    monkeypatch.setattr(gs.logger, "warning", lambda msg: warned.append(str(msg)))
+    for status in ("DONE", "FINAL", "GT"):
+        path = tmp_path / f"{status}.xml"
+        path.write_text(_pagexml(LETTER_LINES, status=status), encoding="utf-8")
+        gs.score([path], {"r/m": {"k": "x" * 300}})
+    assert warned == []
+
+
+def test_in_progress_is_still_warned_about(tmp_path, monkeypatch):
+    """NEW and IN_PROGRESS are a model's output. Scoring against those measures
+    agreement between two machines and would look like accuracy."""
+    warned: list[str] = []
+    monkeypatch.setattr(gs.logger, "warning", lambda msg: warned.append(str(msg)))
+    path = tmp_path / "wip.xml"
+    path.write_text(_pagexml(LETTER_LINES, status="IN_PROGRESS"), encoding="utf-8")
+    gs.score([path], {"r/m": {"k": "x" * 300}})
+    assert len(warned) == 1 and "below DONE" in warned[0]
+
+
+def test_the_harvest_and_the_scoring_share_one_definition():
+    """Two lists would drift, and then a page could be harvested as ground truth
+    and rejected as not-ground-truth by the thing that scores it."""
+    assert tk.GT_STATUSES is gs.CORRECTED_STATUSES
+
+
+def test_the_report_names_the_status_mix(tmp_path):
+    """If the CER splits along DONE vs FINAL, the status is telling you something
+    about the correction rather than about the model."""
+    for i, status in enumerate(("DONE", "DONE", "FINAL")):
+        (tmp_path / f"p{i}.xml").write_text(
+            _pagexml(LETTER_LINES, status=status, page_id=f"6184939{i}"),
+            encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p": "x" * 300})
+    _, report = gs.score_run_dirs(sorted(tmp_path.glob("p*.xml")), [run])
+    assert "3 ground-truth page(s): 2× DONE, 1× FINAL" in report

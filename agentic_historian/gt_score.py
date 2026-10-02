@@ -38,6 +38,21 @@ from loguru import logger
 
 _PAGE_NS = {"p": "http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"}
 
+#: Transkribus statuses that mean a human has been over the page, and the single
+#: definition of it for this project — `transkribus.GT_STATUSES` is this tuple.
+#:
+#: **DONE counts.** Transkribus' ladder runs NEW → IN_PROGRESS → DONE → FINAL → GT,
+#: and this project's collection never used the GT tag at all: the work was marked
+#: DONE or FINAL and that is where it stopped. Requiring FINAL would have thrown
+#: away the larger half of the available ground truth and told the operator, in a
+#: warning, that their own corrected pages were "not ground truth yet".
+#:
+#: Anything below DONE does not count. NEW and IN_PROGRESS are a model's output,
+#: and scoring our readings against those would be scoring one model by another
+#: (#326, one layer down) — a number that looks like accuracy and measures
+#: agreement between two machines.
+CORRECTED_STATUSES = ("DONE", "FINAL", "GT")
+
 
 class GroundTruthError(RuntimeError):
     """A ground-truth file that cannot be scored, in the words a CLI should print."""
@@ -165,9 +180,11 @@ def score(gt_files: Iterable[Path], readings: dict[str, dict[str, str]]) -> list
     out: list[Scored] = []
     for path in gt_files:
         gt = read_pagexml(Path(path))
-        if gt.status and gt.status.upper() != "FINAL":
-            logger.warning(f"[gt] {gt.source.name}: status is {gt.status!r}, not "
-                           f"FINAL — this is not ground truth yet")
+        if gt.status and gt.status.upper() not in CORRECTED_STATUSES:
+            logger.warning(
+                f"[gt] {gt.source.name}: status is {gt.status!r}, below DONE — "
+                f"this is a model's output, not ground truth, and scoring against "
+                f"it measures agreement between two machines")
         out.append(Scored(gt=gt, matches=[
             match_in_reading(gt, label, pages) for label, pages in readings.items()
         ]))
@@ -177,6 +194,18 @@ def score(gt_files: Iterable[Path], readings: dict[str, dict[str, str]]) -> list
 def format_scores(scored: list[Scored]) -> str:
     """The numbers, with the match's own reliability beside them."""
     lines = ["# Readings against ground truth", ""]
+    counts: dict[str, int] = {}
+    for item in scored:
+        counts[item.gt.status or "unknown"] = counts.get(
+            item.gt.status or "unknown", 0) + 1
+    if counts:
+        mix = ", ".join(f"{n}× {st}" for st, n in sorted(counts.items()))
+        lines += [f"{len(scored)} ground-truth page(s): {mix}.", "",
+                  "DONE and FINAL both count — a page marked DONE has been "
+                  "corrected by a human, and this collection never used the GT "
+                  "tag. Whether the two are equally reliable is worth watching: "
+                  "if the CER splits along that line, the status is telling you "
+                  "something about the correction and not about the model.", ""]
     for item in scored:
         gt = item.gt
         head = f"## {gt.source.name}"
