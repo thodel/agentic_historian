@@ -464,6 +464,84 @@ def list_outputs(run: str, model: Optional[str] = None) -> dict:
     return out
 
 
+def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
+                       limit: Optional[int] = None) -> dict:
+    """Score runs' readings against hand-corrected pages, by name not by path.
+
+    ``gt_dir`` is a directory **under the ground-truth root**, validated the same
+    way a run name is: a remote caller chooses which harvest to score against and
+    can never reach a directory outside it. Default is the root itself.
+
+    The only measurement in this project that is quality rather than disagreement,
+    because here one side is truth.
+    """
+    names: list[str] = []
+    for r in runs or []:
+        name = validate_run(r)
+        if name in names:
+            raise JobError(f"run {name!r} given twice")
+        names.append(name)
+    if not names:
+        raise JobError("scoring needs at least one run")
+    if len(names) > MAX_COMPARE_RUNS:
+        raise JobError(f"{len(names)} runs requested; at most {MAX_COMPARE_RUNS}")
+
+    root = Path(config.GT_ROOT)
+    if gt_dir:
+        # Same containment rule as a run name, for the same reason.
+        folder = root / validate_run(gt_dir)
+    else:
+        folder = root
+    if not folder.is_dir():
+        raise JobError(f"no ground truth at {folder}")
+
+    from gt_score import GroundTruthError, expand_gt_paths, score_run_dirs
+
+    try:
+        files = expand_gt_paths([str(folder)])
+        if limit is not None:
+            files = files[:max(1, int(limit))]
+        scored, unusable, report = score_run_dirs(files, [_run_dir(n) for n in names])
+    except GroundTruthError as exc:
+        raise JobError(str(exc)) from exc
+
+    return {
+        "runs": names,
+        "ground_truth_dir": str(folder),
+        "pages_scored": len(scored),
+        "pages_unusable": [{"file": u.source.name, "reason": u.reason}
+                           for u in unusable],
+        "status_mix": _status_mix(scored),
+        "pages": [{
+            "file": s.gt.source.name,
+            "doc_id": s.gt.doc_id,
+            "page_id": s.gt.page_id,
+            "status": s.gt.status,
+            "lines": s.gt.lines,
+            "chars": len(s.gt.text),
+            "agreed_key": s.agreed_key,
+            "readings": [{"reading": m.reading, "cer": round(m.cer, 4),
+                          "key": m.key, "runner_up_cer": round(m.runner_up_cer, 4),
+                          "confident": m.confident} for m in s.matches],
+        } for s in scored],
+        "report_md": report[:40000],
+    }
+
+
+def _status_mix(scored: Sequence) -> dict:
+    """How many pages per Transkribus status.
+
+    Worth answering because DONE, FINAL and GT are not obviously equally reliable:
+    if the CER splits along that line, the status is describing the correction and
+    not the model.
+    """
+    out: dict[str, int] = {}
+    for item in scored:
+        key = item.gt.status or "unknown"
+        out[key] = out.get(key, 0) + 1
+    return out
+
+
 def compare_readings(runs: Sequence[str], min_chars: Optional[int] = None,
                      worst: int = 10) -> dict:
     """Pairwise disagreement between the readings of two or more runs.

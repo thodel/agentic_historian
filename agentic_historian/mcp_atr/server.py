@@ -67,6 +67,7 @@ if str(_PKG) not in sys.path:               # same flat-import arrangement as __
 
 import config                                # noqa: E402
 from mcp_atr import jobs                     # noqa: E402
+from utils import atr_gpu                   # noqa: E402
 
 #: Per-request budget for the gateway probes in :func:`gateway_models`. Three run
 #: in sequence, so this is a third of what the caller waits — and the caller is an
@@ -160,9 +161,6 @@ GATEWAY_PROBES = (
     ("gpu_serving", "/gpu"),
     ("gpu_training", "/train/gpu"),
 )
-
-
-from utils import atr_gpu
 
 
 def gateway_probe() -> dict:
@@ -431,6 +429,26 @@ def build_server(provider=None, auth_settings=None):
         """
         try:
             return jobs.read_outputs(run, model, keys=keys, offset=offset, limit=limit)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def score_ground_truth(runs: list[str], gt_dir: str | None = None,
+                           limit: int | None = None) -> dict:
+        """Score runs' readings against hand-corrected Transkribus pages.
+
+        **The one measurement here that is quality**, not disagreement: the
+        ground truth is the reference and the reading the hypothesis, so CER means
+        what it normally means. Pages at DONE, FINAL or GT count; below DONE is a
+        model's output and scoring against it compares two machines.
+
+        Transkribus shares no identifier with our page keys, so each page is found
+        by content. Every match carries its runner-up and whether it is
+        `confident`: a best at 20 % against a second-best at 80 % is certain, two
+        at 70 % mean the page is not in that run and the number describes nothing.
+        """
+        try:
+            return jobs.score_ground_truth(runs, gt_dir=gt_dir, limit=limit)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

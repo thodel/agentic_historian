@@ -412,6 +412,12 @@ NEXTCLOUD_LS_ATTEMPTS = int(_get("NEXTCLOUD_LS_ATTEMPTS", "3"))
 #: all (see utils/nextcloud.WalkState).
 NEXTCLOUD_LISTING_TTL_S = float(_get("NEXTCLOUD_LISTING_TTL_S", str(48 * 3600)))
 
+#: Where harvested ground truth lives. One root, so an MCP caller names a harvest
+#: rather than a path and cannot reach outside it — the same containment rule the
+#: run names follow, and for the same reason: the server is reachable with a bearer
+#: token and that validation is what stands between the token and the box.
+GT_ROOT = Path(_get("GT_ROOT", str(DATA_DIR / "gt")))
+
 #: Convert archival scans to a JPEG working copy as they are mirrored. The
 #: Lassberg digitisations are uncompressed TIFF — 25 MB a page, ~160 GB for the
 #: share against the 92 GB tei has — and the first full pull filled the disk at

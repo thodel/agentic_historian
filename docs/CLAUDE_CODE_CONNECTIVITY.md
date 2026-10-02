@@ -209,10 +209,18 @@ attention for the length of every run.
 `https://tei.dh.unibe.ch/mcp`, and MCP reaches a cloud session when plain HTTPS
 does not. `mcp_atr/` is a fifth server for that endpoint which can *do* something:
 `gateway_models`, `share_list`, `pull_share`, `start_batch`, `job_status`,
-`job_log`, `stop_job`, `batch_report`, `run_files`, `read_pages`. Behind the same
-nginx, on the same 443, so the port constraint below never comes up.
+`job_log`, `stop_job`, `batch_report`, `run_files`, `read_pages`,
+`compare_readings`, `score_ground_truth`. Behind the same nginx, on the same 443,
+so the port constraint below never comes up.
 
-It is better than ssh in one respect — the session can only do those ten things
+The last two are there because they are where a decision gets made. Until they
+existed, every measurement had to be run over ssh on tei and pasted back, which
+put the one step that produces a judgement furthest from where the judgement
+happens. `compare_readings` says who differs from whom; `score_ground_truth` is
+the only one of the twelve that measures quality, because it is the only one with
+truth on one side of the subtraction.
+
+It is better than ssh in one respect — the session can only do those twelve things
 — and it costs one thing ssh does not: the endpoint starts jobs on a GPU host and
 sits on the public internet. Argv a caller can never reach is what stands in for
 the shell's absence, which is why `mcp_atr/jobs.py` has more tests than code.

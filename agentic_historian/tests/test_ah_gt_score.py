@@ -104,14 +104,15 @@ def test_malformed_xml_names_the_file(tmp_path):
     assert "broken.xml" in str(err.value)
 
 
-def test_a_page_below_done_is_warned_about(tmp_path, caplog):
+def test_a_page_below_done_is_not_treated_as_truth(tmp_path):
     """IN_PROGRESS is a machine's output. Scoring our readings against it would be
-    scoring one model by another."""
+    scoring one model by another, so it is collected as unusable rather than
+    warned about and then counted anyway."""
     path = tmp_path / "wip.xml"
     path.write_text(_pagexml(LETTER_LINES, status="IN_PROGRESS"), encoding="utf-8")
-    gs.score([path], {"r/m": {"k": "x" * 200}})
-    # the warning goes through loguru, so assert on the status itself
-    assert gs.read_pagexml(path).status == "IN_PROGRESS"
+    unusable: list = []
+    assert gs.score([path], {"r/m": {"k": "x" * 200}}, unusable=unusable) == []
+    assert unusable[0].reason == "status 'IN_PROGRESS' is below DONE"
 
 
 # ── matching, because Transkribus shares no key with us ──────────────────────
@@ -121,7 +122,7 @@ def test_the_right_page_is_found_among_decoys(gt_file, tmp_path):
     run = _run(tmp_path / "run", "m", {
         "Aarau__p1": DECOY, "Aarau__p2": truth.replace("Januar", "Januer"),
         "Aarau__p3": DECOY})
-    scored, _ = gs.score_run_dirs([gt_file], [run])
+    scored, _, _ = gs.score_run_dirs([gt_file], [run])
     match = scored[0].matches[0]
     assert match.key == "Aarau__p2"
     assert match.cer < 0.02
@@ -132,7 +133,7 @@ def test_a_doubtful_match_says_so(gt_file, tmp_path):
     """Two pages equally unlike the ground truth mean the page is not in this run,
     and scoring it would invent a number."""
     run = _run(tmp_path / "run", "m", {"a": DECOY, "b": DECOY + "x"})
-    scored, _ = gs.score_run_dirs([gt_file], [run])
+    scored, _, _ = gs.score_run_dirs([gt_file], [run])
     assert not scored[0].matches[0].confident
 
 
@@ -142,7 +143,7 @@ def test_readings_that_match_different_pages_are_not_averaged(gt_file, tmp_path)
     truth = gs.read_pagexml(gt_file).text
     a = _run(tmp_path / "a", "m1", {"right": truth, "other": DECOY})
     b = _run(tmp_path / "b", "m2", {"wrong": truth[:60] + DECOY, "x": DECOY})
-    scored, report = gs.score_run_dirs([gt_file], [a, b])
+    scored, _, report = gs.score_run_dirs([gt_file], [a, b])
     assert scored[0].agreed_key == ""
     assert "matched different pages" in report
 
@@ -153,14 +154,14 @@ def test_cer_is_measured_against_the_ground_truth_not_symmetrically(gt_file, tmp
     what an insertion costs."""
     truth = gs.read_pagexml(gt_file).text
     run = _run(tmp_path / "run", "m", {"p": truth + truth})      # doubled reading
-    scored, _ = gs.score_run_dirs([gt_file], [run])
+    scored, _, _ = gs.score_run_dirs([gt_file], [run])
     assert scored[0].matches[0].cer > 0.9, "insertions are not free"
 
 
 def test_an_identical_reading_scores_zero(gt_file, tmp_path):
     truth = gs.read_pagexml(gt_file).text
     run = _run(tmp_path / "run", "m", {"p": truth})
-    scored, _ = gs.score_run_dirs([gt_file], [run])
+    scored, _, _ = gs.score_run_dirs([gt_file], [run])
     assert scored[0].matches[0].cer == 0.0
 
 
@@ -305,5 +306,87 @@ def test_the_report_names_the_status_mix(tmp_path):
             _pagexml(LETTER_LINES, status=status, page_id=f"6184939{i}"),
             encoding="utf-8")
     run = _run(tmp_path / "run", "m", {"p": "x" * 300})
-    _, report = gs.score_run_dirs(sorted(tmp_path.glob("p*.xml")), [run])
+    _, _, report = gs.score_run_dirs(sorted(tmp_path.glob("p*.xml")), [run])
     assert "3 ground-truth page(s): 2× DONE, 1× FINAL" in report
+
+
+# ── one bad file costs that file, not the job ────────────────────────────────
+#
+# On 2026-10-02 a harvest of sixteen pages produced no numbers at all:
+#
+#     Error: doc14662279_page3_ts279034318.xml: no transcribed text in this file
+#
+# Fifteen scored pages were thrown away because the sixteenth was empty. Same
+# shape as the share walk that a single unreadable folder used to kill — and the
+# same fix: collect the casualty, name it in the report, score the rest.
+
+def test_one_empty_file_does_not_lose_the_others(tmp_path):
+    (tmp_path / "good.xml").write_text(_pagexml(LETTER_LINES), encoding="utf-8")
+    (tmp_path / "doc14662279_page3_ts279034318.xml").write_text(
+        _pagexml([], region_text=False), encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": "\n".join(LETTER_LINES)})
+
+    scored, unusable, report = gs.score_run_dirs(
+        sorted(tmp_path.glob("*.xml")), [run])
+
+    assert [s.gt.source.name for s in scored] == ["good.xml"]
+    assert [u.source.name for u in unusable] == [
+        "doc14662279_page3_ts279034318.xml"]
+    assert "no transcribed text" in unusable[0].reason
+
+
+def test_the_report_names_what_it_skipped(tmp_path):
+    """A silently dropped file would overstate how much ground truth there was."""
+    (tmp_path / "good.xml").write_text(_pagexml(LETTER_LINES), encoding="utf-8")
+    (tmp_path / "hopeless.xml").write_text("<PcGts><oops", encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": "\n".join(LETTER_LINES)})
+
+    _, _, report = gs.score_run_dirs(sorted(tmp_path.glob("*.xml")), [run])
+
+    assert "could not be scored" in report
+    assert "hopeless.xml" in report
+    assert "1 ground-truth page(s)" in report      # the skipped one is not counted
+
+
+def test_a_page_below_done_is_skipped_not_scored(tmp_path):
+    """IN_PROGRESS is a model's output. Including it in a quality table would put a
+    machine's reading in the truth column, which is the one thing this table is
+    for not doing."""
+    (tmp_path / "wip.xml").write_text(
+        _pagexml(LETTER_LINES, status="IN_PROGRESS"), encoding="utf-8")
+    (tmp_path / "done.xml").write_text(
+        _pagexml(LETTER_LINES, status="DONE", page_id="61849397"), encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": "\n".join(LETTER_LINES)})
+
+    scored, unusable, _ = gs.score_run_dirs(sorted(tmp_path.glob("*.xml")), [run])
+
+    assert [s.gt.status for s in scored] == ["DONE"]
+    assert [u.source.name for u in unusable] == ["wip.xml"]
+    assert "below DONE" in unusable[0].reason
+
+
+def test_a_file_without_a_status_is_still_scored(tmp_path):
+    """Hand-made PAGE XML has no TranskribusMetadata. Absent is not below DONE."""
+    path = tmp_path / "handmade.xml"
+    path.write_text(
+        f"<?xml version='1.0' encoding='UTF-8'?><PcGts {NS}>"
+        f"<Page imageFilename='x.tif'><TextRegion id='tr'><TextEquiv><Unicode>"
+        f"{chr(10).join(LETTER_LINES)}</Unicode></TextEquiv></TextRegion>"
+        f"</Page></PcGts>".replace("'", '"'), encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": "\n".join(LETTER_LINES)})
+
+    scored, unusable, _ = gs.score_run_dirs([path], [run])
+
+    assert len(scored) == 1 and not unusable
+
+
+def test_nothing_scorable_is_still_an_error(tmp_path):
+    """Containment, not silence: a harvest where every file is empty must not
+    report a clean run of zero pages."""
+    (tmp_path / "a.xml").write_text(_pagexml([], region_text=False),
+                                    encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": "x" * 200})
+    with pytest.raises(gs.GroundTruthError) as err:
+        gs.score_run_dirs([tmp_path / "a.xml"], [run])
+    assert "none of the 1 ground-truth file(s)" in str(err.value)
+    assert "a.xml" in str(err.value)

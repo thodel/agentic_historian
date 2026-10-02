@@ -305,7 +305,8 @@ def score_gt(args: argparse.Namespace) -> int:
 
     try:
         files = expand_gt_paths(args.gt)
-        scored, report = score_run_dirs(files, [Path(d) for d in args.run_dir])
+        scored, unusable, report = score_run_dirs(
+            files, [Path(d) for d in args.run_dir])
     except (GroundTruthError, NotADirectoryError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
