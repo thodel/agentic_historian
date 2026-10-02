@@ -216,3 +216,43 @@ def test_a_complete_walk_is_still_cached(tmp_path, monkeypatch):
     src = make(tmp_path, monkeypatch, ttl=3600)
     src.list_pages()
     assert src._listing_path().exists()
+
+
+# ── the TTL has to outlive the job it serves ─────────────────────────────────
+#
+# Twelve hours was calibrated against the material and not against our own runs.
+# Measured twice:
+#
+#   2026-09-24 08:56  a corpus run restarted 13.1 h after its own walk — the
+#                     listing had expired by one hour, so it walked again
+#   2026-10-01 19:43  a THREE-page smoke run spent 24 minutes enumerating
+#
+# A cache whose lifetime is shorter than the job it serves is always cold exactly
+# when it is needed.
+
+def test_the_ttl_outlives_a_corpus_run_and_a_same_evening_restart():
+    import config
+    assert config.NEXTCLOUD_LISTING_TTL_S >= 24 * 3600, (
+        "a corpus run over this share takes 10-13 h and is restarted at least "
+        "once; a TTL under a day expires between the walk and the restart")
+
+
+def test_a_listing_written_thirteen_hours_ago_is_still_used(tmp_path, monkeypatch):
+    """The exact case from 2026-09-24: the walk finished at 19:47, the restart came
+    at 08:56, and the twelve-hour cache had lapsed by an hour."""
+    src = make(tmp_path, monkeypatch, ttl=48 * 3600)
+    src._store_listing(["Digitalisate/letter-0001/001.tif"])
+    path = src._listing_path()
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["at"] = time.time() - 13.1 * 3600
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    assert src._cached_listing() == ["Digitalisate/letter-0001/001.tif"]
+    assert src.fake.walks == 0, "it must not walk the share again"
+
+
+def test_three_days_is_still_too_old():
+    """Two days outlives a run and a restart. It is not meant to outlive the
+    scanning project adding pages."""
+    import config
+    assert config.NEXTCLOUD_LISTING_TTL_S <= 72 * 3600

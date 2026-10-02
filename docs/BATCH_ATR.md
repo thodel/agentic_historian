@@ -404,6 +404,7 @@ Two cautions if you go there with these models:
 | `NEXTCLOUD_REMOTE_DIR` | `""` | folder inside the share |
 | `NEXTCLOUD_STAGING_DIR` | `data/nextcloud` | where the mirror lands |
 | `ATR_PAGE_CACHE` | — | default `--cache-dir`; empty = read pages where they are |
+| `NEXTCLOUD_LISTING_TTL_S` | `172800` (48 h) | how long a cached share listing stays usable; `0` disables it |
 | `GITHUB_TEXT_REPO` | `michaelscho/lassberg` | where recognised text is published |
 | `GITHUB_TEXT_BRANCH` | `main` | branch the pull request targets |
 | `GITHUB_TEXT_FORK` | `thodel/lassberg` | where the commits land; set equal to the repo to branch inside it |
