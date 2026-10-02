@@ -57,6 +57,7 @@ __all__ = [
     "resolve_source",
     "cache_dir_for",
     "batch_argv",
+    "resolve_keys_file",
     "pull_argv",
     "start",
     "status",
@@ -215,6 +216,28 @@ def cache_dir_for(source) -> Optional[Path]:
     return None
 
 
+def resolve_keys_file(name: str) -> Path:
+    """A page-key list by **name**, under the ground-truth root.
+
+    The targeted run #509 built cannot be driven from a session without this:
+    `start_batch` had no way to say "only these pages", so the only run an MCP
+    caller could start was the whole corpus — 53,784 calls to compare 276 pages.
+
+    A name rather than a path, validated exactly like a run name and joined onto
+    `config.GT_ROOT`, so the two ends of the handover live under one root: the
+    file `score_ground_truth` writes is the file `start_batch` reads, and neither
+    takes a path from the caller. Giving `--keys-from` a free path would have
+    turned a tool that chooses pages into one that chooses files.
+    """
+    root = Path(config.GT_ROOT)
+    path = root / validate_run(name)
+    if not path.is_file():
+        raise JobError(
+            f"no key list at {path} — `score_ground_truth` writes one with "
+            f"`keys_out`, and the name here is that file's name, not a path")
+    return path
+
+
 def resolve_source(source: str):
     """Turn a requested source into an absolute path, or refuse.
 
@@ -270,7 +293,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
                limit: Optional[int] = None, sample: Optional[int] = None,
                concurrency: Optional[int] = None,
                retries: Optional[int] = None, dry_run: bool = False,
-               cache_dir: Optional[Path] = None) -> list[str]:
+               cache_dir: Optional[Path] = None,
+               keys_from: Optional[Path] = None) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
     Deliberately the documented CLI rather than an in-process call: the MCP path
@@ -285,6 +309,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--limit", str(int(limit))]
     if sample is not None:
         argv += ["--sample", str(int(sample))]
+    if keys_from is not None:
+        argv += ["--keys-from", str(keys_from)]
     if cache_dir is not None:
         argv += ["--cache-dir", str(cache_dir)]
     if concurrency is not None:
@@ -493,7 +519,8 @@ def list_outputs(run: str, model: Optional[str] = None) -> dict:
 
 
 def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
-                       limit: Optional[int] = None) -> dict:
+                       limit: Optional[int] = None,
+                       keys_out: Optional[str] = None) -> dict:
     """Score runs' readings against hand-corrected pages, by name not by path.
 
     ``gt_dir`` is a directory **under the ground-truth root**, validated the same
@@ -533,10 +560,29 @@ def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
     except GroundTruthError as exc:
         raise JobError(str(exc)) from exc
 
+    keys_file = None
+    if keys_out:
+        # Located, not merely agreed: with one reading the readings agree with
+        # themselves, and a key that names the wrong page sends every model to
+        # read it and scores the result against this page's truth.
+        keys = sorted({s.located for s in scored if s.located})
+        if not keys:
+            raise JobError("no page was matched confidently enough to name a "
+                           "key — nothing to write")
+        dest = Path(config.GT_ROOT) / validate_run(keys_out)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(
+            f"# page keys of {len(keys)} located ground-truth page(s), "
+            f"for `atr-batch --keys-from`\n"
+            f"# from {len(scored)} scored page(s) in {folder.name}\n"
+            + "\n".join(keys) + "\n", encoding="utf-8")
+        keys_file = {"name": dest.name, "path": str(dest), "pages": len(keys)}
+
     return {
         "runs": names,
         "ground_truth_dir": str(folder),
         "pages_scored": len(scored),
+        "keys_file": keys_file,
         "pages_unusable": [{"file": u.source.name, "reason": u.reason}
                            for u in unusable],
         "status_mix": _status_mix(scored),

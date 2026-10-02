@@ -190,3 +190,104 @@ def test_the_report_comes_back_with_the_numbers(stack):
     out = jobs.score_ground_truth(["atr_trocr_corpus"], gt_dir="col36479")
     assert "Readings against ground truth" in out["report_md"]
     assert len(out["report_md"]) <= 40000
+
+
+# ── the handover: keys_out → keys_from ───────────────────────────────────────
+#
+# Without it the only run an MCP caller could start was the whole corpus. On
+# 2026-10-02 the eight candidates over all 6723 pages came to 53,784 calls and
+# about two weeks of one card — to compare the 276 pages that have
+# hand-corrected text.
+#
+# A *name* on both ends, not a path. The file `score_ground_truth` writes is the
+# file `start_batch` reads, both under the ground-truth root, so a tool that
+# chooses pages never becomes one that chooses files.
+
+def test_the_keys_file_is_written_under_the_gt_root(stack):
+    out = jobs.score_ground_truth(["atr_trocr_corpus"], gt_dir="col36479",
+                                  keys_out="gt-keys.txt")
+
+    dest = Path(config.GT_ROOT) / "gt-keys.txt"
+    assert dest.is_file()
+    # One key, not two: both ground-truth pages of this fixture carry the same
+    # text and so locate the same corpus page. That is the real harvest's shape
+    # too — Transkribus holds pages under several doc ids — and a key read twice
+    # would double that page's weight in every average computed afterwards.
+    assert out["keys_file"] == {"name": "gt-keys.txt", "path": str(dest),
+                               "pages": 1}
+
+
+def test_the_written_keys_are_the_located_pages(stack):
+    jobs.score_ground_truth(["atr_trocr_corpus"], gt_dir="col36479",
+                            keys_out="gt-keys.txt")
+
+    import atr_batch as batch
+    keys = batch.read_keys(Path(config.GT_ROOT) / "gt-keys.txt")
+    assert keys == ["Freiburg__p1"]
+
+
+def test_no_keys_file_unless_asked(stack):
+    out = jobs.score_ground_truth(["atr_trocr_corpus"], gt_dir="col36479")
+    assert out["keys_file"] is None
+
+
+def test_a_keys_out_name_cannot_escape_the_root(stack):
+    with pytest.raises(jobs.JobError) as err:
+        jobs.score_ground_truth(["atr_trocr_corpus"], gt_dir="col36479",
+                                keys_out="../../etc/passwd")
+    assert "invalid run name" in str(err.value)
+
+
+def test_nothing_located_is_an_error_not_an_empty_file(stack):
+    """A key that names the wrong page sends every model to read it. An empty
+    list would be better than a wrong one, but saying so is better than both."""
+    decoy = "Völlig anderer Text ohne jede Beziehung zu diesem Brief. " * 4
+    for model_dir in (Path(config.VLM_TEST_ROOT) / "atr_trocr_corpus").iterdir():
+        for txt in model_dir.glob("*.txt"):
+            txt.write_text(decoy, encoding="utf-8")
+
+    with pytest.raises(jobs.JobError) as err:
+        jobs.score_ground_truth(["atr_trocr_corpus"], gt_dir="col36479",
+                                keys_out="gt-keys.txt")
+    assert "confidently" in str(err.value)
+    assert not (Path(config.GT_ROOT) / "gt-keys.txt").exists()
+
+
+# ── and reading it back ──────────────────────────────────────────────────────
+
+def test_a_keys_file_is_resolved_by_name(stack):
+    (Path(config.GT_ROOT) / "gt-keys.txt").write_text("Freiburg__p1\n",
+                                                      encoding="utf-8")
+    assert jobs.resolve_keys_file("gt-keys.txt") == \
+        Path(config.GT_ROOT) / "gt-keys.txt"
+
+
+def test_a_keys_name_cannot_escape_the_root(stack):
+    with pytest.raises(jobs.JobError) as err:
+        jobs.resolve_keys_file("../../etc/passwd")
+    assert "invalid run name" in str(err.value)
+
+
+def test_an_absolute_keys_path_is_not_a_name(stack):
+    with pytest.raises(jobs.JobError):
+        jobs.resolve_keys_file("/tmp/gt-keys.txt")
+
+
+def test_a_missing_keys_file_says_where_one_comes_from(stack):
+    with pytest.raises(jobs.JobError) as err:
+        jobs.resolve_keys_file("nope.txt")
+    assert "score_ground_truth" in str(err.value)
+
+
+def test_the_argv_carries_the_keys_file(stack):
+    keys = Path(config.GT_ROOT) / "gt-keys.txt"
+    keys.write_text("Freiburg__p1\n", encoding="utf-8")
+    argv = jobs.batch_argv(Path("/corpus"), ["trocr-kurrent"], "r",
+                           keys_from=jobs.resolve_keys_file("gt-keys.txt"))
+    assert "--keys-from" in argv
+    assert argv[argv.index("--keys-from") + 1] == str(keys)
+
+
+def test_no_keys_flag_without_a_keys_file(stack):
+    argv = jobs.batch_argv(Path("/corpus"), ["trocr-kurrent"], "r")
+    assert "--keys-from" not in argv
