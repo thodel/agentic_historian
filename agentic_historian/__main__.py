@@ -379,6 +379,60 @@ def score_gt(args: argparse.Namespace) -> int:
     return 1 if doubtful and len(doubtful) == len(scored) else 0
 
 
+def export_hf(args: argparse.Namespace) -> int:
+    """Assemble the located ground-truth pages into a `pagexml-hf` export tree.
+
+    Deliberately stops at the tree. The upload is `pagexml-hf`, which built every
+    one of the fourteen dh-unibe/image-text_* datasets; a second converter here
+    would mean a second column layout for the trainer to tolerate.
+    """
+    import hf_export as hf
+    from gt_score import GroundTruthError, expand_gt_paths, score_run_dirs
+
+    gt_paths = [g for g in (args.gt or []) if str(g).strip()] or [str(config.GT_ROOT)]
+    try:
+        files = expand_gt_paths(gt_paths)
+        scored, unusable, _ = score_run_dirs(
+            files, [resolve_run_dir(d) for d in args.run_dir])
+    except (GroundTruthError, NotADirectoryError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    source = Path(args.source).expanduser()
+    if not source.is_dir():
+        print(f"Error: --source is not a directory: {source}", file=sys.stderr)
+        return 2
+    index = hf.page_index(source)
+    plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check)
+    print(hf.format_plan(plan))
+    if unusable:
+        print(f"\n{len(unusable)} ground-truth file(s) could not be scored at all "
+              f"and never reached the plan.")
+
+    if not plan.entries:
+        print("\nError: nothing to export", file=sys.stderr)
+        return 1
+    if args.dry_run:
+        print("\n(dry run — nothing written)")
+        return 0
+
+    if not args.out:
+        print("Error: --out is required unless --dry-run", file=sys.stderr)
+        return 2
+    out_dir = Path(args.out).expanduser()
+    if out_dir.exists() and any(out_dir.iterdir()):
+        print(f"Error: {out_dir} is not empty — a half-written export mixed with "
+              f"an older one would upload both", file=sys.stderr)
+        return 2
+    written = hf.build(plan, out_dir)
+    print(f"\nexport: {written['out_dir']}  ({written['pages']} page(s))")
+    print("\nUpload with pagexml-hf (it owns the parquet layout; see "
+          "github.com/The-Flow-Project/pagexml-hf):\n"
+          f"  pagexml-hf {out_dir} \\\n"
+          f"    --repo-id {args.repo_id} --private --mode raw_xml")
+    return 0
+
+
 def upload_transkribus(args: argparse.Namespace) -> int:
     """Put the letters in the page cache into a Transkribus collection.
 
@@ -656,6 +710,29 @@ def build_parser() -> argparse.ArgumentParser:
                             "doubtful one names a page the run does not have, and "
                             "feeding it to another model would read the wrong page")
     p_sgt.set_defaults(func=score_gt)
+
+    p_hf = sub.add_parser(
+        "export-hf",
+        help="Assemble the located ground-truth pages into a pagexml-hf export tree")
+    p_hf.add_argument("--run-dir", required=True, action="append",
+                      help="A run directory, or a run name under VLM_TEST_ROOT — "
+                           "the run whose page keys the ground truth is matched to")
+    p_hf.add_argument("--source", required=True,
+                      help="Corpus directory the images come from (the page cache, "
+                           "the mount, or the mirror)")
+    p_hf.add_argument("--gt", action="append",
+                      help="PAGE XML file or directory; default GT_ROOT")
+    p_hf.add_argument("--out", help="Where to write the export tree")
+    p_hf.add_argument("--repo-id", default="dh-unibe/image-text_lassberg-correspondence_xix",
+                      help="Dataset repo for the printed pagexml-hf command")
+    p_hf.add_argument("--dry-run", action="store_true",
+                      help="Print the plan and the project split, write nothing")
+    p_hf.add_argument("--no-geometry-check", action="store_true",
+                      help="Export pages whose XML geometry disagrees with their "
+                           "image. Off by default: mismatched line polygons crop "
+                           "the wrong strip of every page and nothing downstream "
+                           "would say so")
+    p_hf.set_defaults(func=export_hf)
 
     p_tk = sub.add_parser(
         "upload-transkribus",
