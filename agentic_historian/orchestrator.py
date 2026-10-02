@@ -712,8 +712,16 @@ def _publish_outputs(doc_id: str, source_url: Optional[str] = None) -> tuple[boo
         from utils import publish_github
         if not publish_github.is_enabled():
             return False, "disabled (ENABLE_GITHUB_PUBLISH=false)"
-        publish_github.publish_doc(doc_id, source_url=source_url)
-        return True, "published to the outputs repo"
+        # publish_doc's return value, not the fact that it returned. It yields
+        # None whenever it did not publish — no artifacts, or an API call it
+        # swallowed into a warning — and reporting "published" regardless was
+        # the false-green signal this function's own docstring says it exists
+        # to remove.
+        url = publish_github.publish_doc(doc_id, source_url=source_url)
+        if url:
+            return True, "published to the outputs repo"
+        return False, ("publish_doc published nothing: no artifacts to "
+                       "publish, or the API call failed — see the log")
     except Exception as e:
         logger.warning(f"[Orchestrator] GitHub publish skipped ({doc_id}): {e}")
         return False, str(e)

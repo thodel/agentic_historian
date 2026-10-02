@@ -26,6 +26,7 @@ import requests
 from loguru import logger
 
 import config
+from utils import document_id
 
 _API = "https://api.github.com"
 _TIMEOUT = 30
@@ -410,13 +411,40 @@ def _find_pr(repo: str, head_branch: str, session: requests.Session) -> Optional
     return items[0].get("html_url") if items else None
 
 
+class DocumentIdRefused(ValueError):
+    """The id would become a public URL and may not.
+
+    Raised rather than returned, because this is not one of the runtime
+    conditions ``publish_doc`` is non-fatal about. A disabled publisher, a
+    document with no artifacts and a failed API call are all states of the
+    world; a malformed id is a defect in the input that a person has to fix at
+    the source, and silently skipping it would hide that. The one production
+    caller, ``orchestrator._publish_outputs``, catches it and reports the
+    reason in the run's publish event.
+    """
+
+
 def publish_doc(doc_id: str, source_url: Optional[str] = None,
                 session: Optional[requests.Session] = None) -> Optional[str]:
     """Publish a processed document's outputs to ``docs/<doc_id>/``.
 
     Non-fatal: returns the commit URL on success, or None (logging a warning) if
     publishing is disabled, there is nothing to publish, or the API call fails.
+
+    Raises :class:`DocumentIdRefused` when the id may not become a URL. Ids come
+    from the material — an ingested folder's name, an image's stem — and were
+    interpolated into the path unchecked, so a directory called ``u-17__`` or
+    ``kf-`` became a published address that had to be retired by hand
+    afterwards, and one called ``../x`` would have built a path leading out of
+    ``docs/`` altogether. See :mod:`utils.document_id`.
     """
+    refusal = document_id.publication_refusal(doc_id)
+    if refusal:
+        raise DocumentIdRefused(
+            f"document id {doc_id!r} {refusal}. A document id becomes a "
+            "permanent public URL, so it is refused here rather than "
+            "published and retired later. Rename the source material."
+        )
     if not is_enabled():
         return None
     try:
