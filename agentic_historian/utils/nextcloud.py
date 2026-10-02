@@ -564,7 +564,7 @@ class WebdavPageSource:
         stored as the corpus would silently shorten every later run. A walk that
         skipped an unreadable folder is partial for the same reason and is not
         stored either: a transient outage that got itself cached would go on
-        shortening the corpus for twelve hours after the server recovered.
+        shortening the corpus for as long as the TTL lasts after the server recovered.
         """
         if limit is not None:
             walk = _walk(self.client, self.root, True)

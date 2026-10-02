@@ -392,12 +392,25 @@ NEXTCLOUD_LS_ATTEMPTS = int(_get("NEXTCLOUD_LS_ATTEMPTS", "3"))
 #: a single page, at every start. For a 25-page smoke run that is more waiting
 #: than work, and a resumed run pays it again for a list it already had.
 #:
-#: Twelve hours, because what the listing describes is a scanning project's
-#: output folder: pages arrive in batches days apart, not minute by minute. The
-#: cost of being wrong is bounded and visible — a page added since the listing is
-#: simply not read until the cache expires, and `--no-listing-cache` forces a
-#: fresh walk when someone knows something changed.
-NEXTCLOUD_LISTING_TTL_S = float(_get("NEXTCLOUD_LISTING_TTL_S", str(12 * 3600)))
+#: **Forty-eight hours, not twelve.** Twelve was calibrated against the material —
+#: a scanning project's output folder, where pages arrive in batches days apart —
+#: and not against our own runs, which is the mistake. A corpus run over this share
+#: takes 10 to 13 hours; it has to be restarted at least once; and the restart then
+#: lands just past the expiry of the listing its own first attempt wrote. Measured
+#: three times:
+#:
+#:   2026-09-24 08:56  restart 13.1 h after the walk — expired by one hour
+#:   2026-10-01 19:43  a THREE-page smoke run spent 24 minutes enumerating
+#:
+#: A cache whose lifetime is shorter than the job it serves is a cache that is
+#: always cold exactly when it is needed. Two days outlives any single run and any
+#: same-evening restart.
+#:
+#: The cost of being wrong is unchanged and still bounded: a page added since the
+#: listing is simply not read until the cache expires, `--no-listing-cache` forces
+#: a fresh walk, and a walk that skipped an unreadable folder is never cached at
+#: all (see utils/nextcloud.WalkState).
+NEXTCLOUD_LISTING_TTL_S = float(_get("NEXTCLOUD_LISTING_TTL_S", str(48 * 3600)))
 
 #: Convert archival scans to a JPEG working copy as they are mirrored. The
 #: Lassberg digitisations are uncompressed TIFF — 25 MB a page, ~160 GB for the
