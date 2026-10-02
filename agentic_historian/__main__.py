@@ -316,6 +316,26 @@ def harvest_gt(args: argparse.Namespace) -> int:
     return 0
 
 
+def resolve_run_dir(raw: str) -> Path:
+    """A run directory from a path *or* a bare run name.
+
+    `$VLM_TEST_ROOT` is in `.env`, which dotenv loads for Python and bash never
+    sees. So `--run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line` in an interactive
+    shell expands to `/atr_corpus_qwen35_line` and fails — which is exactly what
+    it did on 2026-10-02, with a message that named the collapsed path and left
+    the reason to be guessed.
+
+    An existing path wins, so nothing that worked before changes. Otherwise the
+    argument is taken as a run name under `VLM_TEST_ROOT`, which is where every
+    run this stack produces lives anyway.
+    """
+    p = Path(raw).expanduser()
+    if p.is_dir():
+        return p
+    candidate = Path(config.VLM_TEST_ROOT) / str(raw).strip().lstrip("/")
+    return candidate if candidate.is_dir() else p
+
+
 def score_gt(args: argparse.Namespace) -> int:
     """Score a run's readings against hand-corrected pages.
 
@@ -324,10 +344,11 @@ def score_gt(args: argparse.Namespace) -> int:
     """
     from gt_score import GroundTruthError, expand_gt_paths, score_run_dirs
 
+    gt_paths = [g for g in (args.gt or []) if str(g).strip()] or [str(config.GT_ROOT)]
     try:
-        files = expand_gt_paths(args.gt)
+        files = expand_gt_paths(gt_paths)
         scored, unusable, report = score_run_dirs(
-            files, [Path(d) for d in args.run_dir])
+            files, [resolve_run_dir(d) for d in args.run_dir])
     except (GroundTruthError, NotADirectoryError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
@@ -412,7 +433,7 @@ def compare_runs_cmd(args: argparse.Namespace) -> int:
     """
     from compare_runs import compare_run_dirs
 
-    dirs = [Path(d).resolve() for d in args.run_dir]
+    dirs = [resolve_run_dir(d).resolve() for d in args.run_dir]
     try:
         from compare_runs import SUBSTANTIAL_CHARS
         comparison, report = compare_run_dirs(
@@ -615,10 +636,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_sgt = sub.add_parser(
         "score-gt",
         help="Score a run's readings against hand-corrected pages (real CER)")
-    p_sgt.add_argument("--gt", required=True, action="append",
-                       help="A PAGE XML file or a directory of them; repeatable")
+    p_sgt.add_argument("--gt", action="append",
+                       help="A PAGE XML file or a directory of them; repeatable. "
+                            "Default: GT_ROOT from the config, so this can be "
+                            "left out entirely")
     p_sgt.add_argument("--run-dir", required=True, action="append",
-                       help="A run directory; repeat for each reading to score")
+                       help="A run directory, or just a run name under "
+                            "VLM_TEST_ROOT; repeat for each reading to score")
     p_sgt.add_argument("--out", help="Also write the report to this path")
     p_sgt.add_argument("--keys-out", metavar="FILE",
                        help="Write the matched page keys here, one per line, for "
@@ -645,7 +669,8 @@ def build_parser() -> argparse.ArgumentParser:
         "compare-runs",
         help="Pairwise disagreement between two or more batch readings")
     p_cmp.add_argument("--run-dir", required=True, action="append",
-                       help="A run directory; repeat for each run to compare")
+                       help="A run directory, or just a run name under "
+                            "VLM_TEST_ROOT; repeat for each run to compare")
     p_cmp.add_argument("--no-merge-cer", type=float, default=None,
                        help=f"Fusion's no-merge threshold "
                             f"(default: {config.ENSEMBLE_NO_MERGE_CER})")
