@@ -155,6 +155,27 @@ output-repo setup lives in [`output_site/README.md`](output_site/README.md).
 The publishing token needs `contents: write` on the output repo; failures are
 logged and never break the pipeline.
 
+### Document id policy (#521)
+
+`<doc_id>` becomes a permanent public URL, so it is checked before it becomes
+one. An id must start and end with a letter or digit and may otherwise contain
+`.`, `_` and `-`; it may not carry a delimited `test` component. Anything else
+is refused by `publish_doc` with the reason, and the run's publish event
+carries that reason — see `utils/document_id.py`.
+
+Ids come from the material: `ingest` takes the name of the ingested folder,
+`text_recognition` takes an image's stem. Nothing used to check them, so
+directories called `u-17__` and `kf-` became published addresses that had to be
+retired by hand afterwards in the output repo, and six engineering fixtures
+reached it the same way and had to be withdrawn. Refusing costs a rename;
+retiring costs a URL that has to keep resolving forever.
+
+The policy is refused rather than normalised on purpose: a normalised id can
+collide with an existing document and silently move a published URL. A name
+that is wrong is fixed in the material. The output repo enforces the same
+policy at build time; the two copies are pinned to the same answers by
+`tests/test_ah_521_document_id_policy.py`.
+
 ## Contributing — PR & issue rules
 
 This repo has multiple contributors (human and agents) working in parallel. These
