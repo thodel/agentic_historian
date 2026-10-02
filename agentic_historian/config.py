@@ -271,6 +271,25 @@ ENSEMBLE_NO_MERGE_CER = float(_get("ENSEMBLE_NO_MERGE_CER", "0.35"))
 # budget that works removes an attempt that structurally cannot finish.
 FUSION_ARBITRATE_MAX_TOKENS = int(_get("FUSION_ARBITRATE_MAX_TOKENS", "8192"))
 
+#: Whether fusion asks an LLM to resolve the columns where candidates disagree.
+#: False resolves them with the most-backed reading and makes no call.
+#:
+#: Default True, which is the behaviour as measured — not an endorsement of it.
+#: #406 scored 13 pages of the 2021 Federal Council minutes against ground
+#: truth: 4.82 % CER voting alone against 5.01 % arbitrated, identical output on
+#: 7 of 13 pages, better on 3 and worse on 3, at 3.7 s a page (42 s on the tei
+#: page that opened the issue). That reads as "switch it off", and the reason it
+#: is still on is the sample: 13 pages of three CTC candidates are what #416
+#: cites for widening the measurement before changing the pipeline, and
+#: production fuses three to seven, often with a VLM whose errors are
+#: distributed differently — the condition under which voting won on the
+#: 150-line sample.
+#:
+#: `FusionResult.changed` is what makes the decision answerable from real runs:
+#: arbitrated slots where the model chose against the vote. Arbitration that
+#: never changes anything is an LLM agreeing with a majority at 3.7 s a page.
+FUSION_ARBITRATE = _get("FUSION_ARBITRATE", "true").lower() not in ("0", "false", "no")
+
 ENABLE_ENSEMBLE_HTR = _get("ENABLE_ENSEMBLE_HTR", "false").lower() == "true"
 
 # ── V-3 (#289): live progress board in Discord ───────────────────────────────
