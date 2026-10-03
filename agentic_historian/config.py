@@ -453,6 +453,29 @@ NEXTCLOUD_CONVERT = _get("NEXTCLOUD_CONVERT", "true").lower() not in ("0", "fals
 #: pages are read where they are, which is right for a corpus already on disk.
 ATR_PAGE_CACHE = Path(_get("ATR_PAGE_CACHE", "")) if _get("ATR_PAGE_CACHE", "") else None
 
+#: Where the cache is when nobody names one — ``ATR_PAGE_CACHE`` if it is set,
+#: and this path otherwise.
+#:
+#: **One answer, because three rounds went into having two.** `cache_dir_for` on
+#: the MCP path already fell back here, so a `dav:` run started from a session
+#: worked; the CLI had no fallback and refused the same run with "dav: sources
+#: need --cache-dir". `export-hf` had no fallback either, so the runbook told
+#: people to pass `"$ATR_PAGE_CACHE"` — and on 2026-10-03 that shell variable was
+#: set but not exported, naming a different directory that happened to hold
+#: images, which produced 357 "no image" lines and two wrong diagnoses before the
+#: right one.
+#:
+#: A cache nobody configured is still a cache. What must not differ is *which*
+#: directory each entry point thinks it is.
+#:
+#: A function rather than a constant, because a constant is computed once at import
+#: and then stops reading `DATA_DIR` — five tests that move the data directory
+#: caught that immediately, and they were right to: a derived value that ignores
+#: what it is derived from is the same trap as a key that ignores where its file is.
+def page_cache_dir() -> Path:
+    """Where the page cache is, for every entry point that needs to know."""
+    return ATR_PAGE_CACHE or (DATA_DIR / "page_cache")
+
 #: A cold tier for the page cache, on the research share. Empty = nothing
 #: changes, which is the default and right for any host but tei.
 #:

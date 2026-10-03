@@ -684,8 +684,7 @@ def build_parser() -> argparse.ArgumentParser:
                               "parallelises the lines of one page)")
     p_batch.add_argument("--retries", type=int, default=config.ATR_BATCH_RETRIES,
                          help="Retries per page for timeouts and 5xx")
-    p_batch.add_argument("--cache-dir", default=str(config.ATR_PAGE_CACHE)
-                         if config.ATR_PAGE_CACHE else None,
+    p_batch.add_argument("--cache-dir", default=str(config.page_cache_dir()),
                          help="Keep a local JPEG working copy of every page here. "
                               "Use it when --source is a mounted share: each page "
                               "then crosses the network once instead of once per "
@@ -734,11 +733,15 @@ def build_parser() -> argparse.ArgumentParser:
                        help="A run directory, or just a run name under "
                             "VLM_TEST_ROOT; repeat for each reading to score")
     p_sgt.add_argument("--out", help="Also write the report to this path")
-    p_sgt.add_argument("--keys-out", metavar="FILE",
+    p_sgt.add_argument("--keys-out", metavar="FILE", nargs="?",
+                       const=str(Path(config.GT_ROOT) / "gt-keys.txt"),
                        help="Write the matched page keys here, one per line, for "
                             "`atr-batch --keys-from`. Only confident matches: a "
                             "doubtful one names a page the run does not have, and "
-                            "feeding it to another model would read the wrong page")
+                            "feeding it to another model would read the wrong page. "
+                            "Bare `--keys-out` writes GT_ROOT/gt-keys.txt, which "
+                            "survives a reboot — /tmp does not, and a reboot ate "
+                            "the first list after sixteen minutes of work")
     p_sgt.set_defaults(func=score_gt)
 
     p_hf = sub.add_parser(

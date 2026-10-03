@@ -169,9 +169,7 @@ def default_source() -> Path:
     reported "no image" with no way to tell that from an empty cache. The third
     diagnosis in a row that an argument default would have prevented.
     """
-    if config.ATR_PAGE_CACHE:
-        return Path(config.ATR_PAGE_CACHE)
-    return Path(config.DATA_DIR) / "page_cache"
+    return Path(config.page_cache_dir())
 
 
 def page_index(source_root: Path,
