@@ -208,11 +208,11 @@ def cache_dir_for(source) -> Optional[Path]:
     if config.ATR_PAGE_CACHE:
         return Path(config.ATR_PAGE_CACHE)
     if isinstance(source, str):                     # dav:<folder>
-        return Path(config.DATA_DIR) / "page_cache"
+        return Path(config.page_cache_dir())
     if config.ATR_MOUNT_DIR:
         mount = Path(config.ATR_MOUNT_DIR).resolve()
         if source == mount or source.is_relative_to(mount):
-            return Path(config.DATA_DIR) / "page_cache"
+            return Path(config.page_cache_dir())
     return None
 
 

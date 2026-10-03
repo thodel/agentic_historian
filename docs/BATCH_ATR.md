@@ -265,39 +265,55 @@ full run go.
 
 ### `--keys-from`: only the pages we can grade
 
-Ground truth arrived for sixteen pages of 6742 (#504, #507). To find out which of
-eight candidate engines reads this hand best, each has to read *those sixteen*.
-Over the whole corpus that is some 36 GPU-hours a model at the 19.3 s a page the
-first run measured, and a fortnight for eight on a card that is also serving
-everything else.
+Ground truth exists for 552 pages of 6742 (#504, #507), of which 276 locate a
+corpus page unambiguously. To find out which of eight candidate engines reads this
+hand best, each has to read *those 276*. Over the whole corpus that is some 36
+GPU-hours a model at the 19.3 s a page the first run measured, and a fortnight for
+eight on a card that is also serving everything else.
 
 So the two commands are a pair. Scoring writes the keys it located:
 
 ```bash
-python -m agentic_historian score-gt \
-  --run-dir atr_corpus_qwen35_line --keys-out /tmp/gt-keys.txt
+python -m agentic_historian score-gt --run-dir atr_corpus_qwen35_line --keys-out
 ```
 
-and the runner reads them back:
+Bare `--keys-out` writes `GT_ROOT/gt-keys.txt`. **Not `/tmp`:** this page used to
+say `/tmp/gt-keys.txt`, tei rebooted, and sixteen minutes of matching went with it.
+
+The runner reads it back by path. To get that path without a shell variable:
 
 ```bash
+KEYS=$(python -c "import sys; sys.path.insert(0,'agentic_historian'); import config
+print(config.GT_ROOT / 'gt-keys.txt')")
+
 python -m agentic_historian atr-batch \
-  --source "$ATR_PAGE_CACHE" --keys-from /tmp/gt-keys.txt \
+  --keys-from "$KEYS" --source dav:digitalisate \
   --models trocr-kurrent,trocr-kurrent-xvi-xvii --run atr_gt_trocr
 ```
 
-**Neither command takes an environment variable, deliberately.** `VLM_TEST_ROOT`
-and `GT_ROOT` live in `.env`, which dotenv loads for Python and an interactive
-bash has never seen — so `--run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line` pasted
-into a shell expands to `/atr_corpus_qwen35_line`. `--run-dir` therefore takes a
-bare run name and resolves it against `VLM_TEST_ROOT` itself, and `--gt` defaults
-to `GT_ROOT` and can be left out. An existing path still wins, so a full path
-works as before.
+**Take every path from the configuration, never from a shell variable.**
+`VLM_TEST_ROOT`, `GT_ROOT` and `ATR_PAGE_CACHE` live in `.env`, which dotenv loads
+for Python and an interactive bash has never seen — so
+`--run-dir $VLM_TEST_ROOT/atr_corpus_qwen35_line` pasted into a shell expands to
+`/atr_corpus_qwen35_line`. Worse, a variable that is *set but not exported* expands
+in the argv while `os.environ` stays empty, which is how `--source
+"$ATR_PAGE_CACHE"` once named a directory holding unrelated images and produced 357
+"no image" lines.
+
+So the arguments resolve their own defaults: `--run-dir` takes a bare run name
+under `VLM_TEST_ROOT`, `--gt` defaults to `GT_ROOT`, and `--source` and
+`--cache-dir` default to `config.page_cache_dir()` — one answer every entry point
+reads, because having two is what cost three rounds of diagnosis. An existing path
+still wins, so a full path works as before.
 
 One page per line, `#` comments allowed, duplicates collapsed — two ground-truth
 files can match the same page and reading it twice would double its weight in
 every average afterwards. It composes with `--limit` and `--sample`, which apply
-to what is left after the filter.
+to what is left after the filter — **the filter first, the cut second**. It used
+to be the other way around, and the smoke run that found it (#531) cut the corpus
+to its first three pages, matched those against the 276 keys, and reported "none
+of the 276 key(s) name a page under dav:digitalisate" — which reads like a
+key-spelling problem and is not one.
 
 **A key that names no page under `--source` is printed on stderr, never dropped
 quietly.** The list is produced somewhere else, so some of it may name pages this

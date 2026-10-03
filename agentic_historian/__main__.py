@@ -177,6 +177,19 @@ def atr_batch(args: argparse.Namespace) -> int:
     cache_dir = Path(args.cache_dir).resolve() if args.cache_dir else None
     page_source = None
 
+    keys_file = getattr(args, "keys_from", None)
+    if keys_file and args.limit is not None and args.sample is not None:
+        print("Error: limit and sample are alternatives: first N, or N at random",
+              file=sys.stderr)
+        return 2
+    # `--keys-from` filters and `--limit`/`--sample` cut, and the order is not a
+    # detail: cutting first left the first three pages of a 6742-page corpus to be
+    # matched against 276 ground-truth keys, matched none of them, and reported the
+    # whole key list as absent from the source (#531). So when there is a key list,
+    # discovery hands back the whole corpus and the cut happens after the filter.
+    cut = None if keys_file else args.limit
+    pick = None if keys_file else args.sample
+
     if remote:
         # Reading the share directly, with no mirror and no mount. The cache is
         # not optional here: it is the only copy of a page that ever lands on
@@ -197,8 +210,8 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"Error: cannot list the share: {exc}", file=sys.stderr)
             return 1
         try:
-            pages = batch.pages_from_paths(paths, root, limit=args.limit,
-                                           sample=args.sample, seed=args.seed)
+            pages = batch.pages_from_paths(paths, root, limit=cut, sample=pick,
+                                           seed=args.seed)
         except ValueError as exc:
             print(f"Error: {exc}", file=sys.stderr)
             return 2
@@ -208,7 +221,7 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"Error: --source is not a directory: {source}", file=sys.stderr)
             return 2
         try:
-            pages = batch.discover_pages(source, limit=args.limit, sample=args.sample,
+            pages = batch.discover_pages(source, limit=cut, sample=pick,
                                          seed=args.seed)
         except ValueError as exc:
             print(f"Error: {exc}", file=sys.stderr)
@@ -218,9 +231,9 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"Error: no page images under {source}", file=sys.stderr)
         return 1
 
-    if getattr(args, "keys_from", None):
+    if keys_file:
         try:
-            keys = batch.read_keys(Path(args.keys_from).expanduser())
+            keys = batch.read_keys(Path(keys_file).expanduser())
         except (OSError, ValueError) as exc:
             print(f"Error: {exc}", file=sys.stderr)
             return 2
@@ -237,7 +250,8 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"Error: none of the {len(keys)} key(s) in {args.keys_from} "
                   f"name a page under {source}", file=sys.stderr)
             return 1
-        pages = chosen
+        pages = batch.narrow(chosen, limit=args.limit, sample=args.sample,
+                             seed=args.seed)
 
     out_root = Path(args.out_root) if args.out_root else config.VLM_TEST_ROOT / args.run
 
@@ -684,8 +698,7 @@ def build_parser() -> argparse.ArgumentParser:
                               "parallelises the lines of one page)")
     p_batch.add_argument("--retries", type=int, default=config.ATR_BATCH_RETRIES,
                          help="Retries per page for timeouts and 5xx")
-    p_batch.add_argument("--cache-dir", default=str(config.ATR_PAGE_CACHE)
-                         if config.ATR_PAGE_CACHE else None,
+    p_batch.add_argument("--cache-dir", default=str(config.page_cache_dir()),
                          help="Keep a local JPEG working copy of every page here. "
                               "Use it when --source is a mounted share: each page "
                               "then crosses the network once instead of once per "
@@ -734,11 +747,15 @@ def build_parser() -> argparse.ArgumentParser:
                        help="A run directory, or just a run name under "
                             "VLM_TEST_ROOT; repeat for each reading to score")
     p_sgt.add_argument("--out", help="Also write the report to this path")
-    p_sgt.add_argument("--keys-out", metavar="FILE",
+    p_sgt.add_argument("--keys-out", metavar="FILE", nargs="?",
+                       const=str(Path(config.GT_ROOT) / "gt-keys.txt"),
                        help="Write the matched page keys here, one per line, for "
                             "`atr-batch --keys-from`. Only confident matches: a "
                             "doubtful one names a page the run does not have, and "
-                            "feeding it to another model would read the wrong page")
+                            "feeding it to another model would read the wrong page. "
+                            "Bare `--keys-out` writes GT_ROOT/gt-keys.txt, which "
+                            "survives a reboot — /tmp does not, and a reboot ate "
+                            "the first list after sixteen minutes of work")
     p_sgt.set_defaults(func=score_gt)
 
     p_hf = sub.add_parser(
