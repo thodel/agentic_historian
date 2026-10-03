@@ -24,14 +24,13 @@ So `export-hf` produces that converter's **input** and stops:
 
 ```bash
 # 1. which corpus pages the ground truth belongs to, and the plan
-python -m agentic_historian export-hf \
-  --run-dir atr_corpus_qwen35_line --source "$ATR_PAGE_CACHE" --dry-run
+python -m agentic_historian export-hf --run-dir atr_corpus_qwen35_line --dry-run
+#   --source defaults to the cache the runner itself uses
 #   --archive defaults to ATR_PAGE_CACHE_ARCHIVE; see "Where the pages are" below
 
 # 2. write the tree
 python -m agentic_historian export-hf \
-  --run-dir atr_corpus_qwen35_line --source "$ATR_PAGE_CACHE" \
-  --out /tmp/lassberg-hf
+  --run-dir atr_corpus_qwen35_line --out /tmp/lassberg-hf
 
 # 3. upload, private
 export HF_TOKEN=…
@@ -61,6 +60,21 @@ absent is not "matches".
 
 `--no-geometry-check` exists for the case where somebody has established that the
 two scans are the same and the attribute is simply wrong. It is off by default.
+
+## Do not pass `$ATR_PAGE_CACHE`
+
+This page used to. On 2026-10-03 that shell variable was **set and not
+exported**: bash put it in the argv, `os.environ` never saw it,
+`config.ATR_PAGE_CACHE` was `None`, and the path it named was a directory that
+existed and held other images. The export indexed 357 pages under keys that could
+not match and reported "no image" for every ground-truth page — which from the
+outside is indistinguishable from an empty cache. It was the third diagnosis in a
+row that an argument default would have prevented.
+
+`--source` now defaults to the cache the runner itself uses, the same fallback
+`jobs.cache_dir_for` applies, with a test holding the two together. Leave it out.
+The same applies to `$GT_ROOT` and `$VLM_TEST_ROOT`: those variables live in
+`.env`, which dotenv loads for Python and an interactive bash has never seen.
 
 ## Where the pages are, which is two places
 

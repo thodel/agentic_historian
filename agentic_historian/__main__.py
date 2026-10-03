@@ -398,7 +398,8 @@ def export_hf(args: argparse.Namespace) -> int:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
 
-    source = Path(args.source).expanduser()
+    source = (Path(args.source).expanduser() if args.source
+              else hf.default_source())
     if not source.is_dir():
         print(f"Error: --source is not a directory: {source}", file=sys.stderr)
         return 2
@@ -746,9 +747,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_hf.add_argument("--run-dir", required=True, action="append",
                       help="A run directory, or a run name under VLM_TEST_ROOT — "
                            "the run whose page keys the ground truth is matched to")
-    p_hf.add_argument("--source", required=True,
-                      help="Corpus directory the images come from (the page cache, "
-                           "the mount, or the mirror)")
+    p_hf.add_argument("--source",
+                      help="Corpus directory the images come from — the page "
+                           "cache, the mount or the mirror. Default: the cache "
+                           "the runner itself would use, so this can be left "
+                           "out. Do not pass \"$ATR_PAGE_CACHE\": a shell "
+                           "variable that is set but not exported names a "
+                           "directory Python cannot see in its environment")
     p_hf.add_argument("--gt", action="append",
                       help="PAGE XML file or directory; default GT_ROOT")
     p_hf.add_argument("--archive",
