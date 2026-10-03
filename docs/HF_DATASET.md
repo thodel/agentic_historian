@@ -26,6 +26,7 @@ So `export-hf` produces that converter's **input** and stops:
 # 1. which corpus pages the ground truth belongs to, and the plan
 python -m agentic_historian export-hf \
   --run-dir atr_corpus_qwen35_line --source "$ATR_PAGE_CACHE" --dry-run
+#   --archive defaults to ATR_PAGE_CACHE_ARCHIVE; see "Where the pages are" below
 
 # 2. write the tree
 python -m agentic_historian export-hf \
@@ -60,6 +61,35 @@ absent is not "matches".
 
 `--no-geometry-check` exists for the case where somebody has established that the
 two scans are the same and the attribute is simply wrong. It is off by default.
+
+## Where the pages are, which is two places
+
+**The page cache is a cache, not a store.** A daily job moves anything older than
+two days to the research share, paths preserved and sidecar alongside (#487) — the
+tier `images.cold_fetch` looks in before going to the wire. So for any run but one
+read today, most of the pages are *not* in `ATR_PAGE_CACHE`.
+
+The first real export learned this the expensive way. It walked the hot cache only,
+and reported:
+
+```
+pages to export: 0
+left out: 552
+  no image            357
+  not located         195
+```
+
+Every located page said "no image". The corpus run that made those working copies
+was twelve days old, so every one had been evicted. The images were never gone —
+the code knew one of two answers to "where are the pages".
+
+`export-hf` now searches both, hot winning on a collision (the same key in both
+tiers means an entry was brought back, so the archived copy is the older
+generation). `--archive` overrides; the default is `ATR_PAGE_CACHE_ARCHIVE`, and an
+archive that is not a directory produces a warning rather than a silent miss.
+
+A working copy is ~1.5 MB and the share reads at 410 MB/s, so pulling 276 of them
+is well under a minute.
 
 ## Only the located pages
 

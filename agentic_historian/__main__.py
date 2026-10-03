@@ -402,7 +402,19 @@ def export_hf(args: argparse.Namespace) -> int:
     if not source.is_dir():
         print(f"Error: --source is not a directory: {source}", file=sys.stderr)
         return 2
-    index = hf.page_index(source)
+    archive = (Path(args.archive).expanduser() if args.archive
+               else config.ATR_PAGE_CACHE_ARCHIVE)
+    if archive and not Path(archive).is_dir():
+        print(f"warning: cold tier {archive} is not a directory — only the pages "
+              f"still in the cache will be found", file=sys.stderr)
+        archive = None
+    index = hf.page_index(source, archive=archive)
+    if not index:
+        print(f"Error: no page images under {source}"
+              + (f" or {archive}" if archive else "")
+              + ". The page cache evicts to a cold tier after two days (#487); "
+                "pass --archive, or set ATR_PAGE_CACHE_ARCHIVE.", file=sys.stderr)
+        return 1
     plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check)
     print(hf.format_plan(plan))
     if unusable:
@@ -722,6 +734,12 @@ def build_parser() -> argparse.ArgumentParser:
                            "the mount, or the mirror)")
     p_hf.add_argument("--gt", action="append",
                       help="PAGE XML file or directory; default GT_ROOT")
+    p_hf.add_argument("--archive",
+                      help="The page cache's cold tier, searched when a page is "
+                           "no longer in the cache (default: "
+                           "ATR_PAGE_CACHE_ARCHIVE). The cache evicts after two "
+                           "days, so for anything but a run read today this is "
+                           "where most pages are")
     p_hf.add_argument("--out", help="Where to write the export tree")
     p_hf.add_argument("--repo-id", default="dh-unibe/image-text_lassberg-correspondence_xix",
                       help="Dataset repo for the printed pagexml-hf command")
