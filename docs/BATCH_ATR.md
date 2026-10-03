@@ -329,6 +329,62 @@ produce a bad number — it sends eight models to read a different page and then
 scores their readings of it against this page's ground truth. So a key needs
 agreement *and* at least one confident match.
 
+### The candidate comparison, in order
+
+Five steps, and the order is the whole thing: each one produces what the next one
+reads. Run on 2026-10-03 for seven engines over 276 pages.
+
+```bash
+# 1 · which corpus pages the ground truth locates, and their keys
+python -m agentic_historian score-gt --run-dir atr_corpus_qwen35_line --keys-out
+#   → 552 files scored, 24 unusable, 276 located → GT_ROOT/gt-keys.txt
+
+# 2 · prove the path on three pages and two engines before 1932 calls
+python -m agentic_historian atr-batch --source dav:digitalisate \
+  --keys-from "$(python -c 'import sys; sys.path.insert(0,"agentic_historian"); import config; print(config.GT_ROOT / "gt-keys.txt")')" \
+  --models trocr-kurrent,kraken-mendelssohn_letters --run atr_gt_candidates \
+  --limit 3 --dry-run        # then the same line without --dry-run
+
+# 3 · the candidates, all of them, over the located pages
+#     drop --limit; the key list is already the restriction
+#     leave out any engine that has read these pages in another run
+
+# 4 · the one table that is quality: every reading against the same truth
+python -m agentic_historian score-gt \
+  --run-dir atr_gt_candidates --run-dir atr_corpus_qwen35_line
+
+# 5 · the pages and their corrected text, as a dataset
+python -m agentic_historian export-hf --dry-run      # then without
+```
+
+Step 3 takes the engines **that have not already read these pages**.
+`qwen3.5-4b-german-xix-v2` read all 6719 in `atr_corpus_qwen35_line`, so repeating
+it here would spend 89 GPU-minutes to produce files we have; step 4 takes several
+`--run-dir`, which is what makes that legitimate rather than a gap.
+
+Step 2 is not optional on a new engine. Four of the kraken candidates had never
+read a page in this stack, and "it is registered and it fits on the card" is not
+the same as "it answers".
+
+**Take the timing from the runner, not from the first few pages.** It prints its
+own rate and ETA per model (`1.2 p/min · ETA 2.8 h` at page 70 of 276), and that
+is the number to plan with: counting pages between two polls gave 11 s a page
+here and the truth was 50. The shape to expect is one slow model and six fast
+ones — the first pass downloads every page (~25 MB each) and the rest read the
+warm cache, so for these 276 pages:
+
+| | s/page | 276 pages |
+|---|---:|---:|
+| `trocr-kurrent`, cold cache | ~50 | 3.7 h |
+| `trocr-kurrent-xvi-xvii`, warm | 18.9 | 1.5 h |
+| each kraken, warm | 11.3 | 0.9 h |
+| `qwen3vl-german-xix-v2`, warm | ~19 | 1.5 h |
+
+Some ten hours for the seven, against a little over two weeks for the same seven
+over the whole corpus. The per-page figures are the smoke run's and the first
+corpus run's, so treat the total as an extrapolation from measured rates rather
+than as a measurement.
+
 ### Why it iterates model-major
 
 All three models are `residency: lazy` on GPU 1, which holds **one** at a time.
