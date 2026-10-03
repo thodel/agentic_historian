@@ -398,7 +398,8 @@ def export_hf(args: argparse.Namespace) -> int:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
 
-    source = Path(args.source).expanduser()
+    source = (Path(args.source).expanduser() if args.source
+              else hf.default_source())
     if not source.is_dir():
         print(f"Error: --source is not a directory: {source}", file=sys.stderr)
         return 2
@@ -417,6 +418,23 @@ def export_hf(args: argparse.Namespace) -> int:
         return 1
     plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check)
     print(hf.format_plan(plan))
+
+    # When the index holds pages but none of the wanted keys, the counts alone
+    # cannot say why — and guessing cost two rounds on 2026-10-02/03, first on a
+    # PDF renderer and then on a cache eviction that turned out not to be it. The
+    # answer is always in the two spellings side by side, so print them.
+    missing = [r for r in plan.rejected if r.reason.startswith("no image")]
+    if index and missing:
+        print(f"\n{len(index)} image(s) are indexed under {source}, and none of "
+              f"them answers to a wanted key. The two spellings:")
+        print("\n  wanted:")
+        for r in missing[:3]:
+            print(f"    {r.reason.split(': ', 1)[1].rsplit(' is not', 1)[0]}")
+        print("\n  indexed:")
+        for key in sorted(index)[:3]:
+            print(f"    {key}")
+        print("\nIf those differ by a leading segment, --source is one level off "
+              "the root the run used.")
     if unusable:
         print(f"\n{len(unusable)} ground-truth file(s) could not be scored at all "
               f"and never reached the plan.")
@@ -729,9 +747,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_hf.add_argument("--run-dir", required=True, action="append",
                       help="A run directory, or a run name under VLM_TEST_ROOT — "
                            "the run whose page keys the ground truth is matched to")
-    p_hf.add_argument("--source", required=True,
-                      help="Corpus directory the images come from (the page cache, "
-                           "the mount, or the mirror)")
+    p_hf.add_argument("--source",
+                      help="Corpus directory the images come from — the page "
+                           "cache, the mount or the mirror. Default: the cache "
+                           "the runner itself would use, so this can be left "
+                           "out. Do not pass \"$ATR_PAGE_CACHE\": a shell "
+                           "variable that is set but not exported names a "
+                           "directory Python cannot see in its environment")
     p_hf.add_argument("--gt", action="append",
                       help="PAGE XML file or directory; default GT_ROOT")
     p_hf.add_argument("--archive",

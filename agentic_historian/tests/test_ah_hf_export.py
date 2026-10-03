@@ -413,3 +413,52 @@ def test_keys_are_relative_to_each_tiers_own_root(tmp_path):
 
     assert batch.page_key(rel) in index
     assert "Donaueschingen__Photos-1-001__letter-1247__PXL_1" in index
+
+
+# ── where the cache is, answered once ────────────────────────────────────────
+#
+# 2026-10-03. The runbook said `--source "$ATR_PAGE_CACHE"`, because `--source`
+# was required while `--run-dir` and `--gt` resolved their own defaults. That
+# shell variable was set and **not exported**: bash put it in the argv,
+# `os.environ` never saw it, `config.ATR_PAGE_CACHE` was None, and the path it
+# named was a directory that existed and held other images. So the export
+# indexed 357 pages under keys that could not match and reported "no image" —
+# indistinguishable, from the outside, from an empty cache.
+#
+# Three diagnoses in a row (a PDF renderer, a cache eviction, this) that an
+# argument default would have prevented.
+
+def test_the_default_source_is_the_configured_cache(monkeypatch):
+    import config
+
+    monkeypatch.setattr(config, "ATR_PAGE_CACHE", Path("/somewhere/cache"))
+    assert hf.default_source() == Path("/somewhere/cache")
+
+
+def test_without_the_variable_it_is_the_runners_own_fallback(monkeypatch, tmp_path):
+    import config
+
+    monkeypatch.setattr(config, "ATR_PAGE_CACHE", None)
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+    assert hf.default_source() == tmp_path / "page_cache"
+
+
+def test_it_agrees_with_the_runner(monkeypatch, tmp_path):
+    """Two answers to "where is the cache" is how a run reads one directory and
+    an export looks in another — which is exactly what happened."""
+    import config
+    from mcp_atr import jobs
+
+    monkeypatch.setattr(config, "ATR_PAGE_CACHE", None)
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+
+    # what the runner is handed for a dav: source, and what the export defaults to
+    assert Path(jobs.cache_dir_for("dav:digitalisate")) == hf.default_source()
+
+
+def test_it_agrees_with_the_runner_when_the_variable_is_set(monkeypatch, tmp_path):
+    import config
+    from mcp_atr import jobs
+
+    monkeypatch.setattr(config, "ATR_PAGE_CACHE", tmp_path / "cache")
+    assert Path(jobs.cache_dir_for("dav:digitalisate")) == hf.default_source()

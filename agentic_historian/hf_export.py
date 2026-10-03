@@ -50,6 +50,8 @@ from typing import Optional, Sequence
 
 from loguru import logger
 
+import config
+
 #: Places Laßberg wrote from. Eppishausen is his house in Thurgau until 1838,
 #: Meersburg the castle after it; a letter headed with either is in his hand.
 #: Heimenstein and Dagebertsburg are his own names for the same two houses and
@@ -148,6 +150,28 @@ class Plan:
             head = r.reason.split(":", 1)[0]
             out[head] = out.get(head, 0) + 1
         return out
+
+
+def default_source() -> Path:
+    """Where the page cache is, when nobody says.
+
+    The same fallback `mcp_atr.jobs.cache_dir_for` applies to a ``dav:`` source:
+    ``ATR_PAGE_CACHE`` when it is set, and ``DATA_DIR/page_cache`` when it is not.
+    A test holds the two together, because two answers to "where is the cache"
+    is how a run reads one directory and an export looks in another.
+
+    This exists because `--source` was required while `--run-dir` and `--gt`
+    resolved their own defaults, so the runbook said `--source "$ATR_PAGE_CACHE"`
+    — and on 2026-10-03 that shell variable was set but **not exported**. bash
+    put it in the argv, `os.environ` never saw it, `config.ATR_PAGE_CACHE` was
+    None, and the path it named was a directory that existed and held other
+    images. The export indexed 357 pages under keys that could not match, and
+    reported "no image" with no way to tell that from an empty cache. The third
+    diagnosis in a row that an argument default would have prevented.
+    """
+    if config.ATR_PAGE_CACHE:
+        return Path(config.ATR_PAGE_CACHE)
+    return Path(config.DATA_DIR) / "page_cache"
 
 
 def page_index(source_root: Path,
