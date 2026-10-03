@@ -329,6 +329,45 @@ produce a bad number — it sends eight models to read a different page and then
 scores their readings of it against this page's ground truth. So a key needs
 agreement *and* at least one confident match.
 
+### The candidate comparison, in order
+
+Five steps, and the order is the whole thing: each one produces what the next one
+reads. Run on 2026-10-03 for seven engines over 276 pages.
+
+```bash
+# 1 · which corpus pages the ground truth locates, and their keys
+python -m agentic_historian score-gt --run-dir atr_corpus_qwen35_line --keys-out
+#   → 552 files scored, 24 unusable, 276 located → GT_ROOT/gt-keys.txt
+
+# 2 · prove the path on three pages and two engines before 1932 calls
+python -m agentic_historian atr-batch --source dav:digitalisate \
+  --keys-from "$(python -c 'import sys; sys.path.insert(0,"agentic_historian"); import config; print(config.GT_ROOT / "gt-keys.txt")')" \
+  --models trocr-kurrent,kraken-mendelssohn_letters --run atr_gt_candidates \
+  --limit 3 --dry-run        # then the same line without --dry-run
+
+# 3 · the candidates, all of them, over the located pages
+#     drop --limit; the key list is already the restriction
+#     leave out any engine that has read these pages in another run
+
+# 4 · the one table that is quality: every reading against the same truth
+python -m agentic_historian score-gt \
+  --run-dir atr_gt_candidates --run-dir atr_corpus_qwen35_line
+
+# 5 · the pages and their corrected text, as a dataset
+python -m agentic_historian export-hf --dry-run      # then without
+```
+
+Step 3 takes the engines **that have not already read these pages**.
+`qwen3.5-4b-german-xix-v2` read all 6719 in `atr_corpus_qwen35_line`, so repeating
+it here would spend 89 GPU-minutes to produce files we have; step 4 takes several
+`--run-dir`, which is what makes that legitimate rather than a gap.
+
+Step 2 is not optional on a new engine. Four of the kraken candidates had never
+read a page in this stack, and "it is registered and it fits on the card" is not
+the same as "it answers". The smoke run also prices the rest: `trocr-kurrent` came
+back at 11 s a page including the download, against the 19.3 s the first corpus
+run measured warm, which turned an estimate of eight hours into five.
+
 ### Why it iterates model-major
 
 All three models are `residency: lazy` on GPU 1, which holds **one** at a time.
