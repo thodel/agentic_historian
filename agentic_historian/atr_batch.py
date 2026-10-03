@@ -545,6 +545,10 @@ class PageOutcome:
     #: ParseError), not a model or gateway problem.  Source errors go through
     #: the source-error circuit (pause + retry), not the model circuit.
     source_error: bool = False
+    #: True when the source answered that it does not *have* this page. Also a
+    #: source error, but a permanent one: it must not pause the run or be
+    #: retried, and it is a fact about the corpus rather than about the share.
+    source_missing: bool = False
 
     @property
     def ok(self) -> bool:
@@ -590,6 +594,11 @@ class ModelOutcome:
     source_errors: int = 0
     #: Keys of pages that failed due to source problems (for the second-pass retry).
     source_error_keys: list[str] = field(default_factory=list)
+    #: How many pages the source said it does not have, and which. Separate from
+    #: `source_errors` because the two want opposite actions: re-run later for an
+    #: outage, look at the corpus for a page that is gone.
+    source_missing: int = 0
+    source_missing_keys: list[str] = field(default_factory=list)
 
     @property
     def attempted(self) -> int:
@@ -667,6 +676,8 @@ class BatchReport:
                     "elapsed_s": round(m.elapsed_s, 1),
                     "aborted": m.aborted,
                     "source_errors": m.source_errors,
+                    "source_missing": m.source_missing,
+                    "source_missing_keys": list(m.source_missing_keys),
                     "errors": m.errors[:20],
                 }
                 for m in self.models
@@ -851,7 +862,9 @@ def _fetch_page(page: PageRef, cache: "PageSource", retries: int,
             return cache.fetch(page.path, page.pdf_page)
         except Exception as exc:  # noqa: BLE001 — re-raised below once retries run out
             last = exc
-            if attempt == retries:
+            # A page the source does not have will not appear within four
+            # seconds. Retrying it only delays the report that says so.
+            if attempt == retries or source_is_missing(exc):
                 break
             wait = backoff * (2 ** attempt)
             logger.warning(f"[batch] fetching {page.key}: {type(exc).__name__}: {exc} "
@@ -874,6 +887,9 @@ def describe_source_error(exc: BaseException) -> str:
     sentence a reader should have to reconstruct. No URL is included — a share
     URL carries its token.
     """
+    if source_is_missing(exc):
+        return ("the source does not have this page — it is not a share outage "
+                "and a retry cannot help")
     if isinstance(exc, ElementTree.ParseError):
         return (f"share answered with a body that is not XML ({exc}) — a WebDAV "
                 "response was expected, and an error page is what this usually is")
@@ -883,6 +899,31 @@ def describe_source_error(exc: BaseException) -> str:
         phrase = getattr(response, "reason_phrase", "") or ""
         return f"share answered {status} {phrase}".rstrip()
     return str(exc)
+
+
+def source_is_missing(exc: BaseException) -> bool:
+    """True when the source does not *have* this page, as opposed to not
+    answering about it.
+
+    The distinction cost two and a half hours on 2026-10-04. The share stopped
+    holding a whole holding (`Briefe UB Freiburg`), the runner treated each 404
+    like the 500s of #456 — a transient outage — and so it waited: five source
+    failures in a row, pause 60 s, then 120, then 900, retrying pages that had
+    been deleted. Fifteen pages in 140 minutes, and the abort message it was
+    heading for ("share unavailable") would have been wrong too: the share was
+    up and answering 207 the whole time.
+
+    Waiting cannot bring back a file that is gone, so a missing page is recorded
+    and the run moves on. ``ResourceNotFound`` is webdav4's own name for the 404
+    it has already interpreted; a 404 carried on a response and a local
+    ``FileNotFoundError`` are the same fact from the other two sources.
+    """
+    if isinstance(exc, FileNotFoundError):
+        return True
+    if type(exc).__name__ == "ResourceNotFound":
+        return True
+    response = getattr(exc, "response", None)
+    return getattr(response, "status_code", None) == 404
 
 
 def log_first_source_error(exc: BaseException, key: str,
@@ -937,7 +978,7 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
             return PageOutcome(
                 key=page.key, model=model, status="failed",
                 error=f"source: {type(exc).__name__}: {describe_source_error(exc)}",
-                source_error=True)
+                source_error=True, source_missing=source_is_missing(exc))
 
     last_exc: Optional[BaseException] = None
     for attempt in range(retries + 1):
@@ -1133,7 +1174,13 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             # that was never tried. Source failures are *also* counted on their
             # own, because they mean "fetch it again", not "look at the model".
             outcome.errors.append(f"{res.key}: {res.error}")
-            if res.source_error:
+            if res.source_missing:
+                # Counted, named, and then left alone: it is not owed by the
+                # share, so it must not join the pages a pause waits for.
+                outcome.source_missing += 1
+                if len(outcome.source_missing_keys) < 20:
+                    outcome.source_missing_keys.append(res.key)
+            elif res.source_error:
                 outcome.source_errors += 1
                 if len(outcome.source_error_keys) < 20:
                     outcome.source_error_keys.append(res.key)
@@ -1153,6 +1200,13 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
         if res.ok:
             consecutive = 0
             consecutive_source = 0
+        elif res.source_missing:
+            # Neither circuit. A page that is gone says nothing about the model
+            # and nothing about the share's health, so it must not move either
+            # counter — the run reports it and carries on to the next page.
+            logger.warning(f"[batch] {model} {res.key}: the source does not have "
+                           f"this page")
+            consecutive = 0
         elif res.source_error:
             # Source error: route through source circuit, not model circuit.
             # Reset model counter so source errors don't cause model abandon.
@@ -1160,10 +1214,9 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
             consecutive = 0
             consecutive_source += 1
             if consecutive_source >= MAX_CONSECUTIVE_SOURCE_FAILURES:
-                pause_s = min(
-                    SOURCE_PAUSE_BASE * (2 ** (consecutive_source // MAX_CONSECUTIVE_SOURCE_FAILURES - 1)),
-                    SOURCE_PAUSE_MAX,
-                )
+                rounds = consecutive_source // MAX_CONSECUTIVE_SOURCE_FAILURES
+                pause_s = min(SOURCE_PAUSE_BASE * (2 ** (rounds - 1)),
+                              SOURCE_PAUSE_MAX)
                 logger.warning(f"[batch] {model}: {consecutive_source} consecutive source "
                                f"failures \u2014 pausing {pause_s:.0f}s then retrying")
                 sleep(pause_s)
@@ -1263,7 +1316,8 @@ def run_model(pages: Sequence[PageRef], model: str, run: str, out_root: Path,
     else:
         logger.info(
             f"[batch] {model} finished: {outcome.done} read, {outcome.skipped} already "
-            f"present, {outcome.failed} failed ({outcome.source_errors} source) "
+            f"present, {outcome.failed} failed ({outcome.source_errors} source, "
+            f"{outcome.source_missing} not on the source) "
             f"in {outcome.elapsed_s / 60:.1f} min"
         )
     return outcome

@@ -294,7 +294,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
                concurrency: Optional[int] = None,
                retries: Optional[int] = None, dry_run: bool = False,
                cache_dir: Optional[Path] = None,
-               keys_from: Optional[Path] = None) -> list[str]:
+               keys_from: Optional[Path] = None,
+               no_listing_cache: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
     Deliberately the documented CLI rather than an in-process call: the MCP path
@@ -317,6 +318,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--concurrency", str(int(concurrency))]
     if retries is not None:
         argv += ["--retries", str(int(retries))]
+    if no_listing_cache:
+        argv.append("--no-listing-cache")
     if dry_run:
         argv.append("--dry-run")
     return argv
