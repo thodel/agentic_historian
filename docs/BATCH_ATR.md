@@ -364,9 +364,26 @@ it here would spend 89 GPU-minutes to produce files we have; step 4 takes severa
 
 Step 2 is not optional on a new engine. Four of the kraken candidates had never
 read a page in this stack, and "it is registered and it fits on the card" is not
-the same as "it answers". The smoke run also prices the rest: `trocr-kurrent` came
-back at 11 s a page including the download, against the 19.3 s the first corpus
-run measured warm, which turned an estimate of eight hours into five.
+the same as "it answers".
+
+**Take the timing from the runner, not from the first few pages.** It prints its
+own rate and ETA per model (`1.2 p/min · ETA 2.8 h` at page 70 of 276), and that
+is the number to plan with: counting pages between two polls gave 11 s a page
+here and the truth was 50. The shape to expect is one slow model and six fast
+ones — the first pass downloads every page (~25 MB each) and the rest read the
+warm cache, so for these 276 pages:
+
+| | s/page | 276 pages |
+|---|---:|---:|
+| `trocr-kurrent`, cold cache | ~50 | 3.7 h |
+| `trocr-kurrent-xvi-xvii`, warm | 18.9 | 1.5 h |
+| each kraken, warm | 11.3 | 0.9 h |
+| `qwen3vl-german-xix-v2`, warm | ~19 | 1.5 h |
+
+Some ten hours for the seven, against a little over two weeks for the same seven
+over the whole corpus. The per-page figures are the smoke run's and the first
+corpus run's, so treat the total as an extrapolation from measured rates rather
+than as a measurement.
 
 ### Why it iterates model-major
 
