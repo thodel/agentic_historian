@@ -339,3 +339,77 @@ def test_the_index_survives_a_host_without_the_pdf_renderer(tmp_path, monkeypatc
     monkeypatch.setattr(builtins, "__import__", no_pypdfium)
 
     assert set(hf.page_index(tmp_path)) == {"Basel__p1"}
+
+
+# ── the cache is a cache, not a store ────────────────────────────────────────
+#
+# 2026-10-02, the export of 276 pages:
+#
+#     pages to export: 0
+#     left out: 552
+#       no image            357
+#       not located         195
+#
+# Every located page reported "no image". The page cache is not storage: a daily
+# job moves anything older than two days to the research share with paths
+# preserved (#487), which is what `images.cold_fetch` looks in before the wire.
+# The corpus run that made those working copies was twelve days old, so all of
+# them had been evicted — and `page_index` walked only the hot directory. "Where
+# are the pages" had two answers and the code knew one.
+
+def test_a_page_only_in_the_cold_tier_is_found(tmp_path):
+    hot = tmp_path / "cache"
+    cold = tmp_path / "archive"
+    hot.mkdir()
+    _image(cold / "Basel" / "p1.jpg")
+
+    index = hf.page_index(hot, archive=cold)
+
+    assert set(index) == {"Basel__p1"}
+    assert index["Basel__p1"].is_relative_to(cold)
+
+
+def test_the_two_tiers_are_merged(tmp_path):
+    _image(tmp_path / "cache" / "Basel" / "p1.jpg")
+    _image(tmp_path / "archive" / "Basel" / "p2.jpg")
+
+    index = hf.page_index(tmp_path / "cache", archive=tmp_path / "archive")
+
+    assert set(index) == {"Basel__p1", "Basel__p2"}
+
+
+def test_the_hot_copy_wins(tmp_path):
+    """The same key in both tiers means an entry was brought back; the archived
+    copy is then the older generation of the two."""
+    _image(tmp_path / "cache" / "Basel" / "p1.jpg")
+    _image(tmp_path / "archive" / "Basel" / "p1.jpg")
+
+    index = hf.page_index(tmp_path / "cache", archive=tmp_path / "archive")
+
+    assert index["Basel__p1"].is_relative_to(tmp_path / "cache")
+
+
+def test_no_archive_still_works(tmp_path):
+    _image(tmp_path / "cache" / "Basel" / "p1.jpg")
+    assert set(hf.page_index(tmp_path / "cache")) == {"Basel__p1"}
+
+
+def test_an_archive_that_is_not_there_is_not_fatal(tmp_path):
+    """A host with no cold tier configured is a normal host."""
+    _image(tmp_path / "cache" / "Basel" / "p1.jpg")
+    index = hf.page_index(tmp_path / "cache", archive=tmp_path / "nope")
+    assert set(index) == {"Basel__p1"}
+
+
+def test_keys_are_relative_to_each_tiers_own_root(tmp_path):
+    """Paths are preserved across the eviction, so the same page has the same key
+    in either tier — which is the property that makes the merge sound."""
+    import atr_batch as batch
+
+    rel = Path("Donaueschingen") / "Photos-1-001" / "letter-1247" / "PXL_1.jpg"
+    _image(tmp_path / "archive" / rel)
+
+    index = hf.page_index(tmp_path / "cache", archive=tmp_path / "archive")
+
+    assert batch.page_key(rel) in index
+    assert "Donaueschingen__Photos-1-001__letter-1247__PXL_1" in index

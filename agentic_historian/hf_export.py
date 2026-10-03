@@ -150,8 +150,9 @@ class Plan:
         return out
 
 
-def page_index(source_root: Path) -> dict[str, Path]:
-    """``{page key: image path}`` for a corpus directory.
+def page_index(source_root: Path,
+               archive: Optional[Path] = None) -> dict[str, Path]:
+    """``{page key: image path}`` for a corpus directory, and its cold tier.
 
     Built by walking the directory and asking the **runner's own** key rule for
     each image, rather than by unfolding ``__`` back into separators. The fold is
@@ -159,6 +160,18 @@ def page_index(source_root: Path) -> dict[str, Path]:
     into the wrong path — and more importantly a reconstruction here could drift
     from the runner's rule, which would silently pair a ground-truth page with a
     different page's image.
+
+    **``archive`` is not optional in practice, and assuming otherwise cost a
+    run.** The page cache is a cache, not a store: a daily job moves anything
+    older than two days to the research share with its paths preserved (#487),
+    which is what `images.cold_fetch` looks in before going to the wire. This
+    function walked only the hot directory, so on 2026-10-02 an export of 276
+    pages found **none** of them — the corpus run that made those working copies
+    was twelve days old, so every one had been evicted. "Where the pages are" was
+    a question with two answers and the code knew one.
+
+    Hot wins on a collision: the same key in both tiers means an entry was brought
+    back and the archived copy is the older generation of the two.
 
     Only standalone images, and deliberately *not* through
     :func:`atr_batch.discover_pages`. That is where this started: discovery
@@ -171,13 +184,23 @@ def page_index(source_root: Path) -> dict[str, Path]:
     """
     import atr_batch as batch
 
-    root = Path(source_root)
     exts = {e.lower() for e in batch.IMAGE_EXTS}
-    out: dict[str, Path] = {}
-    for path in sorted(root.rglob("*")):
-        if path.is_file() and path.suffix.lower() in exts:
-            out[batch.page_key(path.relative_to(root))] = path
-    return out
+
+    def walk(root: Path) -> dict[str, Path]:
+        found: dict[str, Path] = {}
+        if not root.is_dir():
+            return found
+        for path in sorted(root.rglob("*")):
+            if path.is_file() and path.suffix.lower() in exts:
+                found[batch.page_key(path.relative_to(root))] = path
+        return found
+
+    cold = walk(Path(archive)) if archive else {}
+    hot = walk(Path(source_root))
+    if cold:
+        logger.info(f"[hf] {len(hot)} page(s) in the cache, {len(cold)} in the "
+                    f"cold tier ({len(set(cold) - set(hot))} only there)")
+    return {**cold, **hot}
 
 
 def image_size(path: Path) -> tuple[int, int]:
