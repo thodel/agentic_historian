@@ -188,6 +188,71 @@ def test_a_key_file_that_is_not_there_is_an_argument_error(tmp_path, capsys):
     assert code == 2
 
 
+def test_the_limit_cuts_what_the_filter_left_not_the_corpus(tmp_path, capsys):
+    """#531, the one that cost a smoke run.
+
+    `--keys-from` filters and `--limit` cuts, and the order decides whether the
+    command works at all. Cutting first took the alphabetically first three pages
+    of a 6742-page corpus, matched them against 276 ground-truth keys, found none,
+    and reported "none of the 276 key(s) name a page under dav:digitalisate" — a
+    message that reads like a key-spelling problem and is not one.
+    """
+    others = [f"Aarau__letter-{i:02d}__001" for i in range(20)]   # sort first
+    root = _source(tmp_path, others + KEYS)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(KEYS) + "\n", encoding="utf-8")
+
+    code = _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile), limit=2,
+                                 out_root=str(tmp_path / "out")))
+
+    out = capsys.readouterr().out
+    assert code == 0
+    assert "pages     : 2" in out
+    assert KEYS[0] in out and KEYS[1] in out
+    assert "Aarau" not in out
+
+
+def test_a_limit_above_the_key_count_keeps_every_named_page(tmp_path, capsys):
+    root = _source(tmp_path, KEYS + ["Marbach__letter-01__001"])
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(KEYS) + "\n", encoding="utf-8")
+
+    code = _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile), limit=10,
+                                 out_root=str(tmp_path / "out")))
+
+    assert code == 0
+    assert "pages     : 3" in capsys.readouterr().out
+
+
+def test_a_sample_draws_from_the_named_pages(tmp_path, capsys):
+    """Same ordering rule for `--sample`: drawn from the 276 wanted pages, not from
+    the corpus and then intersected (which would usually draw none)."""
+    others = [f"Aarau__letter-{i:02d}__001" for i in range(50)]
+    root = _source(tmp_path, others + KEYS)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(KEYS) + "\n", encoding="utf-8")
+
+    code = _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile), sample=2,
+                                 out_root=str(tmp_path / "out")))
+
+    out = capsys.readouterr().out
+    assert code == 0
+    assert "pages     : 2" in out
+    assert "Aarau" not in out
+
+
+def test_limit_and_sample_together_are_still_refused_with_a_key_list(tmp_path, capsys):
+    root = _source(tmp_path, KEYS)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(KEYS) + "\n", encoding="utf-8")
+
+    code = _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile),
+                                 limit=1, sample=1, out_root=str(tmp_path / "out")))
+
+    assert code == 2
+    assert "alternatives" in capsys.readouterr().err
+
+
 # ── the other end: score-gt writes the file atr-batch reads ──────────────────
 
 NS = 'xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"'

@@ -302,14 +302,18 @@ in the argv while `os.environ` stays empty, which is how `--source
 
 So the arguments resolve their own defaults: `--run-dir` takes a bare run name
 under `VLM_TEST_ROOT`, `--gt` defaults to `GT_ROOT`, and `--source` and
-`--cache-dir` default to `ATR_PAGE_CACHE_DEFAULT` — one value every entry point
+`--cache-dir` default to `config.page_cache_dir()` — one answer every entry point
 reads, because having two is what cost three rounds of diagnosis. An existing path
 still wins, so a full path works as before.
 
 One page per line, `#` comments allowed, duplicates collapsed — two ground-truth
 files can match the same page and reading it twice would double its weight in
 every average afterwards. It composes with `--limit` and `--sample`, which apply
-to what is left after the filter.
+to what is left after the filter — **the filter first, the cut second**. It used
+to be the other way around, and the smoke run that found it (#531) cut the corpus
+to its first three pages, matched those against the 276 keys, and reported "none
+of the 276 key(s) name a page under dav:digitalisate" — which reads like a
+key-spelling problem and is not one.
 
 **A key that names no page under `--source` is printed on stderr, never dropped
 quietly.** The list is produced somewhere else, so some of it may name pages this

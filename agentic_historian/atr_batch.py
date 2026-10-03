@@ -335,6 +335,38 @@ def select_keys(pages: Sequence[PageRef], keys: Sequence[str],
     return sorted(chosen, key=lambda ref: ref.key), missing
 
 
+def narrow(pages: Sequence[PageRef], limit: Optional[int] = None,
+           sample: Optional[int] = None, seed: int = SAMPLE_SEED) -> list[PageRef]:
+    """``limit`` first-N, ``sample`` N-at-random, always back in corpus order.
+
+    Pulled out of the two discovery functions because a caller sometimes has to
+    cut *after* doing something else to the list. `--keys-from` is that caller:
+    cutting at discovery time left the first three pages of a 6742-page corpus to
+    be matched against 276 ground-truth keys, which matched none of them and
+    reported the key list as entirely absent from the source (#531). The filter
+    comes first, the cut second — which is also what `docs/BATCH_ATR.md` has
+    always said.
+
+    ``limit`` and ``sample`` are alternatives, because a request for both has no
+    obvious reading and guessing one would be worse than asking.
+    """
+    if limit is not None and sample is not None:
+        raise ValueError("limit and sample are alternatives: first N, or N at random")
+    out = list(pages)
+    if sample is not None:
+        if sample < 0:
+            raise ValueError(f"sample must not be negative: {sample}")
+        # Sampled over pages, not over files: a PDF of forty pages is forty
+        # chances to be picked, exactly as forty TIFFs would be. Sorted back
+        # afterwards, so the processing order stays corpus order and a resumed
+        # run walks the same sequence it did the first time.
+        out = sorted(random.Random(seed).sample(out, min(sample, len(out))),
+                     key=lambda ref: ref.key)
+    if limit is not None:
+        out = out[:limit]
+    return out
+
+
 def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
                    limit: Optional[int] = None, sample: Optional[int] = None,
                    seed: int = SAMPLE_SEED) -> PageList:
@@ -369,18 +401,7 @@ def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
     )
     listed = _expand(rels, root, exts)
     pages, skipped = list(listed), listed.skipped
-    if sample is not None:
-        if sample < 0:
-            raise ValueError(f"sample must not be negative: {sample}")
-        # Sampled over pages, not over files: a PDF of forty pages is forty
-        # chances to be picked, exactly as forty TIFFs would be. Sorted back
-        # afterwards, so the processing order stays corpus order and a resumed
-        # run walks the same sequence it did the first time.
-        chosen = random.Random(seed).sample(pages, min(sample, len(pages)))
-        pages = sorted(chosen, key=lambda ref: ref.key)
-    if limit is not None:
-        pages = pages[:limit]
-    return PageList(pages, skipped)
+    return PageList(narrow(pages, limit=limit, sample=sample, seed=seed), skipped)
 
 
 def pages_from_paths(paths: Sequence[str], root: str = "",
@@ -414,14 +435,7 @@ def pages_from_paths(paths: Sequence[str], root: str = "",
     listed = _expand(rels, Path(root) if root else Path(""),
                      {e.lower() for e in IMAGE_EXTS}, count_pages=count_pages)
     pages, skipped = list(listed), listed.skipped
-    if sample is not None:
-        if sample < 0:
-            raise ValueError(f"sample must not be negative: {sample}")
-        pages = sorted(random.Random(seed).sample(pages, min(sample, len(pages))),
-                       key=lambda ref: ref.key)
-    if limit is not None:
-        pages = pages[:limit]
-    return PageList(pages, skipped)
+    return PageList(narrow(pages, limit=limit, sample=sample, seed=seed), skipped)
 
 
 # ── results on disk ──────────────────────────────────────────────────────────
