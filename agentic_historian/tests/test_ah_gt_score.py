@@ -310,6 +310,43 @@ def test_the_report_names_the_status_mix(tmp_path):
     assert "3 ground-truth page(s): 2× DONE, 1× FINAL" in report
 
 
+def test_two_files_describing_one_page_are_named_not_averaged(tmp_path):
+    """Two ground-truth files can locate the same scan — a document exported
+    twice, or two corrections of one leaf. Dropping one would throw away a
+    person's work; counting both as pages weights that page twice in every
+    average computed afterwards. So the report says how many files cover how many
+    pages, and names them.
+    """
+    for i, page_id in enumerate(("61849396", "61849397")):
+        (tmp_path / f"same{i}.xml").write_text(
+            _pagexml(LETTER_LINES, page_id=page_id), encoding="utf-8")
+    run = _run(tmp_path / "run", "m",
+               {"Donaueschingen__letter-01__001": "\n".join(LETTER_LINES),
+                "Donaueschingen__letter-01__002": DECOY})
+
+    scored, _, report = gs.score_run_dirs(sorted(tmp_path.glob("same*.xml")), [run])
+
+    dupes = gs.duplicate_pages(scored)
+    assert list(dupes) == ["Donaueschingen__letter-01__001"]
+    assert sorted(s.gt.source.name for s in dupes[
+        "Donaueschingen__letter-01__001"]) == ["same0.xml", "same1.xml"]
+    assert "described by more than one ground-truth file" in report
+    assert "2 ground-truth page(s)" in report      # the files, said as files
+    assert "`Donaueschingen__letter-01__001`" in report
+
+
+def test_one_file_a_page_says_nothing_about_duplicates(tmp_path):
+    """The paragraph appears only when it is true — a report that always warned
+    about double weighting would be ignored when it mattered."""
+    (tmp_path / "one.xml").write_text(_pagexml(LETTER_LINES), encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"p1": "\n".join(LETTER_LINES)})
+
+    scored, _, report = gs.score_run_dirs([tmp_path / "one.xml"], [run])
+
+    assert gs.duplicate_pages(scored) == {}
+    assert "more than one ground-truth file" not in report
+
+
 # ── one bad file costs that file, not the job ────────────────────────────────
 #
 # On 2026-10-02 a harvest of sixteen pages produced no numbers at all:

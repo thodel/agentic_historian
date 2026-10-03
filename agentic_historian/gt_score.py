@@ -247,6 +247,26 @@ def score(gt_files: Iterable[Path], readings: dict[str, dict[str, str]],
     return out
 
 
+def duplicate_pages(scored: list[Scored]) -> dict[str, list[Scored]]:
+    """The corpus pages that more than one ground-truth file describes, by key.
+
+    Two exports of the same Transkribus document, or two hand-corrected files that
+    locate the same scan, arrive here as separate files. They are **not**
+    duplicates to drop: each carries its own text and status, and which one to
+    believe is a question for a person. But an average over files weights such a
+    page twice, so the report says how many files describe how many pages instead
+    of printing one number that is quietly both.
+
+    Keyed on the located page, because that is the thing being double-counted. A
+    file that locates nothing names no page and cannot collide with one.
+    """
+    by_key: dict[str, list[Scored]] = {}
+    for item in scored:
+        if item.located:
+            by_key.setdefault(item.located, []).append(item)
+    return {key: items for key, items in by_key.items() if len(items) > 1}
+
+
 def format_scores(scored: list[Scored], unusable: Optional[list] = None) -> str:
     """The numbers, with the match's own reliability beside them."""
     lines = ["# Readings against ground truth", ""]
@@ -262,10 +282,25 @@ def format_scores(scored: list[Scored], unusable: Optional[list] = None) -> str:
         if len(unusable) > 10:
             lines.append(f"- … {len(unusable) - 10} more")
         lines.append("")
+    dupes = duplicate_pages(scored)
     if counts:
         mix = ", ".join(f"{n}× {st}" for st, n in sorted(counts.items()))
-        lines += [f"{len(scored)} ground-truth page(s): {mix}.", "",
-                  "DONE and FINAL both count — a page marked DONE has been "
+        lines += [f"{len(scored)} ground-truth page(s): {mix}.", ""]
+        if dupes:
+            over = sum(len(items) - 1 for items in dupes.values())
+            lines += [
+                f"**{len(dupes)} corpus page(s) are described by more than one "
+                f"ground-truth file**, so those {len(dupes) + over} files cover "
+                f"{len(dupes)} page(s): the mix above counts files. Each file keeps "
+                f"its own section below; an average over them would weight such a "
+                f"page twice. `--keys-out` already writes each page once.", ""]
+            for key, items in sorted(dupes.items())[:10]:
+                names = ", ".join(f"`{i.gt.source.name}`" for i in items)
+                lines.append(f"- `{key}` — {names}")
+            if len(dupes) > 10:
+                lines.append(f"- … {len(dupes) - 10} more")
+            lines.append("")
+        lines += ["DONE and FINAL both count — a page marked DONE has been "
                   "corrected by a human, and this collection never used the GT "
                   "tag. Whether the two are equally reliable is worth watching: "
                   "if the CER splits along that line, the status is telling you "

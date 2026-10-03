@@ -353,6 +353,37 @@ several models has to do the same.
 The counter resets on every success, so a corpus with a few unreadable scans runs
 to the end while a gateway that has gone away does not consume the night first.
 
+### When the share will not open
+
+Two things about this share are worth knowing before reading its error messages,
+both measured on 2026-10-03.
+
+**The legacy endpoint serves the root and nothing below it.** With the same
+credentials, one second apart:
+
+| endpoint | `/` | `digitalisate` |
+|---|---|---|
+| `public.php/webdav` | 207 | **404** |
+| `public.php/dav/files/<token>` | 207 | 207 |
+
+So `_connect` asks the newer endpoint first and keeps the legacy one as the
+fallback for older servers. A 404 from the legacy endpoint says nothing about
+whether the folder is there.
+
+**The process environment beats every `.env` file.** `load_dotenv(override=False)`
+cannot replace a value already in `os.environ`, so a service started with a stale
+`NEXTCLOUD_SHARE_PASS` keeps using it however often `.env.gpustack` is corrected.
+That is how the same share answered 207 from an interactive shell and 401 from
+`atr-mcp` seconds apart. A 401 now says which file the password came from, or —
+when it came from the environment — says to check `/proc/<pid>/environ` of the
+process that failed and the `EnvironmentFile=` of its unit.
+
+**`.env.gpustack` is not shell-sourceable.** `ATR_WATCH_MENTION=<@817…>` is a
+redirect to bash and valid to dotenv, so `set -a; . ./.env.gpustack` stops there
+and every variable below it stays unset — which looks exactly like a wrong
+password. Quote such values (`ATR_WATCH_MENTION="<@817…>"`) or read them through
+Python, which is what reads that file anyway.
+
 ### Interrupted? Re-run the same command
 
 A page whose `.json` is on disk and parses is skipped. There is no state file to

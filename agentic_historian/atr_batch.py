@@ -234,8 +234,32 @@ def _count_pdf_pages(path: Path) -> int:
         return 0
 
 
+#: Why a PDF in a remote listing is not pages. Named, because the caller turns it
+#: back into one line instead of thirteen.
+UNCOUNTED_REMOTE = "PDF in the share, not counted without downloading it"
+
+
+def _pdf_in_the_share(path: Path) -> int:
+    """0, always: a PDF in a remote listing cannot be counted from its name.
+
+    The two listings stand in different places and this is where it shows. The
+    local walk holds the file and counts its pages; a WebDAV listing holds a name
+    and a size. Handing those names to the *local* reader is what printed thirteen
+    lines of ``cannot read the PDF ([Errno 2] No such file or directory:
+    'digitalisate/Basel/PA 82a B 9.pdf')`` on 2026-10-03 — a message that names a
+    missing file when the file is on the share and simply had not been downloaded.
+
+    Counting them properly would mean fetching each container before knowing
+    whether it is a derivative of the scans beside it, which is the one thing
+    `_expand` is arranged to avoid. So they are skipped, under their own reason,
+    and the caller says how many in one line.
+    """
+    return 0
+
+
 def _expand(rels: list[Path], root: Path, exts: set,
-            count_pages=_count_pdf_pages) -> PageList:
+            count_pages=_count_pdf_pages,
+            uncounted: str = "PDF could not be read") -> PageList:
     """Turn a list of relative paths into pages, deciding what a PDF is.
 
     A PDF is not a page and not an image; it holds pages. What it *means* in a
@@ -275,7 +299,7 @@ def _expand(rels: list[Path], root: Path, exts: set,
             continue
         count = count_pages(root / rel if root else rel)
         if count <= 0:
-            skipped.append(SkippedFile(rel.as_posix(), "PDF could not be read"))
+            skipped.append(SkippedFile(rel.as_posix(), uncounted))
             continue
         for index in range(count):
             pages.append(PageRef(path=root / rel if root else Path(str(rel)),
@@ -407,7 +431,7 @@ def discover_pages(root: Path, exts: Iterable[str] = IMAGE_EXTS,
 def pages_from_paths(paths: Sequence[str], root: str = "",
                      limit: Optional[int] = None, sample: Optional[int] = None,
                      seed: int = SAMPLE_SEED,
-                     count_pages=_count_pdf_pages) -> PageList:
+                     count_pages=_pdf_in_the_share) -> PageList:
     """The same corpus, built from remote paths instead of a directory walk.
 
     ``discover_pages`` and this differ only in where the list of paths comes
@@ -433,8 +457,15 @@ def pages_from_paths(paths: Sequence[str], root: str = "",
     if limit is not None and sample is not None:
         raise ValueError("limit and sample are alternatives: first N, or N at random")
     listed = _expand(rels, Path(root) if root else Path(""),
-                     {e.lower() for e in IMAGE_EXTS}, count_pages=count_pages)
+                     {e.lower() for e in IMAGE_EXTS}, count_pages=count_pages,
+                     uncounted=UNCOUNTED_REMOTE)
     pages, skipped = list(listed), listed.skipped
+    uncounted = [s.rel for s in skipped if s.reason == UNCOUNTED_REMOTE]
+    if uncounted:
+        logger.warning(
+            f"[batch] {len(uncounted)} PDF(s) in the share are not read: counting "
+            f"their pages means downloading them first ({uncounted[0]}"
+            + (f", … {len(uncounted) - 1} more)" if len(uncounted) > 1 else ")"))
     return PageList(narrow(pages, limit=limit, sample=sample, seed=seed), skipped)
 
 

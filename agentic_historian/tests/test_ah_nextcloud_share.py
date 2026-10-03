@@ -71,21 +71,36 @@ def test_the_share_never_prints_its_password():
 
 # ── a fake WebDAV server ─────────────────────────────────────────────────────
 
+class Boom(Exception):
+    """A webdav4 ``HTTPError`` as the real one looks: it carries its status.
+
+    The status is the whole point — it is what lets an error message say whether
+    to fix a password or a path.
+    """
+
+    def __init__(self, status_code: int):
+        self.status_code = status_code
+        super().__init__(f"received {status_code}")
+
+
 class FakeClient:
     """Just enough webdav4.Client to exercise the walk + download paths."""
 
     def __init__(self, tree: dict[str, list[dict]], *, fail: set[str] = frozenset(),
-                 serve: set[str] | None = None, url: str = ""):
+                 serve: set[str] | None = None, url: str = "",
+                 status: int | None = None):
         self.tree = tree
         self.fail = set(fail)
         self.url = url
         #: Endpoints this fake will answer at all; None = any.
         self.serve = serve
+        #: The status an unserved endpoint answers with, when the test cares.
+        self.status = status
         self.downloaded: list[str] = []
 
     def ls(self, path, detail=True):
         if self.serve is not None and self.url not in self.serve:
-            raise RuntimeError("404 Not Found")
+            raise Boom(self.status) if self.status else RuntimeError("404 Not Found")
         key = (path or "").strip("/")
         if key not in self.tree:
             raise RuntimeError(f"404 {key}")
@@ -127,7 +142,8 @@ def fake_dav(monkeypatch):
 
     def _factory(share, endpoint=None):
         client = FakeClient(state["tree"], fail=state["fail"], serve=state["serve"],
-                            url=(endpoint or share.webdav_url))
+                            url=(endpoint or share.webdav_url),
+                            status=state.get("status"))
         made.append(client)
         return client
 
@@ -150,14 +166,29 @@ def test_list_files_is_recursive_sorted_and_filtered(fake_dav):
     assert dict(files)["digitalisate/letter-01/002.jpg"] == 30
 
 
-def test_falls_back_to_the_newer_dav_endpoint(fake_dav):
+def test_the_newer_endpoint_is_asked_first(fake_dav):
     """Nextcloud 30 moved public shares to /public.php/dav/files/<token> while
     older servers serve only /public.php/webdav. Which one exists is the server's
-    answer to give, not something configuration should have to know."""
+    answer to give, not something configuration should have to know.
+
+    The order is measured, not a preference. On the Laßberg share (2026-10-03)
+    the legacy endpoint answered 207 at the share root and **404 at every path
+    below it**, so asking it first meant a doomed request before every listing
+    and a 404 at the top of every error message that said nothing about the real
+    failure.
+    """
     fake_dav["state"]["serve"] = {SHARE.dav_url}
     files = nextcloud.list_files("digitalisate", share=SHARE)
     assert len(files) == 3
-    assert [c.url for c in fake_dav["made"]] == [SHARE.webdav_url, SHARE.dav_url]
+    assert [c.url for c in fake_dav["made"]] == [SHARE.dav_url]
+
+
+def test_the_legacy_endpoint_is_still_the_fallback(fake_dav):
+    """An older server serves only that one, and it has to keep working."""
+    fake_dav["state"]["serve"] = {SHARE.webdav_url}
+    files = nextcloud.list_files("digitalisate", share=SHARE)
+    assert len(files) == 3
+    assert [c.url for c in fake_dav["made"]] == [SHARE.dav_url, SHARE.webdav_url]
 
 
 def test_neither_endpoint_reports_both_failures(fake_dav):
@@ -166,6 +197,76 @@ def test_neither_endpoint_reports_both_failures(fake_dav):
         nextcloud.list_files("digitalisate", share=SHARE)
     assert "public.php/webdav" in str(err.value)
     assert "public.php/dav/files" in str(err.value)
+
+
+# ── what the failure says to go and change ───────────────────────────────────
+#
+# On 2026-10-03 this share answered 207 to a PROPFIND from an interactive shell
+# and 401 to the same call from a service, seconds apart, from the same checkout
+# and the same `.env.gpustack`. Twice that afternoon the message sent the reading
+# somewhere it was not: "500 is not what a wrong password looks like" was right
+# about the code and wrong about the cause.
+
+def test_a_401_says_which_file_holds_the_password(fake_dav, monkeypatch):
+    monkeypatch.setitem(config.ENV_SOURCE, "NEXTCLOUD_SHARE_PASS",
+                        Path("/home/dh/agentic_historian/.env.gpustack"))
+    fake_dav["state"].update(serve=set(), status=401)
+
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud.list_files("digitalisate", share=SHARE)
+
+    assert "401 is the share password" in str(err.value)
+    assert ".env.gpustack" in str(err.value)
+    assert SHARE.password not in str(err.value)      # never the value itself
+
+
+def test_a_401_on_an_inherited_password_names_the_environment(fake_dav, monkeypatch):
+    """The trap that cost the afternoon: a value already in `os.environ` wins over
+    every `.env` file, so a service started with a stale password keeps using it
+    however often the file is corrected — and the file looks innocent."""
+    monkeypatch.delitem(config.ENV_SOURCE, "NEXTCLOUD_SHARE_PASS", raising=False)
+    fake_dav["state"].update(serve=set(), status=401)
+
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud.list_files("digitalisate", share=SHARE)
+
+    message = str(err.value)
+    assert "its own environment" in message
+    assert "override=False" in message
+    assert "EnvironmentFile" in message
+
+
+def test_a_401_with_no_password_at_all_says_so(fake_dav, monkeypatch):
+    fake_dav["state"].update(serve=set(), status=401)
+    naked = nextcloud.ShareRef(base_url=SHARE.base_url, token="TOK", password="")
+
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud.list_files("digitalisate", share=naked)
+
+    assert "no share password is configured" in str(err.value)
+
+
+def test_a_404_everywhere_is_a_path_not_a_password(fake_dav):
+    fake_dav["state"].update(serve=set(), status=404)
+
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud.list_files("digitalisate", share=SHARE)
+
+    message = str(err.value)
+    assert "no 'digitalisate' under this share" in message
+    assert "password" not in message
+
+
+def test_a_failure_with_no_status_adds_no_guess(fake_dav):
+    """A timeout has no status code, and inventing a cause for it would be worse
+    than the bare pair of endpoint errors."""
+    fake_dav["state"].update(serve=set(), status=None)
+
+    with pytest.raises(nextcloud.NextcloudError) as err:
+        nextcloud.list_files("digitalisate", share=SHARE)
+
+    assert "password" not in str(err.value)
+    assert "under this share" not in str(err.value)
 
 
 # ── mirroring ────────────────────────────────────────────────────────────────

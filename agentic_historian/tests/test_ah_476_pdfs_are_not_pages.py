@@ -108,8 +108,29 @@ def test_a_rendered_page_cannot_collide_with_a_scan_named_in_digits():
 
 def test_a_pdf_that_cannot_be_read_is_reported_and_never_sent():
     """0 pages means "cannot say". A container nobody can count must not reach a
-    recogniser as an image, which is the whole of this issue."""
+    recogniser as an image, which is the whole of this issue.
+
+    In a *remote* listing nobody can count any of them, and the reason says so
+    (#531): handing share names to the local reader printed thirteen lines of
+    `cannot read the PDF ([Errno 2] No such file or directory:
+    'digitalisate/Basel/PA 82a B 9.pdf')` — a missing-file error for a file that
+    is on the share and simply had not been downloaded.
+    """
     pages = b.pages_from_paths(["broken/x.pdf"], count_pages=lambda p: 0)
+
+    assert list(pages) == []
+    assert pages.skipped[0].reason == b.UNCOUNTED_REMOTE
+    assert "download" in pages.skipped[0].reason
+
+
+def test_the_local_walk_still_says_a_pdf_could_not_be_read(tmp_path):
+    """The two reasons stay distinct: a local file that will not open is a broken
+    file, and that is worth a different sentence than one nobody fetched."""
+    pdf = tmp_path / "only-a-pdf" / "letter.pdf"
+    pdf.parent.mkdir(parents=True)
+    pdf.write_bytes(b"not a PDF at all")
+
+    pages = b.discover_pages(tmp_path)
 
     assert list(pages) == []
     assert "could not be read" in pages.skipped[0].reason
