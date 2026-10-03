@@ -177,6 +177,54 @@ def _client(share: ShareRef, endpoint: Optional[str] = None):
                   timeout=config.NEXTCLOUD_TIMEOUT)
 
 
+def _status_of(exc: Exception) -> Optional[int]:
+    """The HTTP status behind a webdav4 exception, when there is one.
+
+    ``HTTPError`` carries it; ``ResourceNotFound`` is webdav4's own name for the
+    404 it has already interpreted. Anything else — a timeout, a DNS failure —
+    has no status and says so by returning None.
+    """
+    code = getattr(exc, "status_code", None)
+    if code is None and type(exc).__name__ == "ResourceNotFound":
+        return 404
+    return int(code) if code else None
+
+
+def _what_to_change(share: ShareRef, codes: set, probe_dir: str) -> str:
+    """The sentence that turns a status code into the thing to go and fix.
+
+    Written because both halves of this cost an afternoon on 2026-10-03. The
+    share answered 207 to a PROPFIND from an interactive shell and 401 to the
+    same call from a service, seconds apart, with the same code and the same
+    `.env.gpustack` — because a value already in ``os.environ`` wins over every
+    `.env` file (``load_dotenv(override=False)``), so a service started with a
+    stale password keeps using it and the file nobody has touched looks innocent.
+    And `public.php/webdav` on this server answers 207 at the share root and 404
+    at every path below it, which made a path problem look like an auth problem.
+    """
+    if 401 in codes:
+        if not share.password:
+            return ("\n401 and no share password is configured: "
+                    "NEXTCLOUD_SHARE_PASS is empty in this process.")
+        where = config.ENV_SOURCE.get("NEXTCLOUD_SHARE_PASS")
+        if where:
+            return (f"\n401 is the share password, and this process read it from "
+                    f"{where} ({len(share.password)} characters).")
+        return (f"\n401 is the share password. This process read it from its own "
+                f"environment ({len(share.password)} characters), **not** from any "
+                f"`.env` file — `load_dotenv(override=False)` cannot replace what "
+                f"is already in `os.environ`. A service started with a stale value "
+                f"keeps using it however often the file is corrected; check "
+                f"`/proc/<pid>/environ` of the process that failed and the "
+                f"`EnvironmentFile=` of its unit.")
+    if codes == {404} and probe_dir:
+        return (f"\n404 on every endpoint: no {probe_dir!r} under this share. Note "
+                f"that the legacy `public.php/webdav` serves the share root and "
+                f"404s every path below it on some servers, which is why the "
+                f"newer `public.php/dav/files/<token>` is tried first.")
+    return ""
+
+
 def _connect(share: ShareRef, probe_dir: str = ""):
     """Return a client for whichever public endpoint this server actually serves.
 
@@ -185,18 +233,35 @@ def _connect(share: ShareRef, probe_dir: str = ""):
     serve only one. Probing once here — with the directory the caller is about to
     read — turns "which Nextcloud is this" into a question answered by the server
     instead of by configuration.
+
+    **The newer endpoint is tried first**, because the legacy one is not merely
+    the older spelling. Measured against the Laßberg share on 2026-10-03:
+
+        public.php/webdav/                        207
+        public.php/webdav/digitalisate            404
+        public.php/dav/files/<token>/             207
+        public.php/dav/files/<token>/digitalisate 207
+
+    With the legacy endpoint first, every listing paid a doomed request before
+    the one that works, and the first line of every error message named a 404
+    that said nothing about the real failure.
     """
     errors: list[str] = []
-    for endpoint in (share.webdav_url, share.dav_url):
+    codes: set = set()
+    for endpoint in (share.dav_url, share.webdav_url):
         client = _client(share, endpoint)
         try:
             client.ls(probe_dir or "", detail=False)
             logger.debug(f"[Nextcloud] endpoint {endpoint}")
             return client
         except Exception as exc:  # noqa: BLE001 — try the next endpoint, report both
+            code = _status_of(exc)
+            if code:
+                codes.add(code)
             errors.append(f"{endpoint}: {type(exc).__name__}: {exc}")
     raise NextcloudError(
-        f"cannot open share {share} at {probe_dir or '/'} — tried:\n  " + "\n  ".join(errors)
+        f"cannot open share {share} at {probe_dir or '/'} — tried:\n  "
+        + "\n  ".join(errors) + _what_to_change(share, codes, probe_dir)
     )
 
 
