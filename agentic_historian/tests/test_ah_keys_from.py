@@ -253,6 +253,35 @@ def test_limit_and_sample_together_are_still_refused_with_a_key_list(tmp_path, c
     assert "alternatives" in capsys.readouterr().err
 
 
+# ── asking what the share holds *now* ────────────────────────────────────────
+
+def test_the_mcp_tool_can_ask_for_a_fresh_listing():
+    """The listing is cached for 48 h because a full walk is twenty minutes. On
+    2026-10-04 a whole holding had been removed from the share, every fetch for
+    those pages answered 404, and the cached list — written the day before —
+    still promised them. Without this flag the stale list was the only list an
+    MCP caller could reach.
+    """
+    from mcp_atr import jobs
+
+    argv = jobs.batch_argv(Path("dav:digitalisate"), ["trocr-kurrent"], "r",
+                           keys_from=Path("/gt/gt-keys.txt"),
+                           no_listing_cache=True, dry_run=True)
+
+    assert "--no-listing-cache" in argv
+    assert argv.index("--no-listing-cache") < argv.index("--dry-run")
+    assert "--keys-from" in argv
+
+
+def test_the_fresh_listing_is_off_by_default():
+    """A twenty-minute walk is not something a caller should get by accident."""
+    from mcp_atr import jobs
+
+    argv = jobs.batch_argv(Path("dav:digitalisate"), ["trocr-kurrent"], "r")
+
+    assert "--no-listing-cache" not in argv
+
+
 # ── the other end: score-gt writes the file atr-batch reads ──────────────────
 
 NS = 'xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"'

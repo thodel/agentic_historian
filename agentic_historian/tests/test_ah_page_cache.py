@@ -260,3 +260,131 @@ def test_without_a_cache_nothing_changes(share, tmp_path):
     assert "working_copy" not in data["source"]
     assert data["source"]["sha256"] == hashlib.sha256(
         pages[0].path.read_bytes()).hexdigest()
+
+
+def SimpleNamespace_exc(*, status_code: int) -> Exception:
+    """An exception shaped like httpx's: it carries a response with a status."""
+    exc = RuntimeError(f"share answered {status_code}")
+    exc.response = SimpleNamespace(status_code=status_code, reason_phrase="")
+    return exc
+
+
+# ── a page the source does not have ──────────────────────────────────────────
+#
+# 2026-10-04: the share stopped holding a whole holding (`Briefe UB Freiburg`).
+# Every fetch for those pages answered 404, the runner read that as the transient
+# 500s of #456, and so it waited — five source failures in a row, pause 60 s,
+# then 120, then 900, retrying pages that had been deleted. Fifteen pages in 140
+# minutes, and the abort it was heading for would have said "share unavailable"
+# about a share that was answering 207 throughout.
+
+
+class Gone(Exception):
+    """webdav4's ResourceNotFound, which is what a 404 arrives as."""
+
+
+Gone.__name__ = "ResourceNotFound"
+
+
+def _many(root: Path, n: int = 8):
+    """More pages than MAX_CONSECUTIVE_SOURCE_FAILURES, so the circuit can trip."""
+    for i in range(n):
+        _png(root / f"letter-{i:04d}" / "001.png", (i, i, i))
+    return batch.discover_pages(root)
+
+
+def test_the_predicate_knows_the_three_ways_a_page_can_be_absent():
+    assert batch.source_is_missing(Gone("not found"))
+    assert batch.source_is_missing(FileNotFoundError(2, "No such file"))
+    assert batch.source_is_missing(
+        SimpleNamespace_exc(status_code=404))
+    assert not batch.source_is_missing(OSError("mount went away"))
+    assert not batch.source_is_missing(SimpleNamespace_exc(status_code=500))
+
+
+def test_a_page_the_source_does_not_have_never_pauses_the_run(tmp_path):
+    """The behaviour this incident is about. Eight absent pages, and not one
+    second of waiting: there is nothing to wait for."""
+    pages = _many(tmp_path / "mount" / "digitalisate")
+    slept: list[float] = []
+
+    class NotThere:
+        def fetch(self, src, *a):
+            raise Gone(f"The resource {src} could not be found in the server")
+
+    outcome = batch.run_model(pages, "trocr-kurrent", "run", tmp_path / "out",
+                              lambda p, m: _result(), retries=2, concurrency=1,
+                              cache=NotThere(), sleep=slept.append)
+
+    assert outcome.failed == len(pages) and outcome.done == 0
+    assert outcome.source_missing == len(pages)
+    assert outcome.source_errors == 0          # not the share's health
+    assert slept == []                         # no retry backoff, no pause
+    assert not outcome.aborted                 # and not the model's fault
+    assert "does not have this page" in outcome.errors[0]
+    assert outcome.source_missing_keys[0] == pages[0].key
+
+
+def test_a_missing_page_is_fetched_once_not_three_times(tmp_path):
+    """`retries=2` is for a source that might answer differently. A 404 will not."""
+    pages = _many(tmp_path / "mount" / "digitalisate", n=1)
+    tries = []
+
+    class NotThere:
+        def fetch(self, src, *a):
+            tries.append(src)
+            raise Gone("could not be found in the server")
+
+    batch.run_model(pages, "trocr-kurrent", "run", tmp_path / "out",
+                    lambda p, m: _result(), retries=2, concurrency=1,
+                    cache=NotThere(), sleep=lambda s: None)
+
+    assert len(tries) == 1
+
+
+def test_a_share_that_went_away_still_pauses_and_retries(tmp_path):
+    """The other half has to keep working: an outage *is* worth waiting for, and
+    #456 is the run that died because nobody waited."""
+    pages = _many(tmp_path / "mount" / "digitalisate")
+    slept: list[float] = []
+
+    class Away:
+        def __init__(self):
+            self.n = 0
+
+        def fetch(self, src, *a):
+            self.n += 1
+            if self.n <= 6:
+                raise OSError("mount went away")
+            return src, {"name": Path(src).name, "bytes": 1, "sha256": "x"}
+
+    outcome = batch.run_model(pages, "trocr-kurrent", "run", tmp_path / "out",
+                              lambda p, m: _result(), retries=0, concurrency=1,
+                              cache=Away(), sleep=slept.append)
+
+    assert outcome.source_missing == 0
+    assert slept and max(slept) >= batch.SOURCE_PAUSE_BASE
+    assert outcome.done >= 1
+
+
+def test_the_two_kinds_are_counted_apart(tmp_path):
+    """Because they want opposite actions: re-run later for an outage, look at
+    the corpus for a page that is gone."""
+    root = tmp_path / "mount" / "digitalisate"
+    pages = _many(root, n=4)
+    absent = {pages[0].key, pages[1].key}
+
+    class Mixed:
+        def fetch(self, src, *a):
+            page = next(p for p in pages if str(p.path) == str(src))
+            if page.key in absent:
+                raise Gone("could not be found in the server")
+            raise OSError("mount went away")
+
+    outcome = batch.run_model(pages, "trocr-kurrent", "run", tmp_path / "out",
+                              lambda p, m: _result(), retries=0, concurrency=1,
+                              cache=Mixed(), sleep=lambda s: None)
+
+    assert outcome.source_missing == 2
+    assert outcome.source_errors == 2
+    assert sorted(outcome.source_missing_keys) == sorted(absent)

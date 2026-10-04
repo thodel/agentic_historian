@@ -328,7 +328,8 @@ def build_server(provider=None, auth_settings=None):
                     limit: Optional[int] = None, sample: Optional[int] = None,
                     dry_run: bool = False,
                     concurrency: Optional[int] = None,
-                    keys_from: Optional[str] = None) -> dict:
+                    keys_from: Optional[str] = None,
+                    no_listing_cache: bool = False) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
         ``source`` is either a directory — inside the mirror, the comparison
@@ -356,8 +357,18 @@ def build_server(provider=None, auth_settings=None):
         two weeks of one card, against 276 pages that have hand-corrected text.
         A key that names no page under ``source`` is reported, never dropped.
 
+        ``no_listing_cache`` re-walks the share instead of reusing the cached
+        file list, which is kept for 48 h because a full walk of 6722 files takes
+        twenty minutes. Pass it when the question is **what the share holds
+        now**: on 2026-10-04 a whole holding had been removed from it, every
+        fetch for those pages answered 404, and the cached listing — written the
+        day before — still promised them. Without this the stale list was the
+        only list reachable from here.
+
         Use ``dry_run`` first (it prints pages x models and exits), then
-        ``sample=10``, then the whole corpus.
+        ``sample=10``, then the whole corpus. ``dry_run`` with
+        ``no_listing_cache`` and ``keys_from`` answers how many of those keys the
+        share still has, which is the cheapest form of that question.
         """
         try:
             checked_models = jobs.validate_models(models)
@@ -377,6 +388,7 @@ def build_server(provider=None, auth_settings=None):
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
                                limit=limit, sample=sample, concurrency=concurrency,
                                dry_run=dry_run, keys_from=checked_keys,
+                               no_listing_cache=no_listing_cache,
                                cache_dir=jobs.cache_dir_for(checked_source))
         if dry_run:
             # The plan is the answer, so it is worth waiting for — but only as
