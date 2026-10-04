@@ -329,6 +329,7 @@ def build_server(provider=None, auth_settings=None):
                     dry_run: bool = False,
                     concurrency: Optional[int] = None,
                     keys_from: Optional[str] = None,
+                    missing_out: Optional[str] = None,
                     no_listing_cache: bool = False) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
@@ -365,6 +366,12 @@ def build_server(provider=None, auth_settings=None):
         day before — still promised them. Without this the stale list was the
         only list reachable from here.
 
+        ``missing_out`` names a file — under the ground-truth root, like
+        ``keys_from`` — for the keys this source does **not** have. That list is
+        a finding about the corpus rather than about the run: on 2026-10-04 the
+        share had stopped holding 35 of the 276 pages we have hand-corrected text
+        for, and which 35 was the thing to send to the people who keep it.
+
         Use ``dry_run`` first (it prints pages x models and exits), then
         ``sample=10``, then the whole corpus. ``dry_run`` with
         ``no_listing_cache`` and ``keys_from`` answers how many of those keys the
@@ -383,11 +390,19 @@ def build_server(provider=None, auth_settings=None):
         try:
             checked_keys = (jobs.resolve_keys_file(keys_from)
                             if keys_from else None)
+            checked_missing = (jobs.keys_file_to_write(missing_out)
+                               if missing_out else None)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
+        if checked_missing is not None and checked_keys is None:
+            return {"ok": False, "error": "missing_out needs keys_from: the list "
+                                          "it writes is the keys that matched "
+                                          "nothing, and without a key list there "
+                                          "are none"}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
                                limit=limit, sample=sample, concurrency=concurrency,
                                dry_run=dry_run, keys_from=checked_keys,
+                               missing_out=checked_missing,
                                no_listing_cache=no_listing_cache,
                                cache_dir=jobs.cache_dir_for(checked_source))
         if dry_run:
