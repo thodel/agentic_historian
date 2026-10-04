@@ -253,6 +253,111 @@ def test_limit_and_sample_together_are_still_refused_with_a_key_list(tmp_path, c
     assert "alternatives" in capsys.readouterr().err
 
 
+# ── which pages the source does not have ─────────────────────────────────────
+#
+# 2026-10-04: the share had stopped holding a whole holding, and 35 of the 276
+# pages with hand-corrected text went with it. The run said "35 of 276" and named
+# five. Which 35 is the list to send to the people who keep the corpus, and it
+# could not be got out of the runner at all.
+
+def test_every_missing_key_is_named_not_five(tmp_path, capsys):
+    present = [f"Aarau__letter-{i:02d}__001" for i in range(3)]
+    absent = [f"Briefe UB Freiburg__lassberg-letter-{i:04d}__001" for i in range(12)]
+    root = _source(tmp_path, present)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(present + absent) + "\n", encoding="utf-8")
+
+    code = _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile),
+                                 out_root=str(tmp_path / "out")))
+
+    err = capsys.readouterr().err
+    assert code == 0
+    assert "12 of 15 key(s) are not in this source" in err
+    for key in absent:
+        assert key in err, "a key left out of the warning is a page nobody knows about"
+
+
+def test_a_cap_keeps_an_unrelated_key_list_from_filling_the_terminal(tmp_path, capsys):
+    cli = _cli()
+    present = ["Aarau__letter-00__001"]
+    absent = [f"Elsewhere__letter-{i:04d}__001"
+              for i in range(cli.MISSING_KEYS_SHOWN + 5)]
+    root = _source(tmp_path, present)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(present + absent) + "\n", encoding="utf-8")
+
+    cli.atr_batch(_args(source=str(root), keys_from=str(keyfile),
+                        out_root=str(tmp_path / "out")))
+
+    err = capsys.readouterr().err
+    assert "5 more (use --missing-out" in err
+
+
+def test_missing_out_writes_the_list_to_send_on(tmp_path, capsys):
+    present = ["Aarau__letter-00__001"]
+    absent = ["Briefe UB Freiburg__lassberg-letter-0077__001",
+              "Briefe UB Freiburg__lassberg-letter-0077__002"]
+    root = _source(tmp_path, present)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text("\n".join(present + absent) + "\n", encoding="utf-8")
+    dest = tmp_path / "missing.txt"
+
+    code = _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile),
+                                 missing_out=str(dest),
+                                 out_root=str(tmp_path / "out")))
+
+    assert code == 0
+    written = dest.read_text(encoding="utf-8")
+    body = [ln for ln in written.splitlines() if not ln.startswith("#")]
+    assert body == absent
+    assert "the ground truth for them exists, the image does not" in written
+    assert str(keyfile) in written          # where the keys came from
+    assert "missing keys:" in capsys.readouterr().err
+
+
+def test_nothing_missing_still_writes_the_check(tmp_path):
+    """A dated file saying "all 276 resolved" is evidence. A file that is simply
+    absent could also mean nobody looked, which is the thing this answers."""
+    present = ["Aarau__letter-00__001"]
+    root = _source(tmp_path, present)
+    keyfile = tmp_path / "keys.txt"
+    keyfile.write_text(present[0] + "\n", encoding="utf-8")
+    dest = tmp_path / "missing.txt"
+
+    _cli().atr_batch(_args(source=str(root), keys_from=str(keyfile),
+                           missing_out=str(dest), out_root=str(tmp_path / "out")))
+
+    written = dest.read_text(encoding="utf-8")
+    assert "all 1 key(s) resolved; nothing is missing" in written
+    assert [ln for ln in written.splitlines() if not ln.startswith("#")] == []
+
+
+def test_the_flag_is_on_the_real_parser():
+    parser = _cli().build_parser()
+    args = parser.parse_args(["atr-batch", "--source", "/x", "--models", "m",
+                              "--run", "r", "--keys-from", "/k",
+                              "--missing-out", "/m"])
+    assert args.missing_out == "/m"
+
+
+def test_the_mcp_tool_writes_it_under_the_ground_truth_root(monkeypatch, tmp_path):
+    """A name, not a path — the same rule as `keys_from`, so a tool that chooses
+    pages cannot become one that chooses files."""
+    from mcp_atr import jobs
+
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    dest = jobs.keys_file_to_write("missing.txt")
+
+    assert dest == tmp_path / "missing.txt"
+    with pytest.raises(jobs.JobError):
+        jobs.keys_file_to_write("../../etc/passwd")
+
+    argv = jobs.batch_argv(Path("dav:digitalisate"), ["trocr-kurrent"], "r",
+                           keys_from=tmp_path / "gt-keys.txt", missing_out=dest,
+                           dry_run=True)
+    assert argv[argv.index("--missing-out") + 1] == str(dest)
+
+
 # ── asking what the share holds *now* ────────────────────────────────────────
 
 def test_the_mcp_tool_can_ask_for_a_fresh_listing():

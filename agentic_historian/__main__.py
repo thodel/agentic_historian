@@ -18,6 +18,7 @@ All agent logs go to stdout (loguru default).
 
 import argparse
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 # The package's modules import each other flatly (``import config``), which works
@@ -122,6 +123,13 @@ def convert_mirror(args: argparse.Namespace) -> int:
     print(f"{converted} converted, {failed} failed — "
           f"{before / 1e9:.2f} GB → {after / 1e9:.2f} GB, {freed / 1e9:.2f} GB freed")
     return 0 if not failed else 1
+
+
+#: How many unmatched keys `--keys-from` names in the warning. All of them, in
+#: practice: the number is a cap against a key list from an unrelated corpus,
+#: not a summary. Five used to be the limit, and on 2026-10-04 that hid which 35
+#: ground-truth pages the share had stopped holding.
+MISSING_KEYS_SHOWN = 100
 
 
 def atr_batch(args: argparse.Namespace) -> int:
@@ -242,9 +250,35 @@ def atr_batch(args: argparse.Namespace) -> int:
         # that quietly dropped three of sixteen pages would be measured as if it
         # had read them.
         if missing:
+            # All of them, up to a cap. Five was enough while a missing key meant
+            # a typo; on 2026-10-04 it meant the share had stopped holding 35
+            # pages we have ground truth for, and the list of *which* was the
+            # thing to send to the people who keep the share. The cap is there so
+            # a key list from an unrelated corpus cannot fill a terminal.
+            shown = missing[:MISSING_KEYS_SHOWN]
             print(f"warning: {len(missing)} of {len(keys)} key(s) are not in this "
-                  f"source: {', '.join(missing[:5])}"
-                  + (f", … {len(missing) - 5} more" if len(missing) > 5 else ""),
+                  f"source:", file=sys.stderr)
+            for key in shown:
+                print(f"  - {key}", file=sys.stderr)
+            if len(missing) > len(shown):
+                print(f"  … {len(missing) - len(shown)} more (use --missing-out "
+                      f"to write them all to a file)", file=sys.stderr)
+        if getattr(args, "missing_out", None):
+            # Written even when nothing is missing, and that is the point: a
+            # dated file saying "all 276 resolved" is evidence, where a file that
+            # is simply absent could also mean nobody looked.
+            dest = Path(args.missing_out).expanduser()
+            verdict = (f"{len(missing)} of {len(keys)} key(s) name no page here — "
+                       f"the ground truth for them exists, the image does not"
+                       if missing else
+                       f"all {len(keys)} key(s) resolved; nothing is missing")
+            dest.write_text(
+                f"# page keys from {args.keys_from}\n"
+                f"# checked against {source} on "
+                f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC\n"
+                f"# {verdict}\n"
+                + "".join(f"{k}\n" for k in missing), encoding="utf-8")
+            print(f"missing keys: {dest}  ({len(missing)} page(s))",
                   file=sys.stderr)
         if not chosen:
             print(f"Error: none of the {len(keys)} key(s) in {args.keys_from} "
@@ -703,6 +737,11 @@ def build_parser() -> argparse.ArgumentParser:
                               "Use it when --source is a mounted share: each page "
                               "then crosses the network once instead of once per "
                               "model. Omit for a corpus already on local disk.")
+    p_batch.add_argument(
+        "--missing-out", metavar="PATH",
+        help="write the keys this source does not have to PATH, one per line "
+             "(with --keys-from). The list to send to whoever keeps the corpus: "
+             "these pages have hand-corrected text and no image.")
     p_batch.add_argument("--no-listing-cache", action="store_true",
                          help="Walk the share again instead of reusing a recent "
                               "listing. The walk is one PROPFIND per folder — 24 "

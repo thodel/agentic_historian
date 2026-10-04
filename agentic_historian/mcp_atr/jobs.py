@@ -238,6 +238,18 @@ def resolve_keys_file(name: str) -> Path:
     return path
 
 
+def keys_file_to_write(name: str) -> Path:
+    """Where to *write* a key list, by name, under the ground-truth root.
+
+    The counterpart of `resolve_keys_file`, and it differs in exactly one way:
+    the file does not have to exist yet. Same validation, same root, so a list
+    written through MCP is a list `start_batch` can read back by name — and a
+    caller still cannot name a path, which is what keeps a tool that chooses
+    pages from becoming one that chooses files.
+    """
+    return Path(config.GT_ROOT) / validate_run(name)
+
+
 def resolve_source(source: str):
     """Turn a requested source into an absolute path, or refuse.
 
@@ -295,6 +307,7 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
                retries: Optional[int] = None, dry_run: bool = False,
                cache_dir: Optional[Path] = None,
                keys_from: Optional[Path] = None,
+               missing_out: Optional[Path] = None,
                no_listing_cache: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
@@ -312,6 +325,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--sample", str(int(sample))]
     if keys_from is not None:
         argv += ["--keys-from", str(keys_from)]
+    if missing_out is not None:
+        argv += ["--missing-out", str(missing_out)]
     if cache_dir is not None:
         argv += ["--cache-dir", str(cache_dir)]
     if concurrency is not None:
