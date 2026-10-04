@@ -347,6 +347,92 @@ def test_one_file_a_page_says_nothing_about_duplicates(tmp_path):
     assert "more than one ground-truth file" not in report
 
 
+# ── the aggregate the per-page sections cannot give ──────────────────────────
+#
+# Eight engines over 241 pages is 1928 numbers. #416 asks whether one reading is
+# stronger or they are a field of equals, and that is a question about
+# distributions — reading it off 241 sections by hand is arithmetic nobody should
+# do twice.
+
+#: Three distinguishable pages. Identical ones are *correctly* refused: if every
+#: page matches every reading equally, nothing is located, which is what the
+#: first version of this fixture proved rather than what it meant to test.
+PAGES = [
+    ["Eppishausen am 21 Januar 1831.", "Hochgeschäzter Herr!",
+     "Da ich das vergnügen nicht haben soll, Sie in meiner Waldklause zu"],
+    ["Meersburg am 17 October 1840.", "Wolgeborner Herr Professor!",
+     "Die urkunden des klosters Salem habe ich mit vielem danke erhalten"],
+    ["Donaueschingen am 3 März 1836.", "Verehrtester Freund!",
+     "Ihre nachricht über die handschrift der Nibelungen hat mich sehr"],
+]
+
+
+def test_each_reading_gets_a_median_over_the_pages_it_located(tmp_path):
+    for i, lines in enumerate(PAGES):
+        (tmp_path / f"p{i}.xml").write_text(
+            _pagexml(lines, page_id=f"6184939{i}"), encoding="utf-8")
+    # Two readings of the same three pages: one near-perfect, one far off but
+    # still placing each page — the dateline is intact, so the match holds.
+    good = _run(tmp_path / "good", "good", {
+        f"k{i}": "\n".join(lines) for i, lines in enumerate(PAGES)})
+    poor = _run(tmp_path / "poor", "poor", {
+        f"k{i}": "\n".join(lines)[:40] + " " + DECOY
+        for i, lines in enumerate(PAGES)})
+
+    scored, _, report = gs.score_run_dirs(
+        sorted(tmp_path.glob("p*.xml")), [good, poor])
+
+    ranked = gs.score_by_reading(scored)
+    assert [r.reading for r in ranked] == ["good/good", "poor/poor"], \
+        "sorted by median, best first"
+    assert ranked[0].median < ranked[1].median
+    assert all(r.pages > 0 for r in ranked)
+    assert "How the readings compare" in report
+    assert "median CER" in report
+
+
+def test_a_page_nobody_located_is_in_no_row(tmp_path):
+    """Its CER is the distance to whichever page was least unlike it. Averaging
+    that in would move every engine by an unknown amount."""
+    (tmp_path / "located.xml").write_text(_pagexml(LETTER_LINES),
+                                          encoding="utf-8")
+    (tmp_path / "adrift.xml").write_text(
+        _pagexml(["Ein völlig anderer Brief über andere Dinge, lang genug dafür."
+                  " " * 3], page_id="99999999"), encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"k0": "\n".join(LETTER_LINES),
+                                       "k1": DECOY})
+
+    scored, _, _ = gs.score_run_dirs(sorted(tmp_path.glob("*.xml")), [run])
+
+    ranked = gs.score_by_reading(scored)
+    located = sum(1 for s in scored if s.located)
+    assert ranked and ranked[0].pages == located
+    assert ranked[0].pages < len(scored), "the unlocated page is not counted"
+
+
+def test_the_quantiles_are_the_ones_arithmetic_says(tmp_path):
+    """Pinned directly, because a median that is quietly a mean would rank the
+    engines by their worst pages and nobody would see it."""
+    assert gs._quantile([], 0.5) == 0.0
+    assert gs._quantile([0.4], 0.5) == 0.4
+    assert gs._quantile([0.1, 0.3], 0.5) == pytest.approx(0.2)
+    assert gs._quantile([0.1, 0.2, 0.3], 0.5) == pytest.approx(0.2)
+    assert gs._quantile([0.0, 0.1, 0.2, 0.3, 0.4], 0.9) == pytest.approx(0.36)
+
+
+def test_without_a_located_page_there_is_no_table(tmp_path):
+    """Better no table than a table of numbers that describe nothing."""
+    (tmp_path / "adrift.xml").write_text(_pagexml(LETTER_LINES),
+                                         encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {"k0": DECOY})
+
+    scored, _, report = gs.score_run_dirs([tmp_path / "adrift.xml"], [run])
+
+    if not any(s.located for s in scored):
+        assert gs.score_by_reading(scored) == []
+        assert "How the readings compare" not in report
+
+
 # ── one bad file costs that file, not the job ────────────────────────────────
 #
 # On 2026-10-02 a harvest of sixteen pages produced no numbers at all:
