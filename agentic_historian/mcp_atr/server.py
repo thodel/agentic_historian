@@ -496,10 +496,18 @@ def build_server(provider=None, auth_settings=None):
         handover that makes a targeted run possible: only pages whose identity is
         settled, because a wrong key there does not produce a bad number — it
         sends every model to read a different page.
+
+        **Asynchronous, like every other long call here.** 552 pages against
+        eight readings is about a quarter of an hour, and on 2026-10-05 this tool
+        ran it inside the server: the broker cut the request at 60 s, the work
+        carried on, and the result reached nobody. It now returns `done` with the
+        output when scoring is quick and a `job_id` when it is not — poll
+        `job_status`, then `job_log`, which ends with the comparison table
+        because the full report goes to the file named in `report`.
         """
         try:
-            return jobs.score_ground_truth(runs, gt_dir=gt_dir, limit=limit,
-                                           keys_out=keys_out)
+            return jobs.score_job(runs, gt_dir=gt_dir, limit=limit,
+                                  keys_out=keys_out)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 

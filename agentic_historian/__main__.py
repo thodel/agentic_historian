@@ -396,21 +396,31 @@ def score_gt(args: argparse.Namespace) -> int:
     The only table in this project that measures quality rather than
     disagreement — because here one side is truth.
     """
-    from gt_score import GroundTruthError, expand_gt_paths, score_run_dirs
+    from gt_score import (GroundTruthError, expand_gt_paths, format_summary,
+                          score_run_dirs)
 
     gt_paths = [g for g in (args.gt or []) if str(g).strip()] or [str(config.GT_ROOT)]
     try:
         files = expand_gt_paths(gt_paths)
+        if getattr(args, "limit", None):
+            files = files[:max(1, int(args.limit))]
         scored, unusable, report = score_run_dirs(
             files, [resolve_run_dir(d) for d in args.run_dir])
     except (GroundTruthError, NotADirectoryError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
-    print(report)
     if args.out:
+        # The full report to the file, the summary to stdout. 552 pages of
+        # per-page sections are the record and not something to read in a
+        # terminal — and when this runs as a job, a log *tail* is all a caller
+        # gets back, so the answer has to be the last thing printed.
         out = Path(args.out).expanduser()
+        out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(report, encoding="utf-8")
-        print(f"\nreport: {out}")
+        print(format_summary(scored, unusable))
+        print(f"\nreport: {out}  ({len(report.splitlines())} lines)")
+    else:
+        print(report)
     doubtful = [s for s in scored if not s.agreed_key]
     if getattr(args, "keys_out", None):
         keys = sorted({s.located for s in scored if s.located})
@@ -785,7 +795,15 @@ def build_parser() -> argparse.ArgumentParser:
     p_sgt.add_argument("--run-dir", required=True, action="append",
                        help="A run directory, or just a run name under "
                             "VLM_TEST_ROOT; repeat for each reading to score")
-    p_sgt.add_argument("--out", help="Also write the report to this path")
+    p_sgt.add_argument("--out",
+                       help="Write the full report here and print only the "
+                            "summary — the counts and the comparison table. "
+                            "Without it the whole report goes to stdout, which "
+                            "for 552 pages is some thousands of lines")
+    p_sgt.add_argument("--limit", type=int, metavar="N",
+                       help="Score only the first N ground-truth files, in path "
+                            "order. For a quick check that the matching works "
+                            "before spending a quarter of an hour on all of them")
     p_sgt.add_argument("--keys-out", metavar="FILE", nargs="?",
                        const=str(Path(config.GT_ROOT) / "gt-keys.txt"),
                        help="Write the matched page keys here, one per line, for "
