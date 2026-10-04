@@ -316,10 +316,19 @@ of the 276 key(s) name a page under dav:digitalisate" — which reads like a
 key-spelling problem and is not one.
 
 **A key that names no page under `--source` is printed on stderr, never dropped
-quietly.** The list is produced somewhere else, so some of it may name pages this
-source does not have; a run that silently read thirteen of sixteen would be
-reported as if it had read all sixteen. None of them matching is an error rather
-than an empty run.
+quietly** — all of them, and `--missing-out PATH` writes them to a file. The list
+is produced somewhere else, so some of it may name pages this source does not
+have; a run that silently read thirteen of sixteen would be reported as if it had
+read all sixteen. None of them matching is an error rather than an empty run.
+
+On 2026-10-04 that list was the deliverable. The share had stopped holding the
+whole `Briefe UB Freiburg` holding — 6722 files where the day before there were
+6742 — and 35 of the 276 ground-truth pages went with it. Those pages still have
+hand-corrected text in Transkribus and no image anywhere, so *which 35* is what
+the people who keep the corpus need. The file is written even when nothing is
+missing, because a dated "all 276 resolved" is evidence where an absent file
+could also mean nobody looked. Pair it with `--no-listing-cache`: the file list
+is kept for 48 h, and a stale list promises pages that are gone.
 
 `--keys-out` writes only **located** pages, which is stricter than the
 `agreed_key` the report prints. Agreement is not identification: with one reading
