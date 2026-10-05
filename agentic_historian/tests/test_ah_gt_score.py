@@ -391,6 +391,34 @@ def test_each_reading_gets_a_median_over_the_pages_it_located(tmp_path):
     assert "median CER" in report
 
 
+def test_a_page_with_two_corrections_weighs_once(tmp_path):
+    """The defect this found in its own first version.
+
+    The Laßberg ground truth describes 66 corpus pages with 138 files, and
+    counting files put 72 pages into every median twice or three times — one
+    section below the paragraph of the same report that warns about exactly that.
+    Several corrections of one page are averaged into one number for it: their
+    disagreement is a property of the corrections, not of the reading.
+    """
+    # Two ground-truth files for page 0, one for page 1.
+    (tmp_path / "a.xml").write_text(_pagexml(PAGES[0], page_id="1"),
+                                    encoding="utf-8")
+    (tmp_path / "b.xml").write_text(_pagexml(PAGES[0], page_id="2"),
+                                    encoding="utf-8")
+    (tmp_path / "c.xml").write_text(_pagexml(PAGES[1], page_id="3"),
+                                    encoding="utf-8")
+    run = _run(tmp_path / "run", "m", {
+        "k0": "\n".join(PAGES[0]), "k1": "\n".join(PAGES[1])})
+
+    scored, _, report = gs.score_run_dirs(sorted(tmp_path.glob("*.xml")), [run])
+
+    located = {s.located for s in scored if s.located}
+    ranked = gs.score_by_reading(scored)
+    assert len(scored) == 3, "three files"
+    assert ranked[0].pages == len(located) <= 2, "at most two pages"
+    assert "more than one ground-truth file" in report
+
+
 def test_a_page_nobody_located_is_in_no_row(tmp_path):
     """Its CER is the distance to whichever page was least unlike it. Averaging
     that in would move every engine by an unknown amount."""

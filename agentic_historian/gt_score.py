@@ -294,19 +294,33 @@ def score_by_reading(scored: list[Scored]) -> list[ReadingScore]:
     `pages` therefore says how many each figure rests on, and the counts can
     differ between readings.
 
+    **And counted once each.** The first version of this counted ground-truth
+    *files*, one section below a paragraph of its own report warning that 66
+    corpus pages of the Laßberg ground truth are described by 138 files: 72 pages
+    went into every median twice or three times. Where a page has several
+    corrected texts they are averaged into one number for it, because their
+    disagreement is a property of the corrections and not of the reading, and the
+    page then weighs the same as every other page.
+
     Median and p90 rather than a corpus-level rate, for the reason
     `docs/EVALUATION_HARNESS.md` gives: two prompts for one vision model differed
     by 17 points corpus-wide and by 0.3 in the median, and the gap was two
     collapsed pages. Best and worst are there to be looked at, not averaged:
     this corpus mixes hands that read at 6 % with hands that read at 45 %.
     """
-    by_reading: dict[str, list[float]] = {}
+    # reading -> located page -> the CERs of that page's ground-truth file(s)
+    per_page: dict[str, dict[str, list[float]]] = {}
     for item in scored:
-        if not item.located:
+        page = item.located
+        if not page:
             continue
         for m in item.matches:
             if m.key:
-                by_reading.setdefault(m.reading, []).append(m.cer)
+                per_page.setdefault(m.reading, {}).setdefault(page, []).append(m.cer)
+    by_reading = {
+        reading: [sum(cers) / len(cers) for cers in pages.values()]
+        for reading, pages in per_page.items()
+    }
     out = [
         ReadingScore(reading=reading, pages=len(cers),
                      median=_quantile(cers, 0.5), p90=_quantile(cers, 0.9),
@@ -383,10 +397,13 @@ def _summary_lines(scored: list[Scored],
             lines.append("")
         ranked = score_by_reading(scored)
         if ranked:
-            located = sum(1 for s in scored if s.located)
+            located = len({s.located for s in scored if s.located})
             lines += [
                 "## How the readings compare", "",
-                f"Over the {located} page(s) whose identity is settled. A page "
+                f"Over the {located} corpus page(s) whose identity is settled, "
+                f"each counted once — where several ground-truth files describe "
+                f"one page their corrected texts are averaged into one number "
+                f"for it. A page "
                 f"the readings could not agree on, or that none of them placed "
                 f"confidently, is left out of every row: its CER is the distance "
                 f"to whichever corpus page happened to be least unlike it, which "
