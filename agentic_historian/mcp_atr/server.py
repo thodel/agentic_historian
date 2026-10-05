@@ -512,6 +512,63 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def export_hf(runs: list[str], gt_dir: str | None = None,
+                  dry_run: bool = True) -> dict:
+        """Assemble the located ground-truth pages into a `pagexml-hf` export
+        tree: one image plus one PAGE XML per page, split into projects.
+
+        It stops at the tree. The upload is `pagexml-hf`, which built every one of
+        the fourteen `dh-unibe/image-text_*` datasets, and a second converter here
+        would mean a second column layout for the trainer to tolerate. The command
+        to run is printed; nothing is uploaded, because publishing a dataset is a
+        public act and not a tool call.
+
+        Asynchronous, like scoring, because the plan has to locate every
+        ground-truth page in the run first.
+
+        ``dry_run`` defaults to **true**: it prints the plan, the project split
+        and the reasons pages were rejected, and writes nothing. Pass false to
+        write the tree, which copies an image per page.
+
+        **The geometry check is always on.** A page whose XML geometry disagrees
+        with its image crops the wrong strip out of every line, and nothing
+        downstream of the dataset would say so. The CLI has a flag to override it
+        for someone looking at the pages; this tool does not offer one.
+        """
+        try:
+            return jobs.export_hf_job(runs, gt_dir=gt_dir, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def upload_hf(tree: str, repo_id: str | None = None,
+                  dry_run: bool = True) -> dict:
+        """Upload an export tree to the Hugging Face hub with `pagexml-hf`.
+
+        ``tree`` is the **name** of a directory under VLM_TEST_ROOT — the one
+        `export_hf` wrote — not a path. `pagexml-hf` owns the parquet layout that
+        all fourteen `dh-unibe/image-text_*` datasets share; this only hands it
+        the tree.
+
+        **Always private.** The CLI can upload without `--private` and asks for a
+        second confirmation when it does; this tool cannot, and the flag is absent
+        from the command it builds. These are unpublished archival images, and a
+        private dataset is the condition under which uploading from a session is
+        an unremarkable act.
+
+        ``dry_run`` defaults to true and checks what otherwise fails minutes into
+        a transfer from inside somebody else's tool: whether the tree is there and
+        pairs an image with every XML file, whether `pagexml-hf` is on PATH,
+        whether a token is configured — reported as present or absent, never
+        printed — and whether the repository id is `owner/name` rather than
+        something that would create a repository nobody meant.
+        """
+        try:
+            return jobs.upload_hf_job(tree, repo_id=repo_id, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def compare_readings(runs: list[str], min_chars: int | None = None,
                          worst: int = 10) -> dict:
         """Pairwise disagreement between two or more runs' readings of the same

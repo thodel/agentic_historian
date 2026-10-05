@@ -20,6 +20,50 @@ So `export-hf` produces that converter's **input** and stops:
 <export>/<project>/page/<page>.xml
 ```
 
+## From a session
+
+`export_hf` over MCP runs the same CLI as a job, so a session that cannot reach
+tei no longer has to dictate the command:
+
+```
+export_hf(runs=["atr_gt_candidates"])                 # plans, writes nothing
+export_hf(runs=["atr_gt_candidates"], dry_run=False)  # writes the tree
+```
+
+```
+upload_hf(tree="hf-export-20261005T143000")                 # checks, uploads nothing
+upload_hf(tree="hf-export-20261005T143000", dry_run=False)  # uploads, private
+```
+
+`tree` is the **name** of a directory under `VLM_TEST_ROOT`, not a path: a caller
+chooses which export to upload and never a location on the host.
+
+**The upload is always private over MCP.** The CLI can upload without
+`--private`, and then demands `--yes` as well, because the difference between the
+two states is whether a collection of unpublished archival images sits on the open
+web — and deleting the dataset afterwards does not undo that. The MCP tool has no
+parameter for it and the flag is absent from the command it builds. Private is
+also what makes an upload from a session unremarkable rather than a publication.
+
+**The geometry check cannot be turned off** from either tool's MCP surface — a
+page whose XML geometry disagrees with its image crops the wrong strip out of
+every line, and nothing downstream of the dataset would say so, which is a thing
+to decide while looking at the pages. `--source` and `--archive` are not passed
+either, for the reason in "Do not pass `$ATR_PAGE_CACHE`" below.
+
+### What the dry run checks
+
+Every one of these otherwise surfaces minutes into a transfer, from inside a tool
+this repository does not own:
+
+| | Why it is checked here |
+|---|---|
+| the tree exists and holds PAGE XML | an empty directory uploads an empty dataset |
+| an image for every XML file | `pagexml-hf` pairs them by stem and silently drops the odd ones |
+| `pagexml-hf` on PATH | otherwise a `FileNotFoundError` from `subprocess` |
+| a token is configured | otherwise a 401 after the first file. Reported as present or absent, never printed |
+| the repo id is `owner/name` | otherwise a repository nobody meant, named after a flag |
+
 ## The run
 
 ```bash

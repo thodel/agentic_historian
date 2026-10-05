@@ -26,6 +26,8 @@ two lines, and labelled as one.
 import sys
 from pathlib import Path
 
+import pytest
+
 
 PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
@@ -462,3 +464,232 @@ def test_it_agrees_with_the_runner_when_the_variable_is_set(monkeypatch, tmp_pat
 
     monkeypatch.setattr(config, "ATR_PAGE_CACHE", tmp_path / "cache")
     assert Path(jobs.cache_dir_for("dav:digitalisate")) == hf.default_source()
+
+
+# ── driving the export from a session ────────────────────────────────────────
+#
+# The build and the upload both have to happen on tei, so a session that cannot
+# reach it was reduced to dictating commands. This is the same job shape as
+# `score_job`, with two things deliberately missing from the surface.
+
+def _jobs():
+    import importlib
+    import sys as _sys
+    if str(PKG) not in _sys.path:
+        _sys.path.insert(0, str(PKG))
+    return importlib.import_module("mcp_atr.jobs")
+
+
+def test_the_argv_is_the_documented_cli():
+    jobs = _jobs()
+    argv = jobs.export_hf_argv([Path("/runs/a")], gt_dir=Path("/gt"),
+                               out=Path("/out/tree"), dry_run=False)
+
+    assert argv[1:4] == ["-m", "agentic_historian", "export-hf"]
+    assert argv[argv.index("--run-dir") + 1] == "/runs/a"
+    assert argv[argv.index("--gt") + 1] == "/gt"
+    assert argv[argv.index("--out") + 1] == "/out/tree"
+    assert "--dry-run" not in argv
+
+
+def test_no_source_or_archive_path_comes_from_the_caller():
+    """`$ATR_PAGE_CACHE`, set but not exported, once named a directory of
+    unrelated images and produced 357 "no image" lines. Both default to the
+    configuration instead."""
+    jobs = _jobs()
+    argv = jobs.export_hf_argv([Path("/runs/a")])
+
+    assert "--source" not in argv
+    assert "--archive" not in argv
+
+
+def test_the_geometry_check_cannot_be_turned_off_from_here():
+    """A page whose XML geometry disagrees with its image crops the wrong strip
+    out of every line, and nothing downstream of the dataset would say so."""
+    jobs = _jobs()
+    argv = jobs.export_hf_argv([Path("/runs/a")], dry_run=False)
+
+    assert "--no-geometry-check" not in argv
+    import inspect
+    assert "no_geometry_check" not in inspect.signature(
+        jobs.export_hf_job).parameters
+
+
+def test_a_dry_run_is_the_default_and_writes_nowhere(monkeypatch, tmp_path):
+    """Writing the tree copies an image per page — gigabytes for this corpus."""
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path / "runs")
+    (tmp_path / "runs" / "atr_gt_candidates").mkdir(parents=True)
+    seen = {}
+
+    def _peek(kind, argv, **kw):
+        seen["kind"], seen["argv"] = kind, list(argv)
+        return {"done": False, "job_id": "j1", "state": "running"}
+
+    monkeypatch.setattr(jobs, "start_and_peek", _peek)
+    result = jobs.export_hf_job(["atr_gt_candidates"])
+
+    assert seen["kind"] == "export-hf"
+    assert "--dry-run" in seen["argv"] and "--out" not in seen["argv"]
+    assert result["out_dir"] is None
+
+
+def test_writing_names_its_own_output_directory(monkeypatch, tmp_path):
+    """Under VLM_TEST_ROOT and stamped, because the CLI refuses a directory that
+    is not empty: a half-written export mixed with an older one would upload
+    both."""
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path / "runs")
+    (tmp_path / "runs" / "atr_gt_candidates").mkdir(parents=True)
+    monkeypatch.setattr(jobs, "start_and_peek",
+                        lambda kind, argv, **kw: {"done": True, "argv": list(argv)})
+
+    result = jobs.export_hf_job(["atr_gt_candidates"], dry_run=False)
+
+    assert result["out_dir"].startswith(str(tmp_path / "runs" / "hf-export-"))
+    assert "--dry-run" not in result["argv"]
+
+
+def test_the_same_containment_rules_as_scoring(monkeypatch, tmp_path):
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+
+    with pytest.raises(jobs.JobError):
+        jobs.export_hf_job(["../../etc"])
+    with pytest.raises(jobs.JobError):
+        jobs.export_hf_job(["a"], gt_dir="../../etc")
+
+
+# ── the upload ───────────────────────────────────────────────────────────────
+#
+# `pagexml-hf` owns the parquet layout; this repository only hands it the tree.
+# What is worth testing here is the preflight — every one of these failures
+# otherwise surfaces minutes into a transfer, from inside a tool this repository
+# does not own — and that private stays private.
+
+def _tree(root: Path, projects=(("lassberg", 2), ("korrespondenten", 1))) -> Path:
+    for name, n in projects:
+        (root / name / "page").mkdir(parents=True, exist_ok=True)
+        for i in range(n):
+            (root / name / f"p{i}.jpg").write_bytes(b"\xff\xd8\xff")
+            (root / name / "page" / f"p{i}.xml").write_text("<PcGts/>",
+                                                            encoding="utf-8")
+    return root
+
+
+def test_the_command_is_private_by_default_and_says_so_explicitly():
+    """A default that lives in somebody else's tool can change between versions,
+    and the difference here is whether unpublished archival images are on the
+    open web."""
+    assert "--private" in hf.upload_argv(Path("/t"), "dh-unibe/x")
+    assert "--private" not in hf.upload_argv(Path("/t"), "dh-unibe/x",
+                                             private=False)
+    argv = hf.upload_argv(Path("/t"), "dh-unibe/x")
+    assert argv[0] == "pagexml-hf"
+    assert argv[argv.index("--mode") + 1] == hf.UPLOAD_MODE
+
+
+def test_a_complete_tree_has_no_problems(tmp_path, monkeypatch):
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "t")
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+
+    plan = hf.inspect_upload(_tree(tmp_path / "tree"), "dh-unibe/x")
+
+    assert plan.ok and plan.pages == 3
+    assert plan.projects == {"lassberg": 2, "korrespondenten": 1}
+
+
+def test_an_image_without_its_xml_is_a_problem(tmp_path, monkeypatch):
+    """`pagexml-hf` pairs them by stem and would silently drop the odd ones."""
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "t")
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+    tree = _tree(tmp_path / "tree")
+    (tree / "lassberg" / "orphan.jpg").write_bytes(b"\xff\xd8\xff")
+
+    plan = hf.inspect_upload(tree, "dh-unibe/x")
+
+    assert not plan.ok
+    assert any("silently drop" in p for p in plan.problems)
+
+
+def test_an_empty_tree_is_a_problem_not_an_empty_dataset(tmp_path, monkeypatch):
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "t")
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+    (tmp_path / "empty").mkdir()
+
+    plan = hf.inspect_upload(tmp_path / "empty", "dh-unibe/x")
+
+    assert not plan.ok and plan.pages == 0
+
+
+@pytest.mark.parametrize("bad", ["", "name", "--private", "a/b/c", "/b"])
+def test_a_repo_id_of_the_wrong_shape_is_refused(tmp_path, monkeypatch, bad):
+    """`pagexml-hf` would otherwise create a repository nobody meant."""
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "t")
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+
+    plan = hf.inspect_upload(_tree(tmp_path / "tree"), bad)
+
+    assert any("owner/name" in p for p in plan.problems)
+
+
+def test_a_missing_token_is_reported_without_being_printed(tmp_path, monkeypatch):
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "")
+    monkeypatch.delenv("HUGGINGFACE_HUB_TOKEN", raising=False)
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+
+    plan = hf.inspect_upload(_tree(tmp_path / "tree"), "dh-unibe/x")
+
+    assert plan.token is False
+    assert any("no Hugging Face token" in p for p in plan.problems)
+
+
+def test_the_token_never_appears_in_the_printed_plan(tmp_path, monkeypatch):
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "hf_secretvalue")
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+
+    text = hf.format_upload(hf.inspect_upload(_tree(tmp_path / "tree"),
+                                              "dh-unibe/x"))
+
+    assert "hf_secretvalue" not in text
+    assert "token     : present" in text
+
+
+def test_a_public_plan_says_so_loudly(tmp_path, monkeypatch):
+    monkeypatch.setattr(hf.config, "HF_TOKEN", "t")
+    monkeypatch.setattr(hf.shutil, "which", lambda name: "/usr/bin/" + name)
+
+    text = hf.format_upload(hf.inspect_upload(_tree(tmp_path / "tree"),
+                                              "dh-unibe/x", private=False))
+
+    assert "** PUBLIC **" in text
+
+
+def test_the_mcp_tool_cannot_upload_publicly():
+    """The CLI can, with a second confirmation. This cannot, and the flag is
+    absent from the argv rather than defaulted to false."""
+    jobs = _jobs()
+    argv = jobs.upload_hf_argv(Path("/runs/tree"), dry_run=False)
+
+    assert "--public" not in argv and "--yes" not in argv
+    import inspect
+    assert "public" not in inspect.signature(jobs.upload_hf_job).parameters
+
+
+def test_the_mcp_tool_takes_a_name_not_a_path(monkeypatch, tmp_path):
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path)
+    _tree(tmp_path / "hf-export-1")
+    monkeypatch.setattr(jobs, "start_and_peek",
+                        lambda kind, argv, **kw: {"done": True, "argv": list(argv)})
+
+    result = jobs.upload_hf_job("hf-export-1")
+
+    assert result["tree"] == str(tmp_path / "hf-export-1")
+    assert result["private"] is True
+    with pytest.raises(jobs.JobError):
+        jobs.upload_hf_job("../../etc")
+    with pytest.raises(jobs.JobError):
+        jobs.upload_hf_job("never-exported")
