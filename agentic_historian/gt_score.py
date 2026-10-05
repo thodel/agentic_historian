@@ -247,6 +247,75 @@ def score(gt_files: Iterable[Path], readings: dict[str, dict[str, str]],
     return out
 
 
+@dataclass
+class ReadingScore:
+    """One reading's error rate over the pages where the page is known."""
+
+    reading: str
+    pages: int
+    median: float
+    p90: float
+    best: float
+    worst: float
+
+    @property
+    def row(self) -> str:
+        return (f"| `{self.reading}` | {self.pages} | {self.median:.1%} | "
+                f"{self.p90:.1%} | {self.best:.1%} | {self.worst:.1%} |")
+
+
+def _quantile(values: list[float], q: float) -> float:
+    """Linear-interpolated quantile of a sorted copy. Empty gives 0.0."""
+    if not values:
+        return 0.0
+    ordered = sorted(values)
+    if len(ordered) == 1:
+        return ordered[0]
+    pos = q * (len(ordered) - 1)
+    low = int(pos)
+    high = min(low + 1, len(ordered) - 1)
+    return ordered[low] + (ordered[high] - ordered[low]) * (pos - low)
+
+
+def score_by_reading(scored: list[Scored]) -> list[ReadingScore]:
+    """Each reading's error rate across the corpus, best median first.
+
+    **The aggregate the per-page sections cannot give you.** Eight engines over
+    241 pages is 1928 numbers, and the question #416 asks — is one of these
+    readings stronger, or are they a field of equals? — is answered by their
+    distributions and not by any single page. Reading it off by hand from 241
+    sections is the kind of arithmetic nobody should do twice.
+
+    **Only pages this reading *located* are counted** (`Scored.located`: the
+    readings agree and at least one of them is confident). A page whose identity
+    is unsettled has a CER that describes nothing — it is the distance to
+    whichever page happened to be least unlike it — and averaging those in would
+    move every engine's number by an unknown amount in an unknown direction.
+    `pages` therefore says how many each figure rests on, and the counts can
+    differ between readings.
+
+    Median and p90 rather than a corpus-level rate, for the reason
+    `docs/EVALUATION_HARNESS.md` gives: two prompts for one vision model differed
+    by 17 points corpus-wide and by 0.3 in the median, and the gap was two
+    collapsed pages. Best and worst are there to be looked at, not averaged:
+    this corpus mixes hands that read at 6 % with hands that read at 45 %.
+    """
+    by_reading: dict[str, list[float]] = {}
+    for item in scored:
+        if not item.located:
+            continue
+        for m in item.matches:
+            if m.key:
+                by_reading.setdefault(m.reading, []).append(m.cer)
+    out = [
+        ReadingScore(reading=reading, pages=len(cers),
+                     median=_quantile(cers, 0.5), p90=_quantile(cers, 0.9),
+                     best=min(cers), worst=max(cers))
+        for reading, cers in by_reading.items() if cers
+    ]
+    return sorted(out, key=lambda r: r.median)
+
+
 def duplicate_pages(scored: list[Scored]) -> dict[str, list[Scored]]:
     """The corpus pages that more than one ground-truth file describes, by key.
 
@@ -267,8 +336,20 @@ def duplicate_pages(scored: list[Scored]) -> dict[str, list[Scored]]:
     return {key: items for key, items in by_key.items() if len(items) > 1}
 
 
-def format_scores(scored: list[Scored], unusable: Optional[list] = None) -> str:
-    """The numbers, with the match's own reliability beside them."""
+def format_summary(scored: list[Scored], unusable: Optional[list] = None) -> str:
+    """Everything but the per-page sections: counts and the comparison table.
+
+    Split out because the two have different readers. 552 pages of sections are
+    the record — worth keeping in a file, unreadable in a terminal and beyond
+    what a log tail or an MCP reply can carry. The summary is the answer, and it
+    is short enough to be the last thing a job prints, which is the part a tail
+    actually shows.
+    """
+    return "\n".join(_summary_lines(scored, unusable))
+
+
+def _summary_lines(scored: list[Scored],
+                   unusable: Optional[list] = None) -> list[str]:
     lines = ["# Readings against ground truth", ""]
     counts: dict[str, int] = {}
     for item in scored:
@@ -300,11 +381,46 @@ def format_scores(scored: list[Scored], unusable: Optional[list] = None) -> str:
             if len(dupes) > 10:
                 lines.append(f"- … {len(dupes) - 10} more")
             lines.append("")
+        ranked = score_by_reading(scored)
+        if ranked:
+            located = sum(1 for s in scored if s.located)
+            lines += [
+                "## How the readings compare", "",
+                f"Over the {located} page(s) whose identity is settled. A page "
+                f"the readings could not agree on, or that none of them placed "
+                f"confidently, is left out of every row: its CER is the distance "
+                f"to whichever corpus page happened to be least unlike it, which "
+                f"is not a reading error. The counts can therefore differ.", "",
+                "| reading | pages | median CER | p90 | best | worst |",
+                "|---|---:|---:|---:|---:|---:|",
+            ]
+            lines += [r.row for r in ranked]
+            lines += [
+                "",
+                "**Sorted by median, and the median is the number to compare.** A "
+                "corpus-level rate would be dominated by the longest pages, and "
+                "this corpus mixes hands: the best and worst columns are four to "
+                "five times apart within a single engine, because Laßberg's own "
+                "hand reads far worse than his correspondents'. An engine that "
+                "happens to have located more of the easier pages would win a "
+                "comparison that ignored that, which is why the stratification "
+                "question in the published report is not a footnote.", "",
+                "Two unrelated German pages of this corpus score about 68 % "
+                "against each other. A median anywhere near that figure is the "
+                "floor — it means the engine is producing German-shaped text "
+                "that does not correspond to the page.", "",
+            ]
         lines += ["DONE and FINAL both count — a page marked DONE has been "
                   "corrected by a human, and this collection never used the GT "
                   "tag. Whether the two are equally reliable is worth watching: "
                   "if the CER splits along that line, the status is telling you "
                   "something about the correction and not about the model.", ""]
+    return lines
+
+
+def format_scores(scored: list[Scored], unusable: Optional[list] = None) -> str:
+    """The numbers, with the match's own reliability beside them."""
+    lines = _summary_lines(scored, unusable)
     for item in scored:
         gt = item.gt
         head = f"## {gt.source.name}"

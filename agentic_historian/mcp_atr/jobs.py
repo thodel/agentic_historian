@@ -340,6 +340,36 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
     return argv
 
 
+def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
+               limit: Optional[int] = None, keys_out: Optional[Path] = None,
+               out: Optional[Path] = None) -> list[str]:
+    """The exact argv for one ``score-gt`` run.
+
+    The documented CLI, for the reason `batch_argv` gives: the MCP path and the
+    terminal path cannot drift, and a job that misbehaves can be reproduced by a
+    person pasting the line.
+
+    It also fixes what made this tool lose its work. Scoring used to run
+    *in-process* inside the MCP server, so a request that took longer than the
+    broker's 60 s was cut while the work went on — 552 pages against eight
+    readings is a quarter of an hour, and on 2026-10-05 the caller got a timeout
+    and the result reached nobody. `share_list` had already been through this and
+    its docstring says so; this is the same answer, a job with a handle.
+    """
+    argv = [_python(), "-m", "agentic_historian", "score-gt"]
+    for run in runs:
+        argv += ["--run-dir", str(run)]
+    if gt_dir is not None:
+        argv += ["--gt", str(gt_dir)]
+    if limit is not None:
+        argv += ["--limit", str(int(limit))]
+    if keys_out is not None:
+        argv += ["--keys-out", str(keys_out)]
+    if out is not None:
+        argv += ["--out", str(out)]
+    return argv
+
+
 def pull_argv(folder: Optional[str] = None, *, limit: Optional[int] = None,
               list_only: bool = False) -> list[str]:
     argv = [_python(), "-m", "agentic_historian", "pull-share"]
@@ -536,6 +566,58 @@ def list_outputs(run: str, model: Optional[str] = None) -> dict:
     return out
 
 
+def score_job(runs: Sequence[str], gt_dir: Optional[str] = None,
+              limit: Optional[int] = None,
+              keys_out: Optional[str] = None) -> dict:
+    """Start a scoring run and report whatever is true within the grace period.
+
+    Validates exactly what `score_ground_truth` validated — run names, a
+    ground-truth directory under the root, a key file name under it — and then
+    hands the work to the documented CLI as a job instead of doing it inside the
+    server. 552 pages against eight readings takes about a quarter of an hour,
+    which no request timeout survives.
+
+    The full report goes to a file beside the run outputs; stdout gets the
+    summary, so the comparison table is the last thing in the log and `job_log`
+    returns it.
+    """
+    names = _score_run_names(runs)
+    folder = _score_gt_dir(gt_dir)
+    keys_file = keys_file_to_write(keys_out) if keys_out else None
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    out = Path(config.VLM_TEST_ROOT) / f"score-gt-{stamp}.md"
+    argv = score_argv([_run_dir(n) for n in names], gt_dir=folder, limit=limit,
+                      keys_out=keys_file, out=out)
+    return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
+            "report": str(out),
+            "keys_file": str(keys_file) if keys_file else None,
+            **start_and_peek("score-gt", argv)}
+
+
+def _score_run_names(runs: Sequence[str]) -> list[str]:
+    """The run names to score, validated and unique."""
+    names: list[str] = []
+    for r in runs or []:
+        name = validate_run(r)
+        if name in names:
+            raise JobError(f"run {name!r} given twice")
+        names.append(name)
+    if not names:
+        raise JobError("scoring needs at least one run")
+    if len(names) > MAX_COMPARE_RUNS:
+        raise JobError(f"{len(names)} runs requested; at most {MAX_COMPARE_RUNS}")
+    return names
+
+
+def _score_gt_dir(gt_dir: Optional[str]) -> Path:
+    """A ground-truth directory under the root, or the root itself."""
+    root = Path(config.GT_ROOT)
+    folder = root / validate_run(gt_dir) if gt_dir else root
+    if not folder.is_dir():
+        raise JobError(f"no ground truth at {folder}")
+    return folder
+
+
 def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
                        limit: Optional[int] = None,
                        keys_out: Optional[str] = None) -> dict:
@@ -548,25 +630,8 @@ def score_ground_truth(runs: Sequence[str], gt_dir: Optional[str] = None,
     The only measurement in this project that is quality rather than disagreement,
     because here one side is truth.
     """
-    names: list[str] = []
-    for r in runs or []:
-        name = validate_run(r)
-        if name in names:
-            raise JobError(f"run {name!r} given twice")
-        names.append(name)
-    if not names:
-        raise JobError("scoring needs at least one run")
-    if len(names) > MAX_COMPARE_RUNS:
-        raise JobError(f"{len(names)} runs requested; at most {MAX_COMPARE_RUNS}")
-
-    root = Path(config.GT_ROOT)
-    if gt_dir:
-        # Same containment rule as a run name, for the same reason.
-        folder = root / validate_run(gt_dir)
-    else:
-        folder = root
-    if not folder.is_dir():
-        raise JobError(f"no ground truth at {folder}")
+    names = _score_run_names(runs)
+    folder = _score_gt_dir(gt_dir)
 
     from gt_score import GroundTruthError, expand_gt_paths, score_run_dirs
 

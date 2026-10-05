@@ -291,3 +291,72 @@ def test_the_argv_carries_the_keys_file(stack):
 def test_no_keys_flag_without_a_keys_file(stack):
     argv = jobs.batch_argv(Path("/corpus"), ["trocr-kurrent"], "r")
     assert "--keys-from" not in argv
+
+
+# ── scoring is a job, because it takes a quarter of an hour ──────────────────
+#
+# 2026-10-05: this tool ran the scoring *inside* the MCP server. The broker cut
+# the request at 60 s, the work carried on to the end, and the result reached
+# nobody — the exact failure `share_list`'s docstring already describes, in a
+# second place.
+
+def test_the_argv_is_the_documented_cli():
+    """So the MCP path and the terminal path cannot drift, and a job that
+    misbehaves can be reproduced by a person pasting the line."""
+    argv = jobs.score_argv([Path("/runs/a"), Path("/runs/b")],
+                           gt_dir=Path("/gt"), limit=5,
+                           keys_out=Path("/gt/keys.txt"),
+                           out=Path("/out/report.md"))
+
+    assert argv[1:4] == ["-m", "agentic_historian", "score-gt"]
+    assert argv.count("--run-dir") == 2
+    assert argv[argv.index("--gt") + 1] == "/gt"
+    assert argv[argv.index("--limit") + 1] == "5"
+    assert argv[argv.index("--keys-out") + 1] == "/gt/keys.txt"
+    assert argv[argv.index("--out") + 1] == "/out/report.md"
+
+
+def test_the_optional_arguments_are_left_out_when_unset():
+    argv = jobs.score_argv([Path("/runs/a")])
+
+    for flag in ("--gt", "--limit", "--keys-out", "--out"):
+        assert flag not in argv
+
+
+def test_the_job_validates_what_the_in_process_version_validated(monkeypatch,
+                                                                 tmp_path):
+    """Same names, same containment: a caller still cannot reach outside the
+    ground-truth root or score the same run twice."""
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+
+    with pytest.raises(jobs.JobError):
+        jobs._score_run_names([])
+    with pytest.raises(jobs.JobError) as err:
+        jobs._score_run_names(["a", "a"])
+    assert "twice" in str(err.value)
+    with pytest.raises(jobs.JobError):
+        jobs._score_gt_dir("../../etc")
+
+    assert jobs._score_gt_dir(None) == tmp_path
+
+
+def test_the_report_goes_to_a_file_so_the_log_tail_is_the_answer(monkeypatch,
+                                                                tmp_path):
+    """`job_log` returns a *tail*. The per-page sections are thousands of lines,
+    so the summary has to be last — which is what `--out` arranges."""
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path / "runs")
+    (tmp_path / "runs" / "atr_gt_candidates").mkdir(parents=True)
+    seen = {}
+
+    def _peek(kind, argv, **kw):
+        seen["kind"], seen["argv"] = kind, list(argv)
+        return {"done": False, "job_id": "j1", "state": "running"}
+
+    monkeypatch.setattr(jobs, "start_and_peek", _peek)
+    result = jobs.score_job(["atr_gt_candidates"])
+
+    assert seen["kind"] == "score-gt"
+    assert "--out" in seen["argv"]
+    assert result["report"].endswith(".md")
+    assert result["job_id"] == "j1"
