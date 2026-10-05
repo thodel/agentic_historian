@@ -422,6 +422,42 @@ def export_hf_job(runs: Sequence[str], gt_dir: Optional[str] = None,
             **start_and_peek("export-hf", argv)}
 
 
+def upload_hf_argv(tree: Path, *, repo_id: Optional[str] = None,
+                   dry_run: bool = True) -> list[str]:
+    """The exact argv for one ``upload-hf`` run. Never ``--public``.
+
+    The CLI can upload a dataset without ``--private``; this cannot, and the flag
+    is simply absent from the argv it builds. Over MCP the destination is always
+    a private repository, which is the condition under which an upload from a
+    session is an unremarkable act rather than a publication.
+    """
+    argv = [_python(), "-m", "agentic_historian", "upload-hf", "--tree", str(tree)]
+    if repo_id:
+        argv += ["--repo-id", repo_id]
+    if dry_run:
+        argv.append("--dry-run")
+    return argv
+
+
+def upload_hf_job(tree: str, repo_id: Optional[str] = None,
+                  dry_run: bool = True) -> dict:
+    """Upload an export tree to the hub, as a job. Private, always.
+
+    ``tree`` is a **name** under VLM_TEST_ROOT, where `export_hf` writes — the
+    same rule `keys_from` follows, so a caller chooses which export to upload and
+    never a path on the host.
+    """
+    name = validate_run(tree)
+    path = Path(config.VLM_TEST_ROOT) / name
+    if not path.is_dir():
+        raise JobError(
+            f"no export tree at {path} — `export_hf` with dry_run=false writes "
+            f"one, and the name here is that directory's name, not a path")
+    argv = upload_hf_argv(path, repo_id=repo_id, dry_run=dry_run)
+    return {"ok": True, "tree": str(path), "private": True,
+            **start_and_peek("upload-hf", argv)}
+
+
 def pull_argv(folder: Optional[str] = None, *, limit: Optional[int] = None,
               list_only: bool = False) -> list[str]:
     argv = [_python(), "-m", "agentic_historian", "pull-share"]

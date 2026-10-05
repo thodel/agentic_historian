@@ -42,6 +42,7 @@ before anything is uploaded.
 
 from __future__ import annotations
 
+import os
 import re
 import shutil
 from dataclasses import dataclass, field
@@ -318,6 +319,126 @@ def format_plan(p: Plan) -> str:
         lines += ["", "first few:"]
         for r in p.rejected[:5]:
             lines.append(f"  - {r.key}: {r.reason}")
+    return "\n".join(lines)
+
+
+#: The dataset the Laßberg pages go to. Named for the collection and the century,
+#: like the fourteen `dh-unibe/image-text_*` datasets `pagexml-hf` already built.
+DEFAULT_REPO_ID = "dh-unibe/image-text_lassberg-correspondence_xix"
+
+#: What `pagexml-hf` should do with the XML. `raw_xml` keeps the PAGE document in
+#: a column beside the image, which is what the trainer's `hf_source.py` reads.
+UPLOAD_MODE = "raw_xml"
+
+#: A hub repository id: owner, slash, name. Checked here because `pagexml-hf`
+#: would otherwise create `thodel/--private` or fail three minutes into an upload.
+_REPO_ID_RE = re.compile(r"^[A-Za-z0-9][\w.-]*/[A-Za-z0-9][\w.-]*$")
+
+
+@dataclass(frozen=True)
+class UploadPlan:
+    """Everything that has to be true before an upload starts, and whether it is."""
+
+    tree: Path
+    repo_id: str
+    private: bool
+    pages: int
+    projects: dict
+    tool: Optional[str]
+    token: bool
+    problems: list
+
+    @property
+    def ok(self) -> bool:
+        return not self.problems
+
+    def as_dict(self) -> dict:
+        return {"tree": str(self.tree), "repo_id": self.repo_id,
+                "private": self.private, "pages": self.pages,
+                "projects": dict(self.projects), "tool": self.tool,
+                "token": self.token, "problems": list(self.problems),
+                "ok": self.ok}
+
+
+def upload_argv(tree: Path, repo_id: str, *, private: bool = True,
+                mode: str = UPLOAD_MODE) -> list[str]:
+    """The `pagexml-hf` command line for one upload.
+
+    `--private` by default and the flag is passed explicitly rather than relied
+    on: a default that lives in somebody else's tool is a default that can change
+    between versions, and the difference between the two states here is whether a
+    collection of unpublished archival images is on the open web.
+    """
+    argv = ["pagexml-hf", str(tree), "--repo-id", repo_id, "--mode", mode]
+    if private:
+        argv.append("--private")
+    return argv
+
+
+def inspect_upload(tree: Path, repo_id: str = DEFAULT_REPO_ID, *,
+                   private: bool = True) -> UploadPlan:
+    """Look at everything an upload needs, and report what is missing.
+
+    Every one of these has a failure mode that otherwise surfaces minutes in, from
+    inside a tool this repository does not own: an empty directory uploads an
+    empty dataset, a repo id of the wrong shape creates a repository nobody meant,
+    a missing `pagexml-hf` is a `FileNotFoundError` from `subprocess`, and a
+    missing token is a 401 after the first file.
+
+    The token is reported as present or absent and never printed.
+    """
+    tree = Path(tree).expanduser()
+    problems: list[str] = []
+    pages, projects = 0, {}
+    if not tree.is_dir():
+        problems.append(f"no export tree at {tree} — run `export-hf --out` first")
+    else:
+        import atr_batch as batch
+
+        exts = {e.lower() for e in batch.IMAGE_EXTS}
+        for project in sorted(d for d in tree.iterdir() if d.is_dir()):
+            xmls = list((project / "page").glob("*.xml"))
+            images = [f for f in project.iterdir()
+                      if f.is_file() and f.suffix.lower() in exts]
+            projects[project.name] = len(xmls)
+            pages += len(xmls)
+            if len(images) != len(xmls):
+                problems.append(
+                    f"{project.name}: {len(images)} image(s) against {len(xmls)} "
+                    f"XML file(s) — `pagexml-hf` pairs them by stem and would "
+                    f"silently drop the odd ones")
+        if not pages:
+            problems.append(f"{tree} holds no PAGE XML — nothing to upload")
+    if not _REPO_ID_RE.match(repo_id or ""):
+        problems.append(f"repo id {repo_id!r} is not owner/name")
+    tool = shutil.which("pagexml-hf")
+    if not tool:
+        problems.append(
+            "`pagexml-hf` is not on PATH — it owns the parquet layout and this "
+            "repository deliberately does not reimplement it "
+            "(github.com/The-Flow-Project/pagexml-hf)")
+    token = bool(config.HF_TOKEN or os.environ.get("HUGGINGFACE_HUB_TOKEN"))
+    if not token:
+        problems.append("no Hugging Face token — set HF_TOKEN in the environment "
+                        "the upload runs in")
+    return UploadPlan(tree=tree, repo_id=repo_id, private=private, pages=pages,
+                      projects=projects, tool=tool, token=token,
+                      problems=problems)
+
+
+def format_upload(plan: UploadPlan) -> str:
+    """The plan, as a person should read it before a few gigabytes move."""
+    lines = [f"tree      : {plan.tree}",
+             f"pages     : {plan.pages}",
+             "projects  : " + (", ".join(f"{k} {v}" for k, v in
+                                          sorted(plan.projects.items())) or "—"),
+             f"repo      : {plan.repo_id}",
+             f"visibility: {'private' if plan.private else '** PUBLIC **'}",
+             f"pagexml-hf: {plan.tool or 'not found'}",
+             f"token     : {'present' if plan.token else 'missing'}"]
+    if plan.problems:
+        lines += ["", f"{len(plan.problems)} problem(s):"]
+        lines += [f"  - {p}" for p in plan.problems]
     return "\n".join(lines)
 
 

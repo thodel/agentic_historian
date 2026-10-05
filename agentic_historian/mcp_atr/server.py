@@ -541,6 +541,34 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def upload_hf(tree: str, repo_id: str | None = None,
+                  dry_run: bool = True) -> dict:
+        """Upload an export tree to the Hugging Face hub with `pagexml-hf`.
+
+        ``tree`` is the **name** of a directory under VLM_TEST_ROOT — the one
+        `export_hf` wrote — not a path. `pagexml-hf` owns the parquet layout that
+        all fourteen `dh-unibe/image-text_*` datasets share; this only hands it
+        the tree.
+
+        **Always private.** The CLI can upload without `--private` and asks for a
+        second confirmation when it does; this tool cannot, and the flag is absent
+        from the command it builds. These are unpublished archival images, and a
+        private dataset is the condition under which uploading from a session is
+        an unremarkable act.
+
+        ``dry_run`` defaults to true and checks what otherwise fails minutes into
+        a transfer from inside somebody else's tool: whether the tree is there and
+        pairs an image with every XML file, whether `pagexml-hf` is on PATH,
+        whether a token is configured — reported as present or absent, never
+        printed — and whether the repository id is `owner/name` rather than
+        something that would create a repository nobody meant.
+        """
+        try:
+            return jobs.upload_hf_job(tree, repo_id=repo_id, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def compare_readings(runs: list[str], min_chars: int | None = None,
                          worst: int = 10) -> dict:
         """Pairwise disagreement between two or more runs' readings of the same

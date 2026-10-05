@@ -521,6 +521,51 @@ def export_hf(args: argparse.Namespace) -> int:
     return 0
 
 
+def hf_default_repo() -> str:
+    """The default dataset id, for the parser's help text."""
+    import hf_export as hf
+
+    return hf.DEFAULT_REPO_ID
+
+
+def upload_hf(args: argparse.Namespace) -> int:
+    """Hand an export tree to `pagexml-hf`, which uploads it to the hub.
+
+    Private by default, and the flag is passed rather than relied on: the
+    difference between the two states is whether a collection of unpublished
+    archival images is on the open web, and a default that lives in somebody
+    else's tool can change between versions.
+    """
+    import subprocess
+
+    import hf_export as hf
+
+    plan = hf.inspect_upload(args.tree, args.repo_id or hf.DEFAULT_REPO_ID,
+                             private=not args.public)
+    print(hf.format_upload(plan))
+    argv = hf.upload_argv(plan.tree, plan.repo_id, private=plan.private)
+    print(f"\ncommand   : {' '.join(argv)}")
+    if not plan.ok:
+        print("\nError: not uploading — fix the problems above", file=sys.stderr)
+        return 1
+    if args.dry_run:
+        print("\n(dry run — nothing uploaded)")
+        return 0
+    if not plan.private and not args.yes:
+        print("\nError: --public needs --yes as well. A dataset of unpublished "
+              "archival images on the open web is not a thing to do by typo.",
+              file=sys.stderr)
+        return 2
+    print()
+    result = subprocess.run(argv)
+    if result.returncode != 0:
+        print(f"\nError: pagexml-hf exited {result.returncode}", file=sys.stderr)
+        return 1
+    where = "private" if plan.private else "PUBLIC"
+    print(f"\nuploaded {plan.pages} page(s) to {plan.repo_id} ({where})")
+    return 0
+
+
 def upload_transkribus(args: argparse.Namespace) -> int:
     """Put the letters in the page cache into a Transkribus collection.
 
@@ -847,6 +892,26 @@ def build_parser() -> argparse.ArgumentParser:
                            "the wrong strip of every page and nothing downstream "
                            "would say so")
     p_hf.set_defaults(func=export_hf)
+
+    p_up = sub.add_parser(
+        "upload-hf",
+        help="Upload an export tree to the hub with pagexml-hf (private)")
+    p_up.add_argument("--tree", required=True,
+                      help="The export tree `export-hf --out` wrote")
+    p_up.add_argument("--repo-id", default=None,
+                      help=f"Dataset repository (default: "
+                           f"{hf_default_repo()})")
+    p_up.add_argument("--public", action="store_true",
+                      help="Upload WITHOUT --private. Needs --yes as well: these "
+                           "are unpublished archival images, and the difference "
+                           "between private and public here is not recoverable "
+                           "by deleting the dataset afterwards")
+    p_up.add_argument("--yes", action="store_true",
+                      help="Confirm a --public upload")
+    p_up.add_argument("--dry-run", action="store_true",
+                      help="Check the tree, the tool, the token and the repo id, "
+                           "print the command, upload nothing")
+    p_up.set_defaults(func=upload_hf)
 
     p_tk = sub.add_parser(
         "upload-transkribus",
