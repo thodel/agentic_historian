@@ -512,6 +512,35 @@ def build_server(provider=None, auth_settings=None):
             return {"ok": False, "error": str(exc)}
 
     @server.tool()
+    def export_hf(runs: list[str], gt_dir: str | None = None,
+                  dry_run: bool = True) -> dict:
+        """Assemble the located ground-truth pages into a `pagexml-hf` export
+        tree: one image plus one PAGE XML per page, split into projects.
+
+        It stops at the tree. The upload is `pagexml-hf`, which built every one of
+        the fourteen `dh-unibe/image-text_*` datasets, and a second converter here
+        would mean a second column layout for the trainer to tolerate. The command
+        to run is printed; nothing is uploaded, because publishing a dataset is a
+        public act and not a tool call.
+
+        Asynchronous, like scoring, because the plan has to locate every
+        ground-truth page in the run first.
+
+        ``dry_run`` defaults to **true**: it prints the plan, the project split
+        and the reasons pages were rejected, and writes nothing. Pass false to
+        write the tree, which copies an image per page.
+
+        **The geometry check is always on.** A page whose XML geometry disagrees
+        with its image crops the wrong strip out of every line, and nothing
+        downstream of the dataset would say so. The CLI has a flag to override it
+        for someone looking at the pages; this tool does not offer one.
+        """
+        try:
+            return jobs.export_hf_job(runs, gt_dir=gt_dir, dry_run=dry_run)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
     def compare_readings(runs: list[str], min_chars: int | None = None,
                          worst: int = 10) -> dict:
         """Pairwise disagreement between two or more runs' readings of the same

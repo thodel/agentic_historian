@@ -20,6 +20,24 @@ So `export-hf` produces that converter's **input** and stops:
 <export>/<project>/page/<page>.xml
 ```
 
+## From a session
+
+`export_hf` over MCP runs the same CLI as a job, so a session that cannot reach
+tei no longer has to dictate the command:
+
+```
+export_hf(runs=["atr_gt_candidates"])                 # plans, writes nothing
+export_hf(runs=["atr_gt_candidates"], dry_run=False)  # writes the tree
+```
+
+Two things are deliberately absent from that surface. **The geometry check cannot
+be turned off** — a page whose XML geometry disagrees with its image crops the
+wrong strip out of every line, and nothing downstream of the dataset would say
+so, which is a thing to decide while looking at the pages. And **nothing is
+uploaded**: the `pagexml-hf` command is printed for a person to run, because
+publishing a dataset is a public act. `--source` and `--archive` are not passed
+either, for the reason in "Do not pass `$ATR_PAGE_CACHE`" below.
+
 ## The run
 
 ```bash

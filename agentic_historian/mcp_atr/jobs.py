@@ -370,6 +370,58 @@ def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
     return argv
 
 
+def export_hf_argv(runs: Sequence[Path], *, gt_dir: Optional[Path] = None,
+                   out: Optional[Path] = None,
+                   dry_run: bool = True) -> list[str]:
+    """The exact argv for one ``export-hf`` run.
+
+    The documented CLI again, for the reason `batch_argv` gives. ``--source`` and
+    ``--archive`` are left off deliberately: both default to the configuration,
+    and a path from a caller is how `$ATR_PAGE_CACHE` — set but not exported —
+    once named a directory of unrelated images and produced 357 "no image" lines.
+    """
+    argv = [_python(), "-m", "agentic_historian", "export-hf"]
+    for run in runs:
+        argv += ["--run-dir", str(run)]
+    if gt_dir is not None:
+        argv += ["--gt", str(gt_dir)]
+    if out is not None:
+        argv += ["--out", str(out)]
+    if dry_run:
+        argv.append("--dry-run")
+    return argv
+
+
+def export_hf_job(runs: Sequence[str], gt_dir: Optional[str] = None,
+                  dry_run: bool = True) -> dict:
+    """Plan — or write — the `pagexml-hf` export tree, as a job.
+
+    Same shape as `score_job`, and for the same reason: the plan has to score the
+    ground truth against the run first, which is a quarter of an hour of work
+    that no request timeout survives.
+
+    **The geometry check cannot be turned off from here.** The CLI has a flag for
+    it; this tool does not pass it. A page whose XML geometry disagrees with its
+    image crops the wrong strip out of every line, and nothing downstream of the
+    dataset would say so — that is a thing to decide while looking at the pages,
+    not through a tool call. Likewise the destination repository: this prints the
+    `pagexml-hf` command and uploads nothing, because an upload is a public act.
+
+    ``dry_run`` defaults to **true**. Writing the tree copies an image per page,
+    which for this corpus is some gigabytes, and a caller who meant to look at
+    the plan should not discover that by filling a disk.
+    """
+    names = _score_run_names(runs)
+    folder = _score_gt_dir(gt_dir)
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    out = None if dry_run else Path(config.VLM_TEST_ROOT) / f"hf-export-{stamp}"
+    argv = export_hf_argv([_run_dir(n) for n in names], gt_dir=folder, out=out,
+                          dry_run=dry_run)
+    return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
+            "out_dir": str(out) if out else None,
+            **start_and_peek("export-hf", argv)}
+
+
 def pull_argv(folder: Optional[str] = None, *, limit: Optional[int] = None,
               list_only: bool = False) -> list[str]:
     argv = [_python(), "-m", "agentic_historian", "pull-share"]

@@ -26,6 +26,8 @@ two lines, and labelled as one.
 import sys
 from pathlib import Path
 
+import pytest
+
 
 PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
@@ -462,3 +464,99 @@ def test_it_agrees_with_the_runner_when_the_variable_is_set(monkeypatch, tmp_pat
 
     monkeypatch.setattr(config, "ATR_PAGE_CACHE", tmp_path / "cache")
     assert Path(jobs.cache_dir_for("dav:digitalisate")) == hf.default_source()
+
+
+# ── driving the export from a session ────────────────────────────────────────
+#
+# The build and the upload both have to happen on tei, so a session that cannot
+# reach it was reduced to dictating commands. This is the same job shape as
+# `score_job`, with two things deliberately missing from the surface.
+
+def _jobs():
+    import importlib
+    import sys as _sys
+    if str(PKG) not in _sys.path:
+        _sys.path.insert(0, str(PKG))
+    return importlib.import_module("mcp_atr.jobs")
+
+
+def test_the_argv_is_the_documented_cli():
+    jobs = _jobs()
+    argv = jobs.export_hf_argv([Path("/runs/a")], gt_dir=Path("/gt"),
+                               out=Path("/out/tree"), dry_run=False)
+
+    assert argv[1:4] == ["-m", "agentic_historian", "export-hf"]
+    assert argv[argv.index("--run-dir") + 1] == "/runs/a"
+    assert argv[argv.index("--gt") + 1] == "/gt"
+    assert argv[argv.index("--out") + 1] == "/out/tree"
+    assert "--dry-run" not in argv
+
+
+def test_no_source_or_archive_path_comes_from_the_caller():
+    """`$ATR_PAGE_CACHE`, set but not exported, once named a directory of
+    unrelated images and produced 357 "no image" lines. Both default to the
+    configuration instead."""
+    jobs = _jobs()
+    argv = jobs.export_hf_argv([Path("/runs/a")])
+
+    assert "--source" not in argv
+    assert "--archive" not in argv
+
+
+def test_the_geometry_check_cannot_be_turned_off_from_here():
+    """A page whose XML geometry disagrees with its image crops the wrong strip
+    out of every line, and nothing downstream of the dataset would say so."""
+    jobs = _jobs()
+    argv = jobs.export_hf_argv([Path("/runs/a")], dry_run=False)
+
+    assert "--no-geometry-check" not in argv
+    import inspect
+    assert "no_geometry_check" not in inspect.signature(
+        jobs.export_hf_job).parameters
+
+
+def test_a_dry_run_is_the_default_and_writes_nowhere(monkeypatch, tmp_path):
+    """Writing the tree copies an image per page — gigabytes for this corpus."""
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path / "runs")
+    (tmp_path / "runs" / "atr_gt_candidates").mkdir(parents=True)
+    seen = {}
+
+    def _peek(kind, argv, **kw):
+        seen["kind"], seen["argv"] = kind, list(argv)
+        return {"done": False, "job_id": "j1", "state": "running"}
+
+    monkeypatch.setattr(jobs, "start_and_peek", _peek)
+    result = jobs.export_hf_job(["atr_gt_candidates"])
+
+    assert seen["kind"] == "export-hf"
+    assert "--dry-run" in seen["argv"] and "--out" not in seen["argv"]
+    assert result["out_dir"] is None
+
+
+def test_writing_names_its_own_output_directory(monkeypatch, tmp_path):
+    """Under VLM_TEST_ROOT and stamped, because the CLI refuses a directory that
+    is not empty: a half-written export mixed with an older one would upload
+    both."""
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path / "runs")
+    (tmp_path / "runs" / "atr_gt_candidates").mkdir(parents=True)
+    monkeypatch.setattr(jobs, "start_and_peek",
+                        lambda kind, argv, **kw: {"done": True, "argv": list(argv)})
+
+    result = jobs.export_hf_job(["atr_gt_candidates"], dry_run=False)
+
+    assert result["out_dir"].startswith(str(tmp_path / "runs" / "hf-export-"))
+    assert "--dry-run" not in result["argv"]
+
+
+def test_the_same_containment_rules_as_scoring(monkeypatch, tmp_path):
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+
+    with pytest.raises(jobs.JobError):
+        jobs.export_hf_job(["../../etc"])
+    with pytest.raises(jobs.JobError):
+        jobs.export_hf_job(["a"], gt_dir="../../etc")
