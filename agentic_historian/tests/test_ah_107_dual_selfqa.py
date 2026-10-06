@@ -47,7 +47,7 @@ def test_run_vlm_calls_model_exactly_once(monkeypatch, tmp_path):
 
     img = tmp_path / "scan.jpg"
     img.write_bytes(b"\xff\xd8\xff")
-    text, score = dp._run_vlm(img)
+    text, score, _ = dp._run_vlm(img)
 
     assert len(calls) == 1, f"VLM called {len(calls)} times — self-QA not removed"
     assert calls[0]["temperature"] == 0.0, "diplomatic transcription must be temperature 0.0"
@@ -65,5 +65,5 @@ def test_run_vlm_handles_failure(monkeypatch, tmp_path):
     monkeypatch.setattr(dp.gs, "chat_vision", _boom)
     img = tmp_path / "scan.jpg"
     img.write_bytes(b"\xff\xd8\xff")
-    text, score = dp._run_vlm(img)
+    text, score, _ = dp._run_vlm(img)
     assert text == "" and score == 0.0

@@ -195,11 +195,18 @@ def chat_text(prompt: str, system: Optional[str] = None, **kwargs) -> str:
     return chat(prompt, model=config.GPUSTACK_MODEL_TEXT, system=system, **kwargs)
 
 
-def chat_vision(prompt: str, image_source: str, system: Optional[str] = None, **kwargs) -> str:
-    """Vision-Call (VLM, default qwen3.8-27b)."""
+def chat_vision(prompt: str, image_source: str, system: Optional[str] = None,
+                model: Optional[str] = None, **kwargs) -> str:
+    """Vision-Call (VLM). ``model`` defaults to ``GPUSTACK_MODEL_VISION``.
+
+    The parameter exists because the caller has to be able to *say* which VLM
+    it is using (#537). Without it ``_run_vlm`` took a model argument it could
+    not act on, and the reading was recorded under a name nobody had asked the
+    gateway for.
+    """
     return chat(
         prompt,
-        model=config.GPUSTACK_MODEL_VISION,
+        model=model or config.GPUSTACK_MODEL_VISION,
         system=system,
         image_source=image_source,
         **kwargs,
