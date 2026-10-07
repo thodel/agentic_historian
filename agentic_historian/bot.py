@@ -484,6 +484,96 @@ async def votes_queue_cmd(
 
 
 @bot.slash_command(
+    name="campaign",
+    description="Stimm-Kampagne auf einem Bestand starten (Budget in Karten)")
+@admin_only
+async def campaign_cmd(
+    ctx,
+    bestand: Option(str, "doc_id-Präfix, z. B. BAT_664 — leer = ganzes Korpus",
+                    required=False),
+    budget: Option(int, "Wie viele Karten posten (Standard 10)", required=False),
+):
+    """A bounded vote campaign on one holding (#399).
+
+    Admin-gated because it posts up to `MAX_BUDGET` cards and opens a thread.
+    Every Discord touch is handed to `campaign.post_cards` as a seam, so the
+    budget, the spacing and the bookkeeping are the same code the offline tests
+    exercise.
+
+    The plan is shown before anything is posted: a budget in *cards* can be many
+    more decisions, because one Gate-2 card carries every page of its document.
+    """
+    import campaign as camp
+    import ingest
+    import path_compare
+    import persistent_views
+
+    await ctx.defer()
+    the_plan = camp.plan(bestand or "", budget or camp.DEFAULT_BUDGET)
+    for message in camp.format_plan(the_plan):
+        await ctx.followup.send(message)
+    if not the_plan.cards:
+        return
+
+    async def _open_thread(name):
+        return await ctx.channel.create_thread(
+            name=f"Abstimmung {bestand or 'Korpus'} · {name}"[:100],
+            type=discord.ChannelType.public_thread)
+
+    async def _post(thread, state, paths, text):
+        runners = (ingest.build_stage_runners(state)
+                   if config.AUTO_RESUME_AFTER_GATE else None)
+        view = path_compare.build_view(state, paths, runners=runners)
+        target = thread or ctx.followup
+        msg = await target.send(text, view=view)
+        if msg is not None:
+            # Persisted so the buttons survive a bot restart (#150) — a campaign
+            # is answered over hours, which is longer than a bot uptime.
+            persistent_views.store_message_id(state, "gate2", msg.id)
+
+    started = await camp.post_cards(
+        the_plan, post=_post, open_thread=_open_thread,
+        started_by=str(getattr(getattr(ctx, "author", None), "id", "") or ""),
+        channel_id=int(getattr(getattr(ctx, "channel", None), "id", 0) or 0) or None)
+    await ctx.followup.send(
+        f"🎯 Kampagne `{started.campaign_id}` läuft — Bericht mit "
+        f"`/campaign_status`.")
+
+
+@bot.slash_command(
+    name="campaign_status",
+    description="Abdeckungsbericht einer Stimm-Kampagne")
+@require_role
+async def campaign_status_cmd(
+    ctx,
+    bestand: Option(str, "Bestand der Kampagne (leer = neueste)", required=False),
+    beenden: Option(bool, "Kampagne abschliessen und Zahlen einfrieren",
+                    required=False),
+):
+    """The campaign's coverage report (#399).
+
+    Completion is derived from the preference log through G1's `decided_pages`,
+    never from a counter this command keeps — a second source of truth about
+    whether a page was voted would drift the first time a card was answered
+    outside the thread.
+    """
+    import campaign as camp
+
+    await ctx.defer(ephemeral=True)
+    found = camp.latest(bestand or None)
+    if found is None:
+        await ctx.followup.send(
+            "Keine Kampagne gefunden — `/campaign <bestand>` startet eine.",
+            ephemeral=True)
+        return
+    if beenden:
+        camp.end(found)
+    prog = camp.progress(found)
+    for message in camp.format_report(found, prog):
+        await ctx.followup.send(message, ephemeral=True)
+
+
+@bot.slash_command(
     name="reprocess",
     description="Re-process a document after correcting criteria or stages",
 )
