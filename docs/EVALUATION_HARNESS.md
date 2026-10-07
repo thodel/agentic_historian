@@ -114,3 +114,77 @@ read as "clean crop" until someone looked at the image.
 sample sets rather than over lines. Corpus-level CER is the usable proxy; on one
 corpus it agreed with the group mean to two hundredths while the per-line mean
 was three points off.
+
+## Measuring a VLM before it joins the ensemble (#541)
+
+`eval/vlm_bench.py` answers one question: should this VLM be allowed to run on
+real material? It exists because the project has exactly one VLM comparison and
+that comparison is a warning — AH-11, 07.09.2026, 291 lines over 8 Inzigkofen
+pages, `qwen3.8-27b` at 27.7 % CER against `internvl3-8b` at **189.8 %**. Two
+models both carried as "vision-capable", a factor of nearly seven apart.
+
+Two phases, deliberately separate. `run` needs the GPU and the gateway; `score`
+needs neither and holds every judgement, so the analysis is reviewable, re-runnable
+and testable without one.
+
+```bash
+# On the machine that can reach the gateway:
+python -m eval.vlm_bench run \
+    --pages /path/to/inzigkofen/pages \
+    --out   runs/vlm-bench-2026-10
+
+# Anywhere, including CI:
+python -m eval.vlm_bench score \
+    --run runs/vlm-bench-2026-10 \
+    --gt  /path/to/pagexml \
+    --out docs/VLM_BENCH_2026-10.md
+```
+
+`--models a,b` restricts the run; the default is every candidate both registries
+report — GPUStack's `VLM_MODELS` and the gateway's `engine: vllm` entries (#540).
+The run is model-major, because the gateway's vLLM models are lazy on one GPU and
+interleaving them pays a model load per page.
+
+The run directory is the project's standard shape, `<run>/<model>/<key>.txt`, so
+`compare-runs` and `score-gt` read it with no new loader. **A page the candidate
+failed on gets a `.json` record and no `.txt`** — an empty file would score as
+100 % CER and make "the service was down" indistinguishable from "the model read
+nothing".
+
+### What the report separates, and why each separation is load-bearing
+
+**Line-level from page-level.** Five of the gateway's seven VLMs are `level: line`;
+`qwen3.8-27b` reads a page, and `/recognize` does not auto-segment the way `/ocr`
+does for TrOCR. One median over both measures the segmentation and calls it model
+quality. The two tables are printed with an explicit note that they cannot be read
+against each other.
+
+**The collapse share from the central tendency.** This document already records the
+effect from the other side: two prompts for one model differed by 17 points
+corpus-wide and by 0.3 in the median, and the gap was two collapsed pages. The
+bench reports collapses as a count and a share, using the pipeline's own
+`_is_degenerate` rather than a second definition.
+
+**Coverage from quality.** A candidate that answered on 3 of 8 pages has a median
+over 3 pages, and the table says so.
+
+**The fused text from the best single one.** #416's question, restricted to the
+bench's candidates. Fusion runs with arbitration off, so scoring makes no LLM call
+— a bench that needed a model to score a model would not run in CI.
+
+### Two things it refuses to do
+
+**It does not rank two working models.** Below 8 located pages a candidate is marked
+⚠ and its figures order nothing; the report says so whatever the page count, because
+the limit is the sample and not the arithmetic. The signal may say **veto, not
+rank** — the same conclusion #491 reached for perplexity, where using a veto as a
+ranking certified the step doing the damage.
+
+**It does not let the candidates under test decide which page they are reading.**
+Ground truth is matched by content, and a bench deliberately contains candidates
+that collapse or answer on two pages out of twenty. Both vote the same wrong way: a
+collapsed reading is the same text on every page, a one-page reading has one answer
+to give. On the first real run of this bench the two of them cost 2 of 3 pages for
+*every* candidate including the good ones. Locating therefore counts only readings
+that are non-degenerate and hold at least two pages — and the excluded candidate is
+still scored on the page. The collapse is the finding, not a reason to lose the page.
