@@ -438,16 +438,21 @@ def test_top_k_counts_rows_that_passed_the_filter(index):
     assert {h.passage["entity_type"] for h in hits} == {"ROLE"}
 
 
-def test_the_filter_names_only_what_the_schema_has():
-    """#396 asks to filter by "the Q1 dimensions (type, bestand, date range)".
-    Only the first exists: #395's table has no `bestand` column and no date at
-    all. Named rather than silently dropped."""
-    columns = {c for c in pe.FILTERABLE if c != "doc_prefix"}
+def test_the_filter_names_only_columns_that_exist(index):
+    """Every name in `FILTERABLE` has to be a real column, or a filter is an
+    `OperationalError` waiting for its first caller. Held against the live
+    table rather than a copied list, so the two cannot drift."""
+    columns = {r[1] for r in pe._db().execute("PRAGMA table_info(passages)")}
 
-    assert columns <= {"doc_id", "page", "entity_type", "text", "normalised",
-                       "char_start", "char_end", "context", "hub_id",
-                       "gnd_id", "hls_id", "created_at"}
-    assert "bestand" not in pe.FILTERABLE
+    assert {c for c in pe.FILTERABLE if c != "doc_prefix"} <= columns
+    assert "bestand" in columns
+
+
+def test_a_date_range_is_still_not_filterable():
+    """And not because it is hard: a passage carries no date. The entity type
+    `DATE` is a mention *inside* a text, which is a different thing from when
+    the document was written, and nothing in the pipeline establishes the
+    latter. Named rather than silently dropped."""
     assert not any("date" in f for f in pe.FILTERABLE)
 
 
@@ -753,3 +758,68 @@ def test_the_swept_store_still_answers_a_search(index):
     hits = pe.search("wer versorgte die armen", embedder=near)
 
     assert [h.passage["normalised"] for h in hits] == ["almosen"]
+
+
+# ── searching one holding (#396's migration) ───────────────────────────────
+
+def held(normalised, *, doc_id, bestand, context="", start=0):
+    return {"doc_id": doc_id, "page": 1, "bestand": bestand,
+            "entity_type": "CARE_ACTION", "text": normalised,
+            "normalised": normalised, "char_start": start,
+            "char_end": start + len(normalised), "context": context}
+
+
+def test_a_holding_filter_narrows_before_ranking(index):
+    pi.upsert_passages("m1", [held("almosen", doc_id="m1", bestand="Marbach",
+                                   context="gab almosen den armen")])
+    pi.upsert_passages("i1", [held("almosen", doc_id="i1", bestand="Inzigkofen",
+                                   context="gab almosen den armen")])
+    fake = Fake()
+    pe.embed_passages(embedder=fake)
+
+    hits = pe.search("armen", bestand="Marbach", embedder=fake)
+
+    assert [h.passage["doc_id"] for h in hits] == ["m1"]
+
+
+def test_a_passage_without_a_holding_is_not_found_under_one(index):
+    """Serving rows of unknown provenance under a holding's name is worse than
+    not finding them."""
+    pi.upsert_passages("m1", [held("almosen", doc_id="m1", bestand="Marbach",
+                                   context="gab almosen")])
+    pi.upsert_passages("x1", [held("almosen", doc_id="x1", bestand=None,
+                                   context="gab almosen")])
+    fake = Fake()
+    pe.embed_passages(embedder=fake)
+
+    assert len(pe.search("almosen", bestand="Marbach", embedder=fake)) == 1
+    assert len(pe.search("almosen", embedder=fake)) == 2
+
+
+def test_a_holding_and_a_type_compose(index):
+    pi.upsert_passages("m1", [
+        held("almosen", doc_id="m1", bestand="Marbach", context="gab almosen"),
+        dict(held("vogt", doc_id="m1", bestand="Marbach",
+                  context="der vogt", start=40), entity_type="ROLE"),
+    ])
+    fake = Fake()
+    pe.embed_passages(embedder=fake)
+
+    hits = pe.search("almosen", bestand="Marbach", entity_type="ROLE",
+                     embedder=fake)
+
+    assert [h.passage["normalised"] for h in hits] == ["vogt"]
+
+
+def test_a_holding_nobody_has_costs_no_embedding_call(index):
+    pi.upsert_passages("m1", [held("almosen", doc_id="m1", bestand="Marbach",
+                                   context="gab almosen")])
+    pe.embed_passages(embedder=Fake())
+    calls = {"n": 0}
+
+    def counting(texts):
+        calls["n"] += 1
+        return [Fake.vector(t) for t in texts]
+
+    assert pe.search("almosen", bestand="Nowhere", embedder=counting) == []
+    assert calls["n"] == 0

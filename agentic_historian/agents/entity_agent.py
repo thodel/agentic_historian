@@ -61,8 +61,26 @@ SYSTEM = (
 VOCAB_TYPES = {"SOCIAL_GROUP", "CARE_ACTION", "CARE_ACTOR", "ROLE"}
 
 
+def bestand_from_doc_id(doc_id: str, sep: str = "__") -> Optional[str]:
+    """The holding a `doc_id` names, by the batch runner's convention.
+
+    `PageRef.key` folds a page's path relative to the corpus root on ``__``, so
+    ``Marbach__letter-0001__001`` begins with its holding. A caller that knows
+    its ids follow that shape can use this; the store applies **no** such rule
+    of its own, because `ingest.py` and the batch path mint ids differently and
+    a convention the store enforced would turn the first exception into wrong
+    data rather than a missing value (#396).
+
+    None when there is no leading component to take — one segment is a document
+    with no holding above it, not a holding.
+    """
+    parts = [p for p in (doc_id or "").split(sep) if p]
+    return parts[0] if len(parts) > 1 else None
+
+
 def passage_records(doc_id: str, entities: list[dict],
-                    *, page: int = 1) -> list[dict]:
+                    *, page: int = 1,
+                    bestand: Optional[str] = None) -> list[dict]:
     """Index rows for the vocabulary-typed occurrences of one document (#467).
 
     Two filters, and both are the point.
@@ -98,6 +116,9 @@ def passage_records(doc_id: str, entities: list[dict],
         rows.append({
             "doc_id": doc_id,
             "page": page,
+            # None, not a guess: a holding nobody named is absent (#396). See
+            # `bestand_from_doc_id` for the convention a caller may opt into.
+            "bestand": bestand,
             "entity_type": ent["type"],
             "text": text,
             # The store requires one; the model does not always give one.
@@ -112,7 +133,8 @@ def passage_records(doc_id: str, entities: list[dict],
     return rows
 
 
-def _index_passages(doc_id: str, enriched: dict, *, page: int = 1) -> int:
+def _index_passages(doc_id: str, enriched: dict, *, page: int = 1,
+                    bestand: Optional[str] = None) -> int:
     """Write this document's passages. Returns the row count.
 
     Its own step rather than a line inside `_save`, which writes two files and
@@ -125,7 +147,8 @@ def _index_passages(doc_id: str, enriched: dict, *, page: int = 1) -> int:
     at warning, because a silent failure here would leave the corpus searchable
     and incomplete with nothing to show for it.
     """
-    rows = passage_records(doc_id, enriched.get("entities", []), page=page)
+    rows = passage_records(doc_id, enriched.get("entities", []), page=page,
+                           bestand=bestand)
     try:
         written = passage_index.upsert_passages(doc_id, rows)
     except Exception as e:                      # noqa: BLE001 — see docstring
@@ -137,19 +160,26 @@ def _index_passages(doc_id: str, enriched: dict, *, page: int = 1) -> int:
     return written
 
 
-def extract_entities(doc_id: str, transcription: str, page: int = 1) -> dict:
+def extract_entities(doc_id: str, transcription: str, page: int = 1,
+                     bestand: Optional[str] = None) -> dict:
     """Führt Entity Extraction für ein Dokument durch.
 
     ``page`` is the page these offsets are into. It defaults to 1 because a
     `doc_id` carries exactly one transcription today, and the store's column is
     `NOT NULL`; the parameter exists so a caller that splits a document into
     pages can say which one rather than having every row claim page 1.
+
+    ``bestand`` is the holding, and it is a parameter rather than something
+    derived here: the caller knows, and a rule applied in the store would turn
+    the first doc_id that does not follow the convention into wrong data
+    instead of a missing value. `bestand_from_doc_id` is that convention, for a
+    caller that wants to opt into it.
     """
     logger.info(f"[Agent C] Extrahiere Entitäten: {doc_id}")
     raw_entities = _extract_llm(transcription)
     enriched = _enrich(raw_entities)
     _save(doc_id, enriched, transcription)
-    _index_passages(doc_id, enriched, page=page)
+    _index_passages(doc_id, enriched, page=page, bestand=bestand)
     count = len(enriched.get("entities", []))
     logger.info(f"[Agent C] Fertig: {doc_id} ({count} Entitäten)")
     return enriched

@@ -194,3 +194,144 @@ def test_a_malformed_batch_deletes_nothing(test_db, sample_records):
         passage_index.upsert_passages("doc-A", [{"doc_id": "doc-A"}])
 
     assert passage_index.passage_count("doc-A") == 2
+
+
+# ── the bestand column, and reaching a database that predates it (#396) ────
+
+def _legacy_db(path):
+    """A passages table exactly as it shipped before `bestand` existed.
+
+    Written by hand rather than by checking out the old module: what has to be
+    migrated is a FILE, and the file is what this reproduces.
+    """
+    import sqlite3
+
+    db = sqlite3.connect(path)
+    db.executescript("""
+        CREATE TABLE passages (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            doc_id          TEXT    NOT NULL,
+            page            INTEGER NOT NULL,
+            entity_type     TEXT    NOT NULL,
+            text            TEXT    NOT NULL,
+            normalised      TEXT    NOT NULL,
+            char_start      INTEGER NOT NULL,
+            char_end        INTEGER NOT NULL,
+            context         TEXT,
+            hub_id          TEXT,
+            gnd_id          TEXT,
+            hls_id          TEXT,
+            created_at      TEXT    NOT NULL,
+            UNIQUE(doc_id, char_start, char_end, normalised, entity_type)
+        );
+    """)
+    db.execute(
+        "INSERT INTO passages (doc_id, page, entity_type, text, normalised,"
+        " char_start, char_end, context, created_at)"
+        " VALUES ('old-doc', 1, 'ROLE', 'vogt', 'vogt', 0, 4, 'der vogt', 'then')")
+    db.commit()
+    db.close()
+
+
+def test_an_existing_database_gains_the_column(tmp_path):
+    """`CREATE TABLE IF NOT EXISTS` does nothing to a database that already
+    exists, so a column added to the statement never reaches one — the only
+    symptom being an OperationalError on the first query that names it."""
+    path = tmp_path / "legacy.db"
+    _legacy_db(path)
+
+    passage_index._reset_test_db(path)
+    try:
+        columns = {r[1] for r in
+                   passage_index._get_db().execute("PRAGMA table_info(passages)")}
+        assert "bestand" in columns
+    finally:
+        passage_index._teardown_test_db()
+
+
+def test_the_rows_that_were_already_there_survive_the_migration(tmp_path):
+    """ALTER TABLE ADD COLUMN on a nullable column rewrites no rows. The point
+    of the migration is that a corpus somebody spent hours filling is still
+    there afterwards."""
+    path = tmp_path / "legacy.db"
+    _legacy_db(path)
+
+    passage_index._reset_test_db(path)
+    try:
+        rows = passage_index.query_passages(doc_id="old-doc")
+        assert len(rows) == 1
+        assert rows[0]["normalised"] == "vogt"
+        assert rows[0]["bestand"] is None, "nobody said which holding"
+    finally:
+        passage_index._teardown_test_db()
+
+
+def test_migrating_twice_is_harmless(tmp_path):
+    """It runs on every connect rather than behind a version counter nobody
+    would remember to bump, so it has to be idempotent."""
+    path = tmp_path / "legacy.db"
+    _legacy_db(path)
+
+    for _ in range(3):
+        passage_index._reset_test_db(path)
+        passage_index._get_db()
+        passage_index._teardown_test_db()
+
+    passage_index._reset_test_db(path)
+    try:
+        assert passage_index.passage_count("old-doc") == 1
+    finally:
+        passage_index._teardown_test_db()
+
+
+def test_a_migrated_database_accepts_a_bestand(tmp_path):
+    path = tmp_path / "legacy.db"
+    _legacy_db(path)
+
+    passage_index._reset_test_db(path)
+    try:
+        passage_index.upsert_passages("new-doc", [{
+            "doc_id": "new-doc", "page": 1, "bestand": "Marbach",
+            "entity_type": "ROLE", "text": "vogt", "normalised": "vogt",
+            "char_start": 0, "char_end": 4,
+        }])
+        assert passage_index.query_passages(bestand="Marbach")[0]["doc_id"] == "new-doc"
+    finally:
+        passage_index._teardown_test_db()
+
+
+def test_a_holding_filter_matches_only_rows_that_declare_it(test_db):
+    """A NULL `bestand` means nobody said which holding, so it is not a match —
+    serving rows of unknown provenance under a holding's name is worse than not
+    finding them."""
+    def rec(doc, bestand):
+        out = {"doc_id": doc, "page": 1, "entity_type": "ROLE", "text": "vogt",
+               "normalised": "vogt", "char_start": 0, "char_end": 4}
+        if bestand is not None:
+            out["bestand"] = bestand
+        return out
+
+    passage_index.upsert_passages("a", [rec("a", "Marbach")])
+    passage_index.upsert_passages("b", [rec("b", "Inzigkofen")])
+    passage_index.upsert_passages("c", [rec("c", None)])
+
+    assert [r["doc_id"] for r in passage_index.query_passages(bestand="Marbach")] == ["a"]
+    assert len(passage_index.query_passages()) == 3
+
+
+def test_an_empty_bestand_is_stored_as_absent(test_db):
+    """"" and None both mean nobody said. Keeping both would make a holding
+    filter depend on which one a caller happened to pass."""
+    passage_index.upsert_passages("a", [{
+        "doc_id": "a", "page": 1, "bestand": "", "entity_type": "ROLE",
+        "text": "vogt", "normalised": "vogt", "char_start": 0, "char_end": 4,
+    }])
+
+    assert passage_index.query_passages()[0]["bestand"] is None
+
+
+def test_bestand_is_not_a_required_field(test_db, sample_records):
+    """Every caller that worked before must keep working: the column is an
+    addition, not a new obligation."""
+    assert passage_index.upsert_passages("doc-A", sample_records[:2]) == 2
+    assert all(r["bestand"] is None for r in passage_index.query_passages())

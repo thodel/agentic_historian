@@ -74,12 +74,17 @@ BATCH = 64
 #: document, plus a `doc_id` prefix, which is how a holding is actually selected
 #: when doc_ids carry one.
 #:
-#: #396 asks for "the Q1 dimensions (type, bestand, date range)". Only the first
-#: exists: the #395 schema has no `bestand` column and no date at all, so those
-#: two filters cannot be honoured without a migration, and inventing them from a
-#: doc_id's shape would be a convention this store does not enforce. Named here
-#: rather than silently dropped.
-FILTERABLE = ("entity_type", "doc_id", "doc_prefix")
+#: #396 asked for "the Q1 dimensions (type, bestand, date range)". `bestand` is
+#: now a column, nullable — a row that declares none is not matched by a holding
+#: filter, because serving rows of unknown provenance under a holding's name is
+#: worse than not finding them.
+#:
+#: A **date range** is still not here, and not because it is hard: a passage
+#: carries no date. The entity type `DATE` is a mention *inside* a text, which
+#: is a different thing from when the document was written, and nothing in the
+#: pipeline establishes the latter. Filtering by it needs that decision first,
+#: so it is named rather than silently dropped.
+FILTERABLE = ("entity_type", "doc_id", "bestand", "doc_prefix")
 
 
 class Embedded:
@@ -437,9 +442,10 @@ def _unit(arr) -> Optional[np.ndarray]:
 
 
 def _filtered(entity_type: Optional[str], doc_id: Optional[str],
-              doc_prefix: Optional[str]) -> list[dict]:
+              doc_prefix: Optional[str],
+              bestand: Optional[str] = None) -> list[dict]:
     rows = passage_index.query_passages(entity_type=entity_type, doc_id=doc_id,
-                                        limit=1_000_000)
+                                        bestand=bestand, limit=1_000_000)
     if doc_prefix:
         rows = [r for r in rows if str(r.get("doc_id", "")).startswith(doc_prefix)]
     return rows
@@ -449,6 +455,7 @@ def search(query: str, *, top_k: int = 10,
            entity_type: Optional[str] = None,
            doc_id: Optional[str] = None,
            doc_prefix: Optional[str] = None,
+           bestand: Optional[str] = None,
            rerank: bool = False,
            embedder: Optional[Callable] = None,
            reranker: Optional[Callable] = None,
@@ -471,7 +478,7 @@ def search(query: str, *, top_k: int = 10,
     not the same evidence.
     """
     model = model or _model()
-    rows = _filtered(entity_type, doc_id, doc_prefix)
+    rows = _filtered(entity_type, doc_id, doc_prefix, bestand)
     if not rows or not (query or "").strip():
         return []
 
