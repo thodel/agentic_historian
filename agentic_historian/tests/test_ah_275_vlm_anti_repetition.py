@@ -25,7 +25,7 @@ def test_run_vlm_sources_penalties_from_config(monkeypatch, tmp_path):
 
     image = tmp_path / "hard-page.jpg"
     image.write_bytes(b"not-used-by-mock")
-    text, _ = dp._run_vlm(image)
+    text, _, _ = dp._run_vlm(image)
 
     assert text.startswith("Wir Hans")
     assert request["frequency_penalty"] == 0.37

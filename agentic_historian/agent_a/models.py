@@ -13,6 +13,8 @@ Tobias will provide the actual kraken model list for each category.
 from dataclasses import dataclass, field
 from typing import Optional
 
+import config
+
 
 @dataclass
 class VLMModel:
@@ -41,6 +43,31 @@ class KrakenModel:
 
 
 @dataclass
+class GatewayVLMModel:
+    """A VLM the ATR gateway serves under ``engine: vllm`` (#540).
+
+    Not a ``VLMModel``: those are GPUStack models reached with an OpenAI-style
+    chat call, these are gateway models reached with an image POST to
+    ``/recognize``. Two backends, two call shapes; one dataclass for both would
+    hide which one a given id needs.
+
+    ``level`` is kept because it changes what the call *is*. Five of the seven
+    served models are line-level, and ``/recognize`` does not auto-segment the
+    way ``/ocr`` does for TrOCR — so a page handed whole to a line model is a
+    different operation, not a worse reading.
+    """
+    model_id: str
+    name: str
+    level: str = "page"                                  # "line" | "page"
+    scripts: list[str] = field(default_factory=list)
+    languages: list[str] = field(default_factory=list)
+    centuries: list[int] = field(default_factory=list)
+    base_model: str = ""
+    hf_repo: str = ""
+    notes: str = ""
+
+
+@dataclass
 class HFModel:
     """A HuggingFace OCR model (e.g. LightOnOCR, TrOCR, etc.)."""
     model_id: str          # HuggingFace model ID, e.g. "wjbmattingly/LightOnOCR-2-1B-catmus-caroline"
@@ -52,8 +79,35 @@ class HFModel:
 
 
 # ── VLM models (Path 1) ──────────────────────────────────────────────────────
+#
+# This table **describes** VLMs. It does not decide which one runs — that is
+# ``config.GPUSTACK_MODEL_VISION``, and ``get_primary_vlm()`` reads it (#538).
+#
+# It used to decide, by holding one entry and returning it as "the first
+# available". When the config default moved from internvl3-8b to qwen3.8-27b on
+# 08.09.2026, this table did not, and the repository carried two answers to the
+# same question for four weeks. #537 is what that cost: the run went to config,
+# the record was stamped from here, and every VLM reading was attributed to a
+# model that had not produced it.
+#
+# ``KRAKEN_MODELS`` below records the same failure one layer down — 28 of 43
+# entries described a model other than the one their DOI loaded. A hand-kept
+# table that names something authoritative drifts away from it. So this one
+# names nothing authoritative any more.
 
 VLM_MODELS: dict[str, VLMModel] = {
+    "qwen3.8-27b": VLMModel(
+        name="Qwen3.8-27B",
+        endpoint="https://gpustack.unibe.ch/v1",
+        model_id="qwen3.8-27b",
+        api_key_env="GPUSTACK_API_KEY",
+        max_tokens=32768,
+        supports_vision=True,
+        description=(
+            "Vision role since 08.09.2026 (f197be4). 27.7 % CER on the "
+            "Inzigkofen ground truth, 291 lines / 8 pages (AH-11, 07.09.2026)."
+        ),
+    ),
     "internvl3-8b": VLMModel(
         name="InternVL3-8B-Instruct",
         endpoint="https://gpustack.unibe.ch/v1",
@@ -61,10 +115,16 @@ VLM_MODELS: dict[str, VLMModel] = {
         api_key_env="GPUSTACK_API_KEY",
         max_tokens=32768,
         supports_vision=True,
-        description="Primary VLM. Strong on historical handwriting with proper prompting.",
+        description=(
+            "Retired from the vision role on 08.09.2026. Collapses on this "
+            "material: 189.8 % CER on the same Inzigkofen set that gives "
+            "qwen3.8-27b 27.7 % (AH-11, 07.09.2026). Kept so the next reader "
+            "sees the measurement rather than re-adopting the name."
+        ),
     ),
-    # Add more VLM entries here as they become available:
-    # "qwen2.5-vl": VLMModel(...),
+    # The gateway's seven fine-tuned VLMs (qwen3vl-medieval-german-v3 among
+    # them) are not here: they are served by the ATR gateway, not GPUStack, and
+    # reaching them is #540.
 }
 # ── Kraken models (Path 2 — baseline detection + OCR) ────────────────────────
 # Generated from the ATR gateway's registry after serving-atr-inference#198, which
@@ -687,8 +747,29 @@ HF_MODELS: dict[str, HFModel] = {
 
 
 def get_primary_vlm() -> VLMModel:
-    """Returns the primary VLM (first available)."""
-    return next(iter(VLM_MODELS.values()))
+    """The VLM the pipeline actually calls — ``config.GPUSTACK_MODEL_VISION``.
+
+    Reads the configured id rather than returning this module's first entry
+    (#538). "First available" never checked availability and could only return
+    the one entry there was; when the config default moved and the table did
+    not, the two disagreed for four weeks and #537 published the difference.
+    Deriving one from the other is what makes a second answer impossible.
+
+    An id the table does not describe still resolves, as a minimal entry. The
+    table is a description, not a gate: a deployment sets
+    ``GPUSTACK_MODEL_VISION`` and must not be broken by a row nobody added here.
+    """
+    known = next((m for m in VLM_MODELS.values()
+                  if m.model_id == config.GPUSTACK_MODEL_VISION), None)
+    if known is not None:
+        return known
+    return VLMModel(
+        name=config.GPUSTACK_MODEL_VISION,
+        endpoint=config.GPUSTACK_BASE_URL,
+        model_id=config.GPUSTACK_MODEL_VISION,
+        api_key_env="GPUSTACK_API_KEY",
+        description="Configured via GPUSTACK_MODEL_VISION; not described in VLM_MODELS.",
+    )
 
 
 def kraken_model_for_lang(lang: str) -> Optional[KrakenModel]:
@@ -744,8 +825,13 @@ def refresh_kraken_registry(
             continue
         # KRAKEN_MODELS_LIVE is the *kraken* registry that feeds select_kraken_model
         # and the kraken /ocr path. The gateway also serves trocr/party/vllm models;
-        # they have their own selection paths and must NOT be picked here (a trocr id
+        # they have their own registries and must NOT be picked here (a trocr id
         # sent to the kraken /ocr call returns 0 chars). #191 follow-up.
+        #
+        # This comment used to say the others "have their own selection paths",
+        # which was true for trocr and party and false for vllm: there was none,
+        # so those seven rows were filtered out here and collected nowhere.
+        # ``refresh_vlm_registry`` below is where they go now (#540).
         if str(m.get("engine", "kraken")).lower() != "kraken":
             continue
 
@@ -776,5 +862,65 @@ def refresh_kraken_registry(
     KRAKEN_MODELS_LIVE.clear()
     KRAKEN_MODELS_LIVE.update(live_models)
     return live_models
+
+
+#: VLMs the ATR gateway serves, keyed by gateway id. Empty until the gateway
+#: answers — there is no hand-maintained fallback on purpose, because a
+#: hand-kept table of someone else's models is exactly what drifted in #538 and
+#: in the KRAKEN_MODELS comment above.
+VLM_GATEWAY_MODELS_LIVE: dict[str, GatewayVLMModel] = {}
+
+
+def refresh_vlm_registry(client) -> dict[str, GatewayVLMModel]:
+    """Collect the gateway's ``engine: vllm`` models (#540).
+
+    These were being dropped by ``refresh_kraken_registry`` and picked up by
+    nobody, so seven served models — including the project's own
+    ``qwen3vl-medieval-german-v3`` — had no representation here at all.
+
+    Registering a model does not select it. ``plan_models`` is untouched: a
+    VLM selector is #539 and the measurement that would justify running one is
+    #541. This only means the ids and their script/century/language metadata
+    exist on this side of the wire.
+
+    ``enabled: false`` rows are skipped. The gateway distinguishes *registered*
+    from *servable*, and a disabled model in a runnable registry is a 404
+    waiting for the first batch that picks it.
+    """
+    live: dict[str, GatewayVLMModel] = {}
+
+    for m in client.list_models():
+        if not isinstance(m, dict) or "id" not in m:
+            continue
+        if str(m.get("engine", "")).lower() != "vllm":
+            continue
+        if m.get("enabled") is False:
+            continue
+
+        centuries: list[int] = []
+        for c in m.get("centuries") or []:
+            try:
+                centuries.append(int(c))
+            except (ValueError, TypeError):
+                pass
+
+        model_id = m["id"]
+        live[model_id] = GatewayVLMModel(
+            model_id=model_id,
+            # The gateway returns description=null for most of these, so the
+            # id is the only name there is. Better than "None" in a log.
+            name=m.get("description") or model_id,
+            level=str(m.get("level") or "page"),
+            scripts=list(m.get("scripts") or []),
+            languages=list(m.get("languages") or []),
+            centuries=centuries,
+            base_model=m.get("base_model") or "",
+            hf_repo=m.get("hf_repo") or "",
+            notes=f"[live] {m.get('description') or ''}".strip(),
+        )
+
+    VLM_GATEWAY_MODELS_LIVE.clear()
+    VLM_GATEWAY_MODELS_LIVE.update(live)
+    return live
 # Re-export from reconcile so agent_a.models is the stable public interface
 from agent_a.reconcile import RECONCILE_SYSTEM, RECONCILE_DEFAULT_MAX_TOKENS

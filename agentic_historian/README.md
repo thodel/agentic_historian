@@ -443,6 +443,36 @@ Model registry lives in the sibling repo **serving-atr-inference**:
 fetches the live registry from the gateway (`GET /models`) so `model_selector.py`
 routes language/script/century → model against what's actually served (no drift).
 
+### Which VLM runs (#537, #538)
+
+Exactly one, and it is `config.GPUSTACK_MODEL_VISION` (default `qwen3.8-27b`,
+GPUStack). `VLM_MODELS` in `agent_a/models.py` **describes** VLMs; it does not
+decide which one runs — `get_primary_vlm()` reads the configured id, so the two
+cannot disagree.
+
+They did for four weeks. The config default moved from `internvl3-8b-instruct`
+to `qwen3.8-27b` on 08.09.2026 after AH-11 measured 189.8 % against 27.7 % CER
+on the Inzigkofen set, the table did not move with it, and every VLM reading
+was recorded under the name of the model that had *not* produced it. A reading
+now carries the id `_run_vlm` asked the gateway for, returned from the call
+rather than chosen by the caller.
+
+### Gateway VLMs — registered, not selected (#540)
+
+The ATR gateway serves its own fine-tuned VLMs under `engine: vllm`
+(`qwen3vl-medieval-german-v3` among them). Phase 0 collects them into
+`VLM_GATEWAY_MODELS_LIVE` from the same `GET /models` response, and
+`KrakenHTTPClient.read(image, model, engine)` posts them to `/recognize` —
+`/ocr` takes kraken and TrOCR only and answers anything else with
+`400: use /recognize for '<engine>'`.
+
+Nothing selects them yet. `plan_models` still emits one VLM pick, the GPUStack
+one, and the escalation tail still draws from kraken and TrOCR. A VLM selector
+is #539 and the CER measurement that would justify running one is #541.
+
+Note the engine names: `vlm` is the GPUStack path, `vllm` is the gateway's
+engine. One letter, two backends.
+
 ### TrOCR line-level models (currently deployed)
 
 | Model ID | HF repo | Languages | Centuries |

@@ -43,6 +43,27 @@ import httpx
 # Local imports
 import config
 
+#: The engines ``/ocr`` accepts. It is the page-level convenience endpoint and
+#: auto-segments for TrOCR; everything else the gateway refuses there with
+#: ``400: use /recognize for '<engine>'``.
+#:
+#: ``vlm`` is deliberately absent and is not a typo for ``vllm``. ``vlm`` is
+#: this repository's GPUStack path, which does not touch the gateway at all;
+#: ``vllm`` is the gateway's own engine for its seven fine-tuned VLMs. One
+#: letter, two backends (#540).
+OCR_ENGINES = frozenset({"kraken", "trocr"})
+
+
+def endpoint_for(engine: str) -> str:
+    """Which gateway endpoint can read a model of this engine (#540).
+
+    Unknown engines go to ``/recognize``, not ``/ocr``. ``/recognize`` is the
+    general endpoint and ``/ocr`` the narrow convenience, so guessing ``/ocr``
+    for something new reproduces this bug for the next engine the gateway
+    gains — which is how the vllm models became unreachable in the first place.
+    """
+    return "/ocr" if str(engine or "").lower() in OCR_ENGINES else "/recognize"
+
 
 class KrakenHTTPClient:
     """Thin HTTP wrapper around the remote kraken OCR service."""
@@ -166,6 +187,28 @@ class KrakenHTTPClient:
             truncated=bool(data.get("truncated", False)),
             second_opinion=data.get("second_opinion"),
         )
+
+    def read(
+        self,
+        image: Path | bytes | io.BytesIO,
+        model: str,
+        engine: str,
+        seg_mode: str = "baseline",
+    ) -> KrakenResult:
+        """Read *image* with *model*, on whichever endpoint its engine needs.
+
+        The gateway has two: ``/ocr`` auto-segments a page for kraken and
+        TrOCR, ``/recognize`` serves everything and returns the per-line
+        result. Callers that hardcoded ``transcribe`` could only ever address
+        the first two engines, and a vllm or party id sent there comes back as
+        a 400 naming the other endpoint (#540).
+
+        Choosing by engine rather than by caller means a new engine on the
+        gateway is reachable without another call site learning about it.
+        """
+        if endpoint_for(engine) == "/ocr":
+            return self.transcribe(image, model=model, seg_mode=seg_mode)
+        return self.recognize(image, model=model)
 
     def list_models(self) -> list[dict]:
         """Return the gateway model registry.

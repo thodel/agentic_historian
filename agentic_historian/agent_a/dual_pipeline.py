@@ -165,34 +165,62 @@ def _quality_score(transcription: str) -> float:
     return 0.8                 # non-empty, readable text is usable
 
 
+def _vlm_model_id(model: "str | models.VLMModel | None") -> str:
+    """The model id to ask the gateway for.
+
+    Defaults to ``config.GPUSTACK_MODEL_VISION`` rather than to
+    ``models.get_primary_vlm()``, and that is deliberate (#537). The registry
+    still names ``internvl3-8b``, which AH-11 measured at 189.8 % CER against
+    ``qwen3.8-27b``'s 27.7 % on the Inzigkofen set, and which is why the config
+    default moved on 08.09.2026. Defaulting to the registry would make the old
+    record truthful by running the collapse. #538 removes the disagreement.
+    """
+    if model is None:
+        return config.GPUSTACK_MODEL_VISION
+    if isinstance(model, str):
+        return model
+    return model.model_id
+
+
 def _run_vlm(
     image_path: Path,
     source_description: Optional[str] = None,
-    model: Optional[models.VLMModel] = None,
-) -> tuple[str, float]:
+    model: "str | models.VLMModel | None" = None,
+) -> tuple[str, float, str]:
     """Run VLM transcription and score it with an INDEPENDENT heuristic.
 
     QA is no longer the same VLM grading itself (#107): we transcribe at
     temperature 0.0 (diplomatic/verbatim transcription is deterministic, not
     creative) and score the result with _quality_score.
+
+    Returns ``(text, score, model_id)``. The third element is the point: this
+    function used to accept a ``model`` and never pass it on, while its callers
+    stamped the record from the registry — so every reading carried a name
+    nobody had asked for (#537). The model a reading is attributed to now comes
+    back from the call that produced it, so a caller cannot pick a different
+    one. ``model_id`` is what we *requested*; ``chat()`` returns only text, so
+    the gateway's own ``response.model`` is still out of reach.
+
+    On failure the id is still returned: a failure record that cannot say which
+    model failed is as unciteable as one that names the wrong one.
     """
-    if model is None:
-        model = models.get_primary_vlm()
+    model_id = _vlm_model_id(model)
 
     prompt = _build_vlm_prompt(source_description)
     try:
         transcription = gs.chat_vision(
             prompt=prompt,
             image_source=str(image_path),
+            model=model_id,
             temperature=0.0,
             max_tokens=32768,
             frequency_penalty=config.VLM_FREQUENCY_PENALTY,
             presence_penalty=config.VLM_PRESENCE_PENALTY,
         ).strip()
-        return transcription, _quality_score(transcription)
+        return transcription, _quality_score(transcription), model_id
     except Exception as e:
-        logger.warning(f"[VLM path] Transcription failed: {e}")
-        return "", 0.0
+        logger.warning(f"[VLM path] {model_id} transcription failed: {e}")
+        return "", 0.0, model_id
 
 
 def _run_kraken(
@@ -475,10 +503,12 @@ def transcribe_dual(
         if not run_vlm:
             return None
         def _task():
-            text, score = _run_vlm(image_path, source_description)
+            # model_id comes back from the call, not from the registry: the
+            # registry named internvl3-8b while qwen3.8-27b ran (#537).
+            text, score, model_id = _run_vlm(image_path, source_description)
             return RecognitionResult(
                 engine="vlm",
-                model_id=models.get_primary_vlm().model_id,
+                model_id=model_id,
                 text=text,
                 confidence=score,
                 error="" if text else "No output from VLM",

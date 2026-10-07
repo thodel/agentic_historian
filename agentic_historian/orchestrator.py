@@ -36,13 +36,16 @@ try:
     from agent_a.kraken_client import KrakenHTTPClient, KrakenClientError
     from agent_a.model_selector import select_kraken_model, select_best, SourceCriteria, RecognitionResult
     from agent_a.reconcile import reconcile
-    from agent_a.models import refresh_kraken_registry, KRAKEN_MODELS_LIVE
+    from agent_a.models import (refresh_kraken_registry, KRAKEN_MODELS_LIVE,
+                               refresh_vlm_registry, VLM_GATEWAY_MODELS_LIVE)
     DUAL_AVAILABLE = True
 except ImportError:
     DUAL_AVAILABLE = False
     DualTranscriptionResult = None
     refresh_kraken_registry = None
     KRAKEN_MODELS_LIVE = None
+    refresh_vlm_registry = None
+    VLM_GATEWAY_MODELS_LIVE = None
 
 # Result-Pipeline
 PipelineResult = dict
@@ -315,10 +318,23 @@ def run_full_pipeline(
         try:
             with KrakenHTTPClient() as client:
                 refresh_kraken_registry(client)
+                # Same response, second registry: the gateway's vllm rows
+                # used to be filtered out here and collected nowhere, so
+                # seven served VLMs had no representation on this side
+                # (#540). Registered, not selected — plan_models still
+                # emits one VLM pick and it is the GPUStack one (#539).
+                if refresh_vlm_registry:
+                    refresh_vlm_registry(client)
             logger.info(
                 f"[Phase 0] Live kraken registry populated: "
                 f"{len(KRAKEN_MODELS_LIVE)} models from gateway"
             )
+            if VLM_GATEWAY_MODELS_LIVE:
+                logger.info(
+                    f"[Phase 0] Gateway VLMs registered (not yet selected): "
+                    f"{len(VLM_GATEWAY_MODELS_LIVE)} — "
+                    f"{', '.join(sorted(VLM_GATEWAY_MODELS_LIVE))}"
+                )
         except KrakenClientError as e:
             logger.warning(f"[Phase 0] Could not reach ATR gateway for live "
                            f"registry — using static table: {e}")
@@ -766,14 +782,30 @@ def _recognize_page_ensemble(img, criteria):
     def _recognize_fn(pick, image_path):
         p = Path(image_path)
         if pick.engine == "vlm":
-            text, score = _run_vlm(p)
-            return RecognitionResult(engine="vlm", model_id=pick.model_id,
+            # The record names what ran, not what was planned (#537). It used to
+            # carry pick.model_id, which comes from the registry, while the call
+            # went to config.GPUSTACK_MODEL_VISION — so every VLM reading was
+            # attributed to internvl3-8b while qwen3.8-27b produced it.
+            #
+            # The pick's id is deliberately NOT sent as the request here. There
+            # is exactly one VLM pick and its id is the registry's, which still
+            # disagrees with config (#538); honouring it would swap a 27.7 % CER
+            # model for a 189.8 % one. Wiring pick → request belongs with the
+            # VLM selection it would serve (#539).
+            text, score, model_id = _run_vlm(p)
+            return RecognitionResult(engine="vlm", model_id=model_id,
                                      text=text, confidence=score)
         # local id (kraken DOI / TrOCR HF repo) → the gateway's registry id (#277)
         gw_id = ensemble.resolve_gateway_id(pick, registry)
         try:
+            # read() picks /ocr or /recognize from the engine. transcribe() was
+            # hardcoded here, which meant only kraken and TrOCR could ever be
+            # addressed: the gateway answers a vllm or party id on /ocr with a
+            # 400 naming the other endpoint (#540). Note the engine name — the
+            # gateway's VLM engine is "vllm", which falls past the "vlm" branch
+            # above and would have landed here.
             with KrakenHTTPClient() as c:
-                res = c.transcribe(p, model=gw_id)
+                res = c.read(p, model=gw_id, engine=pick.engine)
             return RecognitionResult(engine=pick.engine, model_id=gw_id,
                                      text=res.text, confidence=res.confidence)
         except KrakenClientError as e:
