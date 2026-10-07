@@ -540,3 +540,216 @@ def test_rerank_is_off_by_default(index):
     pe.search("armen", embedder=fake, reranker=counting)
 
     assert called["n"] == 0
+
+
+# ── the sweep: vectors nothing can reach any more ──────────────────────────
+
+def embedded(rows, embedder=None):
+    pe.embed_passages(rows, embedder=embedder or Fake())
+
+
+def test_a_fresh_store_has_nothing_to_sweep(index):
+    rows = seed([row("almosen", context="gab almosen den armen")])
+    embedded(rows)
+
+    assert pe.sweep() == pe.Sweep(live=1, orphans=0, stale=0, deleted=0)
+
+
+def test_a_deleted_passage_leaves_an_orphan(index):
+    """The gap this closes. Vectors are keyed by `(content_hash, model)` and
+    passages by document, so deleting a document's passages leaves its vectors
+    behind — not wrong, unreachable."""
+    rows = seed([row("almosen", context="gab almosen den armen"),
+                 row("vogt", context="der vogt zu Kungsfelt", start=60)])
+    embedded(rows)
+
+    seed([row("almosen", context="gab almosen den armen")])   # vogt goes
+
+    found = pe.sweep()
+    assert (found.live, found.orphans) == (1, 1)
+    assert found.deleted == 0, "a report must not delete"
+
+
+def test_sweeping_removes_the_orphan_and_keeps_the_rest(index):
+    rows = seed([row("almosen", context="gab almosen den armen"),
+                 row("vogt", context="der vogt zu Kungsfelt", start=60)])
+    embedded(rows)
+    seed([row("almosen", context="gab almosen den armen")])
+    live_hash = pe.content_hash(
+        pe.passage_text(row("almosen", context="gab almosen den armen"))[0])
+
+    done = pe.sweep(delete=True)
+
+    assert done.deleted == 1
+    assert pe.vector_count() == 1
+    assert pe.vector_for(live_hash) is not None
+
+
+def test_a_changed_context_window_orphans_the_old_vector(index):
+    """The other way a vector goes unreachable: the passage is still there but
+    its window changed, so it hashes to something else."""
+    embedded(seed([row("almosen", context="gab almosen den armen")]))
+
+    seed([row("almosen", context="gab almuosen den armen lüten")])
+    embedded(pi.query_passages(doc_id="doc-a"))
+
+    found = pe.sweep()
+    assert (found.live, found.orphans) == (1, 1)
+
+
+def test_the_report_is_the_default(index):
+    """A maintenance function whose default is destructive gets run by accident
+    exactly once."""
+    rows = seed([row("almosen", context="gab almosen"),
+                 row("vogt", context="der vogt", start=40)])
+    embedded(rows)
+    seed([row("almosen", context="gab almosen")])
+
+    pe.sweep()
+
+    assert pe.vector_count() == 2, "nothing was removed"
+
+
+# ── orphan and stale are different facts ──────────────────────────────────
+
+def test_a_vector_from_another_model_is_stale_not_orphaned(index):
+    """The text is still live; the vector belongs to a model that is not
+    running. Dead weight only until somebody switches back — and switching back
+    would otherwise re-embed the corpus."""
+    rows = seed([row("almosen", context="gab almosen den armen")])
+    embedded(rows)
+    text = pe.passage_text(rows[0])[0]
+    pe.store_vector(pe.content_hash(text), [0.5] * DIM, model="older-embedder")
+
+    found = pe.sweep()
+
+    assert (found.live, found.stale, found.orphans) == (1, 1, 0)
+
+
+def test_a_default_sweep_leaves_the_other_model_alone(index):
+    rows = seed([row("almosen", context="gab almosen den armen")])
+    embedded(rows)
+    text_hash = pe.content_hash(pe.passage_text(rows[0])[0])
+    pe.store_vector(text_hash, [0.5] * DIM, model="older-embedder")
+
+    done = pe.sweep(delete=True)
+
+    assert done.deleted == 0
+    assert pe.vector_for(text_hash, model="older-embedder") is not None
+
+
+def test_drop_stale_removes_it_and_says_so(index):
+    rows = seed([row("almosen", context="gab almosen den armen")])
+    embedded(rows)
+    text_hash = pe.content_hash(pe.passage_text(rows[0])[0])
+    pe.store_vector(text_hash, [0.5] * DIM, model="older-embedder")
+
+    done = pe.sweep(delete=True, drop_stale=True)
+
+    assert done.deleted == 1
+    assert pe.vector_for(text_hash, model="older-embedder") is None
+    assert pe.vector_for(text_hash) is not None, "the running model's vector stays"
+
+
+def test_an_orphan_of_another_model_is_an_orphan_not_stale(index):
+    """Unreachable beats "not the running model": no passage carries this text,
+    so switching models back would not make it usable either."""
+    embedded(seed([row("almosen", context="gab almosen")]))
+    pe.store_vector(pe.content_hash("a window no passage has"), [0.5] * DIM,
+                    model="older-embedder")
+
+    found = pe.sweep()
+
+    assert (found.orphans, found.stale) == (1, 0)
+
+
+# ── the footgun ───────────────────────────────────────────────────────────
+
+def test_an_empty_index_refuses_rather_than_wiping_the_store(index):
+    """A passage index that is empty — a wrong DATA_DIR, a test path left set,
+    a database not yet written — makes *every* vector an orphan, and the sweep
+    would correctly, by its own logic, delete a corpus of embeddings that cost
+    hours. So that is a question about the configuration, not an answer about
+    the vectors."""
+    rows = seed([row("almosen", context="gab almosen den armen")])
+    embedded(rows)
+
+    seed([])                                   # the index loses everything
+
+    done = pe.sweep(delete=True)
+
+    assert done.deleted == 0
+    assert done.refused and "DATA_DIR" in done.refused
+    assert pe.vector_count() == 1, "the store survived"
+
+
+def test_the_refusal_still_reports_the_counts(index):
+    """Refusing to act is not refusing to answer: the counts are what tell you
+    whether the index or the store is the surprising one."""
+    embedded(seed([row("almosen", context="gab almosen")]))
+    seed([])
+
+    done = pe.sweep(delete=True)
+
+    assert done.orphans == 1 and done.total == 1
+
+
+def test_an_empty_index_with_an_empty_store_is_not_a_refusal(index):
+    """Nothing to protect, so nothing to refuse — otherwise a clean install
+    would report a configuration problem it does not have."""
+    done = pe.sweep(delete=True)
+
+    assert done.refused is None
+    assert done == pe.Sweep()
+
+
+def test_a_report_against_an_empty_index_is_not_refused(index):
+    """Only deleting is dangerous. Counting is how you diagnose the very
+    situation the refusal is about."""
+    embedded(seed([row("almosen", context="gab almosen")]))
+    seed([])
+
+    found = pe.sweep()
+
+    assert found.refused is None and found.orphans == 1
+
+
+# ── what counts as reachable ──────────────────────────────────────────────
+
+def test_reachability_is_defined_by_what_gets_embedded(index):
+    """`live_hashes` goes through `passage_text`, because that function *is*
+    the definition of what gets embedded. Computed any other way, the two could
+    disagree and the sweep would delete vectors `search` still wants."""
+    rows = seed([row("almosen", context="gab almosen den armen"),
+                 row("vogt", start=60)])          # no window: term only
+
+    found = pe.live_hashes(rows)
+
+    assert pe.content_hash("almosen — gab almosen den armen") in found
+    assert pe.content_hash("vogt") in found
+    assert len(found) == 2
+
+
+def test_a_passage_with_nothing_to_embed_claims_no_hash(index):
+    assert pe.live_hashes([{"normalised": "", "context": ""}]) == set()
+
+
+def test_two_passages_sharing_a_window_claim_one_hash(index):
+    same = "gab almosen den armen lüten"
+    rows = [row("almosen", context=same), row("almosen", context=same, start=90)]
+
+    assert len(pe.live_hashes(rows)) == 1
+
+
+def test_the_swept_store_still_answers_a_search(index):
+    """The point of all of it: sweeping must not break retrieval."""
+    rows = seed([row("almosen", context="der vogt gab almosen den armen lüten"),
+                 row("mauer", context="die mauer am tor", start=60)])
+    near = Steered(near=("armen",))
+    pe.embed_passages(rows, embedder=near)
+    seed([row("almosen", context="der vogt gab almosen den armen lüten")])
+
+    pe.sweep(delete=True)
+    hits = pe.search("wer versorgte die armen", embedder=near)
+
+    assert [h.passage["normalised"] for h in hits] == ["almosen"]
