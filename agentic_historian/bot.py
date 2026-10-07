@@ -775,6 +775,34 @@ async def _atr(ctx, coro, formatter, *args):
     await ctx.followup.send(formatter(payload, *args), ephemeral=True)
 
 
+@bot.slash_command(
+    name="find",
+    description="Stellen im Korpus finden — nach Bedeutung, nicht nach Wortlaut")
+@require_role
+async def find_cmd(
+    ctx,
+    query: Option(str, "Wonach suchen? Natürliche Sprache.", required=True),
+    typ: Option(str, "Entitätstyp", required=False,
+                choices=["CARE_ACTOR", "CARE_ACTION", "SOCIAL_GROUP", "ROLE"]),
+    bestand: Option(str, "Nur in diesem Bestand", required=False),
+    seite: Option(int, "Seite der Trefferliste", required=False),
+):
+    """Semantic search over the passage index (#397).
+
+    The work is in `passage_find`, which renders a list of messages — so the
+    command is a loop over sends and the rendering is testable without a
+    Discord client, as with `atr_status.format_gpu_views`.
+    """
+    import passage_find
+
+    await ctx.defer(ephemeral=True)
+    found = passage_find.find(query, entity_type=typ or None,
+                              bestand=bestand or None,
+                              page=int(seite or 1))
+    for message in passage_find.format_found(found):
+        await ctx.followup.send(message, ephemeral=True)
+
+
 @bot.slash_command(name="atr_jobs", description="Training jobs on asteraix")
 @require_role
 async def atr_jobs_cmd(ctx):
