@@ -308,17 +308,34 @@ def _strip_code_fences(raw: str) -> str:
 _ENTITY_OBJ_RE = re.compile(r"\{[^{}]*\}")
 
 
-def _loads_entities(raw: str) -> list[dict]:
-    """Best-effort parse of the NER LLM's reply into a list of entity dicts.
+def _loads_entities(raw: str) -> Optional[list[dict]]:
+    """The NER LLM's reply as entity dicts, or **None** when it did not parse.
 
     LLMs occasionally emit slightly malformed JSON (a missing/trailing comma,
     prose around the object, or a truncated tail). Rather than drop the whole
     chunk on a single ``json.loads`` failure, try progressively looser
     strategies and finally salvage whatever individual entity objects parse.
+
+    **Three-valued, because two very different answers used to look alike
+    (#546).** A chunk with nothing in it answers `{"entities": []}` — correct,
+    complete work — and a chunk the model mangled answers rubbish. Both came
+    back as `[]`, and `_extract_llm` retried on both: every entity-free chunk
+    cost a second full call, the normal path paying the price of a safety net.
+
+    So:
+
+    * ``[]`` — a JSON document parsed and declared no entities.
+    * ``[...]`` — it parsed and declared some.
+    * ``None`` — nothing parsed: no JSON, the wrong shape (`{"foo": 1}`,
+      `{"entities": "x"}`), or a truncated tail the salvage pass could not
+      rescue. This is the case a format nudge can fix, and the only one worth
+      asking again about.
     """
     text = _strip_code_fences(raw)
     if not text:
-        return []
+        # Nothing to parse — a reply that was only fences, or empty. Not an
+        # empty answer: the model did not answer.
+        return None
 
     candidates = [text]
     # slice to the outermost JSON object (drops any prose around it)
@@ -348,7 +365,10 @@ def _loads_entities(raw: str) -> list[dict]:
             continue
         if isinstance(obj, dict) and obj.get("text") and obj.get("type"):
             salvaged.append(obj)
-    return salvaged
+    # Salvaging nothing from a reply no document could be read out of is "did
+    # not parse", not "no entities" — the distinction this function exists to
+    # make. A rescued object, however few, means the reply did carry entities.
+    return salvaged or None
 
 
 def _extract_llm(transcription: str) -> dict:
@@ -381,10 +401,16 @@ def _extract_llm(transcription: str) -> dict:
             logger.warning(f"[Agent C] LLM-Aufruf fehlgeschlagen (chunk {i+1}): {e}")
             continue
 
-        ents = _loads_entities(raw)
-        # If nothing parsed from a non-empty reply, retry ONCE — sampling variance
-        # alone usually yields parseable JSON, reinforced by an explicit-format nudge.
-        if not ents and raw and raw.strip():
+        parsed = _loads_entities(raw)
+        # Retry ONLY when nothing parsed — sampling variance alone usually
+        # yields parseable JSON, reinforced by an explicit-format nudge.
+        #
+        # `is None`, not `not parsed` (#546): a chunk with no entities in it
+        # answers `{"entities": []}`, which is correct and complete work, and
+        # asking again cost a second full call for every such chunk. At the
+        # 9 % of pages that come back empty (#483) that is a lower bound on
+        # how much of Agent C was paid twice.
+        if parsed is None and raw and raw.strip():
             logger.warning(
                 f"[Agent C] Chunk {i+1}: JSON nicht parsebar, Retry …")
             try:
@@ -392,12 +418,13 @@ def _extract_llm(transcription: str) -> dict:
                     prompt + "\n\nWICHTIG: Antworte AUSSCHLIESSLICH mit gültigem "
                     "JSON, kein Text davor oder danach.",
                     system=None, max_tokens=8000)
-                ents = _loads_entities(raw)
+                parsed = _loads_entities(raw)
             except Exception as e:
                 logger.warning(f"[Agent C] Retry fehlgeschlagen (chunk {i+1}): {e}")
-            if not ents:
+            if parsed is None:
                 logger.warning(
                     f"[Agent C] Chunk {i+1}: auch nach Retry kein JSON — übersprungen")
+        ents = parsed or []
         chunk_located, chunk_unlocated = _locate(ents, piece)
         located_all.extend(chunk_located)
         unlocated_all.extend(chunk_unlocated)
