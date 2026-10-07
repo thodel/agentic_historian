@@ -77,6 +77,8 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 | `/search <name>` | Federated person search across the KH MCP sources (HLS/HBLS/KF/EOS) |
 | `/route <doc_id>` | HITL Gate-1 routing card — correct inferred metadata, re-route HTR |
 | `/votes <doc_id>` | HITL Gate-2 card — pick the closest reading when the engines disagree (see *Quality without ground truth*) |
+| `/votes_queue [n]` | The pending Gate-2 votes, ranked by measured disagreement and by how starved the script×century×language bucket is — so the asking is deliberate rather than queue order |
+| `/find <query> [typ] [bestand] [seite]` | Semantic search over the passage index; each hit deep-links into the published catalogue at the place in the text |
 | `/status`, `/progress` | Status |
 
 Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-gated when `REQUIRED_DISCORD_ROLE_ID` is set. All commands are serialised through a single worker queue (responsive, no per-user races).
