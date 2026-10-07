@@ -478,6 +478,22 @@ is #539 and the CER measurement that would justify running one is #541.
 Note the engine names: `vlm` is the GPUStack path, `vllm` is the gateway's
 engine. One letter, two backends.
 
+### Measuring one before it runs (#541)
+
+`eval/vlm_bench.py` is what turns "addressable" into "known". `run` transcribes a
+page set with every candidate (GPU + gateway); `score` reports CER against hand-
+corrected ground truth, separated by level, with the collapse share and the
+fusion effect beside it. The two phases are separate so the expensive half runs
+once and the analysis runs anywhere.
+
+```bash
+python -m eval.vlm_bench run   --pages <dir> --out runs/bench
+python -m eval.vlm_bench score --run runs/bench --gt <pagexml>
+```
+
+It will not rank two working models on a small set — `docs/EVALUATION_HARNESS.md`
+says why, and what it does instead.
+
 ### TrOCR line-level models (currently deployed)
 
 | Model ID | HF repo | Languages | Centuries |
