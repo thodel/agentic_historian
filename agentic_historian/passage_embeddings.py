@@ -49,6 +49,9 @@ import config
 import passage_index
 
 __all__ = [
+    "Sweep",
+    "live_hashes",
+    "sweep",
     "BATCH",
     "FILTERABLE",
     "Embedded",
@@ -224,6 +227,135 @@ def vector_count(model: Optional[str] = None) -> int:
         (model or _model(),),
     ).fetchone()
     return row[0] if row else 0
+
+
+# ── sweeping what nothing can reach ──────────────────────────────────────────
+
+class Sweep:
+    """What a sweep found, and what it removed.
+
+    Four counts because they answer four questions, and collapsing any two
+    would hide one of them: how much is reachable, how much never will be,
+    how much belongs to a model that is not running, and how much actually
+    went.
+    """
+
+    __slots__ = ("live", "orphans", "stale", "deleted", "refused")
+
+    def __init__(self, live: int = 0, orphans: int = 0, stale: int = 0,
+                 deleted: int = 0, refused: Optional[str] = None):
+        self.live, self.orphans, self.stale = live, orphans, stale
+        self.deleted, self.refused = deleted, refused
+
+    @property
+    def total(self) -> int:
+        return self.live + self.orphans + self.stale
+
+    def __repr__(self) -> str:
+        tail = f", refused={self.refused!r}" if self.refused else ""
+        return (f"Sweep(live={self.live}, orphans={self.orphans}, "
+                f"stale={self.stale}, deleted={self.deleted}{tail})")
+
+    def __eq__(self, other) -> bool:
+        return (isinstance(other, Sweep)
+                and (self.live, self.orphans, self.stale, self.deleted,
+                     self.refused)
+                == (other.live, other.orphans, other.stale, other.deleted,
+                    other.refused))
+
+
+def live_hashes(rows: Optional[list[dict]] = None) -> set[str]:
+    """Every content hash the passages currently in the index would embed to.
+
+    Derived through `passage_text` rather than from a stored column, because
+    that function *is* the definition of what gets embedded: a vector is
+    reachable exactly when some passage would ask for its hash. Were this
+    computed any other way, the two could disagree and the sweep would delete
+    vectors `search` still wants.
+    """
+    if rows is None:
+        rows = passage_index.query_passages(limit=1_000_000)
+    found: set[str] = set()
+    for row in rows:
+        text, _basis = passage_text(row)
+        if text:
+            found.add(content_hash(text))
+    return found
+
+
+def sweep(*, delete: bool = False, drop_stale: bool = False,
+          rows: Optional[list[dict]] = None) -> Sweep:
+    """Count — and optionally remove — vectors nothing can reach any more.
+
+    Vectors are keyed by `(content_hash, model)` and passages by document, so
+    deleting a document's passages leaves its vectors behind. They are not
+    wrong, they are unreachable: no passage will ever ask for that hash again.
+    At ~4.3 kB each the pile is slow-growing and monotonic, which is the kind
+    of thing nobody notices until a disk that had no buffer to begin with runs
+    out (#487 was that disk).
+
+    Two different facts, kept apart because they want different actions:
+
+    * **orphan** — no passage carries this text any more. Nothing can retrieve
+      it, ever. Removed when ``delete``.
+    * **stale** — the text is still live but the vector belongs to another
+      embedding model. Dead weight only until somebody switches back, and
+      switching back would otherwise re-embed the corpus. Removed only when
+      ``drop_stale`` is also given, because "I am not using that model today"
+      and "that vector can never be used" are not the same statement.
+
+    **Reports by default.** ``delete=False`` is the whole point of the safe
+    default: the first question is how much is there, and a maintenance
+    function whose default is destructive gets run by accident exactly once.
+
+    **Refuses to delete against an empty index.** This is the footgun. A
+    passage index that is empty — a wrong `DATA_DIR`, a test path left set, a
+    database not yet written — makes *every* vector an orphan, and the sweep
+    would wipe a corpus of embeddings that cost hours to compute, correctly by
+    its own logic. So an empty index with vectors present is treated as a
+    question about the configuration, not an answer about the vectors: the
+    counts are returned with `refused` set and nothing is removed.
+    """
+    rows = passage_index.query_passages(limit=1_000_000) if rows is None else rows
+    reachable = live_hashes(rows)
+    running = _model()
+
+    db = _db()
+    held = db.execute("SELECT content_hash, model FROM passage_vectors").fetchall()
+
+    live: list[tuple[str, str]] = []
+    orphans: list[tuple[str, str]] = []
+    stale: list[tuple[str, str]] = []
+    for text_hash, model in held:
+        if text_hash not in reachable:
+            orphans.append((text_hash, model))
+        elif model != running:
+            stale.append((text_hash, model))
+        else:
+            live.append((text_hash, model))
+
+    out = Sweep(live=len(live), orphans=len(orphans), stale=len(stale))
+
+    if not delete:
+        return out
+    if held and not reachable:
+        out.refused = ("the passage index is empty, so every vector reads as an "
+                       "orphan — check DATA_DIR before sweeping")
+        logger.warning(f"[passage_embeddings] sweep refused: {out.refused}")
+        return out
+
+    doomed = orphans + (stale if drop_stale else [])
+    for text_hash, model in doomed:
+        db.execute("DELETE FROM passage_vectors"
+                   " WHERE content_hash = ? AND model = ?", (text_hash, model))
+    db.commit()
+    out.deleted = len(doomed)
+    if doomed:
+        logger.info(f"[passage_embeddings] swept {out.deleted} vector(s): "
+                    f"{len(orphans)} orphaned"
+                    + (f", {len(stale)} from another model" if drop_stale else "")
+                    + f"; {out.live} still reachable")
+    return out
 
 
 # ── embedding a batch ────────────────────────────────────────────────────────
