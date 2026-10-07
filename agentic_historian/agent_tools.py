@@ -46,6 +46,19 @@ AGENT_TOOLS: tuple[AgentTool, ...] = (
                                "description": "Corpus name (default 'default')."}}),
     AgentTool("agent_e", "run_agent_e",
               "Meta report over the pipeline run log.", {}),
+    AgentTool("find_passages", "run_find_passages",
+              "Semantic search over the passage index: find places in the "
+              "corpus that talk about something, by meaning rather than by "
+              "exact words. Use for 'finde Stellen zu X'.",
+              {"query": {"type": "string", "required": True,
+                         "description": "What to look for, in natural language."},
+               "entity_type": {"type": "string", "required": False,
+                               "description": "CARE_ACTOR | CARE_ACTION | "
+                                              "SOCIAL_GROUP | ROLE."},
+               "bestand": {"type": "string", "required": False,
+                           "description": "Restrict to one holding."},
+               "top_k": {"type": "integer", "required": False,
+                         "description": "How many passages to return."}}),
     AgentTool("run_full_pipeline", "run_full_pipeline",
               "Full A→B→C(→D) pipeline on one document.",
               {"file_path": {"type": "string", "required": True,

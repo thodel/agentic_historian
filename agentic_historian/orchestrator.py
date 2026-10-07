@@ -219,6 +219,49 @@ def _log_phase(ev) -> None:
 _VISION_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".bmp", ".gif"}
 
 
+def run_find_passages(query: str, entity_type: str = "",
+                      bestand: str = "", top_k: int = 10) -> dict:
+    """Search the passage index. The retrieval half of Scholar-in-the-Loop (#397).
+
+    Lives here because `agent_tools` resolves every tool as an attribute of this
+    module, so a registry entry needs a function here rather than a second
+    resolution rule. Thin on purpose: the work is in `passage_find`, which the
+    Discord command calls directly.
+
+    Returns plain data — the NL orchestrator feeds a tool result back to a
+    model, and a `Hit` object would arrive as a repr.
+    """
+    import passage_find
+
+    found = passage_find.find(query, entity_type=entity_type or None,
+                              bestand=bestand or None, top_k=top_k)
+    return {
+        "query": query,
+        "scope": found.scope(),
+        "total": len(found.hits),
+        "indexed": found.indexed,
+        "candidates": found.candidates,
+        "why_empty": found.why_empty() if not found.hits else "",
+        "passages": [
+            {
+                "doc_id": h.passage.get("doc_id"),
+                "bestand": h.passage.get("bestand"),
+                "entity_type": h.passage.get("entity_type"),
+                "normalised": h.passage.get("normalised"),
+                "context": h.passage.get("context"),
+                "char_start": h.passage.get("char_start"),
+                "char_end": h.passage.get("char_end"),
+                "score": round(h.score, 4),
+                "scored_by": h.scored_by,
+                "url": passage_find.catalogue_url(
+                    str(h.passage.get("doc_id") or ""),
+                    anchor=passage_find.anchor_for(h.passage)),
+            }
+            for h in found.hits[:top_k]
+        ],
+    }
+
+
 def _describe_cached(doc_id: str, transcription: str, pages, image_path,
                      on_phase=None) -> dict:
     """Agent B's description, reused when these exact page images were described

@@ -120,6 +120,13 @@ GITHUB_BRANCH = _get("GITHUB_BRANCH", "main")
 # artifacts are published — source images are never committed. Opt-in; when off,
 # the pipeline is byte-identical.
 GITHUB_OUTPUT_REPO = _get("GITHUB_OUTPUT_REPO", "thodel/agentic-historian-outputs")
+
+#: Where the published catalogue is served. Empty = derive it from
+#: GITHUB_OUTPUT_REPO by the GitHub Pages convention
+#: (``https://<owner>.github.io/<repo>``), which is where it lives today. Set it
+#: for a custom domain: the convention would then be wrong, and a wrong base
+#: makes every `/find` link wrong at once (#397).
+CATALOGUE_BASE_URL = _get("CATALOGUE_BASE_URL", "").rstrip("/")
 GITHUB_OUTPUT_BRANCH = _get("GITHUB_OUTPUT_BRANCH", "main")
 ENABLE_GITHUB_PUBLISH = _get("ENABLE_GITHUB_PUBLISH", "false").lower() == "true"
 # This code repo — where /mcp_propose opens a reviewed PR adding a source (#229).
