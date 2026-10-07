@@ -322,7 +322,7 @@ def test_passage_records_filters_and_maps_without_a_database():
 
     assert len(rows) == 1
     assert rows[0] == {
-        "doc_id": "doc-x", "page": 2, "entity_type": "ROLE",
+        "doc_id": "doc-x", "page": 2, "bestand": None, "entity_type": "ROLE",
         "text": "vogt", "normalised": "Vogt",
         "char_start": 4, "char_end": 8, "context": "Der",
         "hub_id": None, "gnd_id": None, "hls_id": None,
@@ -348,3 +348,59 @@ def test_the_records_carry_every_field_the_store_requires():
     ])
 
     assert required <= set(rows[0])
+
+
+# ── the holding (#396's migration) ─────────────────────────────────────────
+
+def test_the_holding_is_a_parameter_not_derived_in_the_store():
+    """The caller knows. A rule applied here would turn the first doc_id that
+    does not follow the convention into wrong data instead of a missing value."""
+    rows = ec.passage_records("Marbach__letter-0001__001", [
+        dict(vocab("vogt", "ROLE"), char_start=0, char_end=4),
+    ], bestand="Marbach")
+
+    assert rows[0]["bestand"] == "Marbach"
+
+
+def test_no_holding_given_is_none_not_a_guess():
+    """Even where the doc_id plainly carries one. None means nobody said."""
+    rows = ec.passage_records("Marbach__letter-0001__001", [
+        dict(vocab("vogt", "ROLE"), char_start=0, char_end=4),
+    ])
+
+    assert rows[0]["bestand"] is None
+
+
+def test_the_convention_is_available_to_a_caller_that_wants_it():
+    """`PageRef.key` folds a page's path on `__`, so a batch-minted id begins
+    with its holding. Offered as a helper, not applied by the store."""
+    assert ec.bestand_from_doc_id("Marbach__letter-0001__001") == "Marbach"
+    assert ec.bestand_from_doc_id("Inzigkofen__Ms-321__014") == "Inzigkofen"
+
+
+def test_a_single_segment_id_has_no_holding():
+    """One segment is a document with no holding above it, not a holding."""
+    assert ec.bestand_from_doc_id("doc-a") is None
+    assert ec.bestand_from_doc_id("") is None
+    assert ec.bestand_from_doc_id("__") is None
+
+
+def test_the_holding_reaches_the_index(index, monkeypatch):
+    run(monkeypatch, "Marbach__01", TEXT, [vocab("vogt", "ROLE")])
+    ec.extract_entities("Marbach__01", TEXT, bestand="Marbach")
+
+    rows = index.query_passages(bestand="Marbach")
+    assert rows and all(r["doc_id"] == "Marbach__01" for r in rows)
+
+
+def test_one_holding_does_not_answer_for_another(index, monkeypatch):
+    monkeypatch.setattr(ec.gs, "chat_text",
+                        lambda prompt, **kw: json.dumps(
+                            {"entities": [vocab("vogt", "ROLE")]}))
+    monkeypatch.setattr(ec.hub, "match_vocabulary", lambda term: None)
+    ec.extract_entities("Marbach__01", TEXT, bestand="Marbach")
+    ec.extract_entities("Inzigkofen__01", TEXT, bestand="Inzigkofen")
+
+    assert len(index.query_passages(bestand="Marbach")) == 1
+    assert len(index.query_passages(bestand="Inzigkofen")) == 1
+    assert len(index.query_passages()) == 2

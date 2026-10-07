@@ -47,6 +47,7 @@ def _init_schema(db: sqlite3.Connection) -> None:
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
             doc_id          TEXT    NOT NULL,
             page            INTEGER NOT NULL,
+            bestand         TEXT,
             entity_type     TEXT    NOT NULL,
             text            TEXT    NOT NULL,
             normalised      TEXT    NOT NULL,
@@ -68,7 +69,50 @@ def _init_schema(db: sqlite3.Connection) -> None:
         CREATE INDEX IF NOT EXISTS ix_passages_hub_id
             ON passages(hub_id);
     """)
+    # Columns first, then the indexes that need them. An index on an added
+    # column cannot live in the script above: on a database that predates the
+    # column, `CREATE TABLE IF NOT EXISTS` does nothing and the CREATE INDEX
+    # then names a column that is not there yet — `no such column: bestand`,
+    # on every connect, for every existing install.
+    _add_missing_columns(db)
+    db.executescript("""
+        CREATE INDEX IF NOT EXISTS ix_passages_bestand
+            ON passages(bestand);
+    """)
     db.commit()
+
+
+#: Columns added after the table was first shipped, with their declarations.
+#: `CREATE TABLE IF NOT EXISTS` does nothing to a database that already exists,
+#: so a column added to the statement above never reaches one — the only
+#: symptom being an `OperationalError` on the first query that names it.
+_ADDED_COLUMNS = {
+    # The holding a passage belongs to (#396 asked to filter by it). Nullable
+    # on purpose: NULL means "nobody said which holding", which is the honest
+    # reading of every row written before the column existed and of every
+    # caller that does not know. It is not "no holding".
+    "bestand": "TEXT",
+}
+
+
+def _add_missing_columns(db: sqlite3.Connection) -> None:
+    """Bring an existing database up to the current column set.
+
+    SQLite's `ALTER TABLE ... ADD COLUMN` is cheap for a nullable column with
+    no default — it rewrites no rows — so this runs on every connect rather
+    than behind a version counter nobody would remember to bump. Idempotent by
+    construction: the columns that are already there are not added again.
+
+    Deliberately only ever **adds**. A migration that could drop or retype a
+    column would need the rows read, and this is the wrong place to be clever
+    about a corpus somebody spent hours filling.
+    """
+    have = {row[1] for row in db.execute("PRAGMA table_info(passages)")}
+    for name, decl in _ADDED_COLUMNS.items():
+        if name in have:
+            continue
+        db.execute(f"ALTER TABLE passages ADD COLUMN {name} {decl}")
+        logger.info(f"[passage_index] added column {name} {decl}")
 
 
 def upsert_passages(doc_id: str, records: list[dict]) -> int:
@@ -104,16 +148,18 @@ def upsert_passages(doc_id: str, records: list[dict]) -> int:
     for rec in records:
         db.execute("""
             INSERT INTO passages
-                (doc_id, page, entity_type, text, normalised,
+                (doc_id, page, bestand, entity_type, text, normalised,
                  char_start, char_end, context,
                  hub_id, gnd_id, hls_id, created_at)
             VALUES
-                (:doc_id, :page, :entity_type, :text, :normalised,
+                (:doc_id, :page, :bestand, :entity_type, :text, :normalised,
                  :char_start, :char_end, :context,
                  :hub_id, :gnd_id, :hls_id, :created_at)
         """, {
             "doc_id":      rec["doc_id"],
             "page":        rec["page"],
+            # Absent rather than empty when the caller does not know (#396).
+            "bestand":     rec.get("bestand") or None,
             "entity_type": rec["entity_type"],
             "text":        rec["text"],
             "normalised":  rec["normalised"],
@@ -139,6 +185,7 @@ def query_passages(
     entity_type: Optional[str] = None,
     normalised: Optional[str] = None,
     doc_id: Optional[str] = None,
+    bestand: Optional[str] = None,
     limit: int = 100,
     offset: int = 0,
 ) -> list[dict]:
@@ -157,11 +204,17 @@ def query_passages(
     if doc_id is not None:
         where_parts.append("doc_id = :doc_id")
         params["doc_id"] = doc_id
+    if bestand is not None:
+        # Rows that DECLARE this holding. A NULL `bestand` means nobody said
+        # which one, so it is not a match — the alternative would be serving
+        # rows of unknown provenance under a holding's name (#396).
+        where_parts.append("bestand = :bestand")
+        params["bestand"] = bestand
     where_sql = ("WHERE " + " AND ".join(where_parts)) if where_parts else ""
     params["limit"] = limit
     params["offset"] = offset
     sql = (
-        "SELECT id, doc_id, page, entity_type, text, normalised,"
+        "SELECT id, doc_id, page, bestand, entity_type, text, normalised,"
         "       char_start, char_end, context,"
         "       hub_id, gnd_id, hls_id, created_at"
         " FROM passages " + where_sql +
@@ -170,7 +223,7 @@ def query_passages(
     )
     rows = db.execute(sql, params).fetchall()
     cols = [
-        "id", "doc_id", "page", "entity_type", "text", "normalised",
+        "id", "doc_id", "page", "bestand", "entity_type", "text", "normalised",
         "char_start", "char_end", "context",
         "hub_id", "gnd_id", "hls_id", "created_at",
     ]
