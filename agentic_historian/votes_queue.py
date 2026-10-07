@@ -76,6 +76,7 @@ __all__ = [
     "TOP_N",
     "bucket_coverage",
     "bucket_label",
+    "crossing",
     "build_queue",
     "decided_pages",
     "format_queue",
@@ -127,6 +128,22 @@ def bucket_label(bucket: tuple) -> str:
              f"{century}.Jh" if century else "?",
              str(lang) if lang else "?"]
     return "×".join(parts)
+
+
+def crossing(before: float, now: float) -> str:
+    """``crossed`` | ``already`` | ``still_short`` for one bucket's coverage.
+
+    Defined once, here beside ``MIN_COMPARISONS``, because two consumers ask it
+    — a campaign's report (#399) and the message after a single vote (#369) —
+    and the interesting case is the one a second implementation gets wrong.
+    ``already`` means the bucket was sufficient *before*, so whatever just
+    happened gets no credit for it; without that distinction a report can only
+    say a bucket **is** above the line, never that this vote or this campaign
+    put it there.
+    """
+    if before >= MIN_COMPARISONS:
+        return "already"
+    return "crossed" if now >= MIN_COMPARISONS else "still_short"
 
 
 def bucket_coverage(events=None) -> dict[tuple, float]:

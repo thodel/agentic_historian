@@ -497,6 +497,24 @@ def build_view(state: RunState, paths: dict[str, str],
         except Exception as e:
             logger.warning(f"[gate2] {state.doc_id}: defer failed: {e}")
 
+    async def _say(interaction, content):
+        """Post a NEW message after the card, or do nothing.
+
+        The card is edited in place by `_ack`, so a message that stands beside
+        the outcome needs its own send. Never raises and never blocks: #369's
+        feedback is a courtesy after the click, and the #313 lesson is that
+        nothing in that path may cost the historian the click.
+        """
+        if not content:
+            return
+        try:
+            followup = getattr(interaction, "followup", None)
+            if followup is None:
+                return
+            await followup.send(content)
+        except Exception as e:
+            logger.warning(f"[gate2] {state.doc_id}: feedback message failed: {e}")
+
     async def _ack(interaction, content, view):
         """Update the card, whether or not the interaction was already deferred."""
         try:
@@ -569,11 +587,12 @@ def build_view(state: RunState, paths: dict[str, str],
             # closest of the options WE produced; treating that as ground truth
             # would certify our own errors (#326). Best-effort: never break the
             # click. The raw user id is pseudonymised inside preferences.
+            recorded = []
             if chosen:
                 try:
                     import preferences
                     user = getattr(interaction, "user", None)
-                    preferences.record_selection(
+                    recorded = preferences.record_selection(
                         state, paths, chosen,
                         voter=str(getattr(user, "id", "") or ""))
                 except Exception as e:
@@ -581,6 +600,14 @@ def build_view(state: RunState, paths: dict[str, str],
             # collapse: no buttons, just the outcome
             await _ack(interaction, render_decided_card(state, paths, chosen, applied or ""),
                        None)
+            # Then say what the vote taught the system (#369). Until now voting
+            # was a black hole: the historian picked a reading and nothing came
+            # back, which is a poor bargain for the one contributor every metric
+            # in #326 depends on. One message for the whole confirm, however
+            # many pages it covered — N messages would hit the channel's rate
+            # limit and push the card out of view.
+            import vote_feedback
+            await _say(interaction, vote_feedback.after_vote(recorded))
             if applied is not None and runners and config.AUTO_RESUME_AFTER_GATE:
                 try:
                     asyncio.get_running_loop().create_task(
@@ -606,10 +633,11 @@ def build_view(state: RunState, paths: dict[str, str],
             await _defer(interaction)
             await _ack(interaction,
                        render_pending_card(state, [], rejected=True), None)
+            recorded = []
             try:
                 import preferences
                 user = getattr(interaction, "user", None)
-                preferences.record_rejection(
+                recorded = preferences.record_rejection(
                     state, paths, voter=str(getattr(user, "id", "") or ""))
                 state.gate_decisions["gate2_selected"] = []
                 state.gate_decisions["gate2_rejected"] = True
@@ -618,6 +646,11 @@ def build_view(state: RunState, paths: dict[str, str],
                 logger.warning(f"[gate2] {state.doc_id}: rejection failed: {e}")
             await _ack(interaction,
                        render_decided_card(state, paths, [], "", rejected=True), None)
+            # A rejection teaches as much as a pick — it is the clearest
+            # statement that the ensemble produced nothing acceptable (#333), so
+            # it gets the same report back (#369).
+            import vote_feedback
+            await _say(interaction, vote_feedback.after_vote(recorded))
 
     class PathComparisonView(discord.ui.View):
         def __init__(self):

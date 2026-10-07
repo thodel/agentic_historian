@@ -80,6 +80,7 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 | `/votes_queue [n]` | The pending Gate-2 votes, ranked by measured disagreement and by how starved the script×century×language bucket is — so the asking is deliberate rather than queue order |
 | `/campaign [bestand] [budget]` | Vote campaign (admin): posts the G1-best cards for a doc_id prefix into their own thread, budget counted in cards, coverage baseline recorded at the start |
 | `/campaign_status [bestand] [beenden]` | A campaign's coverage report — comparisons per bucket, which buckets crossed n≥10 *during* it, selection agreement |
+| `/votes_stats [bereich]` | What the Gate-2 votes have measured: coverage (#333), selection agreement (#334), engine strength (#335), routing overrides (#154). The ranking lives here and deliberately nowhere else — see *Quality without ground truth* |
 | `/find <query> [typ] [bestand] [seite]` | Semantic search over the passage index; each hit deep-links into the published catalogue at the place in the text |
 | `/status`, `/progress` | Status |
 
