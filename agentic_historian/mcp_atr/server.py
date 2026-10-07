@@ -534,6 +534,12 @@ def build_server(provider=None, auth_settings=None):
         with its image crops the wrong strip out of every line, and nothing
         downstream of the dataset would say so. The CLI has a flag to override it
         for someone looking at the pages; this tool does not offer one.
+
+        The project is the *hand*, inherited along each letter: a dateline stands
+        on a letter's first page, so the undated pages take the hand their letter
+        names. Every page's label, and which letter it came from, is written to
+        the TSV the result's ``writers`` names — the plan's counts are a claim
+        about an inference, and that file is what makes it checkable.
         """
         try:
             return jobs.export_hf_job(runs, gt_dir=gt_dir, dry_run=dry_run)

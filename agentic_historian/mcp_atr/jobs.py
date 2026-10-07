@@ -372,6 +372,7 @@ def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
 
 def export_hf_argv(runs: Sequence[Path], *, gt_dir: Optional[Path] = None,
                    out: Optional[Path] = None,
+                   writers_out: Optional[Path] = None,
                    dry_run: bool = True) -> list[str]:
     """The exact argv for one ``export-hf`` run.
 
@@ -387,6 +388,8 @@ def export_hf_argv(runs: Sequence[Path], *, gt_dir: Optional[Path] = None,
         argv += ["--gt", str(gt_dir)]
     if out is not None:
         argv += ["--out", str(out)]
+    if writers_out is not None:
+        argv += ["--writers-out", str(writers_out)]
     if dry_run:
         argv.append("--dry-run")
     return argv
@@ -415,10 +418,14 @@ def export_hf_job(runs: Sequence[str], gt_dir: Optional[str] = None,
     folder = _score_gt_dir(gt_dir)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     out = None if dry_run else Path(config.VLM_TEST_ROOT) / f"hf-export-{stamp}"
+    # Always, dry run included, and under VLM_TEST_ROOT rather than /tmp: the
+    # writers table is how the inferred hand can be disagreed with, and the key
+    # list that lived in /tmp did not survive tei's reboot (#535).
+    writers = Path(config.VLM_TEST_ROOT) / f"hf-writers-{stamp}.tsv"
     argv = export_hf_argv([_run_dir(n) for n in names], gt_dir=folder, out=out,
-                          dry_run=dry_run)
+                          writers_out=writers, dry_run=dry_run)
     return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
-            "out_dir": str(out) if out else None,
+            "out_dir": str(out) if out else None, "writers": str(writers),
             **start_and_peek("export-hf", argv)}
 
 

@@ -552,6 +552,24 @@ def test_writing_names_its_own_output_directory(monkeypatch, tmp_path):
     assert "--dry-run" not in result["argv"]
 
 
+def test_the_job_always_writes_the_writers_table(monkeypatch, tmp_path):
+    """Dry run included, and under VLM_TEST_ROOT rather than /tmp: it is the only
+    way to disagree with an inferred hand, and the key list that lived in /tmp did
+    not survive tei's reboot (#535)."""
+    jobs = _jobs()
+    monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
+    monkeypatch.setattr(jobs.config, "VLM_TEST_ROOT", tmp_path / "runs")
+    (tmp_path / "runs" / "atr_gt_candidates").mkdir(parents=True)
+    monkeypatch.setattr(jobs, "start_and_peek",
+                        lambda kind, argv, **kw: {"done": True, "argv": list(argv)})
+
+    result = jobs.export_hf_job(["atr_gt_candidates"])
+
+    argv = result["argv"]
+    assert argv[argv.index("--writers-out") + 1] == result["writers"]
+    assert result["writers"].startswith(str(tmp_path / "runs" / "hf-writers-"))
+
+
 def test_the_same_containment_rules_as_scoring(monkeypatch, tmp_path):
     jobs = _jobs()
     monkeypatch.setattr(jobs.config, "GT_ROOT", tmp_path)
@@ -693,3 +711,169 @@ def test_the_mcp_tool_takes_a_name_not_a_path(monkeypatch, tmp_path):
         jobs.upload_hf_job("../../etc")
     with pytest.raises(jobs.JobError):
         jobs.upload_hf_job("never-exported")
+
+
+# ── the hand belongs to the letter ───────────────────────────────────────────
+#
+# The first dry run with images, 2026-10-05, labelled 57 of 211 pages and left
+# 154 `unbestimmt`. Not unreadable datelines: a dateline stands on a letter's
+# *first* page, so every continuation page is a page the rule cannot read,
+# because there is nothing there to read. The hand is a property of the letter.
+#
+# Which made the grouping key the whole question, and the filenames carry a
+# shelfmark that looked like the better one. Measured over the 241 keys of
+# `atr_gt_candidates` before it was chosen:
+#
+#     Basel | 'PA 82a B 9'   -> 36 letters, 115 pages
+#     Staatsarchiv Thurgau   -> '…75-1' -> 21 letters
+#
+# Those shelfmarks name an archival bundle, and Basel is exactly the folder
+# holding both sides of the correspondence. The letter folder it is.
+
+APPEAL = ["Hochverehrter Herr Baron,", "mit vielem Dank sende ich"]
+
+
+def _letter(tmp_path, pages):
+    """`(scored, index)` for pages given as `(key, lines)`."""
+    scored, index = [], {}
+    for i, (key, lines) in enumerate(pages):
+        img = _image(tmp_path / "src" / f"p{i}.jpg")
+        gt = tmp_path / f"gt{i}.xml"
+        gt.write_text(_xml(lines), encoding="utf-8")
+        scored.append(_Scored(gt, "\n".join(lines), key))
+        index[key] = img
+    return scored, index
+
+
+def test_the_letter_folder_is_the_group():
+    g = hf.letter_of("Basel__lassberg-letter-1209__PA 82a B 9_Seite_144")
+    assert g.name == "lassberg-letter-1209"
+    assert g.basis == "letter"
+
+
+def test_the_shelfmark_in_the_filename_is_not_the_group():
+    """`PA 82a B 9` is 115 Basel pages across 36 letters, and Basel holds both
+    sides of the correspondence. Grouping on it would hand 36 letters one hand."""
+    a = hf.letter_of("Basel__lassberg-letter-1209__PA 82a B 9_Seite_144")
+    b = hf.letter_of("Basel__lassberg-letter-1729__PA 82a B 9_Seite_146")
+    assert a.name != b.name
+
+
+def test_a_folder_below_the_archive_is_the_group_when_there_is_no_letter_id():
+    """`blb lassberg__K 2911,104` is a shelfmark folder whose pages are one
+    piece — 23 of the 241 candidate pages are shaped like this."""
+    g = hf.letter_of("blb lassberg__K 2911,104__page_0001")
+    assert g.name == "blb lassberg__K 2911,104"
+    assert g.basis == "folder"
+
+
+def test_a_page_loose_in_an_archive_root_has_no_group():
+    """`Winterthur__101-MsBRH_466-56-071` and `…-072` are two shelfmarks side by
+    side; grouping on the archive would make the whole of Winterthur one letter."""
+    assert not hf.letter_of("Winterthur__101-MsBRH_466-56-071")
+
+
+def test_a_continuation_page_takes_its_letters_hand(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__PA 82a B 9_Seite_144", WACKERNAGEL),
+        ("Basel__lassberg-letter-1209__PA 82a B 9_Seite_145", APPEAL),
+    ])
+
+    p = hf.plan(scored, index)
+
+    assert p.by_project == {"korrespondenten": 2}
+    heir = [e for e in p.entries if e.inherited]
+    assert len(heir) == 1
+    assert "lassberg-letter-1209" in heir[0].evidence
+    assert p.hands.decided == 1 and p.hands.inherited == 1 and p.hands.alone == 0
+
+
+def test_a_page_that_read_its_own_dateline_keeps_it(tmp_path):
+    """Two letters in one archive folder: neither takes the other's hand."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", WACKERNAGEL),
+        ("Basel__lassberg-letter-1730__a_Seite_9", LASSBERG),
+    ])
+
+    p = hf.plan(scored, index)
+
+    assert p.by_project == {"korrespondenten": 1, "lassberg": 1}
+    assert not any(e.inherited for e in p.entries)
+
+
+def test_a_letter_whose_dated_pages_disagree_inherits_nothing(tmp_path):
+    """Two hands under one letter folder is either a folder holding a letter and
+    its reply or a misfire of the dateline rule. Averaging them would hide both."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", WACKERNAGEL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", LASSBERG),
+        ("Basel__lassberg-letter-1209__a_Seite_3", APPEAL),
+    ])
+
+    p = hf.plan(scored, index)
+
+    assert p.by_project["unbestimmt"] == 1
+    assert not any(e.inherited for e in p.entries)
+    assert p.hands.conflicts and p.hands.conflicts[0][0] == "lassberg-letter-1209"
+    text = hf.format_plan(p)
+    assert "disagree" in text and "lassberg-letter-1209" in text
+
+
+def test_an_undated_letter_stays_undetermined(tmp_path):
+    """Inheritance adds a hand where one was named. It does not invent one."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", APPEAL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", APPEAL),
+    ])
+
+    p = hf.plan(scored, index)
+
+    assert p.by_project == {"unbestimmt": 2}
+    assert p.hands.alone == 2 and p.hands.inherited == 0
+
+
+def test_a_letter_decided_by_a_later_page_is_named(tmp_path):
+    """A dateline on a continuation page is the shape a misfire has, and
+    inheritance spreads it over the whole letter. Inherited, and said out loud."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", APPEAL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", WACKERNAGEL),
+    ])
+
+    p = hf.plan(scored, index)
+
+    assert p.hands.late == ["lassberg-letter-1209"]
+    text = hf.format_plan(p)
+    assert "is not their first" in text and "lassberg-letter-1209" in text
+    assert all(e.project == "korrespondenten" for e in p.entries)
+
+
+def test_the_plan_counts_the_three_sources_of_a_hand(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", WACKERNAGEL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", APPEAL),
+        ("Basel__lassberg-letter-1730__a_Seite_9", APPEAL),
+    ])
+
+    text = hf.format_plan(hf.plan(scored, index))
+
+    assert "from its own dateline" in text
+    assert "inherited from its letter" in text
+    assert "no hand" in text
+
+
+def test_every_page_is_in_the_writers_table_with_its_letter(tmp_path):
+    """The plan's counts are a claim about an inference; this is what makes it
+    checkable, so it has one row per exported page and names the decider."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", WACKERNAGEL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", APPEAL),
+    ])
+
+    rows = hf.writers_table(hf.plan(scored, index)).strip().splitlines()
+
+    assert rows[0].split("\t") == ["key", "letter", "basis", "project",
+                                   "source", "evidence"]
+    assert len(rows) == 3
+    assert [r.split("\t")[4] for r in rows[1:]] == ["dateline", "inherited"]
+    assert all("lassberg-letter-1209" in r for r in rows[1:])

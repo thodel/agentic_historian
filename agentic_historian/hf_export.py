@@ -38,6 +38,39 @@ guess about the first two lines of a letter, right often and not always. A page
 whose dateline says nothing goes to ``unbestimmt`` rather than to a coin flip, and
 :func:`format_plan` prints the three counts so the size of the guess is visible
 before anything is uploaded.
+
+**The hand belongs to the letter, not to the page.** The first dry run with
+images, 2026-10-05, labelled 57 of 211 pages and left 154 ``unbestimmt`` — and
+the reason is not unreadable datelines. A dateline stands on a letter's *first*
+page; every continuation page is a page the rule cannot possibly read, because
+there is nothing there to read. So the writer is inherited along the letter:
+:func:`letter_of` says which pages belong to one letter, :func:`inherit` lets the
+letter's dated page decide, and the undated pages of that letter take its hand.
+
+The grouping key is the **letter folder** (``lassberg-letter-NNNN``), not the
+shelfmark in the filename. That was measured on the 241 pages of
+``atr_gt_candidates`` before it was chosen, because the filenames carry a
+shelfmark and it looked like the better key:
+
+===========================  =======================  ===================
+grouping                     pages covered            letters per group
+===========================  =======================  ===================
+``lassberg-letter-NNNN``     216 / 241                1
+filename shelfmark           241 / 241                up to **36**
+===========================  =======================  ===================
+
+``Basel__lassberg-letter-*__PA 82a B 9_Seite_NNN`` is 115 pages under **one**
+shelfmark spanning 36 letters, and ``Staatsarchiv Thurgau``'s ``…__75-1_00NNN``
+spans 21. These shelfmarks name an archival *bundle*, not a letter — and Basel is
+exactly the folder that holds both sides of the correspondence, so inheriting
+along it would hand 36 letters a single hand. The shelfmark is unusable as the
+decisive key; the 25 pages with no letter folder fall back to their own folder,
+and the two that are loose in an archive root inherit nothing.
+
+A letter whose dated pages *disagree* inherits nothing either, and is named in the
+plan. Two hands under one letter folder means either the folder holds a letter and
+its reply or the dateline rule misfired, and both are things to look at rather than
+to average.
 """
 
 from __future__ import annotations
@@ -108,6 +141,114 @@ def writer_of(text: str, *, lines: int = DATELINE_LINES) -> Writer:
     return Writer("unbestimmt")
 
 
+#: A letter's own folder in the share: ``lassberg-letter-1741``,
+#: ``lassberg-letter-0000-1808-08-31``. The corpus uses it in every archive that
+#: sorted its scans by letter, which is seven of the nine holding ground truth.
+_LETTER_SEG = re.compile(r"lassberg-letter-[0-9][\w.-]*")
+
+
+@dataclass(frozen=True)
+class Group:
+    """Which letter a page belongs to, and how that was decided."""
+
+    name: str = ""
+    basis: str = ""              # "letter" | "folder" | ""
+
+    def __bool__(self) -> bool:
+        return bool(self.name)
+
+
+def letter_of(key: str) -> Group:
+    """The letter a page key belongs to.
+
+    The page key is a path with its separators folded to ``__``, so the folders
+    are still in it. Three cases, in order:
+
+    * a ``lassberg-letter-NNNN`` segment — the letter, named by the corpus
+      itself. 216 of the 241 candidate pages, and no letter id appears under two
+      archives, so the segment alone identifies it.
+    * no such segment, but the page sits in a folder below its archive — that
+      folder. ``blb lassberg__K 2911,104__page_0001`` is a shelfmark folder whose
+      pages are one piece; ``Weimar__FA Hodel 236__Weimar__GSA_96_1743_Seite3``
+      likewise. 23 pages.
+    * loose in the archive root — nothing. ``Winterthur__101-MsBRH_466-56-071``
+      and ``…-072`` are two shelfmarks side by side, and grouping on the archive
+      would make the whole of Winterthur one letter. 2 pages, which keep whatever
+      their own dateline says.
+
+    Deliberately **not** the shelfmark in the filename: ``PA 82a B 9`` covers 115
+    Basel pages across 36 letters, and Basel holds both sides of the
+    correspondence. See the module docstring for the measurement.
+    """
+    segs = key.split("__")
+    for seg in segs:
+        if _LETTER_SEG.fullmatch(seg):
+            return Group(seg, "letter")
+    if len(segs) >= 3:
+        return Group("__".join(segs[:-1]), "folder")
+    return Group()
+
+
+@dataclass
+class Hands:
+    """What inheriting the writer along each letter did. Counted, not asserted."""
+
+    decided: int = 0             # pages whose own dateline named a place
+    inherited: int = 0           # undated pages that took their letter's hand
+    alone: int = 0               # undated pages with no dated page to inherit from
+    letters: int = 0             # groups a dated page decided
+    #: Letters whose dated pages disagree: ``(group, {project: pages})``. Nothing
+    #: inherits in them, because two hands under one letter folder is either a
+    #: folder holding a reply or a misfire of the dateline rule.
+    conflicts: list = field(default_factory=list)
+    #: Letters decided only by a page that is not their first. A dateline stands
+    #: on a first page, so this is the shape a misfire has — a continuation page
+    #: that happens to mention a city in its opening lines — and inheritance
+    #: spreads it over the whole letter. Inherited anyway, and named here.
+    late: list = field(default_factory=list)
+
+
+def inherit(entries: Sequence["Entry"]) -> Hands:
+    """Give every undated page of a letter the hand its dated page names.
+
+    Mutates the entries in place and returns what it did. A page that read its
+    own dateline keeps it; only ``unbestimmt`` pages inherit, and only from a
+    letter whose dated pages agree.
+    """
+    groups: dict[str, list[Entry]] = {}
+    for e in entries:
+        g = letter_of(e.key)
+        e.group, e.basis = g.name, g.basis
+        if g:
+            groups.setdefault(g.name, []).append(e)
+
+    hands = Hands(decided=sum(1 for e in entries if e.project != "unbestimmt"))
+    for name, pages in sorted(groups.items()):
+        dated = [e for e in pages if e.project != "unbestimmt"]
+        said = {e.project for e in dated}
+        if not said:
+            continue
+        if len(said) > 1:
+            counts: dict[str, int] = {}
+            for e in dated:
+                counts[e.project] = counts.get(e.project, 0) + 1
+            hands.conflicts.append((name, counts))
+            continue
+        hands.letters += 1
+        first = min(pages, key=lambda e: e.key)
+        if first.project == "unbestimmt":
+            hands.late.append(name)
+        decider = min(dated, key=lambda e: e.key)
+        for e in pages:
+            if e.project == "unbestimmt":
+                e.project = decider.project
+                e.evidence = f"inherited from {name} ({decider.evidence})"
+                e.inherited = True
+                hands.inherited += 1
+    hands.alone = sum(1 for e in entries if e.project == "unbestimmt")
+    return hands
+
+
 @dataclass
 class Entry:
     """One page of the export: an image, its PAGE XML, and the project it joins."""
@@ -118,6 +259,9 @@ class Entry:
     project: str
     evidence: str = ""
     stem: str = ""               # filesystem-safe name shared by jpg and xml
+    group: str = ""              # the letter this page belongs to
+    basis: str = ""              # how that letter was identified
+    inherited: bool = False      # the hand came from the letter, not this page
 
     def __post_init__(self) -> None:
         if not self.stem:
@@ -136,6 +280,7 @@ class Rejected:
 class Plan:
     entries: list[Entry] = field(default_factory=list)
     rejected: list[Rejected] = field(default_factory=list)
+    hands: Hands = field(default_factory=Hands)
 
     @property
     def by_project(self) -> dict[str, int]:
@@ -298,6 +443,10 @@ def plan(scored: Sequence, index: dict[str, Path], *,
         seen.add(key)
         out.entries.append(Entry(key=key, image=image, xml_source=item.gt.source,
                                  project=who.project, evidence=who.evidence))
+    # The hand belongs to the letter: the dateline is on a first page, so every
+    # continuation page is one the rule cannot read. Done over the whole plan
+    # rather than per page, because a page's letter is only visible here.
+    out.hands = inherit(out.entries)
     return out
 
 
@@ -306,12 +455,34 @@ def format_plan(p: Plan) -> str:
     lines = [f"pages to export: {len(p.entries)}", ""]
     for project, n in sorted(p.by_project.items()):
         lines.append(f"  {project:18} {n:>4}")
+    h = p.hands
+    lines += ["", "the hand, page by page:",
+              f"  {'from its own dateline':26} {h.decided:>4}",
+              f"  {'inherited from its letter':26} {h.inherited:>4}"
+              f"   (from {h.letters} letter(s))",
+              f"  {'no hand at all':26} {h.alone:>4}"]
+    if h.conflicts:
+        lines += ["", f"{len(h.conflicts)} letter(s) whose dated pages disagree — "
+                      f"nothing inherited in them. Either the folder holds a "
+                      f"letter and its reply, or the dateline rule misfired; both "
+                      f"are worth looking at:"]
+        for name, counts in h.conflicts[:10]:
+            lines.append("  - " + name + ": "
+                         + ", ".join(f"{k} {v}" for k, v in sorted(counts.items())))
+    if h.late:
+        lines += ["", f"{len(h.late)} letter(s) were decided by a page that is not "
+                      f"their first. A dateline stands on a first page, so this is "
+                      f"the shape a misfire has — and the hand was spread over the "
+                      f"whole letter: "
+                      + ", ".join(h.late[:8])
+                      + (" …" if len(h.late) > 8 else "")]
     unbestimmt = p.by_project.get("unbestimmt", 0)
     if unbestimmt:
-        lines += ["", f"**{unbestimmt} page(s) have no recognisable dateline.** The "
-                      f"project split is inferred from the first two lines; these "
-                      f"are not a third hand, they are pages the rule could not "
-                      f"read. Check them before training on the split."]
+        lines += ["", f"**{unbestimmt} page(s) have no recognisable dateline and no "
+                      f"dated page in their letter.** The project split is inferred "
+                      f"from the first two lines of a letter's first page; these are "
+                      f"not a third hand, they are pages nothing said anything "
+                      f"about. Check them before training on the split."]
     if p.rejected:
         lines += ["", f"left out: {len(p.rejected)}"]
         for reason, n in sorted(p.reasons.items(), key=lambda kv: -kv[1]):
@@ -320,6 +491,23 @@ def format_plan(p: Plan) -> str:
         for r in p.rejected[:5]:
             lines.append(f"  - {r.key}: {r.reason}")
     return "\n".join(lines)
+
+
+def writers_table(p: Plan) -> str:
+    """Every page's hand, where it came from, and which letter decided it.
+
+    Written out as a TSV because the plan's counts cannot be audited: "154 pages
+    inherited a hand" is a number to believe or not, and the only way to disagree
+    with it usefully is to read the pages it was wrong about. One row per
+    exported page, sorted by letter so a letter's pages stand together.
+    """
+    rows = ["key\tletter\tbasis\tproject\tsource\tevidence"]
+    for e in sorted(p.entries, key=lambda e: (e.group, e.key)):
+        source = "inherited" if e.inherited else ("dateline" if e.evidence
+                                                  else "none")
+        rows.append("\t".join([e.key, e.group or "—", e.basis or "—",
+                                e.project, source, e.evidence or "—"]))
+    return "\n".join(rows) + "\n"
 
 
 #: The dataset the Laßberg pages go to. Named for the collection and the century,
