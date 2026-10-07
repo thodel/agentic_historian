@@ -97,6 +97,38 @@ def load_votes(doc_id: str, *, page: str = "") -> list[Vote]:
     return list(latest.values())
 
 
+def voted_pages() -> set[tuple[str, str]]:
+    """``(doc_id, page)`` for every page carrying at least one vote.
+
+    One pass over the whole log, because the sampling queue (#398) asks about
+    every known document at once and :func:`load_votes` re-reads the file per
+    call — that is O(docs × pages) file reads for a question that is one scan.
+
+    Membership only, so the last-vote-per-voter rule does not apply: a page with
+    any vote at all is a page a historian has already looked at.
+    """
+    path = config.VOTES_LOG_PATH
+    if not path.exists():
+        return set()
+    out: set[tuple[str, str]] = set()
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                d = json.loads(line)
+            except ValueError:
+                continue                       # skip a corrupt line, never raise
+            doc_id = d.get("doc_id", "") or ""
+            if doc_id and (d.get("candidate") or "") and (d.get("voter") or ""):
+                out.add((doc_id, d.get("page", "") or ""))
+    except OSError as e:
+        logger.warning(f"[vote] could not read {path}: {e}")
+        return set()
+    return out
+
+
 # ── aggregation ───────────────────────────────────────────────────────────────
 
 def tally(votes: list[Vote]) -> dict[str, int]:

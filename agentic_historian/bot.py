@@ -457,6 +457,33 @@ async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
 
 
 @bot.slash_command(
+    name="votes_queue",
+    description="Offene Gate-2-Abstimmungen, nach Informationsgehalt sortiert")
+@require_role
+async def votes_queue_cmd(
+    ctx,
+    anzahl: Option(int, "Wie viele Seiten zeigen (Standard 10)", required=False),
+):
+    """Which pending Gate-2 pages are worth a vote (#398).
+
+    Read-only over the run states, the preference log and the vote log — no new
+    storage. The ranking and its explanation live in `votes_queue`, which renders
+    a list of messages, so the command is a loop over sends and the output is
+    testable without a Discord client (as with `/find` and `atr_status`).
+
+    Each entry names `/votes <doc_id>` rather than a jump link: the gate card's
+    message id is on the run state, but its channel and guild are not, and a
+    fabricated link would look like a working one.
+    """
+    import votes_queue
+
+    await ctx.defer(ephemeral=True)
+    queue = votes_queue.build_queue(int(anzahl or votes_queue.TOP_N))
+    for message in votes_queue.format_queue(queue):
+        await ctx.followup.send(message, ephemeral=True)
+
+
+@bot.slash_command(
     name="reprocess",
     description="Re-process a document after correcting criteria or stages",
 )
