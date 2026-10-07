@@ -540,10 +540,12 @@ class BucketLine:
         ``already`` exists so the campaign is not credited with a bucket that
         was sufficient before it started — which is the whole reason the
         baseline is stored.
+
+        Delegated to ``votes_queue.crossing``: #369 asks the same question after
+        a single vote, and two implementations of "did this cross" would be two
+        answers to it.
         """
-        if self.before >= vq.MIN_COMPARISONS:
-            return "already"
-        return "crossed" if self.now >= vq.MIN_COMPARISONS else "still_short"
+        return vq.crossing(self.before, self.now)
 
 
 def bucket_report(campaign: Campaign, *, events=None) -> list[BucketLine]:

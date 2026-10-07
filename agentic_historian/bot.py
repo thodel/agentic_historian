@@ -574,6 +574,73 @@ async def campaign_status_cmd(
 
 
 @bot.slash_command(
+    name="votes_stats",
+    description="Was die Gate-2-Stimmen bisher gemessen haben")
+@require_role
+async def votes_stats_cmd(
+    ctx,
+    bereich: Option(str, "Welcher Report", required=False,
+                    choices=["abdeckung", "auswahl", "stärke", "routing",
+                             "alles"]),
+):
+    """The vote-derived measurements, on demand (#369).
+
+    All four reports existed — #154's routing stats, #333's coverage, #334's
+    selection agreement, #335's engine strength — and no command surfaced any of
+    them; only `/agent_e` posted the routing embed as a side effect of running a
+    whole meta report. #369's decision ("not on the card, but available to
+    whoever deliberately asks") needs the second half to exist, which is this.
+
+    `stärke` is the one report that must never be pushed: showing which engine
+    leads before the next vote would make #334 and #335 measure the display
+    rather than the historian.
+    """
+    import routing_report
+
+    await ctx.defer(ephemeral=True)
+    want = (bereich or "alles").lower()
+    reports = {
+        "abdeckung": routing_report.format_coverage_stats,
+        "auswahl": routing_report.format_selection_stats,
+        "stärke": routing_report.format_strength_stats,
+        "routing": routing_report.format_routing_stats,
+    }
+    chosen = list(reports) if want == "alles" else [want]
+    for name in chosen:
+        render = reports.get(name)
+        if render is None:
+            await ctx.followup.send(f"❓ Unbekannter Bereich `{name}`.",
+                                    ephemeral=True)
+            continue
+        try:
+            text = render()
+        except Exception as e:                      # noqa: BLE001
+            text = f"❌ `{name}` nicht verfügbar: {e}"
+        # Discord caps a message at 2000 chars and these reports grow with the
+        # bucket count, so a long one is split rather than silently truncated by
+        # the API.
+        for chunk in _chunks(text):
+            await ctx.followup.send(chunk, ephemeral=True)
+
+
+def _chunks(text: str, limit: int = 1900) -> list[str]:
+    """Split on line boundaries so a report never loses its tail to Discord's
+    2000-char cap. A single over-long line is cut, because the alternative is
+    sending nothing."""
+    out: list[str] = []
+    current = ""
+    for line in (text or "").splitlines() or [""]:
+        line = line if len(line) <= limit else line[:limit - 1] + "…"
+        if len(current) + len(line) + 1 > limit:
+            out.append(current)
+            current = line
+        else:
+            current = f"{current}\n{line}" if current else line
+    out.append(current)
+    return [c for c in out if c.strip()] or [""]
+
+
+@bot.slash_command(
     name="reprocess",
     description="Re-process a document after correcting criteria or stages",
 )

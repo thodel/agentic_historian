@@ -452,3 +452,57 @@ def format_coverage_stats(events=None) -> str:
         trend = "  ".join(f"{m} {st['rate']:.0%}" for m, st in cov["by_month"].items())
         lines.append(f"Verlauf: {trend}")
     return "\n".join(lines)
+
+
+# ── Engine strength (#335), on demand only (#369) ────────────────────────────
+#
+# This is the one report that must never be pushed at a historian. #334 measures
+# how often they agree with the automatic pick and #335 derives engine strength
+# from their choices; a display that says "TrOCR leads Kurrent 16th c." before
+# the next vote makes both metrics measure the display. Same objection that kept
+# the match score off the Gate-2 card (#313) and the auto-pick unhighlighted
+# (#352).
+#
+# So it lives behind an explicit command. A historian who chooses to look has
+# broken the anchoring themselves; one who is shown it has not. Before #369 the
+# distinction was theoretical, because this and the three reports above were
+# reachable from no command at all.
+
+def format_strength_stats(events=None) -> str:
+    """Bradley–Terry engine strength per bucket, gated on sufficiency.
+
+    A bucket below ``MIN_COMPARISONS`` reports *insufficient data* rather than a
+    number: a confident-looking strength from three clicks would be worse than
+    none, because it would steer model selection on nothing (#335).
+    """
+    from agent_a.preference_strength import MIN_COMPARISONS, compute_strengths
+
+    buckets = compute_strengths(events)
+    if not buckets:
+        return ("⚖️ **Engine-Stärke** — noch keine Vergleiche aufgezeichnet. "
+                "Jede Gate-2-Entscheidung liefert sie (#332).")
+
+    lines = ["⚖️ **Engine-Stärke** (Bradley–Terry über die Präferenzen, #335)",
+             "_Bewusst nur auf Abruf: diese Rangliste vor der nächsten Stimme "
+             "zu zeigen würde die Stimme beeinflussen, die sie belegen soll "
+             "(#369)._", ""]
+    ready = {k: v for k, v in buckets.items() if v["sufficient"]}
+    thin = {k: v for k, v in buckets.items() if not v["sufficient"]}
+
+    for (script, century, lang), info in sorted(
+            ready.items(), key=lambda kv: -kv[1]["comparisons"]):
+        lines.append(f"`{script or '?'}/{century or '?'}/{lang or '?'}` "
+                     f"({info['comparisons']:.0f} Vergleiche)")
+        ranked = sorted(info["models"].values(), key=lambda s: -s.strength)
+        for st in ranked:
+            lines.append(f"  {st.model_id} — Stärke {st.strength:.2f}, "
+                         f"P(schlägt Durchschnitt) {st.win_prob_vs_field:.0%} "
+                         f"({st.wins:.1f}/{st.comparisons:.1f})")
+        lines.append("")
+    if thin:
+        short = ", ".join(
+            f"`{s or '?'}/{c or '?'}/{la or '?'}` {info['comparisons']:.1f}"
+            for (s, c, la), info in sorted(thin.items()))
+        lines.append(f"Noch zu dünn (unter {MIN_COMPARISONS:.0f} Vergleichen, "
+                     f"daher keine Schätzung): {short}")
+    return "\n".join(lines).rstrip()
