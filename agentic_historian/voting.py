@@ -62,8 +62,8 @@ def record_vote(doc_id: str, candidate: str, voter: str, *, page: str = "",
     vote = Vote(doc_id=doc_id, candidate=candidate, voter=str(voter), page=page or "",
                 voter_name=voter_name or "")
     config.FEEDBACK_DIR.mkdir(parents=True, exist_ok=True)
-    with config.VOTES_LOG_PATH.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(vote.to_dict(), ensure_ascii=False) + "\n")
+    from shared_lock import locked_append
+    locked_append(config.VOTES_LOG_PATH, json.dumps(vote.to_dict(), ensure_ascii=False))
     logger.info(f"[vote] {doc_id}{'/' + page if page else ''}: {voter} → {candidate}")
     return vote
 
