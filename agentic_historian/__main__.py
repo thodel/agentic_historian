@@ -477,6 +477,17 @@ def export_hf(args: argparse.Namespace) -> int:
     plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check)
     print(hf.format_plan(plan))
 
+    # The hand is inferred, so the counts above are a claim. Write the per-page
+    # table every time, like `atr-batch --missing-out`: the run that would have
+    # needed it is always the one that did not ask for it, and 211 rows cost
+    # nothing. It names the letter each page inherited from, which is the only
+    # way to disagree with the inheritance usefully.
+    if getattr(args, "writers_out", None) and plan.entries:
+        out = Path(args.writers_out).expanduser()
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(hf.writers_table(plan), encoding="utf-8")
+        print(f"\nthe hand of every page: {out}")
+
     # When the index holds pages but none of the wanted keys, the counts alone
     # cannot say why — and guessing cost two rounds on 2026-10-02/03, first on a
     # PDF renderer and then on a cache eviction that turned out not to be it. The
@@ -882,6 +893,12 @@ def build_parser() -> argparse.ArgumentParser:
                            "days, so for anything but a run read today this is "
                            "where most pages are")
     p_hf.add_argument("--out", help="Where to write the export tree")
+    p_hf.add_argument("--writers-out",
+                      help="Write one row per exported page — its letter, its "
+                           "hand, and whether that came from its own dateline or "
+                           "was inherited. Written on a dry run too, because the "
+                           "plan's counts are a claim about an inference and this "
+                           "is what makes it checkable")
     p_hf.add_argument("--repo-id", default="dh-unibe/image-text_lassberg-correspondence_xix",
                       help="Dataset repo for the printed pagexml-hf command")
     p_hf.add_argument("--dry-run", action="store_true",

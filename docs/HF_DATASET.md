@@ -188,6 +188,61 @@ written.
 prints that count prominently. It is not a third hand; it is the size of the guess,
 and it belongs in the dataset card rather than being rounded away.
 
+### Die Hand gehört zum Brief, nicht zur Seite
+
+Der erste Dry-Run mit Bildern, 5. Oktober 2026, labelte **57 von 211 Seiten** und
+liess 154 auf `unbestimmt` — 27 %. Das ist kein Lesefehler der Regel. Eine
+Datierung steht auf der *ersten* Seite eines Briefes; jede Folgeseite ist eine
+Seite, auf der nichts zu lesen ist. Die Hand ist eine Eigenschaft des Briefes.
+
+Also erbt sie entlang des Briefes: die datierte Seite entscheidet, die übrigen
+Seiten desselben Briefes übernehmen. Was gruppiert, ist der **Briefordner**
+(`lassberg-letter-NNNN`) — nicht die Signatur im Dateinamen.
+
+#### Warum nicht die Signatur
+
+Die Dateinamen tragen Signaturen, und das sah nach dem besseren Schlüssel aus.
+Gemessen über die 241 Seiten von `atr_gt_candidates`, bevor entschieden wurde:
+
+| Gruppierung | Seiten erfasst | Briefe pro Gruppe |
+|---|---|---|
+| `lassberg-letter-NNNN` | 216 / 241 | 1 |
+| Signatur im Dateinamen | 241 / 241 | bis **36** |
+
+`Basel__lassberg-letter-*__PA 82a B 9_Seite_NNN` sind 115 Seiten unter **einer**
+Signatur, verteilt auf 36 Briefe; `Staatsarchiv Thurgau`s `…__75-1_00NNN` deckt 21
+Briefe ab. Diese Signaturen benennen eine archivische *Einheit*, keinen Brief — und
+Basel ist genau der Ordner, der beide Seiten der Korrespondenz enthält. Entlang der
+Signatur zu erben hiesse, 36 Briefen eine einzige Hand zuzuweisen.
+
+Die Antwort auf die Frage ist also: **nein**, die Signatur ist nicht ausschlaggebend.
+Der Briefordner ist es, und wo er fehlt (25 Seiten), tritt der eigene Ordner an
+seine Stelle — `blb lassberg__K 2911,104` ist ein Signaturen*ordner*, dessen Seiten
+ein Stück sind. Zwei Seiten liegen lose in einem Archivordner (`Winterthur`); die
+erben nichts, weil sonst ganz Winterthur ein Brief wäre.
+
+#### Was die Vererbung nicht tut
+
+- **Eine eigene Datierung wird nicht überschrieben.** Nur `unbestimmt`-Seiten erben.
+- **Ein Brief mit widersprüchlichen Datierungen erbt nichts** und wird im Plan
+  namentlich genannt. Zwei Hände unter einem Briefordner heissen entweder, dass der
+  Ordner Brief *und* Antwort enthält, oder dass die Datierungsregel fehlgezündet
+  hat; beides ist etwas zum Anschauen, nicht zum Mitteln.
+- **Ein Brief, über den nichts datiert ist, bleibt `unbestimmt`.** Vererbung
+  verteilt eine vorhandene Angabe, sie erfindet keine.
+- Ein Brief, den nur eine *Folgeseite* entschieden hat, wird gezählt und benannt:
+  so sieht ein Fehlschuss aus (eine Seite, die in ihren ersten Zeilen eine Stadt
+  erwähnt), und die Vererbung verteilt ihn über den ganzen Brief.
+
+#### Nachprüfbar, Seite für Seite
+
+`--writers-out PATH` schreibt eine Zeile pro exportierter Seite: Schlüssel, Brief,
+Gruppierungsgrund, Projekt, Herkunft (`dateline` oder `inherited`) und Belegstelle.
+Immer, auch im Dry-Run — denn „154 Seiten haben eine Hand geerbt" ist eine Zahl,
+die man glauben oder nicht glauben kann, und widersprechen kann man ihr nur, indem
+man die Seiten liest, bei denen sie falsch war. Über MCP nennt das Ergebnis die
+Datei im Feld `writers`; sie liegt unter `VLM_TEST_ROOT`, nicht in `/tmp`.
+
 ## What the dataset card should say
 
 Three things that are true of this data and not obvious from it:
