@@ -146,6 +146,39 @@ tiers means an entry was brought back, so the archived copy is the older
 generation). `--archive` overrides; the default is `ATR_PAGE_CACHE_ARCHIVE`, and an
 archive that is not a directory produces a warning rather than a silent miss.
 
+**On tei the cold tier is:**
+
+```
+ATR_PAGE_CACHE_ARCHIVE=/mnt/wbkolleg_dh_1/tei/archive/agentic_historian-page_cache
+```
+
+It has to be exactly that directory, not `…/tei/archive`: `page_index` derives
+each page key relative to the root it is given, so one level too high puts
+`agentic_historian-page_cache__` in front of every key and none of them match.
+The structure below it mirrors the page cache (`Basel/`, `Aarau/`,
+`Donaueschingen/`, …) and a `MANIFEST.tsv` records
+`sha256 · bytes · path here · original path on tei` for every file, so the
+mapping back is checkable rather than assumed.
+
+**This was unset until 2026-10-07, which means `images.cold_fetch` had never
+run.** It was added in #487 exactly so an evicted working copy would come back
+from the share instead of being re-downloaded, and for two weeks every batch
+pulled 25 MB TIFFs over the wire and converted them again while the 1.5 MB
+working copies sat on a share that reads at 410 MB/s. The cold tier holds 6719 of
+them — the whole corpus. Nothing was broken: `cold_fetch` returns `None` when the
+archive is unconfigured, which is correct on any host without a share. A cache
+that is never consulted and a cache that always misses look identical from
+outside, and `page_index`'s own line —
+`0 page(s) in the cache, 6719 in the cold tier` — is the only place the
+difference ever showed.
+
+The eviction itself is `tei-vm-sanity/scripts/archive.sh`, in **`dh`'s user
+crontab** at 04:10 daily (not in `/etc/cron.*`, which is where four rounds of
+searching looked). It appends to `tei-vm-sanity/archive.log`, and that log names
+the file count per night — which is how the empty cache was finally explained:
+`moved 238 files` on 6 October, the exact number of images the 5 October dry run
+had found.
+
 A working copy is ~1.5 MB and the share reads at 410 MB/s, so pulling 276 of them
 is well under a minute.
 
@@ -233,6 +266,30 @@ erben nichts, weil sonst ganz Winterthur ein Brief wäre.
 - Ein Brief, den nur eine *Folgeseite* entschieden hat, wird gezählt und benannt:
   so sieht ein Fehlschuss aus (eine Seite, die in ihren ersten Zeilen eine Stadt
   erwähnt), und die Vererbung verteilt ihn über den ganzen Brief.
+
+#### Gemessen, 7. Oktober 2026
+
+Derselbe Dry-Run über `atr_gt_candidates`, 211 exportierbare Seiten:
+
+| | 5. Oktober | 7. Oktober |
+|---|---:|---:|
+| mit Hand | 57 (27 %) | **111 (53 %)** |
+| `unbestimmt` | 154 (73 %) | **100 (47 %)** |
+| `korrespondenten` | 27 | 63 |
+| `lassberg` | 30 | 48 |
+
+54 Seiten erben die Hand ihres Briefes, aus **48 Briefen**. Zwei Briefe
+widersprechen sich (`lassberg-letter-1737`, `-1787`, je eine Seite pro Hand) und
+erben nichts; drei wurden von einer Folgeseite entschieden (`-1530`, `-1797`,
+`-1952`) und sind als Fehlschuss-Kandidaten benannt. Fünf Briefe von Hand zu
+prüfen ist machbar; 154 Seiten zu prüfen war es nicht.
+
+**Was die restlichen 100 Seiten jetzt sind.** Nicht Folgeseiten — die sind
+behoben. Sie liegen in Briefen, in denen *keine einzige* Seite einen Ort nennt,
+den die Liste kennt. Bei 211 Seiten auf rund 105 Briefe und 48 entschiedenen
+Briefen hat über die Hälfte der Briefe keine erkennbare Datierung. Das Problem
+sitzt damit nicht mehr in der Gruppierung, sondern in `LASSBERG_PLACES` /
+`CORRESPONDENT_PLACES`: 19 Orte für eine Korrespondenz über halb Europa.
 
 #### Nachprüfbar, Seite für Seite
 
