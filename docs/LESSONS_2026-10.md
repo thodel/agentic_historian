@@ -140,8 +140,11 @@ Worth writing down, because the pattern repeated inside one afternoon.
 
 - **A mechanism was asserted as a cause without evidence.** A cold-tier job that
   moves working copies to the research share would explain an empty cache, and it
-  was stated as the explanation. There is no such job on tei. It had to be
+  was stated as the explanation before anything had been looked at. It had to be
   retracted, then partly re-affirmed when the cache turned out to hold one image.
+  *(Corrected 2026-10-07: the job does exist. See §7 — the error was asserting it
+  first and, four days later, denying it on a search that could not have found
+  it.)*
 - **A plausible number was read as a conclusion.** "500 is not what a wrong
   password looks like" was right about the code and wrong about the cause, twice.
 - **A derived value was computed at import time.** `ATR_PAGE_CACHE_DEFAULT =
@@ -154,6 +157,80 @@ The correction is the same each time, and it is not "be more careful". It is:
 make it.** The password length. The endpoint matrix. The two spellings the index
 holds versus the one the export wanted. Each was one command away, and each was
 reached only after ranking hypotheses by plausibility had failed.
+
+## 7. A mechanism that keeps a log is not a mechanism to search for
+
+Written 2026-10-07, four days after the rest of this file, because the afternoon
+it cost belongs beside §2 and §6 rather than in a file of its own.
+
+`export-hf` over MCP died before it reached a single page:
+
+```
+Error: no page images under …/data/page_cache. The page cache evicts to a cold
+tier after two days (#487); pass --archive, or set ATR_PAGE_CACHE_ARCHIVE.
+```
+
+Four rounds went into "where did the images go", in this order, each a guess at
+the *mechanism*: the service's environment (lesson §2, correctly suspected and
+wrong this time), then `/etc/cron.*` and the systemd timers, then the mount table,
+then the eviction script's shell wrapper. Round two produced the worst moment of
+the day — `grep` over `/etc` found nothing, and that was read as **"there is no
+such job on tei"**, which also looked like a confirmation of §6 above. It was a
+search that could not have found the job: the entry is in `dh`'s *user* crontab,
+which `/etc` does not contain. A non-observation was read as evidence, which is
+§2 and §6 in one move: first the mechanism asserted without looking, then its
+absence asserted from a search of the wrong place.
+
+What settled it in one command, available from the first minute:
+
+```
+=== 2026-10-06T04:10:01   agentic_historian-page_cache: moved 238 files, 43.4 MB
+=== 2026-10-07T04:10:01   agentic_historian-page_cache: moved 245 files, 220.2 MB
+```
+
+**238 is exactly the number of images the 5 October dry run found.** The same
+number on both sides, from the job's own log — not an inference about a mechanism
+but its record of what it did. The code names that job twice (`#487`,
+`tei-vm-sanity#7`) and the job writes `archive.log` next to its script.
+
+So the rule this adds to §2's: **a job that runs on a schedule writes down what it
+did. Read its log before looking for the job.** Searching for the mechanism asks
+"could this happen?"; reading the trace asks "did it happen, to these files, on
+this night?" — and only the second one has the file count in it.
+
+Two smaller things from the same afternoon, both the same shape:
+
+- `ls -d …/*page_cache* …/*/*page_cache*` did not find the archive, and that was
+  nearly taken as "the job writes elsewhere". It is at
+  `/mnt/wbkolleg_dh_1/tei/archive/agentic_historian-page_cache` — depth three.
+  A glob that misses is not an answer about where something is.
+- A `grep` for `archive_root` missed `ARCHIVE_ROOT` on the next line of output,
+  because it was case-sensitive. The constant was two lines from a match.
+
+## 8. A configuration nobody set is not a default that works
+
+The variable the error message named, `ATR_PAGE_CACHE_ARCHIVE`, was **not set
+anywhere** — not in the process environment, not in `.env.gpustack`, not in
+`.env`. Which means `images.cold_fetch`, added in #487 precisely so an evicted
+working copy would be fetched back from the share instead of re-downloaded, had
+**never run** since it was written. Every batch since 24 September pulled 25 MB
+TIFFs over the wire and converted them again, while the 1.5 MB working copies sat
+on a share that reads at 410 MB/s. The cold tier held 6719 of them — the whole
+corpus.
+
+Nothing was broken. `cold_fetch` returns `None` when the archive is unconfigured,
+which is the right behaviour on any host without a share, and the docstrings
+describe the two-tier cache as though it were in operation. **The documentation
+described the state that was intended, not the state that held**, and there was no
+measurement anywhere that would have noticed the difference — a cache that is
+never consulted and a cache that always misses look identical from the outside.
+
+The cheap thing that would have: `page_index` logs
+`N page(s) in the cache, M in the cold tier` and always has. On 7 October it
+printed `0 … 6719 (6719 only there)` for the first time. A line that says "the
+cold tier contributed nothing" on every run for two weeks is a line nobody reads;
+a config check at startup that names an unset variable the code depends on is one
+somebody does.
 
 ---
 
