@@ -873,7 +873,100 @@ def test_every_page_is_in_the_writers_table_with_its_letter(tmp_path):
     rows = hf.writers_table(hf.plan(scored, index)).strip().splitlines()
 
     assert rows[0].split("\t") == ["key", "letter", "basis", "project",
-                                   "source", "evidence"]
+                                   "source", "evidence", "head"]
     assert len(rows) == 3
     assert [r.split("\t")[4] for r in rows[1:]] == ["dateline", "inherited"]
     assert all("lassberg-letter-1209" in r for r in rows[1:])
+
+
+# ── measuring the place list instead of guessing at it ───────────────────────
+#
+# After the inheritance, 100 of 211 pages were still `unbestimmt` — and all of
+# them sat in letters where *no* page named a place the rule knows. Whether that
+# is because those datelines are unreadable or because nineteen places is a short
+# list for a correspondence across half of Europe is not a thing to reason about.
+# It is the openings of those letters, side by side.
+
+def test_the_opening_is_the_lines_the_rule_reads():
+    assert hf.opening("Basel 30 Augst 33.\nHochgeehrter Herr Baron,\nDer Dank"
+                      ) == "Basel 30 Augst 33. / Hochgeehrter Herr Baron,"
+
+
+def test_the_opening_carries_no_tab_into_a_tsv_column():
+    """A dateline with a tab would silently shift every column after it."""
+    assert "\t" not in hf.opening("Basel\t30 Augst\nHerr!")
+
+
+def test_a_long_opening_is_cut_and_says_so():
+    head = hf.opening("x" * 400 + "\ny", chars=20)
+    assert len(head) == 21 and head.endswith("…")
+
+
+def test_the_survey_names_one_row_per_undated_letter(tmp_path):
+    """The dateline is on a first page, so a letter's other pages add nothing."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", APPEAL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", ["mehr Text", "noch mehr"]),
+        ("Basel__lassberg-letter-1730__a_Seite_9", WACKERNAGEL),
+    ])
+
+    survey = hf.dateline_survey(hf.plan(scored, index))
+
+    assert len(survey) == 1
+    assert survey[0][0] == "lassberg-letter-1209"
+    assert survey[0][1].startswith(APPEAL[0])
+
+
+def test_a_dated_letter_is_not_in_the_survey(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", WACKERNAGEL),
+        ("Basel__lassberg-letter-1209__a_Seite_2", APPEAL),
+    ])
+
+    assert hf.dateline_survey(hf.plan(scored, index)) == []
+
+
+def test_a_page_with_no_letter_is_its_own_row(tmp_path):
+    """It is its own first page — `Winterthur__101-MsBRH_466-56-071` inherits
+    nothing, so nothing but its own opening can say anything about it."""
+    scored, index = _letter(tmp_path, [("Winterthur__101-MsBRH", APPEAL)])
+
+    survey = hf.dateline_survey(hf.plan(scored, index))
+
+    assert survey == [("Winterthur__101-MsBRH", hf.opening("\n".join(APPEAL)))]
+
+
+def test_the_plan_prints_the_openings(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", APPEAL),
+    ])
+
+    text = hf.format_plan(hf.plan(scored, index))
+
+    assert "1 letter(s) nothing dated" in text
+    assert APPEAL[0] in text
+
+
+def test_the_survey_is_capped_and_counts_the_rest(tmp_path, monkeypatch):
+    """A survey the length of the corpus is one nobody reads."""
+    monkeypatch.setattr(hf, "SURVEY_SHOWN", 2)
+    pages = [(f"Basel__lassberg-letter-1{i:03d}__a_Seite_1", APPEAL)
+             for i in range(5)]
+    scored, index = _letter(tmp_path, pages)
+
+    text = hf.format_plan(hf.plan(scored, index))
+
+    assert "5 letter(s) nothing dated" in text
+    assert "and 3 more" in text
+
+
+def test_every_pages_opening_is_in_the_writers_table(tmp_path):
+    """Including the dated ones: a wrong label is as interesting as a missing
+    one, and the column is what makes it checkable."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_Seite_1", WACKERNAGEL),
+    ])
+
+    rows = hf.writers_table(hf.plan(scored, index)).strip().splitlines()
+
+    assert rows[1].split("\t")[6].startswith(WACKERNAGEL[0])

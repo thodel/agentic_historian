@@ -249,6 +249,55 @@ def inherit(entries: Sequence["Entry"]) -> Hands:
     return hands
 
 
+#: How much of a page's opening the survey shows. Long enough for a dateline with
+#: a place, a date and a salutation; short enough that fifty of them are readable.
+HEAD_CHARS = 110
+
+#: How many letters :func:`format_plan` shows openings for. The rest are counted.
+#: A survey the length of the corpus is one nobody reads, and the point of this
+#: one is to be read once and then be unnecessary.
+SURVEY_SHOWN = 60
+
+
+def opening(text: str, *, lines: int = DATELINE_LINES,
+            chars: int = HEAD_CHARS) -> str:
+    """The lines :func:`writer_of` reads, on one line, short enough to print.
+
+    Tabs and newlines out, because this ends up in a TSV column, and a letter
+    whose dateline contains a tab would silently shift every column after it.
+    """
+    head = " / ".join(l.strip() for l in text.strip().splitlines()[:lines]
+                      if l.strip())
+    head = head.replace("\t", " ").replace("\r", " ")
+    return head[:chars] + ("…" if len(head) > chars else "")
+
+
+def dateline_survey(p: "Plan") -> list[tuple[str, str]]:
+    """``(letter, opening)`` for every letter nothing dated — its first page.
+
+    The measurement the place lists need. :func:`writer_of` knows nineteen places
+    for a correspondence across half of Europe, and on 2026-10-07 a hundred of 211
+    pages sat in letters where no page named one of them. Whether that is because
+    the datelines are unreadable or because the list is short is not something to
+    reason about: it is the openings of those letters, side by side, and this
+    produces them.
+
+    One row per letter, because the dateline is on the first page and a letter's
+    other pages add nothing. Pages with no letter at all come last, each its own
+    row — they are their own first page.
+    """
+    by_letter: dict[str, list[Entry]] = {}
+    loose: list[Entry] = []
+    for e in p.entries:
+        if e.project != "unbestimmt":
+            continue
+        (by_letter.setdefault(e.group, []) if e.group else loose).append(e)
+    rows = [(letter, min(pages, key=lambda e: e.key).head)
+            for letter, pages in sorted(by_letter.items())]
+    rows += [(e.key, e.head) for e in sorted(loose, key=lambda e: e.key)]
+    return rows
+
+
 @dataclass
 class Entry:
     """One page of the export: an image, its PAGE XML, and the project it joins."""
@@ -259,6 +308,7 @@ class Entry:
     project: str
     evidence: str = ""
     stem: str = ""               # filesystem-safe name shared by jpg and xml
+    head: str = ""               # the lines writer_of read, for the survey
     group: str = ""              # the letter this page belongs to
     basis: str = ""              # how that letter was identified
     inherited: bool = False      # the hand came from the letter, not this page
@@ -442,7 +492,8 @@ def plan(scored: Sequence, index: dict[str, Path], *,
         who = writer_of(item.gt.text)
         seen.add(key)
         out.entries.append(Entry(key=key, image=image, xml_source=item.gt.source,
-                                 project=who.project, evidence=who.evidence))
+                                 project=who.project, evidence=who.evidence,
+                                 head=opening(item.gt.text)))
     # The hand belongs to the letter: the dateline is on a first page, so every
     # continuation page is one the rule cannot read. Done over the whole plan
     # rather than per page, because a page's letter is only visible here.
@@ -476,6 +527,16 @@ def format_plan(p: Plan) -> str:
                       f"whole letter: "
                       + ", ".join(h.late[:8])
                       + (" …" if len(h.late) > 8 else "")]
+    survey = dateline_survey(p)
+    if survey:
+        lines += ["", f"{len(survey)} letter(s) nothing dated. Their openings — the "
+                      f"lines the rule reads — so the place list can be measured "
+                      f"against the text rather than guessed at:"]
+        for name, head in survey[:SURVEY_SHOWN]:
+            lines.append(f"  {name}: {head or '(no text in the first lines)'}")
+        if len(survey) > SURVEY_SHOWN:
+            lines.append(f"  … and {len(survey) - SURVEY_SHOWN} more; the rest are "
+                         f"in the writers table's `head` column")
     unbestimmt = p.by_project.get("unbestimmt", 0)
     if unbestimmt:
         lines += ["", f"**{unbestimmt} page(s) have no recognisable dateline and no "
@@ -501,12 +562,13 @@ def writers_table(p: Plan) -> str:
     with it usefully is to read the pages it was wrong about. One row per
     exported page, sorted by letter so a letter's pages stand together.
     """
-    rows = ["key\tletter\tbasis\tproject\tsource\tevidence"]
+    rows = ["key\tletter\tbasis\tproject\tsource\tevidence\thead"]
     for e in sorted(p.entries, key=lambda e: (e.group, e.key)):
         source = "inherited" if e.inherited else ("dateline" if e.evidence
                                                   else "none")
         rows.append("\t".join([e.key, e.group or "—", e.basis or "—",
-                                e.project, source, e.evidence or "—"]))
+                                e.project, source, e.evidence or "—",
+                                e.head or "—"]))
     return "\n".join(rows) + "\n"
 
 
