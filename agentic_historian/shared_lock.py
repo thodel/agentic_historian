@@ -29,13 +29,13 @@ Usage
 
 from __future__ import annotations
 
-import errno
+import contextlib
 import fcntl
 import json
 import os
 import tempfile
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 from loguru import logger
 
@@ -96,20 +96,15 @@ def write_json_atomic(path: Path, data: Any) -> None:
     fd = _acquire(lock_path)
     try:
         # Write to a temp file in the same directory so rename is atomic.
-        tmp = tempfile.NamedTemporaryFile(
-            mode="w", suffix=".tmp",
-            dir=path.parent,
-            encoding="utf-8",
-            delete=False,
-        )
+        tmp_fd, tmp_name = tempfile.mkstemp(suffix=".tmp", dir=path.parent)
         try:
-            json.dump(data, tmp, ensure_ascii=False, indent=2)
-            tmp.close()
-            os.replace(tmp.name, path)
+            with os.fdopen(tmp_fd, "w", encoding="utf-8") as tmp:
+                json.dump(data, tmp, ensure_ascii=False, indent=2)
+            os.replace(tmp_name, path)
         finally:
-            if os.path.exists(tmp.name):
+            if os.path.exists(tmp_name):
                 try:
-                    os.unlink(tmp.name)
+                    os.unlink(tmp_name)
                 except OSError:
                     pass
     finally:
@@ -128,6 +123,7 @@ def read_json(path: Path, default: Any = None) -> Any:
         return default() if callable(default) else default
 
 
+@contextlib.contextmanager
 def read_jsonl(path: Path):
     """Context manager that yields each line of a JSONL file under a shared lock.
 
