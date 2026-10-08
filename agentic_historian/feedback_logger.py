@@ -73,8 +73,8 @@ def log_routing_feedback(
         "score": score,
     }
     config.FEEDBACK_DIR.mkdir(parents=True, exist_ok=True)
-    with config.ROUTING_LOG_PATH.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    from shared_lock import locked_append
+    locked_append(config.ROUTING_LOG_PATH, json.dumps(entry, ensure_ascii=False))
     logger.debug(f"[feedback] logged routing: {state.doc_id}/{field} "
                  f"'{inferred_value}' → '{chosen_value}'")
 

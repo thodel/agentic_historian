@@ -255,8 +255,8 @@ def _record(state, paths: dict, *, chosen: list, voter: str, rejected: bool) -> 
 
 def _append(ev: PreferenceEvent) -> None:
     config.FEEDBACK_DIR.mkdir(parents=True, exist_ok=True)
-    with config.PREFERENCES_LOG_PATH.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(ev.to_dict(), ensure_ascii=False) + "\n")
+    from shared_lock import locked_append
+    locked_append(config.PREFERENCES_LOG_PATH, json.dumps(ev.to_dict(), ensure_ascii=False))
     logger.info(f"[prefs] {ev.doc_id}/{ev.page}: {len(ev.chosen)} chosen of "
                 f"{len(ev.offered)} offered"
                 f"{' (combined)' if ev.combined else ''}")
