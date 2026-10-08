@@ -970,3 +970,104 @@ def test_every_pages_opening_is_in_the_writers_table(tmp_path):
     rows = hf.writers_table(hf.plan(scored, index)).strip().splitlines()
 
     assert rows[1].split("\t")[6].startswith(WACKERNAGEL[0])
+
+
+# ── what the survey of 2026-10-08 actually showed ────────────────────────────
+#
+# 55 undated letters, their openings read one by one. The result refuted the
+# framing it was built to test — "the place list is too short" explains 2 of 55:
+#
+#   22  a salutation and no place      "Hochwohlgeborner Herr und Gönner!"
+#   10  archival numbers in both lines "1256 / No 85"
+#    7  a continuation page, mid-sentence
+#    5  "E. am 15 Julij 1831."
+#    4  a number, then a salutation
+#    4  a date and no place            "1827. Mart: 1."
+#    2  a place the list lacks         Berlin, Würzburg
+#    1  a printed death notice
+#
+# Two of those groups are addressed here. The 22 are a different signal — an
+# address rather than a place — and that is a historian's decision, not this
+# module's. (Measured for it: of the 48 pages already labelled `lassberg`, zero
+# open by addressing a Baron or Gönner.)
+
+def test_lassbergs_own_shorthand_for_eppishausen():
+    """Five of the 55. His hand, with a date, in legible script — and the rule
+    saw an `E.` that no list holds."""
+    who = hf.writer_of("E. am 4. Juny 1830.\nIch sende Inen, mein vererter Herr")
+    assert who.project == "lassberg"
+    assert "eppishausen" in who.evidence
+
+
+def test_the_shorthand_is_read_under_an_archival_number():
+    """`196. / E. am 15 Julij 1831.` — the foliation takes the first line, and
+    the dateline is still inside the two the rule reads."""
+    assert hf.writer_of("196.\nE. am 15 Julij 1831.").project == "lassberg"
+
+
+@pytest.mark.parametrize("text", [
+    "E. Mörike\nHochgeehrter Herr!",          # an initial
+    "siehe E. 4\nHochgeehrter Herr!",         # a note reference
+    "E.\n4. Juny 1830.",                      # not a dateline
+])
+def test_a_bare_e_is_not_a_dateline(text):
+    """A bare `E.` is an initial, a note reference or a line number. The pattern
+    is anchored and needs `am`/`den` and a digit for exactly this reason."""
+    assert hf.writer_of(text).project == "unbestimmt"
+
+
+def test_the_shorthand_wins_over_a_city_further_on():
+    """A page headed `E. am 23. August 1831.` that goes on to discuss Basel is
+    his, and a first-match-wins order would have given it away."""
+    who = hf.writer_of("E. am 23. August 1831.\nIn Basel liegt ein Codex")
+    assert who.project == "lassberg"
+
+
+@pytest.mark.parametrize("text,place", [
+    ("Copia .\nBerlin 3. Februar. 1853.", "berlin"),
+    ("105\nWürzburg den 17. Febr. 1842 .", "würzburg"),
+])
+def test_the_two_places_the_survey_found(text, place):
+    """Two, not nineteen more guesses. These are the lines the survey printed."""
+    who = hf.writer_of(text)
+    assert who.project == "korrespondenten" and who.evidence == place
+
+
+def test_the_survey_looks_further_than_the_rule_reads(tmp_path):
+    """An archival foliation occupied both lines the rule reads in ten of the 55.
+    What stands below is what decides whether the window is the problem."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1009__a_1",
+         ["1256", "No 85", "Chur, den 2. Mai 1829.", "Verehrtester Herr!"]),
+    ])
+
+    p = hf.plan(scored, index, survey_lines=4)
+
+    assert "Chur" in hf.dateline_survey(p)[0][1]
+    assert "of which the rule reads 2" in hf.format_plan(p)
+
+
+def test_a_place_the_survey_reveals_still_decides_nothing(tmp_path):
+    """Widening the window on a hunch is how the nineteen places were chosen. The
+    survey widens; the rule does not."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1009__a_1",
+         ["1256", "No 85", "Basel, den 2. Mai 1829.", "Verehrtester Herr!"]),
+    ])
+
+    p = hf.plan(scored, index, survey_lines=4)
+
+    assert p.by_project == {"unbestimmt": 1}
+
+
+def test_the_survey_width_is_carried_not_counted_back(tmp_path):
+    """A letter whose own line contains " / " would make a counted width wrong,
+    and so would truncation dropping a separator."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1009__a_1", ["a / b", "c / d"]),
+    ])
+
+    p = hf.plan(scored, index, survey_lines=3)
+
+    assert p.survey_lines == 3
+    assert "first 3 line(s)" in hf.format_plan(p)

@@ -474,7 +474,8 @@ def export_hf(args: argparse.Namespace) -> int:
               + ". The page cache evicts to a cold tier after two days (#487); "
                 "pass --archive, or set ATR_PAGE_CACHE_ARCHIVE.", file=sys.stderr)
         return 1
-    plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check)
+    plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check,
+                   survey_lines=args.survey_lines)
     print(hf.format_plan(plan))
 
     # The hand is inferred, so the counts above are a claim. Write the per-page
@@ -530,6 +531,13 @@ def export_hf(args: argparse.Namespace) -> int:
           f"  pagexml-hf {out_dir} \\\n"
           f"    --repo-id {args.repo_id} --private --mode raw_xml")
     return 0
+
+
+def hf_survey_lines() -> int:
+    """The survey's default width, for the parser's help text."""
+    import hf_export as hf
+
+    return hf.SURVEY_LINES
 
 
 def hf_default_repo() -> str:
@@ -893,6 +901,11 @@ def build_parser() -> argparse.ArgumentParser:
                            "days, so for anything but a run read today this is "
                            "where most pages are")
     p_hf.add_argument("--out", help="Where to write the export tree")
+    p_hf.add_argument("--survey-lines", type=int, default=hf_survey_lines(),
+                      help="How many lines of a page the dateline survey shows. "
+                           "More than the rule reads, deliberately: the survey "
+                           "exists to see what the rule cannot, and a place it "
+                           "reveals on the third line still decides nothing")
     p_hf.add_argument("--writers-out",
                       help="Write one row per exported page — its letter, its "
                            "hand, and whether that came from its own dateline or "
