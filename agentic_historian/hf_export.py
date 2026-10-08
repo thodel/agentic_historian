@@ -100,7 +100,26 @@ CORRESPONDENT_PLACES = ("basel", "zürich", "zurich", "frauenfeld", "st. gallen"
                         "sanct gallen", "schafhausen", "schaffhausen", "paris",
                         "constanz", "konstanz", "lostorf", "arau", "aarau",
                         "weimar", "göttingen", "goettingen", "stuttgart",
-                        "ueberlingen", "überlingen")
+                        "ueberlingen", "überlingen",
+                        # From the survey of 2026-10-08, which is the only reason
+                        # these two are here rather than nineteen more guesses:
+                        # "Copia . / Berlin 3. Februar. 1853." and
+                        # "105 / Würzburg den 17. Febr. 1842 ."
+                        "berlin", "würzburg", "wuerzburg")
+
+#: Laßberg's own shorthand for Eppishausen in a dateline. The survey of
+#: 2026-10-08 found it five times among 55 undated letters — his hand, with a
+#: date, in legible script, and the rule saw an ``E.`` that no list holds:
+#:
+#:     196. / E. am 15 Julij 1831.
+#:     E. am 4. Juny 1830. / Ich sende Inen, mein vererter Herr und nachbar!
+#:
+#: Anchored at the start of a line and followed by ``am``/``den`` and a digit,
+#: because a bare ``E.`` is an initial, a note reference or a line number. Only
+#: ``E. am`` was observed; ``den`` is the same idiom and costs nothing. There is
+#: no ``M.`` for Meersburg here — nobody has seen one, and inventing it is the
+#: guessing this survey exists to replace.
+LASSBERG_SHORTHAND = re.compile(r"^\s*e\.\s*(?:am|den)\s*\d", re.I | re.M)
 
 #: How many lines of a page the dateline may hide in. A letter's place and date
 #: are on the first line or two; past that, a place name is as likely to be
@@ -135,6 +154,10 @@ def writer_of(text: str, *, lines: int = DATELINE_LINES) -> Writer:
     for place in LASSBERG_PLACES:
         if place in head:
             return Writer("lassberg", place)
+    # Before the cities, not after: a page headed "E. am 23. August 1831." that
+    # goes on to discuss Basel is his, and the first match would otherwise win.
+    if LASSBERG_SHORTHAND.search(head):
+        return Writer("lassberg", "eppishausen (E.)")
     for place in CORRESPONDENT_PLACES:
         if place in head:
             return Writer("korrespondenten", place)
@@ -251,7 +274,22 @@ def inherit(entries: Sequence["Entry"]) -> Hands:
 
 #: How much of a page's opening the survey shows. Long enough for a dateline with
 #: a place, a date and a salutation; short enough that fifty of them are readable.
-HEAD_CHARS = 110
+HEAD_CHARS = 160
+
+#: How many lines the **survey** shows — deliberately more than
+#: :data:`DATELINE_LINES`, because the survey exists to see what the rule cannot.
+#:
+#: The survey of 2026-10-08 found an archival foliation occupying the first line
+#: of 14 of 55 undated letters, and in ten of them *both* lines the rule reads:
+#:
+#:     lassberg-letter-1009: 1256 / No 85
+#:     lassberg-letter-3111: 84. / 171
+#:
+#: What stands below those numbers decides whether the rule's window is the
+#: problem, and widening the window on a hunch is how the nineteen places were
+#: chosen. So the survey widens and the rule does not: a place on the third line
+#: still decides nothing, it only becomes visible.
+SURVEY_LINES = 4
 
 #: How many letters :func:`format_plan` shows openings for. The rest are counted.
 #: A survey the length of the corpus is one nobody reads, and the point of this
@@ -331,6 +369,10 @@ class Plan:
     entries: list[Entry] = field(default_factory=list)
     rejected: list[Rejected] = field(default_factory=list)
     hands: Hands = field(default_factory=Hands)
+    #: How many lines of each page the survey captured. Carried rather than
+    #: counted back out of the text: a letter whose own line contains " / " would
+    #: make the count wrong, and so would truncation dropping a separator.
+    survey_lines: int = SURVEY_LINES
 
     @property
     def by_project(self) -> dict[str, int]:
@@ -442,7 +484,8 @@ def xml_size(xml_text: str) -> Optional[tuple[int, int]]:
 
 
 def plan(scored: Sequence, index: dict[str, Path], *,
-         require_geometry: bool = True) -> Plan:
+         require_geometry: bool = True,
+         survey_lines: int = SURVEY_LINES) -> Plan:
     """What to export, and what to leave out.
 
     Only **located** pages: a page whose identity is not settled has no image to
@@ -453,7 +496,7 @@ def plan(scored: Sequence, index: dict[str, Path], *,
     See the module docstring: rescaling is a guess about which of two scans is
     authoritative, and the failure it would paper over is invisible downstream.
     """
-    out = Plan()
+    out = Plan(survey_lines=survey_lines)
     seen: set[str] = set()
     for item in scored:
         key = getattr(item, "located", "")
@@ -493,7 +536,8 @@ def plan(scored: Sequence, index: dict[str, Path], *,
         seen.add(key)
         out.entries.append(Entry(key=key, image=image, xml_source=item.gt.source,
                                  project=who.project, evidence=who.evidence,
-                                 head=opening(item.gt.text)))
+                                 head=opening(item.gt.text,
+                                              lines=survey_lines)))
     # The hand belongs to the letter: the dateline is on a first page, so every
     # continuation page is one the rule cannot read. Done over the whole plan
     # rather than per page, because a page's letter is only visible here.
@@ -529,8 +573,9 @@ def format_plan(p: Plan) -> str:
                       + (" …" if len(h.late) > 8 else "")]
     survey = dateline_survey(p)
     if survey:
-        lines += ["", f"{len(survey)} letter(s) nothing dated. Their openings — the "
-                      f"lines the rule reads — so the place list can be measured "
+        lines += ["", f"{len(survey)} letter(s) nothing dated. Their first "
+                      f"{p.survey_lines} line(s), of which the rule reads "
+                      f"{DATELINE_LINES} — so the place list can be measured "
                       f"against the text rather than guessed at:"]
         for name, head in survey[:SURVEY_SHOWN]:
             lines.append(f"  {name}: {head or '(no text in the first lines)'}")

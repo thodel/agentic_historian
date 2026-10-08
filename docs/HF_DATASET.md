@@ -291,6 +291,52 @@ Briefen hat über die Hälfte der Briefe keine erkennbare Datierung. Das Problem
 sitzt damit nicht mehr in der Gruppierung, sondern in `LASSBERG_PLACES` /
 `CORRESPONDENT_PLACES`: 19 Orte für eine Korrespondenz über halb Europa.
 
+#### Die Umfrage vom 8. Oktober 2026, und was sie widerlegt hat
+
+`--writers-out` und die gedruckte Umfrage waren gebaut, um eine Hypothese zu
+prüfen: 19 Orte sind zu wenig. **Gemessen erklärt das 2 von 55 Briefen.** Die
+Eröffnungen, eine nach der anderen gelesen:
+
+| Was in den ersten zwei Zeilen steht | Briefe |
+|---|---:|
+| Anrede, kein Ort — „Hochwohlgeborner Herr und Gönner!" | 22 |
+| reine Archivnummern — `1256 / No 85` | 10 |
+| Fortsetzungsseite, mitten im Satz | 7 |
+| `E. am 15 Julij 1831.` | 5 |
+| Nummer *plus* Anrede | 4 |
+| Datum ohne Ort — `1827. Mart: 1.` | 4 |
+| **echter Ort, der fehlt** — Berlin, Würzburg | 2 |
+| gedruckte Todesanzeige | 1 |
+
+Drei verschiedene Ursachen, und nur eine davon ist die Ortsliste.
+
+**`E. am` ist Laßbergs eigene Abkürzung für Eppishausen.** Fünfmal: seine Hand,
+mit Datum, in lesbarer Schrift — und die Regel sah ein `E.`, das in keiner Liste
+steht. `LASSBERG_SHORTHAND` liest es jetzt, am Zeilenanfang verankert und mit
+`am`/`den` plus Ziffer, weil ein blosses `E.` eine Initiale, ein Notenverweis
+oder eine Zeilennummer ist. Ein `M.` für Meersburg gibt es **nicht** — niemand
+hat eines gesehen, und es zu erfinden ist genau das Raten, das diese Umfrage
+ersetzen soll.
+
+**Berlin und Würzburg** stehen in der Liste, weil die Umfrage sie gedruckt hat,
+nicht weil sie plausibel sind.
+
+**Das Zwei-Zeilen-Fenster wird von Archivnummern aufgefressen.** 14 Briefe
+beginnen mit einer Foliierung, bei zehn stehen Nummern in *beiden* Zeilen, die
+die Regel liest. Deshalb zeigt die Umfrage jetzt `SURVEY_LINES = 4` Zeilen — und
+**die Regel bleibt bei zwei**. Ein Ort, den die Umfrage auf Zeile drei sichtbar
+macht, entscheidet nichts; er wird nur sichtbar. Das Fenster auf Verdacht zu
+verbreitern ist, wie die 19 Orte zustande kamen. `--survey-lines N` verstellt
+die Breite ohne Code-Änderung.
+
+**Die grösste Gruppe ist kein Ort.** 22 Briefe öffnen mit einer Anrede *an*
+Laßberg — „Herr Baron", „Herr und Gönner", `Carissimo Josepho … de Lasberg`. Wer
+ihn so anredet, schreibt an ihn, nicht als er. Das wäre ein zweites Signal neben
+der Datierung und das ergiebigste; es ist aber eine Aussage über die *Adresse*,
+nicht über den Ort, und damit eine historische Entscheidung. Gemessen dafür: von
+den 48 bereits als `lassberg` gelabelten Seiten redet **keine einzige** jemanden
+als Baron oder Gönner an. Die Regel ist nicht gebaut.
+
 #### Nachprüfbar, Seite für Seite
 
 `--writers-out PATH` schreibt eine Zeile pro exportierter Seite: Schlüssel, Brief,
