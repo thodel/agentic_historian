@@ -271,12 +271,16 @@ erben nichts, weil sonst ganz Winterthur ein Brief wäre.
 
 Derselbe Dry-Run über `atr_gt_candidates`, 211 exportierbare Seiten:
 
-| | 5. Oktober | 7. Oktober |
-|---|---:|---:|
-| mit Hand | 57 (27 %) | **111 (53 %)** |
-| `unbestimmt` | 154 (73 %) | **100 (47 %)** |
-| `korrespondenten` | 27 | 63 |
-| `lassberg` | 30 | 48 |
+| | 5. Okt. | 7. Okt. | 8. Okt. |
+|---|---:|---:|---:|
+| mit Hand | 57 (27 %) | 111 (53 %) | **123 (58 %)** |
+| `unbestimmt` | 154 (73 %) | 100 (47 %) | **88 (42 %)** |
+| `korrespondenten` | 27 | 63 | 69 |
+| `lassberg` | 30 | 48 | 54 |
+| Briefe ohne Datierung | — | 55 | 47 |
+
+(7. Oktober: die Vererbung. 8. Oktober: `E. am`, Berlin, Würzburg. Der
+Foliierungs-Sprung ist noch nicht gemessen.)
 
 54 Seiten erben die Hand ihres Briefes, aus **48 Briefen**. Zwei Briefe
 widersprechen sich (`lassberg-letter-1737`, `-1787`, je eine Seite pro Hand) und
@@ -336,6 +340,63 @@ der Datierung und das ergiebigste; es ist aber eine Aussage über die *Adresse*,
 nicht über den Ort, und damit eine historische Entscheidung. Gemessen dafür: von
 den 48 bereits als `lassberg` gelabelten Seiten redet **keine einzige** jemanden
 als Baron oder Gönner an. Die Regel ist nicht gebaut.
+
+#### Die zweite Messung, 8. Oktober: das Fenster war das Problem
+
+Die Umfrage vier Zeilen breit, und der Befund ist eindeutig:
+
+```
+lassberg-letter-1009: 1256 / No 85 / Constanz am 7 July 1825. / Ich gehe diesen Morgen
+lassberg-letter-1015: 1264 / 163. / No. 85. / Constanz am 30 July 1825.
+lassberg-letter-1458: 209. / 179 / Eppishaus auf 25 Juny 1830 / Wertester Herr Hartmann!
+lassberg-letter-1486: 282. / 198 / Eppish. am 1.ten 8br. 1830. / Wertester Herr Hartmann!
+lassberg-letter-3111: 84. / 171 / Eppishausen. am April 1330 / Wertgeschäzter Herr!
+```
+
+**Acht der zehn Nummernköpfe tragen direkt darunter eine echte Datierung** — in
+Orten, die die Liste längst hat. Die Regel verbrauchte ihr Fenster auf einer
+Foliierung. `dateline_lines` überspringt sie jetzt, und zwar alle: `1015` hat
+drei.
+
+Dabei ist `Eppish.` eine vierte Schreibweise desselben Hauses. `LASSBERG_PLACES`
+führt deshalb `eppish` statt dreier Varianten — der gemeinsame Präfix, der nichts
+anderes im Korpus trifft und insbesondere nicht `Villa Epponis`, Laßbergs
+latinisierten Namen dafür, der in einem Brief *an* ihn vorkommt.
+
+#### Warum kein breiteres Fenster
+
+Dieselbe Messung hat auch gezeigt, was ein Vier-Zeilen-Fenster kaputt macht.
+`lassberg-letter-1280`, Brief eines Korrespondenten, dritte Zeile:
+
+> …wartet die mitkommende Lieferung des Morgenblattes auf Gelegenheit nach
+> **Eppishausen** befördert zu werden
+
+Eppishausen ist, wohin der Brief ging, nicht woher er kam. Ein breiteres Fenster
+kann das nicht unterscheiden; ein Foliierungs-Sprung kann es, denn eine Seite,
+die mit Prosa beginnt, wird nicht übersprungen.
+
+Und was ein Sprung freilegt, ist manchmal selbst Prosa:
+
+> `Weimar__FA Hodel 236`: 284. / Lieber Leonhard! / Im Jare des heiles 1473. als
+> **Konstanz** noch keine offizin hatte, wurde dahier ein buch gedruckt…
+
+„als Konstanz noch keine offizin hatte" ist kein Schreibort. Eine Datierung ist
+eine kurze, allein stehende Zeile: **jede, die die Umfrage gedruckt hat, misst 18
+bis 44 Zeichen, diese Prosazeile 121.** `DATELINE_CHARS = 80` liegt dazwischen,
+weit von beiden entfernt.
+
+Die Umfrage zeigt jetzt sechs Zeilen, damit sie nach dem Sprung nicht wieder
+blind ist.
+
+#### Ein Test, den die Messung umgeworfen hat
+
+`test_a_place_the_survey_reveals_still_decides_nothing` behauptete, ein Ort, den
+die Umfrage auf Zeile drei sichtbar macht, dürfe nichts entscheiden. Das war
+richtig, solange die einzige Grundlage eine Vermutung über das Fenster war, und
+falsch, sobald die Eröffnungen gelesen waren. Der Test heisst jetzt
+`test_a_dateline_behind_a_foliation_is_read` und trägt beide Fassungen im
+Docstring — die Unterscheidung, die hält, ist nicht „Zeile drei entscheidet
+nicht", sondern „Foliierung überspringen, Prosa nicht lesen".
 
 #### Nachprüfbar, Seite für Seite
 

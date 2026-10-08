@@ -90,7 +90,12 @@ import config
 #: Meersburg the castle after it; a letter headed with either is in his hand.
 #: Heimenstein and Dagebertsburg are his own names for the same two houses and
 #: appear in the datelines of letters he wrote.
-LASSBERG_PLACES = ("eppishausen", "eppishaus", "meersburg", "heimenstein",
+#: ``eppish`` rather than the three spellings it replaces: the survey of
+#: 2026-10-08 printed ``Eppishausen``, ``Eppishaus`` and ``Eppish.`` as datelines
+#: of the same house, and the prefix is exactly their common part — it cannot
+#: match anything else in this corpus, and it does not match ``Villa Epponis``,
+#: Laßberg's latinised name for it, which appears in a letter *to* him.
+LASSBERG_PLACES = ("eppish", "meersburg", "heimenstein",
                    "dagebertsburg", "waldklause")
 
 #: Places his correspondents wrote from. Not an exhaustive list of the
@@ -126,6 +131,36 @@ LASSBERG_SHORTHAND = re.compile(r"^\s*e\.\s*(?:am|den)\s*\d", re.I | re.M)
 #: something the letter talks about as where it was written.
 DATELINE_LINES = 2
 
+#: A line that is only archival numbering: ``1256``, ``No 85``, ``No. 85.``,
+#: ``209.``, ``13-30.``, ``2f``, ``5-24``. The survey of 2026-10-08 found one at
+#: the head of 14 of 55 undated letters and in *both* lines the rule reads in ten
+#: of them — and the next survey, four lines wide, showed what stood below:
+#:
+#:     lassberg-letter-1009: 1256 / No 85 / Constanz am 7 July 1825.
+#:     lassberg-letter-1015: 1264 / 163. / No. 85. / Constanz am 30 July 1825.
+#:     lassberg-letter-1486: 282. / 198 / Eppish. am 1.ten 8br. 1830.
+#:
+#: Eight real datelines, in places the list already held, behind a foliation the
+#: window was spending itself on. So the window starts after them — all of them,
+#: because 1015 has three.
+_FOLIATION = re.compile(
+    r"^[\s.,;:/()-]*(?:n[or]\.?\s*)?\d+(?:\s*[-–/]\s*\d+)*\s*[a-z]?[\s.,;:/()-]*$",
+    re.I)
+
+#: The longest a line may be and still be read as a dateline.
+#:
+#: Skipping the foliation reveals the line below, and once in the measured corpus
+#: that line is prose that happens to name a place:
+#:
+#:     Weimar__FA Hodel 236: 284. / Lieber Leonhard! / Im Jare des heiles 1473.
+#:       als Konstanz noch keine offizin hatte, wurde dahier ein buch gedruckt…
+#:
+#: "as Constance had no printing office yet" is not where the letter was written.
+#: A dateline is a short line standing on its own: every one the survey printed
+#: measures 18 to 44 characters, and that prose line measures 121. The cap sits
+#: between, nowhere near either.
+DATELINE_CHARS = 80
+
 _UNSAFE = re.compile(r"[^A-Za-z0-9._-]+")
 
 
@@ -141,6 +176,31 @@ class Writer:
         return self.project != "unbestimmt"
 
 
+def dateline_lines(text: str, *, lines: int = DATELINE_LINES,
+                   chars: int = DATELINE_CHARS) -> list[str]:
+    """The lines a dateline could be on: the first few, past any foliation.
+
+    Two corrections the surveys of 2026-10-07/08 produced, both measured rather
+    than reasoned about. A leading archival number is skipped, because it was
+    spending the window in ten of 55 undated letters and eight real datelines
+    stood right below it. And a line longer than ``chars`` is left out, because
+    the line a skip reveals is sometimes prose that names a place — see
+    :data:`DATELINE_CHARS`.
+
+    Deliberately *not* "read four lines". The same survey showed why: a
+    correspondent's letter whose third line reads "wartet die mitkommende
+    Lieferung des Morgenblattes auf Gelegenheit nach **Eppishausen** befördert zu
+    werden" would become Laßberg's own hand. Eppishausen is where that letter was
+    going, not where it was written, and a wider window cannot tell the
+    difference. Skipping a foliation can: a page whose first line is prose is not
+    skipped at all.
+    """
+    rest = [l for l in text.strip().splitlines()]
+    while rest and (not rest[0].strip() or _FOLIATION.match(rest[0])):
+        rest.pop(0)
+    return [l for l in rest[:lines] if len(l.strip()) <= chars]
+
+
 def writer_of(text: str, *, lines: int = DATELINE_LINES) -> Writer:
     """The hand, inferred from the dateline.
 
@@ -150,7 +210,7 @@ def writer_of(text: str, *, lines: int = DATELINE_LINES) -> Writer:
     signal about two lines of text, not a record. A page with no recognisable
     place is ``unbestimmt``, which is the honest answer and not a third hand.
     """
-    head = "\n".join(text.strip().splitlines()[:lines]).lower()
+    head = "\n".join(dateline_lines(text, lines=lines)).lower()
     for place in LASSBERG_PLACES:
         if place in head:
             return Writer("lassberg", place)
@@ -274,7 +334,7 @@ def inherit(entries: Sequence["Entry"]) -> Hands:
 
 #: How much of a page's opening the survey shows. Long enough for a dateline with
 #: a place, a date and a salutation; short enough that fifty of them are readable.
-HEAD_CHARS = 160
+HEAD_CHARS = 220
 
 #: How many lines the **survey** shows — deliberately more than
 #: :data:`DATELINE_LINES`, because the survey exists to see what the rule cannot.
@@ -289,7 +349,7 @@ HEAD_CHARS = 160
 #: problem, and widening the window on a hunch is how the nineteen places were
 #: chosen. So the survey widens and the rule does not: a place on the third line
 #: still decides nothing, it only becomes visible.
-SURVEY_LINES = 4
+SURVEY_LINES = 6
 
 #: How many letters :func:`format_plan` shows openings for. The rest are counted.
 #: A survey the length of the corpus is one nobody reads, and the point of this
