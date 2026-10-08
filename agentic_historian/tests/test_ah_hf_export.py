@@ -82,7 +82,7 @@ WACKERNAGEL = ["Basel 30 Augst 33.", "Hochgeehrter Herr Baron,",
 def test_a_house_in_the_dateline_is_lassbergs_hand():
     who = hf.writer_of("\n".join(LASSBERG))
     assert who.project == "lassberg"
-    assert who.evidence == "eppishausen"
+    assert who.evidence == "eppish"          # the prefix of his three spellings
 
 
 def test_meersburg_too():
@@ -1047,17 +1047,82 @@ def test_the_survey_looks_further_than_the_rule_reads(tmp_path):
     assert "of which the rule reads 2" in hf.format_plan(p)
 
 
-def test_a_place_the_survey_reveals_still_decides_nothing(tmp_path):
-    """Widening the window on a hunch is how the nineteen places were chosen. The
-    survey widens; the rule does not."""
+def test_a_dateline_behind_a_foliation_is_read(tmp_path):
+    """What the four-line survey of 2026-10-08 showed, now acted on: eight of the
+    ten number-headed letters carry a real dateline right below the numbers.
+
+    This test asserted `unbestimmt` until that measurement. The decision it
+    encoded — a place the survey reveals decides nothing — was right while the
+    only evidence was a hunch about the window, and wrong once the openings were
+    read."""
     scored, index = _letter(tmp_path, [
         ("Basel__lassberg-letter-1009__a_1",
          ["1256", "No 85", "Basel, den 2. Mai 1829.", "Verehrtester Herr!"]),
     ])
 
-    p = hf.plan(scored, index, survey_lines=4)
+    p = hf.plan(scored, index)
 
-    assert p.by_project == {"unbestimmt": 1}
+    assert p.by_project == {"korrespondenten": 1}
+
+
+def test_three_foliation_lines_are_all_skipped():
+    """`1264 / 163. / No. 85. / Constanz am 30 July 1825.` — the skip is
+    unbounded because that letter needs it to be."""
+    assert hf.writer_of("1264\n163.\nNo. 85.\nConstanz am 30 July 1825."
+                        ).project == "korrespondenten"
+
+
+def test_a_place_the_letter_is_sent_to_still_decides_nothing():
+    """The reason this is a foliation skip and not a wider window.
+
+    `lassberg-letter-1280`, a correspondent's letter, third line: "wartet die
+    mitkommende Lieferung des Morgenblattes auf Gelegenheit nach Eppishausen
+    befördert zu werden". Eppishausen is where it was going. Four lines would
+    make it Laßberg's own hand; a skip cannot, because the first line is prose
+    and nothing is skipped."""
+    text = ("Mein hochverehrter Herr und Gönner!\n"
+            "Schon seit acht Tagen wartet die mitkommende Lieferung des\n"
+            "Morgenblattes auf Gelegenheit nach Eppishausen befördert zu werden")
+
+    assert hf.writer_of(text).project == "unbestimmt"
+
+
+def test_prose_that_names_a_place_is_not_a_dateline():
+    """What a skip reveals is sometimes a sentence. `Weimar__FA Hodel 236`:
+    "Im Jare des heiles 1473. als Konstanz noch keine offizin hatte…" — not
+    where it was written. Every dateline the survey printed measures 18 to 44
+    characters; that line measures 121."""
+    text = ("284.\nLieber Leonhard!\nIm Jare des heiles 1473. als Konstanz noch "
+            "keine offizin hatte, wurde dahier ein buch gedruckt, die "
+            "Quaestiones des heil:")
+
+    assert hf.writer_of(text).project == "unbestimmt"
+
+
+def test_a_short_dateline_on_the_same_lines_still_decides():
+    """The cap removes prose, not datelines."""
+    assert hf.writer_of("Basel 30 Augst 33.\nHochgeehrter Herr Baron,"
+                        ).project == "korrespondenten"
+    assert hf.writer_of("Auf der alten Meersburg am 17 October. 1840.\nHerr!"
+                        ).project == "lassberg"
+
+
+def test_a_page_that_is_only_numbers_yields_nothing():
+    """`lassberg-letter-1833: 1836 / 13-30. / 2f / 5-24` — the skip consumes the
+    page and that is the honest answer."""
+    assert hf.writer_of("1836\n13-30.\n2f\n5-24").project == "unbestimmt"
+
+
+@pytest.mark.parametrize("line", ["1256", "No 85", "No. 85.", "209.", "13-30.",
+                                  "2f", "5-24", "  47. ", "174."])
+def test_the_foliation_lines_the_survey_printed(line):
+    assert hf._FOLIATION.match(line)
+
+
+@pytest.mark.parametrize("line", ["1827. Mart: 1.", "Constanz am 7 July 1825.",
+                                  "Lieber Leonhard!", "E. am 4. Juny 1830."])
+def test_what_is_not_a_foliation(line):
+    assert not hf._FOLIATION.match(line)
 
 
 def test_the_survey_width_is_carried_not_counted_back(tmp_path):
