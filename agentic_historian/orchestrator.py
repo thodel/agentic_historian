@@ -824,19 +824,18 @@ def _recognize_page_ensemble(img, criteria):
 
     def _recognize_fn(pick, image_path):
         p = Path(image_path)
-        if pick.engine == "vlm":
-            # The record names what ran, not what was planned (#537). It used to
-            # carry pick.model_id, which comes from the registry, while the call
-            # went to config.GPUSTACK_MODEL_VISION — so every VLM reading was
-            # attributed to internvl3-8b while qwen3.8-27b produced it.
+        if pick.engine == ensemble.ENGINE_VLM:
+            # The plan is obeyed, and the record still names what ran (#537).
             #
-            # The pick's id is deliberately NOT sent as the request here. There
-            # is exactly one VLM pick and its id is the registry's, which still
-            # disagrees with config (#538); honouring it would swap a 27.7 % CER
-            # model for a 189.8 % one. Wiring pick → request belongs with the
-            # VLM selection it would serve (#539).
-            text, score, model_id = _run_vlm(p)
-            return RecognitionResult(engine="vlm", model_id=model_id,
+            # The pick's id used to be deliberately dropped here: it came from
+            # the registry, which disagreed with config, so honouring it would
+            # have swapped a 27.7 % CER model for a 189.8 % one. #538 removed
+            # the disagreement and #539 made the choice mean something, so the
+            # runner now asks for the model that was planned. `_run_vlm` returns
+            # the id it requested, so the record cannot drift from the call
+            # even when the two differ.
+            text, score, model_id = _run_vlm(p, model=pick.model_id)
+            return RecognitionResult(engine=ensemble.ENGINE_VLM, model_id=model_id,
                                      text=text, confidence=score)
         # local id (kraken DOI / TrOCR HF repo) → the gateway's registry id (#277)
         gw_id = ensemble.resolve_gateway_id(pick, registry)

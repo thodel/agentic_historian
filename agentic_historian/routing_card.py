@@ -121,6 +121,30 @@ def _pinned_fields(state: RunState) -> set[str]:
     return {o["field"] for o in state.human_overrides}
 
 
+def select_vlm(state: RunState) -> Optional[ModelMatch]:
+    """Top gateway-VLM match for the state's current criteria, or None (#539).
+
+    The card is where a historian pins a criterion, and it showed exactly one
+    consequence: the kraken model. Now that the VLM is chosen from the same
+    criteria, leaving it off would let a scholar move the VLM and never learn
+    that they had — which is the half of "scholar-in-the-loop" that makes it a
+    loop.
+
+    Returns None when the gateway registry is empty, which is every offline run
+    — an empty row would be noise rather than information. A selector failure
+    is swallowed for the same reason the card exists: it is a human's only view
+    of the routing, and it has to render.
+    """
+    try:
+        from agent_a import model_selector
+
+        matches = model_selector.select_vlm_model(_criteria(state), top_k=1)
+        return matches[0] if matches else None
+    except Exception as exc:                        # noqa: BLE001 — the card must render
+        logger.warning(f"[card] VLM selection unavailable: {exc}")
+        return None
+
+
 def render_card(state: RunState, match: Optional[ModelMatch] = None) -> str:
     """Render the routing card as Discord markdown (presentation only)."""
     if match is None:
@@ -143,6 +167,14 @@ def render_card(state: RunState, match: Optional[ModelMatch] = None) -> str:
                      f"(score {match.score:.2f}{warn})")
     else:
         lines.append(f"`{'HTR-Modell':<10}`: — _(kein Treffer)_")
+
+    # The VLM the same criteria selected (#539). Only when the gateway has
+    # answered: offline there is nothing to show and an empty row is noise.
+    vlm = select_vlm(state)
+    if vlm:
+        warn = " ⚠️" if vlm.score < 0.6 else ""
+        lines.append(f"`{'VLM':<10}`: {vlm.model.model_id} "
+                     f"(score {vlm.score:.2f}{warn})")
     return "\n".join(lines)
 
 

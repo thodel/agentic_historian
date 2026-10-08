@@ -26,10 +26,34 @@ from typing import Any, Callable, Optional
 from loguru import logger
 
 
+#: This repository's GPUStack path: an OpenAI-style chat call with an image.
+#: Served by ``config.GPUSTACK_MODEL_VISION``, run by ``dual_pipeline._run_vlm``.
+ENGINE_VLM = "vlm"
+
+#: The ATR gateway's own engine for its fine-tuned VLMs: an image POST to
+#: ``/recognize``. One letter apart from ``ENGINE_VLM`` and a different backend,
+#: a different protocol and a different set of models (#540). Named here rather
+#: than spelled at each site, because a pick carrying the wrong one reaches the
+#: wrong service and gets a 400 — and the two strings look alike enough that a
+#: reader checks twice.
+ENGINE_GATEWAY_VLM = "vllm"
+
+
+def _vlm_front_slots() -> int:
+    """How many criteria-selected gateway VLMs join the guaranteed front.
+
+    Read at call time, not at import, so a test or a deployment can change
+    ``ENSEMBLE_VLM_IN_FRONT`` without reloading the module.
+    """
+    import config
+
+    return max(0, int(getattr(config, "ENSEMBLE_VLM_IN_FRONT", 0)))
+
+
 @dataclass
 class ModelPick:
     """One (engine, model) the ensemble may run."""
-    engine: str            # "vlm" | "kraken" | "trocr" | "party"
+    engine: str            # "vlm" | "vllm" | "kraken" | "trocr" | "party"
     model_id: str
     score: float = 0.0
 
@@ -119,31 +143,91 @@ def _default_vlm_model_id() -> str:
         return "vlm"
 
 
+def _selected_gateway_vlms(criteria, per_engine: int) -> list:
+    """The gateway's fine-tuned VLMs, ranked by the criteria (#539).
+
+    Isolated and defensive on purpose. This is the newest of the four
+    selectors and the only one reading a registry that is empty whenever the
+    gateway has not answered; a failure here must cost the VLM picks and not
+    kraken's and TrOCR's, which were planned fine before it existed.
+    """
+    try:
+        from agent_a import model_selector
+
+        # Zero-scoring candidates are dropped, which the kraken selector
+        # deliberately does NOT do. There, keeping them is what guarantees some
+        # kraken model runs when every one mismatches. Here the measured
+        # baseline VLM always runs, so "no VLM at all" cannot happen — and a
+        # model that scores 0.00 against these criteria is 30–60 s of GPU on a
+        # page its own metadata says it does not fit, with #298's finding that
+        # a bad candidate can make the *fused* text worse attached.
+        #
+        # Measured in the first end-to-end run of this change: against
+        # Caroline/Latin criteria the Kurrent fine-tune scored 0.00 (the
+        # script-mismatch penalty, clamped) and was queued anyway.
+        return [m for m in model_selector.select_vlm_model(
+            criteria, top_k=per_engine) if m.score > 0.0]
+    except Exception as exc:                        # noqa: BLE001 — degrade, don't lose the plan
+        logger.warning(f"[ensemble] VLM selection unavailable: {exc}")
+        return []
+
+
 def plan_models(criteria, *, per_engine: int = 3,
                 vlm_model_id: Optional[str] = None) -> list[ModelPick]:
-    """Ordered pool of picks. The front guarantees **engine diversity** — VLM,
-    the best kraken, the best TrOCR (≥3 when models exist) — and the tail is the
-    next-ranked kraken/TrOCR models interleaved, which the feedback loop draws
-    from. Model selection reuses the script/century-aware selectors."""
+    """Ordered pool of picks. The front guarantees **engine diversity** — the
+    baseline VLM, the best kraken, the best TrOCR (≥3 when models exist) — and
+    the tail is the next-ranked models interleaved, which the feedback loop
+    draws from. Model selection reuses the script/century-aware selectors.
+
+    **All four engines are selected by the criteria now (#539).** The VLM used
+    to be one fixed pick with ``score=1.0`` — not a match score, the absence of
+    one — and the tail held only kraken and TrOCR, so a VLM that was the
+    outlier stayed the outlier while the ensemble bought agreement among the
+    other two. The scholar's reason decides the design: the routing map (#146)
+    lets a historian pin script, language, century and document type, and that
+    correction has to move the VLM the way it already moves kraken.
+
+    **The measured baseline still leads.** ``picks[0]`` is
+    ``config.GPUSTACK_MODEL_VISION``, the one VLM with a CER against ground
+    truth (27.7 % on Inzigkofen, AH-11). Criteria-selected gateway VLMs join
+    the guaranteed front only up to ``ENSEMBLE_VLM_IN_FRONT``, which defaults
+    to 0: they have no number yet, #541's bench has not been run, and #298
+    measured fusion voting the good reading down, so an unmeasured extra
+    candidate on every page is the trade #541 exists to prevent. At the default
+    they ride in the tail, reached when the candidates disagree.
+
+    Gateway picks carry ``ENGINE_GATEWAY_VLM``, not ``ENGINE_VLM``. One letter,
+    two backends, two protocols (#540).
+    """
     from agent_a.model_selector import select_kraken_model, select_tocr_model
 
     vlm_model_id = vlm_model_id or _default_vlm_model_id()
     kraken = select_kraken_model(criteria, top_k=per_engine)
     trocr = select_tocr_model(criteria, top_k=per_engine)
+    gateway_vlm = _selected_gateway_vlms(criteria, per_engine)
 
-    picks: list[ModelPick] = [ModelPick("vlm", vlm_model_id, 1.0)]
+    picks: list[ModelPick] = [ModelPick(ENGINE_VLM, vlm_model_id, 1.0)]
     if kraken:
         picks.append(ModelPick("kraken", kraken[0].model.model_id, float(kraken[0].score)))
     if trocr:
         picks.append(ModelPick("trocr", trocr[0].model.model_id, float(trocr[0].score)))
 
+    in_front = _vlm_front_slots()
+    for match in gateway_vlm[:in_front]:
+        picks.append(ModelPick(ENGINE_GATEWAY_VLM, match.model.model_id,
+                               float(match.score)))
+
     rest_k = [ModelPick("kraken", m.model.model_id, float(m.score)) for m in kraken[1:]]
     rest_t = [ModelPick("trocr", m.model.model_id, float(m.score)) for m in trocr[1:]]
-    for i in range(max(len(rest_k), len(rest_t))):
+    rest_v = [ModelPick(ENGINE_GATEWAY_VLM, m.model.model_id, float(m.score))
+              for m in gateway_vlm[in_front:]]
+    for i in range(max(len(rest_k), len(rest_t), len(rest_v))):
         if i < len(rest_k):
             picks.append(rest_k[i])
         if i < len(rest_t):
             picks.append(rest_t[i])
+        if i < len(rest_v):
+            picks.append(rest_v[i])
     return picks
 
 

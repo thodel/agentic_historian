@@ -306,19 +306,36 @@ class TestSomethingActuallyCallsIt:
         assert orch.VLM_GATEWAY_MODELS_LIVE is not None
 
 
-class TestNothingSelectsThemYet:
-    """Reachable is not selected. #539 is where that decision is made."""
+class TestNothingRunsThemOnEveryPageYet:
+    """Reachable is not "runs on every page".
 
-    def test_plan_models_still_emits_exactly_one_vlm_pick(self):
+    **Rewritten for #539, and the surviving half is the half that mattered.**
+    This case used to assert exactly one VLM pick, with the note that putting
+    gateway VLMs in the ensemble "needs a measurement first (#541) and a
+    selector (#539)". The selector exists now and the choice is criteria-driven,
+    so matched VLMs are planned — in the escalation tail.
+
+    The measurement still does not exist: #541 built the bench and no run has
+    produced a number. So the constraint that is left, and that this asserts,
+    is that no unmeasured gateway VLM joins the GUARANTEED front by default.
+    #298 measured fusion voting the good reading down, so an extra candidate on
+    every page can make the fused text worse, not merely cost GPU time.
+    """
+
+    def test_the_measured_baseline_leads_and_the_front_holds_no_gateway_vlm(self):
+        import config
         from agent_a import ensemble
         from agent_a.model_selector import SourceCriteria
 
-        picks = ensemble.plan_models(SourceCriteria(), per_engine=2)
-        vlm_picks = [p for p in picks if p.engine in ("vlm", "vllm")]
-
-        assert len(vlm_picks) == 1, (
-            "this change was supposed to make gateway VLMs addressable, not "
-            "to put them in the ensemble — that needs a measurement first "
-            "(#541) and a selector (#539)"
+        assert config.ENSEMBLE_VLM_IN_FRONT == 0, (
+            "the default would put an unmeasured fine-tune on every page"
         )
-        assert vlm_picks[0].engine == "vlm"
+
+        picks = ensemble.plan_models(SourceCriteria(), per_engine=2)
+
+        assert picks[0].engine == ensemble.ENGINE_VLM
+        assert picks[0].model_id == config.GPUSTACK_MODEL_VISION
+        assert not any(p.engine == ensemble.ENGINE_GATEWAY_VLM
+                       for p in picks[:3]), (
+            "a gateway VLM reached the guaranteed front with no CER behind it"
+        )

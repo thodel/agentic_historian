@@ -962,12 +962,73 @@ def select_party_model(
     return []
 
 
+def select_vlm_model(
+    criteria: SourceCriteria,
+    *,
+    top_k: int = 3,
+    require_score_above: float = 0.0,
+) -> list[ModelMatch]:
+    """Rank the gateway's fine-tuned VLMs against the source criteria (#539).
+
+    Three of four engines had a selector and the VLM had none: ``plan_models``
+    emitted one fixed pick with ``score=1.0``, which is not a match score but
+    the absence of one, and the escalation tail held only kraken and TrOCR — so
+    a VLM that was the outlier stayed the outlier while the ensemble bought
+    agreement among the others.
+
+    **It scores with ``score_model``, the kraken scorer, unchanged.** The
+    gateway reports the same ``scripts``/``languages``/``centuries`` for a vLLM
+    row as for a kraken one, and ``GatewayVLMModel`` exposes them the way
+    ``refresh_kraken_registry`` flattens them. So the script-mismatch penalty,
+    the bilingual secondary-language rule (#375) and the leading-script rule
+    (#379) all apply here without being restated. A second scoring function
+    would be a second classification system, drifting from the first — which is
+    what #538 cost.
+
+    **Why this is driven by criteria at all**: the routing map (#146) lets a
+    historian pin script, language, century and document type on a page, and
+    that correction has to reach the VLM choice the way it already reaches
+    kraken's. Anything else would make the scholar's correction a no-op for one
+    engine out of four, silently.
+
+    Returns ``ModelMatch`` (best first), like the kraken selector. Empty when
+    the gateway registry is empty, which is every offline run and every run
+    before Phase 0 has answered — so nothing changes until a gateway does.
+    """
+    from agent_a.models import VLM_GATEWAY_MODELS_LIVE
+
+    scored = [
+        score_model(
+            model,
+            script=criteria.script,
+            lang=(criteria.langs or criteria.lang),
+            century=criteria.century,
+            document_type=criteria.document_type,
+        )
+        for model in VLM_GATEWAY_MODELS_LIVE.values()
+    ]
+    scored = [m for m in scored if m.score >= require_score_above]
+    scored.sort(key=lambda m: m.score, reverse=True)
+
+    if scored:
+        best = scored[0]
+        logger.info(
+            f"[model_selector/vlm] Best match: {best.model.model_id} "
+            f"(score={best.score:.2f}, {best.reason})"
+        )
+    return scored[:top_k]
+
+
 # ── Unified factory ──────────────────────────────────────────────────────────
 
 SUPPORTED_ENGINES = {
     "kraken": select_kraken_model,
     "trocr":  select_tocr_model,
     "party":  select_party_model,
+    # The gateway's engine name, not this repository's GPUStack one. "vlm" and
+    # "vllm" are two backends with two protocols (#540); the factory keys on
+    # what the gateway calls it, because that is what a pick has to carry.
+    "vllm":   select_vlm_model,
 }
 
 

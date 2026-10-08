@@ -318,6 +318,23 @@ VERBOSE_PROGRESS_CHANNEL_ID: int | None = int(_get("VERBOSE_PROGRESS_CHANNEL_ID"
 # cap at seven picks, and after the first escalation the state is identical to
 # the old initial batch. The saving falls entirely on agreeing pages.
 ENSEMBLE_MIN_ENGINES = int(_get("ENSEMBLE_MIN_ENGINES", "2"))
+
+# #539: how many criteria-selected gateway VLMs join the GUARANTEED front,
+# beside the measured baseline (GPUSTACK_MODEL_VISION). Default 0, and the
+# default is the argument.
+#
+# The VLM choice is criteria-driven now, so a scholar's correction on the
+# routing map (#146) moves it — but moving it and running it on every page are
+# different decisions. The only VLM with a CER against ground truth is the
+# configured one: 27.7 % on Inzigkofen against internvl3-8b's 189.8 % (AH-11).
+# The gateway's fine-tunes have no number yet, #541's bench has not been run,
+# and #298 measured fusion voting the good reading DOWN — so an unmeasured
+# extra candidate can make the fused text worse, not just its own row.
+#
+# At 0 the matches still go into the escalation tail, which is reached when the
+# candidates disagree: the case where a second opinion is worth its cost. Raise
+# this to 1 once the bench says the top match earns a place on every page.
+ENSEMBLE_VLM_IN_FRONT = int(_get("ENSEMBLE_VLM_IN_FRONT", "0"))
 ENSEMBLE_PER_ENGINE = int(_get("ENSEMBLE_PER_ENGINE", "3"))
 ENSEMBLE_MAX_LOOPS = int(_get("ENSEMBLE_MAX_LOOPS", "5"))
 ENSEMBLE_AGREEMENT_CER = float(_get("ENSEMBLE_AGREEMENT_CER", "0.30"))

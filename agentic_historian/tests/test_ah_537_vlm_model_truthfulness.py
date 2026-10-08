@@ -150,41 +150,47 @@ class TestBothCallSitesWriteWhatRan:
 
     def test_the_ensemble_record_names_the_model_that_ran(
             self, monkeypatch, tmp_path):
-        """orchestrator._recognize_page_ensemble stamped pick.model_id.
+        """orchestrator._recognize_page_ensemble stamped pick.model_id blindly.
 
-        The pick's id comes from ``ensemble._default_vlm_model_id()`` — the
-        registry — while the run goes to the configured model. This is the case
-        that put ``internvl3-8b-instruct`` on readings produced by
-        ``qwen3.8-27b``.
+        **Rewritten for #539, and the invariant is unchanged.** This case used
+        to assert that the pick's id was *ignored* and the configured model ran
+        — correct while the registry disagreed with config (#538), because
+        honouring the pick would have swapped a 27.7 % CER model for a 189.8 %
+        one. #538 removed the disagreement and #539 made the VLM choice
+        criteria-driven, so the plan is now obeyed.
+
+        What is asserted is still the thing #537 was about: the record names
+        the model the call asked for. Reverting ``_run_vlm`` to drop its
+        ``model`` argument fails this, because the request would go to the
+        configured model while the pick named another.
         """
         import orchestrator as orch
         from agent_a import dual_pipeline as dp
         from agent_a import ensemble
 
-        _capture(monkeypatch, dp)
-        monkeypatch.setattr(dp.config, "GPUSTACK_MODEL_VISION", "qwen3.8-27b")
+        seen = _capture(monkeypatch, dp)
+        monkeypatch.setattr(dp.config, "GPUSTACK_MODEL_VISION", "the-config-one")
         monkeypatch.setattr(orch, "_gateway_registry", lambda: [])
 
-        recognize = orch._recognize_fn_for_tests() if hasattr(
-            orch, "_recognize_fn_for_tests") else None
-        if recognize is None:                      # exercise the real wiring
-            captured = {}
+        captured = {}
 
-            def fake_recognize_ensemble(img, criteria, recognize_fn, **kw):
-                captured["fn"] = recognize_fn
-                return ensemble.EnsembleResult()
+        def fake_recognize_ensemble(img, criteria, recognize_fn, **kw):
+            captured["fn"] = recognize_fn
+            return ensemble.EnsembleResult()
 
-            monkeypatch.setattr(ensemble, "recognize_ensemble",
-                                fake_recognize_ensemble)
-            orch._recognize_page_ensemble(_image(tmp_path), object())
-            recognize = captured["fn"]
+        monkeypatch.setattr(ensemble, "recognize_ensemble", fake_recognize_ensemble)
+        orch._recognize_page_ensemble(_image(tmp_path), object())
+        recognize = captured["fn"]
 
-        pick = ensemble.ModelPick("vlm", "internvl3-8b-instruct", 1.0)
+        pick = ensemble.ModelPick("vlm", "the-planned-one", 1.0)
         result = recognize(pick, _image(tmp_path))
 
-        assert result.model_id == "qwen3.8-27b", (
+        assert seen.get("model") == "the-planned-one", (
+            "the plan named a model and the call asked for another"
+        )
+        assert result.model_id == "the-planned-one", (
             f"the reading is recorded as {result.model_id!r} but "
-            "qwen3.8-27b produced it"
+            f"{seen.get('model')!r} produced it"
         )
 
     def test_the_dual_pipeline_record_names_the_model_that_ran(

@@ -471,12 +471,47 @@ The ATR gateway serves its own fine-tuned VLMs under `engine: vllm`
 `/ocr` takes kraken and TrOCR only and answers anything else with
 `400: use /recognize for '<engine>'`.
 
-Nothing selects them yet. `plan_models` still emits one VLM pick, the GPUStack
-one, and the escalation tail still draws from kraken and TrOCR. A VLM selector
-is #539 and the CER measurement that would justify running one is #541.
+They are selected from the source criteria since #539, below. What is still
+missing is the measurement: #541 built the bench and no run has produced a
+number, which is why none of them is on every page yet.
 
 Note the engine names: `vlm` is the GPUStack path, `vllm` is the gateway's
-engine. One letter, two backends.
+engine. One letter, two backends — named as `ensemble.ENGINE_VLM` and
+`ensemble.ENGINE_GATEWAY_VLM` rather than spelled at each site.
+
+### Which VLM, and who decides (#539)
+
+All four engines are selected from the source criteria now. The VLM used to be
+one fixed pick with `score=1.0` — not a match score, the absence of one — and
+the escalation tail held only kraken and TrOCR, so a VLM that was the outlier
+stayed the outlier while the ensemble bought agreement among the other two.
+
+`select_vlm_model(criteria, top_k)` ranks the gateway's fine-tuned VLMs with
+**`score_model`, the kraken scorer, unchanged**: `GatewayVLMModel` exposes
+`script`/`lang` the way `refresh_kraken_registry` flattens them, so the
+script-mismatch penalty, the bilingual rule (#375) and the leading-script rule
+(#379) all apply without being restated. A second scoring function would be a
+second classification system drifting from the first, which is what #538 cost.
+
+**Why criteria-driven at all.** The routing map (#146) lets a historian pin
+script, language, century and document type, and that correction has to reach
+the VLM choice the way it already reaches kraken's. The card now shows the
+selected VLM beside the kraken model, so a scholar sees what their correction
+moved — influence nobody can see is not influence.
+
+**What still leads every plan.** `picks[0]` is `GPUSTACK_MODEL_VISION`, the one
+VLM with a CER against ground truth (27.7 % on Inzigkofen, AH-11). Criteria-
+selected gateway VLMs join the guaranteed front only up to
+`ENSEMBLE_VLM_IN_FRONT`, **default 0**: they have no number yet, #541's bench
+has not been run, and #298 measured fusion voting the good reading down. At the
+default they ride in the escalation tail, reached when the candidates disagree
+— the case where another opinion is worth its cost. Raise it to 1 once the
+bench says the top match earns a place on every page.
+
+A VLM scoring 0.00 against the criteria is not planned at all. The kraken
+selector deliberately keeps its zero-scorers, because dropping them could leave
+a page with no kraken; here the baseline always runs, so a model its own
+metadata says does not fit is pure cost.
 
 ### Measuring one before it runs (#541)
 

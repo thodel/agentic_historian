@@ -66,6 +66,27 @@ class GatewayVLMModel:
     hf_repo: str = ""
     notes: str = ""
 
+    # ── The fields model_selector.score_model reads (#539) ───────────────────
+    #
+    # The gateway reports `scripts` and `languages` as lists for every engine,
+    # and `refresh_kraken_registry` already flattens them exactly like this for
+    # its own rows. Mirroring it here lets the kraken scorer — weights, script
+    # mismatch penalty, bilingual handling and all — score a VLM unchanged,
+    # which is what #539 meant by "im Vokabular des bestehenden Selektors".
+    #
+    # Flattening the same way is the point. If a VLM and a kraken model built
+    # from the same gateway row disagreed about what their script is, the two
+    # selectors would be two classification systems, and #538 is what that
+    # costs.
+
+    @property
+    def script(self) -> str:
+        return ", ".join(self.scripts) or "Latin"
+
+    @property
+    def lang(self) -> str:
+        return self.languages[0] if self.languages else "mul"
+
 
 @dataclass
 class HFModel:
