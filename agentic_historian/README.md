@@ -72,6 +72,7 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 | `/hotfolder` | Process all files in the hot folder |
 | `/pull [folder] [recursive]` | Pull images from a SwitchDrive folder and process each |
 | `/pull_folder [folder] [reprocess]` | Process each SwitchDrive subfolder as one multi-page document |
+| `/pull_preflight [folder]` | Which of the four SwitchDrive layers is broken — config, host, credentials, path — each reported separately, with the ones behind a failure left as *unchecked* rather than failed |
 | `/agent_d [corpus]` | Corpus analysis |
 | `/agent_e` | Meta report |
 | `/search <name>` | Federated person search across the KH MCP sources (HLS/HBLS/KF/EOS) |

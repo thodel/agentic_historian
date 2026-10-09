@@ -789,6 +789,33 @@ async def hotfolder(ctx):
         await ctx.followup.send(f"❌ Error: {e}")
 
 
+@bot.slash_command(
+    name="pull_preflight",
+    description="SwitchDrive getrennt prüfen: Konfiguration, Host, Zugangsdaten, Pfad")
+@require_role
+async def pull_preflight_cmd(
+    ctx,
+    folder: Option(str, "Ordner, z. B. missiven (leer = nur bis zur Wurzel)",
+                   required=False, default=None),
+):
+    """Which of the four layers is actually broken (#563).
+
+    Read-only; downloads nothing. The auth layer asks about the WebDAV **root**,
+    not the target folder, because a PROPFIND on the target answers 401 before
+    it looks at the path — so a dead app password and a missing folder used to
+    arrive as the same sentence.
+    """
+    from utils import switchdrive
+
+    await ctx.defer(ephemeral=True)
+    found = await _run_blocking(ctx, switchdrive.preflight, folder)
+    if found is None:
+        return
+    import webdav_probe
+    for message in webdav_probe.format_probe(found):
+        await ctx.followup.send(message, ephemeral=True)
+
+
 @bot.slash_command(name="pull", description="Pull a SwitchDrive folder into the hot folder and process it")
 @require_role
 async def pull_cmd(
@@ -835,7 +862,15 @@ async def pull_cmd(
         switchdrive.mark_processed(remote)
     except Exception as e:
         logger.exception("pull error")
-        await ctx.followup.send(f"❌ Error: {e}")
+        # Translate the status into the thing to change (#563). A bare
+        # `received 401 (Unauthorized)` sends the reader looking at the network,
+        # the endpoint and the folder before the credentials — that order cost
+        # an afternoon on 2026-10-09.
+        from utils import switchdrive as _sd
+        _why = _sd.explain(e, remote or "")
+        await ctx.followup.send(
+            f"❌ Error: {e}" + (f"\n\n{_why}\n_Details: `/pull_preflight`._"
+                               if _why else ""))
 
 
 @bot.slash_command(
@@ -881,7 +916,15 @@ async def pull_folder_cmd(
         await ctx.followup.send(msg)
     except Exception as e:
         logger.exception("pull_folder error")
-        await ctx.followup.send(f"❌ Error: {e}")
+        # Translate the status into the thing to change (#563). A bare
+        # `received 401 (Unauthorized)` sends the reader looking at the network,
+        # the endpoint and the folder before the credentials — that order cost
+        # an afternoon on 2026-10-09.
+        from utils import switchdrive as _sd
+        _why = _sd.explain(e, folder or "")
+        await ctx.followup.send(
+            f"❌ Error: {e}" + (f"\n\n{_why}\n_Details: `/pull_preflight`._"
+                               if _why else ""))
 
 
 @bot.slash_command(name="agent_d", description="Run Agent D corpus analysis")
