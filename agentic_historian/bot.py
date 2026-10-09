@@ -26,7 +26,14 @@ logging.basicConfig(level=logging.INFO)
 logger.configure(extra={"extra": {}})
 
 intents = Intents.default()
-bot = commands.Bot(command_prefix="!", intents=intents)
+# `debug_guilds` registers every slash command in that one guild, where Discord
+# makes it usable immediately. Without it the commands are global and Discord
+# takes up to an hour to roll a *new* one out — during which a correctly
+# deployed command is indistinguishable from a missing one (#589). None keeps
+# the global behaviour, so a multi-server install is unaffected.
+bot = commands.Bot(
+    command_prefix="!", intents=intents,
+    debug_guilds=[config.DISCORD_GUILD_ID] if config.DISCORD_GUILD_ID else None)
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -328,6 +335,46 @@ async def _atr_watch_loop() -> None:
             logger.warning("[atr-watch] announcing failed: {}", exc)
 
         await asyncio.sleep(config.ATR_WATCH_INTERVAL_S)
+
+
+async def _credential_watch_loop() -> None:
+    """Poll the mailbox credentials and announce when they break (#589).
+
+    The deciding is in ``credential_watch.decide``, which is pure and tested
+    offline; this is the part that cannot be — a socket, a clock and a channel.
+
+    The state is saved **after** the message is away, so a crash in between
+    repeats an announcement rather than losing one. The same trade as
+    ``_atr_watch_loop``, for the same reason: a repeat is noise, and a loss is
+    the two hours of 2026-10-09.
+    """
+    import credential_watch
+
+    channel = bot.get_channel(config.CREDENTIAL_WATCH_CHANNEL_ID)
+    if channel is None:
+        logger.warning("[credwatch] channel {} not visible to the bot — not started",
+                       config.CREDENTIAL_WATCH_CHANNEL_ID)
+        return
+    state = credential_watch.load_state()
+    logger.info("[credwatch] every {:.0f}s into #{} (blocked={!r})",
+                config.CREDENTIAL_WATCH_INTERVAL_S,
+                config.CREDENTIAL_WATCH_CHANNEL_ID, state.blocked)
+
+    while True:
+        try:
+            from utils import switchdrive
+            # No target folder: this watches the credentials, and a folder that
+            # was renamed is not a credential problem. `/pull` finds that out
+            # when somebody actually pulls.
+            probe = await asyncio.to_thread(switchdrive.preflight, None)
+            notice, state = credential_watch.decide(state, probe, time.time())
+            if notice is not None:
+                await channel.send(str(notice)[:1900])
+            credential_watch.save_state(state)
+        except Exception as exc:  # noqa: BLE001
+            # The watcher may never be the reason the bot stops working.
+            logger.warning("[credwatch] poll failed: {}", exc)
+        await asyncio.sleep(config.CREDENTIAL_WATCH_INTERVAL_S)
 
 
 # ── Commands ─────────────────────────────────────────────────────────────────
@@ -790,6 +837,48 @@ async def hotfolder(ctx):
 
 
 @bot.slash_command(
+    name="env_reload",
+    description="Admin: .env-Dateien neu lesen, ohne Neustart — und gleich prüfen")
+@admin_only
+async def env_reload_cmd(ctx):
+    """Re-read the `.env` files and show whether it worked (#589).
+
+    `config.py` reads them at import, so a corrected password did not reach a
+    running bot — the restart was half the fix on 2026-10-09. This does the
+    other half and then runs the preflight, so success is *shown* rather than
+    claimed: a reload that reports success and changed nothing is the defect
+    this command exists to avoid, and `config.reload_env` documents the
+    measurement that makes it possible at all.
+
+    Key **names** only, never values: this posts into a channel.
+    """
+    from utils import switchdrive
+    import webdav_probe
+
+    await ctx.defer(ephemeral=True)
+    result = await _run_blocking(ctx, config.reload_env)
+    if result is None:
+        return
+    lines = ["🔄 **`.env` neu gelesen**"]
+    lines.append(f"Geändert: {', '.join(f'`{k}`' for k in result['changed'])}"
+                 if result["changed"] else "Geändert: nichts")
+    if result["unchanged"]:
+        lines.append(f"Unverändert: {len(result['unchanged'])} Key(s)")
+    if result["from_environment"]:
+        lines.append(
+            "_Aus der Prozess-Umgebung und daher **nicht** von hier aus "
+            "änderbar: " + ", ".join(f"`{k}`" for k in result["from_environment"])
+            + " — dort gewinnt die Umgebung über jede `.env`-Datei (#106)._")
+    await ctx.followup.send("\n".join(lines), ephemeral=True)
+
+    found = await _run_blocking(ctx, switchdrive.preflight, None)
+    if found is None:
+        return
+    for message in webdav_probe.format_probe(found):
+        await ctx.followup.send(message, ephemeral=True)
+
+
+@bot.slash_command(
     name="pull_preflight",
     description="SwitchDrive getrennt prüfen: Konfiguration, Host, Zugangsdaten, Pfad")
 @require_role
@@ -1122,6 +1211,14 @@ async def on_ready():
             asyncio.create_task(_atr_watch_loop())
         except Exception as e:
             logger.warning(f"[atr-watch] start failed: {e}")
+
+    # Say when the mailbox credentials break, instead of letting somebody find
+    # out through a failed pull (#589). Off unless a channel was chosen.
+    if config.ENABLE_CREDENTIAL_WATCH:
+        try:
+            asyncio.create_task(_credential_watch_loop())
+        except Exception as e:
+            logger.warning(f"[credwatch] start failed: {e}")
 
 
 # ── Update command (P3-3, #248) ───────────────────────────────────────────────
