@@ -234,6 +234,106 @@ somebody does.
 
 ---
 
+## 9. The second time, with the same shape, six days later
+
+`/pull_folder missiven` on 2026-10-09:
+
+```
+❌ Error: received 401 (Unauthorized)
+```
+
+The search ran network → endpoint → path → credentials, in that order, and the
+credentials were last. They were the answer. Lesson §2 is about exactly this and
+was written six days earlier about the Nextcloud share; it did not stop the
+repetition, because the thing it taught was written in a document and not in the
+code that produces the message.
+
+### What the 401 could not say, and what cost the time
+
+A `PROPFIND` on `…/agentic_historian_hotfolder/missiven/` answers 401 **before it
+looks at the path**. So "the app passcode is dead" and "that folder is not there"
+arrive as the same sentence, and there is no way to tell them apart from the
+error. Asking the **root** first splits them in one request:
+
+| root | target | the answer |
+|---|---|---|
+| 401  | *not asked* | the credentials; the path is innocent |
+| 207  | 404 | the path; the credentials are fine |
+
+That reordering is the whole of #563. It is now `webdav_probe.probe`, and the
+test that pins it fails thirteen times if the auth layer is pointed at the
+target.
+
+### Two detours that were mine
+
+**A `grep -o` ate the answer.** The first command handed over piped the status
+through `grep -o '<d:href>…'`, which prints only matches — so the `--w "status
+%{http_code}"` line could never survive it, and the output was empty. An empty
+answer from a command that cannot print the answer is not evidence of anything.
+
+**A shell is not the service** (§3 again). The same command assumed
+`$SWITCHDRIVE_USER` and `$SWITCHDRIVE_PASS` were exported in an interactive
+login shell. They live in `.env.gpustack` and reach the process through
+python-dotenv, so bash had neither, and `curl -u ":"` returns 401 for its own
+reasons. Two different causes, one indistinguishable symptom.
+
+### The diagnosis that was right, and the reason that was wrong
+
+The credentials were indeed rejected, and a new App Passcode in
+`~/agentic_historian/.env.gpustack` returned 207 at the root. But the *reason* I
+gave — "SWITCH forces periodic password rotation" — is not true. Switch edu-ID's
+own password page cites NIST SP 800-63B and lists periodical password changes
+under its **don'ts**; nothing in the help pages says App Passcodes expire on a
+schedule either. What is documented is that **MFA became mandatory for all edu-ID
+logins in September 2025**, and that an App Passcode *is not* the edu-ID
+password. A 23-character value that worked and then stopped is much better
+explained by a plain account password that MFA finally shut out than by a
+rotation policy that does not exist.
+
+The lesson is narrow and it is about me: a mechanism offered as the cause of a
+measured failure is still a guess, and it reads as a finding unless it is marked
+as one. The 401 was measured. The rotation was invented.
+
+### Why a restart was half the fix, and why a reload is not the other half
+
+`config.py` reads the `.env` files at **import**. The running bot therefore held
+the old passcode after the file was corrected, and `/pull_folder` would have kept
+answering 401 with a perfectly good password on disk.
+
+A `/reload` command looks like the obvious fix and silently does nothing.
+Measured:
+
+```
+1. first load            : alt
+2. file changed, load    : alt   <- override=False
+3. with override=True    : neu
+```
+
+`load_dotenv(override=False)` puts the file's value into `os.environ` on the
+first load, so every later load finds the key already present and leaves it
+alone. `importlib.reload(config)` would re-run that same no-op. A reload that
+reports success and changes nothing is worse than no reload.
+
+It *is* implementable, and `ENV_SOURCE` is what makes it so: it holds exactly
+the keys whose value came from a file, which are exactly the keys it is safe to
+drop from `os.environ` and read again. The keys it does **not** hold came from
+the real process environment, where #106 says the environment must win. The
+distinction the module was added for turns out to be the precondition for
+reloading at all.
+
+### What must not be built
+
+Not a Discord command that takes the passcode. A slash-command parameter and a
+modal field are both transmitted to Discord and kept in its interaction logs;
+`ephemeral` hides a reply from other people's clients and does not make the
+value a secret again. It would also mean the bot writes its own credential
+store, which turns "can run an admin command" into "can change any secret".
+
+What the bot can do without ever seeing it: say that the credentials are being
+rejected, say which file holds them, and say so **before** somebody discovers it
+through a failed pull. Nothing was watching that endpoint, which is why a dead
+passcode presented itself as a mystery about a folder.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
