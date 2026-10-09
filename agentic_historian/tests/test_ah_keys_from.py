@@ -560,3 +560,65 @@ def test_score_gt_without_gt_uses_the_configured_root(tmp_path, monkeypatch, cap
 
     assert code == 0
     assert "1 ground-truth page(s)" in capsys.readouterr().out
+
+
+# ── the pages nobody has read yet ────────────────────────────────────────────
+#
+# "300 not yet transcribed documents" is a subtraction, not a judgement: the
+# corpus minus every key that has ground truth (`score-gt --keys-out`) minus
+# every key an earlier run already read. Both lists exist already.
+#
+# The ordering lesson of #531 applies from the other side. Cutting to 300 first
+# and then removing what is already read leaves however many of those 300 happen
+# to be unread — a number nobody chose.
+
+def test_the_pages_without_these_keys_come_back():
+    pages = _pages(["a", "b", "c", "d"])
+
+    kept, absent = batch.drop_keys(pages, ["b", "d"])
+
+    assert [p.key for p in kept] == ["a", "c"]
+    assert absent == []
+
+
+def test_an_excluded_key_that_names_no_page_is_reported():
+    """The same honesty as select_keys. 35 unmatched keys meant the share had
+    lost pages we have ground truth for (#535); here the shape means the
+    opposite — a reading of a page the source no longer offers."""
+    kept, absent = batch.drop_keys(_pages(["a", "b"]), ["b", "gone"])
+
+    assert [p.key for p in kept] == ["a"]
+    assert absent == ["gone"]
+
+
+def test_excluding_nothing_keeps_everything():
+    kept, absent = batch.drop_keys(_pages(["a", "b"]), ["x", "y"])
+
+    assert [p.key for p in kept] == ["a", "b"]
+    assert absent == ["x", "y"]
+
+
+def test_a_repeated_exclusion_key_is_counted_once():
+    kept, absent = batch.drop_keys(_pages(["a", "b"]), ["b", "b"])
+
+    assert [p.key for p in kept] == ["a"]
+    assert absent == []
+
+
+def test_the_result_is_in_corpus_order():
+    """A resumed run has to walk the same sequence it did the first time."""
+    kept, _ = batch.drop_keys(_pages(["d", "b", "c", "a"]), ["c"])
+
+    assert [p.key for p in kept] == ["a", "b", "d"]
+
+
+def test_the_cut_comes_after_the_exclusion():
+    """The ordering of #531, from the other side: 300 first and then removing
+    what is read gives however many of those 300 were unread."""
+    pages = _pages([f"p{i:03d}" for i in range(10)])
+
+    kept, _ = batch.drop_keys(pages, ["p000", "p001", "p002"])
+    chosen = batch.narrow(kept, limit=5)
+
+    assert len(chosen) == 5
+    assert [p.key for p in chosen] == ["p003", "p004", "p005", "p006", "p007"]
