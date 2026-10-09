@@ -506,6 +506,15 @@ ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
 #: does not break every minute, and the cost of noticing an hour late is far
 #: below the two hours the unwatched 401 of 2026-10-09 actually cost.
 CREDENTIAL_WATCH_INTERVAL_S = float(_get("CREDENTIAL_WATCH_INTERVAL_S", "3600"))
+
+# ── Corpus batch runner (R2, #392) ───────────────────────────────────────────
+#: Documents in flight at once. Conservative, because the gateway serves one
+#: model at a time on one GPU, so more workers than this mostly queue inside it;
+#: `--workers` overrides per run.
+BATCH_WORKERS = int(_get("BATCH_WORKERS", "2"))
+#: Attempts before a document goes to the manifest's dead letter and the run
+#: carries on without it.
+BATCH_MAX_ATTEMPTS = int(_get("BATCH_MAX_ATTEMPTS", "3"))
 #: Where the watcher announces. Empty = the watcher does not run, which is right
 #: for any host that is not the one doing the ingesting.
 CREDENTIAL_WATCH_CHANNEL_ID: int | None = (

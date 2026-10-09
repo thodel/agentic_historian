@@ -795,6 +795,101 @@ def batch_seed() -> int:
     return batch.SAMPLE_SEED
 
 
+def batch(args: argparse.Namespace) -> int:
+    """Process a folder or a folder of orders with N workers (R2, #392).
+
+    A subcommand of this CLI rather than the ``python -m agentic_historian.batch``
+    the issue spelled: the package has no ``__init__.py`` and the flat
+    ``import config`` convention only works once this directory is on the path,
+    which ``__main__.py`` does once at the top. A second ``-m`` entry point
+    would mean a second copy of that fix and a second ``--help`` for anyone to
+    find. Twelve subcommands already live here, for the reason this module's
+    docstring gives: each is restartable on its own.
+    """
+    import batch_runner
+    import corpus_manifest
+
+    root = Path(args.folder).resolve()
+    run_id = args.run or root.name
+
+    # #392: publishing goes through the batch path, not one commit per document.
+    # `run_full_pipeline` publishes per document when this is on, so refuse
+    # rather than quietly turn it off — a batch that mutates global config
+    # behind the operator's back makes a bot running at the same time behave
+    # differently for reasons nobody can see.
+    if config.ENABLE_GITHUB_PUBLISH and not args.allow_per_doc_publish:
+        print("ENABLE_GITHUB_PUBLISH is on, which would make this batch one "
+              "commit per document.\nRun the batch with it off and publish "
+              "once afterwards:\n"
+              "    python -m agentic_historian publish-batch --run-dir ...\n"
+              "or pass --allow-per-doc-publish if that really is what you want.")
+        return 2
+
+    try:
+        source = batch_runner.inspect_source(root, mode=args.mode)
+    except batch_runner.AmbiguousSource as e:
+        print(f"{e}")
+        return 2
+    except RuntimeError as e:
+        print(f"{e}")
+        return 1
+
+    if args.requeue:
+        back = corpus_manifest.requeue(run_id)
+        print(f"requeued {len(back)} document(s) that had failed or been given up on")
+
+    print(f"{run_id}: {len(source.doc_ids)} document(s), {source.pages} page(s), "
+          f"mode={source.mode} ({source.why})")
+    if args.dry_run:
+        corpus_manifest.register(run_id, source.doc_ids, source=str(root),
+                                 label=source.mode)
+        prog = corpus_manifest.progress(run_id)
+        print(f"registered only (--dry-run): {prog.pending} pending, "
+              f"{prog.done} done, {prog.failed} failed, {prog.dead} dead")
+        for doc_id in source.doc_ids[:20]:
+            print(f"  {doc_id} ({len(source.paths[doc_id])}p)")
+        if len(source.doc_ids) > 20:
+            print(f"  … and {len(source.doc_ids) - 20} more")
+        return 0
+
+    summary = batch_runner.run_batch(
+        run_id, source, workers=args.workers, max_attempts=args.max_attempts,
+        announce=_batch_announce())
+    prog = summary.progress
+    print(f"{run_id}: {prog.done} done, {prog.failed} failed, {prog.dead} dead "
+          f"in {summary.seconds / 60:.1f} min")
+    # Failed is not dead: a re-run picks those up. Only a dead letter is a
+    # non-zero exit, because only it needs somebody to look.
+    return 1 if prog.dead else 0
+
+
+def _batch_announce():
+    """Post progress to Discord when a channel and a token are configured.
+
+    A one-shot REST call, not a client: this is a CLI with no event loop, and
+    the alternative — logging into the gateway to say one sentence — is a
+    second bot presence for every batch. Failure to post never fails the batch.
+    """
+    channel = getattr(config, "VERBOSE_PROGRESS_CHANNEL_ID", None)
+    token = getattr(config, "DISCORD_BOT_TOKEN", "")
+    if not channel or not token:
+        return None
+
+    def _say(text: str) -> None:
+        from loguru import logger
+        try:
+            import requests
+            requests.post(
+                f"https://discord.com/api/v10/channels/{channel}/messages",
+                headers={"Authorization": f"Bot {token}"},
+                json={"content": text[:1900]}, timeout=15)
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"[batch] could not post progress: {e}")
+        logger.info(f"[batch] {text}")
+
+    return _say
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agentic-historian",
@@ -826,6 +921,28 @@ def build_parser() -> argparse.ArgumentParser:
     p_conv.add_argument("--dry-run", action="store_true",
                         help="Report what would be converted and exit")
     p_conv.set_defaults(func=convert_mirror)
+
+    p_corpus = sub.add_parser(
+        "batch",
+        help="Process a folder (or a folder of orders) with N workers, resumable")
+    p_corpus.add_argument("folder", help="Folder of pages, or of order subfolders")
+    p_corpus.add_argument("--run", help="Manifest run id (default: the folder name)")
+    p_corpus.add_argument("--workers", type=int, default=config.BATCH_WORKERS,
+                          help="Documents in flight at once")
+    p_corpus.add_argument("--mode", choices=["pages", "orders"], default=None,
+                          help="One document per image, or per subfolder "
+                               "(default: derived from the folder)")
+    p_corpus.add_argument("--max-attempts", type=int,
+                          default=config.BATCH_MAX_ATTEMPTS,
+                          help="Attempts before a document is given up on")
+    p_corpus.add_argument("--requeue", action="store_true",
+                          help="Put failed and given-up documents back first")
+    p_corpus.add_argument("--dry-run", action="store_true",
+                          help="Register the manifest and print the plan only")
+    p_corpus.add_argument("--allow-per-doc-publish", action="store_true",
+                          help="Run even with ENABLE_GITHUB_PUBLISH on "
+                               "(one commit per document)")
+    p_corpus.set_defaults(func=batch)
 
     p_batch = sub.add_parser(
         "atr-batch",

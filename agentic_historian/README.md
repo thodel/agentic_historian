@@ -106,6 +106,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
 | `DISCORD_GUILD_ID` | Register slash commands in this guild, where Discord makes them usable at once. Empty = global commands, which take up to an hour to propagate — a new command is then indistinguishable from a missing one |
 | `CREDENTIAL_WATCH_CHANNEL_ID` / `_INTERVAL_S` | Announce when the mailbox credentials stop being accepted, instead of letting a failed pull be the first sign. Empty = off |
+| `BATCH_WORKERS` / `BATCH_MAX_ATTEMPTS` | Documents in flight at once for `batch`, and attempts before one goes to the dead letter (defaults 2 and 3; `--workers` / `--max-attempts` override per run) |
 | `NEXTCLOUD_SHARE_URL` / `_PASS` / `NEXTCLOUD_REMOTE_DIR` | Nextcloud **public share** ingestion — the share token is the WebDAV user (`docs/BATCH_ATR.md`) |
 | `NEXTCLOUD_STAGING_DIR` / `VLM_TEST_ROOT` | Where a share is mirrored to, and the root for multi-model comparison runs |
 | `ATR_BATCH_PAGE_CONCURRENCY` / `ATR_BATCH_RETRIES` | Pages in flight per model (default `1`) and per-page retries for timeouts/5xx (default `2`) |
@@ -140,6 +141,30 @@ python -m agentic_historian atr-batch --source data/nextcloud/digitalisate \
     --models m1,m2,m3 --run atr_test_lassberg
 python -m agentic_historian publish-batch --run-dir … --repo owner/name --path data/vlm-outputs/…
 ```
+
+### The corpus batch runner (R2, #392)
+
+`atr-batch` compares models over a collection; `batch` runs the **pipeline** over
+one, outside the Discord queue — same code path as `/run`, N documents at a time,
+and resumable because every document's state is in the R1 manifest
+(`data/corpus_manifest.db`).
+
+```bash
+python -m agentic_historian batch data/hot_folder/lassberg --dry-run   # the plan
+python -m agentic_historian batch data/hot_folder/lassberg --workers 3
+python -m agentic_historian batch data/hot_folder/lassberg --requeue   # retry the dead
+```
+
+The mode is derived: subfolders of pages become one document each, loose pages
+become one document per image. A folder that is **both** is refused rather than
+guessed, because either guess silently drops half the work — `--mode` settles it.
+
+Interrupt it and run the same command again: finished documents are skipped,
+and claims a killed worker was holding are handed back at the start. A document
+that exhausts `--max-attempts` goes to the dead letter with its error kept and
+the run carries on; `--requeue` brings those back after the cause is fixed.
+Publishing is refused while `ENABLE_GITHUB_PUBLISH` is on — the batch path is
+`publish-batch`, not one commit per document.
 
 It iterates **model-major** — every page of one model, then the next — because the
 gateway's VLMs are `residency: lazy` on one GPU that holds one at a time, so
