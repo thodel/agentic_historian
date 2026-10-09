@@ -342,7 +342,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
 
 def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
                limit: Optional[int] = None, keys_out: Optional[Path] = None,
-               out: Optional[Path] = None) -> list[str]:
+               out: Optional[Path] = None,
+               writer_agreement: bool = False) -> list[str]:
     """The exact argv for one ``score-gt`` run.
 
     The documented CLI, for the reason `batch_argv` gives: the MCP path and the
@@ -367,6 +368,8 @@ def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
         argv += ["--keys-out", str(keys_out)]
     if out is not None:
         argv += ["--out", str(out)]
+    if writer_agreement:
+        argv.append("--writer-agreement")
     return argv
 
 
@@ -663,7 +666,8 @@ def list_outputs(run: str, model: Optional[str] = None) -> dict:
 
 def score_job(runs: Sequence[str], gt_dir: Optional[str] = None,
               limit: Optional[int] = None,
-              keys_out: Optional[str] = None) -> dict:
+              keys_out: Optional[str] = None,
+              writer_agreement: bool = False) -> dict:
     """Start a scoring run and report whatever is true within the grace period.
 
     Validates exactly what `score_ground_truth` validated — run names, a
@@ -682,7 +686,8 @@ def score_job(runs: Sequence[str], gt_dir: Optional[str] = None,
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     out = Path(config.VLM_TEST_ROOT) / f"score-gt-{stamp}.md"
     argv = score_argv([_run_dir(n) for n in names], gt_dir=folder, limit=limit,
-                      keys_out=keys_file, out=out)
+                      keys_out=keys_file, out=out,
+                      writer_agreement=writer_agreement)
     return {"ok": True, "runs": names, "ground_truth_dir": str(folder),
             "report": str(out),
             "keys_file": str(keys_file) if keys_file else None,

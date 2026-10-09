@@ -450,15 +450,28 @@ def score_gt(args: argparse.Namespace) -> int:
                           score_run_dirs)
 
     gt_paths = [g for g in (args.gt or []) if str(g).strip()] or [str(config.GT_ROOT)]
+    run_dirs = [resolve_run_dir(d) for d in args.run_dir]
     try:
         files = expand_gt_paths(gt_paths)
         if getattr(args, "limit", None):
             files = files[:max(1, int(args.limit))]
-        scored, unusable, report = score_run_dirs(
-            files, [resolve_run_dir(d) for d in args.run_dir])
+        scored, unusable, report = score_run_dirs(files, run_dirs)
     except (GroundTruthError, NotADirectoryError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+
+    writers = ""
+    if getattr(args, "writer_agreement", False):
+        import writer_check
+        from gt_score import readings_from_run_dirs
+
+        # The readings are re-read rather than threaded through score_run_dirs'
+        # triple: it is some seventeen hundred small text files against seven
+        # minutes of matching, and a fourth element in that return would have to
+        # be carried by every caller that does not want it.
+        writers = writer_check.format_comparison(
+            writer_check.compare(scored, readings_from_run_dirs(run_dirs)))
+        report = f"{report}\n\n{writers}\n"
     if args.out:
         # The full report to the file, the summary to stdout. 552 pages of
         # per-page sections are the record and not something to read in a
@@ -469,6 +482,10 @@ def score_gt(args: argparse.Namespace) -> int:
         out.write_text(report, encoding="utf-8")
         print(format_summary(scored, unusable))
         print(f"\nreport: {out}  ({len(report.splitlines())} lines)")
+        # Last, because a job hands a caller the *tail* of a log and this is the
+        # answer the run was started for.
+        if writers:
+            print(f"\n{writers}")
     else:
         print(report)
     doubtful = [s for s in scored if not s.agreed_key]
@@ -939,6 +956,13 @@ def build_parser() -> argparse.ArgumentParser:
                             "Bare `--keys-out` writes GT_ROOT/gt-keys.txt, which "
                             "survives a reboot — /tmp does not, and a reboot ate "
                             "the first list after sixteen minutes of work")
+    p_sgt.add_argument("--writer-agreement", action="store_true",
+                       help="Also measure whether a machine reading is enough to "
+                            "tell whose hand a page is in: `writer_of` on each "
+                            "reading against `writer_of` on the hand-corrected "
+                            "text. The question behind selecting untranscribed "
+                            "pages by writer, which cannot be answered from the "
+                            "pages themselves")
     p_sgt.set_defaults(func=score_gt)
 
     p_hf = sub.add_parser(
