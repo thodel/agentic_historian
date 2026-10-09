@@ -73,6 +73,7 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 | `/pull [folder] [recursive]` | Pull images from a SwitchDrive folder and process each |
 | `/pull_folder [folder] [reprocess]` | Process each SwitchDrive subfolder as one multi-page document |
 | `/pull_preflight [folder]` | Which of the four SwitchDrive layers is broken — config, host, credentials, path — each reported separately, with the ones behind a failure left as *unchecked* rather than failed |
+| `/env_reload` | Admin: re-read the `.env` files without a restart, then run the preflight so success is shown rather than claimed. Only the keys that came *from a file* — a value from the process environment wins over every `.env` (#106) and is named as unchangeable from here |
 | `/agent_d [corpus]` | Corpus analysis |
 | `/agent_e` | Meta report |
 | `/search <name>` | Federated person search across the KH MCP sources (HLS/HBLS/KF/EOS) |
@@ -103,6 +104,8 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `MCP_BASE_URL` / `MCP_TIMEOUT` | Knowledge-hub MCP federation base + per-request timeout |
 | `ENABLE_MCP_LINKING` | Agent C links persons via the MCP federation (falls back to the local hub) |
 | `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
+| `DISCORD_GUILD_ID` | Register slash commands in this guild, where Discord makes them usable at once. Empty = global commands, which take up to an hour to propagate — a new command is then indistinguishable from a missing one |
+| `CREDENTIAL_WATCH_CHANNEL_ID` / `_INTERVAL_S` | Announce when the mailbox credentials stop being accepted, instead of letting a failed pull be the first sign. Empty = off |
 | `NEXTCLOUD_SHARE_URL` / `_PASS` / `NEXTCLOUD_REMOTE_DIR` | Nextcloud **public share** ingestion — the share token is the WebDAV user (`docs/BATCH_ATR.md`) |
 | `NEXTCLOUD_STAGING_DIR` / `VLM_TEST_ROOT` | Where a share is mirrored to, and the root for multi-model comparison runs |
 | `ATR_BATCH_PAGE_CONCURRENCY` / `ATR_BATCH_RETRIES` | Pages in flight per model (default `1`) and per-page retries for timeouts/5xx (default `2`) |

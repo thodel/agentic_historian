@@ -277,22 +277,48 @@ login shell. They live in `.env.gpustack` and reach the process through
 python-dotenv, so bash had neither, and `curl -u ":"` returns 401 for its own
 reasons. Two different causes, one indistinguishable symptom.
 
-### The diagnosis that was right, and the reason that was wrong
+### The diagnosis that was right, and two reasons for it that were wrong
 
 The credentials were indeed rejected, and a new App Passcode in
-`~/agentic_historian/.env.gpustack` returned 207 at the root. But the *reason* I
-gave — "SWITCH forces periodic password rotation" — is not true. Switch edu-ID's
-own password page cites NIST SP 800-63B and lists periodical password changes
-under its **don'ts**; nothing in the help pages says App Passcodes expire on a
-schedule either. What is documented is that **MFA became mandatory for all edu-ID
-logins in September 2025**, and that an App Passcode *is not* the edu-ID
-password. A 23-character value that worked and then stopped is much better
-explained by a plain account password that MFA finally shut out than by a
-rotation policy that does not exist.
+`~/agentic_historian/.env.gpustack` returned 207 at the root. The *mechanism* I
+offered for it was wrong twice.
 
-The lesson is narrow and it is about me: a mechanism offered as the cause of a
-measured failure is still a guess, and it reads as a finding unless it is marked
-as one. The 401 was measured. The rotation was invented.
+**First: "SWITCH forces periodic password rotation."** Not true. Switch edu-ID's
+password page cites NIST SP 800-63B and lists periodical password changes under
+its **don'ts**, and nothing in the help pages says App Passcodes expire on a
+schedule.
+
+**Then: the stored value was the account password, which mandatory MFA
+(September 2025) finally shut out.** Also not true. The value that was replaced
+was itself an App Passcode, of the same shape and length as the one that fixed
+it.
+
+What is **established** is narrow: a valid App Passcode stopped being accepted,
+and a freshly created one is accepted. Why is **not known**. What can be named
+without asserting it — SWITCH documents one passcode per device, and that
+deleting one closes its connection immediately, so a passcode shared across
+machines dies when any one of them is tidied up; and SWITCHdrive's login moved
+to the edu-ID screen at some point, which is the kind of migration that can
+invalidate what came before. The check that would settle it is on the Security
+page: **is the old passcode still listed?** Gone means it was removed or
+invalidated. Listed and rejected means it is SWITCH's end, and a ticket.
+
+Two lessons, and the second is the useful one.
+
+**A mechanism offered as the cause of a measured failure is still a guess**, and
+it reads as a finding unless it is marked as one. The 401 was measured. The
+rotation was invented, and so was the account-password story — the second one
+proposed with the first one's refutation already written on the page above it.
+
+**The cause not being knowable is the argument for the watcher, not against it.**
+Three mechanisms proposed, two refuted, one still open — while the *failure*
+itself was measurable in seconds from the start. A credential whose breaking
+cannot be predicted is exactly the one that has to be observed: #589's watcher
+needs no theory of why passcodes die in order to say that this one has. Had it
+existed, none of the paragraphs above would have had to be written.
+
+One passcode per machine from now on, since that is the one thing the
+documentation is explicit about.
 
 ### Why a restart was half the fix, and why a reload is not the other half
 
