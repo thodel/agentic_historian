@@ -195,8 +195,15 @@ def atr_batch(args: argparse.Namespace) -> int:
     # matched against 276 ground-truth keys, matched none of them, and reported the
     # whole key list as absent from the source (#531). So when there is a key list,
     # discovery hands back the whole corpus and the cut happens after the filter.
-    cut = None if keys_file else args.limit
-    pick = None if keys_file else args.sample
+    # `--exclude-from` is the same ordering problem from the other side: cutting
+    # to 300 first and *then* removing everything already read would leave however
+    # many of those 300 happened to be unread — a number nobody chose. So any
+    # filter at all means discovery hands back the whole corpus.
+    exclude_files = [f for f in (getattr(args, "exclude_from", None) or [])
+                     if str(f).strip()]
+    filtering = bool(keys_file or exclude_files)
+    cut = None if filtering else args.limit
+    pick = None if filtering else args.sample
 
     if remote:
         # Reading the share directly, with no mirror and no mount. The cache is
@@ -284,8 +291,51 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"Error: none of the {len(keys)} key(s) in {args.keys_from} "
                   f"name a page under {source}", file=sys.stderr)
             return 1
-        pages = batch.narrow(chosen, limit=args.limit, sample=args.sample,
+        pages = chosen
+
+    for path in exclude_files:
+        try:
+            skip = batch.read_keys(Path(path).expanduser())
+        except (OSError, ValueError) as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+        before = len(pages)
+        pages, absent = batch.drop_keys(pages, skip)
+        print(f"excluded  : {before - len(pages)} of {before} page(s) named by "
+              f"{path}", file=sys.stderr)
+        if absent:
+            # A key that excluded nothing is worth seeing. Here it means the
+            # opposite of #535: not ground truth without an image, but a reading
+            # of a page the source no longer offers.
+            shown = absent[:MISSING_KEYS_SHOWN]
+            print(f"warning: {len(absent)} of {len(skip)} excluded key(s) name no "
+                  f"page under this source:", file=sys.stderr)
+            for key in shown:
+                print(f"  - {key}", file=sys.stderr)
+            if len(absent) > len(shown):
+                print(f"  … {len(absent) - len(shown)} more", file=sys.stderr)
+        if not pages:
+            print(f"Error: {path} excluded every page under {source}",
+                  file=sys.stderr)
+            return 1
+
+    if filtering:
+        pages = batch.narrow(pages, limit=args.limit, sample=args.sample,
                              seed=args.seed)
+
+    if getattr(args, "keys_out", None):
+        # The selection, written down. A run of "the 300 nobody has read" is only
+        # repeatable if the 300 are a file: derive them again next week and a
+        # share that gained or lost a page gives a different 300, silently.
+        dest = Path(args.keys_out).expanduser()
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(
+            f"# {len(pages)} page key(s) selected under {source}\n"
+            f"# {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC"
+            + (f", minus {len(exclude_files)} exclusion list(s)"
+               if exclude_files else "")
+            + "\n" + "".join(f"{ref.key}\n" for ref in pages), encoding="utf-8")
+        print(f"keys      : {dest}  ({len(pages)} page(s))", file=sys.stderr)
 
     out_root = Path(args.out_root) if args.out_root else config.VLM_TEST_ROOT / args.run
 
@@ -784,6 +834,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_batch.add_argument("--source", required=True,
                          help="Directory of page images, or dav:<folder> to read "
                               "the Nextcloud share directly (needs --cache-dir)")
+    p_batch.add_argument("--exclude-from", action="append",
+                         help="A file of page keys to leave out, one per line — "
+                              "repeat for several. This is how 'the pages nobody "
+                              "has read yet' is selected: the corpus minus the "
+                              "ground-truth keys (`score-gt --keys-out`) minus an "
+                              "earlier run's keys. Applied before --limit, which "
+                              "is the only order that gives the number you asked "
+                              "for")
+    p_batch.add_argument("--keys-out",
+                         help="Write the selected page keys here. A selection "
+                              "derived again next week is a different selection "
+                              "if the share gained or lost a page; a file is not")
     p_batch.add_argument("--models", required=True,
                          help="Comma-separated gateway model ids (see GET /models)")
     p_batch.add_argument("--run", default="atr_batch", help="Run name = output subdirectory")

@@ -13,6 +13,44 @@ checkout plus a venv on a box whose single partition has been full before.
 
 ---
 
+## Die Seiten auswählen, die noch niemand gelesen hat
+
+`--keys-from` nimmt eine Liste; `--exclude-from` lässt eine weg, und mehrere
+davon. Damit ist „die Seiten, die noch niemand transkribiert hat" eine
+Subtraktion statt einer Einschätzung — beide Listen existieren schon:
+
+```bash
+# 1. Welche Seiten handkorrigierten Text haben
+python -m agentic_historian score-gt --run-dir atr_corpus_qwen35_line \
+  --keys-out "$GT_ROOT/gt-keys.txt"
+
+# 2. Welche ein früherer Lauf schon gelesen hat
+ls data/vlm_test/atr_corpus_qwen35_line/<modell>/*.txt \
+  | xargs -n1 basename | sed 's/\.txt$//' > /tmp/read-keys.txt
+
+# 3. Das Korpus minus beides, dann die ersten 300 — und die Auswahl als Datei
+python -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" --models … --run neu-300 \
+  --exclude-from "$GT_ROOT/gt-keys.txt" --exclude-from /tmp/read-keys.txt \
+  --limit 300 --keys-out "$GT_ROOT/neu-300.txt" --dry-run
+```
+
+**Die Reihenfolge ist dieselbe Lektion wie #531, von der anderen Seite.** Erst
+auf 300 schneiden und dann das Gelesene entfernen ergibt, wie viele dieser 300
+zufällig ungelesen waren — eine Zahl, die niemand gewählt hat. Jeder Filter
+sorgt deshalb dafür, dass die Discovery das ganze Korpus zurückgibt und der
+Schnitt zuletzt kommt.
+
+**`--keys-out` schreibt die Auswahl auf.** Ein Lauf über „die 300, die niemand
+gelesen hat" ist nur wiederholbar, wenn die 300 eine Datei sind: nächste Woche
+neu abgeleitet ergibt ein Share, das eine Seite gewonnen oder verloren hat, eine
+andere Auswahl — lautlos. Dass das kein Schreckgespenst ist, hat der 4. Oktober
+gezeigt (35 Seiten verschwanden zwischen zwei Läufen).
+
+Ein Ausschluss-Schlüssel, der nichts getroffen hat, wird benannt. Hier heisst
+das das Gegenteil von #535: nicht Ground Truth ohne Bild, sondern eine Lesung
+einer Seite, die das Korpus nicht mehr anbietet.
+
 ## 0 · Before anything: are the models actually servable?
 
 Registration in `config/models.yaml` is not the same as being servable. See
