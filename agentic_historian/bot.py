@@ -362,12 +362,19 @@ async def _credential_watch_loop() -> None:
 
     while True:
         try:
-            from utils import switchdrive
+            import ingest_mailbox
             # No target folder: this watches the credentials, and a folder that
             # was renamed is not a credential problem. `/pull` finds that out
             # when somebody actually pulls.
-            probe = await asyncio.to_thread(switchdrive.preflight, None)
-            notice, state = credential_watch.decide(state, probe, time.time())
+            #
+            # Through `ingest_mailbox`, so the watcher watches the way actually
+            # in use (#592). Watching the account path while the ingest reads a
+            # share would announce a credential nothing uses and stay silent
+            # about the one that broke — a watcher worse than none.
+            box = ingest_mailbox.which()
+            probe = await asyncio.to_thread(ingest_mailbox.preflight, None)
+            notice, state = credential_watch.decide(state, probe, time.time(),
+                                                    label=f"Briefkasten ({box.label})")
             if notice is not None:
                 await channel.send(str(notice)[:1900])
             credential_watch.save_state(state)
@@ -880,7 +887,7 @@ async def env_reload_cmd(ctx):
 
 @bot.slash_command(
     name="pull_preflight",
-    description="SwitchDrive getrennt prüfen: Konfiguration, Host, Zugangsdaten, Pfad")
+    description="Briefkasten getrennt prüfen: Konfiguration, Host, Zugangsdaten, Pfad")
 @require_role
 async def pull_preflight_cmd(
     ctx,
@@ -894,50 +901,53 @@ async def pull_preflight_cmd(
     it looks at the path — so a dead app password and a missing folder used to
     arrive as the same sentence.
     """
-    from utils import switchdrive
+    import ingest_mailbox
 
     await ctx.defer(ephemeral=True)
-    found = await _run_blocking(ctx, switchdrive.preflight, folder)
+    found = await _run_blocking(ctx, ingest_mailbox.preflight, folder)
     if found is None:
         return
     import webdav_probe
     for message in webdav_probe.format_probe(found):
         await ctx.followup.send(message, ephemeral=True)
+    # Which way, every time. Without it the next 401 is the same puzzle #563 was
+    # filed for — a message about a credential nobody can tell is the one in use.
+    await ctx.followup.send(ingest_mailbox.describe(), ephemeral=True)
 
 
-@bot.slash_command(name="pull", description="Pull a SwitchDrive folder into the hot folder and process it")
+@bot.slash_command(name="pull", description="Einen Briefkasten-Ordner holen und verarbeiten")
 @require_role
 async def pull_cmd(
     ctx,
-    folder: Option(str, "SwitchDrive folder (relative to your SwitchDrive root)", required=False, default=None),
+    folder: Option(str, "Ordner im Briefkasten (relativ zu dessen Wurzel)", required=False, default=None),
     recursive: Option(bool, "Descend into subfolders", required=False, default=False),
 ):
     await ctx.defer()
-    from utils import switchdrive
-    if not switchdrive.is_configured():
-        await ctx.followup.send(
-            "❌ SwitchDrive not configured — set SWITCHDRIVE_USER / SWITCHDRIVE_PASS "
-            "(app password) in .env.gpustack."
-        )
+    import ingest_mailbox
+    box = ingest_mailbox.which()
+    if not box.configured:
+        await ctx.followup.send(box.line())
         return
     remote = folder or config.SWITCHDRIVE_REMOTE_DIR
     # Skip already-processed folders (unless re-processing is explicitly requested via
     # /pull_folder). This matches pull_folder_cmd dedup behaviour.
-    already = switchdrive.load_processed()
+    already = ingest_mailbox.load_processed()
     if remote in already:
-        await ctx.followup.send(
-            f"⏭️ `{remote}` already processed — use /pull_folder with `reprocess:=true` "
-            "to re-pull it."
-        )
+        await ctx.followup.send(ingest_mailbox.answer(box,
+            f"⏭️ `{remote}` already processed — use /pull_folder with "
+            f"`reprocess:=true` to re-pull it."))
         return
     try:
-        files = await _run_blocking(ctx, switchdrive.pull_folder, remote, config.HOT_FOLDER, recursive)
+        files = await _run_blocking(ctx, ingest_mailbox.pull_folder, remote,
+                                    config.HOT_FOLDER, recursive)
         if files is None:
             return
         if not files:
-            await ctx.followup.send(f"📂 No images/PDFs found in SwitchDrive `{remote}`.")
+            await ctx.followup.send(ingest_mailbox.answer(box,
+                f"📂 Keine Bilder/PDFs in `{remote}`."))
             return
-        await ctx.followup.send(f"⬇️ Pulled {len(files)} file(s) from `{remote}` — processing…")
+        await ctx.followup.send(ingest_mailbox.answer(box,
+            f"⬇️ {len(files)} Datei(en) aus `{remote}` geholt — wird verarbeitet…"))
         results = await _run_blocking(ctx, run_hot_folder)
         if results is None:
             return
@@ -946,20 +956,20 @@ async def pull_cmd(
         msg = f"✅ Verarbeitet: {len(ok)} Dateien"
         if errs:
             msg += f"\n❌ Fehler: {len(errs)}"
-        await ctx.followup.send(msg)
+        await ctx.followup.send(ingest_mailbox.answer(box, msg))
         # Mark as processed so subsequent /pull calls skip this folder (dedup).
-        switchdrive.mark_processed(remote)
+        ingest_mailbox.mark_processed(remote)
     except Exception as e:
         logger.exception("pull error")
-        # Translate the status into the thing to change (#563). A bare
-        # `received 401 (Unauthorized)` sends the reader looking at the network,
-        # the endpoint and the folder before the credentials — that order cost
-        # an afternoon on 2026-10-09.
-        from utils import switchdrive as _sd
-        _why = _sd.explain(e, remote or "")
-        await ctx.followup.send(
-            f"❌ Error: {e}" + (f"\n\n{_why}\n_Details: `/pull_preflight`._"
-                               if _why else ""))
+        # Translate the status into the thing to change (#563), for the way
+        # actually used (#592). A bare `received 401 (Unauthorized)` sends the
+        # reader looking at the network, the endpoint and the folder before the
+        # credentials — that order cost an afternoon on 2026-10-09. Naming the
+        # wrong credential is worse still: a share has no app passcode.
+        _why = ingest_mailbox.explain(e, remote or "")
+        await ctx.followup.send(ingest_mailbox.answer(box,
+            f"❌ Error: {e}"
+            + (f"\n\n{_why}\n_Details: `/pull_preflight`._" if _why else "")))
 
 
 @bot.slash_command(
@@ -969,17 +979,16 @@ async def pull_cmd(
 @require_role
 async def pull_folder_cmd(
     ctx,
-    folder: Option(str, "Parent folder on SwitchDrive (default: hot folder)", required=False, default=None),
+    folder: Option(str, "Elternordner im Briefkasten (Standard: Hot Folder)", required=False, default=None),
     reprocess: Option(bool, "Reprocess orders already done", required=False, default=False),
 ):
     await ctx.defer()
-    from utils import switchdrive
     import ingest
+    import ingest_mailbox
 
-    if not switchdrive.is_configured():
-        await ctx.followup.send(
-            "❌ SwitchDrive not configured — set SWITCHDRIVE_USER / SWITCHDRIVE_PASS in .env.gpustack."
-        )
+    box = ingest_mailbox.which()
+    if not box.configured:
+        await ctx.followup.send(box.line())
         return
 
     parent = folder or config.SWITCHDRIVE_REMOTE_DIR
@@ -1002,18 +1011,16 @@ async def pull_folder_cmd(
             msg += "\n• " + "\n• ".join(res["done"][:10])
         if res["errors"]:
             msg += "\n⚠️ " + "; ".join(res["errors"][:5])
-        await ctx.followup.send(msg)
+        await ctx.followup.send(ingest_mailbox.answer(box, msg))
     except Exception as e:
         logger.exception("pull_folder error")
-        # Translate the status into the thing to change (#563). A bare
-        # `received 401 (Unauthorized)` sends the reader looking at the network,
-        # the endpoint and the folder before the credentials — that order cost
-        # an afternoon on 2026-10-09.
-        from utils import switchdrive as _sd
-        _why = _sd.explain(e, folder or "")
-        await ctx.followup.send(
-            f"❌ Error: {e}" + (f"\n\n{_why}\n_Details: `/pull_preflight`._"
-                               if _why else ""))
+        # As in /pull: the thing to change (#563), for the way actually used
+        # (#592) — naming an app passcode on the share path sends somebody to
+        # rotate a credential this way does not have.
+        _why = ingest_mailbox.explain(e, folder or "")
+        await ctx.followup.send(ingest_mailbox.answer(box,
+            f"❌ Error: {e}"
+            + (f"\n\n{_why}\n_Details: `/pull_preflight`._" if _why else "")))
 
 
 @bot.slash_command(name="agent_d", description="Run Agent D corpus analysis")

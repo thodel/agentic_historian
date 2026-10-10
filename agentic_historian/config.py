@@ -135,6 +135,8 @@ def _refresh() -> None:
         SWITCHDRIVE_PASS=_get("SWITCHDRIVE_PASS", ""),
         SWITCHDRIVE_REMOTE_DIR=_get("SWITCHDRIVE_REMOTE_DIR",
                                     "agentic_historian_hotfolder"),
+        SWITCHDRIVE_SHARE_URL=_get("SWITCHDRIVE_SHARE_URL", ""),
+        SWITCHDRIVE_SHARE_PASS=_get("SWITCHDRIVE_SHARE_PASS", ""),
         NEXTCLOUD_SHARE_URL=_get("NEXTCLOUD_SHARE_URL", ""),
         NEXTCLOUD_SHARE_PASS=_get("NEXTCLOUD_SHARE_PASS", ""),
         NEXTCLOUD_REMOTE_DIR=_get("NEXTCLOUD_REMOTE_DIR", ""),
@@ -336,6 +338,22 @@ SWITCHDRIVE_URL = _get("SWITCHDRIVE_URL", "https://drive.switch.ch/remote.php/we
 SWITCHDRIVE_USER = _get("SWITCHDRIVE_USER", "")
 SWITCHDRIVE_PASS = _get("SWITCHDRIVE_PASS", "")
 SWITCHDRIVE_REMOTE_DIR = _get("SWITCHDRIVE_REMOTE_DIR", "agentic_historian_hotfolder")
+
+# ── The hot folder as a public share instead of an account (#592) ────────────
+# Set these and the ingest authenticates with a **share token**, not as a user:
+# no edu-ID account in the path, nothing that dies when an app passcode is
+# deleted on some other device, and a historian needs a link rather than an
+# account. Unset, the account values above are used, so this is a switch with a
+# return ticket.
+#
+# Deliberately NOT the existing NEXTCLOUD_SHARE_* pair: those name the Laßberg
+# corpus share on the GWDG instance, which is mounted and read in place (#487).
+# Reusing them would point the hot folder at a 160 GB holding and the holding's
+# reader at the mailbox — two jobs #592 says explicitly not to mix again.
+SWITCHDRIVE_SHARE_URL = _get("SWITCHDRIVE_SHARE_URL", "")
+# Empty is legitimate: a share may have no password. Absence of a password is
+# therefore not absence of configuration — see webdav_probe's secret_optional.
+SWITCHDRIVE_SHARE_PASS = _get("SWITCHDRIVE_SHARE_PASS", "")
 
 # ── Nextcloud public share (WebDAV ingestion) ────────────────────────────────
 # A *public share*, not an account: the share token is the WebDAV username and
