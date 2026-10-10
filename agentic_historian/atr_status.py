@@ -25,6 +25,7 @@ from __future__ import annotations
 import re
 
 import httpx
+from loguru import logger
 
 import config
 
@@ -69,14 +70,17 @@ async def _get(path: str, params: dict | None = None):
         async with httpx.AsyncClient(timeout=TIMEOUT_S) as client:
             response = await client.get(url, headers=headers, params=params)
     except httpx.HTTPError as exc:
-        # Name the URL. "Connection failed" without it sends the reader to the
-        # wrong box, and this one is reachable only over the VPN.
-        raise AtrStatusError(f"{type(exc).__name__} talking to {url}") from exc
+        # SEC-14 (#585): the URL (an internal VPN host) and any body are for the
+        # operator's log, not the channel — _atr posts this message verbatim.
+        logger.warning("[atr] {} talking to {}", type(exc).__name__, url)
+        raise AtrStatusError("Das ATR-Gateway ist nicht erreichbar.") from exc
     if response.status_code == 401:
         raise AtrStatusError("the gateway rejected the API key (401)")
     if response.status_code >= 400:
-        raise AtrStatusError(f"{url} answered {response.status_code}: "
-                             f"{response.text[:200]}")
+        logger.warning("[atr] {} answered {}: {}", url, response.status_code,
+                       response.text[:200])
+        raise AtrStatusError(
+            f"Das ATR-Gateway hat mit Status {response.status_code} geantwortet.")
     return response.json()
 
 

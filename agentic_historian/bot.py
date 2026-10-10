@@ -230,6 +230,22 @@ def _get_entity_index():
     return _entity_index_cache["index"]
 
 
+# ── Error reporting (SEC-14, #585) ───────────────────────────────────────────
+#
+# A raw exception posted into the channel can carry internal URLs, filesystem
+# paths, gateway responses or (with SEC-10) file contents. This posts a generic
+# line and sends the traceback to the log, where loguru records which handler
+# raised it. Use it in place of `❌ Error: {e}`.
+async def _report_error(ctx, exc: Exception, *, note: str = "",
+                        ephemeral: bool = False) -> None:
+    logger.exception("[cmd] {}", exc)
+    msg = note or "Das hat nicht geklappt"
+    try:
+        await ctx.followup.send(f"❌ {msg} — Details siehe Log.", ephemeral=ephemeral)
+    except Exception:                                # the report must never raise
+        pass
+
+
 async def _worker() -> None:
     """Single consumer: run queued blocking jobs serially, one thread at a time.
 
@@ -527,7 +543,7 @@ async def search_cmd(ctx, query: Option(str, "Name/Person to search", required=T
         resp = await search_agent.search(query, limit=20)
         await ctx.followup.send(search_agent.format_response(resp))
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(
@@ -552,7 +568,7 @@ async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=T
         site_base = entity_index.pages_site_base() if config.ENABLE_GITHUB_PUBLISH else None
         await ctx.followup.send(entity_index.format_entity(entry, site_base=site_base))
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(
@@ -903,7 +919,7 @@ async def reprocess_cmd(
             parts.append(f"❌ Fehler: {', '.join(errors)}")
         await ctx.followup.send("\n".join(parts) or "✅ Nichts zu tun.")
     except Exception as e:
-        await ctx.followup.send(f"❌ Fehler: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
@@ -936,7 +952,7 @@ async def run_pipeline(
         await ctx.followup.send(msg)
     except Exception as e:
         logger.exception("Pipeline error")
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="run_agent_a", description="Run Agent A (HTR) only")
@@ -963,7 +979,7 @@ async def run_agent_a_cmd(
             f"File: {result.get('path','')}"
         )
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="hotfolder", description="Process all files in the hot folder")
@@ -983,7 +999,7 @@ async def hotfolder(ctx):
             msg += f"\n❌ Fehler: {len(errs)}"
         await ctx.followup.send(msg)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(
@@ -1197,7 +1213,7 @@ async def agent_d_cmd(
                     "\n⚠️ Dieser Link ist öffentlich teilbar — der Korpustext liegt auf Voyant.")
         await ctx.followup.send(msg)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="agent_e", description="Run Agent E — meta report")
@@ -1221,7 +1237,7 @@ async def agent_e_cmd(ctx):
         if embed is not None:
             await ctx.followup.send(embed=embed)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="progress", description="Show phase progress")
@@ -1248,10 +1264,13 @@ async def _atr(ctx, coro, formatter, *args):
     try:
         payload = await coro
     except atr_status.AtrStatusError as exc:
+        # AtrStatusError messages are curated (SEC-6 validation, 401, and the
+        # generic gateway messages from _get) — safe to show.
         await ctx.followup.send(f"❌ {exc}", ephemeral=True)
         return
     except Exception as exc:                        # pragma: no cover — defensive
-        await ctx.followup.send(f"❌ {type(exc).__name__}: {exc}", ephemeral=True)
+        # SEC-14 (#585): an arbitrary exception is not safe to echo.
+        await _report_error(ctx, exc, ephemeral=True)
         return
     await ctx.followup.send(formatter(payload, *args), ephemeral=True)
 
