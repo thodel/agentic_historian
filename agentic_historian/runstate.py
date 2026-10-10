@@ -198,7 +198,21 @@ class RunState(BaseModel):
 
     @staticmethod
     def _path(doc_id: str) -> Path:
-        return config.DATA_DIR / "runs" / f"{doc_id}.json"
+        """The run-state file for *doc_id*, refusing any id that escapes the runs
+        directory (path traversal, #573).
+
+        A doc id arrives straight from a slash command, an image stem or a folder
+        name and is interpolated into this path; an id like ``../../x`` would
+        otherwise make :meth:`save` write outside ``data/runs/`` (and let a read
+        reach a neighbouring file). The resolved path must stay inside the runs
+        directory or this raises ``ValueError``.
+        """
+        runs = (config.DATA_DIR / "runs").resolve()
+        candidate = runs / f"{doc_id}.json"
+        if not candidate.resolve().is_relative_to(runs):
+            raise ValueError(
+                f"unsafe document id {doc_id!r}: resolves outside the runs directory")
+        return candidate
 
     def save(self, path: Optional[Path] = None) -> Path:
         p = path or self._path(self.doc_id)
@@ -210,8 +224,16 @@ class RunState(BaseModel):
 
     @classmethod
     def exists(cls, doc_id: str) -> bool:
-        """Return True if a saved run state file exists for *doc_id*."""
-        return cls._path(doc_id).exists()
+        """Return True if a saved run state file exists for *doc_id*.
+
+        An id that fails the traversal guard (#573) cannot name a valid run, so
+        this reports False rather than raising — a read-only caller (``/votes``)
+        then treats it as "no such document" instead of erroring.
+        """
+        try:
+            return cls._path(doc_id).exists()
+        except ValueError:
+            return False
 
     @classmethod
     def known_doc_ids(cls) -> list[str]:

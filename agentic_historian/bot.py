@@ -427,6 +427,12 @@ async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=T
 async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     await ctx.defer()
     try:
+        from utils import document_id
+        bad = document_id.slug_violation(doc_id)
+        if bad:
+            await ctx.followup.send(
+                f"❌ Ungültige Dokument-ID `{doc_id}` — {bad}.")
+            return
         import routing_card
         import persistent_views
         import ingest
@@ -697,6 +703,11 @@ async def reprocess_cmd(
 ):
     """Reprocess a document: field:value pairs invalidate criteria; bare names force stage dirty."""
     await ctx.defer()
+    from utils import document_id
+    bad = document_id.slug_violation(doc_id)
+    if bad:
+        await ctx.followup.send(f"❌ Ungültige Dokument-ID `{doc_id}` — {bad}.")
+        return
     from runstate import _INVALIDATION
     fields: list[str] = []
     stages: list[str] = []
