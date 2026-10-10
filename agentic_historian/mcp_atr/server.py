@@ -354,7 +354,7 @@ def build_server(provider=None, auth_settings=None):
                     keys_out: Optional[str] = None,
                     missing_out: Optional[str] = None,
                     via: str = "gateway", prompt: Optional[str] = None,
-                    structured: bool = False,
+                    structured: bool = False, reasoning: Optional[str] = None,
                     no_listing_cache: bool = False) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
@@ -422,6 +422,13 @@ def build_server(provider=None, auth_settings=None):
         cut: the gateway's cost is a card that is already paid for and idle, an
         API's lands on an invoice.
 
+        ``reasoning`` is how much the model may think first. Reasoning tokens are
+        billed as output *and* spent against the ceiling, so on 2026-10-10 one
+        page came back cut off at 1153 characters having spent 8192 tokens, and
+        the same page under ``reasoning="low"`` finished in 392. Transcription is
+        not a reasoning task. ``""`` sends nothing and leaves the model's own
+        default, which is a different request from omitting it.
+
         Use ``dry_run`` first (it prints pages x models and exits), then
         ``sample=10``, then the whole corpus. ``dry_run`` with
         ``no_listing_cache`` and ``keys_from`` answers how many of those keys the
@@ -461,6 +468,7 @@ def build_server(provider=None, auth_settings=None):
                                           "are none"}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
                                via=via, prompt=prompt, structured=structured,
+                               reasoning=reasoning,
                                letters_from=checked_letters,
                                exclude_from=checked_exclude,
                                keys_out=checked_keys_out,

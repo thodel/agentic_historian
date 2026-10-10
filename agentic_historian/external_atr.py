@@ -101,6 +101,10 @@ class Reading:
     service_version: str = "?"
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    #: What produced this reading, for `atr_batch.is_complete`: a truncated page
+    #: is worth re-reading when these change and not otherwise. See that
+    #: function — the remedy for a cut-off page used to be a no-op.
+    settings: str = ""
 
 
 @dataclass
@@ -271,6 +275,13 @@ def openai_recogniser(*, base_url: Optional[str] = None,
             f"reasoning {effort!r} is not one of {', '.join(REASONING_LEVELS)} "
             f"— and the API decides which of those it serves for this model")
     tally = spend if spend is not None else Spend()
+    # Everything that decides whether a cut-off page would come out differently
+    # now. The model is not in it: it is part of the output path already, so one
+    # model's reading can never be mistaken for another's.
+    settings = (f"prompt-{digest}"
+                + (f"+think-{effort}" if effort else "+think-default")
+                + ("+structured" if structured else "")
+                + f"|max{budget}")
     logger.info(f"[external] {config.GEMINI_BASE_URL}  prompt {prompt} "
                 f"@{digest}  max_tokens {budget}"
                 + (f"  reasoning {effort}" if effort else "  reasoning default")
@@ -336,7 +347,8 @@ def openai_recogniser(*, base_url: Optional[str] = None,
                             + (f"+think-{effort}" if effort else "")
                             + ("+structured" if structured else ""),
             prompt_tokens=int(getattr(usage, "prompt_tokens", 0) or 0),
-            completion_tokens=int(getattr(usage, "completion_tokens", 0) or 0))
+            completion_tokens=int(getattr(usage, "completion_tokens", 0) or 0),
+            settings=settings)
         if reading.truncated:
             logger.warning(
                 f"[external] {Path(image).name} hit the {budget}-token ceiling "
@@ -344,6 +356,7 @@ def openai_recogniser(*, base_url: Optional[str] = None,
         tally.add(reading)
         return reading
 
+    _recognise.settings = settings            # type: ignore[attr-defined]
     _recognise.spend = tally                  # type: ignore[attr-defined]
     _recognise.close = lambda: logger.info(f"[external] spent {tally}")  # type: ignore[attr-defined]
     return _recognise

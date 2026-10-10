@@ -13,6 +13,48 @@ checkout plus a venv on a box whose single partition has been full before.
 
 ---
 
+## Denk-Tokens sind Ausgabe-Tokens
+
+`Basel__lassberg-letter-1743__PA 82a B 9_Seite_027`, dreimal gelesen:
+
+| Prompt | Thinking | Deckel | Ergebnis |
+|---|---|---:|---|
+| `@092fb6b0` | Modell-Default | 8192 | vollständig, 1592 Zeichen |
+| `@03c5a660` | Modell-Default | 8192 | **abgeschnitten**, 1153 Zeichen |
+| `@03c5a660` | **`low`** | 8192 | vollständig, 1375 Zeichen, **392 Ausgabe-Tokens** |
+
+392 von 8192. Der sichtbare Text ist ein Zwanzigstel des Budgets — die anderen
+~7800 gingen unter der Default-Stufe ins Nachdenken, bis für die Seite nichts
+übrig war. Transkribieren, was auf einer Seite steht, ist keine
+Schlussfolgerungsaufgabe. `GEMINI_REASONING=low` ist deshalb der Default.
+
+Nebeneffekt, gemessen: **6,6 s/Seite statt 23,3** — 300 Seiten in gut einer
+halben Stunde statt in zwei.
+
+## Eine abgeschnittene Seite galt als gelesen
+
+Das war die Falle darunter. Eine Seite am Token-Deckel kommt als gewöhnlicher
+Erfolg zurück — 200, `.txt` und `.json` auf der Platte, Text, der mitten im Satz
+endet. Der Bericht zählt sie in `cut off`, also *benannt* — aber der naheliegende
+Reflex, **Deckel hoch und nochmal laufen lassen**, tat bei genau diesen Seiten
+nichts, weil Resumierbarkeit-durch-Anwesenheit sie längst als fertig verbucht
+hatte. Am 10. Oktober traf das drei der ersten dreizehn Seiten eines 300er-Laufs.
+
+Der Fix ist nicht „immer neu lesen": gleiche Einstellungen heissen gleiches
+Ergebnis, und eine abgerechnete API würde zweimal dafür bezahlt. Also erklärt
+der Leser, *was* eine Lesung erzeugt hat — Prompt-Prüfsumme, Thinking-Stufe,
+Deckel — und nur eine Änderung öffnet die Seite wieder:
+
+```
+settings: prompt-03c5a660+think-low|max8192
+```
+
+Ein Leser, der nichts erklärt (die Gateway), verhält sich unverändert: dort hat
+die Frage „käme das jetzt anders heraus?" keine Antwort. Und `SCHEMA` bleibt, wo
+es war — ein Versionssprung hätte jede Seite jedes früheren Laufs für unfertig
+erklärt und ein Korpus neu gelesen, um ein Feld zu gewinnen, das darin überall
+`None` ist.
+
 ## Der erste externe Lauf, 10. Oktober 2026 — und was er über den Prompt sagt
 
 Drei Seiten, `gemini-3.8-flash`, Prompt `lassberg_atr.md @092fb6b0`.

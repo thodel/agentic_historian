@@ -337,3 +337,52 @@ def test_the_record_names_the_thinking_level():
     r = ex.Reading(service_version="gemini-3.8-flash@prompt-03c5a660+think-low")
 
     assert "think-low" in r.service_version
+
+
+# ── a cut-off page is worth re-reading when something changed ────────────────
+#
+# `is_complete` counted a truncated page as read, so presence-resume filed it as
+# done and the obvious remedy — raise the ceiling, run it again — did nothing to
+# exactly those pages. Three of the first thirteen pages of the 300-page run
+# were cut off this way.
+#
+# The fix is not "always re-read": identical settings mean the same outcome, and
+# a metered API would be paid twice for it. So the recogniser declares what
+# produced a reading, and only a change re-opens the page.
+
+def test_the_recogniser_declares_what_produced_a_reading(monkeypatch):
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+    import openai
+    monkeypatch.setattr(openai, "OpenAI", lambda **kw: object())
+
+    r = ex.openai_recogniser(reasoning="low", max_tokens=8192)
+
+    assert r.settings == "prompt-092fb6b0+think-low|max8192"
+
+
+def test_the_settings_change_with_each_thing_that_matters(monkeypatch):
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+    import openai
+    monkeypatch.setattr(openai, "OpenAI", lambda **kw: object())
+
+    seen = set()
+    for kw in ({},
+               {"reasoning": "high"},                      # what ate the budget
+               {"max_tokens": 32768},                      # the ceiling
+               {"prompt": "lassberg_atr_strict.md"},       # the prompt
+               {"structured": True}):                      # the schema
+        args = {"reasoning": "low", "max_tokens": 8192, **kw}
+        seen.add(ex.openai_recogniser(**args).settings)
+
+    assert len(seen) == 5
+
+
+def test_the_models_own_default_is_recorded_as_such(monkeypatch):
+    """"Thinking at whatever the model does" is a state, not an absence — a page
+    cut off under it must be re-read once a level is set."""
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+    import openai
+    monkeypatch.setattr(openai, "OpenAI", lambda **kw: object())
+
+    assert "think-default" in ex.openai_recogniser(reasoning="",
+                                                   max_tokens=8192).settings

@@ -542,7 +542,7 @@ def result_paths(out_dir: Path, key: str) -> tuple[Path, Path]:
     return out_dir / f"{key}.txt", out_dir / f"{key}.json"
 
 
-def is_complete(json_path: Path) -> bool:
+def is_complete(json_path: Path, settings: Optional[str] = None) -> bool:
     """True when this page has already been read by this model, into this shape.
 
     Deliberately parses the file rather than trusting its existence: the whole
@@ -550,12 +550,34 @@ def is_complete(json_path: Path) -> bool:
     cannot be parsed is exactly what an interruption leaves behind. A result
     written by a different schema version is *not* complete — re-reading the page
     is cheaper than a corpus mixing two shapes.
+
+    **A truncated page used to count as read, and that was a trap.** A page that
+    hits the model's output ceiling comes back as an ordinary success: a 200, a
+    ``.txt`` and a ``.json`` on disk, and a text that stops mid-sentence. The
+    report counts it in the "cut off" column, so it is named — but the obvious
+    remedy, *raise the ceiling and run it again*, did nothing to exactly those
+    pages, because presence-resume had already filed them as done. On
+    2026-10-10 three of the first thirteen pages of a 300-page run were cut off
+    this way.
+
+    ``settings`` is how that is fixed without re-reading a page for nothing: a
+    recogniser that declares what produced a reading — its prompt, its thinking
+    level, its ceiling — gets the stricter rule, and a truncated page is
+    incomplete whenever those differ from the record's. Identical settings mean
+    the same outcome, so the page stays skipped and no money is spent proving
+    it. A recogniser that declares nothing (the gateway's) behaves exactly as
+    before, because the question "would this come out differently now?" has no
+    answer there.
     """
     try:
         data = json.loads(json_path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return False
-    return data.get("schema") == SCHEMA and isinstance(data.get("text"), str)
+    if data.get("schema") != SCHEMA or not isinstance(data.get("text"), str):
+        return False
+    if settings is not None and data.get("truncated"):
+        return data.get("settings") == settings
+    return True
 
 
 def _write_atomic(path: Path, payload: str) -> None:
@@ -882,6 +904,13 @@ def _result_payload(page: PageRef, model: str, run: str, result,
         "segmented_by": getattr(result, "segmented_by", None),
         "timing_ms": int(getattr(result, "timing_ms", 0) or 0),
         "truncated": bool(getattr(result, "truncated", False)),
+        # What produced this reading, when the recogniser can say: the prompt by
+        # digest, the thinking level, the output ceiling. Written beside the
+        # existing keys and **without bumping SCHEMA**, because a version bump
+        # would make every page of every earlier run incomplete and re-read a
+        # corpus to gain a field that is None in all of it. Absent reads as
+        # "this recogniser does not declare its settings", which is the gateway.
+        "settings": getattr(result, "settings", None),
         # What kind of reading this is (#483). Written here because the verdict is
         # cheap to compute once and expensive to recover: a corpus whose pages do
         # not carry it can only be judged by reading all of it again.
@@ -1032,7 +1061,7 @@ def _recognise_page(page: PageRef, model: str, run: str, out_dir: Path,
     the mount for pages it already has.
     """
     txt_path, json_path = result_paths(out_dir, page.key)
-    if is_complete(json_path):
+    if is_complete(json_path, getattr(recognise, "settings", None)):
         return PageOutcome(key=page.key, model=model, status="skipped")
 
     read_path, source = page.path, None
