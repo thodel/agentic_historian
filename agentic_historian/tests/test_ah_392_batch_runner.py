@@ -44,6 +44,23 @@ RUN = "lassberg"
 
 
 @pytest.fixture(autouse=True)
+def _engines_are_up(monkeypatch):
+    """These tests are about the runner, not about idhefix.
+
+    Since #599 ``run_batch`` refuses to start when a planned engine does not
+    answer, which from a test machine is always. Injected rather than defaulted
+    off: a preflight that is silently skipped wherever it is inconvenient is a
+    preflight that is skipped in production too, and this way the precondition
+    is written down in every file that relies on it. The tests that are about
+    the gate itself live in ``test_ah_599_engine_restart.py`` and pass their own.
+    """
+    import atr_engines
+    monkeypatch.setattr(atr_engines, "check_sync",
+                        lambda needed=None, **kw: atr_engines.Preflight(
+                            needed=tuple(needed or atr_engines.PLANNED_ENGINES)))
+
+
+@pytest.fixture(autouse=True)
 def _tmp(tmp_path, monkeypatch):
     monkeypatch.setattr(config, "DATA_DIR", tmp_path / "data")
     monkeypatch.setattr(config, "ENABLE_GITHUB_PUBLISH", False)
@@ -411,8 +428,13 @@ def test_the_opening_line_names_the_work_and_how_the_mode_was_decided(tmp_path):
 
     _runner(source, pipeline=lambda *a: None, workers=2, announce=said.append)
 
-    assert "2 Dokument(e), 4 Seite(n)" in said[0]
-    assert "2 Worker" in said[0] and source.why in said[0]
+    # Since #599 the engine preflight speaks first — on purpose: whether the
+    # engines answer decides whether this run should happen at all, so it
+    # belongs before the description of work that may not start.
+    assert said[0].startswith("Engine-Preflight")
+    opening = said[1]
+    assert "2 Dokument(e), 4 Seite(n)" in opening
+    assert "2 Worker" in opening and source.why in opening
 
 
 def test_the_closing_line_separates_failed_from_given_up(tmp_path):

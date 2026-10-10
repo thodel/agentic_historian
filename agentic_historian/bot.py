@@ -1495,6 +1495,116 @@ async def mcp_propose_cmd(
         await ctx.followup.send(f"❌ Error: {e}")
 
 
+#: Choices for /atr_restart. A literal rather than ``atr_engines.RESTARTABLE``
+#: read at import, because the decorator runs at import and a module import that
+#: fails there takes the whole bot down; the test asserts the two agree.
+_RESTARTABLE_CHOICES = ("kraken", "trocr", "party")
+
+
+# ── Restarting an engine (#599) ──────────────────────────────────────────────
+#
+# The first thing in this file that WRITES to the ATR machines. `atr_status`
+# deferred exactly this and said why: "Cancelling a job or killing a process is
+# defensible from Discord and deserves its own confirm flow and its own decision
+# about who may" (#414). So: the admin role, not the general one; a Confirm
+# button; and a list of what may be named at all, which lives in `atr_engines`
+# and does not contain the gateway.
+
+#: Pending engine restarts: token → {engine, requester}
+_PENDING_RESTARTS: dict[str, dict] = {}
+
+
+class _RestartView(View):
+    """Confirm / Cancel for one engine restart."""
+
+    def __init__(self, token: str, requester: str, engine: str,
+                 *, timeout: float = _UPDATE_TOKEN_TTL):
+        super().__init__(timeout=timeout)
+        self.token = token
+        self.requester = requester
+        self.engine = engine
+
+    async def interaction_check(self, interaction, /) -> bool:
+        if str(interaction.user.id) != self.requester:
+            await interaction.response.send_message(
+                "⛔ Nur wer /atr_restart aufgerufen hat, kann bestätigen.",
+                ephemeral=True)
+            return False
+        return True
+
+    @discord.ui.button(label="✅ Neu starten", style=ButtonStyle.danger,
+                       custom_id="atr_restart:confirm")
+    async def confirm(self, button: Button, interaction: Interaction):
+        await interaction.response.defer(thinking=True, ephemeral=True)
+        info = _PENDING_RESTARTS.pop(self.token, None)
+        if info is None:
+            await interaction.followup.send(
+                "⚠️ Diese Anfrage ist abgelaufen — bitte /atr_restart erneut aufrufen.",
+                ephemeral=True)
+            return
+        import atr_engines
+        outcome = await atr_engines.restart(info["engine"])
+        logger.info(f"[atr_restart] {info['requester']}: {info['engine']} "
+                    f"→ {outcome.outcome}")
+        await interaction.followup.send(atr_engines.format_restart(outcome),
+                                        ephemeral=True)
+
+    @discord.ui.button(label="✖ Abbrechen", style=ButtonStyle.secondary,
+                       custom_id="atr_restart:cancel")
+    async def cancel(self, button: Button, interaction: Interaction):
+        _PENDING_RESTARTS.pop(self.token, None)
+        await interaction.response.edit_message(
+            content="❌ Neustart abgebrochen.", view=None)
+
+
+@bot.slash_command(
+    name="atr_engines",
+    description="Welche Erkennungs-Engines antworten (und welche nicht)")
+@require_role
+async def atr_engines_cmd(ctx):
+    """Read-only, and the thing to look at before asking for a restart."""
+    import atr_engines
+    await ctx.defer(ephemeral=True)
+    result = await atr_engines.check()
+    await ctx.followup.send(atr_engines.format_preflight(result), ephemeral=True)
+
+
+@bot.slash_command(
+    name="atr_restart",
+    description="Eine Erkennungs-Engine auf idhefix neu starten (mit Bestätigung)")
+@admin_only
+async def atr_restart_cmd(
+    ctx,
+    engine: Option(str, "Welche Engine", required=True,
+                   choices=list(_RESTARTABLE_CHOICES)),
+):
+    import atr_engines
+
+    await ctx.defer(ephemeral=True)
+    if engine not in atr_engines.RESTARTABLE:
+        # The choices already constrain this; the check stays because a choice
+        # list is a convenience of the client and this is the only guard that is
+        # not. The gateway refuses it too — that is the point of a second one.
+        await ctx.followup.send(
+            f"❌ {engine} kann nicht neu gestartet werden — "
+            f"möglich sind {', '.join(atr_engines.RESTARTABLE)}.", ephemeral=True)
+        return
+
+    # Say what is true now, before asking to change it: an engine that is busy
+    # must not be restarted (#149), and one that already answers rarely needs it.
+    state = await atr_engines.check((engine,))
+    token = _make_token()
+    requester_id = str(ctx.author.id)
+    _PENDING_RESTARTS[token] = {"engine": engine, "requester": requester_id}
+    view = _RestartView(token=token, requester=requester_id, engine=engine)
+    await ctx.followup.send(
+        f"{atr_engines.format_preflight(state)}\n\n"
+        f"`{engine}` auf idhefix neu starten? Eine laufende Erkennung auf dieser "
+        f"Engine bricht dabei ab — das Gateway lehnt den Neustart ab, solange sie "
+        f"beschäftigt ist.",
+        view=view, ephemeral=True)
+
+
 def main() -> None:
     # Ensure all data directories exist before starting.
     # Called once here (single entry point) rather than at module import

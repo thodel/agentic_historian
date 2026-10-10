@@ -108,6 +108,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `CREDENTIAL_WATCH_CHANNEL_ID` / `_INTERVAL_S` | Announce when the mailbox credentials stop being accepted, instead of letting a failed pull be the first sign. Empty = off |
 | `BATCH_WORKERS` / `BATCH_MAX_ATTEMPTS` | Documents in flight at once for `batch`, and attempts before one goes to the dead letter (defaults 2 and 3; `--workers` / `--max-attempts` override per run) |
 | `BATCH_PUBLISH_EVERY` | Documents per publish commit in a batch run (default 0 = once at the end, the fewest index rebuilds). `--publish-every` overrides per run |
+| `ATR_GATEWAY_URL` / `ATR_API_KEY` | The recognition gateway on idhefix and its static key. Also what `/atr_engines`, `/atr_restart` and the batch run's engine preflight use; `/health` needs no key, the restart does |
 | `NEXTCLOUD_SHARE_URL` / `_PASS` / `NEXTCLOUD_REMOTE_DIR` | Nextcloud **public share** ingestion — the share token is the WebDAV user (`docs/BATCH_ATR.md`) |
 | `NEXTCLOUD_STAGING_DIR` / `VLM_TEST_ROOT` | Where a share is mirrored to, and the root for multi-model comparison runs |
 | `ATR_BATCH_PAGE_CONCURRENCY` / `ATR_BATCH_RETRIES` | Pages in flight per model (default `1`) and per-page retries for timeouts/5xx (default `2`) |
@@ -171,6 +172,37 @@ and 500 Action runs for one holding was the thing this replaced. `0` (the
 default) publishes once at the end of the run; `--publish-every N` trades more
 index rebuilds for seeing the catalogue fill as it goes. A retry is safe: an
 identical tree makes no second commit.
+
+**It checks the engines before it claims anything (#599).** The run reads the
+gateway's `/health` and compares it with the engines a plan will ask for
+(`vlm`, `kraken`, `trocr`); a planned engine that does not answer refuses the
+run, with exit 3 and the engine named. The measured alternative: on 2026-10-09
+a `missiven` run put 16 of its 20 recognitions into a kraken service that was
+not running, lost each one on its own, and published what was left — a page made
+from one model wearing an ensemble's label. One refusal before the first image
+is the whole of what the check costs.
+
+`--restart-engines` asks the gateway to restart what is down
+(`POST /engines/<name>/restart`, serving-atr-inference#209), once per engine,
+and starts only if `/health` then says it is back. Not the default, and bounded,
+for the same reason: a process that quietly restarts services hides the failures
+somebody needs to see. Three distinctions it keeps:
+
+* **`busy` is not `down`.** A read timeout means the engine accepted the
+  connection and is working — restarting on that signal aborts the page it is
+  reading, and 30–80 s per page is normal here. Only a refused connection counts.
+* **Unmeasured is not down.** vLLM is *never* in `/health` (the gateway spawns it
+  as subprocesses), so silence about it is the normal case and is reported rather
+  than treated as absence.
+* **Restarted is not running.** A `404` from the restart route means this gateway
+  has no such route, not that the restart failed, and a transport error means it
+  is unknown whether anything happened — reported as such, because a caller that
+  reads it as failure asks again.
+
+From Discord: `/atr_engines` says which engines answer, `/atr_restart` restarts
+one — admin role and a Confirm button, being the first write this bot makes to
+the ATR machines (#414). The gateway is not in the list: a service that restarts
+itself from a request cuts off its own answer.
 
 It iterates **model-major** — every page of one model, then the next — because the
 gateway's VLMs are `residency: lazy` on one GPU that holds one at a time, so
