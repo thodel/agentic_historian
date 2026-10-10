@@ -694,3 +694,68 @@ def test_a_repeated_letter_id_does_not_duplicate_its_pages():
     chosen, _ = batch.select_letters(pages, ["lassberg-letter-1737"] * 3)
 
     assert len(chosen) == 1
+
+
+# ── resuming past a page that was cut off ────────────────────────────────────
+
+def _record(path, **over):
+    import json
+    data = {"schema": batch.SCHEMA, "text": "Eppishausen am 21 Januar 1831.",
+            "truncated": False, "settings": None}
+    data.update(over)
+    path.write_text(json.dumps(data), encoding="utf-8")
+    return path
+
+
+def test_a_whole_page_is_complete(tmp_path):
+    assert batch.is_complete(_record(tmp_path / "a.json"))
+
+
+def test_a_cut_off_page_stays_complete_for_a_recogniser_that_says_nothing(tmp_path):
+    """The gateway cannot answer "would this come out differently now?", so its
+    behaviour is unchanged — a truncated page stays skipped."""
+    rec = _record(tmp_path / "b.json", truncated=True)
+
+    assert batch.is_complete(rec)
+    assert batch.is_complete(rec, None)
+
+
+def test_a_cut_off_page_is_re_read_when_the_settings_changed(tmp_path):
+    """The trap: raise the ceiling, run again, and nothing happens to exactly
+    the pages that needed it."""
+    rec = _record(tmp_path / "c.json", truncated=True,
+                  settings="prompt-092fb6b0+think-default|max8192")
+
+    assert not batch.is_complete(rec, "prompt-092fb6b0+think-low|max8192")
+
+
+def test_a_cut_off_page_is_not_re_read_for_the_same_settings(tmp_path):
+    """Identical settings mean the same outcome, and a metered API would be paid
+    twice to prove it."""
+    same = "prompt-092fb6b0+think-low|max8192"
+    rec = _record(tmp_path / "d.json", truncated=True, settings=same)
+
+    assert batch.is_complete(rec, same)
+
+
+def test_a_cut_off_page_from_before_this_field_is_re_read_once(tmp_path):
+    """A record written before settings were kept cannot be compared, and a page
+    known to be cut off is worth one re-read rather than never."""
+    rec = _record(tmp_path / "e.json", truncated=True, settings=None)
+
+    assert not batch.is_complete(rec, "prompt-092fb6b0+think-low|max8192")
+
+
+def test_a_whole_page_is_never_re_read_however_the_settings_move(tmp_path):
+    """Only truncation re-opens a page. Changing a prompt is a new run, not a
+    reason to re-read a corpus."""
+    rec = _record(tmp_path / "f.json", settings="prompt-aaaaaaaa+think-low|max1")
+
+    assert batch.is_complete(rec, "prompt-zzzzzzzz+think-high|max99999")
+
+
+def test_an_unparsable_record_is_still_incomplete(tmp_path):
+    bad = tmp_path / "g.json"
+    bad.write_text("{not json", encoding="utf-8")
+
+    assert not batch.is_complete(bad, "anything")

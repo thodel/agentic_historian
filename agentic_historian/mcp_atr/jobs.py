@@ -334,7 +334,7 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
                keys_out: Optional[Path] = None,
                missing_out: Optional[Path] = None,
                via: str = "gateway", prompt: Optional[str] = None,
-               structured: bool = False,
+               structured: bool = False, reasoning: Optional[str] = None,
                no_listing_cache: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
@@ -372,6 +372,11 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--prompt", prompt]
     if structured:
         argv.append("--structured")
+    if reasoning is not None:
+        # Including the empty string, which is the deliberate "send nothing and
+        # leave the model's own default". `None` means "say nothing and let the
+        # configuration decide", and the two are different requests.
+        argv += ["--reasoning", reasoning]
     if no_listing_cache:
         argv.append("--no-listing-cache")
     if dry_run:
