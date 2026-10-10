@@ -159,3 +159,33 @@ def test_nothing_is_passed_when_nothing_is_asked_for():
 
     for flag in ("--letters-from", "--exclude-from", "--keys-out"):
         assert flag not in argv
+
+
+# ── a metered reader may not be pointed at everything ────────────────────────
+#
+# The gateway's cost is a card that is already paid for and idle; an external
+# API's is per page and lands on an invoice. A caller who forgets a selection
+# would get 6466 untranscribed pages, and the only thing between a typo and
+# that bill should not be the caller's memory.
+
+def test_the_external_reader_reaches_the_cli():
+    argv = jobs.batch_argv(Path("/corpus"), ["gemini-3.8-flash"], "run",
+                           via="external", prompt="lassberg_atr.md",
+                           structured=True)
+
+    assert argv[argv.index("--via") + 1] == "external"
+    assert argv[argv.index("--prompt") + 1] == "lassberg_atr.md"
+    assert "--structured" in argv
+
+
+def test_the_gateway_is_not_named_on_the_command_line():
+    """It is the default, and a flag that says what would happen anyway is a
+    flag that drifts from the default without anybody noticing."""
+    argv = jobs.batch_argv(Path("/corpus"), ["m"], "run")
+
+    assert "--via" not in argv and "--prompt" not in argv
+
+
+def test_the_guard_names_what_would_be_read():
+    assert "6466" in jobs.EXTERNAL_NEEDS_A_SELECTION
+    assert "dry_run" in jobs.EXTERNAL_NEEDS_A_SELECTION

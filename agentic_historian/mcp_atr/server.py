@@ -333,6 +333,8 @@ def build_server(provider=None, auth_settings=None):
                     exclude_from: Optional[list[str]] = None,
                     keys_out: Optional[str] = None,
                     missing_out: Optional[str] = None,
+                    via: str = "gateway", prompt: Optional[str] = None,
+                    structured: bool = False,
                     no_listing_cache: bool = False) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
 
@@ -390,6 +392,16 @@ def build_server(provider=None, auth_settings=None):
         The cut is applied **after** every filter, which is the only order that
         gives the number asked for (#531).
 
+        ``via="external"`` reads through an OpenAI-compatible API
+        (`GEMINI_BASE_URL`) instead of the gateway, with the versioned
+        ``prompt`` whose digest is recorded on every page, and optionally
+        ``structured`` for a diplomatic/normalised pair. It returns page text and
+        **no line geometry** — there are no polygons in a chat completion — so
+        its readings compare and publish but cannot train a line model. It is
+        billed per page, so from here it refuses to run without a selection or a
+        cut: the gateway's cost is a card that is already paid for and idle, an
+        API's lands on an invoice.
+
         Use ``dry_run`` first (it prints pages x models and exits), then
         ``sample=10``, then the whole corpus. ``dry_run`` with
         ``no_listing_cache`` and ``keys_from`` answers how many of those keys the
@@ -405,6 +417,10 @@ def build_server(provider=None, auth_settings=None):
         if limit is not None and sample is not None:
             return {"ok": False, "error": "limit and sample are alternatives: "
                                           "the first N pages, or N at random"}
+        if via == "external" and not (keys_from or letters_from
+                                      or limit is not None
+                                      or sample is not None):
+            return {"ok": False, "error": jobs.EXTERNAL_NEEDS_A_SELECTION}
         try:
             checked_keys = (jobs.resolve_keys_file(keys_from)
                             if keys_from else None)
@@ -424,6 +440,7 @@ def build_server(provider=None, auth_settings=None):
                                           "nothing, and without a key list there "
                                           "are none"}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
+                               via=via, prompt=prompt, structured=structured,
                                letters_from=checked_letters,
                                exclude_from=checked_exclude,
                                keys_out=checked_keys_out,

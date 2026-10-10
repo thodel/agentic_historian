@@ -333,6 +333,8 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
                exclude_from: Optional[Sequence[Path]] = None,
                keys_out: Optional[Path] = None,
                missing_out: Optional[Path] = None,
+               via: str = "gateway", prompt: Optional[str] = None,
+               structured: bool = False,
                no_listing_cache: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
 
@@ -364,11 +366,31 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--concurrency", str(int(concurrency))]
     if retries is not None:
         argv += ["--retries", str(int(retries))]
+    if via and via != "gateway":
+        argv += ["--via", via]
+    if prompt:
+        argv += ["--prompt", prompt]
+    if structured:
+        argv.append("--structured")
     if no_listing_cache:
         argv.append("--no-listing-cache")
     if dry_run:
         argv.append("--dry-run")
     return argv
+
+
+#: What a metered reader may not be pointed at from a session: everything.
+#:
+#: The gateway's cost is a GPU that is already paid for and idle; an external
+#: API's cost is per page and lands on an invoice. A caller who forgets a
+#: selection gets 6466 untranscribed pages, and the only thing standing between
+#: a typo and that bill should not be the caller's memory. So over MCP an
+#: external reader needs a page list or a cut — which every real use has anyway,
+#: because the point was always "these pages".
+EXTERNAL_NEEDS_A_SELECTION = (
+    "an external reader needs keys_from, letters_from, limit or sample: it is "
+    "billed per page, and the whole corpus is 6466 unread pages. Pass "
+    "dry_run=true first to see the count")
 
 
 def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,

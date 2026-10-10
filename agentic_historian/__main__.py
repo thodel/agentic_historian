@@ -247,6 +247,12 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"Error: no page images under {source}", file=sys.stderr)
         return 1
 
+    # What the source holds, before any filter narrows it. `--exclude-from`
+    # judges a key's absence against this and not against whatever is left by
+    # then: otherwise the same list reports 35 missing keys over the corpus and
+    # 235 after `--letters-from`, and only the first is about the source.
+    discovered = [ref.key for ref in pages]
+
     if keys_file:
         try:
             keys = batch.read_keys(Path(keys_file).expanduser())
@@ -326,7 +332,7 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"Error: {exc}", file=sys.stderr)
             return 2
         before = len(pages)
-        pages, absent = batch.drop_keys(pages, skip)
+        pages, absent = batch.drop_keys(pages, skip, present=discovered)
         print(f"excluded  : {before - len(pages)} of {before} page(s) named by "
               f"{path}", file=sys.stderr)
         if absent:
@@ -387,7 +393,17 @@ def atr_batch(args: argparse.Namespace) -> int:
 
         cache = PageCache(source, cache_dir)
 
-    recognise = batch.gateway_recogniser()
+    if getattr(args, "via", "gateway") == "external":
+        import external_atr
+
+        try:
+            recognise = external_atr.openai_recogniser(
+                prompt=args.prompt, structured=args.structured)
+        except (RuntimeError, ValueError, FileNotFoundError) as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+    else:
+        recognise = batch.gateway_recogniser()
     try:
         report = batch.run_batch(
             pages, models, args.run, out_root, recognise,
@@ -1085,6 +1101,26 @@ def build_parser() -> argparse.ArgumentParser:
     p_batch.add_argument("--source", required=True,
                          help="Directory of page images, or dav:<folder> to read "
                               "the Nextcloud share directly (needs --cache-dir)")
+    p_batch.add_argument("--via", choices=("gateway", "external"),
+                         default="gateway",
+                         help="Who reads the pages. `gateway` is the ATR "
+                              "gateway on idhefix (kraken, TrOCR, party, vLLM) "
+                              "and returns line geometry. `external` is an "
+                              "OpenAI-compatible API (GEMINI_BASE_URL) and "
+                              "returns page text and no lines at all, so its "
+                              "readings can be compared and published but "
+                              "cannot train a line model")
+    p_batch.add_argument("--prompt", default="lassberg_atr.md",
+                         help="Which versioned prompt the external reader uses "
+                              "— a name under agentic_historian/prompts, never "
+                              "a path. Its digest is recorded with every page, "
+                              "because two readings under different prompts are "
+                              "different measurements")
+    p_batch.add_argument("--structured", action="store_true",
+                         help="Ask the external reader for `diplomatic` and "
+                              "`normalized` as JSON. Without it the prompt's "
+                              "rule about a normalized field has nowhere to "
+                              "land, which reads as 'do not expand'")
     p_batch.add_argument("--letters-from",
                          help="A file of letter ids (lassberg-letter-NNNN), one "
                               "per line — read every page of those letters. The "

@@ -255,6 +255,21 @@ GITHUB_TEXT_PATH = _get("GITHUB_TEXT_PATH", "data/textrecognition")
 # here instead of pushing, which needs no write access to GITHUB_TEXT_REPO at all.
 # Set it equal to GITHUB_TEXT_REPO to branch inside the repository itself.
 GITHUB_TEXT_FORK = _get("GITHUB_TEXT_FORK", "thodel/lassberg")
+# ── An external model API, read through the OpenAI-compatible surface ────────
+# Google serves Gemini at the base URL below; `openai` is already a dependency
+# because GPUStack is talked to the same way, so there is no vendor SDK to pin.
+# Empty key = no external reader, and `atr-batch --via external` refuses rather
+# than running a corpus against nothing. NEVER pass the key on a command line:
+# argv is in `ps` and in the shell history.
+GEMINI_API_KEY = _get("GEMINI_API_KEY", "")
+GEMINI_BASE_URL = _get("GEMINI_BASE_URL",
+                       "https://generativelanguage.googleapis.com/v1beta/openai/")
+# The output ceiling per page. A page that hits it comes back as an ordinary
+# success that stops mid-sentence, which is why `external_atr` records
+# `truncated` from `finish_reason` instead of trusting the text to look wrong.
+GEMINI_MAX_TOKENS = int(_get("GEMINI_MAX_TOKENS", "8192"))
+GEMINI_TIMEOUT_S = float(_get("GEMINI_TIMEOUT_S", "180"))
+
 # The edition's correspondence data: data/letters of a GITHUB_TEXT_REPO
 # checkout, one TEI file per letter whose correspDesc names the sender with a
 # GND. It is the only *record* of whose hand a page is in — everything else in
