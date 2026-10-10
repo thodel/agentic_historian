@@ -238,6 +238,13 @@ is a single `.env.gpustack` at the repository root (gitignored; template in
 [`agentic_historian/README.md`](agentic_historian/README.md#environment-variables-envgpustack-repo-root).
 In production the bot runs on tei under `agentic-historian.service`.
 
+As a **standalone** process (separation epic #565) it is decoupled from the OpenClaw
+agent: its own Discord token, its own secrets file (`deploy/systemd/dh-bot.env.example`
+→ `/etc/dh-bot.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
+a hardened systemd unit, the LLM-orchestration overlay off by default, and no need
+for the `workspace/` directory — see [`deploy/systemd/SEPARATION.md`](deploy/systemd/SEPARATION.md).
+CI's `standalone` job proves the bot builds and starts without OpenClaw.
+
 Contribution rules — one issue, one branch off `origin/main`, one PR, never
 stacked — are in
 [`agentic_historian/README.md`](agentic_historian/README.md#contributing--pr--issue-rules),
