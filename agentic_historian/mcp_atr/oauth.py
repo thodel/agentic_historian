@@ -67,6 +67,16 @@ ACCESS_TTL_S = 3600
 #: to be re-authorised rather than quietly retaining access to a GPU host.
 REFRESH_TTL_S = 30 * 24 * 3600
 
+#: Login brute-force throttle (SEC-8, #579). The ``/login`` POST guards one shared
+#: password in front of a two-A40 host, so the attempt *rate* has to be capped.
+#: After ``LOGIN_MAX_FAILS`` wrong passwords within ``LOGIN_WINDOW_S`` the form is
+#: refused for ``LOGIN_LOCKOUT_S``. The lockout is short and rolling on purpose: it
+#: caps brute force to a few tries a minute (a token_urlsafe password is then out
+#: of reach) without letting anyone lock the operator out for long.
+LOGIN_MAX_FAILS = 5
+LOGIN_WINDOW_S = 60.0
+LOGIN_LOCKOUT_S = 60.0
+
 
 class ConfigError(RuntimeError):
     """The server is not safe to start."""
@@ -126,6 +136,10 @@ class AtrAuthProvider(OAuthAuthorizationServerProvider[AuthorizationCode, Refres
         #: In memory only — see the module docstring.
         self._codes: dict[str, AuthorizationCode] = {}
         self._pending: dict[str, PendingLogin] = {}
+        #: Login throttle state (SEC-8, #579): recent failure timestamps and the
+        #: time a lockout (if any) lifts.
+        self._login_fails: list[float] = []
+        self._login_locked_until: float = 0.0
         self._load()
 
     # ── persistence ──────────────────────────────────────────────────────────
@@ -196,6 +210,28 @@ class AtrAuthProvider(OAuthAuthorizationServerProvider[AuthorizationCode, Refres
         """Constant time, because a comparison that returns early leaks the
         length and then, attempt by attempt, the password."""
         return secrets.compare_digest(attempt or "", self._password)
+
+    # ── login throttle (SEC-8, #579) ───────────────────────────────────────────
+
+    def login_locked_for(self, now: float | None = None) -> float:
+        """Seconds left in a login lockout, or ``0.0`` if an attempt is allowed."""
+        now = now if now is not None else time.time()
+        return max(0.0, self._login_locked_until - now)
+
+    def note_login_failure(self, now: float | None = None) -> None:
+        """Record a wrong-password attempt; lock the form once too many land in a
+        window, so the password form cannot be brute-forced."""
+        now = now if now is not None else time.time()
+        self._login_fails = [t for t in self._login_fails if now - t < LOGIN_WINDOW_S]
+        self._login_fails.append(now)
+        if len(self._login_fails) >= LOGIN_MAX_FAILS:
+            self._login_locked_until = now + LOGIN_LOCKOUT_S
+            self._login_fails = []
+
+    def note_login_success(self, now: float | None = None) -> None:
+        """Clear the throttle after a correct password."""
+        self._login_fails = []
+        self._login_locked_until = 0.0
 
     def pending(self, rid: str) -> PendingLogin | None:
         login = self._pending.get(rid or "")

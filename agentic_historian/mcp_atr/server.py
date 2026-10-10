@@ -55,6 +55,7 @@ Loopback only — nginx does TLS and the public name. See `deploy/mcp-atr/`.
 
 from __future__ import annotations
 
+import html
 import os
 import sys
 from pathlib import Path
@@ -239,27 +240,46 @@ def build_server(provider=None, auth_settings=None):
             rid = (request.query_params.get("rid")
                    if request.method == "GET"
                    else (await request.form()).get("rid", ""))
-            error = ""
 
-            if request.method == "POST":
-                form = await request.form()
-                if not provider.password_ok(str(form.get("password", ""))):
-                    # Same page, same wording, whether the password was wrong or
-                    # the request had expired: a form that distinguishes them
-                    # tells an attacker which half to work on.
-                    error = '<p class="err">Wrong password, or the request expired.</p>'
-                else:
-                    target = provider.complete_login(str(rid))
-                    if target:
-                        return RedirectResponse(target, status_code=302)
-                    error = '<p class="err">Wrong password, or the request expired.</p>'
-
-            if provider.pending(str(rid)) is None and not error:
+            # SEC-8 (#579): render the form only for a real, pending sign-in. An
+            # arbitrary or expired rid never reaches the HTML — so a foreign form
+            # cannot make this origin render attacker markup around a password
+            # field, even before the escaping below.
+            if provider.pending(str(rid)) is None:
                 return HTMLResponse(
                     "<p>No pending sign-in request. Start again from the connector.</p>",
                     status_code=400)
-            return HTMLResponse(LOGIN_PAGE.format(rid=str(rid), error=error),
-                                status_code=401 if error else 200)
+
+            error = ""
+            status = 200
+            if request.method == "POST":
+                remaining = provider.login_locked_for()
+                if remaining > 0:
+                    # SEC-8: throttle the password form guarding the GPUs.
+                    error = ('<p class="err">Too many attempts. Try again in '
+                             f'{int(remaining) + 1}s.</p>')
+                    status = 429
+                else:
+                    form = await request.form()
+                    if provider.password_ok(str(form.get("password", ""))):
+                        provider.note_login_success()
+                        target = provider.complete_login(str(rid))
+                        if target:
+                            return RedirectResponse(target, status_code=302)
+                        # Same wording whether the password was wrong or the
+                        # request expired: telling them apart tells an attacker
+                        # which half to work on.
+                        error = '<p class="err">Wrong password, or the request expired.</p>'
+                        status = 401
+                    else:
+                        provider.note_login_failure()
+                        error = '<p class="err">Wrong password, or the request expired.</p>'
+                        status = 401
+
+            # SEC-8: escape rid before it goes into value="…" (reflected XSS).
+            return HTMLResponse(
+                LOGIN_PAGE.format(rid=html.escape(str(rid), quote=True), error=error),
+                status_code=status)
 
 
     @server.tool()
