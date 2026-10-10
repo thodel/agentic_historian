@@ -276,6 +276,7 @@ def letter_of(key: str) -> Group:
 class Hands:
     """What inheriting the writer along each letter did. Counted, not asserted."""
 
+    from_register: int = 0       # pages a recorded sender decided
     decided: int = 0             # pages whose own dateline named a place
     inherited: int = 0           # undated pages that took their letter's hand
     alone: int = 0               # undated pages with no dated page to inherit from
@@ -289,6 +290,12 @@ class Hands:
     #: that happens to mention a city in its opening lines — and inheritance
     #: spreads it over the whole letter. Inherited anyway, and named here.
     late: list = field(default_factory=list)
+    #: Letters where the register and the page's own dateline disagree:
+    #: ``(letter, register project, dateline project, the place that was read)``.
+    #: The register wins — it is a record and the dateline is an inference — but
+    #: one of the two is then wrong about a specific letter, and that is worth
+    #: seeing rather than resolving in silence.
+    disputed: list = field(default_factory=list)
 
 
 def inherit(entries: Sequence["Entry"]) -> Hands:
@@ -410,6 +417,7 @@ class Entry:
     group: str = ""              # the letter this page belongs to
     basis: str = ""              # how that letter was identified
     inherited: bool = False      # the hand came from the letter, not this page
+    from_register: bool = False  # the hand is recorded, not inferred
 
     def __post_init__(self) -> None:
         if not self.stem:
@@ -545,7 +553,8 @@ def xml_size(xml_text: str) -> Optional[tuple[int, int]]:
 
 def plan(scored: Sequence, index: dict[str, Path], *,
          require_geometry: bool = True,
-         survey_lines: int = SURVEY_LINES) -> Plan:
+         survey_lines: int = SURVEY_LINES,
+         register=None) -> Plan:
     """What to export, and what to leave out.
 
     Only **located** pages: a page whose identity is not settled has no image to
@@ -592,16 +601,30 @@ def plan(scored: Sequence, index: dict[str, Path], *,
                           f"is {actual[0]}x{actual[1]} — the line polygons do not "
                           f"describe this image"))
                 continue
+        # The dateline is read either way: when the register also covers this
+        # letter the two can be compared, and a disagreement means one of them is
+        # wrong about a specific letter.
         who = writer_of(item.gt.text)
+        recorded = register.get(letter_of(key).name) if register else None
+        entry = Entry(key=key, image=image, xml_source=item.gt.source,
+                      project=who.project, evidence=who.evidence,
+                      head=opening(item.gt.text, lines=survey_lines))
+        if recorded is not None:
+            if who.certain and who.project != recorded.project:
+                out.hands.disputed.append((recorded.id, recorded.project,
+                                           who.project, who.evidence))
+            entry.project = recorded.project
+            entry.evidence = recorded.evidence
+            entry.from_register = True
         seen.add(key)
-        out.entries.append(Entry(key=key, image=image, xml_source=item.gt.source,
-                                 project=who.project, evidence=who.evidence,
-                                 head=opening(item.gt.text,
-                                              lines=survey_lines)))
+        out.entries.append(entry)
     # The hand belongs to the letter: the dateline is on a first page, so every
     # continuation page is one the rule cannot read. Done over the whole plan
     # rather than per page, because a page's letter is only visible here.
+    disputed = out.hands.disputed
     out.hands = inherit(out.entries)
+    out.hands.disputed = disputed
+    out.hands.from_register = sum(1 for e in out.entries if e.from_register)
     return out
 
 
@@ -612,7 +635,9 @@ def format_plan(p: Plan) -> str:
         lines.append(f"  {project:18} {n:>4}")
     h = p.hands
     lines += ["", "the hand, page by page:",
-              f"  {'from its own dateline':26} {h.decided:>4}",
+              f"  {'from the register':26} {h.from_register:>4}"
+              f"   (a recorded sender, not an inference)",
+              f"  {'from its own dateline':26} {h.decided - h.from_register:>4}",
               f"  {'inherited from its letter':26} {h.inherited:>4}"
               f"   (from {h.letters} letter(s))",
               f"  {'no hand at all':26} {h.alone:>4}"]
@@ -624,6 +649,14 @@ def format_plan(p: Plan) -> str:
         for name, counts in h.conflicts[:10]:
             lines.append("  - " + name + ": "
                          + ", ".join(f"{k} {v}" for k, v in sorted(counts.items())))
+    if h.disputed:
+        lines += ["", f"**{len(h.disputed)} letter(s) where the register and the "
+                      f"dateline disagree.** The register wins — it is a record "
+                      f"and the dateline is an inference — but one of the two is "
+                      f"wrong about this letter:"]
+        for name, recorded, read, place in h.disputed[:10]:
+            lines.append(f"  - {name}: register {recorded}, dateline {read} "
+                         f"(read {place!r})")
     if h.late:
         lines += ["", f"{len(h.late)} letter(s) were decided by a page that is not "
                       f"their first. A dateline stands on a first page, so this is "
@@ -669,8 +702,9 @@ def writers_table(p: Plan) -> str:
     """
     rows = ["key\tletter\tbasis\tproject\tsource\tevidence\thead"]
     for e in sorted(p.entries, key=lambda e: (e.group, e.key)):
-        source = "inherited" if e.inherited else ("dateline" if e.evidence
-                                                  else "none")
+        source = ("register" if e.from_register else
+                  "inherited" if e.inherited else
+                  "dateline" if e.evidence else "none")
         rows.append("\t".join([e.key, e.group or "—", e.basis or "—",
                                 e.project, source, e.evidence or "—",
                                 e.head or "—"]))

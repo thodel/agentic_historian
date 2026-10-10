@@ -221,6 +221,53 @@ written.
 prints that count prominently. It is not a third hand; it is the size of the guess,
 and it belongs in the dataset card rather than being rounded away.
 
+### Die Hand ist doch aufgezeichnet — im Verzeichnis der Edition
+
+Diese Datei hat eine Woche lang behauptet, die Schreiberhand sei „nirgends in den
+Daten aufgezeichnet". Sie ist es: in `michaelscho/lassberg`, derselben Edition,
+in die dieses Projekt seine Lesungen publiziert (`GITHUB_TEXT_REPO`). Jeder Brief
+dort ist eine TEI-Datei, deren `correspDesc` den Absender mit GND nennt:
+
+```xml
+<correspAction type="sent">
+  <persName key="…#lassberg-correspondent-0373"
+            ref="https://d-nb.info/gnd/118778862">Joseph von Laßberg</persName>
+  <placeName key="…#lassberg-place-0147">Eppishausen</placeName>
+  <date when="1833-08-13">1833-08-13</date>
+</correspAction>
+```
+
+Gemessen am 10. Oktober 2026: **279 Briefe mit Absender, 128 davon von Laßberg
+selbst**, vier Korrespondenzen (Pupikofer 84, Uhland 43, Wackernagel 24).
+
+**Es hat jeden offenen Fall sofort entschieden:**
+
+| Brief | Verzeichnis | was die Regel sagte |
+|---|---|---|
+| `-1737` | Laßberg, Eppishausen, 13.08.1833 | Konflikt 1/1 |
+| `-1787` | Laßberg, Eppishausen, 27.06.1834 | Konflikt 1/1 |
+| `-2358` | Laßberg, Meersburg, 02.08.1842 | Konflikt 1/2 |
+| `-1209` | Wackernagel, Berlin, 14.12.1827 | `unbestimmt` |
+| `-1280` | Pupikofer, 10.02.1829 | `unbestimmt` |
+
+`-1280` ist der Brief, dessen dritte Zeile „nach Eppishausen befördert" lautet
+und mit dem oben gegen ein breiteres Datierungsfenster argumentiert wird. Das
+Verzeichnis sagt: Pupikofer. Das Argument ist unabhängig bestätigt.
+
+**Identität über die GND, nie über den Namen.** „Laßberg" wird auch „Lassberg"
+und „Laspberg" geschrieben; ein Name ist ein Label, `118778862` ist ein
+Identifikator. Ein Eintrag ohne GND fällt auf den Namen zurück — und sagt das in
+der Belegstelle (`[by name]`).
+
+**Was es nicht erreicht.** 279 von rund 3226 Brief-IDs, vier Korrespondenten. Das
+Verzeichnis ist deshalb die *primäre* Quelle und die Datierungsregel die
+Rückfallebene, nicht umgekehrt. Und wo beide sich widersprechen, wird der
+Widerspruch **berichtet statt lautlos aufgelöst**: dann ist eines von beiden über
+diesen Brief falsch, und das will man sehen.
+
+`export-hf --register DIR` (Default `LASSBERG_REGISTER`) schaltet es ein; fehlt
+es, bleibt alles wie zuvor und eine Warnung sagt es.
+
 ### Die Hand gehört zum Brief, nicht zur Seite
 
 Der erste Dry-Run mit Bildern, 5. Oktober 2026, labelte **57 von 211 Seiten** und

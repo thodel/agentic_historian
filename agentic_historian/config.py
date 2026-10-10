@@ -255,6 +255,14 @@ GITHUB_TEXT_PATH = _get("GITHUB_TEXT_PATH", "data/textrecognition")
 # here instead of pushing, which needs no write access to GITHUB_TEXT_REPO at all.
 # Set it equal to GITHUB_TEXT_REPO to branch inside the repository itself.
 GITHUB_TEXT_FORK = _get("GITHUB_TEXT_FORK", "thodel/lassberg")
+# The edition's correspondence data: data/letters of a GITHUB_TEXT_REPO
+# checkout, one TEI file per letter whose correspDesc names the sender with a
+# GND. It is the only *record* of whose hand a page is in — everything else in
+# this repository infers it from a dateline — so where it reaches, it decides.
+#   git clone --depth 1 https://github.com/michaelscho/lassberg
+# Empty = no register, and the dateline inference is all there is.
+LASSBERG_REGISTER = _get("LASSBERG_REGISTER", "")
+
 # Base URL for the source image of a published doc (#208). If set, each doc's
 # page links back to "<SOURCE_URL_BASE>/<filename>" — point it at a SwitchDrive
 # share, a IIIF image server, or any public mirror. Empty = no source link.
