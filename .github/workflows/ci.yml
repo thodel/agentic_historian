@@ -107,10 +107,13 @@ jobs:
 
     # Separation epic (#565, S5). The Historian bot must build and start as its
     # own process — no OpenClaw runtime, and without the workspace/ directory
-    # (the OpenClaw home: AGENTS.md, SOUL.md, skills/, …). This removes workspace/,
-    # installs ONLY the runtime requirements, and runs the start path up to just
-    # before bot.run — import (which registers the slash commands), ensure_dirs(),
-    # and check_config(). No Discord connection is made. A green run guarantees the
+    # (the OpenClaw home: AGENTS.md, SOUL.md, skills/, …). This installs exactly
+    # what the bot deployment installs (requirements-dev.txt — the full pinned
+    # set that update.sh builds the bot's venv from; it carries py-cord and
+    # watchdog, which the minimal requirements.txt deliberately does not),
+    # removes workspace/, and runs the start path up to just before bot.run —
+    # import (which registers the slash commands), ensure_dirs(), and
+    # check_config(). No Discord connection is made. A green run guarantees the
     # standalone bot is buildable and startable without OpenClaw.
 
     steps:
@@ -121,8 +124,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install ONLY the runtime requirements
-        run: pip install -r agentic_historian/requirements.txt
+      - name: Install the bot's deployment requirements (what update.sh installs)
+        run: pip install -r requirements-dev.txt
 
       - name: Remove the OpenClaw workspace
         run: rm -rf workspace

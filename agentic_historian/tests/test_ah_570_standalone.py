@@ -43,7 +43,9 @@ def test_ci_has_a_standalone_job():
 def test_standalone_job_runs_without_the_workspace_and_only_runtime_deps():
     ci = CI.read_text(encoding="utf-8")
     assert "rm -rf workspace" in ci, "the standalone job must remove workspace/"
-    assert "pip install -r agentic_historian/requirements.txt" in ci
+    # the bot deploys from requirements-dev.txt (update.sh), which carries py-cord
+    # and watchdog that the minimal requirements.txt omits
+    assert "pip install -r requirements-dev.txt" in ci
     # it exercises the start path (ensure_dirs + check_config), asserts the slash
     # commands registered, and that the overlay is off — without reaching bot.run.
     assert "config.check_config()" in ci
