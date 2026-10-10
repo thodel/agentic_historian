@@ -140,6 +140,43 @@ def admin_only(func):
     return functools.wraps(func)(wrapper)
 
 
+def deploy_admin_only(func):
+    """Decorator for /update — the deploy command (SEC-5, #576).
+
+    Stricter than :func:`admin_only`. `/update` pulls arbitrary `origin/main`,
+    installs requirements and restarts the process with every secret on the host,
+    so it requires a **dedicated** admin role that was configured in its own right
+    (``config.DEPLOY_ADMIN_ROLE_ID``) and admits nobody otherwise. Unlike
+    ``admin_only`` it does NOT inherit the base role and does NOT fall back to the
+    Discord-admin / guild-owner bootstrap floor: deploying code with all secrets
+    has no safe default operator, so with no dedicated admin role set `/update` is
+    refused for everyone. Branch protection on `main` is the real safeguard
+    (#565); this only keeps the Discord trigger from widening it.
+    """
+    async def wrapper(ctx, *args, **kwargs):
+        if not ctx.guild:
+            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
+            return
+        role_id = getattr(config, "DEPLOY_ADMIN_ROLE_ID", None)
+        if not role_id:
+            logger.warning(
+                "[auth] /update refused: no dedicated REQUIRED_ADMIN_ROLE_ID is set. "
+                "A deploy pulls arbitrary main with all secrets and needs its own admin "
+                "role (SEC-5, #576) — it does not fall back to the base role or to "
+                "server admins.")
+            await ctx.respond(
+                "⛔ `/update` ist gesperrt: keine eigene Admin-Rolle "
+                "(`REQUIRED_ADMIN_ROLE_ID`) konfiguriert. Ein Deploy zieht beliebigen "
+                "`main`-Stand mit allen Secrets — das verlangt eine ausdrücklich "
+                "gesetzte Rolle, nicht bloss Server-Admins.", ephemeral=True)
+            return
+        if role_id not in _caller_role_ids(ctx):
+            await ctx.respond("⛔ Dieser Befehl ist der Deploy-Admin-Rolle vorbehalten.", ephemeral=True)
+            return
+        return await func(ctx, *args, **kwargs)
+    return functools.wraps(func)(wrapper)
+
+
 async def _worker() -> None:
     """Single consumer: run queued blocking jobs serially, one thread at a time.
 
@@ -1432,7 +1469,7 @@ class _ConfirmView(View):
 
 
 @bot.slash_command(name="update", description="Admin: check for and apply bot updates")
-@admin_only
+@deploy_admin_only
 async def update_cmd(ctx):
     """Check for updates; show commit list with Confirm/Cancel if behind main."""
     await ctx.defer()

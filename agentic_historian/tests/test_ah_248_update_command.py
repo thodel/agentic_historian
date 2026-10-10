@@ -23,7 +23,10 @@ class TestAdminOnlyDecorator:
         assert 'REQUIRED_ADMIN_ROLE_ID' in src
         assert 'ctx.guild' in src
 
-    def test_update_command_decorated_with_admin_only(self):
+    def test_update_command_decorated_with_deploy_admin_only(self):
+        """SEC-5 (#576): /update now uses the stricter deploy gate (a dedicated,
+        explicitly-set admin role, no base inherit, no admin/owner floor), not the
+        generic admin_only used by /campaign and /env_reload."""
         with open(BOT_PATH) as f:
             src = f.read()
         pos = src.find('@bot.slash_command(name="update"')
@@ -31,7 +34,7 @@ class TestAdminOnlyDecorator:
         def_pos = src.find('async def update_cmd', pos)
         assert def_pos != -1
         between = src[pos:def_pos]
-        assert '@admin_only' in between
+        assert '@deploy_admin_only' in between
 
     def test_admin_role_in_config(self):
         with open(CFG_PATH) as f:

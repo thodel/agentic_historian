@@ -202,10 +202,19 @@ DISCORD_BOT_TOKEN = _get("DISCORD_BOT_TOKEN")
 # — gated commands are then refused to all but Discord server admins / the guild
 # owner, and the bot warns at startup. Set it to gate by a specific role.
 REQUIRED_DISCORD_ROLE_ID: int | None = int(_get("REQUIRED_DISCORD_ROLE_ID", "0")) or None
-# Numeric role ID for admin-only operations (/update).  Defaults to the same
-# role as REQUIRED_DISCORD_ROLE_ID (allows the same people to update). Fail-closed
-# like the base gate: 0/empty does not open it, it restricts to server admins.
+# Numeric role ID for admin-only operations (/campaign, /env_reload).  Defaults
+# to the same role as REQUIRED_DISCORD_ROLE_ID (allows the same people to run
+# them). Fail-closed like the base gate: 0/empty does not open it, it restricts
+# to server admins.
 REQUIRED_ADMIN_ROLE_ID: int | None = int(_get("REQUIRED_ADMIN_ROLE_ID", "0")) or None
+# SEC-5 (#576): the admin role as EXPLICITLY configured, captured before the
+# base-role inheritance below. /update (deploy) requires THIS and nothing else —
+# never the inherited base role and never the server-admin / guild-owner floor —
+# because a deploy pulls arbitrary origin/main and restarts with every secret on
+# the host, which has no safe default operator. None → /update is refused for
+# everyone until REQUIRED_ADMIN_ROLE_ID is set in its own right. Branch protection
+# on main is the real safeguard (#565); this only keeps the Discord trigger narrow.
+DEPLOY_ADMIN_ROLE_ID: int | None = REQUIRED_ADMIN_ROLE_ID
 
 #: The guild to register slash commands in. Set it, and a new command is usable
 #: the moment the bot restarts.
