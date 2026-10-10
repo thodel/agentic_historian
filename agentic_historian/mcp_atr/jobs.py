@@ -57,7 +57,9 @@ __all__ = [
     "resolve_source",
     "cache_dir_for",
     "batch_argv",
+    "resolve_gt_file",
     "resolve_keys_file",
+    "resolve_letters_file",
     "pull_argv",
     "start",
     "status",
@@ -229,13 +231,33 @@ def resolve_keys_file(name: str) -> Path:
     takes a path from the caller. Giving `--keys-from` a free path would have
     turned a tool that chooses pages into one that chooses files.
     """
-    root = Path(config.GT_ROOT)
-    path = root / validate_run(name)
+    return resolve_gt_file(
+        name, "a page-key list",
+        "`score_ground_truth` writes one with `keys_out`")
+
+
+def resolve_gt_file(name: str, what: str, written_by: str) -> Path:
+    """A list file by **name** under the ground-truth root, for reading.
+
+    The shape `resolve_keys_file` had to itself once a second kind of list
+    appeared. Page keys come from `score_ground_truth`; letter ids come from
+    `letter_register`; both are lists a caller selects pages with, and neither
+    may be a path — that is what keeps a tool that chooses pages from becoming
+    one that chooses files. The only thing that differs is which tool writes it,
+    which is what the error has to say to be useful.
+    """
+    path = Path(config.GT_ROOT) / validate_run(name)
     if not path.is_file():
         raise JobError(
-            f"no key list at {path} — `score_ground_truth` writes one with "
-            f"`keys_out`, and the name here is that file's name, not a path")
+            f"no {what} at {path} — {written_by}, and the name here is that "
+            f"file's name, not a path")
     return path
+
+
+def resolve_letters_file(name: str) -> Path:
+    """A letter-id list by name. Written by `letter_register`."""
+    return resolve_gt_file(name, "a letter-id list",
+                           "`letter_register` writes one with `out`")
 
 
 def keys_file_to_write(name: str) -> Path:
@@ -307,6 +329,9 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
                retries: Optional[int] = None, dry_run: bool = False,
                cache_dir: Optional[Path] = None,
                keys_from: Optional[Path] = None,
+               letters_from: Optional[Path] = None,
+               exclude_from: Optional[Sequence[Path]] = None,
+               keys_out: Optional[Path] = None,
                missing_out: Optional[Path] = None,
                no_listing_cache: bool = False) -> list[str]:
     """The exact argv for one ``atr-batch`` run.
@@ -325,6 +350,12 @@ def batch_argv(source: Path, models: Sequence[str], run: str, *,
         argv += ["--sample", str(int(sample))]
     if keys_from is not None:
         argv += ["--keys-from", str(keys_from)]
+    if letters_from is not None:
+        argv += ["--letters-from", str(letters_from)]
+    for path in (exclude_from or []):
+        argv += ["--exclude-from", str(path)]
+    if keys_out is not None:
+        argv += ["--keys-out", str(keys_out)]
     if missing_out is not None:
         argv += ["--missing-out", str(missing_out)]
     if cache_dir is not None:
@@ -371,6 +402,66 @@ def score_argv(runs: Sequence[str], *, gt_dir: Optional[Path] = None,
     if writer_agreement:
         argv.append("--writer-agreement")
     return argv
+
+
+def letter_register_job(sender_gnd: Optional[str] = None,
+                        lassberg: bool = True,
+                        out: Optional[str] = None) -> dict:
+    """What the edition's correspondence register covers, and whose letters.
+
+    **Synchronous, unlike every other job here.** It reads some 280 small TEI
+    files from local disk — a second, not the quarter-hour a scoring run spends
+    matching — so a job id would be ceremony around an answer that already fits
+    in the reply.
+
+    With ``out`` it writes the selected letter ids under ``GT_ROOT``, by name,
+    which is the file `start_batch`'s ``letters_from`` reads back. A caller
+    chooses which letters, never a path.
+
+    The register is the only *record* of whose hand a page is in; everything
+    else in this repository infers it from a dateline. It covers 279 of some
+    3226 letter ids, so it decides where it reaches and the inference remains
+    the fallback.
+    """
+    import register as reg
+
+    folder = config.LASSBERG_REGISTER
+    if not folder:
+        raise JobError(
+            "LASSBERG_REGISTER is not set — it is the edition's data/letters, "
+            "from `git clone --depth 1 https://github.com/michaelscho/lassberg`")
+    try:
+        book = reg.read_register(Path(folder))
+    except (NotADirectoryError, ValueError) as exc:
+        raise JobError(str(exc)) from exc
+
+    if sender_gnd:
+        ids = sorted(l.id for l in book.letters.values()
+                     if l.sender_gnd == sender_gnd)
+        who = f"GND {sender_gnd}"
+    elif lassberg:
+        ids = book.lassberg_letters
+        who = f"Joseph von Laßberg (GND {reg.LASSBERG_GND})"
+    else:
+        ids = sorted(book.letters)
+        who = "every sender"
+
+    written = None
+    if out:
+        written = keys_file_to_write(out)
+        written.parent.mkdir(parents=True, exist_ok=True)
+        written.write_text(
+            f"# {len(ids)} letter id(s) — {who}\n"
+            f"# from {book.source}"
+            + (f" @{book.revision}" if book.revision else "")
+            + f", read {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC\n"
+            + "".join(f"{i}\n" for i in ids), encoding="utf-8")
+    return {"ok": True, "done": True, "register": str(book.source),
+            "revision": book.revision, "letters": len(book.letters),
+            "by_lassberg": len(book.lassberg_letters),
+            "senders": book.by_sender, "selected": len(ids),
+            "selection": who, "letters_file": written.name if written else None,
+            "report": reg.format_register(book)}
 
 
 def export_hf_argv(runs: Sequence[Path], *, gt_dir: Optional[Path] = None,

@@ -41,6 +41,27 @@ ist fremde Daten, und der Share hat schon Ordner verloren (`docs/MISSING_IMAGES_
 Eine Seite ohne Brief-Segment (lose im Archivordner) gehört zu keinem Brief und
 wird nie ausgewählt.
 
+### Dasselbe aus einer Session
+
+```
+letter_register(out="lassberg-briefe.txt")        # 279 Briefe, 128 von Laßberg
+start_batch(models=["qwen3vl-german-xix-v2"], run="lassberg-300",
+            source="dav:digitalisate",
+            letters_from="lassberg-briefe.txt",
+            exclude_from=["gt-keys.txt"],
+            limit=300, keys_out="lassberg-300.txt", dry_run=True)
+```
+
+`letter_register` ist **synchron** — es liest 280 kleine lokale Dateien, da wäre
+eine Job-ID Zeremonie um eine Antwort, die in die Rückmeldung passt.
+
+`letters_from`, `exclude_from` und `keys_out` sind **Namen von Dateien unter
+`GT_ROOT`, keine Pfade** — dieselbe Regel wie `keys_from` seit #509. Der Server
+steht hinter einem Bearer-Token im offenen Netz, und diese Validierung ist, was
+zwischen dem Token und einer Maschine mit zwei A40 steht: eine Liste, die ein
+Pfad sein darf, macht aus einem Werkzeug, das Seiten wählt, eines, das Dateien
+wählt.
+
 Zugeordnet wird über `hf_export.letter_of`, dieselbe Regel, die der Export für
 das Datensatz-Label benutzt: so können eine Seite und ihr Label nie uneins
 darüber sein, zu welchem Brief die Seite gehört.

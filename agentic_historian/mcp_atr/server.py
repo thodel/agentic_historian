@@ -329,6 +329,9 @@ def build_server(provider=None, auth_settings=None):
                     dry_run: bool = False,
                     concurrency: Optional[int] = None,
                     keys_from: Optional[str] = None,
+                    letters_from: Optional[str] = None,
+                    exclude_from: Optional[list[str]] = None,
+                    keys_out: Optional[str] = None,
                     missing_out: Optional[str] = None,
                     no_listing_cache: bool = False) -> dict:
         """Read every page under ``source`` with every model. Returns a job id.
@@ -372,6 +375,21 @@ def build_server(provider=None, auth_settings=None):
         share had stopped holding 35 of the 276 pages we have hand-corrected text
         for, and which 35 was the thing to send to the people who keep it.
 
+        ``letters_from`` selects every page of the letters a file names, and
+        ``exclude_from`` (several) leaves out the pages its lists name. Together
+        they answer a question the pages cannot: *every page Laßberg wrote that
+        nobody has transcribed yet.* The hand is read off a transcription, so an
+        untranscribed page cannot supply it — but the edition's register records
+        a sender per letter (`letter_register`), and the letter id is in the page
+        key. All three are names of files under the ground-truth root, never
+        paths. ``keys_out`` writes the resulting selection down, which is what
+        makes a run over "the pages nobody has read" repeatable: derived again
+        next week, a share that has gained or lost a page gives a different
+        selection with nothing saying so.
+
+        The cut is applied **after** every filter, which is the only order that
+        gives the number asked for (#531).
+
         Use ``dry_run`` first (it prints pages x models and exits), then
         ``sample=10``, then the whole corpus. ``dry_run`` with
         ``no_listing_cache`` and ``keys_from`` answers how many of those keys the
@@ -390,6 +408,12 @@ def build_server(provider=None, auth_settings=None):
         try:
             checked_keys = (jobs.resolve_keys_file(keys_from)
                             if keys_from else None)
+            checked_letters = (jobs.resolve_letters_file(letters_from)
+                               if letters_from else None)
+            checked_exclude = [jobs.resolve_keys_file(n)
+                               for n in (exclude_from or []) if str(n).strip()]
+            checked_keys_out = (jobs.keys_file_to_write(keys_out)
+                                if keys_out else None)
             checked_missing = (jobs.keys_file_to_write(missing_out)
                                if missing_out else None)
         except jobs.JobError as exc:
@@ -400,6 +424,9 @@ def build_server(provider=None, auth_settings=None):
                                           "nothing, and without a key list there "
                                           "are none"}
         argv = jobs.batch_argv(checked_source, checked_models, checked_run,
+                               letters_from=checked_letters,
+                               exclude_from=checked_exclude,
+                               keys_out=checked_keys_out,
                                limit=limit, sample=sample, concurrency=concurrency,
                                dry_run=dry_run, keys_from=checked_keys,
                                missing_out=checked_missing,
@@ -510,6 +537,33 @@ def build_server(provider=None, auth_settings=None):
             return jobs.score_job(runs, gt_dir=gt_dir, limit=limit,
                                   writer_agreement=writer_agreement,
                                   keys_out=keys_out)
+        except jobs.JobError as exc:
+            return {"ok": False, "error": str(exc)}
+
+    @server.tool()
+    def letter_register(lassberg: bool = True, sender_gnd: str | None = None,
+                        out: str | None = None) -> dict:
+        """Who wrote which letter, from the edition's own correspondence data.
+
+        The hand a page is in is inferred everywhere else in this project from
+        its dateline. The edition records it: each letter in
+        `michaelscho/lassberg` is a TEI file whose `correspDesc` names the sender
+        with a GND, plus the place and the date. Measured: 279 letters with a
+        sender, 128 of them Laßberg's, four correspondences.
+
+        Synchronous — it reads 280 small local files, so there is no job id.
+
+        With ``out`` it writes the selected letter ids under the ground-truth
+        root, by name, and that name is what `start_batch`'s ``letters_from``
+        reads back. Identity is the GND, never the spelling: "Laßberg" is also
+        written "Lassberg" and "Laspberg".
+
+        It covers 279 of some 3226 letter ids, so it decides where it reaches and
+        the dateline inference stays the fallback.
+        """
+        try:
+            return jobs.letter_register_job(sender_gnd=sender_gnd,
+                                            lassberg=lassberg, out=out)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}
 
