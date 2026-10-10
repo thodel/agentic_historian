@@ -31,7 +31,8 @@ def ls_root(root="."):
 def test_no_conflicting_requirements_at_repo_root():
     """Root requirements.txt conflicts with agentic_historian/requirements.txt.
 
-    It must not exist at repo root (deleted or moved to workspace/.
+    It must not exist at repo root (the dev set is requirements-dev.txt; the
+    OpenClaw workspace that once held a copy is gone since S3, #568).
     """
     tracked = git_ls_files(REPO_ROOT)
     assert "requirements.txt" not in tracked, (
@@ -55,7 +56,12 @@ def test_no_zenodo_json_at_repo_root():
 
 
 def test_persona_files_moved_to_workspace():
-    """SOUL.md, IDENTITY.md, USER.md, etc. belong in workspace/, not the repo root."""
+    """SOUL.md, IDENTITY.md, USER.md, etc. must not sit at the repo root.
+
+    #113 moved them into the OpenClaw workspace/; S3 (#568) then lifted that
+    out of the repository altogether — test_ah_568 pins that they are tracked
+    nowhere. This keeps the original, narrower guard.
+    """
     tracked = git_ls_files(REPO_ROOT)
     persona_files = {
         "SOUL.md", "IDENTITY.md", "USER.md", "AGENTS.md",
@@ -68,7 +74,8 @@ def test_persona_files_moved_to_workspace():
 
 
 def test_skills_moved_to_workspace():
-    """skills/ directory is workspace config, not part of the agentic_historian repo."""
+    """skills/ is OpenClaw workspace config, not part of the agentic_historian repo
+    (and since S3, #568, the workspace itself is not in the repo either)."""
     tracked = git_ls_files(REPO_ROOT)
     stray = {f for f in tracked if f.startswith("skills/")}
     assert not stray, f"skills/ still in repo root: {stray}"

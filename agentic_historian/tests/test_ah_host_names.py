@@ -45,7 +45,7 @@ NAMES = ("ast" + "eraix", "idh" + "efix")
 SPELLING = re.compile("|".join(["ast" + "e?raix", "idh" + "efix"]), re.IGNORECASE)
 
 SKIP_DIRS = {".git", ".venv", ".venvs", "__pycache__", ".pytest_cache", ".ruff_cache",
-             ".claude", "node_modules", "workspace", "data"}
+             ".claude", "node_modules", "data"}
 SUFFIXES = {".md", ".py", ".sh", ".txt", ".yaml", ".yml", ".toml", ".conf", ".service",
             ".json", ".example"}
 

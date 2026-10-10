@@ -61,7 +61,7 @@ Requires Python 3.11+, on the unibe VPN (GPUStack is IP-gated).
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp ../workspace/gpustack.env.example ../.env.gpustack   # then fill in the rotated key + Discord token
+cp ../deploy/gpustack.env.example ../.env.gpustack   # then fill in the rotated key + Discord token
 python bot.py            # or: python -m agentic_historian  (entry point, see pyproject.toml)
 ```
 `config.py` loads `.env.gpustack` from the **repo root** (real process env always wins; dotenv never overrides it). In production the bot runs under systemd (`agentic-historian.service`).
@@ -72,9 +72,10 @@ token (S1, #566); its own secrets file read via `AH_ENV_FILE` instead of the sha
 `.env.gpustack`, plus a hardened systemd unit (S2, #567 — see
 [`deploy/systemd/SEPARATION.md`](../deploy/systemd/SEPARATION.md) and
 `deploy/systemd/dh-bot.env.example`); the LLM-orchestration overlay off by default
-(S4, #569); and no dependency on the OpenClaw `workspace/` directory. CI's
-**standalone** job proves the bot imports and runs its start path (up to `bot.run`)
-without `workspace/` and with only the runtime requirements.
+(S4, #569); and the OpenClaw home (`workspace/` — AGENTS.md, SOUL.md, skills/, …)
+lifted out of this repository altogether (S3, #568; the env template moved to
+`deploy/gpustack.env.example`). CI's **standalone** job proves the bot imports and
+runs its start path (up to `bot.run`) without any `workspace/`.
 
 ## Discord Commands
 
@@ -143,7 +144,8 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `ORCHESTRATOR_LLM_ENABLED` | Optional LLM-orchestration overlay (`nl_orchestrator` + `orchestrator_llm`), **off by default**; no slash command reaches the planner while it is off (S4, #569) |
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
 
-See `workspace/gpustack.env.example` for the full template.
+See `deploy/gpustack.env.example` for the full template (and
+`deploy/systemd/dh-bot.env.example` for the production secrets file).
 
 ## Reading a collection with several models — batch ATR
 

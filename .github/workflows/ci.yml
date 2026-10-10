@@ -106,15 +106,18 @@ jobs:
     timeout-minutes: 10
 
     # Separation epic (#565, S5). The Historian bot must build and start as its
-    # own process — no OpenClaw runtime, and without the workspace/ directory
-    # (the OpenClaw home: AGENTS.md, SOUL.md, skills/, …). This installs exactly
-    # what the bot deployment installs (requirements-dev.txt — the full pinned
-    # set that update.sh builds the bot's venv from; it carries py-cord and
-    # watchdog, which the minimal requirements.txt deliberately does not),
-    # removes workspace/, and runs the start path up to just before bot.run —
-    # import (which registers the slash commands), ensure_dirs(), and
-    # check_config(). No Discord connection is made. A green run guarantees the
-    # standalone bot is buildable and startable without OpenClaw.
+    # own process — no OpenClaw runtime, and without a workspace/ directory
+    # (the OpenClaw home: AGENTS.md, SOUL.md, skills/, …). S3 (#568) lifted that
+    # directory out of the repository; the `rm -rf workspace` below stays as a
+    # guard, so neither a re-added one nor one left in a checkout can ever be
+    # what makes the bot start. This installs exactly what the bot deployment
+    # installs (requirements-dev.txt — the full pinned set that update.sh builds
+    # the bot's venv from; it carries py-cord and watchdog, which the minimal
+    # requirements.txt deliberately does not), and runs the start path up to
+    # just before bot.run — import (which registers the slash commands),
+    # ensure_dirs(), and check_config(). No Discord connection is made. A green
+    # run guarantees the standalone bot is buildable and startable without
+    # OpenClaw.
 
     steps:
       - uses: actions/checkout@v4
@@ -127,7 +130,7 @@ jobs:
       - name: Install the bot's deployment requirements (what update.sh installs)
         run: pip install -r requirements-dev.txt
 
-      - name: Remove the OpenClaw workspace
+      - name: Make sure no OpenClaw workspace is present (gone since S3; this is the guard)
         run: rm -rf workspace
 
       - name: Import the bot and run the start path (not bot.run), with no workspace/

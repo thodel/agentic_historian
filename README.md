@@ -216,8 +216,7 @@ port and no firewall exception on this path.
 |---|---|
 | `agentic_historian/` | the package — agents, orchestrator, gates, clients, bot, MCP server ([its README](agentic_historian/README.md) documents every module) |
 | `docs/` | runbooks and plans: batch ATR, training integration, evaluation harness, connectivity, Nextcloud, lessons |
-| `deploy/` | systemd units and nginx config for the pieces that run on tei |
-| `workspace/` | environment templates and scratch material |
+| `deploy/` | systemd units and nginx config for the pieces that run on tei, and the environment template (`gpustack.env.example`) |
 
 ## Running it
 
@@ -234,16 +233,18 @@ python3.12 -m venv .venv
 The suite is offline: GPUStack, the ATR gateway, MCP, WebDAV, Voyant, Discord and
 GitHub are mocked at their boundaries, and CI runs it on every PR. Configuration
 is a single `.env.gpustack` at the repository root (gitignored; template in
-`workspace/gpustack.env.example`) — every variable is listed in
+`deploy/gpustack.env.example`) — every variable is listed in
 [`agentic_historian/README.md`](agentic_historian/README.md#environment-variables-envgpustack-repo-root).
 In production the bot runs on tei under `agentic-historian.service`.
 
 As a **standalone** process (separation epic #565) it is decoupled from the OpenClaw
 agent: its own Discord token, its own secrets file (`deploy/systemd/dh-bot.env.example`
 → `/etc/dh-bot.env`, read via `AH_ENV_FILE`) separate from the shared `.env.gpustack`,
-a hardened systemd unit, the LLM-orchestration overlay off by default, and no need
-for the `workspace/` directory — see [`deploy/systemd/SEPARATION.md`](deploy/systemd/SEPARATION.md).
-CI's `standalone` job proves the bot builds and starts without OpenClaw.
+a hardened systemd unit, the LLM-orchestration overlay off by default, and the
+OpenClaw home (`workspace/`) no longer in this repository (S3, #568) — see
+[`deploy/systemd/SEPARATION.md`](deploy/systemd/SEPARATION.md), which also says what
+to do on tei *before* deploying past that change. CI's `standalone` job proves the
+bot builds and starts without OpenClaw.
 
 Contribution rules — one issue, one branch off `origin/main`, one PR, never
 stacked — are in
