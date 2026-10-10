@@ -163,6 +163,68 @@ def _answer(message, structured: bool) -> tuple[str, str]:
             str(data.get("normalized", "") or ""))
 
 
+@dataclass(frozen=True)
+class Preflight:
+    """Whether an external model id exists at the API, before any page is sent.
+
+    The gateway's preflight exists because a model id it does not have makes
+    every page take the same 404, and learning that from the 404s costs a cold
+    start and a half-filled run directory (#482). An external API has exactly
+    that failure mode and one worse: the 404s are free but the *successes* are
+    billed, so a typo that happens to name a real but wrong model spends money
+    on the wrong measurement.
+
+    The OpenAI-compatible surface exposes a models route, so this is a real
+    check and not a skip. A probe that cannot reach the API at all is not a
+    refusal: the network may be slow and the pages are still worth trying, which
+    is how the gateway's own probe behaves.
+    """
+
+    model: str
+    listed: Optional[bool]        # None = the API could not be asked
+    detail: str = ""
+
+    @property
+    def refused(self) -> bool:
+        return self.listed is False
+
+    @property
+    def line(self) -> str:
+        if self.listed:
+            return f"  ok {self.model}: listed at {config.GEMINI_BASE_URL}"
+        if self.listed is None:
+            return (f"  ?  {self.model}: could not ask "
+                    f"{config.GEMINI_BASE_URL} ({self.detail}) — trying anyway")
+        return (f"  NO {self.model}: not listed at {config.GEMINI_BASE_URL}"
+                + (f" (have: {self.detail})" if self.detail else "")
+                + " — every page would take the same 404")
+
+
+def preflight(model: str, *, base_url: Optional[str] = None,
+              api_key: Optional[str] = None) -> Preflight:
+    """Ask the API whether it serves this model id. No page is sent."""
+    from openai import OpenAI
+
+    key = api_key or config.GEMINI_API_KEY
+    if not key:
+        return Preflight(model, False, "no GEMINI_API_KEY")
+    try:
+        client = OpenAI(base_url=(base_url or config.GEMINI_BASE_URL),
+                        api_key=key, timeout=30)
+        ids = {m.id for m in client.models.list()}
+    except Exception as exc:          # noqa: BLE001 — a probe is never fatal
+        return Preflight(model, None, f"{type(exc).__name__}: {exc}")
+    if model in ids:
+        return Preflight(model, True)
+    # Model ids carry prefixes on some surfaces ("models/gemini-…"), so a
+    # suffix match is reported as found and the exact id is named back.
+    near = sorted(i for i in ids if i.rsplit("/", 1)[-1] == model)
+    if near:
+        return Preflight(model, True, near[0])
+    sample = ", ".join(sorted(ids)[:6]) or "nothing listed"
+    return Preflight(model, False, sample)
+
+
 def openai_recogniser(*, base_url: Optional[str] = None,
                       api_key: Optional[str] = None,
                       prompt: str = DEFAULT_PROMPT,

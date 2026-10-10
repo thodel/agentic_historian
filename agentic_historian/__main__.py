@@ -162,7 +162,25 @@ def atr_batch(args: argparse.Namespace) -> int:
         print(f"Warning: no gateway probe ({exc}) — the run's model "
               "versions will read as unreported", file=sys.stderr)
 
-    if not getattr(args, "no_preflight", False):
+    external = getattr(args, "via", "gateway") == "external"
+    if external and not getattr(args, "no_preflight", False):
+        # The gateway's /models cannot answer for a model that lives at an API:
+        # asking it refused `gemini-3.8-flash` outright on 2026-10-10. The
+        # external surface has its own models route, so the check moves rather
+        # than disappearing — a model id nobody serves still makes every page
+        # take the same 404, and here the successes are billed.
+        import external_atr
+
+        print("preflight:")
+        verdicts = [external_atr.preflight(m) for m in models]
+        for v in verdicts:
+            print(v.line, file=sys.stderr if v.refused else sys.stdout)
+        models = [v.model for v in verdicts if not v.refused]
+        if not models:
+            print("Error: the API serves none of these model ids — nothing to "
+                  "run", file=sys.stderr)
+            return 1
+    elif not getattr(args, "no_preflight", False):
         checked = batch.preflight(models, probe=probe)
         for line in checked.lines():
             print(line, file=sys.stderr if checked.refused else sys.stdout)
