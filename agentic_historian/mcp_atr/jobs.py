@@ -920,6 +920,55 @@ def _status_mix(scored: Sequence) -> dict:
     return out
 
 
+def flagged_keys(run: str, keys_out: Optional[str] = None) -> dict:
+    """The pages a run's own output shows as unusable, as a selection.
+
+    Rebuilt from the results on disk rather than read out of ``report.md``: a
+    resumed run's report counts most of its corpus as skipped and says nothing
+    about whether those pages came back empty, so the file is the one place the
+    answer is known to be incomplete (`atr_batch.report_from_outputs`).
+
+    ``keys_out`` names a file under the ground-truth root — a name, never a path,
+    exactly as `start_batch` reads one — so the list this writes is the list
+    `start_batch(keys_from=...)` takes back. That handover is the point: before
+    it, re-reading the pages a report flags meant reading Markdown and typing
+    keys out by hand (#616).
+    """
+    run = validate_run(run)
+    run_dir = Path(config.VLM_TEST_ROOT) / run
+    if not run_dir.is_dir():
+        raise JobError(f"no run directory for {run!r}")
+
+    import atr_batch as batch
+
+    report = batch.report_from_outputs(run_dir)
+    if not report.models:
+        raise JobError(f"no model output under {run_dir}")
+    keys = report.flagged_keys
+    out: dict = {
+        "run": run,
+        "flagged": len(keys),
+        # Capped in the reply, complete in the file: a thousand keys is not an
+        # answer a caller can read, and truncating the *file* would hand back a
+        # selection quietly shorter than the defect it names.
+        "keys": keys[:200],
+        "keys_shown": min(len(keys), 200),
+        "per_model": [
+            {"model": m.model, "empty": m.empty, "repetitive": m.repetitive,
+             "truncated": m.truncated, "flagged": len(m.flagged_keys)}
+            for m in report.models
+        ],
+    }
+    if keys_out:
+        target = keys_file_to_write(keys_out)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text("\n".join(keys) + ("\n" if keys else ""),
+                          encoding="utf-8")
+        out["keys_file"] = target.name
+        out["keys_path"] = str(target)
+    return out
+
+
 def compare_readings(runs: Sequence[str], min_chars: Optional[int] = None,
                      worst: int = 10) -> dict:
     """Pairwise disagreement between the readings of two or more runs.
