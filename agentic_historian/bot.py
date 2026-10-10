@@ -529,7 +529,12 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
         if msg is not None:
             persistent_views.store_message_id(state, "gate1", msg.id)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        # SEC-10 (#581): a load error's text can carry the start of the file it
+        # failed on — a run-state read oracle if posted. Log the detail, tell the
+        # channel nothing but that it failed. (Traversal is already blocked up
+        # front by the slug check / SEC-2.)
+        logger.exception("[route] {}: {}", doc_id, e)
+        await ctx.followup.send("❌ Konnte die Routing-Karte nicht laden — Details siehe Log.")
 
 
 @bot.slash_command(
@@ -583,7 +588,9 @@ async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
         if msg is not None:
             persistent_views.store_message_id(state, "gate2", msg.id)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        # SEC-10 (#581): see /route — never post a raw load error into the channel.
+        logger.exception("[votes] {}: {}", doc_id, e)
+        await ctx.followup.send("❌ Konnte die Abstimmungskarte nicht laden — Details siehe Log.")
 
 
 @bot.slash_command(
