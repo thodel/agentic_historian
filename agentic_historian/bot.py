@@ -944,6 +944,12 @@ async def agent_d_cmd(
 ):
     await ctx.defer()
     try:
+        from agents import corpus_analysis
+        try:
+            corpus_analysis.corpus_out_dir(corpus_name)
+        except ValueError:
+            await ctx.followup.send(f"❌ Ungültiger Korpusname `{corpus_name}`.")
+            return
         result = await _run_blocking(ctx, run_agent_d, corpus_name)
         if result is None:
             return
