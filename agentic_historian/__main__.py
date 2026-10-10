@@ -873,11 +873,19 @@ def batch(args: argparse.Namespace) -> int:
             print(f"  … and {len(source.doc_ids) - 20} more")
         return 0
 
-    summary = batch_runner.run_batch(
-        run_id, source, workers=args.workers, max_attempts=args.max_attempts,
-        publish_every=args.publish_every,
-        per_doc_publish=args.allow_per_doc_publish,
-        announce=_batch_announce())
+    try:
+        summary = batch_runner.run_batch(
+            run_id, source, workers=args.workers, max_attempts=args.max_attempts,
+            publish_every=args.publish_every,
+            per_doc_publish=args.allow_per_doc_publish,
+            restart_engines=args.restart_engines,
+            announce=_batch_announce())
+    except batch_runner.EnginesDown as e:
+        # Exit 3, not 1: a run that was refused before it claimed anything is a
+        # different thing from a run that produced dead letters, and a wrapper
+        # script should be able to retry the one and not the other.
+        print(f"{e}")
+        return 3
     prog = summary.progress
     print(f"{run_id}: {prog.done} done, {prog.failed} failed, {prog.dead} dead "
           f"in {summary.seconds / 60:.1f} min")
@@ -970,6 +978,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_corpus.add_argument("--allow-per-doc-publish", action="store_true",
                           help="Let the pipeline publish each document as it "
                                "goes — one commit and one index rebuild each")
+    p_corpus.add_argument("--restart-engines", action="store_true",
+                          help="If a planned engine does not answer, ask the "
+                               "gateway to restart it (once per engine) and "
+                               "start only if it comes back. Without this the "
+                               "run is refused and says which engine is down — "
+                               "exit 3. Never silent either way: a process that "
+                               "quietly restarts services hides the failures "
+                               "somebody needs to see (#599)")
     p_corpus.set_defaults(func=batch)
 
     p_batch = sub.add_parser(

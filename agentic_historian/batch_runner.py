@@ -60,7 +60,7 @@ import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Iterable, Optional
 
 from loguru import logger
 
@@ -101,6 +101,17 @@ HEARTBEAT_EVERY_S = 120.0
 #: message per stage would bury the channel and nobody would read the one that
 #: mattered.
 PROGRESS_EVERY = 10
+
+
+class EnginesDown(RuntimeError):
+    """A planned engine does not answer, so the run was not started (#599).
+
+    Raised instead of starting, because the alternative is measured: on
+    2026-10-09 a ``missiven`` run put 16 of its 20 recognitions into a kraken
+    service that was not running, lost each one on its own, and published what
+    was left. One refusal before the first image is the whole of what this
+    costs.
+    """
 
 
 class AmbiguousSource(RuntimeError):
@@ -249,6 +260,50 @@ def _default_pipeline(doc_id: str, paths: list, mode: str, *,
         orchestrator.run_full_pipeline(str(paths[0]), publish=publish)
 
 
+def _engine_preflight(say: Callable[[str], None], *,
+                      engines: Optional[Iterable[str]] = None,
+                      restart: bool = False,
+                      check: Optional[Callable] = None,
+                      recover: Optional[Callable] = None) -> None:
+    """Ask whether the engines this run needs are up, before it claims anything.
+
+    Refuses by default. A run that starts anyway does not fail — it *succeeds*
+    on a fraction of its readings, which is worse, because the result looks like
+    a result (#595). ``restart_engines`` is opt-in rather than the default for
+    the same reason it is bounded to one attempt per engine: a process that
+    quietly restarts services hides the failures somebody needs to see.
+
+    Both calls are injectable, so the gate is testable without a gateway — and
+    so a caller that has already read ``/health`` can hand the answer in.
+    """
+    import atr_engines
+
+    check = check or atr_engines.check_sync
+    result = check(engines)
+    if result.ok:
+        say(atr_engines.format_preflight(result))
+        return
+
+    say(atr_engines.format_preflight(result))
+    if not restart:
+        raise EnginesDown(atr_engines.format_preflight(result))
+
+    if not result.fixable:
+        # Nothing a restart can reach: an engine with no unit, or a gateway
+        # nobody could ask. Saying "restarting" here and then not restarting is
+        # the lie this branch exists to avoid.
+        raise EnginesDown(atr_engines.format_preflight(result))
+
+    recover = recover or atr_engines.recover_sync
+    for outcome in recover(result, atr_engines.Ledger(), time.time()):
+        say(atr_engines.format_restart(outcome))
+
+    after = check(engines)
+    say(atr_engines.format_preflight(after))
+    if not after.ok:
+        raise EnginesDown(atr_engines.format_preflight(after))
+
+
 def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
               max_attempts: int = cm.MAX_ATTEMPTS,
               pipeline: Optional[Callable] = None,
@@ -258,7 +313,11 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
               progress_every: int = PROGRESS_EVERY,
               publish_every: Optional[int] = None,
               publish: Optional[Callable] = None,
-              per_doc_publish: bool = False) -> Summary:
+              per_doc_publish: bool = False,
+              engines: Optional[Iterable[str]] = None,
+              restart_engines: bool = False,
+              check_engines: Optional[Callable] = None,
+              recover_engines: Optional[Callable] = None) -> Summary:
     """Claim and process until nothing claimable is left.
 
     Registering is additive and claiming only takes ``pending``/``failed``, so
@@ -275,6 +334,9 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
     sleep = sleep or time.sleep
     say = announce or (lambda text: logger.info(f"[batch] {text}"))
     workers = max(1, int(workers or 1))
+
+    _engine_preflight(say, engines=engines, restart=restart_engines,
+                      check=check_engines, recover=recover_engines)
 
     cm.register(run_id, source.doc_ids, source=str(source.root),
                 label=source.mode)

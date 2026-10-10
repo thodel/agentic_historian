@@ -40,6 +40,23 @@ from utils import publish_github as pg     # noqa: E402
 
 
 @pytest.fixture(autouse=True)
+def _engines_are_up(monkeypatch):
+    """These tests are about the runner, not about idhefix.
+
+    Since #599 ``run_batch`` refuses to start when a planned engine does not
+    answer, which from a test machine is always. Injected rather than defaulted
+    off: a preflight that is silently skipped wherever it is inconvenient is a
+    preflight that is skipped in production too, and this way the precondition
+    is written down in every file that relies on it. The tests that are about
+    the gate itself live in ``test_ah_599_engine_restart.py`` and pass their own.
+    """
+    import atr_engines
+    monkeypatch.setattr(atr_engines, "check_sync",
+                        lambda needed=None, **kw: atr_engines.Preflight(
+                            needed=tuple(needed or atr_engines.PLANNED_ENGINES)))
+
+
+@pytest.fixture(autouse=True)
 def _tmp(tmp_path, monkeypatch):
     monkeypatch.setattr(config, "DATA_DIR", tmp_path)
     monkeypatch.setattr(config, "OUTPUTS_DIR", tmp_path / "outputs")
