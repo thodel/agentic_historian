@@ -23,6 +23,7 @@ PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
     sys.path.insert(0, str(PKG))
 
+import pytest                                   # noqa: E402
 import page_quality as pq                       # noqa: E402
 
 # The French page the VLM padded, with the run of zeros kept (shortened to 3000).
@@ -406,3 +407,49 @@ def test_a_rebuilt_report_counts_the_same_four(tmp_path):
     rebuilt = batch.report_from_outputs(tmp_path / "out")
 
     assert rebuilt.models[0].verdicts == outcome.verdicts
+
+
+# ── a layout is not a loop ───────────────────────────────────────────────────
+#
+# 2026-10-10, the first page a VLM read through an external API:
+#
+#   PA 82a B 9_Seite_030.jpg | {'verdict': 'repetitive', 'chars': 1066,
+#     'longest_char_run': 34, 'repeat_ratio': 0.0, ...}
+#
+# The 34 were the spaces indenting a right-aligned signature. The engines
+# behind the gateway emit one line per text line and no layout, so this could
+# not happen before; a model that reproduces the page's layout trips it on
+# every indented signature, address and dateline. And the verdict is not
+# cosmetic — the batch report says of a flagged page that "every average over
+# them is wrong", which about a clean page is a false accusation that outlives
+# the run.
+
+SIGNATURE = ("Unter wiederholung meines dankes, grüße ich Sie und die\n"
+             "optimae spei tyrones hezlich und bleibe Ihr ergebenster\n"
+             "                                  JvLaßberg.")
+
+
+def test_an_indented_signature_is_not_repetitive():
+    assert pq.classify(SIGNATURE).verdict != "repetitive"
+
+
+def test_the_spaces_do_not_count_as_a_character_run():
+    assert pq.longest_char_run(SIGNATURE) < 10
+
+
+def test_a_real_character_run_is_still_caught():
+    """The failure this check exists for: 8 000 zeros."""
+    assert pq.longest_char_run("0" * 40) == 40
+    assert pq.classify("0" * 400).verdict == "repetitive"
+
+
+def test_a_run_broken_only_by_layout_is_not_merged():
+    """Two short runs of the same letter either side of an indent are two runs,
+    not one long one."""
+    assert pq.longest_char_run("aaa          aaa") == 3
+
+
+@pytest.mark.parametrize("gap", ["\n" * 40, "\t" * 40, " " * 40,
+                                 " " * 40])
+def test_no_kind_of_whitespace_counts(gap):
+    assert pq.longest_char_run(f"Ihr ergebenster{gap}JvLaßberg.") < 10

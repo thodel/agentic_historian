@@ -13,6 +13,59 @@ checkout plus a venv on a box whose single partition has been full before.
 
 ---
 
+## Der erste externe Lauf, 10. Oktober 2026 — und was er über den Prompt sagt
+
+Drei Seiten, `gemini-3.8-flash`, Prompt `lassberg_atr.md @092fb6b0`.
+
+**Die Mechanik hält.** 3 von 3 gelesen, 0 Fehler, 23,3 s/Seite, `cut off: 0`.
+Der Preflight fand das Modell bei der API gelistet. Dass eine Seite mit
+„doch nicht am=" endet, ist **keine** Abschneidung, sondern die Silbentrennung
+der Vorlage am Seitenende.
+
+**Die Kosten, aus gemessenen Zahlen statt aus einer Schätzung:** 1.228 Eingabe-
+und 380 Ausgabe-Tokens pro Seite. 8192 als Deckel war großzügig. Für 300 Seiten
+ergibt das rund 368k + 114k Tokens, zum Einführungspreis etwa **0,71 $**, und bei
+dieser Nebenläufigkeit etwa zwei Stunden.
+
+**Der Prompt hält nicht.** Alle drei Seiten tragen Text, der nicht auf der Seite
+steht:
+
+```
+Seite_160:  Hier ist die getreue Transkription des Briefes:
+            [Kopfvermerk von der Hand des Empfängers:]  [Oben rechts:]
+            [Anrede:]  [Text:]
+Seite_027:  **[Transkription]**  ·  ~~durchgestrichen~~
+```
+
+Vorrede, erfundene Strukturlabels, nicht angekündigtes Markdown. In eine
+CER-Messung gerechnet verfälscht das jede Zahl; als Transkription publiziert ist
+es ausgewiesener Fremdtext. Bei `Seite_027` stehen zudem vier Klammerzeilen, die
+kein kohärentes Deutsch sind („Theuerster, theurer Handschuh!") — das sieht aus
+wie plausibel klingendes Füllmaterial für eine schwer lesbare Stelle.
+
+**Der Fix gehört in den Prompt, als neue Datei mit neuer Prüfsumme** — eine
+Bearbeitung der bestehenden macht den gemessenen Lauf unvergleichbar. Ein
+strikter Prompt müsste verbieten: Vorrede, Strukturlabels, Markdown; und `[...]`
+auf unlesbare *Wörter* beschränken statt auf ganze Zeilen.
+
+### Ein Fehlalarm, den dieser Lauf aufgedeckt hat
+
+`Seite_030` wurde als `repetitive` markiert, bei `repeat_ratio: 0.0` und
+`longest_char_run: 34`. Die 34 waren die Leerzeichen einer rechtsbündigen
+Unterschrift:
+
+```
+                                  JvLaßberg.
+```
+
+Die Engines hinter der Gateway geben eine Zeile pro Textzeile und kein Layout
+aus, also konnte das nie vorkommen. Ein Modell, das das Seitenlayout mitliest,
+löst es bei jeder eingerückten Unterschrift, Adresse und Datierung aus — und der
+Bericht sagt über eine markierte Seite „every average over them is wrong", was
+über eine saubere Seite eine Unterstellung ist, die den Lauf überlebt.
+`longest_char_run` zählt Whitespace jetzt nicht mehr: ein Lauf von 34 Buchstaben
+ist Füllmaterial, ein Lauf von 34 Leerzeichen ist ein Layout.
+
 ## Ein externes Modell lesen lassen
 
 ```bash
