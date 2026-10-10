@@ -172,6 +172,40 @@ over 3 pages, and the table says so.
 bench's candidates. Fusion runs with arbitration off, so scoring makes no LLM call
 — a bench that needed a model to score a model would not run in CI.
 
+**A field of equals from a field with a leader.** The aggregate over all pages is
+reported and then explicitly disowned, because #416's finding is that fusion's
+value is **not a property of the method but of the field it is given**, and the
+two regimes were measured in opposite directions:
+
+| field | measurement | fusion |
+|---|---|---|
+| one candidate dominates | 13 Federal-Council pages, HTR+ 3.38 % against rivals at 7–12 % | **lost** 1.44 pt |
+| comparable strength, uncorrelated errors | published 150-line sample | **won**, 0.123 vs 0.145 |
+
+One number over both is the average of two opposite effects — and it is the number
+that would let somebody conclude from this bench without seeing the mechanism. So
+the report cuts the pages by how far the strongest candidate led its nearest rival
+(`COMPARABLE_LEAD`, 2 points, from the measured ~3.6-point lead where voting lost),
+and again by how many candidates answered: two candidates have no majority at all,
+so a tie there is broken by something other than a vote.
+
+The lead is the gap to the **nearest rival**, not to the worst candidate: a leader
+is voted down by the candidates that can outvote it, and `worst − best` would call
+a page "led" whenever one candidate collapsed, however close the other two were.
+
+A stratum with no pages prints `—` rather than a win rate of 0 %. "Not measured
+here" and "measured, and fusion never won" are different facts, and telling them
+apart is the whole reason for cutting the pages up.
+
+**What this measures and does not decide.** The lead is a *quality* gap, so it
+needs ground truth — which a bench has by definition and the pipeline does not.
+That is the line between this measurement and the conditional rule #416 sketches
+(fuse only when the candidates are close in quality): that rule would have to know
+the field's quality at recognition time, and #313 records that the match score is
+not a quality signal. So the bench answers the question and the pipeline's fusion
+stays unconditional below the no-merge band (#300), as #416 asks — *"widening the
+sample is the next step, not changing the pipeline."*
+
 ### Two things it refuses to do
 
 **It does not rank two working models.** Below 8 located pages a candidate is marked

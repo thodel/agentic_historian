@@ -295,6 +295,51 @@ class CandidateScore:
         return self.scored >= RANKABLE_PAGES
 
 
+#: How far ahead the strongest candidate may be, in CER points, and the field
+#: still count as "of comparable strength" (#416).
+#:
+#: Named rather than guessed, from the one measurement there is: on the 13
+#: reconstructed Federal-Council pages HTR+ read at 3.38 % against rivals at
+#: 7–12 %, so the leader was ~3.6 points ahead of its nearest rival, and voting
+#: lost 1.44 points. "Comparable" has to sit well below that. It is a parameter
+#: so a wider sample moves it rather than an argument settling it.
+COMPARABLE_LEAD = 0.02
+
+
+@dataclass
+class FusionStratum:
+    """Fusion's record over one kind of field.
+
+    #416's whole finding is that fusion's value is **not a property of the
+    method but of the field it is given**: where one candidate dominates weaker
+    ones, majority voting drags the leader down; where the candidates are of
+    comparable strength and err independently, it wins. One number over both
+    regimes is the average of two opposite effects, and reporting only that is
+    how the mechanism stays invisible.
+    """
+
+    label: str = ""
+    pages: int = 0
+    fusion_wins: int = 0
+    median_fused_cer: float = 0.0
+    median_best_single_cer: float = 0.0
+    #: Median margin by which the best candidate led its nearest rival.
+    median_lead: float = 0.0
+
+    @property
+    def win_share(self) -> float:
+        return self.fusion_wins / self.pages if self.pages else 0.0
+
+    @property
+    def points_lost(self) -> float:
+        """Median CER points fusion costs here. Negative = fusion is better.
+
+        The sign is the answer to #416's title, so it is a property rather than
+        something each reader subtracts in their head and occasionally inverts.
+        """
+        return self.median_fused_cer - self.median_best_single_cer
+
+
 @dataclass
 class FusionEffect:
     """Whether fusing the candidates beat the best single one, and how often."""
@@ -302,10 +347,27 @@ class FusionEffect:
     fusion_wins: int = 0
     median_fused_cer: float = 0.0
     median_best_single_cer: float = 0.0
+    #: The same question asked of each kind of field separately (#416): a field
+    #: of comparable strength, and a field with a clear leader. Empty when no
+    #: page had two candidates.
+    strata: list = field(default_factory=list)
+    #: And by how many candidates answered. Two candidates have no majority at
+    #: all — a tie is broken by something other than a vote — so mixing them
+    #: with three-candidate pages measures two mechanisms as one.
+    by_count: list = field(default_factory=list)
+    #: The threshold the strata were cut at, carried so a report cannot describe
+    #: one cut and print another.
+    comparable_lead: float = COMPARABLE_LEAD
 
     @property
     def win_share(self) -> float:
         return self.fusion_wins / self.pages if self.pages else 0.0
+
+    def stratum(self, label: str) -> FusionStratum:
+        for found in self.strata:
+            if found.label == label:
+                return found
+        return FusionStratum(label=label)
 
 
 def is_degenerate(text: str) -> bool:
@@ -415,7 +477,8 @@ def score_candidates(readings: dict[str, dict[str, str]], meta: dict[str, dict],
 
 
 def fusion_effect(readings: dict[str, dict[str, str]], references: dict[str, str],
-                  fuse_fn: Optional[Callable] = None) -> FusionEffect:
+                  fuse_fn: Optional[Callable] = None,
+                  comparable_lead: float = COMPARABLE_LEAD) -> FusionEffect:
     """Does the fused text beat the best single candidate, page by page?
 
     The question #416 asks, restricted to the candidates on the bench. Fusion
@@ -427,6 +490,24 @@ def fusion_effect(readings: dict[str, dict[str, str]], references: dict[str, str
     Pages where fewer than two candidates answered are skipped: there is
     nothing to fuse, and counting them would dilute the share with cases the
     question does not apply to.
+
+    **Answered per kind of field, not only over all pages.** #416's finding is
+    that fusion's value is not a property of the method but of the field it is
+    given: where one candidate dominates weaker ones the vote drags the leader
+    down, and where the candidates are comparable and err independently it
+    wins. Both regimes were measured, in opposite directions — so one number
+    over all pages is the average of two opposite effects, and it is the number
+    that would let someone conclude from this bench without seeing the
+    mechanism. ``strata`` cuts the pages by how far the leader led, and
+    ``by_count`` by how many candidates answered, because two candidates have
+    no majority at all.
+
+    The lead is measured **against ground truth**, which is what makes this
+    sound where the conditional rule #416 sketches is not: that rule would need
+    to know the field's quality at recognition time, and #313 records that the
+    match score is not a quality signal. A bench has the truth by definition.
+    This function therefore measures the question and does not answer it for
+    the pipeline.
     """
     if fuse_fn is None:
         def fuse_fn(texts: dict[str, str]) -> str:
@@ -436,9 +517,9 @@ def fusion_effect(readings: dict[str, dict[str, str]], references: dict[str, str
                             for name, text in texts.items()]
             return fuse(recognitions, arbitrate=False).text
 
-    effect = FusionEffect()
-    fused_cers: list[float] = []
-    best_cers: list[float] = []
+    effect = FusionEffect(comparable_lead=comparable_lead)
+    #: One row per page: (fused CER, best-single CER, lead, candidate count).
+    rows: list[tuple[float, float, float, int]] = []
 
     for key, reference in sorted(references.items()):
         texts = {model: pages[key] for model, pages in readings.items()
@@ -449,15 +530,63 @@ def fusion_effect(readings: dict[str, dict[str, str]], references: dict[str, str
         effect.pages += 1
         if table["fusion_beats_best"]:
             effect.fusion_wins += 1
-        fused_cers.append(table["fused"]["cer"])
-        best_cers.append(table["best"]["cer"])
+        ranked = sorted(entry["cer"] for entry in table["engines"].values())
+        rows.append((table["fused"]["cer"], table["best"]["cer"],
+                     ranked[1] - ranked[0], len(texts)))
 
-    effect.median_fused_cer = _quantile(fused_cers, 0.5)
-    effect.median_best_single_cer = _quantile(best_cers, 0.5)
+    effect.median_fused_cer = _quantile([r[0] for r in rows], 0.5)
+    effect.median_best_single_cer = _quantile([r[1] for r in rows], 0.5)
+    effect.strata = [
+        _stratum("Kandidaten vergleichbar stark", [r for r in rows if r[2] <= comparable_lead]),
+        _stratum("ein Kandidat führt klar", [r for r in rows if r[2] > comparable_lead]),
+    ]
+    effect.by_count = [
+        _stratum("2 Kandidaten", [r for r in rows if r[3] == 2]),
+        _stratum("3+ Kandidaten", [r for r in rows if r[3] >= 3]),
+    ]
     return effect
 
 
+def _stratum(label: str, rows: list) -> FusionStratum:
+    """One stratum's figures from its pages. Empty rows give an empty stratum —
+    zero pages, which is read as "not measured here" and never as a win rate of
+    nought."""
+    found = FusionStratum(label=label, pages=len(rows))
+    if not rows:
+        return found
+    found.fusion_wins = sum(1 for fused, best, _lead, _n in rows if fused < best)
+    found.median_fused_cer = _quantile([r[0] for r in rows], 0.5)
+    found.median_best_single_cer = _quantile([r[1] for r in rows], 0.5)
+    found.median_lead = _quantile([r[2] for r in rows], 0.5)
+    return found
+
+
 # ── The report ───────────────────────────────────────────────────────────────
+
+def _stratum_table(strata: list, note: str = "") -> list[str]:
+    """One row per kind of field. A stratum with no pages says so rather than
+    printing a win share of nought over nothing — the distinction between "not
+    measured here" and "measured, and fusion never won" is the whole point of
+    cutting the pages up."""
+    rows = ["| field | pages | fusion won | median fused | median best single "
+            "| fusion costs | median lead |",
+            "|---|---:|---:|---:|---:|---:|---:|"]
+    for found in strata:
+        if not found.pages:
+            rows.append(f"| {found.label} | 0 | — | — | — | — | — |")
+            continue
+        sign = "+" if found.points_lost > 0 else ""
+        rows.append(
+            f"| {found.label} | {found.pages} | {found.fusion_wins} "
+            f"({found.win_share:.0%}) | {found.median_fused_cer:.1%} "
+            f"| {found.median_best_single_cer:.1%} "
+            f"| {sign}{found.points_lost * 100:.2f} pt "
+            f"| {found.median_lead:.1%} |")
+    if note:
+        rows.append("")
+        rows.append(f"_{note}._")
+    return rows
+
 
 def _candidate_table(scores: list[CandidateScore]) -> list[str]:
     rows = ["| model | pages scored | median CER | p90 | best | worst | "
@@ -533,10 +662,27 @@ def format_report(scores: list[CandidateScore], effect: FusionEffect) -> str:
             f"- median fused CER **{effect.median_fused_cer:.1%}** against "
             f"median best-single **{effect.median_best_single_cer:.1%}**",
             "",
-            "This is #416's question on this bench's candidates. A candidate "
-            "that reads well alone and makes the fused text worse has not "
-            "earned a place in the ensemble: #298 measured the fusion voting "
-            "the good reading down.", ""]
+            "**That aggregate is not the answer to #416.** Fusion's value is "
+            "not a property of the method but of the field it is given, "
+            "measured in opposite directions: where one candidate dominates "
+            "weaker ones the vote drags the leader down (13 Federal-Council "
+            "pages, −1.44 points), and where the candidates are comparable and "
+            "err independently it wins (150-line sample, 0.123 against 0.145). "
+            "One number over both regimes is the average of two opposite "
+            "effects. So, cut by how far the strongest candidate led its "
+            "nearest rival:", ""]
+        lines += _stratum_table(effect.strata,
+                                f"lead ≤ {effect.comparable_lead:.0%} counts as "
+                                f"comparable")
+        lines += ["", "And by how many candidates answered — two have no "
+                      "majority at all, so a tie there is broken by something "
+                      "other than a vote:", ""]
+        lines += _stratum_table(effect.by_count)
+        lines += [
+            "",
+            "A candidate that reads well alone and makes the fused text worse "
+            "has not earned a place in the ensemble: #298 measured the fusion "
+            "voting the good reading down.", ""]
 
     lines += [
         "## What this does not say", "",
