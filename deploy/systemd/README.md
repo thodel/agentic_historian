@@ -28,7 +28,7 @@ The bot process currently holds every secret in `.env.gpustack` at once:
 
 | Secret | Reach if leaked |
 | --- | --- |
-| Discord bot token | the bot's Discord identity |
+| Discord bot token | the bot's Discord identity — and, while the application is shared with the OpenClaw agent `dh-bot`, the agent's too (S1, #566) |
 | GPUStack key | the GPU scheduler |
 | ATR gateway key | start jobs on a two-A40 host |
 | GitHub token | write on the outputs repo; branch/PR on the code repo |
