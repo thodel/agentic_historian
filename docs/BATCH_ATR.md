@@ -13,6 +13,42 @@ checkout plus a venv on a box whose single partition has been full before.
 
 ---
 
+## Ein externes Modell lesen lassen
+
+```bash
+# Key nach .env.gpustack, nie auf die Kommandozeile (argv steht in `ps`)
+python -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" --run gemini-pilot \
+  --via external --models gemini-3.8-flash \
+  --keys-from "$GT_ROOT/gemini-pilot.txt"
+```
+
+`--via external` tauscht nur den Leser; alles andere bleibt — Resumierbarkeit
+durch Anwesenheit, die Ausfall-Schaltkreise, die Berichte. Der Leser ist ein
+OpenAI-kompatibler Client gegen `GEMINI_BASE_URL`, weil `openai` ohnehin schon
+Abhängigkeit ist (GPUStack wird genauso angesprochen).
+
+**Was dabei nicht entsteht: Zeilengeometrie.** Eine Chat-Completion hat keine
+Polygone. `lines` bleibt leer, statt eine Zeile pro Newline zu erfinden — das
+sähe wie Segmentierung aus und wäre keine. Diese Lesungen sind vergleichbar und
+publizierbar, aber sie können `pagexml-hf` nicht füttern und kein Zeilenmodell
+trainieren.
+
+**Drei Dinge, die mitgeschrieben werden:**
+
+| | warum |
+|---|---|
+| `truncated` aus `finish_reason` | eine Seite am Token-Deckel kommt als normaler Erfolg zurück und bricht mitten im Satz ab |
+| die Prompt-Prüfsumme | zwei Lesungen derselben Seite unter verschiedenen Prompts sind verschiedene Messungen |
+| Token-Verbrauch pro Lauf | ein Lauf gegen eine abgerechnete API, der nicht sagen kann, was er gekostet hat, lässt sich nicht ein zweites Mal genehmigen |
+
+Der Prompt ist eine **versionierte Datei** unter `agentic_historian/prompts/`,
+`--prompt NAME` wählt sie, und ein Pfad wird abgelehnt: ein Prompt, der von
+überall kommen kann, ist einer, den kein Protokoll identifizieren kann.
+`--structured` verlangt `diplomatic` + `normalized` als JSON — ohne das hat die
+Prompt-Regel „Expansions go into the normalized field only" keinen Ort, was sich
+als „nicht expandieren" liest.
+
 ## „Alles, was Laßberg selbst geschrieben hat" — ein Join, keine Heuristik
 
 Die Hand einer *untranskribierten* Seite kann man ihr nicht ansehen: sie wird aus

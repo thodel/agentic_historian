@@ -391,6 +391,7 @@ def select_letters(pages: Sequence[PageRef], letter_ids: Sequence[str],
 
 
 def drop_keys(pages: Sequence[PageRef], keys: Sequence[str],
+              present: Optional[Sequence[str]] = None,
               ) -> tuple[list[PageRef], list[str]]:
     """The pages **without** these keys, and the keys that named no page here.
 
@@ -406,11 +407,21 @@ def drop_keys(pages: Sequence[PageRef], keys: Sequence[str],
     and a key that excluded nothing is worth seeing. 35 of them meant the share
     had stopped holding pages we have ground truth for (#535); here the same
     shape would mean the opposite — a page nobody has read because it is gone.
+
+    ``present`` is **what absence is judged against**, and leaving it out was a
+    defect with evidence on both sides. Judged against ``pages``, the same
+    exclusion list reported "35 of 276 key(s) name no page under this source"
+    when it ran over the whole corpus — the right answer, those 35 are the pages
+    the share lost — and "235 of 276" when `--letters-from` had already narrowed
+    to 57 pages, where the true answer was still 35 and the other 200 merely
+    were not in the selection. A message that means two different things
+    depending on what ran before it is worse than no message. So the caller
+    passes the corpus as discovered, and the sentence is about the source again.
     """
     unwanted = list(dict.fromkeys(keys))
-    present = {ref.key for ref in pages}
+    known = set(present) if present is not None else {ref.key for ref in pages}
     kept = [ref for ref in pages if ref.key not in set(unwanted)]
-    absent = [k for k in unwanted if k not in present]
+    absent = [k for k in unwanted if k not in known]
     return sorted(kept, key=lambda ref: ref.key), absent
 
 
