@@ -77,7 +77,23 @@ MIN_LINES_FOR_REPEAT = 6
 REPEAT_RATIO_SHORT_LINES = 0.3
 SHORT_LINE_CHARS = 12.0
 
-_RUN_RE = re.compile(r"(.)\1*")
+#: A run of the same **non-whitespace** character. Whitespace is excluded, and
+#: that exclusion has a measured cause: on 2026-10-10 a VLM reading of
+#: `Basel__lassberg-letter-1743__PA 82a B 9_Seite_030` was marked `repetitive`
+#: on a `longest_char_run` of 34, and the 34 were the spaces indenting a
+#: right-aligned signature —
+#:
+#:                                       JvLaßberg.
+#:
+#: The engines behind the gateway emit one line per text line and no layout, so
+#: this could not happen before; a model that reproduces the page's layout trips
+#: it on every indented signature, address and dateline. And the verdict is not
+#: cosmetic: the batch report says of a flagged page that "every average over
+#: them is wrong", which about a clean page is a false accusation that outlives
+#: the run.
+#:
+#: A run of 34 letters is filler. A run of 34 spaces is a layout.
+_RUN_RE = re.compile(r"([^\s])\1*")
 
 
 @dataclass
@@ -109,6 +125,10 @@ def longest_char_run(text: str) -> int:
     The cheapest signal there is for the failure that produced 8 000 zeros, and
     the one hardest to trip by accident: real prose does not repeat a character
     twenty times, and a page that does is not prose.
+
+    **Whitespace does not count** — see :data:`_RUN_RE` for the page that made
+    that necessary. Prose does not repeat a letter twenty times; it indents a
+    signature by thirty-four spaces all the time.
     """
     return max((len(m.group(0)) for m in _RUN_RE.finditer(text)), default=0)
 
