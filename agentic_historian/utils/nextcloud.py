@@ -183,11 +183,14 @@ def _status_of(exc: Exception) -> Optional[int]:
     ``HTTPError`` carries it; ``ResourceNotFound`` is webdav4's own name for the
     404 it has already interpreted. Anything else — a timeout, a DNS failure —
     has no status and says so by returning None.
+
+    Delegated to ``webdav_probe.status_of`` since #563: the account path asks
+    the same question of the same library, and two implementations of it would
+    be two answers. The name stays here because this module's callers and tests
+    use it.
     """
-    code = getattr(exc, "status_code", None)
-    if code is None and type(exc).__name__ == "ResourceNotFound":
-        return 404
-    return int(code) if code else None
+    from webdav_probe import status_of
+    return status_of(exc)
 
 
 def _what_to_change(share: ShareRef, codes: set, probe_dir: str) -> str:

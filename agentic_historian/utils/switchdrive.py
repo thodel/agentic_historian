@@ -30,12 +30,136 @@ INGEST_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".pdf"}
 
 
 def is_configured() -> bool:
-    """Check that all required SwitchDrive credentials are present."""
+    """Whether the credentials are **present**.
+
+    Not whether they are accepted — see :func:`preflight`. The distinction cost
+    an afternoon on 2026-10-09: `/pull_folder missiven` answered
+    `received 401 (Unauthorized)`, which is what this function cannot tell you,
+    and the search went network → endpoint → path → credentials in that order.
+    """
     return bool(
         config.SWITCHDRIVE_URL
         and config.SWITCHDRIVE_USER
         and config.SWITCHDRIVE_PASS
     )
+
+
+def _secret_source() -> str:
+    """Which file this process read ``SWITCHDRIVE_PASS`` from, or "" for none.
+
+    "" is the interesting answer: it means the value came from the real process
+    environment, where ``load_dotenv(override=False)`` cannot replace it. A
+    service started with a stale password keeps using it however often the file
+    is corrected — observed on the Nextcloud share on 2026-10-03, same shape.
+    """
+    source = config.ENV_SOURCE.get("SWITCHDRIVE_PASS")
+    if source is None:
+        return ""
+    try:
+        return str(Path(source).relative_to(config.REPO_ROOT))
+    except (ValueError, TypeError):              # pragma: no cover — defensive
+        return str(source)
+
+
+def _advise(layer: str, status, found) -> str:
+    """What to change, for an **account** mailbox. The share path says its own
+    thing (``nextcloud``), which is why this is a hook and not a table in
+    ``webdav_probe``."""
+    if layer == "config":
+        return ("`SWITCHDRIVE_USER` und `SWITCHDRIVE_PASS` (App-Passwort) in "
+                "`.env.gpustack` setzen, dann den Bot neu starten — "
+                "`config.py` liest die Datei beim Import.")
+    if layer == "network":
+        return (f"`{config.SWITCHDRIVE_URL}` war nicht erreichbar. Das ist der "
+                f"Host, nicht der Ordner: DNS, Firewall oder ein Ausfall von "
+                f"drive.switch.ch.")
+    if layer == "auth":
+        if status == 401:
+            where = (f"aus `{found.secret_source}`" if found.secret_source
+                     else "**aus der Prozess-Umgebung, nicht aus einer "
+                          "`.env`-Datei** — `load_dotenv(override=False)` kann "
+                          "einen dort gesetzten Wert nicht ersetzen, ein mit "
+                          "veraltetem Passwort gestarteter Dienst benutzt ihn "
+                          "weiter (`/proc/<pid>/environ` und `EnvironmentFile=` "
+                          "prüfen)")
+            return (f"Die Zugangsdaten wurden abgelehnt — nicht der Ordner, "
+                    f"nicht das Netz. Dieser Prozess bot `{found.user}` mit "
+                    f"{found.secret_chars} Zeichen {where}.\n"
+                    f"SwitchDrive-App-Passwörter werden ungültig, wenn das "
+                    f"edu-ID-Passwort wechselt oder 2FA neu eingerichtet wird: "
+                    f"drive.switch.ch → Einstellungen → Sicherheit → "
+                    f"App-Passwort erzeugen, `SWITCHDRIVE_PASS` ersetzen, Bot "
+                    f"neu starten.\n"
+                    f"Ob `{found.user}` überhaupt das richtige Konto ist, kann "
+                    f"nur ein Mensch beurteilen — im Browser oben rechts "
+                    f"nachsehen, als wer der Ordner dort sichtbar ist.")
+        if status == 403:
+            return ("Authentifiziert, aber die Wurzel ist für dieses Konto "
+                    "gesperrt. Das ist eine Kontofrage, keine Pfadfrage.")
+        return (f"Die Wurzel antwortete mit {status}. Ein Browser-Zugriff "
+                f"beweist hier nichts: der Browser hat eine Session, dieser "
+                f"Aufruf benutzt Basic-Auth.")
+    if layer == "path":
+        if status == 404:
+            return (f"Zugangsdaten sind gut — `{found.target}` existiert nicht "
+                    f"unterhalb der Wurzel **dieses** Kontos. Ein *geteilter* "
+                    f"Ordner hängt im WebDAV-Baum anders als in der Web-UI; "
+                    f"dann braucht es den Freigabe-Weg (`utils/nextcloud.py`), "
+                    f"nicht diesen.")
+        if status == 403:
+            return (f"Authentifiziert, aber keine Leseberechtigung für "
+                    f"`{found.target}`.")
+        return f"`{found.target}` antwortete mit {status}."
+    return ""
+
+
+def preflight(remote_dir: Optional[str] = None, **kw):
+    """Check configuration, host, credentials and path **separately** (#563).
+
+    The auth layer asks about the WebDAV **root**, not the target folder, and
+    that is the whole point: a ``PROPFIND`` on the target answers 401 before it
+    looks at the path, so a dead app password and a missing folder arrive as one
+    sentence. 401 at the root is the credentials; 207 at the root and 404 below
+    it is the path.
+
+    A layer after a failure reports ``unknown``, never ``failed`` — after a 401
+    nothing has been learned about the folder, and saying "path: failed" there
+    is what sent us looking at the folder first.
+    """
+    import webdav_probe
+    return webdav_probe.probe(
+        label="SwitchDrive",
+        endpoint=config.SWITCHDRIVE_URL,
+        user=config.SWITCHDRIVE_USER,
+        secret=config.SWITCHDRIVE_PASS,
+        secret_key="SWITCHDRIVE_PASS",
+        secret_source=_secret_source(),
+        target=_resolve_remote(remote_dir) if remote_dir else "",
+        exts=INGEST_EXTS,
+        advise=_advise,
+        **kw)
+
+
+def explain(exc: Exception, remote_dir: str = "") -> str:
+    """One sentence naming the thing to change, for an error from a pull.
+
+    `/pull` is the path a historian actually takes; the raw HTTP status is for
+    whoever is debugging. A 401 here means the credentials were rejected, and
+    saying so beats making them rule out the network and the folder first.
+    """
+    import webdav_probe
+    status = webdav_probe.status_of(exc)
+    found = webdav_probe.Probe(
+        label="SwitchDrive", endpoint=config.SWITCHDRIVE_URL,
+        target=_resolve_remote(remote_dir) if remote_dir else "",
+        user=config.SWITCHDRIVE_USER,
+        secret_chars=len(config.SWITCHDRIVE_PASS or ""),
+        secret_source=_secret_source())
+    if status == 401:
+        return _advise("auth", status, found)
+    if status in (403, 404):
+        return _advise("path", status, found)
+    return ""
 
 
 def _client():

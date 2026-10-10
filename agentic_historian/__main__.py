@@ -195,8 +195,15 @@ def atr_batch(args: argparse.Namespace) -> int:
     # matched against 276 ground-truth keys, matched none of them, and reported the
     # whole key list as absent from the source (#531). So when there is a key list,
     # discovery hands back the whole corpus and the cut happens after the filter.
-    cut = None if keys_file else args.limit
-    pick = None if keys_file else args.sample
+    # `--exclude-from` is the same ordering problem from the other side: cutting
+    # to 300 first and *then* removing everything already read would leave however
+    # many of those 300 happened to be unread — a number nobody chose. So any
+    # filter at all means discovery hands back the whole corpus.
+    exclude_files = [f for f in (getattr(args, "exclude_from", None) or [])
+                     if str(f).strip()]
+    filtering = bool(keys_file or exclude_files)
+    cut = None if filtering else args.limit
+    pick = None if filtering else args.sample
 
     if remote:
         # Reading the share directly, with no mirror and no mount. The cache is
@@ -284,8 +291,51 @@ def atr_batch(args: argparse.Namespace) -> int:
             print(f"Error: none of the {len(keys)} key(s) in {args.keys_from} "
                   f"name a page under {source}", file=sys.stderr)
             return 1
-        pages = batch.narrow(chosen, limit=args.limit, sample=args.sample,
+        pages = chosen
+
+    for path in exclude_files:
+        try:
+            skip = batch.read_keys(Path(path).expanduser())
+        except (OSError, ValueError) as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+        before = len(pages)
+        pages, absent = batch.drop_keys(pages, skip)
+        print(f"excluded  : {before - len(pages)} of {before} page(s) named by "
+              f"{path}", file=sys.stderr)
+        if absent:
+            # A key that excluded nothing is worth seeing. Here it means the
+            # opposite of #535: not ground truth without an image, but a reading
+            # of a page the source no longer offers.
+            shown = absent[:MISSING_KEYS_SHOWN]
+            print(f"warning: {len(absent)} of {len(skip)} excluded key(s) name no "
+                  f"page under this source:", file=sys.stderr)
+            for key in shown:
+                print(f"  - {key}", file=sys.stderr)
+            if len(absent) > len(shown):
+                print(f"  … {len(absent) - len(shown)} more", file=sys.stderr)
+        if not pages:
+            print(f"Error: {path} excluded every page under {source}",
+                  file=sys.stderr)
+            return 1
+
+    if filtering:
+        pages = batch.narrow(pages, limit=args.limit, sample=args.sample,
                              seed=args.seed)
+
+    if getattr(args, "keys_out", None):
+        # The selection, written down. A run of "the 300 nobody has read" is only
+        # repeatable if the 300 are a file: derive them again next week and a
+        # share that gained or lost a page gives a different 300, silently.
+        dest = Path(args.keys_out).expanduser()
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(
+            f"# {len(pages)} page key(s) selected under {source}\n"
+            f"# {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC"
+            + (f", minus {len(exclude_files)} exclusion list(s)"
+               if exclude_files else "")
+            + "\n" + "".join(f"{ref.key}\n" for ref in pages), encoding="utf-8")
+        print(f"keys      : {dest}  ({len(pages)} page(s))", file=sys.stderr)
 
     out_root = Path(args.out_root) if args.out_root else config.VLM_TEST_ROOT / args.run
 
@@ -400,15 +450,28 @@ def score_gt(args: argparse.Namespace) -> int:
                           score_run_dirs)
 
     gt_paths = [g for g in (args.gt or []) if str(g).strip()] or [str(config.GT_ROOT)]
+    run_dirs = [resolve_run_dir(d) for d in args.run_dir]
     try:
         files = expand_gt_paths(gt_paths)
         if getattr(args, "limit", None):
             files = files[:max(1, int(args.limit))]
-        scored, unusable, report = score_run_dirs(
-            files, [resolve_run_dir(d) for d in args.run_dir])
+        scored, unusable, report = score_run_dirs(files, run_dirs)
     except (GroundTruthError, NotADirectoryError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+
+    writers = ""
+    if getattr(args, "writer_agreement", False):
+        import writer_check
+        from gt_score import readings_from_run_dirs
+
+        # The readings are re-read rather than threaded through score_run_dirs'
+        # triple: it is some seventeen hundred small text files against seven
+        # minutes of matching, and a fourth element in that return would have to
+        # be carried by every caller that does not want it.
+        writers = writer_check.format_comparison(
+            writer_check.compare(scored, readings_from_run_dirs(run_dirs)))
+        report = f"{report}\n\n{writers}\n"
     if args.out:
         # The full report to the file, the summary to stdout. 552 pages of
         # per-page sections are the record and not something to read in a
@@ -419,6 +482,10 @@ def score_gt(args: argparse.Namespace) -> int:
         out.write_text(report, encoding="utf-8")
         print(format_summary(scored, unusable))
         print(f"\nreport: {out}  ({len(report.splitlines())} lines)")
+        # Last, because a job hands a caller the *tail* of a log and this is the
+        # answer the run was started for.
+        if writers:
+            print(f"\n{writers}")
     else:
         print(report)
     doubtful = [s for s in scored if not s.agreed_key]
@@ -745,6 +812,107 @@ def batch_seed() -> int:
     return batch.SAMPLE_SEED
 
 
+def batch(args: argparse.Namespace) -> int:
+    """Process a folder or a folder of orders with N workers (R2, #392).
+
+    A subcommand of this CLI rather than the ``python -m agentic_historian.batch``
+    the issue spelled: the package has no ``__init__.py`` and the flat
+    ``import config`` convention only works once this directory is on the path,
+    which ``__main__.py`` does once at the top. A second ``-m`` entry point
+    would mean a second copy of that fix and a second ``--help`` for anyone to
+    find. Twelve subcommands already live here, for the reason this module's
+    docstring gives: each is restartable on its own.
+    """
+    import batch_runner
+    import corpus_manifest
+
+    root = Path(args.folder).resolve()
+    run_id = args.run or root.name
+
+    # #394 turned #392's refusal into a working path. The runner calls the
+    # pipeline with publish=False and commits N documents at a time itself, so
+    # ENABLE_GITHUB_PUBLISH being on is now what makes publishing happen rather
+    # than what makes it pathological. `--allow-per-doc-publish` is kept for the
+    # one case it still serves: letting the pipeline publish each document as it
+    # used to, at one index rebuild per document.
+    if config.ENABLE_GITHUB_PUBLISH:
+        every = (args.publish_every if args.publish_every is not None
+                 else config.BATCH_PUBLISH_EVERY)
+        print("publishing: "
+              + ("one commit per document (--allow-per-doc-publish)"
+                 if args.allow_per_doc_publish else
+                 f"every {every} document(s), one commit each" if every > 0
+                 else "once at the end of the run, in one commit"))
+    elif args.publish_every:
+        print("--publish-every has no effect while ENABLE_GITHUB_PUBLISH is off.")
+
+    try:
+        source = batch_runner.inspect_source(root, mode=args.mode)
+    except batch_runner.AmbiguousSource as e:
+        print(f"{e}")
+        return 2
+    except RuntimeError as e:
+        print(f"{e}")
+        return 1
+
+    if args.requeue:
+        back = corpus_manifest.requeue(run_id)
+        print(f"requeued {len(back)} document(s) that had failed or been given up on")
+
+    print(f"{run_id}: {len(source.doc_ids)} document(s), {source.pages} page(s), "
+          f"mode={source.mode} ({source.why})")
+    if args.dry_run:
+        corpus_manifest.register(run_id, source.doc_ids, source=str(root),
+                                 label=source.mode)
+        prog = corpus_manifest.progress(run_id)
+        print(f"registered only (--dry-run): {prog.pending} pending, "
+              f"{prog.done} done, {prog.failed} failed, {prog.dead} dead")
+        for doc_id in source.doc_ids[:20]:
+            print(f"  {doc_id} ({len(source.paths[doc_id])}p)")
+        if len(source.doc_ids) > 20:
+            print(f"  … and {len(source.doc_ids) - 20} more")
+        return 0
+
+    summary = batch_runner.run_batch(
+        run_id, source, workers=args.workers, max_attempts=args.max_attempts,
+        publish_every=args.publish_every,
+        per_doc_publish=args.allow_per_doc_publish,
+        announce=_batch_announce())
+    prog = summary.progress
+    print(f"{run_id}: {prog.done} done, {prog.failed} failed, {prog.dead} dead "
+          f"in {summary.seconds / 60:.1f} min")
+    # Failed is not dead: a re-run picks those up. Only a dead letter is a
+    # non-zero exit, because only it needs somebody to look.
+    return 1 if prog.dead else 0
+
+
+def _batch_announce():
+    """Post progress to Discord when a channel and a token are configured.
+
+    A one-shot REST call, not a client: this is a CLI with no event loop, and
+    the alternative — logging into the gateway to say one sentence — is a
+    second bot presence for every batch. Failure to post never fails the batch.
+    """
+    channel = getattr(config, "VERBOSE_PROGRESS_CHANNEL_ID", None)
+    token = getattr(config, "DISCORD_BOT_TOKEN", "")
+    if not channel or not token:
+        return None
+
+    def _say(text: str) -> None:
+        from loguru import logger
+        try:
+            import requests
+            requests.post(
+                f"https://discord.com/api/v10/channels/{channel}/messages",
+                headers={"Authorization": f"Bot {token}"},
+                json={"content": text[:1900]}, timeout=15)
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"[batch] could not post progress: {e}")
+        logger.info(f"[batch] {text}")
+
+    return _say
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agentic-historian",
@@ -777,6 +945,33 @@ def build_parser() -> argparse.ArgumentParser:
                         help="Report what would be converted and exit")
     p_conv.set_defaults(func=convert_mirror)
 
+    p_corpus = sub.add_parser(
+        "batch",
+        help="Process a folder (or a folder of orders) with N workers, resumable")
+    p_corpus.add_argument("folder", help="Folder of pages, or of order subfolders")
+    p_corpus.add_argument("--run", help="Manifest run id (default: the folder name)")
+    p_corpus.add_argument("--workers", type=int, default=config.BATCH_WORKERS,
+                          help="Documents in flight at once")
+    p_corpus.add_argument("--mode", choices=["pages", "orders"], default=None,
+                          help="One document per image, or per subfolder "
+                               "(default: derived from the folder)")
+    p_corpus.add_argument("--max-attempts", type=int,
+                          default=config.BATCH_MAX_ATTEMPTS,
+                          help="Attempts before a document is given up on")
+    p_corpus.add_argument("--requeue", action="store_true",
+                          help="Put failed and given-up documents back first")
+    p_corpus.add_argument("--dry-run", action="store_true",
+                          help="Register the manifest and print the plan only")
+    p_corpus.add_argument("--publish-every", type=int, default=None,
+                          metavar="N",
+                          help="Commit N documents' outputs at a time "
+                               "(default BATCH_PUBLISH_EVERY; 0 = once at the "
+                               "end, the fewest index rebuilds)")
+    p_corpus.add_argument("--allow-per-doc-publish", action="store_true",
+                          help="Let the pipeline publish each document as it "
+                               "goes — one commit and one index rebuild each")
+    p_corpus.set_defaults(func=batch)
+
     p_batch = sub.add_parser(
         "atr-batch",
         help="Read every page under --source with every model, one model at a time",
@@ -784,6 +979,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_batch.add_argument("--source", required=True,
                          help="Directory of page images, or dav:<folder> to read "
                               "the Nextcloud share directly (needs --cache-dir)")
+    p_batch.add_argument("--exclude-from", action="append",
+                         help="A file of page keys to leave out, one per line — "
+                              "repeat for several. This is how 'the pages nobody "
+                              "has read yet' is selected: the corpus minus the "
+                              "ground-truth keys (`score-gt --keys-out`) minus an "
+                              "earlier run's keys. Applied before --limit, which "
+                              "is the only order that gives the number you asked "
+                              "for")
+    p_batch.add_argument("--keys-out",
+                         help="Write the selected page keys here. A selection "
+                              "derived again next week is a different selection "
+                              "if the share gained or lost a page; a file is not")
     p_batch.add_argument("--models", required=True,
                          help="Comma-separated gateway model ids (see GET /models)")
     p_batch.add_argument("--run", default="atr_batch", help="Run name = output subdirectory")
@@ -877,6 +1084,13 @@ def build_parser() -> argparse.ArgumentParser:
                             "Bare `--keys-out` writes GT_ROOT/gt-keys.txt, which "
                             "survives a reboot — /tmp does not, and a reboot ate "
                             "the first list after sixteen minutes of work")
+    p_sgt.add_argument("--writer-agreement", action="store_true",
+                       help="Also measure whether a machine reading is enough to "
+                            "tell whose hand a page is in: `writer_of` on each "
+                            "reading against `writer_of` on the hand-corrected "
+                            "text. The question behind selecting untranscribed "
+                            "pages by writer, which cannot be answered from the "
+                            "pages themselves")
     p_sgt.set_defaults(func=score_gt)
 
     p_hf = sub.add_parser(

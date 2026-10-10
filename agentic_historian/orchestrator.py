@@ -327,6 +327,7 @@ def run_full_pipeline(
     lang: str = "de",
     source_url: Optional[str] = None,
     on_phase=None,
+    publish: bool = True,
 ) -> PipelineResult:
     """
     Führt A → B → Kraken-Re-Run → C (→ D) Pipeline aus.
@@ -748,9 +749,17 @@ def run_full_pipeline(
 
     # Derive pipeline.json from RunState (same shape as old ctx.to_json())
     _save_pipeline_result(doc_id, ctx, from_runstate=True)
-    _published, _detail = _publish_outputs(doc_id, ctx.source_url)
-    _emit(on_phase, doc_id, "publish", "publish_github",
-          output=ctx.source_url or doc_id, decision=_detail)
+    # `publish=False` is how the batch runner takes this over: it commits N
+    # documents in one commit (#394), and the output repo rebuilds its index
+    # once per commit. Publishing here as well would be the 500-commits-per-
+    # holding this replaced.
+    if publish:
+        _published, _detail = _publish_outputs(doc_id, ctx.source_url)
+        _emit(on_phase, doc_id, "publish", "publish_github",
+              output=ctx.source_url or doc_id, decision=_detail)
+    else:
+        _emit(on_phase, doc_id, "publish", "publish_github",
+              output=doc_id, decision="deferred to the batch publish (#394)")
 
     return ctx.to_json()
 
@@ -1275,6 +1284,7 @@ def run_full_pipeline_group(
     image_paths: list,
     run_agent_d: bool = False,
     on_phase=None,
+    publish: bool = True,
 ) -> PipelineResult:
     """Process a set of images as ONE multi-page document (a WebDAV "order"/folder).
 
@@ -1412,9 +1422,17 @@ def run_full_pipeline_group(
             _emit(on_phase, doc_id, "agent_d", "D", status="error", error=str(e))
 
     _save_pipeline_result(doc_id, ctx)
-    _published, _detail = _publish_outputs(doc_id, ctx.source_url)
-    _emit(on_phase, doc_id, "publish", "publish_github",
-          output=ctx.source_url or doc_id, decision=_detail)
+    # `publish=False` is how the batch runner takes this over: it commits N
+    # documents in one commit (#394), and the output repo rebuilds its index
+    # once per commit. Publishing here as well would be the 500-commits-per-
+    # holding this replaced.
+    if publish:
+        _published, _detail = _publish_outputs(doc_id, ctx.source_url)
+        _emit(on_phase, doc_id, "publish", "publish_github",
+              output=ctx.source_url or doc_id, decision=_detail)
+    else:
+        _emit(on_phase, doc_id, "publish", "publish_github",
+              output=doc_id, decision="deferred to the batch publish (#394)")
     logger.info(f"[Orchestrator] Order fertig: {doc_id} (QA {avg_qa:.2f}, {len(pages)} Seiten)")
     return ctx.to_json()
 

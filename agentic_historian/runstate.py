@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-import os
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -215,11 +214,27 @@ class RunState(BaseModel):
         return candidate
 
     def save(self, path: Optional[Path] = None) -> Path:
+        """Persist the state, safely against another writer on the same document.
+
+        Through R3's ``shared_lock.write_json_atomic``, whose own docstring
+        names ``data/runs/*.json`` — it was added in #393 and this writer was
+        not moved over. The hazard is real as of R2 (#392): the old code wrote
+        to a **fixed** temp name, ``<doc_id>.json.tmp``, which is per document
+        and therefore safe between workers on *different* documents, and not
+        safe between two processes on the *same* one. The bot and the batch
+        runner are exactly that pair — a gate click on a document the runner is
+        working through, and both write the same temp path.
+
+        The lock also makes the mkdir/write/replace one critical section rather
+        than three, so a reader cannot catch the directory between them.
+        """
+        from shared_lock import write_json_atomic
+
         p = path or self._path(self.doc_id)
-        p.parent.mkdir(parents=True, exist_ok=True)
-        tmp = p.with_suffix(".json.tmp")
-        tmp.write_text(self.model_dump_json(indent=2), encoding="utf-8")
-        os.replace(tmp, p)          # atomic on POSIX
+        # Through the model's own serialiser, then back to an object: the
+        # pydantic JSON is the format on disk (datetimes, enums, aliases), and
+        # re-encoding it from `model_dump()` would quietly change it.
+        write_json_atomic(p, json.loads(self.model_dump_json()))
         return p
 
     @classmethod

@@ -7,6 +7,7 @@ import os
 import re
 from pathlib import Path
 from dotenv import dotenv_values, load_dotenv
+from loguru import logger
 
 # BASE_DIR = Python-Package-Wurzel; REPO_ROOT = project root (git repo or working dir)
 BASE_DIR = Path(__file__).parent.resolve()
@@ -32,16 +33,113 @@ REPO_ROOT = _REPO_ROOT_candidate
 #: the real process environment never reaches the loop.
 ENV_SOURCE: dict[str, Path] = {}
 
-for _env_file in (
+#: The files, in priority order. Named so :func:`reload_env` uses exactly this
+#: order — a reload that read them in another order would hand a different file
+#: the win and change a value nobody edited.
+ENV_FILES: tuple[Path, ...] = (
     REPO_ROOT / ".env.gpustack",
     REPO_ROOT / ".env",
     BASE_DIR / ".env",
-):
+)
+
+for _env_file in ENV_FILES:
     if _env_file.exists():
         for _k in dotenv_values(_env_file):
             if _k not in os.environ and _k not in ENV_SOURCE:
                 ENV_SOURCE[_k] = _env_file
         load_dotenv(_env_file, override=False)
+
+
+def reload_env() -> dict[str, list[str]]:
+    """Re-read the `.env` files for the keys that came **from a file**.
+
+    Returns ``{"changed": [...], "unchanged": [...], "from_environment": [...]}``
+    — key **names** only. A reload that printed values would put every secret in
+    the channel it was invoked from.
+
+    Why this is not ``importlib.reload``, and not dotenv with overriding on
+    ──────────────────────────────────────────────────────────────────────────
+    ``load_dotenv(override=False)`` writes a file's value into ``os.environ`` on
+    the first load, so every later load finds the key already present and leaves
+    it alone. Measured::
+
+        1. first load            : alt
+        2. file changed, load    : alt   <- override=False
+        3. with overriding on    : neu
+
+    A plain re-import therefore reports success and changes nothing, which is
+    worse than no reload at all. And switching overriding on across the board is
+    the opposite error: it would let a committed template overwrite a password
+    systemd supplied, which is the precedence #106 exists to protect — and the
+    guard in `test_ah_106_dotenv_no_override.py` greps this file's source for
+    that flag, prose included. It is right to be that blunt, so this paragraph
+    describes the flag instead of spelling it.
+
+    So the keys are taken from ``ENV_SOURCE``, which holds exactly those whose
+    value came from a file. Anything not in it came from the real process
+    environment and is **not touched** — it is reported under
+    ``from_environment`` instead, because "I reloaded and nothing changed" and
+    "that key cannot be reloaded from here" are different answers and the second
+    is the one that tells you where to go (``/proc/<pid>/environ``, the unit's
+    ``EnvironmentFile=``).
+
+    The caller still has to re-read the module attributes it cares about; this
+    refreshes ``os.environ`` and the module-level constants derived from it.
+    """
+    from_file = dict(ENV_SOURCE)
+    before = {key: os.environ.get(key) for key in from_file}
+    for key in from_file:
+        os.environ.pop(key, None)
+    for env_file in ENV_FILES:
+        if env_file.exists():
+            load_dotenv(env_file, override=False)
+
+    changed, unchanged = [], []
+    for key, was in before.items():
+        (changed if os.environ.get(key) != was else unchanged).append(key)
+    # A key whose file no longer defines it would now be gone from os.environ
+    # entirely. Put the old value back rather than silently unsetting a secret
+    # mid-run: a reload may not be a way to lose configuration.
+    vanished = [key for key in changed
+                if os.environ.get(key) is None and before[key] is not None]
+    for key in vanished:
+        os.environ[key] = before[key]
+        changed.remove(key)
+        unchanged.append(key)
+        logger.warning(f"[config] {key} is no longer in any .env file — "
+                       f"kept the running value")
+    _refresh()
+    logger.info(f"[config] reload: {len(changed)} changed, "
+                f"{len(unchanged)} unchanged")
+    return {"changed": sorted(changed), "unchanged": sorted(unchanged),
+            "from_environment": sorted(k for k in os.environ
+                                       if k.startswith(("SWITCHDRIVE_",
+                                                        "NEXTCLOUD_",
+                                                        "ATR_", "GPUSTACK_"))
+                                       and k not in from_file)}
+
+
+def _refresh() -> None:
+    """Recompute the module constants that :func:`reload_env` can change.
+
+    Deliberately a short, explicit list rather than a re-exec of the module:
+    re-executing would rebuild ``ENV_SOURCE`` from an ``os.environ`` that now
+    contains the file values, so every key would look as though it came from the
+    environment — the reload would destroy the one piece of information that
+    makes the next reload possible.
+    """
+    globals().update(
+        SWITCHDRIVE_URL=_get("SWITCHDRIVE_URL",
+                             "https://drive.switch.ch/remote.php/webdav"),
+        SWITCHDRIVE_USER=_get("SWITCHDRIVE_USER", ""),
+        SWITCHDRIVE_PASS=_get("SWITCHDRIVE_PASS", ""),
+        SWITCHDRIVE_REMOTE_DIR=_get("SWITCHDRIVE_REMOTE_DIR",
+                                    "agentic_historian_hotfolder"),
+        NEXTCLOUD_SHARE_URL=_get("NEXTCLOUD_SHARE_URL", ""),
+        NEXTCLOUD_SHARE_PASS=_get("NEXTCLOUD_SHARE_PASS", ""),
+        NEXTCLOUD_REMOTE_DIR=_get("NEXTCLOUD_REMOTE_DIR", ""),
+        ATR_API_KEY=_get("ATR_API_KEY", ""),
+    )
 
 
 #: What an unfilled template value looks like.
@@ -108,6 +206,16 @@ REQUIRED_DISCORD_ROLE_ID: int | None = int(_get("REQUIRED_DISCORD_ROLE_ID", "0")
 # role as REQUIRED_DISCORD_ROLE_ID (allows the same people to update). Fail-closed
 # like the base gate: 0/empty does not open it, it restricts to server admins.
 REQUIRED_ADMIN_ROLE_ID: int | None = int(_get("REQUIRED_ADMIN_ROLE_ID", "0")) or None
+
+#: The guild to register slash commands in. Set it, and a new command is usable
+#: the moment the bot restarts.
+#:
+#: Empty keeps the old behaviour — **global** commands, which Discord propagates
+#: with a delay of up to an hour. That is not a theoretical cost: `/pull_preflight`
+#: was merged, the bot was updated, and the command was still not there, with no
+#: way to tell "the code is missing" from "Discord is still rolling it out"
+#: (#589). A research bot lives on one server, so naming it is strictly better.
+DISCORD_GUILD_ID: int | None = int(_get("DISCORD_GUILD_ID", "0")) or None
 if REQUIRED_ADMIN_ROLE_ID is None:  # "0" → None fallback, inherit from ROLE_ID
     REQUIRED_ADMIN_ROLE_ID = REQUIRED_DISCORD_ROLE_ID
 
@@ -394,6 +502,32 @@ WATCHED_EXTENSIONS = frozenset(
 DATA_DIR = BASE_DIR / "data"
 # What the ATR watcher has already announced (#418), see above.
 ATR_WATCH_STATE = DATA_DIR / "atr_watch.json"
+
+# ── Credential watch (#589) ──────────────────────────────────────────────────
+#: Poll interval for the mailbox-credential watcher. Hourly: an App Passcode
+#: does not break every minute, and the cost of noticing an hour late is far
+#: below the two hours the unwatched 401 of 2026-10-09 actually cost.
+CREDENTIAL_WATCH_INTERVAL_S = float(_get("CREDENTIAL_WATCH_INTERVAL_S", "3600"))
+
+# ── Corpus batch runner (R2, #392) ───────────────────────────────────────────
+#: Documents in flight at once. Conservative, because the gateway serves one
+#: model at a time on one GPU, so more workers than this mostly queue inside it;
+#: `--workers` overrides per run.
+BATCH_WORKERS = int(_get("BATCH_WORKERS", "2"))
+#: Attempts before a document goes to the manifest's dead letter and the run
+#: carries on without it.
+BATCH_MAX_ATTEMPTS = int(_get("BATCH_MAX_ATTEMPTS", "3"))
+#: Documents per publish commit in a batch run (#394). 0 = once at the end of
+#: the run, which is the per-order case and the fewest Action runs. A positive
+#: number publishes every N documents, so a long run shows up in the catalogue
+#: as it goes instead of only at the end — at the cost of one index rebuild per
+#: commit.
+BATCH_PUBLISH_EVERY = int(_get("BATCH_PUBLISH_EVERY", "0"))
+#: Where the watcher announces. Empty = the watcher does not run, which is right
+#: for any host that is not the one doing the ingesting.
+CREDENTIAL_WATCH_CHANNEL_ID: int | None = (
+    int(_get("CREDENTIAL_WATCH_CHANNEL_ID", "0")) or None)
+ENABLE_CREDENTIAL_WATCH = CREDENTIAL_WATCH_CHANNEL_ID is not None
 TRANSCRIPTIONS_DIR = DATA_DIR / "transcriptions"
 DESCRIPTIONS_DIR = DATA_DIR / "descriptions"
 OUTPUTS_DIR = DATA_DIR / "outputs"

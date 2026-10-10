@@ -476,7 +476,8 @@ def build_server(provider=None, auth_settings=None):
     @server.tool()
     def score_ground_truth(runs: list[str], gt_dir: str | None = None,
                            limit: int | None = None,
-                           keys_out: str | None = None) -> dict:
+                           keys_out: str | None = None,
+                           writer_agreement: bool = False) -> dict:
         """Score runs' readings against hand-corrected Transkribus pages.
 
         **The one measurement here that is quality**, not disagreement: the
@@ -507,6 +508,7 @@ def build_server(provider=None, auth_settings=None):
         """
         try:
             return jobs.score_job(runs, gt_dir=gt_dir, limit=limit,
+                                  writer_agreement=writer_agreement,
                                   keys_out=keys_out)
         except jobs.JobError as exc:
             return {"ok": False, "error": str(exc)}

@@ -73,6 +73,7 @@ __all__ = [
     "result_paths",
     "is_complete",
     "classify_failure",
+    "drop_keys",
     "gateway_recogniser",
     "run_model",
     "run_batch",
@@ -357,6 +358,30 @@ def select_keys(pages: Sequence[PageRef], keys: Sequence[str],
     chosen = [by_key[k] for k in wanted if k in by_key]
     missing = [k for k in wanted if k not in by_key]
     return sorted(chosen, key=lambda ref: ref.key), missing
+
+
+def drop_keys(pages: Sequence[PageRef], keys: Sequence[str],
+              ) -> tuple[list[PageRef], list[str]]:
+    """The pages **without** these keys, and the keys that named no page here.
+
+    The counterpart of :func:`select_keys`, and it exists for a question that
+    cannot be asked the other way round: *which pages has nobody read yet?* The
+    answer is the corpus minus every key that already has ground truth and every
+    key an earlier run already produced a reading for. Those lists exist already
+    — `score-gt --keys-out` writes one and a run directory is the other — so the
+    selection is a subtraction rather than a judgement.
+
+    The unmatched keys come back for the same reason they do in `select_keys`: an
+    exclusion list from somewhere else may name pages this source does not have,
+    and a key that excluded nothing is worth seeing. 35 of them meant the share
+    had stopped holding pages we have ground truth for (#535); here the same
+    shape would mean the opposite — a page nobody has read because it is gone.
+    """
+    unwanted = list(dict.fromkeys(keys))
+    present = {ref.key for ref in pages}
+    kept = [ref for ref in pages if ref.key not in set(unwanted)]
+    absent = [k for k in unwanted if k not in present]
+    return sorted(kept, key=lambda ref: ref.key), absent
 
 
 def narrow(pages: Sequence[PageRef], limit: Optional[int] = None,
