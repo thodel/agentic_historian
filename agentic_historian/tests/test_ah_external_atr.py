@@ -244,3 +244,45 @@ def test_no_key_is_a_refusal_not_an_unknown(monkeypatch):
     monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "")
 
     assert ex.preflight("gemini-3.8-flash").refused
+
+
+# ── the strict prompt, and why it is a second file ───────────────────────────
+#
+# The first measured run produced text that is not on the page: a preamble,
+# invented structure labels, Markdown. The fix is a prompt, and a *new* one:
+# editing `lassberg_atr.md` would change the digest that identifies the run
+# already measured under it, and then the two could not be compared — which was
+# the whole reason the digest is recorded.
+
+def test_the_strict_prompt_is_a_separate_file_with_its_own_digest():
+    plain, plain_digest = ex.load_prompt("lassberg_atr.md")
+    strict, strict_digest = ex.load_prompt("lassberg_atr_strict.md")
+
+    assert plain_digest != strict_digest
+    assert plain_digest == "092fb6b0"          # what the pilot measured
+    assert plain != strict
+
+
+@pytest.mark.parametrize("forbidden", [
+    "Here is the transcription",               # the preamble it wrote
+    "[Anrede:]", "[Text:]", "[Oben rechts:]",  # the labels it invented
+    "~~strikethrough~~",                       # the markup it invented
+])
+def test_the_strict_prompt_names_what_the_run_actually_did(forbidden):
+    """Each rule answers one observed behaviour rather than a general wish."""
+    assert forbidden in ex.load_prompt("lassberg_atr_strict.md")[0]
+
+
+def test_it_narrows_the_illegibility_mark_to_a_word():
+    """The original's wording let `[...]` swallow whole lines, which is exactly
+    where the invented German appeared."""
+    text = ex.load_prompt("lassberg_atr_strict.md")[0]
+
+    assert "[...] for a single word you cannot read" in text
+    assert "Not for a line" in text
+
+
+def test_both_prompts_keep_the_palaeographic_framing():
+    """It is the useful half of the original and survives unchanged."""
+    for name in ("lassberg_atr.md", "lassberg_atr_strict.md"):
+        assert "palaeographer" in ex.load_prompt(name)[0]
