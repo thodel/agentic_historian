@@ -201,7 +201,8 @@ def atr_batch(args: argparse.Namespace) -> int:
     # filter at all means discovery hands back the whole corpus.
     exclude_files = [f for f in (getattr(args, "exclude_from", None) or [])
                      if str(f).strip()]
-    filtering = bool(keys_file or exclude_files)
+    letters_file = getattr(args, "letters_from", None)
+    filtering = bool(keys_file or exclude_files or letters_file)
     cut = None if filtering else args.limit
     pick = None if filtering else args.sample
 
@@ -292,6 +293,31 @@ def atr_batch(args: argparse.Namespace) -> int:
                   f"name a page under {source}", file=sys.stderr)
             return 1
         pages = chosen
+
+    if letters_file:
+        try:
+            letter_ids = batch.read_keys(Path(letters_file).expanduser())
+        except (OSError, ValueError) as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            return 2
+        pages, no_pages = batch.select_letters(pages, letter_ids)
+        print(f"letters   : {len(letter_ids) - len(no_pages)} of "
+              f"{len(letter_ids)} letter(s) have pages here → {len(pages)} page(s)",
+              file=sys.stderr)
+        if no_pages:
+            # Named for the same reason a missing page key is: the register is
+            # somebody else's data and covers letters this corpus may not hold.
+            shown = no_pages[:MISSING_KEYS_SHOWN]
+            print(f"warning: {len(no_pages)} letter(s) have no page under this "
+                  f"source:", file=sys.stderr)
+            for lid in shown:
+                print(f"  - {lid}", file=sys.stderr)
+            if len(no_pages) > len(shown):
+                print(f"  … {len(no_pages) - len(shown)} more", file=sys.stderr)
+        if not pages:
+            print(f"Error: none of the {len(letter_ids)} letter(s) in "
+                  f"{letters_file} has a page under {source}", file=sys.stderr)
+            return 1
 
     for path in exclude_files:
         try:
@@ -541,8 +567,23 @@ def export_hf(args: argparse.Namespace) -> int:
               + ". The page cache evicts to a cold tier after two days (#487); "
                 "pass --archive, or set ATR_PAGE_CACHE_ARCHIVE.", file=sys.stderr)
         return 1
+    book = None
+    folder = getattr(args, "register", None) or config.LASSBERG_REGISTER
+    if folder:
+        import register as reg
+
+        try:
+            book = reg.read_register(Path(folder))
+            print(f"[register] {len(book.letters)} letter(s), "
+                  f"{len(book.lassberg_letters)} by Laßberg, from {book.source}"
+                  + (f" @{book.revision}" if book.revision else ""))
+        except (NotADirectoryError, ValueError) as exc:
+            # A missing register is a fallback to the inference, not a failure:
+            # it covers 279 of some 3226 letter ids either way.
+            print(f"warning: no letter register ({exc}) — the hand will be "
+                  f"inferred from datelines alone", file=sys.stderr)
     plan = hf.plan(scored, index, require_geometry=not args.no_geometry_check,
-                   survey_lines=args.survey_lines)
+                   survey_lines=args.survey_lines, register=book)
     print(hf.format_plan(plan))
 
     # The hand is inferred, so the counts above are a claim. Write the per-page
@@ -597,6 +638,55 @@ def export_hf(args: argparse.Namespace) -> int:
           "github.com/The-Flow-Project/pagexml-hf):\n"
           f"  pagexml-hf {out_dir} \\\n"
           f"    --repo-id {args.repo_id} --private --mode raw_xml")
+    return 0
+
+
+def letter_register(args: argparse.Namespace) -> int:
+    """What the edition's correspondence register covers, and whose letters.
+
+    Read-only. Its output is a letter-id file for `atr-batch --letters-from`,
+    which is the join that makes "every page Laßberg wrote" answerable: the hand
+    of an untranscribed page cannot be read off the page, and the register
+    records it per letter.
+    """
+    import register as reg
+
+    folder = args.register or config.LASSBERG_REGISTER
+    if not folder:
+        print("Error: no register — pass --register DIR or set "
+              "LASSBERG_REGISTER. It is the edition's data/letters, from "
+              "`git clone --depth 1 https://github.com/michaelscho/lassberg`",
+              file=sys.stderr)
+        return 2
+    try:
+        book = reg.read_register(Path(folder))
+    except (NotADirectoryError, ValueError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    print(reg.format_register(book))
+
+    if args.sender_gnd:
+        ids = sorted(l.id for l in book.letters.values()
+                     if l.sender_gnd == args.sender_gnd)
+        who = f"GND {args.sender_gnd}"
+    elif args.lassberg:
+        ids = book.lassberg_letters
+        who = f"Joseph von Laßberg (GND {reg.LASSBERG_GND})"
+    else:
+        ids = sorted(book.letters)
+        who = "every sender"
+    print(f"\nselected  : {len(ids)} letter(s) — {who}")
+    if not args.out:
+        return 0
+    dest = Path(args.out).expanduser()
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(
+        f"# {len(ids)} letter id(s) — {who}\n"
+        f"# from {book.source}"
+        + (f" @{book.revision}" if book.revision else "")
+        + f", read {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC\n"
+        + "".join(f"{i}\n" for i in ids), encoding="utf-8")
+    print(f"letters   : {dest}")
     return 0
 
 
@@ -995,6 +1085,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_batch.add_argument("--source", required=True,
                          help="Directory of page images, or dav:<folder> to read "
                               "the Nextcloud share directly (needs --cache-dir)")
+    p_batch.add_argument("--letters-from",
+                         help="A file of letter ids (lassberg-letter-NNNN), one "
+                              "per line — read every page of those letters. The "
+                              "join the edition's correspondence register makes "
+                              "possible: it names a sender per letter, and "
+                              "selecting untranscribed pages by hand is "
+                              "otherwise circular. `letter-register --out` "
+                              "writes such a file")
     p_batch.add_argument("--exclude-from", action="append",
                          help="A file of page keys to leave out, one per line — "
                               "repeat for several. This is how 'the pages nobody "
@@ -1109,6 +1207,23 @@ def build_parser() -> argparse.ArgumentParser:
                             "pages themselves")
     p_sgt.set_defaults(func=score_gt)
 
+    p_reg = sub.add_parser(
+        "letter-register",
+        help="What the edition's correspondence register covers, and whose "
+             "letters — and write a letter-id file for --letters-from")
+    p_reg.add_argument("--register", default=None,
+                       help="The edition's data/letters (default: "
+                            "LASSBERG_REGISTER)")
+    p_reg.add_argument("--lassberg", action="store_true",
+                       help="Select the letters Laßberg himself sent")
+    p_reg.add_argument("--sender-gnd", default=None,
+                       help="Select one sender by GND instead. A name is a "
+                            "label and an identifier is not: 'Laßberg' is also "
+                            "written 'Lassberg' and 'Laspberg'")
+    p_reg.add_argument("--out", help="Write the selected letter ids here, for "
+                                     "`atr-batch --letters-from`")
+    p_reg.set_defaults(func=letter_register)
+
     p_hf = sub.add_parser(
         "export-hf",
         help="Assemble the located ground-truth pages into a pagexml-hf export tree")
@@ -1131,6 +1246,11 @@ def build_parser() -> argparse.ArgumentParser:
                            "days, so for anything but a run read today this is "
                            "where most pages are")
     p_hf.add_argument("--out", help="Where to write the export tree")
+    p_hf.add_argument("--register", default=None,
+                      help="The edition's data/letters (default: "
+                           "LASSBERG_REGISTER). Where it names a letter's "
+                           "sender, that decides the hand and the dateline "
+                           "inference is only the fallback")
     p_hf.add_argument("--survey-lines", type=int, default=hf_survey_lines(),
                       help="How many lines of a page the dateline survey shows. "
                            "More than the rule reads, deliberately: the survey "

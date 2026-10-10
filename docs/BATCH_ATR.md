@@ -13,6 +13,38 @@ checkout plus a venv on a box whose single partition has been full before.
 
 ---
 
+## „Alles, was Laßberg selbst geschrieben hat" — ein Join, keine Heuristik
+
+Die Hand einer *untranskribierten* Seite kann man ihr nicht ansehen: sie wird aus
+der Datierung gelesen, und die steht in der Transkription. Das Verzeichnis der
+Edition nennt den Absender pro **Brief**, und die Brief-ID steckt im
+Seitenschlüssel — damit ist es eine Nachschlage-Operation.
+
+```bash
+git clone --depth 1 https://github.com/michaelscho/lassberg
+export LASSBERG_REGISTER=$PWD/lassberg/data/letters
+
+# 1. Was das Verzeichnis abdeckt, und die Brief-IDs rausschreiben
+python -m agentic_historian letter-register --lassberg --out /tmp/lassberg-briefe.txt
+#   279 Briefe, 128 von Laßberg (GND 118778862)
+
+# 2. Alle Seiten dieser Briefe, minus alles, was schon gelesen ist, die ersten 300
+python -m agentic_historian atr-batch --source "dav:digitalisate" \
+  --cache-dir "$ATR_PAGE_CACHE" --models … --run lassberg-300 \
+  --letters-from /tmp/lassberg-briefe.txt \
+  --exclude-from "$GT_ROOT/gt-keys.txt" \
+  --limit 300 --keys-out "$GT_ROOT/lassberg-300.txt" --dry-run
+```
+
+Ein Brief, zu dem dieses Korpus keine Seite hat, wird benannt — das Verzeichnis
+ist fremde Daten, und der Share hat schon Ordner verloren (`docs/MISSING_IMAGES_2026-10-04.md`).
+Eine Seite ohne Brief-Segment (lose im Archivordner) gehört zu keinem Brief und
+wird nie ausgewählt.
+
+Zugeordnet wird über `hf_export.letter_of`, dieselbe Regel, die der Export für
+das Datensatz-Label benutzt: so können eine Seite und ihr Label nie uneins
+darüber sein, zu welchem Brief die Seite gehört.
+
 ## Die Seiten auswählen, die noch niemand gelesen hat
 
 `--keys-from` nimmt eine Liste; `--exclude-from` lässt eine weg, und mehrere

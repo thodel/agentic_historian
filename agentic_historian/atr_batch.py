@@ -74,6 +74,7 @@ __all__ = [
     "is_complete",
     "classify_failure",
     "drop_keys",
+    "select_letters",
     "gateway_recogniser",
     "run_model",
     "run_batch",
@@ -357,6 +358,35 @@ def select_keys(pages: Sequence[PageRef], keys: Sequence[str],
     by_key = {ref.key: ref for ref in pages}
     chosen = [by_key[k] for k in wanted if k in by_key]
     missing = [k for k in wanted if k not in by_key]
+    return sorted(chosen, key=lambda ref: ref.key), missing
+
+
+def select_letters(pages: Sequence[PageRef], letter_ids: Sequence[str],
+                   ) -> tuple[list[PageRef], list[str]]:
+    """The pages belonging to these letters, and the ids that matched none.
+
+    The join the edition's correspondence register makes possible. That register
+    names a *sender per letter* (`register.py`), and the corpus names pages; the
+    letter id is in the page key, so "every page of every letter Laßberg wrote"
+    is a lookup rather than an inference from the pages themselves — which is
+    circular, since a page's hand is read off its transcription and these pages
+    have none.
+
+    Matched by the letter segment of the key, through the same `letter_of` the
+    export uses, so a page and its dataset label can never disagree about which
+    letter a page belongs to. A page with no letter segment at all (loose in an
+    archive root) belongs to no letter and is never selected.
+    """
+    from hf_export import letter_of           # lazy: it pulls config and PIL
+
+    wanted = list(dict.fromkeys(letter_ids))
+    by_letter: dict[str, list[PageRef]] = {}
+    for ref in pages:
+        name = letter_of(ref.key).name
+        if name:
+            by_letter.setdefault(name, []).append(ref)
+    chosen = [ref for lid in wanted for ref in by_letter.get(lid, [])]
+    missing = [lid for lid in wanted if lid not in by_letter]
     return sorted(chosen, key=lambda ref: ref.key), missing
 
 

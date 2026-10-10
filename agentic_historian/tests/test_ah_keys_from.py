@@ -622,3 +622,75 @@ def test_the_cut_comes_after_the_exclusion():
 
     assert len(chosen) == 5
     assert [p.key for p in chosen] == ["p003", "p004", "p005", "p006", "p007"]
+
+
+# ── the join the register makes possible ─────────────────────────────────────
+#
+# "Every page Laßberg wrote, none of them transcribed yet" cannot be answered
+# from the pages: the hand is read off a transcription and these have none. The
+# edition's register names a sender per *letter*, and the letter id is in the
+# page key — so it is a lookup.
+
+def test_every_page_of_the_named_letters_is_selected():
+    pages = _pages(["Basel__lassberg-letter-1737__a_1",
+                    "Basel__lassberg-letter-1737__a_2",
+                    "Basel__lassberg-letter-1280__a_1"])
+
+    chosen, missing = batch.select_letters(pages, ["lassberg-letter-1737"])
+
+    assert [p.key for p in chosen] == ["Basel__lassberg-letter-1737__a_1",
+                                       "Basel__lassberg-letter-1737__a_2"]
+    assert missing == []
+
+
+def test_a_letter_with_no_page_here_is_named():
+    """The register is somebody else's data and covers letters this corpus may
+    not hold — 279 letter ids against a share that has lost folders before."""
+    chosen, missing = batch.select_letters(
+        _pages(["Basel__lassberg-letter-1737__a_1"]),
+        ["lassberg-letter-1737", "lassberg-letter-0626"])
+
+    assert len(chosen) == 1
+    assert missing == ["lassberg-letter-0626"]
+
+
+def test_a_page_loose_in_an_archive_root_belongs_to_no_letter():
+    """`Winterthur__101-MsBRH_466-56-071` has no letter segment, so no letter
+    id can select it."""
+    chosen, missing = batch.select_letters(
+        _pages(["Winterthur__101-MsBRH"]), ["lassberg-letter-1737"])
+
+    assert chosen == []
+    assert missing == ["lassberg-letter-1737"]
+
+
+def test_the_letter_is_identified_by_the_exports_own_rule():
+    """Through `hf_export.letter_of`, so a page and its dataset label can never
+    disagree about which letter the page belongs to — including the folder
+    fallback for `blb lassberg__K 2911,104`."""
+    import hf_export as hf
+
+    pages = _pages(["Aarau__upload__lassberg-letter-0892__00012"])
+
+    chosen, _ = batch.select_letters(pages, ["lassberg-letter-0892"])
+
+    assert len(chosen) == 1
+    assert hf.letter_of(chosen[0].key).name == "lassberg-letter-0892"
+
+
+def test_the_selection_is_in_corpus_order():
+    pages = _pages(["Basel__lassberg-letter-1737__a_2",
+                    "Basel__lassberg-letter-1737__a_1"])
+
+    chosen, _ = batch.select_letters(pages, ["lassberg-letter-1737"])
+
+    assert [p.key for p in chosen] == ["Basel__lassberg-letter-1737__a_1",
+                                       "Basel__lassberg-letter-1737__a_2"]
+
+
+def test_a_repeated_letter_id_does_not_duplicate_its_pages():
+    pages = _pages(["Basel__lassberg-letter-1737__a_1"])
+
+    chosen, _ = batch.select_letters(pages, ["lassberg-letter-1737"] * 3)
+
+    assert len(chosen) == 1

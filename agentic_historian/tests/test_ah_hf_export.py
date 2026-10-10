@@ -1136,3 +1136,152 @@ def test_the_survey_width_is_carried_not_counted_back(tmp_path):
 
     assert p.survey_lines == 3
     assert "first 3 line(s)" in hf.format_plan(p)
+
+
+# ── the register decides, the dateline is the fallback ───────────────────────
+#
+# The hand is recorded after all, in the edition's own correspDesc. Where it
+# reaches, it replaces the inference — and it settled every case the dateline
+# rule had left open: the three letters whose dated pages disagreed are all
+# Laßberg's, and `-1280`, whose third line reads "nach Eppishausen befördert",
+# is Pupikofer's.
+
+class _Register:
+    """Stands in for register.Register: the plan reads `get`."""
+
+    def __init__(self, letters):
+        self.letters = letters
+
+    def get(self, letter_id):
+        return self.letters.get(letter_id)
+
+
+class _Letter:
+    def __init__(self, lid, project, evidence="register: X [GND 1]"):
+        self.id, self.project, self.evidence = lid, project, evidence
+
+
+def test_a_recorded_sender_decides_against_the_dateline(tmp_path):
+    """`lassberg-letter-1280` reads as a correspondent's and is one; the point is
+    that the record wins even when the dateline says otherwise."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", WACKERNAGEL),
+    ])
+    book = _Register({"lassberg-letter-1737": _Letter("lassberg-letter-1737",
+                                                      "lassberg")})
+
+    p = hf.plan(scored, index, register=book)
+
+    assert p.by_project == {"lassberg": 1}
+    assert p.entries[0].from_register and p.hands.from_register == 1
+    assert p.entries[0].evidence.startswith("register:")
+
+
+def test_a_disagreement_is_reported_not_resolved_in_silence(tmp_path):
+    """The register wins because it is a record, but one of the two is then wrong
+    about this letter."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", WACKERNAGEL),
+    ])
+    book = _Register({"lassberg-letter-1737": _Letter("lassberg-letter-1737",
+                                                      "lassberg")})
+
+    p = hf.plan(scored, index, register=book)
+
+    assert p.hands.disputed == [("lassberg-letter-1737", "lassberg",
+                                 "korrespondenten", "basel")]
+    text = hf.format_plan(p)
+    assert "register and the dateline disagree" in text
+    assert "lassberg-letter-1737" in text
+
+
+def test_agreement_is_not_reported_as_a_dispute(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", LASSBERG),
+    ])
+    book = _Register({"lassberg-letter-1737": _Letter("lassberg-letter-1737",
+                                                      "lassberg")})
+
+    assert hf.plan(scored, index, register=book).hands.disputed == []
+
+
+def test_a_page_the_rule_could_not_read_is_no_dispute(tmp_path):
+    """`unbestimmt` is an absence of evidence, so there is nothing to disagree
+    with — `lassberg-letter-1209` is exactly this case."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1209__a_1", APPEAL),
+    ])
+    book = _Register({"lassberg-letter-1209": _Letter("lassberg-letter-1209",
+                                                      "korrespondenten")})
+
+    p = hf.plan(scored, index, register=book)
+
+    assert p.hands.disputed == []
+    assert p.by_project == {"korrespondenten": 1}
+
+
+def test_every_page_of_a_recorded_letter_is_decided(tmp_path):
+    """The record is about the letter, so a continuation page needs no
+    inheritance — it is covered directly."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", LASSBERG),
+        ("Basel__lassberg-letter-1737__a_2", APPEAL),
+    ])
+    book = _Register({"lassberg-letter-1737": _Letter("lassberg-letter-1737",
+                                                      "lassberg")})
+
+    p = hf.plan(scored, index, register=book)
+
+    assert p.by_project == {"lassberg": 2}
+    assert p.hands.from_register == 2 and p.hands.inherited == 0
+
+
+def test_a_letter_the_register_does_not_cover_falls_back_to_the_dateline(tmp_path):
+    """279 letter ids of some 3226, so most pages still depend on the rule."""
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-9999__a_1", LASSBERG),
+    ])
+
+    p = hf.plan(scored, index, register=_Register({}))
+
+    assert p.by_project == {"lassberg": 1}
+    assert not p.entries[0].from_register
+    assert p.hands.from_register == 0
+
+
+def test_no_register_at_all_is_the_old_behaviour(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", WACKERNAGEL),
+    ])
+
+    p = hf.plan(scored, index)
+
+    assert p.by_project == {"korrespondenten": 1}
+    assert p.hands.from_register == 0 and p.hands.disputed == []
+
+
+def test_the_writers_table_says_register(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", LASSBERG),
+    ])
+    book = _Register({"lassberg-letter-1737": _Letter("lassberg-letter-1737",
+                                                      "lassberg")})
+
+    rows = hf.writers_table(hf.plan(scored, index, register=book)
+                            ).strip().splitlines()
+
+    assert rows[1].split("\t")[4] == "register"
+
+
+def test_the_plan_counts_the_register_apart_from_the_dateline(tmp_path):
+    scored, index = _letter(tmp_path, [
+        ("Basel__lassberg-letter-1737__a_1", LASSBERG),
+        ("Basel__lassberg-letter-9999__a_1", WACKERNAGEL),
+    ])
+    book = _Register({"lassberg-letter-1737": _Letter("lassberg-letter-1737",
+                                                      "lassberg")})
+
+    text = hf.format_plan(hf.plan(scored, index, register=book))
+
+    assert "from the register" in text
+    assert "a recorded sender, not an inference" in text
