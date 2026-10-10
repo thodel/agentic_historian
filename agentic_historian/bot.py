@@ -177,6 +177,59 @@ def deploy_admin_only(func):
     return functools.wraps(func)(wrapper)
 
 
+# ── Cost / DoS throttle (SEC-11, #582) ───────────────────────────────────────
+#
+# All blocking work runs through one FIFO queue with a single worker, so an
+# unthrottled member can hold the queue — and the GPUs/LLM — for minutes by
+# repeating an expensive command. The role gate (SEC-1) caps WHO can run these;
+# this caps HOW OFTEN each person can, with a short per-(user, command) cooldown.
+EXPENSIVE_COOLDOWN_S = 60.0
+_last_expensive: dict[tuple[int, str], float] = {}
+
+
+def _cooldown_remaining(ctx, command: str, *, seconds: float | None = None) -> float:
+    """Seconds the caller must still wait before re-running *command*, or 0.0 if
+    it may run now (recording the attempt when it is allowed)."""
+    window = EXPENSIVE_COOLDOWN_S if seconds is None else seconds
+    uid = getattr(getattr(ctx, "author", None), "id", 0)
+    now = time.time()
+    remaining = window - (now - _last_expensive.get((uid, command), 0.0))
+    if remaining > 0:
+        return remaining
+    _last_expensive[(uid, command)] = now
+    return 0.0
+
+
+async def _cooldown_block(ctx, command: str) -> bool:
+    """Tell the caller to wait and return True if *command* is on cooldown for
+    them; otherwise record the run and return False. Call right after defer()."""
+    wait = _cooldown_remaining(ctx, command)
+    if wait > 0:
+        await ctx.followup.send(
+            f"⏳ Zu schnell — bitte {int(wait) + 1}s warten, bevor `/{command}` erneut läuft.")
+        return True
+    return False
+
+
+# ── Entity-index cache (SEC-11, #582) ────────────────────────────────────────
+#
+# /entity rebuilt the index from data/outputs on EVERY call, walking the tree
+# each time. Cache it briefly so a burst of look-ups does not re-walk repeatedly.
+ENTITY_INDEX_TTL_S = 60.0
+_entity_index_cache: dict = {"index": None, "at": 0.0}
+
+
+def _get_entity_index():
+    """The entity index, rebuilt at most once per ENTITY_INDEX_TTL_S (SEC-11)."""
+    import entity_index
+    now = time.time()
+    if (_entity_index_cache["index"] is None
+            or now - _entity_index_cache["at"] > ENTITY_INDEX_TTL_S):
+        _entity_index_cache["index"] = entity_index.build_index(config.OUTPUTS_DIR)
+        _entity_index_cache["at"] = now
+    return _entity_index_cache["index"]
+
+
 async def _worker() -> None:
     """Single consumer: run queued blocking jobs serially, one thread at a time.
 
@@ -485,9 +538,8 @@ async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=T
     # Thin shell over entity_index (#33/#224): (re)build from data/outputs, look up.
     await ctx.defer()
     try:
-        import config
         import entity_index
-        index = entity_index.build_index(config.OUTPUTS_DIR)
+        index = _get_entity_index()              # SEC-11 (#582): cached, not rebuilt per call
         entry = entity_index.lookup(index, name)
         if entry is None:
             suggestions = entity_index.suggest(index, name)
@@ -918,6 +970,8 @@ async def run_agent_a_cmd(
 @require_role
 async def hotfolder(ctx):
     await ctx.defer()
+    if await _cooldown_block(ctx, "hotfolder"):      # SEC-11 (#582)
+        return
     try:
         results = await _run_blocking(ctx, run_hot_folder)
         if results is None:
@@ -1119,6 +1173,8 @@ async def agent_d_cmd(
     corpus_name: Option(str, "Corpus name", required=False, default="default"),
 ):
     await ctx.defer()
+    if await _cooldown_block(ctx, "agent_d"):        # SEC-11 (#582)
+        return
     try:
         from agents import corpus_analysis
         try:
@@ -1145,6 +1201,8 @@ async def agent_d_cmd(
 @require_role
 async def agent_e_cmd(ctx):
     await ctx.defer()
+    if await _cooldown_block(ctx, "agent_e"):        # SEC-11 (#582)
+        return
     try:
         result = await _run_blocking(ctx, run_agent_e)
         if result is None:
