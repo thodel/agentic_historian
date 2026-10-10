@@ -9,6 +9,13 @@ the hardcoded A→B→C sequence.
 
 Prototype / opt-in. The registry contains only read/process tools (no destructive
 operations), and unknown tools or bad params are dropped/reported, never executed.
+
+Off by default (S4, #569). The whole LLM-orchestration overlay — this planner and
+``orchestrator_llm`` — sits behind ``ORCHESTRATOR_LLM_ENABLED`` (default ``false``).
+The standalone bot runs only through its registered slash commands and gate views;
+no slash command is wired to this planner, and with the flag off :func:`plan` and
+:func:`run` refuse without calling the model, so there is no path from Discord to
+the LLM planner.
 """
 
 from __future__ import annotations
@@ -53,7 +60,16 @@ def _parse_plan(raw: str) -> list[dict]:
 
 
 def plan(instruction: str) -> list[dict]:
-    """Ask the LLM for a tool-call plan; return only steps for known tools."""
+    """Ask the LLM for a tool-call plan; return only steps for known tools.
+
+    Gated behind ``ORCHESTRATOR_LLM_ENABLED`` (S4, #569): off by default, so this
+    returns ``[]`` without calling the model — the planner is unreachable unless
+    the overlay is explicitly enabled.
+    """
+    if not config.ORCHESTRATOR_LLM_ENABLED:
+        logger.info("[NL] planner overlay is off "
+                    "(ORCHESTRATOR_LLM_ENABLED=false) — no plan")
+        return []
     raw = gs.chat_text(build_prompt(instruction), system=None,
                        max_tokens=getattr(config, "GPUSTACK_TEXT_MAX_TOKENS", 4096))
     known = {t["name"] for t in agent_tools.list_tools()}
@@ -72,7 +88,12 @@ def run(instruction: str, execute: bool = True) -> dict:
 
     Each result records the tool name and success; a failing step is reported and
     does not stop the plan.
+
+    Off by default (S4, #569): with ``ORCHESTRATOR_LLM_ENABLED`` false this refuses
+    outright — no plan, no tool execution — and reports ``disabled``.
     """
+    if not config.ORCHESTRATOR_LLM_ENABLED:
+        return {"plan": [], "results": [], "errors": [], "disabled": True}
     steps = plan(instruction)
     out: dict = {"plan": steps, "results": [], "errors": []}
     if not execute:

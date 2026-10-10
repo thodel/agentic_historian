@@ -35,7 +35,9 @@ routing_card.py   — HITL Gate-1 routing card (metadata selects → re-route HT
 path_compare.py   — HITL Gate-2 path-comparison card (measured CER)
 uncertainty.py    — HITL gate-blocking rules + timeouts (when a gate interrupts)
 agent_tools.py    — uniform tool registry over the agents (A–E callable by name, #41)
-nl_orchestrator.py — NL/Scholar-in-the-Loop planner: LLM picks which agent tools to run (#32)
+nl_orchestrator.py — NL/Scholar-in-the-Loop planner: LLM picks which agent tools to run (#32).
+                    Optional overlay, OFF by default (ORCHESTRATOR_LLM_ENABLED); no slash
+                    command reaches it, and the standalone bot runs without it (S4, #569).
 semantic.py       — embedding retrieval + reproducible clustering with LLM labels (#28)
 utils/publish_github.py — publish outputs to the public catalogue repo (one commit/doc, #200)
 knowledge_hub/store.py  — swappable HubStore backend seam (JSON today, QLEVER at WP4, #26)
@@ -126,7 +128,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `VERBOSE_PROGRESS_CHANNEL_ID` | Channel for background runs; unset = the invoking channel |
 | `AUTO_RESUME_AFTER_GATE` | Re-run B/C automatically after a gate decision (default `false`) |
 | `ENABLE_ROUTING_PRIOR` | Additive routing prior from historian feedback in model selection (default `false`) |
-| `ORCHESTRATOR_LLM_ENABLED` | Optional LLM routing overlay for Phase 4+ decisions (default `false`) |
+| `ORCHESTRATOR_LLM_ENABLED` | Optional LLM-orchestration overlay (`nl_orchestrator` + `orchestrator_llm`), **off by default**; no slash command reaches the planner while it is off (S4, #569) |
 | `KH_BACKEND` | Knowledge-hub store backend (`json` today; QLEVER at WP4) |
 
 See `workspace/gpustack.env.example` for the full template.
