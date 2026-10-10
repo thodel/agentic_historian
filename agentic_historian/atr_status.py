@@ -22,7 +22,10 @@ from the environment, never from a message.
 
 from __future__ import annotations
 
+import re
+
 import httpx
+from loguru import logger
 
 import config
 
@@ -30,9 +33,34 @@ import config
 LIMIT = 1900
 TIMEOUT_S = 30
 
+#: A job id is interpolated into a gateway URL path (``/train/jobs/{job_id}``), so
+#: it must not be able to steer the request. Letters, digits, dot, underscore and
+#: hyphen only, 1–64 chars (SEC-6, #577). Real ids — uuids, ``train-<date>-…`` —
+#: fit; ``../../models``, ``?x=1`` and ``#frag`` do not.
+_JOB_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
+
 
 class AtrStatusError(RuntimeError):
     """The gateway could not answer. Carries what to tell the user."""
+
+
+def _safe_job_id(job_id: str) -> str:
+    """Validate *job_id* before it goes into a gateway URL path (SEC-6, #577).
+
+    ``job`` and ``log`` put the id straight into ``/train/jobs/{job_id}``.
+    Unchecked, a role-holder's ``../../models`` turned the call into
+    ``GET /models`` at the gateway — carrying the bot's API key — ``?x=1``
+    appended a query parameter and ``#`` truncated the path. Restrict it to a
+    tight character set and reject the traversal specials ``.`` / ``..``, so only
+    a plausible id can reach the URL; anything else is refused with a message the
+    caller sees instead of a redirected request.
+    """
+    jid = (job_id or "").strip()
+    if jid in (".", "..") or not _JOB_ID_RE.match(jid):
+        raise AtrStatusError(
+            f"ungültige Job-ID {job_id!r} — erlaubt sind Buchstaben, Ziffern, "
+            "'.', '_' und '-' (max. 64 Zeichen)")
+    return jid
 
 
 async def _get(path: str, params: dict | None = None):
@@ -42,14 +70,17 @@ async def _get(path: str, params: dict | None = None):
         async with httpx.AsyncClient(timeout=TIMEOUT_S) as client:
             response = await client.get(url, headers=headers, params=params)
     except httpx.HTTPError as exc:
-        # Name the URL. "Connection failed" without it sends the reader to the
-        # wrong box, and this one is reachable only over the VPN.
-        raise AtrStatusError(f"{type(exc).__name__} talking to {url}") from exc
+        # SEC-14 (#585): the URL (an internal VPN host) and any body are for the
+        # operator's log, not the channel — _atr posts this message verbatim.
+        logger.warning("[atr] {} talking to {}", type(exc).__name__, url)
+        raise AtrStatusError("Das ATR-Gateway ist nicht erreichbar.") from exc
     if response.status_code == 401:
         raise AtrStatusError("the gateway rejected the API key (401)")
     if response.status_code >= 400:
-        raise AtrStatusError(f"{url} answered {response.status_code}: "
-                             f"{response.text[:200]}")
+        logger.warning("[atr] {} answered {}: {}", url, response.status_code,
+                       response.text[:200])
+        raise AtrStatusError(
+            f"Das ATR-Gateway hat mit Status {response.status_code} geantwortet.")
     return response.json()
 
 
@@ -79,7 +110,7 @@ async def jobs(summary: bool = False) -> dict:
 
 
 async def job(job_id: str) -> dict:
-    return await _get(f"/train/jobs/{job_id}")
+    return await _get(f"/train/jobs/{_safe_job_id(job_id)}")
 
 
 async def gpu() -> dict:
@@ -98,7 +129,7 @@ async def serving_gpu() -> dict:
 
 
 async def log(job_id: str, lines: int = 30, stage: str = "train") -> dict:
-    return await _get(f"/train/jobs/{job_id}/log",
+    return await _get(f"/train/jobs/{_safe_job_id(job_id)}/log",
                       {"stage": stage, "lines": lines})
 
 

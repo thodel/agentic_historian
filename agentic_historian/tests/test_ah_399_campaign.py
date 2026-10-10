@@ -756,7 +756,8 @@ class _Ctx:
     def __init__(self):
         self.sent = []
         self.threads = []
-        self.guild = SimpleNamespace(id=1)
+        # Authorised caller for the fail-closed gate (#572): the guild owner.
+        self.guild = SimpleNamespace(id=1, owner_id=77)
         self.author = SimpleNamespace(id=77, roles=[])
 
         async def _defer(ephemeral=False):

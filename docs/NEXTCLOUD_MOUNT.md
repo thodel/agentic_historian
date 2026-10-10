@@ -42,7 +42,7 @@ sudo mkdir -p /mnt/gwdg
 **The endpoint.** A share link is a browser URL, not a WebDAV one. This share,
 
 ```
-https://cloud.gugw.tu-darmstadt.de/nextcloud/s/FaGXMmkkoY23eaA
+https://cloud.gugw.tu-darmstadt.de/nextcloud/s/<share-token>
 ```
 
 is served by a Nextcloud mounted under `/nextcloud`, so the path prefix belongs
@@ -57,15 +57,21 @@ https://cloud.gugw.tu-darmstadt.de/nextcloud/public.php/webdav
 - named account → `https://<host><prefix>/remote.php/dav/files/<user>/`
 
 **Credentials.** A public share link is its own account: the username is the share
-token — the part after `/s/`, here `FaGXMmkkoY23eaA` — and the password is the
-share password (the same one already in `.env` as `NEXTCLOUD_SHARE_PASS`). A named
-account uses the account name and an *app password*, never the login password.
+token — the part after `/s/` in the share URL, written below as `<share-token>` —
+and the password is the share password (the same one already in `.env` as
+`NEXTCLOUD_SHARE_PASS`). A named account uses the account name and an *app
+password*, never the login password.
+
+> The real token is not written in this file (SEC-17, #588): it is half a
+> credential for a password-protected share and does not belong in public docs.
+> Substitute the actual token from the share URL when you fill in the secrets
+> file, and rotate the share if the token has been exposed publicly.
 
 ```bash
 # /etc/davfs2/secrets      — root only, or davfs2 refuses to read it
 sudo install -m 600 /dev/null /etc/davfs2/secrets
 sudo tee -a /etc/davfs2/secrets >/dev/null <<'EOF'
-https://cloud.gugw.tu-darmstadt.de/nextcloud/public.php/webdav  FaGXMmkkoY23eaA  <share password>
+https://cloud.gugw.tu-darmstadt.de/nextcloud/public.php/webdav  <share-token>  <share password>
 EOF
 ```
 

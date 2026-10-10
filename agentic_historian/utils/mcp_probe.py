@@ -21,15 +21,78 @@ report.
 from __future__ import annotations
 
 import asyncio
+import ipaddress
 import json
 import re
+import socket
 from dataclasses import dataclass, field
 from typing import Any, Callable, Optional
+from urllib.parse import urljoin, urlsplit
 
 import httpx
 
 _PROTOCOL_VERSION = "2024-11-05"
 _TIMEOUT = 5.0
+
+
+# ── SSRF guard (SEC-7, #578) ───────────────────────────────────────────────────
+#
+# /mcp_propose probes a user-supplied URL with the bot's credentials. Unchecked,
+# the probe (and its 307/308 redirect handling) could be pointed at an internal
+# target — 127.0.0.1:8300 is the MCP server, idhefix and GPUStack sit on the VPN —
+# turning the bot into a request proxy into the private network. The guard refuses
+# anything but an https URL whose host resolves entirely into public address space,
+# and it is applied BEFORE the probe connects and again before any redirect is
+# followed.
+
+def _resolve_ips(host: str) -> list[str]:
+    """Every IP a host resolves to. A bare IP literal resolves to itself with no
+    DNS lookup. Isolated so tests can inject a resolver."""
+    return [info[4][0] for info in socket.getaddrinfo(host, None)]
+
+
+def _is_blocked_ip(ip_str: str) -> bool:
+    """True if *ip_str* is anything but a normal public address — loopback,
+    private, link-local (incl. the cloud metadata address), reserved, multicast
+    or unspecified. An unparseable value is blocked."""
+    try:
+        ip = ipaddress.ip_address(ip_str)
+    except ValueError:
+        return True
+    return (ip.is_private or ip.is_loopback or ip.is_link_local
+            or ip.is_reserved or ip.is_multicast or ip.is_unspecified)
+
+
+def url_guard(url: str) -> Optional[str]:
+    """Return a human-readable refusal if *url* is not a safe public https target,
+    else ``None`` (SEC-7, #578). Resolves the host and refuses if any resolved
+    address is internal, so a redirect/DNS that lands inside the network is caught.
+    """
+    parts = urlsplit(url or "")
+    if parts.scheme != "https":
+        return f"⛔ Die URL muss `https://` sein (erhalten: `{url}`)."
+    host = parts.hostname
+    if not host:
+        return f"⛔ Ungültige URL: `{url}`."
+    try:
+        ips = _resolve_ips(host)
+    except Exception:
+        return f"⛔ Host `{host}` konnte nicht aufgelöst werden — Probe abgelehnt."
+    if not ips or any(_is_blocked_ip(ip) for ip in ips):
+        return (f"⛔ Ziel `{host}` liegt in einem internen/privaten Adressbereich "
+                "— der SSRF-Schutz lehnt die Probe ab.")
+    return None
+
+
+def _safe_redirect(base_url: str, location: str) -> Optional[str]:
+    """The absolute URL a redirect points to, but only if it is still a safe
+    public https target (SEC-7, #578). ``None`` refuses the redirect. The legit
+    case this keeps is the trailing-slash redirect on the same host; the case it
+    blocks is a bounce to 127.0.0.1:8300 or another internal address."""
+    if not location:
+        return None
+    target = urljoin(base_url, location)
+    return target if url_guard(target) is None else None
 
 
 # ── Report dataclass ──────────────────────────────────────────────────────────
@@ -138,9 +201,12 @@ async def _probe_http(url: str, *, timeout: float = _TIMEOUT) -> dict | None:
     async def _do_post(client, target_url):
         r = await client.post(target_url, json=init_req, headers=headers)
         if r.status_code in (307, 308):
-            location = r.headers.get("location", "")
-            if location:
-                return await client.post(location, json=init_req, headers=headers)
+            # SSRF (#578): follow only to a safe public https target (the legit
+            # case is the trailing-slash redirect on the same host), never to an
+            # internal address the server points us at.
+            follow = _safe_redirect(target_url, r.headers.get("location", ""))
+            if follow:
+                return await client.post(follow, json=init_req, headers=headers)
             return r
         return r
 
@@ -198,8 +264,9 @@ async def _probe_sse(url: str, *, timeout: float = _TIMEOUT) -> dict | None:
     list_req = {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}}
 
     try:
+        # SSRF (#578): do not follow redirects off /sse onto an internal target.
         async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, read=timeout),
-                                     follow_redirects=True) as client:
+                                     follow_redirects=False) as client:
             async with client.stream("GET", f"{url}/sse",
                                      headers=headers) as stream:
                 stream.raise_for_status()
@@ -303,8 +370,9 @@ async def _sample_search(url: str, transport: str, tool: str,
             search_req = {"jsonrpc": "2.0", "id": 2, "method": tool,
                           "params": {"query": "Johann", "limit": 3}}
 
+            # SSRF (#578): same as _probe_sse — no redirect off /sse.
             async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, read=timeout),
-                                         follow_redirects=True) as client:
+                                         follow_redirects=False) as client:
                 async with client.stream("GET", f"{url}/sse",
                                          headers=headers) as stream:
                     stream.raise_for_status()

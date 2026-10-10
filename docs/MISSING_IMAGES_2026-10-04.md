@@ -2,7 +2,7 @@
 
 35 Seiten der Laßberg-Korrespondenz haben in Transkribus handkorrigierten Text
 (Status DONE oder FINAL), aber auf dem GWDG-Nextcloud-Share
-(`…/s/FaGXMmkkoY23eaA`, Ordner `digitalisate`) kein Bild mehr. Geprüft mit einer
+(`…/s/<share-token>`, Ordner `digitalisate`) kein Bild mehr. Geprüft mit einer
 frisch gelesenen Dateiliste, nicht aus dem Cache: der Share enthält aktuell
 **6722 Dateien, 73,98 GB**, am 2. Oktober waren es 6742.
 

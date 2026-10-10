@@ -143,12 +143,19 @@ _AUTHORITIES = (
     ("wikidata", "WD", "https://www.wikidata.org/entity/{}"),
 )
 
+#: Authority ids come from the LLM, and they are interpolated into a Markdown
+#: link in the published index.md. A tight character set (SEC-15, #586) keeps a
+#: manipulated id — a space, a ``)``, a ``[``, a newline — from closing the link
+#: early and injecting a different one on the public GitHub-Pages page. Real ids
+#: (GND ``4074335-4``, HLS ``de/articles/…``, Wikidata ``Q42``) all fit.
+_AUTHORITY_ID_RE = re.compile(r"^[A-Za-z0-9._/-]{1,64}$")
+
 
 def _entity_links(ent: dict) -> str:
     out = []
     for key, label, tmpl in _AUTHORITIES:
-        v = ent.get(key) or ent.get(f"{key}_id")
-        if v:
+        v = _val(ent.get(key) or ent.get(f"{key}_id")).strip()
+        if v and _AUTHORITY_ID_RE.match(v):
             out.append(f"[{label}]({tmpl.format(v)})")
     return " · ".join(out)
 

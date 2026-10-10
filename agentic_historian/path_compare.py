@@ -21,6 +21,7 @@ from loguru import logger
 from feedback_logger import log_routing_feedback
 
 import config
+import gate_guard
 from eval.metrics import cer
 from runstate import ClosestReadingText, RunState
 
@@ -659,5 +660,12 @@ def build_view(state: RunState, paths: dict[str, str],
                 self.add_item(_ToggleButton(name))
             self.add_item(_ConfirmButton())
             self.add_item(_RejectButton())
+
+        async def interaction_check(self, interaction, /) -> bool:
+            # SEC-4 (#575): a Gate-2 vote flows into the preference log, the routing
+            # prior and the published RDF export, so only a role-holder may toggle,
+            # confirm or reject. The check runs before any button callback (and
+            # before their _defer), so a refusal never double-responds.
+            return await gate_guard.enforce_gate(interaction)
 
     return PathComparisonView()

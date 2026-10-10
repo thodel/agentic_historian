@@ -276,7 +276,7 @@ times in a day.
 In `.env.gpustack` at the repo root (never committed):
 
 ```ini
-NEXTCLOUD_SHARE_URL=https://cloud.gugw.tu-darmstadt.de/nextcloud/s/FaGXMmkkoY23eaA
+NEXTCLOUD_SHARE_URL=https://cloud.gugw.tu-darmstadt.de/nextcloud/s/<share-token>
 NEXTCLOUD_SHARE_PASS=…          # the share password
 NEXTCLOUD_REMOTE_DIR=digitalisate
 ```

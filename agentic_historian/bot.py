@@ -61,45 +61,189 @@ _job_queue: "asyncio.Queue" = asyncio.Queue()
 _worker_task = None
 
 
-# ── Role-based access control (#105) ────────────────────────────────────────
+# ── Role-based access control (#105, fail-closed #572) ───────────────────────
+#
+# Fail-CLOSED (#572): an unset role id no longer means "open to everyone". When
+# no role is configured a gated command is refused to ordinary members; only a
+# Discord server admin / guild owner may run it (so the operator is never locked
+# out while the gate is unconfigured), and a warning is logged pointing at the
+# fix. Set REQUIRED_DISCORD_ROLE_ID to restrict commands to exactly that role.
+import functools
+
+
+def _caller_role_ids(ctx) -> set:
+    """The role ids the invoking member carries (empty set when unknown)."""
+    return {role.id for role in getattr(ctx.author, "roles", None) or []}
+
+
+def _is_guild_admin(ctx) -> bool:
+    """A Discord server admin or the guild owner — the floor when no role gate is
+    configured, so ordinary members are refused but the operator is not."""
+    guild = getattr(ctx, "guild", None)
+    author = getattr(ctx, "author", None)
+    if guild is not None and getattr(author, "id", None) == getattr(guild, "owner_id", None):
+        return True
+    perms = getattr(author, "guild_permissions", None)
+    return bool(perms is not None
+                and (getattr(perms, "administrator", False)
+                     or getattr(perms, "manage_guild", False)))
+
+
+def _authorised(ctx, role_id, *, what: str) -> bool:
+    """Whether the caller may run a gated command (fail-closed, #572).
+
+    A configured role id → the caller must hold exactly that role. No role id →
+    refuse all but Discord server admins / the guild owner, and warn so the gate
+    gets configured.
+    """
+    if role_id:
+        return role_id in _caller_role_ids(ctx)
+    logger.warning(
+        "[auth] no {} role configured — refusing all but Discord server admins. "
+        "Set REQUIRED_DISCORD_ROLE_ID (and REQUIRED_ADMIN_ROLE_ID) to gate by role.",
+        what)
+    return _is_guild_admin(ctx)
+
+
 def require_role(func):
-    """Decorator: reject non-guild users and users without the configured role."""
-    async def wrapper(ctx, *args, **kwargs):
-        if not ctx.guild:
-            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
-            return
-        allowed_role_id = getattr(config, "REQUIRED_DISCORD_ROLE_ID", None)
-        if allowed_role_id:
-            author_role_ids = {role.id for role in ctx.author.roles}
-            if allowed_role_id not in author_role_ids:
-                await ctx.respond("⛔ Du hast nicht die erforderliche Rolle für diesen Befehl.", ephemeral=True)
-                return
-        return await func(ctx, *args, **kwargs)
-    # Preserve command metadata so py-cord registers it correctly
-    import functools
-    return functools.wraps(func)(wrapper)
+    """Decorator: reject non-guild users and callers not authorised by the gate.
 
-
-def admin_only(func):
-    """Decorator: require the admin role (REQUIRED_ADMIN_ROLE_ID) for /update.
-
-    Shares the same guild-check pattern as require_role but reads the separate
-    admin role ID so it can be more restrictive than the base role gate.
-    Falls back gracefully when neither role is configured.
+    Reads REQUIRED_DISCORD_ROLE_ID; fail-closed when it is unset (#572).
     """
     async def wrapper(ctx, *args, **kwargs):
         if not ctx.guild:
             await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
             return
-        admin_role_id = getattr(config, "REQUIRED_ADMIN_ROLE_ID", None)
-        if admin_role_id:
-            author_role_ids = {role.id for role in ctx.author.roles}
-            if admin_role_id not in author_role_ids:
-                await ctx.respond("⛔ Dieser Befehl ist admins reserviert.", ephemeral=True)
-                return
+        if not _authorised(ctx, getattr(config, "REQUIRED_DISCORD_ROLE_ID", None), what="base"):
+            await ctx.respond("⛔ Du hast nicht die erforderliche Rolle für diesen Befehl.", ephemeral=True)
+            return
         return await func(ctx, *args, **kwargs)
-    import functools
+    # Preserve command metadata so py-cord registers it correctly
     return functools.wraps(func)(wrapper)
+
+
+def admin_only(func):
+    """Decorator: require the admin role (REQUIRED_ADMIN_ROLE_ID) for /update etc.
+
+    Like require_role but reads the separate admin role id. REQUIRED_ADMIN_ROLE_ID
+    defaults to REQUIRED_DISCORD_ROLE_ID (config.py), so configuring the base gate
+    also gates admin commands; fail-closed when neither is set (#572).
+    """
+    async def wrapper(ctx, *args, **kwargs):
+        if not ctx.guild:
+            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
+            return
+        if not _authorised(ctx, getattr(config, "REQUIRED_ADMIN_ROLE_ID", None), what="admin"):
+            await ctx.respond("⛔ Dieser Befehl ist admins reserviert.", ephemeral=True)
+            return
+        return await func(ctx, *args, **kwargs)
+    return functools.wraps(func)(wrapper)
+
+
+def deploy_admin_only(func):
+    """Decorator for /update — the deploy command (SEC-5, #576).
+
+    Stricter than :func:`admin_only`. `/update` pulls arbitrary `origin/main`,
+    installs requirements and restarts the process with every secret on the host,
+    so it requires a **dedicated** admin role that was configured in its own right
+    (``config.DEPLOY_ADMIN_ROLE_ID``) and admits nobody otherwise. Unlike
+    ``admin_only`` it does NOT inherit the base role and does NOT fall back to the
+    Discord-admin / guild-owner bootstrap floor: deploying code with all secrets
+    has no safe default operator, so with no dedicated admin role set `/update` is
+    refused for everyone. Branch protection on `main` is the real safeguard
+    (#565); this only keeps the Discord trigger from widening it.
+    """
+    async def wrapper(ctx, *args, **kwargs):
+        if not ctx.guild:
+            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
+            return
+        role_id = getattr(config, "DEPLOY_ADMIN_ROLE_ID", None)
+        if not role_id:
+            logger.warning(
+                "[auth] /update refused: no dedicated REQUIRED_ADMIN_ROLE_ID is set. "
+                "A deploy pulls arbitrary main with all secrets and needs its own admin "
+                "role (SEC-5, #576) — it does not fall back to the base role or to "
+                "server admins.")
+            await ctx.respond(
+                "⛔ `/update` ist gesperrt: keine eigene Admin-Rolle "
+                "(`REQUIRED_ADMIN_ROLE_ID`) konfiguriert. Ein Deploy zieht beliebigen "
+                "`main`-Stand mit allen Secrets — das verlangt eine ausdrücklich "
+                "gesetzte Rolle, nicht bloss Server-Admins.", ephemeral=True)
+            return
+        if role_id not in _caller_role_ids(ctx):
+            await ctx.respond("⛔ Dieser Befehl ist der Deploy-Admin-Rolle vorbehalten.", ephemeral=True)
+            return
+        return await func(ctx, *args, **kwargs)
+    return functools.wraps(func)(wrapper)
+
+
+# ── Cost / DoS throttle (SEC-11, #582) ───────────────────────────────────────
+#
+# All blocking work runs through one FIFO queue with a single worker, so an
+# unthrottled member can hold the queue — and the GPUs/LLM — for minutes by
+# repeating an expensive command. The role gate (SEC-1) caps WHO can run these;
+# this caps HOW OFTEN each person can, with a short per-(user, command) cooldown.
+EXPENSIVE_COOLDOWN_S = 60.0
+_last_expensive: dict[tuple[int, str], float] = {}
+
+
+def _cooldown_remaining(ctx, command: str, *, seconds: float | None = None) -> float:
+    """Seconds the caller must still wait before re-running *command*, or 0.0 if
+    it may run now (recording the attempt when it is allowed)."""
+    window = EXPENSIVE_COOLDOWN_S if seconds is None else seconds
+    uid = getattr(getattr(ctx, "author", None), "id", 0)
+    now = time.time()
+    remaining = window - (now - _last_expensive.get((uid, command), 0.0))
+    if remaining > 0:
+        return remaining
+    _last_expensive[(uid, command)] = now
+    return 0.0
+
+
+async def _cooldown_block(ctx, command: str) -> bool:
+    """Tell the caller to wait and return True if *command* is on cooldown for
+    them; otherwise record the run and return False. Call right after defer()."""
+    wait = _cooldown_remaining(ctx, command)
+    if wait > 0:
+        await ctx.followup.send(
+            f"⏳ Zu schnell — bitte {int(wait) + 1}s warten, bevor `/{command}` erneut läuft.")
+        return True
+    return False
+
+
+# ── Entity-index cache (SEC-11, #582) ────────────────────────────────────────
+#
+# /entity rebuilt the index from data/outputs on EVERY call, walking the tree
+# each time. Cache it briefly so a burst of look-ups does not re-walk repeatedly.
+ENTITY_INDEX_TTL_S = 60.0
+_entity_index_cache: dict = {"index": None, "at": 0.0}
+
+
+def _get_entity_index():
+    """The entity index, rebuilt at most once per ENTITY_INDEX_TTL_S (SEC-11)."""
+    import entity_index
+    now = time.time()
+    if (_entity_index_cache["index"] is None
+            or now - _entity_index_cache["at"] > ENTITY_INDEX_TTL_S):
+        _entity_index_cache["index"] = entity_index.build_index(config.OUTPUTS_DIR)
+        _entity_index_cache["at"] = now
+    return _entity_index_cache["index"]
+
+
+# ── Error reporting (SEC-14, #585) ───────────────────────────────────────────
+#
+# A raw exception posted into the channel can carry internal URLs, filesystem
+# paths, gateway responses or (with SEC-10) file contents. This posts a generic
+# line and sends the traceback to the log, where loguru records which handler
+# raised it. Use it in place of `❌ Error: {e}`.
+async def _report_error(ctx, exc: Exception, *, note: str = "",
+                        ephemeral: bool = False) -> None:
+    logger.exception("[cmd] {}", exc)
+    msg = note or "Das hat nicht geklappt"
+    try:
+        await ctx.followup.send(f"❌ {msg} — Details siehe Log.", ephemeral=ephemeral)
+    except Exception:                                # the report must never raise
+        pass
 
 
 async def _worker() -> None:
@@ -406,7 +550,7 @@ async def search_cmd(ctx, query: Option(str, "Name/Person to search", required=T
         resp = await search_agent.search(query, limit=20)
         await ctx.followup.send(search_agent.format_response(resp))
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(
@@ -417,9 +561,8 @@ async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=T
     # Thin shell over entity_index (#33/#224): (re)build from data/outputs, look up.
     await ctx.defer()
     try:
-        import config
         import entity_index
-        index = entity_index.build_index(config.OUTPUTS_DIR)
+        index = _get_entity_index()              # SEC-11 (#582): cached, not rebuilt per call
         entry = entity_index.lookup(index, name)
         if entry is None:
             suggestions = entity_index.suggest(index, name)
@@ -432,16 +575,23 @@ async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=T
         site_base = entity_index.pages_site_base() if config.ENABLE_GITHUB_PUBLISH else None
         await ctx.followup.send(entity_index.format_entity(entry, site_base=site_base))
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(
     name="route",
     description="Show the Gate-1 routing card for a document (correct metadata, re-route HTR)",
 )
+@require_role
 async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     await ctx.defer()
     try:
+        from utils import document_id
+        bad = document_id.slug_violation(doc_id)
+        if bad:
+            await ctx.followup.send(
+                f"❌ Ungültige Dokument-ID `{doc_id}` — {bad}.")
+            return
         import routing_card
         import persistent_views
         import ingest
@@ -454,13 +604,19 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
         if msg is not None:
             persistent_views.store_message_id(state, "gate1", msg.id)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        # SEC-10 (#581): a load error's text can carry the start of the file it
+        # failed on — a run-state read oracle if posted. Log the detail, tell the
+        # channel nothing but that it failed. (Traversal is already blocked up
+        # front by the slug check / SEC-2.)
+        logger.exception("[route] {}: {}", doc_id, e)
+        await ctx.followup.send("❌ Konnte die Routing-Karte nicht laden — Details siehe Log.")
 
 
 @bot.slash_command(
     name="votes",
     description="Show the Gate-2 voting card for a doc whose engines disagreed (no-merge)",
 )
+@require_role
 async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     """Posts the Gate-2 voting card for a document that went through a no-merge
     decision (#300/#313). At high engine disagreement the pipeline selects by
@@ -507,7 +663,9 @@ async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
         if msg is not None:
             persistent_views.store_message_id(state, "gate2", msg.id)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        # SEC-10 (#581): see /route — never post a raw load error into the channel.
+        logger.exception("[votes] {}: {}", doc_id, e)
+        await ctx.followup.send("❌ Konnte die Abstimmungskarte nicht laden — Details siehe Log.")
 
 
 @bot.slash_command(
@@ -711,6 +869,11 @@ async def reprocess_cmd(
 ):
     """Reprocess a document: field:value pairs invalidate criteria; bare names force stage dirty."""
     await ctx.defer()
+    from utils import document_id
+    bad = document_id.slug_violation(doc_id)
+    if bad:
+        await ctx.followup.send(f"❌ Ungültige Dokument-ID `{doc_id}` — {bad}.")
+        return
     from runstate import _INVALIDATION
     fields: list[str] = []
     stages: list[str] = []
@@ -763,7 +926,7 @@ async def reprocess_cmd(
             parts.append(f"❌ Fehler: {', '.join(errors)}")
         await ctx.followup.send("\n".join(parts) or "✅ Nichts zu tun.")
     except Exception as e:
-        await ctx.followup.send(f"❌ Fehler: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="run", description="Run the full A→B→C pipeline on a file")
@@ -796,7 +959,7 @@ async def run_pipeline(
         await ctx.followup.send(msg)
     except Exception as e:
         logger.exception("Pipeline error")
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="run_agent_a", description="Run Agent A (HTR) only")
@@ -823,12 +986,15 @@ async def run_agent_a_cmd(
             f"File: {result.get('path','')}"
         )
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="hotfolder", description="Process all files in the hot folder")
+@require_role
 async def hotfolder(ctx):
     await ctx.defer()
+    if await _cooldown_block(ctx, "hotfolder"):      # SEC-11 (#582)
+        return
     try:
         results = await _run_blocking(ctx, run_hot_folder)
         if results is None:
@@ -840,7 +1006,7 @@ async def hotfolder(ctx):
             msg += f"\n❌ Fehler: {len(errs)}"
         await ctx.followup.send(msg)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(
@@ -1024,12 +1190,21 @@ async def pull_folder_cmd(
 
 
 @bot.slash_command(name="agent_d", description="Run Agent D corpus analysis")
+@require_role
 async def agent_d_cmd(
     ctx,
     corpus_name: Option(str, "Corpus name", required=False, default="default"),
 ):
     await ctx.defer()
+    if await _cooldown_block(ctx, "agent_d"):        # SEC-11 (#582)
+        return
     try:
+        from agents import corpus_analysis
+        try:
+            corpus_analysis.corpus_out_dir(corpus_name)
+        except ValueError:
+            await ctx.followup.send(f"❌ Ungültiger Korpusname `{corpus_name}`.")
+            return
         result = await _run_blocking(ctx, run_agent_d, corpus_name)
         if result is None:
             return
@@ -1039,15 +1214,21 @@ async def agent_d_cmd(
             f"Tokens: {result.get('stats', {}).get('total_tokens', 0)}"
         )
         if result.get("voyant_url"):
-            msg += f"\nVoyant: {result['voyant_url']}"
+            # SEC-12 (#583): the corpus text was uploaded to Voyant and this link is
+            # publicly shareable — say so where it is posted.
+            msg += (f"\nVoyant: {result['voyant_url']}"
+                    "\n⚠️ Dieser Link ist öffentlich teilbar — der Korpustext liegt auf Voyant.")
         await ctx.followup.send(msg)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="agent_e", description="Run Agent E — meta report")
+@require_role
 async def agent_e_cmd(ctx):
     await ctx.defer()
+    if await _cooldown_block(ctx, "agent_e"):        # SEC-11 (#582)
+        return
     try:
         result = await _run_blocking(ctx, run_agent_e)
         if result is None:
@@ -1063,7 +1244,7 @@ async def agent_e_cmd(ctx):
         if embed is not None:
             await ctx.followup.send(embed=embed)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        await _report_error(ctx, e)
 
 
 @bot.slash_command(name="progress", description="Show phase progress")
@@ -1090,10 +1271,13 @@ async def _atr(ctx, coro, formatter, *args):
     try:
         payload = await coro
     except atr_status.AtrStatusError as exc:
+        # AtrStatusError messages are curated (SEC-6 validation, 401, and the
+        # generic gateway messages from _get) — safe to show.
         await ctx.followup.send(f"❌ {exc}", ephemeral=True)
         return
     except Exception as exc:                        # pragma: no cover — defensive
-        await ctx.followup.send(f"❌ {type(exc).__name__}: {exc}", ephemeral=True)
+        # SEC-14 (#585): an arbitrary exception is not safe to echo.
+        await _report_error(ctx, exc, ephemeral=True)
         return
     await ctx.followup.send(formatter(payload, *args), ephemeral=True)
 
@@ -1379,7 +1563,7 @@ class _ConfirmView(View):
 
 
 @bot.slash_command(name="update", description="Admin: check for and apply bot updates")
-@admin_only
+@deploy_admin_only
 async def update_cmd(ctx):
     """Check for updates; show commit list with Confirm/Cancel if behind main."""
     await ctx.defer()
@@ -1487,6 +1671,13 @@ async def mcp_propose_cmd(
     try:
         from utils import mcp_probe
         import mcp_propose
+        # SEC-7 (#578): scheme + SSRF host check BEFORE the probe connects, so a
+        # URL pointing at an internal/private target is refused and never probed
+        # with the bot's credentials.
+        refusal = mcp_probe.url_guard(url)
+        if refusal:
+            await ctx.followup.send(refusal)
+            return
         report = await mcp_probe.probe(url)
         err = mcp_propose.check_guardrails(name, url, report)
         if err:
@@ -1499,7 +1690,10 @@ async def mcp_propose_cmd(
         view = _McpProposeView(token=token, requester=requester_id)
         await ctx.followup.send(mcp_propose.format_report(name, url, report), view=view)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        # SEC-7/SEC-14: log the detail, don't echo a raw exception (which can carry
+        # an internal host/IP) into the channel.
+        logger.warning("[mcp_propose] probe/propose failed: {}", e)
+        await ctx.followup.send("❌ Die Probe ist fehlgeschlagen — Details siehe Log.")
 
 
 #: Choices for /atr_restart. A literal rather than ``atr_engines.RESTARTABLE``
@@ -1620,6 +1814,13 @@ def main() -> None:
     missing = config.check_config()
     if missing:
         print(f"Missing config keys: {missing}")
+    # Fail-closed gate (#572): without a configured role, gated commands are
+    # refused to everyone but Discord server admins. Warn loudly at startup so a
+    # shared/open-server deployment is restricted to a role on purpose.
+    if not config.REQUIRED_DISCORD_ROLE_ID:
+        logger.warning(
+            "[auth] REQUIRED_DISCORD_ROLE_ID is not set — gated commands are "
+            "refused to all but Discord server admins. Set it to grant a role.")
     bot.run(config.DISCORD_BOT_TOKEN)
 
 

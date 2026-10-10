@@ -57,7 +57,11 @@ def analyse_corpus(corpus_name: str, doc_ids: Optional[list[str]] = None) -> dic
         "topics": topics,
         "taxonomy": taxonomy,
         "care_analysis": care,
-        "voyant_url": _voyant_url(combined, corpus_name),
+        # SEC-12 (#583): only upload the corpus text to Voyant (a third-party
+        # service, via a publicly shareable link) when the operator has explicitly
+        # enabled it for corpora cleared to publish. Off by default on an open
+        # server so unpublished/licensed transcriptions do not leak.
+        "voyant_url": _voyant_url(combined, corpus_name) if config.ENABLE_VOYANT_UPLOAD else "",
     }
 
     _save(corpus_name, result)
@@ -292,9 +296,24 @@ def verify_voyant(sample_text: str = "Dis ist ein kurzer Beispieltext für Voyan
     }
 
 
-def _save(corpus_name: str, result: dict):
-    safe = corpus_name.replace(" ", "_")
+def corpus_out_dir(corpus_name: str) -> Path:
+    """Output directory for a corpus analysis, guaranteed inside OUTPUTS_DIR.
+
+    ``corpus_name`` comes from the ``/agent_d`` slash command; a name like
+    ``x/../../../y`` would otherwise climb out of ``OUTPUTS_DIR`` when :func:`_save`
+    calls ``mkdir(parents=True)`` (#574). Spaces stay allowed (they become
+    underscores); only a name that resolves outside OUTPUTS_DIR is refused.
+    """
+    safe = (corpus_name or "").replace(" ", "_")
     out = config.OUTPUTS_DIR / f"corpus_{safe}"
+    if not out.resolve().is_relative_to(config.OUTPUTS_DIR.resolve()):
+        raise ValueError(
+            f"unsafe corpus name {corpus_name!r}: resolves outside the outputs directory")
+    return out
+
+
+def _save(corpus_name: str, result: dict):
+    out = corpus_out_dir(corpus_name)
     out.mkdir(parents=True, exist_ok=True)
 
     (out / "stats.json").write_text(json.dumps(result["stats"], ensure_ascii=False, indent=2), encoding="utf-8")
