@@ -296,6 +296,14 @@ GEMINI_BASE_URL = _get("GEMINI_BASE_URL",
 # `truncated` from `finish_reason` instead of trusting the text to look wrong.
 GEMINI_MAX_TOKENS = int(_get("GEMINI_MAX_TOKENS", "8192"))
 GEMINI_TIMEOUT_S = float(_get("GEMINI_TIMEOUT_S", "180"))
+# How much the model may think before it answers. Mapped by the OpenAI-compatible
+# surface onto Gemini's thinking levels, and **"low" by default for a reason**:
+# reasoning tokens are billed as output and spent against GEMINI_MAX_TOKENS, so
+# on 2026-10-10 a page that read complete in 1592 characters came back truncated
+# at 1153 under a longer prompt — 1153 characters are nowhere near an 8192-token
+# ceiling, so something else had spent it. Transcribing what is on a page is not
+# a reasoning task. Empty = send nothing and let the model's own default stand.
+GEMINI_REASONING = _get("GEMINI_REASONING", "low")
 
 # The edition's correspondence data: data/letters of a GITHUB_TEXT_REPO
 # checkout, one TEI file per letter whose correspDesc names the sender with a

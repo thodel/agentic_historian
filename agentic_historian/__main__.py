@@ -416,7 +416,8 @@ def atr_batch(args: argparse.Namespace) -> int:
 
         try:
             recognise = external_atr.openai_recogniser(
-                prompt=args.prompt, structured=args.structured)
+                prompt=args.prompt, structured=args.structured,
+                reasoning=getattr(args, "reasoning", None))
         except (RuntimeError, ValueError, FileNotFoundError) as exc:
             print(f"Error: {exc}", file=sys.stderr)
             return 2
@@ -1134,6 +1135,14 @@ def build_parser() -> argparse.ArgumentParser:
                               "a path. Its digest is recorded with every page, "
                               "because two readings under different prompts are "
                               "different measurements")
+    p_batch.add_argument("--reasoning", default=None,
+                         help="How much the external model may think before it "
+                              "answers (default: GEMINI_REASONING). Reasoning "
+                              "tokens are billed as output and spent against the "
+                              "token ceiling, so for a transcription they are "
+                              "budget going nowhere — and the page they eat is "
+                              "the page that stops mid-sentence. \"\" sends "
+                              "nothing and leaves the model's own default")
     p_batch.add_argument("--structured", action="store_true",
                          help="Ask the external reader for `diplomatic` and "
                               "`normalized` as JSON. Without it the prompt's "
