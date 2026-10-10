@@ -1353,6 +1353,76 @@ async def atr_progress_cmd(ctx, job_id: Option(str, "Job id", required=True)):
 
 # ── Boot ─────────────────────────────────────────────────────────────────────
 
+async def _rebind_pending_confirms() -> int:
+    """Re-register the views of confirmations that are still valid (#614).
+
+    Returns how many were bound. Two things it deliberately does:
+
+    **An expired confirmation is corrected, not left standing.** Its button
+    would still render, and a button that does nothing is worse than no button —
+    that is #150's own argument for persistent views, from the other side.
+
+    **A missing message does not stop the loop.** The message may have been
+    deleted while the bot was down; that record is simply dropped. A bot that
+    refuses to come up because a week-old confirmation is gone has turned a
+    cosmetic problem into an outage.
+    """
+    import pending_confirm
+
+    entries = pending_confirm.load()
+    if not entries:
+        return 0
+
+    bound, kept = 0, []
+    for entry in entries:
+        if entry.expired():
+            await _retire_confirm(entry, "abgelaufen")
+            continue
+        view = _view_for_confirm(entry)
+        if view is None:
+            logger.warning(f"[confirm] no view for kind {entry.kind!r} — dropped")
+            continue
+        try:
+            bot.add_view(view, message_id=int(entry.message_id))
+            bound += 1
+            kept.append(entry)
+        except Exception as e:  # noqa: BLE001 — one bad record may not cost the rest
+            logger.warning(f"[confirm] {entry.kind}/{entry.token[:8]}: {e}")
+    pending_confirm.save(kept)
+    logger.info(f"[confirm] {bound} pending confirmation(s) rebound")
+    return bound
+
+
+def _view_for_confirm(entry):
+    """The view class for a stored confirmation, or None for an unknown kind.
+
+    ``None`` rather than a guess: a record written by a newer build names a flow
+    this one does not have, and binding the wrong view to its message would put
+    a working button on the wrong action.
+    """
+    if entry.kind == "update":
+        return _ConfirmView(token=entry.token, requester=entry.requester,
+                            target_sha=str(entry.data.get("target_sha", "?")))
+    if entry.kind == "atr_restart":
+        return _RestartView(token=entry.token, requester=entry.requester,
+                            engine=str(entry.data.get("engine", "")))
+    return None
+
+
+async def _retire_confirm(entry, why: str) -> None:
+    """Say the button is dead, where the button is. Never raises."""
+    try:
+        channel = bot.get_channel(int(entry.channel_id))
+        if channel is None:
+            return
+        message = await channel.fetch_message(int(entry.message_id))
+        await message.edit(content=f"{message.content}\n\n⚠️ Diese Anfrage ist "
+                                   f"{why} — bitte den Befehl erneut aufrufen.",
+                           view=None)
+    except Exception as e:  # noqa: BLE001 — a deleted message is not an error here
+        logger.info(f"[confirm] could not retire {entry.token[:8]}: {e}")
+
+
 @bot.event
 async def on_ready():
     logger.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
@@ -1363,6 +1433,16 @@ async def on_ready():
         persistent_views.register_persistent_views(bot)
     except Exception as e:
         logger.warning(f"[persist] view registration failed: {e}")
+    # #614: bind the confirmation buttons back, the way #150 does for the gate
+    # cards. Without this a Confirm posted before a restart answers with
+    # Discord's "This component is no longer valid", which names nothing — and
+    # `/update` restarts the bot by design (#245), so this is the normal case for
+    # that command rather than an edge one.
+    try:
+        await _rebind_pending_confirms()
+    except Exception as e:  # noqa: BLE001 — never the reason the bot fails to start
+        logger.warning(f"[confirm] rebinding failed: {e}")
+
     # P3-3: back-online confirmation after a self-restart
     try:
         import updater
@@ -1420,8 +1500,10 @@ import time as _time
 from discord import ButtonStyle
 from discord.ui import button as _button, View, Button
 
-# Pending update confirmations: token → {channel_id, message_id, requester, target_sha, stage}
-_PENDING_UPDATES: dict[str, dict] = {}
+# Pending update confirmations live on disk, not in this dict (#614): the
+# confirm button has to survive the restart that `/update` itself causes, and an
+# in-memory record could not. `pending_confirm` holds them; `_UPDATE_TOKEN_TTL`
+# stays as the name the rest of this file uses for the deadline.
 _UPDATE_TOKEN_TTL = 300  # 5 minutes to confirm
 
 
@@ -1431,6 +1513,15 @@ def _make_token() -> str:
     ts = str(_time.time_ns())
     mac = hmac.new(secret, ts.encode(), hashlib.sha256).hexdigest()
     return mac[:16]
+
+
+def _drop_pending(token: str) -> None:
+    """Forget a confirmation. Never raises — this runs on the way to sys.exit()."""
+    try:
+        import pending_confirm
+        pending_confirm.drop(token)
+    except Exception as exc:                        # noqa: BLE001
+        logger.warning(f"[update] could not clear pending {token[:8]}: {exc}")
 
 
 async def _do_apply_update(
@@ -1473,7 +1564,7 @@ async def _do_apply_update(
             str(channel_id), str(message_id), requester, to_sha
         )
         # Remove from pending BEFORE exit so on_ready doesn't double-post
-        _PENDING_UPDATES.pop(token, None)
+        _drop_pending(token)
         _sys.exit(0)
     else:
         stage = result.get("stage", "unknown")
@@ -1491,13 +1582,19 @@ async def _do_apply_update(
         except Exception:
             pass
         logger.warning(f"[update] {requester}: failed at {stage}: {error[:200]}")
-        _PENDING_UPDATES.pop(token, None)
+        _drop_pending(token)
 
 
 class _ConfirmView(View):
     """Confirm / Cancel for a pending update."""
 
-    def __init__(self, token: str, requester: str, target_sha: str, *, timeout: float = _UPDATE_TOKEN_TTL):
+    def __init__(self, token: str, requester: str, target_sha: str, *,
+                 timeout: None = None):
+        # timeout=None makes this a **persistent** view (#614): py-cord keeps a
+        # timed view only in the sending process's memory, and `/update` restarts
+        # that process on purpose (#245). The deadline moved into the callback,
+        # where it survives the restart it is supposed to outlast — see
+        # `pending_confirm`.
         super().__init__(timeout=timeout)
         self.token = token
         self.requester = requester
@@ -1515,13 +1612,30 @@ class _ConfirmView(View):
     @discord.ui.button(label="✅ Confirm", style=ButtonStyle.success, custom_id="update:confirm")
     async def confirm(self, button: Button, interaction: Interaction):
         await interaction.response.defer(thinking=True, ephemeral=False)
-        info = _PENDING_UPDATES.get(self.token)
-        if info is None:
+        # The deadline lives here now, not in the view's timeout (#614), so it
+        # holds across the restart this command causes. Three answers, because
+        # "expired" and "unknown" need different ones: wait-and-retry against
+        # ask-again.
+        import pending_confirm
+        status, pending = pending_confirm.lookup(self.token)
+        if status == pending_confirm.EXPIRED:
             await interaction.followup.send(
-                "⚠️ Diese Anfrage ist abgelaufen — bitte /update erneut aufrufen.",
+                f"⚠️ Diese Anfrage ist {pending.age_s() / 60:.0f} Minuten alt und "
+                f"damit abgelaufen (Frist {pending_confirm.TTL_S / 60:.0f} min) — "
+                f"bitte /update erneut aufrufen.",
+                ephemeral=True,
+            )
+            pending_confirm.drop(self.token)
+            return
+        if status == pending_confirm.MISSING or pending is None:
+            await interaction.followup.send(
+                "⚠️ Zu diesem Knopf ist keine offene Anfrage mehr bekannt — "
+                "bitte /update erneut aufrufen.",
                 ephemeral=True,
             )
             return
+        info = dict(pending.data, channel_id=pending.channel_id,
+                    message_id=pending.message_id, requester=pending.requester)
 
         # Check queue busy
         if not _job_queue.empty():
@@ -1533,7 +1647,6 @@ class _ConfirmView(View):
             return
 
         # Enqueue the update (run off event loop so it can sys.exit)
-        info["stage"] = "queued"
         await _job_queue.put((
             _do_apply_update,
             (
@@ -1549,7 +1662,10 @@ class _ConfirmView(View):
 
     @discord.ui.button(label="✖ Cancel", style=ButtonStyle.secondary, custom_id="update:cancel")
     async def cancel(self, button: Button, interaction: Interaction):
-        info = _PENDING_UPDATES.pop(self.token, {})
+        import pending_confirm
+        _status, pending = pending_confirm.lookup(self.token)
+        info = dict(pending.data) if pending else {}
+        pending_confirm.drop(self.token)
         try:
             await interaction.response.edit_message(
                 content=f"❌ Update abgebrochen — bleibe auf `{info.get('from_sha', '?')}`.",
@@ -1594,19 +1710,20 @@ async def update_cmd(ctx):
     target_sha = status["target_sha"][:12]
     requester_id = str(ctx.author.id)
 
-    _PENDING_UPDATES[token] = {
-        "channel_id": str(ctx.channel.id),
-        "message_id": "?",  # filled after send
-        "requester": requester_id,
-        "target_sha": target_sha,
-        "from_sha": status["current_sha"][:12],
-    }
-
     view = _ConfirmView(token=token, requester=requester_id, target_sha=target_sha)
     msg = await ctx.followup.send("\n".join(lines), view=view)
 
-    # Store actual message id for on_ready marker (P3-3 step 4)
-    _PENDING_UPDATES[token]["message_id"] = str(msg.id)
+    # Recorded only once the message exists, because its id is what binds the
+    # view back after a restart (#614) — the same thing #150 does for the gate
+    # cards. A record written before the send would name a message that may
+    # never have been posted.
+    import pending_confirm
+    pending_confirm.add(pending_confirm.Pending(
+        token=token, kind="update", channel_id=str(ctx.channel.id),
+        message_id=str(msg.id), requester=requester_id,
+        data={"target_sha": target_sha, "from_sha": status["current_sha"][:12]},
+    ))
+    bot.add_view(view, message_id=msg.id)
 
 
 # ── /mcp_propose (#229): probe an MCP source → reviewed PR (never hot-load) ────
@@ -1617,7 +1734,8 @@ class _McpProposeView(View):
     """Confirm → open a PR for a probed MCP source (the running federation is
     never touched; only a reviewable PR is created)."""
 
-    def __init__(self, token: str, requester: str, *, timeout: float = _UPDATE_TOKEN_TTL):
+    def __init__(self, token: str, requester: str, *, timeout: None = None):
+        # Persistent, for the reason in `_ConfirmView` (#614).
         super().__init__(timeout=timeout)
         self.token = token
         self.requester = requester
@@ -1711,15 +1829,17 @@ _RESTARTABLE_CHOICES = ("kraken", "trocr", "party")
 # button; and a list of what may be named at all, which lives in `atr_engines`
 # and does not contain the gateway.
 
-#: Pending engine restarts: token → {engine, requester}
-_PENDING_RESTARTS: dict[str, dict] = {}
+# Pending engine restarts live in `pending_confirm` with the update ones (#614),
+# so a confirmation outlasts a restart of the bot itself.
 
 
 class _RestartView(View):
     """Confirm / Cancel for one engine restart."""
 
     def __init__(self, token: str, requester: str, engine: str,
-                 *, timeout: float = _UPDATE_TOKEN_TTL):
+                 *, timeout: None = None):
+        # Persistent, for the reason in `_ConfirmView` (#614). This one copied
+        # the fault from `/update` when it was written (#599).
         super().__init__(timeout=timeout)
         self.token = token
         self.requester = requester
@@ -1737,12 +1857,21 @@ class _RestartView(View):
                        custom_id="atr_restart:confirm")
     async def confirm(self, button: Button, interaction: Interaction):
         await interaction.response.defer(thinking=True, ephemeral=True)
-        info = _PENDING_RESTARTS.pop(self.token, None)
-        if info is None:
+        # Same deadline-in-the-callback as `/update` (#614): this view copied the
+        # timed-view fault when it was written, and a restart between asking and
+        # confirming is not hypothetical on a bot that restarts itself.
+        import pending_confirm
+        status, pending = pending_confirm.lookup(self.token)
+        if status != pending_confirm.LIVE or pending is None:
+            age = (f" ({pending.age_s() / 60:.0f} min alt)" if pending else "")
             await interaction.followup.send(
-                "⚠️ Diese Anfrage ist abgelaufen — bitte /atr_restart erneut aufrufen.",
-                ephemeral=True)
+                f"⚠️ Diese Anfrage ist abgelaufen{age} — bitte /atr_restart "
+                f"erneut aufrufen.", ephemeral=True)
+            pending_confirm.drop(self.token)
             return
+        pending_confirm.drop(self.token)
+        info = {"engine": pending.data.get("engine", ""),
+                "requester": pending.requester}
         import atr_engines
         outcome = await atr_engines.restart(info["engine"])
         logger.info(f"[atr_restart] {info['requester']}: {info['engine']} "
@@ -1753,7 +1882,8 @@ class _RestartView(View):
     @discord.ui.button(label="✖ Abbrechen", style=ButtonStyle.secondary,
                        custom_id="atr_restart:cancel")
     async def cancel(self, button: Button, interaction: Interaction):
-        _PENDING_RESTARTS.pop(self.token, None)
+        import pending_confirm
+        pending_confirm.drop(self.token)
         await interaction.response.edit_message(
             content="❌ Neustart abgebrochen.", view=None)
 
@@ -1796,14 +1926,22 @@ async def atr_restart_cmd(
     state = await atr_engines.check((engine,))
     token = _make_token()
     requester_id = str(ctx.author.id)
-    _PENDING_RESTARTS[token] = {"engine": engine, "requester": requester_id}
     view = _RestartView(token=token, requester=requester_id, engine=engine)
-    await ctx.followup.send(
+    sent = await ctx.followup.send(
         f"{atr_engines.format_preflight(state)}\n\n"
         f"`{engine}` auf idhefix neu starten? Eine laufende Erkennung auf dieser "
         f"Engine bricht dabei ab — das Gateway lehnt den Neustart ab, solange sie "
         f"beschäftigt ist.",
         view=view, ephemeral=True)
+    # Recorded after the send, for its message id (#614). An ephemeral message
+    # cannot be fetched back, so an expired one is not corrected in place the way
+    # `/update`'s is — the refusal in the callback is the whole of it, and that
+    # is enough: nothing was started.
+    import pending_confirm
+    pending_confirm.add(pending_confirm.Pending(
+        token=token, kind="atr_restart", channel_id=str(ctx.channel_id or 0),
+        message_id=str(getattr(sent, "id", 0) or 0), requester=requester_id,
+        data={"engine": engine}))
 
 
 def main() -> None:

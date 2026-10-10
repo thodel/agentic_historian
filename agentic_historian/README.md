@@ -86,6 +86,7 @@ runs its start path (up to `bot.run`) without any `workspace/`.
 | `/hotfolder` | Process all files in the hot folder |
 | `/pull [folder] [recursive]` | Pull images from a mailbox folder and process each. The answer names the way it took — share or account (#592) |
 | `/pull_folder [folder] [reprocess]` | Process each mailbox subfolder as one multi-page document |
+| `/update` | Admin: pull `main` and restart. The Confirm button **survives the restart it causes** (#614) — it is a persistent view and the pending confirmation is on disk, the same pattern #150 uses for the gate cards. The five-minute deadline is checked in the callback, not by a view timeout, because a timeout only lives as long as the process |
 | `/pull_preflight [folder]` | Which of the four mailbox layers is broken — config, host, credentials, path — each reported separately, with the ones behind a failure left as *unchecked* rather than failed. For a share it also reports **which public endpoint answered** |
 | `/env_reload` | Admin: re-read the `.env` files without a restart, then run the preflight so success is shown rather than claimed. Only the keys that came *from a file* — a value from the process environment wins over every `.env` (#106) and is named as unchangeable from here |
 | `/agent_d [corpus]` | Corpus analysis |

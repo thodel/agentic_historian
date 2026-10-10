@@ -5,6 +5,8 @@ tests/test_ah_248_update_command.py
 import asyncio
 import sys
 from pathlib import Path
+
+import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 
 BOT_PATH = Path(__file__).resolve().parents[1] / 'bot.py'
@@ -77,16 +79,39 @@ class TestMakeToken:
         assert t1 != t2
 
 
+def _seed_pending(token, requester, *, kind="update", target_sha="x",
+                  from_sha="0", created_at=None, message_id="12345"):
+    """Put a pending confirmation where the callbacks now look for it (#614).
+
+    It used to be ``bot._PENDING_UPDATES``, an in-memory dict — which is exactly
+    why the Confirm button died on the restart that `/update` itself causes. The
+    record is on disk now, so these tests write it there.
+    """
+    import pending_confirm
+    entry = pending_confirm.Pending(
+        token=token, kind=kind, channel_id="999", message_id=message_id,
+        requester=requester, data={"target_sha": target_sha, "from_sha": from_sha})
+    if created_at is not None:
+        entry.created_at = created_at
+    pending_confirm.save([entry])
+    return entry
+
+
+@pytest.fixture(autouse=True)
+def _confirms_in_tmp(tmp_path, monkeypatch):
+    """Never write the real data directory from a test."""
+    import config
+    monkeypatch.setattr(config, "DATA_DIR", tmp_path)
+    yield
+
+
 class TestConfirmView:
     def test_confirm_enqueues_when_queue_empty(self):
         async def go():
             import bot as bot_module
             token = 'tok123456789012'
             requester = '111222'
-            bot_module._PENDING_UPDATES[token] = {
-                "channel_id": "999", "message_id": "12345",
-                "requester": requester, "target_sha": "x", "from_sha": "0"
-            }
+            _seed_pending(token, requester, from_sha="0")
             mock_interaction = MagicMock()
             mock_interaction.user.id = int(requester)
             mock_interaction.response.is_done.return_value = False
@@ -102,7 +127,6 @@ class TestConfirmView:
             mock_put.assert_called_once()
             call_args = mock_put.call_args[0][0]
             assert call_args[0] == bot_module._do_apply_update
-            bot_module._PENDING_UPDATES.clear()
         asyncio.run(go())
 
     def test_confirm_rejects_when_queue_busy(self):
@@ -110,10 +134,7 @@ class TestConfirmView:
             import bot as bot_module
             token = 'tok123456789012'
             requester = '111222'
-            bot_module._PENDING_UPDATES[token] = {
-                "channel_id": "999", "message_id": "12345",
-                "requester": requester, "target_sha": "x", "from_sha": "0"
-            }
+            _seed_pending(token, requester, from_sha="0")
             mock_interaction = MagicMock()
             mock_interaction.user.id = int(requester)
             mock_interaction.response.is_done.return_value = False
@@ -126,7 +147,6 @@ class TestConfirmView:
                     await confirm_button.callback(mock_interaction)
             mock_put.assert_not_called()
             mock_interaction.followup.send.assert_called_once()
-            bot_module._PENDING_UPDATES.clear()
         asyncio.run(go())
 
     def test_cancel_removes_pending_and_edits_message(self):
@@ -134,10 +154,7 @@ class TestConfirmView:
             import bot as bot_module
             token = 'tok123456789012'
             requester = '111222'
-            bot_module._PENDING_UPDATES[token] = {
-                "channel_id": "999", "message_id": "12345",
-                "requester": requester, "target_sha": "x", "from_sha": "000111"
-            }
+            _seed_pending(token, requester, from_sha="000111")
             mock_interaction = MagicMock()
             mock_interaction.user.id = int(requester)
             mock_interaction.response.is_done.return_value = False
@@ -145,7 +162,8 @@ class TestConfirmView:
             view = bot_module._ConfirmView(token=token, requester=requester, target_sha='x')
             cancel_button = view.cancel
             await cancel_button.callback(mock_interaction)
-            assert token not in bot_module._PENDING_UPDATES
+            import pending_confirm
+            assert pending_confirm.lookup(token)[0] == pending_confirm.MISSING
             mock_interaction.response.edit_message.assert_called_once()
             call_kw = mock_interaction.response.edit_message.call_args[1]
             assert call_kw['view'] is None
@@ -162,13 +180,8 @@ class TestDoApplyUpdateFailure:
             message_id = 12345
             requester = '111222'
             target_sha = 'abcdef12'
-            bot_module._PENDING_UPDATES[token] = {
-                "channel_id": str(channel_id),
-                "message_id": str(message_id),
-                "requester": requester,
-                "target_sha": target_sha,
-                "from_sha": "0000000"
-            }
+            _seed_pending(token, requester, target_sha=target_sha,
+                          from_sha="0000000", message_id=str(message_id))
             mock_channel = MagicMock()
             mock_message = MagicMock()
             mock_channel.fetch_message = AsyncMock(return_value=mock_message)
@@ -189,7 +202,6 @@ class TestDoApplyUpdateFailure:
                             token, channel_id, message_id, requester, target_sha
                         )
             mock_exit.assert_not_called()
-            bot_module._PENDING_UPDATES.clear()
         asyncio.run(go())
 
 
