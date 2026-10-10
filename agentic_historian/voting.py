@@ -20,6 +20,13 @@ becomes the quality signal the automatic vote never had.
 
 Votes live in ``data/feedback/votes.jsonl`` (one JSON line each, append-only;
 the latest line for a voter wins, so a re-vote replaces the earlier one).
+
+**What is stored about the voter (SEC-13, #584).** Only a pseudonym — the raw
+Discord user id is run through ``preferences.pseudonym`` (a salted hash, the same
+one the preference log and the RDF export use) before it is written, and the
+display name is never persisted (it is display-only on the live card). The log's
+purpose is the routing prior and a per-voter "last vote wins" dedup; neither needs
+the identity, so neither keeps it.
 """
 
 from __future__ import annotations
@@ -38,9 +45,9 @@ import config
 class Vote:
     doc_id: str
     candidate: str                 # path/engine label, e.g. "trocr-kurrent-xvi-xvii"
-    voter: str                     # stable voter id (Discord user id) — the IDENTITY
+    voter: str                     # pseudonymised voter id (preferences.pseudonym) — not the raw id
     page: str = ""                 # optional: per-page voting for multi-page orders
-    voter_name: str = ""           # display only (#293 card); never the identity
+    voter_name: str = ""           # display only (#293 card); never persisted (SEC-13)
     ts: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict:
@@ -58,13 +65,22 @@ def _key(doc_id: str, page: str) -> tuple[str, str]:
 def record_vote(doc_id: str, candidate: str, voter: str, *, page: str = "",
                 voter_name: str = "") -> Vote:
     """Record one vote (append-only). A voter's later vote replaces their earlier
-    one — see :func:`load_votes` — so clicking twice can't skew the tally."""
-    vote = Vote(doc_id=doc_id, candidate=candidate, voter=str(voter), page=page or "",
+    one — see :func:`load_votes` — so clicking twice can't skew the tally.
+
+    SEC-13 (#584): the voter is persisted as a pseudonym (``preferences.pseudonym``,
+    the same salted hash as the preference log), never the raw Discord id, and the
+    display name is not persisted at all. The returned in-memory Vote keeps the
+    name for an immediate card render; what lands on disk does not.
+    """
+    import preferences
+    pid = preferences.pseudonym(str(voter))
+    vote = Vote(doc_id=doc_id, candidate=candidate, voter=pid, page=page or "",
                 voter_name=voter_name or "")
     config.FEEDBACK_DIR.mkdir(parents=True, exist_ok=True)
     from shared_lock import locked_append
-    locked_append(config.VOTES_LOG_PATH, json.dumps(vote.to_dict(), ensure_ascii=False))
-    logger.info(f"[vote] {doc_id}{'/' + page if page else ''}: {voter} → {candidate}")
+    persisted = dict(vote.to_dict(), voter_name="")      # name is display-only, never written
+    locked_append(config.VOTES_LOG_PATH, json.dumps(persisted, ensure_ascii=False))
+    logger.info(f"[vote] {doc_id}{'/' + page if page else ''}: {pid} → {candidate}")
     return vote
 
 
