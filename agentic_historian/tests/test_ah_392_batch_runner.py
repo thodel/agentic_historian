@@ -557,34 +557,48 @@ def test_a_dry_run_registers_and_claims_nothing(tmp_path, capsys):
     assert cm.progress("missiven").running == 0, "a dry run claimed work"
 
 
-def test_per_doc_publishing_is_refused_rather_than_silently_switched_off(
-        tmp_path, monkeypatch, capsys):
-    """A batch that mutates global config behind the operator's back makes a bot
-    running at the same time behave differently for reasons nobody can see."""
+def test_the_publishing_plan_is_stated_before_the_run(tmp_path, monkeypatch,
+                                                      capsys):
+    """#392 refused to run with ENABLE_GITHUB_PUBLISH on, because the pipeline
+    would commit each document. #394 made that a working path — the runner calls
+    the pipeline with publish=False and commits N at a time — so the refusal
+    became a statement of which way it will publish.
+
+    `--dry-run` keeps this offline: without it the CLI would run the real
+    pipeline and the real GitHub API, which the suite may not do.
+    """
     cli = _cli()
     monkeypatch.setattr(config, "ENABLE_GITHUB_PUBLISH", True)
-
+    monkeypatch.setattr(config, "BATCH_PUBLISH_EVERY", 0)
     root = _pages(tmp_path / "f", ("a.jpg",))
-    args = cli.build_parser().parse_args(["batch", str(root)])
-    rc = args.func(args)
-    out = capsys.readouterr().out
 
-    assert rc == 2
-    assert "publish-batch" in out
-    assert config.ENABLE_GITHUB_PUBLISH is True, "the setting was mutated"
-    assert cm.progress("f").total == 0, "it ran anyway"
+    args = cli.build_parser().parse_args(["batch", str(root), "--dry-run"])
+    assert args.func(args) == 0
+    assert "once at the end of the run" in capsys.readouterr().out
 
+    args = cli.build_parser().parse_args(
+        ["batch", str(root), "--dry-run", "--publish-every", "25"])
+    assert args.func(args) == 0
+    assert "every 25 document(s)" in capsys.readouterr().out
 
-def test_the_publish_refusal_can_be_overridden(tmp_path, monkeypatch, capsys):
-    cli = _cli()
-    monkeypatch.setattr(config, "ENABLE_GITHUB_PUBLISH", True)
-
-    root = _pages(tmp_path / "f", ("a.jpg",))
     args = cli.build_parser().parse_args(
         ["batch", str(root), "--dry-run", "--allow-per-doc-publish"])
-
     assert args.func(args) == 0
-    assert "2" not in capsys.readouterr().out.split("\n")[0]
+    assert "one commit per document" in capsys.readouterr().out
+
+
+def test_the_publish_flag_is_silent_when_publishing_is_off(tmp_path,
+                                                           monkeypatch, capsys):
+    """A flag whose help promises something it cannot do is worse than no flag."""
+    cli = _cli()
+    monkeypatch.setattr(config, "ENABLE_GITHUB_PUBLISH", False)
+    root = _pages(tmp_path / "f", ("a.jpg",))
+
+    args = cli.build_parser().parse_args(
+        ["batch", str(root), "--dry-run", "--publish-every", "5"])
+    args.func(args)
+
+    assert "no effect" in capsys.readouterr().out
 
 
 def test_an_ambiguous_folder_exits_two_with_the_remedy(tmp_path, capsys):

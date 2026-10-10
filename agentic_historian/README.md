@@ -107,6 +107,7 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `DISCORD_GUILD_ID` | Register slash commands in this guild, where Discord makes them usable at once. Empty = global commands, which take up to an hour to propagate — a new command is then indistinguishable from a missing one |
 | `CREDENTIAL_WATCH_CHANNEL_ID` / `_INTERVAL_S` | Announce when the mailbox credentials stop being accepted, instead of letting a failed pull be the first sign. Empty = off |
 | `BATCH_WORKERS` / `BATCH_MAX_ATTEMPTS` | Documents in flight at once for `batch`, and attempts before one goes to the dead letter (defaults 2 and 3; `--workers` / `--max-attempts` override per run) |
+| `BATCH_PUBLISH_EVERY` | Documents per publish commit in a batch run (default 0 = once at the end, the fewest index rebuilds). `--publish-every` overrides per run |
 | `NEXTCLOUD_SHARE_URL` / `_PASS` / `NEXTCLOUD_REMOTE_DIR` | Nextcloud **public share** ingestion — the share token is the WebDAV user (`docs/BATCH_ATR.md`) |
 | `NEXTCLOUD_STAGING_DIR` / `VLM_TEST_ROOT` | Where a share is mirrored to, and the root for multi-model comparison runs |
 | `ATR_BATCH_PAGE_CONCURRENCY` / `ATR_BATCH_RETRIES` | Pages in flight per model (default `1`) and per-page retries for timeouts/5xx (default `2`) |
@@ -163,8 +164,13 @@ Interrupt it and run the same command again: finished documents are skipped,
 and claims a killed worker was holding are handed back at the start. A document
 that exhausts `--max-attempts` goes to the dead letter with its error kept and
 the run carries on; `--requeue` brings those back after the cause is fixed.
-Publishing is refused while `ENABLE_GITHUB_PUBLISH` is on — the batch path is
-`publish-batch`, not one commit per document.
+Publishing goes through the batch path (#394): the runner calls the pipeline
+with `publish=False` and commits N documents' outputs in **one** commit, because
+each commit to the output repo triggers its index-rebuild Action — 500 commits
+and 500 Action runs for one holding was the thing this replaced. `0` (the
+default) publishes once at the end of the run; `--publish-every N` trades more
+index rebuilds for seeing the catalogue fill as it goes. A retry is safe: an
+identical tree makes no second commit.
 
 It iterates **model-major** — every page of one model, then the next — because the
 gateway's VLMs are `residency: lazy` on one GPU that holds one at a time, so

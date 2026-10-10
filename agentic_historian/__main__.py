@@ -829,18 +829,22 @@ def batch(args: argparse.Namespace) -> int:
     root = Path(args.folder).resolve()
     run_id = args.run or root.name
 
-    # #392: publishing goes through the batch path, not one commit per document.
-    # `run_full_pipeline` publishes per document when this is on, so refuse
-    # rather than quietly turn it off — a batch that mutates global config
-    # behind the operator's back makes a bot running at the same time behave
-    # differently for reasons nobody can see.
-    if config.ENABLE_GITHUB_PUBLISH and not args.allow_per_doc_publish:
-        print("ENABLE_GITHUB_PUBLISH is on, which would make this batch one "
-              "commit per document.\nRun the batch with it off and publish "
-              "once afterwards:\n"
-              "    python -m agentic_historian publish-batch --run-dir ...\n"
-              "or pass --allow-per-doc-publish if that really is what you want.")
-        return 2
+    # #394 turned #392's refusal into a working path. The runner calls the
+    # pipeline with publish=False and commits N documents at a time itself, so
+    # ENABLE_GITHUB_PUBLISH being on is now what makes publishing happen rather
+    # than what makes it pathological. `--allow-per-doc-publish` is kept for the
+    # one case it still serves: letting the pipeline publish each document as it
+    # used to, at one index rebuild per document.
+    if config.ENABLE_GITHUB_PUBLISH:
+        every = (args.publish_every if args.publish_every is not None
+                 else config.BATCH_PUBLISH_EVERY)
+        print("publishing: "
+              + ("one commit per document (--allow-per-doc-publish)"
+                 if args.allow_per_doc_publish else
+                 f"every {every} document(s), one commit each" if every > 0
+                 else "once at the end of the run, in one commit"))
+    elif args.publish_every:
+        print("--publish-every has no effect while ENABLE_GITHUB_PUBLISH is off.")
 
     try:
         source = batch_runner.inspect_source(root, mode=args.mode)
@@ -871,6 +875,8 @@ def batch(args: argparse.Namespace) -> int:
 
     summary = batch_runner.run_batch(
         run_id, source, workers=args.workers, max_attempts=args.max_attempts,
+        publish_every=args.publish_every,
+        per_doc_publish=args.allow_per_doc_publish,
         announce=_batch_announce())
     prog = summary.progress
     print(f"{run_id}: {prog.done} done, {prog.failed} failed, {prog.dead} dead "
@@ -956,9 +962,14 @@ def build_parser() -> argparse.ArgumentParser:
                           help="Put failed and given-up documents back first")
     p_corpus.add_argument("--dry-run", action="store_true",
                           help="Register the manifest and print the plan only")
+    p_corpus.add_argument("--publish-every", type=int, default=None,
+                          metavar="N",
+                          help="Commit N documents' outputs at a time "
+                               "(default BATCH_PUBLISH_EVERY; 0 = once at the "
+                               "end, the fewest index rebuilds)")
     p_corpus.add_argument("--allow-per-doc-publish", action="store_true",
-                          help="Run even with ENABLE_GITHUB_PUBLISH on "
-                               "(one commit per document)")
+                          help="Let the pipeline publish each document as it "
+                               "goes — one commit and one index rebuild each")
     p_corpus.set_defaults(func=batch)
 
     p_batch = sub.add_parser(
