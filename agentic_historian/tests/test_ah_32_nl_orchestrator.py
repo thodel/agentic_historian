@@ -12,8 +12,18 @@ PKG = Path(__file__).resolve().parents[1]
 if str(PKG) not in sys.path:
     sys.path.insert(0, str(PKG))
 
+import pytest  # noqa: E402
+
+import config  # noqa: E402
 import nl_orchestrator as nl  # noqa: E402
 import agent_tools  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _enable_overlay(monkeypatch):
+    """The LLM-orchestration overlay is OFF by default (S4, #569); these tests
+    exercise the planner's active behaviour, so they opt it on."""
+    monkeypatch.setattr(config, "ORCHESTRATOR_LLM_ENABLED", True)
 
 
 def _llm_returns(monkeypatch, text):

@@ -99,3 +99,50 @@ jobs:
           import mcp_atr.server as srv
           assert srv.app is not None
           print('mcp server ok')"
+
+  standalone:
+    name: "Standalone: bot imports and starts without the OpenClaw workspace"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # Separation epic (#565, S5). The Historian bot must build and start as its
+    # own process — no OpenClaw runtime, and without the workspace/ directory
+    # (the OpenClaw home: AGENTS.md, SOUL.md, skills/, …). This installs exactly
+    # what the bot deployment installs (requirements-dev.txt — the full pinned
+    # set that update.sh builds the bot's venv from; it carries py-cord and
+    # watchdog, which the minimal requirements.txt deliberately does not),
+    # removes workspace/, and runs the start path up to just before bot.run —
+    # import (which registers the slash commands), ensure_dirs(), and
+    # check_config(). No Discord connection is made. A green run guarantees the
+    # standalone bot is buildable and startable without OpenClaw.
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the bot's deployment requirements (what update.sh installs)
+        run: pip install -r requirements-dev.txt
+
+      - name: Remove the OpenClaw workspace
+        run: rm -rf workspace
+
+      - name: Import the bot and run the start path (not bot.run), with no workspace/
+        working-directory: agentic_historian
+        run: |
+          python -c "
+          import sys; sys.path.insert(0, '.')
+          import config, bot
+          # The start path main() runs before bot.run — must not raise.
+          config.ensure_dirs()
+          config.check_config()
+          # Importing bot registered the slash commands; the standalone bot is
+          # driven only by these, so a non-empty set is it working.
+          cmds = [c.name for c in bot.bot.pending_application_commands]
+          assert cmds, 'no slash commands registered'
+          # The LLM-orchestration overlay is off by default (S4, #569).
+          assert config.ORCHESTRATOR_LLM_ENABLED is False, 'overlay must be off by default'
+          print(f'standalone OK — {len(cmds)} slash commands, overlay off, no workspace/')"

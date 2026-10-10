@@ -54,8 +54,9 @@ def get_client() -> OpenAI:
     if _client is None:
         if not config.GPUSTACK_API_KEY:
             raise RuntimeError(
-                "GPUSTACK_API_KEY is not set. Copy workspace/gpustack.env.example to "
-                ".env.gpustack at the repo root and fill in a valid key."
+                "GPUSTACK_API_KEY is not set. Set it in the bot's env file "
+                "(deploy/systemd/dh-bot.env.example lists the keys) and fill in a "
+                "valid key."
             )
         _client = OpenAI(
             base_url=config.GPUSTACK_BASE_URL,

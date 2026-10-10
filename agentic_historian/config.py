@@ -36,11 +36,25 @@ ENV_SOURCE: dict[str, Path] = {}
 #: The files, in priority order. Named so :func:`reload_env` uses exactly this
 #: order — a reload that read them in another order would hand a different file
 #: the win and change a value nobody edited.
-ENV_FILES: tuple[Path, ...] = (
-    REPO_ROOT / ".env.gpustack",
-    REPO_ROOT / ".env",
-    BASE_DIR / ".env",
-)
+#:
+#: Separation (#567 / S2): when ``AH_ENV_FILE`` is set — the dh-bot systemd unit
+#: sets it — the bot reads ONLY that file for its file-sourced secrets and does
+#: NOT fall back to the shared ``.env.gpustack``, which also holds the OpenClaw
+#: agent's credentials (e-mail, calendar, SSH). The real process environment
+#: (systemd ``EnvironmentFile=``) still wins over any file, exactly as before, so
+#: the unit can supply the secrets either way.
+def _select_env_files() -> tuple[Path, ...]:
+    dedicated = os.environ.get("AH_ENV_FILE", "").strip()
+    if dedicated:
+        return (Path(dedicated),)
+    return (
+        REPO_ROOT / ".env.gpustack",
+        REPO_ROOT / ".env",
+        BASE_DIR / ".env",
+    )
+
+
+ENV_FILES: tuple[Path, ...] = _select_env_files()
 
 for _env_file in ENV_FILES:
     if _env_file.exists():
