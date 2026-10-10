@@ -1577,6 +1577,13 @@ async def mcp_propose_cmd(
     try:
         from utils import mcp_probe
         import mcp_propose
+        # SEC-7 (#578): scheme + SSRF host check BEFORE the probe connects, so a
+        # URL pointing at an internal/private target is refused and never probed
+        # with the bot's credentials.
+        refusal = mcp_probe.url_guard(url)
+        if refusal:
+            await ctx.followup.send(refusal)
+            return
         report = await mcp_probe.probe(url)
         err = mcp_propose.check_guardrails(name, url, report)
         if err:
@@ -1589,7 +1596,10 @@ async def mcp_propose_cmd(
         view = _McpProposeView(token=token, requester=requester_id)
         await ctx.followup.send(mcp_propose.format_report(name, url, report), view=view)
     except Exception as e:
-        await ctx.followup.send(f"❌ Error: {e}")
+        # SEC-7/SEC-14: log the detail, don't echo a raw exception (which can carry
+        # an internal host/IP) into the channel.
+        logger.warning("[mcp_propose] probe/propose failed: {}", e)
+        await ctx.followup.send("❌ Die Probe ist fehlgeschlagen — Details siehe Log.")
 
 
 def main() -> None:
