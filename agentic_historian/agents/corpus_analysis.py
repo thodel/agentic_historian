@@ -57,7 +57,11 @@ def analyse_corpus(corpus_name: str, doc_ids: Optional[list[str]] = None) -> dic
         "topics": topics,
         "taxonomy": taxonomy,
         "care_analysis": care,
-        "voyant_url": _voyant_url(combined, corpus_name),
+        # SEC-12 (#583): only upload the corpus text to Voyant (a third-party
+        # service, via a publicly shareable link) when the operator has explicitly
+        # enabled it for corpora cleared to publish. Off by default on an open
+        # server so unpublished/licensed transcriptions do not leak.
+        "voyant_url": _voyant_url(combined, corpus_name) if config.ENABLE_VOYANT_UPLOAD else "",
     }
 
     _save(corpus_name, result)

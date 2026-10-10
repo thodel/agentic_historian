@@ -1191,7 +1191,10 @@ async def agent_d_cmd(
             f"Tokens: {result.get('stats', {}).get('total_tokens', 0)}"
         )
         if result.get("voyant_url"):
-            msg += f"\nVoyant: {result['voyant_url']}"
+            # SEC-12 (#583): the corpus text was uploaded to Voyant and this link is
+            # publicly shareable — say so where it is posted.
+            msg += (f"\nVoyant: {result['voyant_url']}"
+                    "\n⚠️ Dieser Link ist öffentlich teilbar — der Korpustext liegt auf Voyant.")
         await ctx.followup.send(msg)
     except Exception as e:
         await ctx.followup.send(f"❌ Error: {e}")

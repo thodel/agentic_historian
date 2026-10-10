@@ -672,6 +672,12 @@ HF_TOKEN = _get("HF_TOKEN", "")
 # Self-hosted Voyant instance (see README "Voyant Tools — Integration").
 # Reads VOYANT_API_URL; the legacy misspelled name is kept as a fallback.
 VOYANT_API_URL = _get("VOYANT_API_URL", _get("Voyant_API_URL", "https://tei.dh.unibe.ch/voyant"))
+# SEC-12 (#583): /agent_d can upload up to 50k chars of corpus text to Voyant and
+# post a publicly shareable `?corpus=` link. On an open server that risks sending
+# unpublished or licensed transcriptions to a third-party service, so the upload
+# is OFF by default and must be enabled deliberately — only for corpora that are
+# cleared for publication.
+ENABLE_VOYANT_UPLOAD = _get("ENABLE_VOYANT_UPLOAD", "false").lower() == "true"
 
 # ── Agent E: Meta Agent ──────────────────────────────────────────────────────
 META_REPORT_PATH = OUTPUTS_DIR / "meta_report.md"
