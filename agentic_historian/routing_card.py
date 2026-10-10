@@ -19,6 +19,7 @@ from typing import Optional
 from loguru import logger
 
 import config
+import gate_guard
 
 from feedback_logger import log_routing_feedback
 
@@ -177,5 +178,11 @@ def build_view(state: RunState, runners: Optional[dict] = None):
             super().__init__(timeout=None)
             for field in ("century", "lang", "script", "document_type"):
                 self.add_item(_FieldSelect(field))
+
+        async def interaction_check(self, interaction, /) -> bool:
+            # SEC-4 (#575): changing routing criteria re-selects the HTR model and
+            # invalidates stages, so only a role-holder may touch this card. The
+            # check runs before any _FieldSelect.callback.
+            return await gate_guard.enforce_gate(interaction)
 
     return RoutingCardView()
