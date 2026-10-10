@@ -312,7 +312,8 @@ def test_the_watcher_is_off_unless_a_channel_is_chosen():
 class _Ctx:
     def __init__(self):
         self.sent = []
-        self.guild = SimpleNamespace(id=1)
+        # Authorised caller for the fail-closed gate (#572): the guild owner.
+        self.guild = SimpleNamespace(id=1, owner_id=7)
         self.author = SimpleNamespace(id=7, roles=[])
 
         async def _defer(ephemeral=False):

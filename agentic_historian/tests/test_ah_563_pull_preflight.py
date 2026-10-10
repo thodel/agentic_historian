@@ -393,7 +393,8 @@ def test_the_share_path_delegates_rather_than_keeping_a_second_copy():
 class _Ctx:
     def __init__(self):
         self.sent = []
-        self.guild = SimpleNamespace(id=1)
+        # Authorised caller for the fail-closed gate (#572): the guild owner.
+        self.guild = SimpleNamespace(id=1, owner_id=7)
         self.author = SimpleNamespace(id=7, roles=[])
 
         async def _defer(ephemeral=False):
