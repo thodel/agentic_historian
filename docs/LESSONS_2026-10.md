@@ -360,6 +360,61 @@ rejected, say which file holds them, and say so **before** somebody discovers it
 through a failed pull. Nothing was watching that endpoint, which is why a dead
 passcode presented itself as a mystery about a folder.
 
+## 10. A count is a complaint; only the keys are a task
+
+The report had columns for the three ways a reading comes back unusable — empty,
+padded, cut off — and for two of them it named the pages. That looked complete
+until somebody had to act on it. `gemini-300-strict` flagged 33 of 300 pages;
+`report.md` named 21 of them, because each section capped its list at twenty **as
+the keys were collected**, so the twenty-first empty page was counted into a
+number and then dropped. Nothing held it. For a cut-off page there was no list at
+all, only the runner's warning, which names the image file (`002.jpg`) and not
+the page key a selection is made of.
+
+So the next step — read those pages again — was a reading exercise: open the
+Markdown, copy keys by hand, hope the count and the list agree. Three defects,
+three remedies, one next step, and the one next step was the only part the
+pipeline could not do.
+
+The fix is small and the shape of it generalises: the cap belongs to the
+rendering, never to the record, and anything a report complains about should come
+out as the input of the thing that would fix it. `--keys-out` and
+`batch_report(keys_out=…)` now write the flagged pages as the key list
+`--keys-from` already took. The handover already existed for ground truth
+(`score_ground_truth` → `start_batch`); this is the same handover for failures.
+
+**The generalisation to be suspicious of:** a number in a report is not evidence
+that anybody can act on the thing it counts. Ask what the next command would be,
+and whether the report can produce its argument.
+
+## 11. A prompt that forbids guessing buys silence, and silence passes every check
+
+The strict prompt fixed what it was written for: no preamble, no invented
+structure labels, no Markdown, over 300 pages rather than three. It also made the
+model stop answering. Of the 205 pages both runs read, **21 came back empty under
+the strict prompt that the same model had read with text under the original** —
+and one more came back as 24 consecutive lines of `[...]`, which is the refusal
+marker used as exactly the line filler the prompt forbids.
+
+An empty page is a success by every signal the runner has: HTTP 200, no
+exception, both files on disk, and `is_complete` will skip it for ever. The
+column exists precisely because nothing else moves — and the column's own
+explanation was still the gateway's ("the segmenter found no lines"), which for a
+chat completion is not merely wrong but points the reader at a component that is
+not in the path.
+
+Two things worth keeping separate here, because the temptation is to collapse
+them:
+
+- **Refusing to read is not the same as reading badly, and neither is visible in
+  these numbers.** The 21 readings the original prompt produced may be readings
+  or fluent invention. Without ground truth or a look at the image, "21 pages
+  lost" and "21 guesses avoided" are the same measurement.
+- **The run does not isolate the cause.** Prompt *and* thinking level changed
+  between the two runs. The discriminating run is 33 pages, two minutes and a few
+  cents — the same keys, original prompt, `--reasoning low` — and is the reason
+  lesson 10 exists at all: it needed the keys.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.
