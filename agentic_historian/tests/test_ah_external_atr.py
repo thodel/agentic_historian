@@ -161,3 +161,86 @@ def test_a_tiff_is_labelled_as_one(tmp_path):
     page.write_bytes(b"II*\x00")
 
     assert ex._image_url(page).startswith("data:image/tiff;base64,")
+
+
+# ── the preflight, which moved rather than disappearing ──────────────────────
+#
+# 2026-10-10: the first external dry run was refused by the *gateway's*
+# preflight — "gemini-3.8-flash is not in /models" — because that check asks
+# idhefix about a model that lives at Google. Skipping it was the wrong fix. A
+# model id nobody serves still makes every page take the same 404, and here the
+# successes are billed too: a typo naming a real but wrong model spends money on
+# the wrong measurement.
+
+class _Model:
+    def __init__(self, mid):
+        self.id = mid
+
+
+class _Client:
+    def __init__(self, ids, raises=None):
+        self._ids, self._raises = ids, raises
+        self.models = self
+
+    def list(self):
+        if self._raises:
+            raise self._raises
+        return [_Model(i) for i in self._ids]
+
+
+@pytest.fixture
+def api(monkeypatch):
+    def _install(ids, raises=None):
+        import openai
+        monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+        monkeypatch.setattr(openai, "OpenAI",
+                            lambda **kw: _Client(ids, raises))
+    return _install
+
+
+def test_a_listed_model_passes(api):
+    api(["gemini-3.8-flash", "gemini-2.5-pro"])
+
+    v = ex.preflight("gemini-3.8-flash")
+
+    assert v.listed is True and not v.refused
+    assert "ok" in v.line
+
+
+def test_an_unlisted_model_is_refused_and_shows_what_exists(api):
+    api(["gemini-2.5-pro", "gemini-3-flash-preview"])
+
+    v = ex.preflight("gemini-9.9-imaginary")
+
+    assert v.refused
+    assert "gemini-2.5-pro" in v.line
+    assert "404" in v.line
+
+
+def test_a_prefixed_id_counts_as_listed(api):
+    """Some surfaces list `models/gemini-…`; the exact id is named back."""
+    api(["models/gemini-3.8-flash"])
+
+    v = ex.preflight("gemini-3.8-flash")
+
+    assert v.listed is True
+    assert "models/gemini-3.8-flash" in v.detail
+
+
+def test_an_api_that_cannot_be_asked_is_not_a_refusal(api):
+    """The network may be slow and the pages are still worth trying — which is
+    how the gateway's own probe behaves."""
+    api([], raises=RuntimeError("timed out"))
+
+    v = ex.preflight("gemini-3.8-flash")
+
+    assert v.listed is None and not v.refused
+    assert "trying anyway" in v.line
+
+
+def test_no_key_is_a_refusal_not_an_unknown(monkeypatch):
+    """Without a key nothing can run, and saying "trying anyway" would spend a
+    page to discover it."""
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "")
+
+    assert ex.preflight("gemini-3.8-flash").refused
