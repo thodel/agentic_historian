@@ -54,6 +54,11 @@ __all__ = [
     "NextcloudError",
     "parse_share_url",
     "is_configured",
+    "hotfolder_share",
+    "masked_token",
+    "preflight",
+    "explain",
+    "list_subdirs",
     "list_files",
     "pull_folder",
     "DAV_PREFIX",
@@ -226,6 +231,221 @@ def _what_to_change(share: ShareRef, codes: set, probe_dir: str) -> str:
                 f"404s every path below it on some servers, which is why the "
                 f"newer `public.php/dav/files/<token>` is tried first.")
     return ""
+
+
+def hotfolder_share() -> ShareRef:
+    """The hot-folder share (#592), from ``SWITCHDRIVE_SHARE_URL``.
+
+    A different share from :func:`share_from_config`, which names the Laßberg
+    corpus on the GWDG instance. Keeping the two apart is not tidiness: that one
+    is a 160 GB holding read in place (#487) and this one is a mailbox for
+    ad-hoc deliveries, and #592 says in as many words not to mix the two jobs
+    again.
+    """
+    if not config.SWITCHDRIVE_SHARE_URL:
+        raise NextcloudError(
+            "hot-folder share not configured — set SWITCHDRIVE_SHARE_URL (and "
+            "SWITCHDRIVE_SHARE_PASS when the share has a password)."
+        )
+    return parse_share_url(config.SWITCHDRIVE_SHARE_URL,
+                           config.SWITCHDRIVE_SHARE_PASS)
+
+
+def masked_token(token: str) -> str:
+    """A share token in a form that identifies it without handing it over.
+
+    The token **is** the WebDAV username for a public share, so printing it into
+    a Discord channel or a log hands over the access itself — which the account
+    path cannot do, a username not being a credential. Four leading characters
+    are enough to tell two shares apart in a report and not enough to use.
+    """
+    token = (token or "").strip()
+    if not token:
+        return ""
+    if len(token) <= 4:
+        return "…"
+    return f"{token[:4]}… ({len(token)} Zeichen)"
+
+
+def _share_secret_source(key: str = "SWITCHDRIVE_SHARE_PASS") -> str:
+    """Which file this process read the share password from, or "" for none.
+
+    "" means the process environment, where ``load_dotenv(override=False)``
+    cannot replace it — the trap measured on 2026-10-03 and again on 10-09.
+    """
+    source = config.ENV_SOURCE.get(key)
+    if source is None:
+        return ""
+    try:
+        return str(Path(source).relative_to(config.REPO_ROOT))
+    except (ValueError, TypeError):              # pragma: no cover — defensive
+        return str(source)
+
+
+def _advise(layer: str, status, found) -> str:
+    """What to change, for a **share** mailbox.
+
+    The hook exists because the answers differ from the account path's in every
+    layer, and saying the wrong one is worse than saying nothing: a share has no
+    app password, so advice naming one sends the reader to a settings page where
+    there is nothing to fix.
+    """
+    if layer == "config":
+        return ("`SWITCHDRIVE_SHARE_URL` in `.env.gpustack` setzen (die URL aus "
+                "dem Browser genügt, jede Schreibweise wird erkannt), dann den "
+                "Bot neu starten. Ein Freigabe-Passwort ist optional — "
+                "`SWITCHDRIVE_SHARE_PASS` nur setzen, wenn die Freigabe eines "
+                "hat.")
+    if layer == "network":
+        return (f"`{found.endpoint}` war nicht erreichbar. Das ist der Host, "
+                f"nicht die Freigabe: DNS, Firewall oder ein Ausfall.")
+    if layer == "auth":
+        if status == 401:
+            if not found.secret_chars:
+                return ("Die Freigabe wurde abgelehnt und es ist **kein** "
+                        "Freigabe-Passwort konfiguriert. Entweder ist die "
+                        "Freigabe passwortgeschützt — dann "
+                        "`SWITCHDRIVE_SHARE_PASS` setzen — oder der Token ist "
+                        "abgelaufen oder die Freigabe wurde gelöscht. Kein "
+                        "App-Passwort im Spiel: dieser Weg benutzt keines.")
+            where = (f"aus `{found.secret_source}`" if found.secret_source
+                     else "**aus der Prozess-Umgebung, nicht aus einer "
+                          "`.env`-Datei** — `load_dotenv(override=False)` kann "
+                          "einen dort gesetzten Wert nicht ersetzen "
+                          "(`/proc/<pid>/environ` und `EnvironmentFile=` prüfen)")
+            return (f"Token oder Freigabe-Passwort wurden abgelehnt — nicht der "
+                    f"Ordner, nicht das Netz. Dieser Prozess bot Token "
+                    f"`{found.user}` mit {found.secret_chars} Zeichen "
+                    f"Passwort {where}.\n"
+                    f"Zu prüfen ist die Freigabe selbst: existiert sie noch, "
+                    f"ist sie abgelaufen, wurde ihr Passwort geändert? "
+                    f"Kein App-Passwort und kein edu-ID-Konto sind beteiligt — "
+                    f"das ist der Punkt dieses Wegs (#592).")
+        if status == 403:
+            return ("Der Token wurde akzeptiert, aber die Freigabe gibt kein "
+                    "Leserecht her. Eine reine „Dateien ablegen\"-Freigabe kann "
+                    "beschreibbar und nicht listbar sein — dann braucht es eine "
+                    "Freigabe mit Lese- *und* Schreibrecht, oder zwei.")
+        return (f"Die Wurzel der Freigabe antwortete mit {status}. Ein "
+                f"Browser-Zugriff beweist hier nichts: der Browser hat eine "
+                f"Session, dieser Aufruf benutzt Basic-Auth mit dem Token.")
+    if layer == "path":
+        if status == 404:
+            return (f"Token gut — `{found.target}` existiert nicht **in dieser "
+                    f"Freigabe**. Pfade sind relativ zur Freigabe-Wurzel, nicht "
+                    f"zu irgendeinem Konto: der Ordner muss innerhalb des "
+                    f"freigegebenen Verzeichnisses liegen.")
+        if status == 403:
+            return (f"Authentifiziert, aber kein Leserecht für "
+                    f"`{found.target}` innerhalb der Freigabe.")
+        return f"`{found.target}` antwortete mit {status}."
+    return ""
+
+
+def preflight(remote_dir: Optional[str] = None, *, share: Optional[ShareRef] = None,
+              **kw):
+    """The four layers for the **share** mailbox (#592), via ``webdav_probe``.
+
+    Two things this answers that no amount of reasoning could:
+
+    * **which public endpoint this server serves.** ``probe_any`` tries the
+      newer ``public.php/dav/files/<token>`` and the legacy
+      ``public.php/webdav`` and reports both results. SwitchDrive is an ownCloud
+      descendant and the measurement against the GWDG instance (Nextcloud 30)
+      does not transfer; #592 says to measure it, and this is the measurement.
+    * **whether a file-drop share is readable at all.** A write-only share
+      authenticates and refuses to list, which lands on the auth or path layer
+      with a 403 and its own advice rather than as a puzzle.
+
+    Never raises: an unconfigured share is a ``config`` failure like any other,
+    because a preflight that throws is a preflight nobody runs twice.
+    """
+    import webdav_probe
+
+    if share is None:
+        try:
+            share = hotfolder_share()
+        except NextcloudError:
+            # Not an exception for the caller: an unconfigured share is a
+            # `config` failure like any other, and `_advise("config", …)` already
+            # names what to set. A preflight that raises is one nobody runs
+            # twice, which is the whole reason #563 made this never raise.
+            return webdav_probe.probe(
+                label="Freigabe", endpoint="", user="", secret="",
+                target=str(remote_dir or ""), advise=_advise,
+                secret_optional=True, **kw)
+
+    target = remote_dir if remote_dir is not None else config.NEXTCLOUD_REMOTE_DIR
+    return webdav_probe.probe_any(
+        label="Freigabe",
+        endpoints=(share.dav_url, share.webdav_url),
+        user=share.token,
+        shown_user=masked_token(share.token),
+        secret=share.password,
+        secret_key="SWITCHDRIVE_SHARE_PASS",
+        secret_source=_share_secret_source(),
+        secret_optional=True,
+        # The token is in the endpoint URL itself
+        # (``public.php/dav/files/<token>``), so masking the username was not
+        # enough — the report printed the credential in the one place nobody
+        # thought to look.
+        redact=(share.token, share.password),
+        target=(target or "").strip("/"),
+        exts=INGEST_EXTS,
+        advise=_advise,
+        **kw)
+
+
+def explain(exc: Exception, remote_dir: str = "") -> str:
+    """One sentence naming the thing to change, for an error from a share pull.
+
+    The share counterpart of ``switchdrive.explain``. Separate because the
+    sentences are: a 401 here is never an app password, and saying so is what
+    keeps somebody from rotating a credential this path does not use.
+    """
+    from webdav_probe import status_of
+
+    status = status_of(exc)
+    if status == 401:
+        return ("401 von der Freigabe: Token abgelaufen, Freigabe gelöscht, "
+                "oder das Freigabe-Passwort stimmt nicht. **Kein** "
+                "App-Passwort und kein edu-ID-Konto sind hier beteiligt.")
+    if status == 403:
+        return ("403: die Freigabe gibt kein Leserecht her — eine reine "
+                "„Dateien ablegen\"-Freigabe kann beschreibbar und nicht "
+                "listbar sein.")
+    if status == 404:
+        return (f"404: `{remote_dir or '/'}` existiert nicht in dieser "
+                f"Freigabe. Pfade sind relativ zur Freigabe-Wurzel.")
+    # No status covers two different things: a transport failure, and an error
+    # that was never an HTTP call at all (a full disk, a permission problem on
+    # the local staging directory). Saying "network, DNS or an outage" to the
+    # second is the invented advice #563's test forbids — so nothing is said,
+    # which is also what ``switchdrive.explain`` does.
+    return ""
+
+
+def list_subdirs(remote_dir: Optional[str] = None, *,
+                 share: Optional[ShareRef] = None) -> list[str]:
+    """Immediate subfolders under ``remote_dir``, paths relative to the share.
+
+    Same contract as ``switchdrive.list_subdirs``, **including** the part that
+    is easy to miss: a folder with no subfolders returns ``[remote_dir]`` so the
+    caller can treat it as one order. ``ingest.run_switchdrive_orders`` relies on
+    that, and a share path that returned ``[]`` there would quietly process
+    nothing and report success.
+    """
+    share = share or hotfolder_share()
+    rdir = (remote_dir if remote_dir is not None
+            else config.NEXTCLOUD_REMOTE_DIR) or ""
+    rdir = rdir.strip("/")
+    client = _connect(share, rdir)
+    subs = []
+    for entry in _ls(client, rdir):
+        name = (entry.get("name") or entry.get("href") or "").rstrip("/")
+        if entry.get("type") == "directory" and name and name.strip("/") != rdir:
+            subs.append(name.strip("/"))
+    return sorted(subs) if subs else [rdir]
 
 
 def _connect(share: ShareRef, probe_dir: str = ""):

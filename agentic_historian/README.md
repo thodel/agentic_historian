@@ -26,10 +26,11 @@ utils/
   gpustack_client.py    — single GPUStack (OpenAI-compatible) client
   mcp_client.py         — async client over the KH MCP federation (PersonResult contract)
   entity_resolver.py    — cross-source entity resolver/merger
-  switchdrive.py        — WebDAV ingestion from SwitchDrive
+  switchdrive.py        — WebDAV ingestion from SwitchDrive (as an account)
   metrics.py            — per-run telemetry (Agent E)
 orchestrator.py   — A→B→(kraken re-run)→C(→D) pipeline wiring (single doc + grouped "order")
 ingest.py         — SwitchDrive order ingestion (UI-agnostic core; bot is a thin shell, #33)
+ingest_mailbox.py — which way the hot folder is read: a share token or an account (#592)
 runstate.py       — per-document run state + stage-invalidation state machine (HITL)
 routing_card.py   — HITL Gate-1 routing card (metadata selects → re-route HTR)
 path_compare.py   — HITL Gate-2 path-comparison card (measured CER)
@@ -70,9 +71,9 @@ python bot.py            # or: python -m agentic_historian  (entry point, see py
 | `/run <file>` | Full A→B→C pipeline on a file in the hot folder |
 | `/run_agent_a <file>` | HTR only |
 | `/hotfolder` | Process all files in the hot folder |
-| `/pull [folder] [recursive]` | Pull images from a SwitchDrive folder and process each |
-| `/pull_folder [folder] [reprocess]` | Process each SwitchDrive subfolder as one multi-page document |
-| `/pull_preflight [folder]` | Which of the four SwitchDrive layers is broken — config, host, credentials, path — each reported separately, with the ones behind a failure left as *unchecked* rather than failed |
+| `/pull [folder] [recursive]` | Pull images from a mailbox folder and process each. The answer names the way it took — share or account (#592) |
+| `/pull_folder [folder] [reprocess]` | Process each mailbox subfolder as one multi-page document |
+| `/pull_preflight [folder]` | Which of the four mailbox layers is broken — config, host, credentials, path — each reported separately, with the ones behind a failure left as *unchecked* rather than failed. For a share it also reports **which public endpoint answered** |
 | `/env_reload` | Admin: re-read the `.env` files without a restart, then run the preflight so success is shown rather than claimed. Only the keys that came *from a file* — a value from the process environment wins over every `.env` (#106) and is named as unchangeable from here |
 | `/agent_d [corpus]` | Corpus analysis |
 | `/agent_e` | Meta report |
@@ -103,7 +104,8 @@ Sensitive commands (`/run`, `/run_agent_a`, `/pull`, `/pull_folder`) are role-ga
 | `ATR_API_KEY` | `X-API-Key` for the ATR gateway |
 | `MCP_BASE_URL` / `MCP_TIMEOUT` | Knowledge-hub MCP federation base + per-request timeout |
 | `ENABLE_MCP_LINKING` | Agent C links persons via the MCP federation (falls back to the local hub) |
-| `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | SwitchDrive WebDAV ingestion (app password) |
+| `SWITCHDRIVE_SHARE_URL` / `_PASS` | The hot folder as a **public share** (#592, recommended): the share token is the WebDAV user, so no edu-ID account is in the path and nothing dies when an app passcode is deleted on another device. Paste the browser URL. The password is optional — a share may have none. Set, this wins over the account values below |
+| `SWITCHDRIVE_URL` / `_USER` / `_PASS` / `_REMOTE_DIR` | The hot folder as an **account** (app passcode). Still supported; used when no share is configured |
 | `DISCORD_GUILD_ID` | Register slash commands in this guild, where Discord makes them usable at once. Empty = global commands, which take up to an hour to propagate — a new command is then indistinguishable from a missing one |
 | `CREDENTIAL_WATCH_CHANNEL_ID` / `_INTERVAL_S` | Announce when the mailbox credentials stop being accepted, instead of letting a failed pull be the first sign. Empty = off |
 | `BATCH_WORKERS` / `BATCH_MAX_ATTEMPTS` | Documents in flight at once for `batch`, and attempts before one goes to the dead letter (defaults 2 and 3; `--workers` / `--max-attempts` override per run) |
@@ -252,6 +254,55 @@ Also fixed here: `timing_ms` was `0` on every recognition, including an
 `KrakenResult` and was dropped when the `RecognitionResult` was built, and an
 absent value was read as `0`. It is now carried through, and `None` when the
 gateway reported nothing.
+
+### The mailbox: a share token, not somebody's account (#592)
+
+The ingest used to authenticate as a **user** — `SWITCHDRIVE_USER` plus an app
+passcode against that account's own root — so the corpus entrance hung on a
+personal edu-ID account. On 09./10.10.2026 that cost two days: a valid App
+Passcode stopped being accepted and **why is still unknown**
+(`docs/LESSONS_2026-10.md` §9 — three mechanisms proposed, two refuted). The
+shape is worse than the incident: SWITCH documents one passcode *per device* and
+deleting one closes that connection at once, so a passcode shared between tei, a
+laptop and a backup dies the moment any of them is tidied up.
+
+|  | account | share token |
+|---|---|---|
+| hangs on an edu-ID account | yes | no |
+| dies with an app passcode | yes | no |
+| revoking | delete the passcode (hits every device) | delete the share |
+| rotating | new passcode, everywhere | new share, one value |
+| giver needs an account | yes | no — they get a link |
+
+Set `SWITCHDRIVE_SHARE_URL` and the ingest reads the share; leave it unset and it
+reads the account exactly as before. **Both ways stay** — a switch that keeps the
+old one is a switch with a return ticket. `ingest_mailbox.py` is the one place
+that decides, so `/pull`, `/pull_folder`, `/pull_preflight` and the credential
+watcher cannot disagree about which way is in use, and **every answer says which
+way it took**: without that the next failure is the puzzle #563 was filed for, a
+message about a credential nobody can tell is the one in use.
+
+Three things this gets right that are easy to get wrong:
+
+* **The token is not printed.** For a share the token *is* the credential — and
+  it sits inside the endpoint URL (`public.php/dav/files/<token>`), which the
+  report prints. Masking the username was not enough; the probe redacts, and a
+  test asserts the token appears nowhere in a report or a watcher announcement.
+* **The advice never names the other way's credential.** A 401 on the share path
+  says the share may have expired or been deleted, and says explicitly that no
+  app passcode is involved. Saying "rotate the app passcode" there sends somebody
+  to a settings page where there is nothing to fix.
+* **Two things are measured, not assumed.** `/pull_preflight` tries both public
+  endpoints (`public.php/dav/files/<token>` and the legacy `public.php/webdav`)
+  and reports which answered — SwitchDrive is an ownCloud descendant and the
+  reading taken against the GWDG instance does not transfer. And a file-drop
+  share that authenticates but refuses to list lands on a 403 with its own
+  sentence, rather than looking like a credential problem.
+
+`NEXTCLOUD_SHARE_*` is deliberately *not* reused for this: those name the Laßberg
+corpus share on the GWDG instance, which is mounted and read in place (#487).
+Pointing the hot folder at a 160 GB holding is the one confusion #592 says not to
+reintroduce.
 
 ## Publishing outputs — GitHub + Pages
 

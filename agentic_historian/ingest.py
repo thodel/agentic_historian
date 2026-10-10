@@ -29,12 +29,17 @@ def run_switchdrive_orders(parent: Optional[str] = None,
 
     Returns ``{"done": [...], "skipped": [...], "empty": [...], "errors": [...]}``.
     A failing order is recorded and never stops the batch.
+
+    Goes through ``ingest_mailbox`` since #592, so it reads whichever mailbox is
+    configured — a public share token or an account's app passcode. The name
+    keeps ``switchdrive`` because the destination is the same SwitchDrive either
+    way; only the authentication differs.
     """
-    from utils import switchdrive
+    import ingest_mailbox
 
     parent = parent or config.SWITCHDRIVE_REMOTE_DIR
-    orders = switchdrive.list_subdirs(parent) or [parent]
-    already = set() if reprocess else switchdrive.load_processed()
+    orders = ingest_mailbox.list_subdirs(parent) or [parent]
+    already = set() if reprocess else ingest_mailbox.load_processed()
     res: dict[str, list] = {"done": [], "skipped": [], "empty": [], "errors": []}
 
     for order in orders:
@@ -44,13 +49,13 @@ def run_switchdrive_orders(parent: Optional[str] = None,
             continue
         staging = config.HOT_FOLDER / "_orders" / order_id
         try:
-            files = switchdrive.pull_folder(order, staging, recursive=True)
+            files = ingest_mailbox.pull_folder(order, staging, recursive=True)
             if not files:
                 res["empty"].append(order_id)
                 continue
             doc_id = Path(order.rstrip("/")).name or order_id
             run_full_pipeline_group(doc_id, files)
-            switchdrive.mark_processed(order_id)
+            ingest_mailbox.mark_processed(order_id)
             res["done"].append(f"{doc_id} ({len(files)}p)")
         except Exception as e:
             logger.exception(f"[ingest] order {order_id} failed")

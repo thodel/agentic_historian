@@ -59,6 +59,7 @@ __all__ = [
     "count_entries",
     "format_probe",
     "probe",
+    "probe_any",
     "status_of",
 ]
 
@@ -139,6 +140,32 @@ class Probe:
     #: Ingestible files counted in ``target``. ``None`` = not counted, which is
     #: not the same as zero.
     files: Optional[int] = None
+    #: Values that must never be rendered — replaced by ``…`` in every line the
+    #: report prints. For a public share the token is *in the endpoint URL*
+    #: (``public.php/dav/files/<token>``), so masking the username was not
+    #: enough: the report printed the credential in the one place nobody thought
+    #: to look. Found by the test that asserts the token appears nowhere.
+    redact: tuple = ()
+    #: ``[(url, outcome)]`` when more than one candidate endpoint was tried
+    #: (:func:`probe_any`). Empty for a mailbox with one endpoint. This is a
+    #: **measurement**, not a diagnostic: which public-share endpoint a server
+    #: serves differs between Nextcloud versions and ownCloud descendants, and
+    #: #592 asks for it to be measured rather than assumed. Reported so the
+    #: first live call answers the question instead of a person guessing.
+    endpoints_tried: list = field(default_factory=list)
+
+    def scrub(self, text: str) -> str:
+        """``text`` with every redacted value replaced.
+
+        Applied where the strings are built rather than only where they are
+        printed: ``Check.detail`` and ``Check.action`` are read by
+        ``credential_watch`` too, and a scrub that lived only in
+        ``format_probe`` would leak through the watcher's announcement.
+        """
+        for value in self.redact:
+            if value:
+                text = text.replace(value, "…")
+        return text
 
     def check(self, layer: str) -> Check:
         for found in self.checks:
@@ -199,6 +226,8 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
           target: str = "", secret_source: str = "", secret_key: str = "",
           exts: Optional[Iterable[str]] = None,
           advise: Optional[Callable[[str, Optional[int], "Probe"], str]] = None,
+          shown_user: str = "", secret_optional: bool = False,
+          redact: Iterable[str] = (),
           timeout: float = 30.0, request: Optional[Callable] = None) -> Probe:
     """Run the four layers against one WebDAV endpoint. Never raises.
 
@@ -206,10 +235,23 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
     function knows that 401 is an auth failure and not what to do about one,
     because the answer differs between an account's app password and a share
     token. Returning "" is fine; the generic detail still stands.
+
+    ``shown_user`` is what the report prints when that must differ from what is
+    sent. For a public share the username **is** the share token (#592), and
+    printing it into a Discord channel or a log would hand over the access
+    itself — a thing the account path cannot do, since a username is not a
+    credential. Default: what is sent is what is shown.
+
+    ``secret_optional`` because a public share with no password is a real
+    configuration, while an account with no app password is not. Without it the
+    config layer reports ``nicht gesetzt: PASS`` for a share that is working
+    perfectly well.
     """
     call = request or _request
-    found = Probe(label=label, endpoint=endpoint, target=target, user=user,
-                  secret_chars=len(secret or ""), secret_source=secret_source)
+    found = Probe(label=label, endpoint=endpoint, target=target,
+                  user=shown_user or user,
+                  secret_chars=len(secret or ""), secret_source=secret_source,
+                  redact=tuple(v for v in redact if v))
 
     def _advise(layer: str, status: Optional[int]) -> str:
         if advise is None:
@@ -222,8 +264,9 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
 
     def _stop(layer: str, detail: str, status: Optional[int] = None) -> Probe:
         """Record the failure and leave every later layer unknown."""
-        found.checks.append(Check(layer=layer, status=FAILED, detail=detail,
-                                  action=_advise(layer, status)))
+        found.checks.append(Check(layer=layer, status=FAILED,
+                                  detail=found.scrub(detail),
+                                  action=found.scrub(_advise(layer, status))))
         reached = LAYERS.index(layer)
         for later in LAYERS[reached + 1:]:
             found.checks.append(Check(
@@ -232,9 +275,10 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
         return found
 
     # ── config ───────────────────────────────────────────────────────────────
-    missing = [name for name, value in
-               (("URL", endpoint), ("USER", user), ("PASS", secret))
-               if not (value or "").strip()]
+    required = [("URL", endpoint), ("USER", user)]
+    if not secret_optional:
+        required.append(("PASS", secret))
+    missing = [name for name, value in required if not (value or "").strip()]
     if missing:
         return _stop("config", f"nicht gesetzt: {', '.join(missing)}")
     # A secret whose value is the literal "<Passwort>" is set, is truthy, passes
@@ -253,9 +297,9 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
             logger.warning(f"[probe] placeholder check skipped: {e}")
     found.checks.append(Check(
         layer="config", status=OK,
-        detail=f"{user} · {len(secret)} Zeichen"
-               + (f" aus {secret_source}" if secret_source
-                  else " aus der Prozess-Umgebung")))
+        detail=found.scrub(f"{found.user} · {len(secret)} Zeichen"
+                           + (f" aus {secret_source}" if secret_source
+                              else " aus der Prozess-Umgebung"))))
 
     root = endpoint.rstrip("/") + "/"
 
@@ -266,8 +310,8 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
         answered = call("OPTIONS", root, timeout=timeout)
         found.checks.append(Check(
             layer="network", status=OK,
-            detail=f"{urlsplit(root).netloc} antwortet "
-                   f"(HTTP {getattr(answered, 'status_code', '?')})"))
+            detail=found.scrub(f"{urlsplit(root).netloc} antwortet "
+                               f"(HTTP {getattr(answered, 'status_code', '?')})")))
     except Exception as e:                       # noqa: BLE001
         return _stop("network", f"{type(e).__name__}: {e}")
 
@@ -305,6 +349,53 @@ def probe(*, label: str, endpoint: str, user: str, secret: str,
     return found
 
 
+
+def probe_any(*, endpoints: Iterable[str], **kw) -> Probe:
+    """:func:`probe` against several candidate endpoints; report the best answer.
+
+    For a mailbox whose endpoint is not known in advance. Nextcloud 30 moved
+    public shares to ``public.php/dav/files/<token>`` while keeping the legacy
+    ``public.php/webdav`` working, some deployments serve only one, and
+    SwitchDrive is an ownCloud descendant that may do something else again —
+    which #592 says to **measure**, not assume. Measuring it is two PROPFINDs,
+    and they belong in the code that needs the answer rather than in a person's
+    notes from one afternoon.
+
+    "Best" is the probe that got furthest through the layers, and a full pass
+    wins outright. That ordering matters: a server serving only the legacy
+    endpoint answers 404 on the newer one *at the auth layer*, and returning the
+    first probe rather than the furthest would report a dead endpoint's advice
+    about a mailbox that works.
+
+    Every attempt is recorded in ``endpoints_tried`` on the returned probe, so
+    the report says which endpoint answered and which did not — the measurement,
+    carried rather than discarded.
+    """
+    candidates = [e for e in endpoints if (e or "").strip()]
+    if not candidates:
+        return probe(endpoint="", **kw)
+
+    attempts: list[tuple[Probe, str]] = []
+    for endpoint in candidates:
+        found = probe(endpoint=endpoint, **kw)
+        blocked = found.blocked_at
+        outcome = "ok" if blocked is None else f"{blocked.layer}: {blocked.detail}"
+        attempts.append((found, outcome))
+        if blocked is None:
+            break
+        if blocked.layer == "config":
+            # Endpoint-independent: the same values are missing for every
+            # candidate, so asking again would print the same complaint twice.
+            break
+
+    def _reached(found: Probe) -> int:
+        blocked = found.blocked_at
+        return len(LAYERS) if blocked is None else LAYERS.index(blocked.layer)
+
+    best = max((f for f, _ in attempts), key=_reached)
+    best.endpoints_tried = [(f.endpoint, outcome) for f, outcome in attempts]
+    return best
+
 # ── rendering ────────────────────────────────────────────────────────────────
 
 _MARK = {OK: "✅", FAILED: "❌", UNKNOWN: "▫️"}
@@ -319,8 +410,15 @@ def format_probe(found: Probe) -> list[str]:
     """
     head = [f"🔍 **{found.label}** — Vorflug"
             + (f" für `{found.target}`" if found.target else ""),
-            f"`{found.endpoint}`"]
+            f"`{found.scrub(found.endpoint)}`"]
     lines = list(head)
+    # More than one candidate means the endpoint was a question, and the answer
+    # is worth printing: #592 wants it measured, and a measurement nobody is
+    # shown is one somebody repeats by hand.
+    if len(found.endpoints_tried) > 1:
+        for url, outcome in found.endpoints_tried:
+            mark = "✅" if outcome == "ok" else "⤬"
+            lines.append(f"  {mark} `{found.scrub(url)}` — {found.scrub(outcome)}")
     for layer in LAYERS:
         check = found.check(layer)
         lines.append(f"{_MARK.get(check.status, '▫️')} **{layer}** — "

@@ -393,7 +393,12 @@ def test_the_watch_loop_probes_the_credentials_and_not_a_folder():
     start = src.find("async def _credential_watch_loop")
     body = src[start:src.find("# ── Commands", start)]
 
-    assert "switchdrive.preflight, None" in body
+    # Since #592 through ``ingest_mailbox``, so the watcher watches the way
+    # actually in use — watching the account path while the ingest reads a share
+    # would announce a credential nothing uses and stay silent about the one
+    # that broke. The ``None`` is the point this test has always made: no target
+    # folder, because a renamed folder is not a credential problem.
+    assert "ingest_mailbox.preflight, None" in body
 
 
 def test_nothing_takes_the_password_through_discord():

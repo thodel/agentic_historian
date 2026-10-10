@@ -1,6 +1,11 @@
 """#33: SwitchDrive order ingestion lives in ingest.py (UI-agnostic), tested offline.
 
-Mocks utils.switchdrive + run_full_pipeline_group — no network/pipeline.
+Mocks ``ingest_mailbox`` + run_full_pipeline_group — no network/pipeline. The
+seam moved there with #592: ``ingest`` no longer names a client, it asks which
+mailbox is configured (a public share token or an account's app passcode) and
+reads that one. These tests are about the order loop — skip, empty, isolate a
+failure — so they stub the mailbox rather than configure one.
+
 Run from the repo root:
     pytest agentic_historian/tests/test_ingest.py
 """
@@ -18,12 +23,14 @@ import ingest  # noqa: E402
 
 def _setup(monkeypatch, tmp_path, subdirs, files_map, processed=None):
     monkeypatch.setattr(config, "HOT_FOLDER", tmp_path)
-    from utils import switchdrive
-    monkeypatch.setattr(switchdrive, "list_subdirs", lambda parent: subdirs)
-    monkeypatch.setattr(switchdrive, "load_processed", lambda: set(processed or []))
+    import ingest_mailbox
+    monkeypatch.setattr(ingest_mailbox, "list_subdirs", lambda parent: subdirs)
+    monkeypatch.setattr(ingest_mailbox, "load_processed",
+                        lambda: set(processed or []))
     marked: list = []
-    monkeypatch.setattr(switchdrive, "mark_processed", lambda oid: marked.append(oid))
-    monkeypatch.setattr(switchdrive, "pull_folder",
+    monkeypatch.setattr(ingest_mailbox, "mark_processed",
+                        lambda oid: marked.append(oid))
+    monkeypatch.setattr(ingest_mailbox, "pull_folder",
                         lambda order, staging, recursive=False:
                         [Path(f) for f in files_map.get(order, [])])
     ran: list = []
