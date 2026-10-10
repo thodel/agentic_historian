@@ -27,6 +27,7 @@ import requests
 from loguru import logger
 
 import config
+import ensemble_coverage
 from utils import document_id
 
 _API = "https://api.github.com"
@@ -193,6 +194,15 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
     if source_url:
         L += [f"**Quelle:** [{source_url}]({source_url})", ""]
 
+    # #595: a page whose transcription came from a fraction of the planned
+    # readings says so **here** — not in a JSON file nobody opens. The missiven
+    # page of 2026-10-09 was made from 4 of 20 readings and looked like any
+    # other result; in six months somebody compares it with a complete page and
+    # cannot tell that one is an ensemble and the other a single VLM pass.
+    _notice = ensemble_coverage.notice(ensemble_coverage.from_meta(a_meta))
+    if _notice:
+        L += [f"> ⚠️ {_notice}", ""]
+
     meta = []
     for element, label in (("Datierung", "Datierung"), ("Sprache", "Sprache"),
                            ("Schrift", "Schrift")):
@@ -201,6 +211,15 @@ def _index_md(doc_id: str, artifacts: dict[str, bytes], source_url: Optional[str
             meta.append(f"| {label} | {v} |")
     if a_meta.get("qa_score") is not None:
         meta.append(f"| HTR | {a_meta.get('source', '?')} (QA {a_meta.get('qa_score')}) |")
+    # The numbers behind the notice, for a reader who wants them rather than the
+    # sentence. `coverage: None` prints as "nicht gemessen" and never as 0 %.
+    _cov = ensemble_coverage.from_meta(a_meta)
+    if _cov.measured:
+        meta.append(f"| Lesungen | {_cov.with_text} von {_cov.planned} mit Text, "
+                    f"{_cov.failed} fehlgeschlagen "
+                    f"(Abdeckung {_cov.ratio:.0%}) |")
+    elif "coverage" in a_meta:
+        meta.append("| Lesungen | nicht gemessen |")
     if meta:
         L += ["## Metadaten", "", "| Feld | Wert |", "|---|---|", *meta, ""]
 
@@ -412,6 +431,24 @@ def _find_pr(repo: str, head_branch: str, session: requests.Session) -> Optional
     return items[0].get("html_url") if items else None
 
 
+class DocumentUnreadable(RuntimeError):
+    """Readings were attempted, none produced anything, and there is nothing
+    else to show. Not a publishable document (#595).
+
+    A separate type from :class:`DocumentIdRefused`, because the two have
+    separate remedies and a caller has to be able to tell them apart: a refused
+    id is a defect in the *material* and someone renames the source, while this
+    is a failure of the *run* — the engines, usually — and the fix is to repair
+    them and process the document again (#599 now checks them before a run
+    starts). Collapsing both into one refusal would send whoever reads the
+    message to rename a folder that is named perfectly well.
+
+    Deliberately **not** raised for a merely partial reading. The decision of
+    2026-10-10 is to publish those and mark them: a VLM transcription is better
+    than nothing, and the marking is what makes it honest.
+    """
+
+
 class DocumentIdRefused(ValueError):
     """The id would become a public URL and may not.
 
@@ -461,6 +498,15 @@ def doc_files(doc_id: str, source_url: Optional[str] = None) -> dict[str, bytes]
             _fused_text = _pipe.get("transcription", "") or ""
         except (ValueError, TypeError):
             _recs = []
+        else:
+            # #595: publish a partial reading, but marked — a VLM transcription
+            # is worth having and the run cost real time. Refused in exactly one
+            # case: readings were attempted, none produced anything, and there is
+            # no transcription either. There is no product there to mark, and a
+            # catalogue entry for it would be an entry about a failure.
+            _ok, _why = ensemble_coverage.may_publish(_pipe)
+            if not _ok:
+                raise DocumentUnreadable(f"{doc_id}: {_why}")
     # One export per candidate transcription, page-attributed (#284).
     for _r in _recs:
         _txt = _r.get("text", "") or ""
@@ -500,6 +546,12 @@ class BatchPublish:
     refused: dict = field(default_factory=dict)
     #: Documents with no artifacts. Not an error and not a success.
     empty: list = field(default_factory=list)
+    #: ``doc_id -> why``: readings were attempted and none produced anything, so
+    #: there is nothing to publish that could be marked (#595). Its own field,
+    #: not folded into ``refused``: that one means "rename the material", this
+    #: one means "fix the engines and run it again", and a batch summary that
+    #: cannot tell them apart sends the reader to the wrong place.
+    unreadable: dict = field(default_factory=dict)
     files: int = 0
     error: str = ""
 
@@ -544,6 +596,11 @@ def publish_docs(docs, *, label: str = "", message: Optional[str] = None,
             got = doc_files(doc_id, source_url)
         except DocumentIdRefused as e:
             result.refused[doc_id] = str(e)
+            continue
+        except DocumentUnreadable as e:
+            # Deliberate, so it must not read as "collecting failed" below.
+            logger.info(f"[Publish] {doc_id}: not published — {e}")
+            result.unreadable[doc_id] = str(e)
             continue
         except Exception as e:                       # noqa: BLE001
             # One unreadable document may not cost the batch its other work.
@@ -607,6 +664,11 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
     result = publish_docs([(doc_id, source_url)], label=doc_id, session=session)
     if doc_id in result.refused:
         raise DocumentIdRefused(result.refused[doc_id])
+    if doc_id in result.unreadable:
+        # Same reasoning as the id refusal: for one document the refusal is the
+        # whole answer, and _publish_outputs puts the reason in the run's event
+        # rather than reporting "published nothing — see the log".
+        raise DocumentUnreadable(result.unreadable[doc_id])
     return result.url
 
 

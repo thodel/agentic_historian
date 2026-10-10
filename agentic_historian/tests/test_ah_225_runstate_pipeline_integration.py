@@ -153,6 +153,17 @@ def test_offline_abc_pipeline_contract_is_deterministic(tmp_path, monkeypatch):
             "transcription": transcription,
             "qa_score": 0.91,
             "source": "mock-vlm",
+            # #595: every record says what it was made from. This run is the
+            # VLM-only path — no ensemble readings were attempted at all — so the
+            # counts are zero and ``coverage`` is **None**, not 0.0. The two are
+            # different facts: nothing measured, versus everything failed. A
+            # document from before the ensemble existed must not read as a total
+            # failure, and the catalogue prints "nicht gemessen" for this.
+            "engines_planned": 0,
+            "engines_answered": 0,
+            "engines_failed": 0,
+            "engines_with_text": 0,
+            "coverage": None,
         },
         "recognitions": [],
         "source_url": f"https://archive.example/scans/{image.name}",

@@ -53,11 +53,32 @@ def _entities_from_pipeline(d: dict) -> list[str]:
     return out
 
 
+def _readings(a_meta) -> str:
+    """``"4/20"`` — readings that produced text, of readings planned (#595).
+
+    Reads the fields ``a_meta`` already carries rather than recomputing them:
+    this script runs in the **output repository's** Action and imports nothing
+    from the pipeline, so re-deriving the counting here would be a second
+    implementation of it, free to drift from the one that wrote the numbers.
+
+    ``""`` when nothing was measured — which is every document produced before
+    #595, and every run of the VLM-only path. Empty, never ``"0/0"``: a listing
+    that prints a zero where nothing was measured is the thing #595 is about.
+    """
+    if not isinstance(a_meta, dict):
+        return ""
+    planned, with_text = a_meta.get("engines_planned"), a_meta.get("engines_with_text")
+    if not isinstance(planned, int) or not isinstance(with_text, int) or planned <= 0:
+        return ""
+    mark = "" if with_text >= planned else " ⚠️"
+    return f"{with_text}/{planned}{mark}"
+
+
 def build_search_index(docs_dir: Path | str) -> list[dict]:
     """
     Build search-index records from all ``<docs_dir>/*/pipeline.json`` files.
 
-    Each record: {doc_id, date, lang, script, entities, snippet, url}
+    Each record: {doc_id, date, lang, script, entities, readings, snippet, url}
     Malformed pipeline.json → record with empty fields (not an error).
     Output is sorted by doc_id for deterministic output.
     """
@@ -81,6 +102,7 @@ def build_search_index(docs_dir: Path | str) -> list[dict]:
             "lang":     _val(sj.get("Sprache")),
             "script":   _val(sj.get("Schrift")),
             "entities": _entities_from_pipeline(d),
+            "readings": _readings(d.get("a_meta")),
             "snippet":  snippet,
             "url":      f"{doc_id}/",
         })
@@ -107,6 +129,7 @@ def build(docs_dir: Path | str | None = None) -> int:
             rec["lang"],
             rec["script"],
             len(rec["entities"]),
+            rec["readings"],
         ))
 
     # ── docs/index.md ──────────────────────────────────────────────────────
@@ -120,11 +143,19 @@ def build(docs_dir: Path | str | None = None) -> int:
         "",
         f"{len(rows)} Dokument(e). · [🔍 Volltextsuche](search.html)",
         "",
-        "| Dokument | Datierung | Sprache | Schrift | Entitäten |",
-        "|---|---|---|---|---|",
+        "| Dokument | Datierung | Sprache | Schrift | Entitäten | Lesungen |",
+        "|---|---|---|---|---|---|",
     ]
-    for doc_id, date, lang, script, n in rows:
-        out.append(f"| [{doc_id}]({doc_id}/) | {date} | {lang} | {script} | {n} |")
+    for doc_id, date, lang, script, n, readings in rows:
+        out.append(f"| [{doc_id}]({doc_id}/) | {date} | {lang} | {script} | {n} "
+                   f"| {readings or '—'} |")
+    # The listing is where two documents get compared, so it is where an
+    # incomplete reading has to be visible — a 4/20 next to a 20/20 is the whole
+    # of what #595 asks for at this level.
+    out += ["",
+            "_Lesungen: wie viele der geplanten Engine-Lesungen Text ergaben. "
+            "⚠️ heisst unvollständig — die Dokumentseite sagt, warum. "
+            "— heisst: nicht gemessen._"]
     (docs_dir / "index.md").write_text("\n".join(out) + "\n", encoding="utf-8")
 
     # ── docs/search-index.json ──────────────────────────────────────────────

@@ -102,7 +102,12 @@ def test_a_page_level_engine_returns_no_lines_and_that_is_not_an_error():
     client, _ = _client_with(_Response({"text": "…", "confidence": 0.7, "model": "party",
                                         "version": "0.9.1", "engine": "party"}))
     res = client.recognize(b"x", model="party")
-    assert res.lines == [] and res.second_opinion is None and res.timing_ms == 0
+    assert res.lines == [] and res.second_opinion is None
+    # #595: a gateway that reported no duration leaves this **None**. It used to
+    # read 0, and every recognition in the missiven run of 2026-10-09 therefore
+    # carried `timing_ms: 0` — including an 824-character VLM call that certainly
+    # took seconds. Zero milliseconds is not a measurement.
+    assert res.timing_ms is None
 
 
 def test_the_legacy_result_shape_is_unchanged():

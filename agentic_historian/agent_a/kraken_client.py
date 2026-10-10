@@ -183,7 +183,7 @@ class KrakenHTTPClient:
             lines=list(data.get("lines") or []),
             engine=data.get("engine", ""),
             segmented_by=data.get("segmented_by"),
-            timing_ms=int(data.get("timing_ms") or 0),
+            timing_ms=_timing_of(data),
             truncated=bool(data.get("truncated", False)),
             second_opinion=data.get("second_opinion"),
         )
@@ -314,8 +314,12 @@ class KrakenResult:
     engine: str = ""
     #: What produced the line geometry, when the engine did not segment itself.
     segmented_by: str | None = None
-    #: Gateway-measured duration of the recognition, in milliseconds.
-    timing_ms: int = 0
+    #: Gateway-measured duration of the recognition, in milliseconds. ``None``
+    #: when the gateway did not report one — **not** ``0``. Zero milliseconds is
+    #: not a measurement, and it read as one: every recognition in the missiven
+    #: run of 2026-10-09 carried ``timing_ms: 0``, including an 824-character VLM
+    #: call that certainly took seconds (#595).
+    timing_ms: int | None = None
     #: The model stopped at its token ceiling rather than at the end of the text,
     #: so this reading is cut off. False also when the gateway cannot tell — see
     #: serving-atr-inference#123; absence of the signal is not evidence of one.
@@ -324,6 +328,25 @@ class KrakenResult:
     #: non-party result. ``None`` when it is switched off or party *is* the engine.
     second_opinion: dict | None = None
 
+
+
+def _timing_of(data: dict) -> int | None:
+    """The gateway's ``timing_ms``, or ``None`` when it did not send one.
+
+    ``int(data.get("timing_ms") or 0)`` made absence indistinguishable from an
+    instant answer, and it also swallowed a reported ``0`` — which a gateway can
+    legitimately send and which then meant the same thing as silence. Both are
+    now distinct from each other and from a real duration.
+    """
+    raw = data.get("timing_ms")
+    if raw is None:
+        return None
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        # A gateway that sends something unparsable has not measured anything we
+        # can use. Saying "unmeasured" is true; saying "0 ms" is not.
+        return None
 
 # ── exceptions ───────────────────────────────────────────────────────────────
 
