@@ -54,44 +54,82 @@ _job_queue: "asyncio.Queue" = asyncio.Queue()
 _worker_task = None
 
 
-# ── Role-based access control (#105) ────────────────────────────────────────
+# ── Role-based access control (#105, fail-closed #572) ───────────────────────
+#
+# Fail-CLOSED (#572): an unset role id no longer means "open to everyone". When
+# no role is configured a gated command is refused to ordinary members; only a
+# Discord server admin / guild owner may run it (so the operator is never locked
+# out while the gate is unconfigured), and a warning is logged pointing at the
+# fix. Set REQUIRED_DISCORD_ROLE_ID to restrict commands to exactly that role.
+import functools
+
+
+def _caller_role_ids(ctx) -> set:
+    """The role ids the invoking member carries (empty set when unknown)."""
+    return {role.id for role in getattr(ctx.author, "roles", None) or []}
+
+
+def _is_guild_admin(ctx) -> bool:
+    """A Discord server admin or the guild owner — the floor when no role gate is
+    configured, so ordinary members are refused but the operator is not."""
+    guild = getattr(ctx, "guild", None)
+    author = getattr(ctx, "author", None)
+    if guild is not None and getattr(author, "id", None) == getattr(guild, "owner_id", None):
+        return True
+    perms = getattr(author, "guild_permissions", None)
+    return bool(perms is not None
+                and (getattr(perms, "administrator", False)
+                     or getattr(perms, "manage_guild", False)))
+
+
+def _authorised(ctx, role_id, *, what: str) -> bool:
+    """Whether the caller may run a gated command (fail-closed, #572).
+
+    A configured role id → the caller must hold exactly that role. No role id →
+    refuse all but Discord server admins / the guild owner, and warn so the gate
+    gets configured.
+    """
+    if role_id:
+        return role_id in _caller_role_ids(ctx)
+    logger.warning(
+        "[auth] no {} role configured — refusing all but Discord server admins. "
+        "Set REQUIRED_DISCORD_ROLE_ID (and REQUIRED_ADMIN_ROLE_ID) to gate by role.",
+        what)
+    return _is_guild_admin(ctx)
+
+
 def require_role(func):
-    """Decorator: reject non-guild users and users without the configured role."""
-    async def wrapper(ctx, *args, **kwargs):
-        if not ctx.guild:
-            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
-            return
-        allowed_role_id = getattr(config, "REQUIRED_DISCORD_ROLE_ID", None)
-        if allowed_role_id:
-            author_role_ids = {role.id for role in ctx.author.roles}
-            if allowed_role_id not in author_role_ids:
-                await ctx.respond("⛔ Du hast nicht die erforderliche Rolle für diesen Befehl.", ephemeral=True)
-                return
-        return await func(ctx, *args, **kwargs)
-    # Preserve command metadata so py-cord registers it correctly
-    import functools
-    return functools.wraps(func)(wrapper)
+    """Decorator: reject non-guild users and callers not authorised by the gate.
 
-
-def admin_only(func):
-    """Decorator: require the admin role (REQUIRED_ADMIN_ROLE_ID) for /update.
-
-    Shares the same guild-check pattern as require_role but reads the separate
-    admin role ID so it can be more restrictive than the base role gate.
-    Falls back gracefully when neither role is configured.
+    Reads REQUIRED_DISCORD_ROLE_ID; fail-closed when it is unset (#572).
     """
     async def wrapper(ctx, *args, **kwargs):
         if not ctx.guild:
             await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
             return
-        admin_role_id = getattr(config, "REQUIRED_ADMIN_ROLE_ID", None)
-        if admin_role_id:
-            author_role_ids = {role.id for role in ctx.author.roles}
-            if admin_role_id not in author_role_ids:
-                await ctx.respond("⛔ Dieser Befehl ist admins reserviert.", ephemeral=True)
-                return
+        if not _authorised(ctx, getattr(config, "REQUIRED_DISCORD_ROLE_ID", None), what="base"):
+            await ctx.respond("⛔ Du hast nicht die erforderliche Rolle für diesen Befehl.", ephemeral=True)
+            return
         return await func(ctx, *args, **kwargs)
-    import functools
+    # Preserve command metadata so py-cord registers it correctly
+    return functools.wraps(func)(wrapper)
+
+
+def admin_only(func):
+    """Decorator: require the admin role (REQUIRED_ADMIN_ROLE_ID) for /update etc.
+
+    Like require_role but reads the separate admin role id. REQUIRED_ADMIN_ROLE_ID
+    defaults to REQUIRED_DISCORD_ROLE_ID (config.py), so configuring the base gate
+    also gates admin commands; fail-closed when neither is set (#572).
+    """
+    async def wrapper(ctx, *args, **kwargs):
+        if not ctx.guild:
+            await ctx.respond("❌ Dieser Befehl funktioniert nur in einem Discord-Server.", ephemeral=True)
+            return
+        if not _authorised(ctx, getattr(config, "REQUIRED_ADMIN_ROLE_ID", None), what="admin"):
+            await ctx.respond("⛔ Dieser Befehl ist admins reserviert.", ephemeral=True)
+            return
+        return await func(ctx, *args, **kwargs)
     return functools.wraps(func)(wrapper)
 
 
@@ -385,6 +423,7 @@ async def entity_cmd(ctx, name: Option(str, "Entity name to look up", required=T
     name="route",
     description="Show the Gate-1 routing card for a document (correct metadata, re-route HTR)",
 )
+@require_role
 async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     await ctx.defer()
     try:
@@ -407,6 +446,7 @@ async def route_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     name="votes",
     description="Show the Gate-2 voting card for a doc whose engines disagreed (no-merge)",
 )
+@require_role
 async def votes_cmd(ctx, doc_id: Option(str, "Document id", required=True)):
     """Posts the Gate-2 voting card for a document that went through a no-merge
     decision (#300/#313). At high engine disagreement the pipeline selects by
@@ -773,6 +813,7 @@ async def run_agent_a_cmd(
 
 
 @bot.slash_command(name="hotfolder", description="Process all files in the hot folder")
+@require_role
 async def hotfolder(ctx):
     await ctx.defer()
     try:
@@ -885,6 +926,7 @@ async def pull_folder_cmd(
 
 
 @bot.slash_command(name="agent_d", description="Run Agent D corpus analysis")
+@require_role
 async def agent_d_cmd(
     ctx,
     corpus_name: Option(str, "Corpus name", required=False, default="default"),
@@ -907,6 +949,7 @@ async def agent_d_cmd(
 
 
 @bot.slash_command(name="agent_e", description="Run Agent E — meta report")
+@require_role
 async def agent_e_cmd(ctx):
     await ctx.defer()
     try:
@@ -1363,6 +1406,13 @@ def main() -> None:
     missing = config.check_config()
     if missing:
         print(f"Missing config keys: {missing}")
+    # Fail-closed gate (#572): without a configured role, gated commands are
+    # refused to everyone but Discord server admins. Warn loudly at startup so a
+    # shared/open-server deployment is restricted to a role on purpose.
+    if not config.REQUIRED_DISCORD_ROLE_ID:
+        logger.warning(
+            "[auth] REQUIRED_DISCORD_ROLE_ID is not set — gated commands are "
+            "refused to all but Discord server admins. Set it to grant a role.")
     bot.run(config.DISCORD_BOT_TOKEN)
 
 

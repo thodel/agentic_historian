@@ -38,6 +38,9 @@ class _Ctx:
     def __init__(self):
         self.sent = []
         self.channel = SimpleNamespace(id=1)
+        # /votes is role-gated (#572); authorise this caller as the guild owner.
+        self.guild = SimpleNamespace(id=1, owner_id=77)
+        self.author = SimpleNamespace(id=77, roles=[])
 
         async def _defer():
             pass

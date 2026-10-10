@@ -3,8 +3,12 @@
 Run offline (no GPUStack/VPN) — file-level checks + functional tests.
 """
 
+import asyncio
 import re
 from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
 
 
 BOT_PATH = "agentic_historian/bot.py"
@@ -97,6 +101,130 @@ def test_sensitive_commands_are_functionally_gated():
     assert [o.name for o in registered["run"].options] == ["filename"], (
         "the require_role wrapper dropped the /run 'filename' option"
     )
+
+
+# ── Part 1c: SEC-1 (#572) — more commands gated + fail-closed gate ───────────
+
+# The state-changing / expensive commands that SEC-1 adds @require_role to.
+NEWLY_GATED = ("route", "votes", "hotfolder", "agent_d", "agent_e")
+
+
+def test_sec1_newly_gated_commands_have_require_role():
+    """SEC-1: /route, /votes, /hotfolder, /agent_d, /agent_e must be gated,
+    with @require_role BELOW @bot.slash_command so the gated wrapper registers."""
+    src = read(BOT_PATH)
+    for name in NEWLY_GATED:
+        start = src.find(f'name="{name}"')
+        assert start != -1, f"/{name} command not found"
+        between = src[start:src.find("async def", start)]
+        assert "@require_role" in between, (
+            f"/{name} must be decorated with @require_role below @bot.slash_command"
+        )
+
+
+def test_sec1_newly_gated_commands_are_functionally_wrapped():
+    """The registered callback for each newly gated command must be the
+    require_role wrapper (functools.wraps → __wrapped__), not the raw function."""
+    import bot as bot_module
+
+    want = set(NEWLY_GATED)
+    registered = {
+        c.name: c
+        for c in bot_module.bot.pending_application_commands
+        if getattr(c, "name", None) in want
+    }
+    assert want.issubset(registered), f"missing gated commands: {want - set(registered)}"
+    for name, cmd in registered.items():
+        assert hasattr(cmd.callback, "__wrapped__"), (
+            f"/{name} registered callback is NOT the require_role wrapper — "
+            f"@require_role must be applied BELOW @bot.slash_command"
+        )
+
+
+def _gate_ctx(*, guild=True, owner=False, roles=(), admin=False, author_id=77):
+    """A minimal ApplicationContext stub for exercising the role gate."""
+    sent = []
+
+    async def _respond(content=None, ephemeral=False):
+        sent.append(content)
+
+    g = SimpleNamespace(id=1, owner_id=(author_id if owner else 999)) if guild else None
+    author = SimpleNamespace(
+        id=author_id,
+        roles=[SimpleNamespace(id=r) for r in roles],
+        guild_permissions=SimpleNamespace(administrator=admin, manage_guild=False),
+    )
+    return SimpleNamespace(guild=g, author=author, respond=_respond, sent=sent)
+
+
+def _run_gate(decorator, ctx):
+    """Apply a gate decorator to a probe and invoke it; return (ran, ctx)."""
+    ran = {"v": False}
+
+    @decorator
+    async def probe(ctx):
+        ran["v"] = True
+        return "ran"
+
+    asyncio.run(probe(ctx))
+    return ran["v"], ctx
+
+
+def test_sec1_gate_rejects_outside_guild(monkeypatch):
+    import bot
+    import config
+    monkeypatch.setattr(config, "REQUIRED_DISCORD_ROLE_ID", 4242)
+    ran, ctx = _run_gate(bot.require_role, _gate_ctx(guild=False, roles=(4242,)))
+    assert ran is False
+    assert ctx.sent and "Discord-Server" in ctx.sent[0]
+
+
+def test_sec1_fail_closed_denies_unconfigured_ordinary_member(monkeypatch):
+    """The core of SEC-1: with no role configured, an ordinary member is REFUSED
+    (not allowed, as the old fail-open behaviour did)."""
+    import bot
+    import config
+    monkeypatch.setattr(config, "REQUIRED_DISCORD_ROLE_ID", None)
+    ran, ctx = _run_gate(bot.require_role, _gate_ctx(owner=False, admin=False))
+    assert ran is False, "unconfigured gate must refuse ordinary members (fail-closed)"
+    assert ctx.sent and "⛔" in ctx.sent[0]
+
+
+def test_sec1_fail_closed_allows_guild_owner(monkeypatch):
+    import bot
+    import config
+    monkeypatch.setattr(config, "REQUIRED_DISCORD_ROLE_ID", None)
+    ran, _ = _run_gate(bot.require_role, _gate_ctx(owner=True))
+    assert ran is True, "the guild owner is the bootstrap floor when unconfigured"
+
+
+def test_sec1_fail_closed_allows_server_admin(monkeypatch):
+    import bot
+    import config
+    monkeypatch.setattr(config, "REQUIRED_DISCORD_ROLE_ID", None)
+    ran, _ = _run_gate(bot.require_role, _gate_ctx(owner=False, admin=True))
+    assert ran is True, "a Discord server admin may run gated commands when unconfigured"
+
+
+def test_sec1_configured_role_is_strict(monkeypatch):
+    """With a role configured, holding the role is required — a server admin who
+    lacks it is NOT silently widened in."""
+    import bot
+    import config
+    monkeypatch.setattr(config, "REQUIRED_DISCORD_ROLE_ID", 4242)
+    denied, ctx = _run_gate(bot.require_role, _gate_ctx(roles=(), admin=True))
+    assert denied is False
+    allowed, _ = _run_gate(bot.require_role, _gate_ctx(roles=(4242,)))
+    assert allowed is True
+
+
+def test_sec1_admin_only_is_fail_closed(monkeypatch):
+    """admin_only must also refuse ordinary members when no admin role is set."""
+    import bot
+    import config
+    monkeypatch.setattr(config, "REQUIRED_ADMIN_ROLE_ID", None)
+    ran, _ = _run_gate(bot.admin_only, _gate_ctx(owner=False, admin=False))
+    assert ran is False
 
 
 # ── Part 2: Path traversal fix ────────────────────────────────────────────────

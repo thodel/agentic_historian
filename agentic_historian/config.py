@@ -100,11 +100,13 @@ def _get(key: str, default: str = "") -> str:
 # ── Discord ──────────────────────────────────────────────────────────────────
 DISCORD_BOT_TOKEN = _get("DISCORD_BOT_TOKEN")
 # Numeric role ID that is allowed to run sensitive commands (/run, /pull, etc.).
-# Set to 0 or empty to disable role-gating (NOT recommended for shared servers).
+# Fail-CLOSED (#572): leaving this 0/empty does NOT open the commands to everyone
+# — gated commands are then refused to all but Discord server admins / the guild
+# owner, and the bot warns at startup. Set it to gate by a specific role.
 REQUIRED_DISCORD_ROLE_ID: int | None = int(_get("REQUIRED_DISCORD_ROLE_ID", "0")) or None
 # Numeric role ID for admin-only operations (/update).  Defaults to the same
-# role as REQUIRED_DISCORD_ROLE_ID (allows the same people to update); set to 0
-# or empty to disable the admin gate (not recommended).
+# role as REQUIRED_DISCORD_ROLE_ID (allows the same people to update). Fail-closed
+# like the base gate: 0/empty does not open it, it restricts to server admins.
 REQUIRED_ADMIN_ROLE_ID: int | None = int(_get("REQUIRED_ADMIN_ROLE_ID", "0")) or None
 if REQUIRED_ADMIN_ROLE_ID is None:  # "0" → None fallback, inherit from ROLE_ID
     REQUIRED_ADMIN_ROLE_ID = REQUIRED_DISCORD_ROLE_ID
