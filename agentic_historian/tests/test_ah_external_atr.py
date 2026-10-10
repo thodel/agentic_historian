@@ -286,3 +286,54 @@ def test_both_prompts_keep_the_palaeographic_framing():
     """It is the useful half of the original and survives unchanged."""
     for name in ("lassberg_atr.md", "lassberg_atr_strict.md"):
         assert "palaeographer" in ex.load_prompt(name)[0]
+
+
+# ── reasoning tokens are output tokens ───────────────────────────────────────
+#
+# 2026-10-10: `Basel__lassberg-letter-1743__PA 82a B 9_Seite_027` read complete
+# at 1592 characters under one prompt and came back `truncated` at 1153 under a
+# longer one — and 1153 characters are nowhere near an 8192-token ceiling, so
+# something else had spent it. Reasoning tokens are billed as output and spent
+# against max_tokens, and transcribing what is on a page is not a reasoning
+# task: the budget goes nowhere, and the page it eats is the page that stops
+# mid-sentence.
+
+def test_the_default_is_low_rather_than_the_models_own():
+    assert ex.config.GEMINI_REASONING == "low"
+
+
+@pytest.mark.parametrize("level", list(ex.REASONING_LEVELS))
+def test_each_documented_level_is_accepted(level, monkeypatch):
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+    import openai
+    monkeypatch.setattr(openai, "OpenAI", lambda **kw: object())
+
+    assert ex.openai_recogniser(reasoning=level) is not None
+
+
+def test_a_typo_is_caught_before_the_run_starts(monkeypatch):
+    """The API decides what it serves — this only stops a typo costing a page."""
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+
+    with pytest.raises(ValueError) as exc:
+        ex.openai_recogniser(reasoning="lowish")
+
+    assert "lowish" in str(exc.value)
+    assert "the API decides" in str(exc.value)
+
+
+def test_an_empty_level_leaves_the_models_own_default(monkeypatch):
+    """Sending nothing is a real choice and has to stay reachable."""
+    monkeypatch.setattr(ex.config, "GEMINI_API_KEY", "k")
+    import openai
+    monkeypatch.setattr(openai, "OpenAI", lambda **kw: object())
+
+    assert ex.openai_recogniser(reasoning="") is not None
+
+
+def test_the_record_names_the_thinking_level():
+    """Two readings of one page under different settings are different
+    measurements, so the record has to tell them apart."""
+    r = ex.Reading(service_version="gemini-3.8-flash@prompt-03c5a660+think-low")
+
+    assert "think-low" in r.service_version

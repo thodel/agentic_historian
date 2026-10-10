@@ -58,6 +58,12 @@ PROMPT_DIR = Path(__file__).resolve().parent / "prompts"
 #: The prompt this corpus is read with, unless another is named.
 DEFAULT_PROMPT = "lassberg_atr.md"
 
+#: What `reasoning_effort` may be. The API decides what it actually supports —
+#: the mapping differs by model generation, and a level one model rejects another
+#: takes — so this list only catches a typo before a run starts rather than after
+#: the first page. An empty value sends the parameter at all.
+REASONING_LEVELS = ("none", "minimal", "low", "medium", "high")
+
 #: The JSON the structured mode asks for. Two fields, because the prompt's last
 #: rule — "Expansions go into the normalized field only" — needs a normalized
 #: field to exist, and without one that rule has nowhere to land.
@@ -230,6 +236,7 @@ def openai_recogniser(*, base_url: Optional[str] = None,
                       prompt: str = DEFAULT_PROMPT,
                       max_tokens: Optional[int] = None,
                       structured: bool = False,
+                      reasoning: Optional[str] = None,
                       timeout: Optional[float] = None,
                       retries: int = 3,
                       spend: Optional[Spend] = None):
@@ -258,9 +265,15 @@ def openai_recogniser(*, base_url: Optional[str] = None,
                     else config.GEMINI_TIMEOUT_S)
     budget = int(max_tokens if max_tokens is not None
                  else config.GEMINI_MAX_TOKENS)
+    effort = (config.GEMINI_REASONING if reasoning is None else reasoning).strip()
+    if effort and effort not in REASONING_LEVELS:
+        raise ValueError(
+            f"reasoning {effort!r} is not one of {', '.join(REASONING_LEVELS)} "
+            f"— and the API decides which of those it serves for this model")
     tally = spend if spend is not None else Spend()
     logger.info(f"[external] {config.GEMINI_BASE_URL}  prompt {prompt} "
                 f"@{digest}  max_tokens {budget}"
+                + (f"  reasoning {effort}" if effort else "  reasoning default")
                 + ("  structured" if structured else ""))
 
     def _recognise(image: Path, model: str) -> Reading:
@@ -276,6 +289,11 @@ def openai_recogniser(*, base_url: Optional[str] = None,
                 ],
             }],
         }
+        if effort:
+            # Reasoning tokens are output tokens: they are billed and they are
+            # spent against max_tokens. For a transcription that is budget going
+            # nowhere, and the page it eats is the page that stops mid-sentence.
+            body["reasoning_effort"] = effort
         if structured:
             body["response_format"] = {
                 "type": "json_schema",
@@ -310,7 +328,12 @@ def openai_recogniser(*, base_url: Optional[str] = None,
             engine="external",
             timing_ms=int((time.monotonic() - started) * 1000),
             truncated=(getattr(choice, "finish_reason", "") == "length"),
+            # The record says what produced it: the model, the prompt by
+            # digest, the thinking level and whether a schema was asked for.
+            # Two readings of one page under different settings are different
+            # measurements, and a record that cannot tell them apart is not one.
             service_version=f"{model}@prompt-{digest}"
+                            + (f"+think-{effort}" if effort else "")
                             + ("+structured" if structured else ""),
             prompt_tokens=int(getattr(usage, "prompt_tokens", 0) or 0),
             completion_tokens=int(getattr(usage, "completion_tokens", 0) or 0))
