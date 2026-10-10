@@ -64,6 +64,7 @@ from typing import Callable, Optional
 
 from loguru import logger
 
+import config
 import corpus_manifest as cm
 
 __all__ = [
@@ -197,6 +198,18 @@ def inspect_source(root: Path, *, mode: Optional[str] = None) -> Source:
 
 # ── running ──────────────────────────────────────────────────────────────────
 
+def _publish_batch(doc_ids: list, label: str):
+    """Commit these documents' outputs in one commit (#394).
+
+    Each commit to the output repo triggers its index-rebuild Action, so one
+    commit per document meant 500 commits and 500 Action runs for a holding.
+    Non-fatal and retryable: an identical tree makes no second commit, so a
+    re-run of the same documents reports `unchanged` rather than piling up.
+    """
+    from utils.publish_github import publish_docs
+    return publish_docs(doc_ids, label=label)
+
+
 @dataclass
 class Summary:
     run_id: str
@@ -206,6 +219,8 @@ class Summary:
     #: doc_id → the worker that finished it, for the log.
     done: dict = field(default_factory=dict)
     failed: dict = field(default_factory=dict)
+    #: One entry per publish commit the run made.
+    publishes: list = field(default_factory=list)
 
     @property
     def seconds(self) -> float:
@@ -216,13 +231,22 @@ class Summary:
         return cm.progress(self.run_id)
 
 
-def _default_pipeline(doc_id: str, paths: list, mode: str) -> None:
-    """The bot's own entry points, so batch and interactive cannot drift."""
+def _default_pipeline(doc_id: str, paths: list, mode: str, *,
+                      publish: bool = False) -> None:
+    """The bot's own entry points, so batch and interactive cannot drift.
+
+    ``publish=False`` by default: the runner commits N documents in one commit
+    (#394) and the output repo rebuilds its index once per commit. Publishing
+    per document here as well is the 500-commits-per-holding that #394 replaced.
+    True restores the old behaviour for whoever wants it, at one commit and one
+    index rebuild per document.
+    """
     import orchestrator
     if mode == ORDERS:
-        orchestrator.run_full_pipeline_group(doc_id, [str(p) for p in paths])
+        orchestrator.run_full_pipeline_group(doc_id, [str(p) for p in paths],
+                                             publish=publish)
     else:
-        orchestrator.run_full_pipeline(str(paths[0]))
+        orchestrator.run_full_pipeline(str(paths[0]), publish=publish)
 
 
 def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
@@ -231,7 +255,10 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
               announce: Optional[Callable[[str], None]] = None,
               sleep: Optional[Callable[[float], None]] = None,
               heartbeat_every: float = HEARTBEAT_EVERY_S,
-              progress_every: int = PROGRESS_EVERY) -> Summary:
+              progress_every: int = PROGRESS_EVERY,
+              publish_every: Optional[int] = None,
+              publish: Optional[Callable] = None,
+              per_doc_publish: bool = False) -> Summary:
     """Claim and process until nothing claimable is left.
 
     Registering is additive and claiming only takes ``pending``/``failed``, so
@@ -239,7 +266,12 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
     touched. Stale claims from a killed run are handed back **once, at the
     start** — explicitly, because a reclaim mid-run would fight the heartbeat.
     """
-    pipeline = pipeline or _default_pipeline
+    if pipeline is None:
+        def pipeline(doc_id, paths, mode):
+            _default_pipeline(doc_id, paths, mode, publish=per_doc_publish)
+    publish = publish or _publish_batch
+    if publish_every is None:
+        publish_every = getattr(config, "BATCH_PUBLISH_EVERY", 0)
     sleep = sleep or time.sleep
     say = announce or (lambda text: logger.info(f"[batch] {text}"))
     workers = max(1, int(workers or 1))
@@ -293,6 +325,42 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
             f"{prog.done} fertig, {prog.failed} offen nach Fehler, "
             f"{prog.dead} aufgegeben")
 
+    pending_publish: list = []
+
+    def _flush_publish(final: bool = False) -> None:
+        """Commit the documents finished since the last publish.
+
+        Every N when `publish_every` is positive, otherwise once at the end —
+        which is the per-order case and the fewest Action runs. The buffer is
+        cleared **before** the call, so a publish that throws cannot make the
+        next flush try the same documents twice; the content is idempotent
+        anyway (identical tree, no commit), but the log would claim two
+        attempts at work that was one.
+        """
+        if per_doc_publish:
+            # The pipeline already committed each document. Publishing them
+            # again would be a second commit with an identical tree — harmless
+            # (no commit is made) but it would claim a publish that was not one.
+            return
+        with guard:
+            if not pending_publish:
+                return
+            if not final and (publish_every <= 0
+                              or len(pending_publish) < publish_every):
+                return
+            batch = list(pending_publish)
+            pending_publish.clear()
+        try:
+            got = publish(batch, f"{run_id}")
+        except Exception as e:                   # noqa: BLE001
+            logger.warning(f"[batch] publish of {len(batch)} doc(s) failed: {e}")
+            return
+        summary.publishes.append(got)
+        outcome = getattr(got, "outcome", "?")
+        say(f"**{run_id}** publiziert: {len(batch)} Dokument(e) in einem "
+            f"Commit — {outcome}"
+            + (f" ({got.url})" if getattr(got, "url", None) else ""))
+
     def _work(name: str) -> None:
         while not stop.is_set():
             try:
@@ -310,6 +378,8 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
                          source.mode)
                 cm.mark_done(run_id, item.doc_id)
                 summary.done[item.doc_id] = name
+                with guard:
+                    pending_publish.append(item.doc_id)
                 logger.info(f"[batch] {name}: {item.doc_id} done")
             except BaseException as e:           # noqa: BLE001
                 # Every failure is the document's, never the run's: #392 is
@@ -333,6 +403,7 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
                 with guard:
                     in_flight.pop(item.doc_id, None)
             _maybe_progress()
+            _flush_publish()
 
     beat = threading.Thread(target=_beat, name="batch-heartbeat", daemon=True)
     beat.start()
@@ -347,6 +418,11 @@ def run_batch(run_id: str, source: Source, *, workers: int = DEFAULT_WORKERS,
     finally:
         stop.set()
         beat.join(timeout=5)
+
+    # Whatever is left, in one commit. Before the interrupt is re-raised: an
+    # interrupted run has still produced the documents it finished, and leaving
+    # them unpublished would throw away work that is done and paid for.
+    _flush_publish(final=True)
 
     summary.ended_at = time.time()
     if interrupted:

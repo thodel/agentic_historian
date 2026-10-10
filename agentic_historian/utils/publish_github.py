@@ -19,6 +19,7 @@ import base64
 import json
 import re
 import time
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
@@ -424,9 +425,170 @@ class DocumentIdRefused(ValueError):
     """
 
 
+def doc_files(doc_id: str, source_url: Optional[str] = None) -> dict[str, bytes]:
+    """The files one document contributes to a commit, keyed by remote path.
+
+    ``{}`` when the document has nothing to publish. Raises
+    :class:`DocumentIdRefused` when the id may not become a URL.
+
+    Split out of ``publish_doc`` for #394: a batch commit needs every
+    document's files *before* anything is written, and building them was welded
+    to the one-document commit that followed.
+    """
+    refusal = document_id.publication_refusal(doc_id)
+    if refusal:
+        raise DocumentIdRefused(
+            f"document id {doc_id!r} {refusal}. A document id becomes a "
+            "permanent public URL, so it is refused here rather than "
+            "published and retired later. Rename the source material."
+        )
+    local = collect_artifacts(doc_id)
+    if not local:
+        logger.info(f"[Publish] {doc_id}: no artifacts to publish")
+        return {}
+    contents = {name: p.read_bytes() for name, p in local.items()}
+
+    # ── Publish all per-engine recognitions (#238) ─────────────────────
+    # Generate one txt file per engine + fused.txt from pipeline.json.
+    # This is additive: recognitions that are already on disk (future
+    # RECOGNITIONS_DIR) are also picked up automatically.
+    _recs: list = []
+    _fused_text = ""
+    if "pipeline.json" in contents:
+        try:
+            _pipe = json.loads(contents["pipeline.json"].decode("utf-8", "replace"))
+            _recs = _pipe.get("recognitions", []) or []
+            _fused_text = _pipe.get("transcription", "") or ""
+        except (ValueError, TypeError):
+            _recs = []
+    # One export per candidate transcription, page-attributed (#284).
+    for _r in _recs:
+        _txt = _r.get("text", "") or ""
+        if not _txt or (_r.get("error") or ""):
+            continue
+        contents[_recognition_filename(_r)] = _txt.encode("utf-8")
+    # Write fused transcription
+    if _fused_text:
+        contents["recognitions/fused.txt"] = _fused_text.encode("utf-8")
+
+    contents["index.md"] = _index_md(doc_id, contents, source_url).encode("utf-8")
+    return {f"docs/{doc_id}/{name}": data for name, data in contents.items()}
+
+
+@dataclass
+class BatchPublish:
+    """One batch commit, and what went into it.
+
+    ``url is None`` has three causes that must not be confused — the project has
+    paid for that conflation often enough. ``outcome`` separates them:
+
+    * ``published`` — a commit was made, ``url`` is it;
+    * ``unchanged`` — every byte was already in the repo, so ``_commit_files``
+      made no empty commit. **This is the successful retry**, not a failure;
+    * ``nothing`` — no document had anything to publish, or publishing is off;
+    * ``failed`` — the API call did not succeed, and ``error`` says so.
+    """
+
+    outcome: str = "nothing"
+    url: Optional[str] = None
+    #: Documents whose files went into the commit.
+    published: list = field(default_factory=list)
+    #: ``doc_id → why`` for ids that may not become a URL. Collected rather than
+    #: raised: a batch of fifty must not lose forty-nine good documents to one
+    #: folder somebody named ``kf-``. The caller reports them; `publish_doc`
+    #: re-raises for its single document, keeping that contract.
+    refused: dict = field(default_factory=dict)
+    #: Documents with no artifacts. Not an error and not a success.
+    empty: list = field(default_factory=list)
+    files: int = 0
+    error: str = ""
+
+    @property
+    def ok(self) -> bool:
+        """Whether the content is in the repo now — including the retry that
+        found it already there."""
+        return self.outcome in ("published", "unchanged")
+
+
+def publish_docs(docs, *, label: str = "", message: Optional[str] = None,
+                 session: Optional[requests.Session] = None) -> BatchPublish:
+    """Publish several documents in **one** commit (#394).
+
+    ``docs`` is a sequence of ``doc_id`` or ``(doc_id, source_url)``.
+
+    Why one commit: each commit to the output repo triggers its index-rebuild
+    Action, so a 500-page batch meant 500 commits and 500 Action runs for one
+    holding. The Git Data mechanics already supported this — ``_commit_files``
+    builds blobs, tree and commit from a dict of files — and only the building
+    of that dict was welded to one document at a time.
+
+    **Retryable without duplicating content.** ``_commit_files`` compares the
+    new tree against the base and makes no commit when they match, so a retry
+    after a 5xx that actually landed produces ``unchanged`` rather than a second
+    commit with the same tree. The same property is why a resumed publish does
+    not leave a row of empty commits.
+
+    Non-fatal, like ``publish_doc``: an exception becomes ``outcome="failed"``.
+    """
+    result = BatchPublish()
+    pairs = [(d, None) if isinstance(d, str) else (d[0], d[1]) for d in docs]
+    if not pairs:
+        return result
+    if not is_enabled():
+        result.error = "disabled (ENABLE_GITHUB_PUBLISH=false)"
+        return result
+
+    files: dict[str, bytes] = {}
+    for doc_id, source_url in pairs:
+        try:
+            got = doc_files(doc_id, source_url)
+        except DocumentIdRefused as e:
+            result.refused[doc_id] = str(e)
+            continue
+        except Exception as e:                       # noqa: BLE001
+            # One unreadable document may not cost the batch its other work.
+            logger.warning(f"[Publish] {doc_id}: collecting failed: {e}")
+            result.refused[doc_id] = f"{type(e).__name__}: {e}"
+            continue
+        if not got:
+            result.empty.append(doc_id)
+            continue
+        files.update(got)
+        result.published.append(doc_id)
+
+    result.files = len(files)
+    if not files:
+        return result
+
+    label = label or (result.published[0] if len(result.published) == 1
+                      else f"{len(result.published)} docs")
+    if message is None:
+        message = (f"Publish {label}" if len(result.published) == 1
+                   else f"Publish {label} ({len(result.published)} docs)")
+    try:
+        url = _commit_files(files, message, session=session)
+    except Exception as e:                           # noqa: BLE001
+        result.outcome, result.error = "failed", f"{type(e).__name__}: {e}"
+        logger.warning(f"[Publish] {label} failed: {e}")
+        return result
+    if url:
+        result.outcome, result.url = "published", url
+        logger.info(f"[Publish] {label}: {len(result.published)} doc(s), "
+                    f"{result.files} file(s) → {url}")
+    else:
+        # No commit because the tree matched the base: everything is already
+        # there. Saying "failed" here would make a successful retry look like
+        # a loss and invite a third attempt.
+        result.outcome = "unchanged"
+        logger.info(f"[Publish] {label}: already up to date, no commit")
+    return result
+
+
 def publish_doc(doc_id: str, source_url: Optional[str] = None,
                 session: Optional[requests.Session] = None) -> Optional[str]:
-    """Publish a processed document's outputs to ``docs/<doc_id>/``.
+    """Publish one processed document's outputs to ``docs/<doc_id>/``.
+
+    The N=1 case of :func:`publish_docs`, so the two cannot drift.
 
     Non-fatal: returns the commit URL on success, or None (logging a warning) if
     publishing is disabled, there is nothing to publish, or the API call fails.
@@ -437,55 +599,15 @@ def publish_doc(doc_id: str, source_url: Optional[str] = None,
     ``kf-`` became a published address that had to be retired by hand
     afterwards, and one called ``../x`` would have built a path leading out of
     ``docs/`` altogether. See :mod:`utils.document_id`.
+
+    The refusal is re-raised here although ``publish_docs`` collects it: for one
+    document a refusal is the whole answer, and the one production caller
+    (``orchestrator._publish_outputs``) reports it in the run's publish event.
     """
-    refusal = document_id.publication_refusal(doc_id)
-    if refusal:
-        raise DocumentIdRefused(
-            f"document id {doc_id!r} {refusal}. A document id becomes a "
-            "permanent public URL, so it is refused here rather than "
-            "published and retired later. Rename the source material."
-        )
-    if not is_enabled():
-        return None
-    try:
-        local = collect_artifacts(doc_id)
-        if not local:
-            logger.info(f"[Publish] {doc_id}: no artifacts to publish")
-            return None
-        contents = {name: p.read_bytes() for name, p in local.items()}
-
-        # ── Publish all per-engine recognitions (#238) ─────────────────────
-        # Generate one txt file per engine + fused.txt from pipeline.json.
-        # This is additive: recognitions that are already on disk (future
-        # RECOGNITIONS_DIR) are also picked up automatically.
-        _recs: list = []
-        _fused_text = ""
-        if "pipeline.json" in contents:
-            try:
-                _pipe = json.loads(contents["pipeline.json"].decode("utf-8", "replace"))
-                _recs = _pipe.get("recognitions", []) or []
-                _fused_text = _pipe.get("transcription", "") or ""
-            except (ValueError, TypeError):
-                _recs = []
-        # One export per candidate transcription, page-attributed (#284).
-        for _r in _recs:
-            _txt = _r.get("text", "") or ""
-            if not _txt or (_r.get("error") or ""):
-                continue
-            contents[_recognition_filename(_r)] = _txt.encode("utf-8")
-        # Write fused transcription
-        if _fused_text:
-            contents["recognitions/fused.txt"] = _fused_text.encode("utf-8")
-
-        contents["index.md"] = _index_md(doc_id, contents, source_url).encode("utf-8")
-        files = {f"docs/{doc_id}/{name}": data for name, data in contents.items()}
-        url = _commit_files(files, f"Publish {doc_id}", session=session)
-        if url:
-            logger.info(f"[Publish] {doc_id} → {url}")
-        return url
-    except Exception as e:  # network, HTTP, encoding — never fatal to the pipeline
-        logger.warning(f"[Publish] {doc_id} failed: {e}")
-        return None
+    result = publish_docs([(doc_id, source_url)], label=doc_id, session=session)
+    if doc_id in result.refused:
+        raise DocumentIdRefused(result.refused[doc_id])
+    return result.url
 
 
 # ── publishing a directory tree (#batch) ─────────────────────────────────────

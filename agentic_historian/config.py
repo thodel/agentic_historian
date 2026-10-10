@@ -515,6 +515,12 @@ BATCH_WORKERS = int(_get("BATCH_WORKERS", "2"))
 #: Attempts before a document goes to the manifest's dead letter and the run
 #: carries on without it.
 BATCH_MAX_ATTEMPTS = int(_get("BATCH_MAX_ATTEMPTS", "3"))
+#: Documents per publish commit in a batch run (#394). 0 = once at the end of
+#: the run, which is the per-order case and the fewest Action runs. A positive
+#: number publishes every N documents, so a long run shows up in the catalogue
+#: as it goes instead of only at the end — at the cost of one index rebuild per
+#: commit.
+BATCH_PUBLISH_EVERY = int(_get("BATCH_PUBLISH_EVERY", "0"))
 #: Where the watcher announces. Empty = the watcher does not run, which is right
 #: for any host that is not the one doing the ingesting.
 CREDENTIAL_WATCH_CHANNEL_ID: int | None = (
