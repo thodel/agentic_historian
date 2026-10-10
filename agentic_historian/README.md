@@ -213,6 +213,46 @@ retried, a bad page is stepped over), and its report says what each model produc
 and what it cost — explicitly **not** a ranking, because there is no ground truth
 in a run like this. Full runbook: [`docs/BATCH_ATR.md`](../docs/BATCH_ATR.md).
 
+### What a page says it was made from (#595)
+
+Every `pipeline.json` carries how many of its planned readings produced text:
+
+```
+"a_meta": {"engines_planned": 20, "engines_answered": 4,
+           "engines_failed": 16, "engines_with_text": 4, "coverage": 0.2}
+"errors": [{"agent": "A", "phase": "recognition", "page": "…_49_97.JPG",
+            "engine": "kraken", "model_id": "kraken-de-1", "error": "502 …"}, …]
+```
+
+The measured alternative: the `missiven` page of 2026-10-09 was built from
+**4 of 20** readings — 16 lost to a kraken service that was not running — with
+`errors: []` and no other trace but `qa_score: 0.0`, a number nobody reads. A
+page made that way was indistinguishable from one made from a full ensemble, so
+comparing two catalogue pages silently became a comparison between an ensemble
+and a single VLM pass.
+
+Three distinctions the counting keeps:
+
+* **Failed is not empty (#483).** A reading that errored told us nothing; one
+  that came back without text told us the engine read the page and found nothing
+  — the address side of a missive is sparse by nature. The notice says which.
+* **Unmeasured is not zero.** A document with no recognitions at all (the
+  VLM-only path, or anything produced before the ensemble) has `coverage: null`
+  and is never marked. `0.0` would condemn it retroactively.
+* **Published is not unmarked.** A partial document **is** published and carries
+  a visible notice on its page and a `4/20 ⚠️` in the catalogue listing — a VLM
+  reading is worth having and the run cost real time. Refused in exactly one
+  case: readings were attempted, none produced anything, and there is no
+  transcription either (`DocumentUnreadable`, kept apart from
+  `DocumentIdRefused` because one means "rename the material" and the other
+  "fix the engines and run it again").
+
+Also fixed here: `timing_ms` was `0` on every recognition, including an
+824-character VLM call. Two causes — the gateway's measurement landed in
+`KrakenResult` and was dropped when the `RecognitionResult` was built, and an
+absent value was read as `0`. It is now carried through, and `None` when the
+gateway reported nothing.
+
 ## Publishing outputs — GitHub + Pages
 
 With `ENABLE_GITHUB_PUBLISH=true`, every processed document is committed to the

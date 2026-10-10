@@ -1026,7 +1026,7 @@ class RecognitionResult(BaseModel):
     text:         str = ""
     confidence:   float = 0.0
     error:        str = ""
-    timing_ms:    int = 0
+    timing_ms:    int | None = None   # #595: None = not measured, never 0
     segmented_by: str | None = None   # "kraken-blla" when auto-segment was used
     page:         str = ""            # source page filename (#284) — a multi-page
                                       # order yields N engines × M pages of

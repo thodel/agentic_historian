@@ -20,6 +20,7 @@ from typing import Optional
 from loguru import logger
 
 import config
+import ensemble_coverage
 from eval.metrics import cer
 from agents import (
     text_recognition as agent_a,
@@ -858,8 +859,14 @@ def _recognize_page_ensemble(img, criteria):
             # above and would have landed here.
             with KrakenHTTPClient() as c:
                 res = c.read(p, model=gw_id, engine=pick.engine)
+            # #595: timing_ms and segmented_by were measured by the gateway,
+            # landed in KrakenResult, and were dropped here — which is why every
+            # recognition in pipeline.json read `timing_ms: 0`, including an
+            # 824-character VLM call. Zero milliseconds is not a measurement.
             return RecognitionResult(engine=pick.engine, model_id=gw_id,
-                                     text=res.text, confidence=res.confidence)
+                                     text=res.text, confidence=res.confidence,
+                                     timing_ms=res.timing_ms,
+                                     segmented_by=res.segmented_by)
         except KrakenClientError as e:
             return RecognitionResult(engine=pick.engine, model_id=gw_id,
                                      text="", error=str(e))
@@ -1536,6 +1543,7 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: b
     out = config.OUTPUTS_DIR / f"{doc_id}_pipeline.json"
     out.parent.mkdir(parents=True, exist_ok=True)
 
+    pipeline: dict
     if from_runstate:
         try:
             from runstate import RunState, DONE, ERROR
@@ -1560,20 +1568,31 @@ def _save_pipeline_result(doc_id: str, ctx: PipelineContext, *, from_runstate: b
                 pipeline["closest_reading"] = state.closest_reading
             if state.source_url:
                 pipeline["source_url"] = state.source_url
-            with open(out, "w", encoding="utf-8") as f:
-                json.dump(pipeline, f, ensure_ascii=False, indent=2)
-            logger.info(f"[Orchestrator] Pipeline-Resultat (derived from RunState): {out}")
+            _where = "derived from RunState"
         except Exception as e:
             # Fallback: if RunState load fails for any reason, fall back to ctx
             logger.warning(f"[Orchestrator] RunState derive failed ({doc_id}), "
                            f"falling back to ctx.to_json(): {e}")
-            with open(out, "w", encoding="utf-8") as f:
-                json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
+            pipeline = ctx.to_json()
+            _where = "ctx fallback"
     else:
         # Legacy / back-compat path (e.g. direct callers)
-        with open(out, "w", encoding="utf-8") as f:
-            json.dump(ctx.to_json(), f, ensure_ascii=False, indent=2)
-        logger.info(f"[Orchestrator] Pipeline-Resultat: {out}")
+        pipeline = ctx.to_json()
+        _where = "ctx"
 
-    # Persist errors to the persistent meta error log
-    _append_errors_to_log(doc_id, ctx.errors)
+    # #595: the record says how many of its planned readings it was made from,
+    # and a failed engine reading is an error OF THE DOCUMENT rather than a
+    # field in a list entry nobody expands. Applied here, to the finished dict,
+    # because this is the one point both write paths share — the normal path
+    # builds the record from the RunState and the fallback from ctx.to_json(),
+    # so anything derived inside either one would be absent from the other.
+    # The missiven run that this is for went through the first.
+    pipeline = ensemble_coverage.annotate(pipeline)
+
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(pipeline, f, ensure_ascii=False, indent=2)
+    logger.info(f"[Orchestrator] Pipeline-Resultat ({_where}): {out}")
+
+    # Persist errors to the persistent meta error log — the annotated list, so
+    # the log and pipeline.json cannot disagree about what failed.
+    _append_errors_to_log(doc_id, pipeline.get("errors") or [])

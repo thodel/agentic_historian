@@ -25,11 +25,24 @@ def test_append_errors_function_exists():
 
 
 def test_append_errors_called_in_save_pipeline():
-    """_save_pipeline_result must call _append_errors_to_log(doc_id, ctx.errors)."""
+    """_save_pipeline_result must write the document's errors to the error log.
+
+    Since #595 the argument is the **annotated** list rather than ``ctx.errors``:
+    ``ensemble_coverage.annotate`` merges each failed engine reading into the
+    record's ``errors``, and the list it produces is a superset of ``ctx.errors``.
+    Passing the pre-annotation list would have left the log saying ``[]`` about a
+    run that lost sixteen of twenty readings — the exact silence #595 is about,
+    moved from pipeline.json into the log.
+    """
     src = open("agentic_historian/orchestrator.py").read()
-    assert "_append_errors_to_log(doc_id, ctx.errors)" in src, (
-        "_save_pipeline_result must call _append_errors_to_log(doc_id, ctx.errors)"
+    assert '_append_errors_to_log(doc_id, pipeline.get("errors") or [])' in src, (
+        "_save_pipeline_result must call _append_errors_to_log with the "
+        "annotated errors, so the log and pipeline.json cannot disagree"
     )
+    # And the annotation must happen before that call, or the list is the old one.
+    body = src[src.index("def _save_pipeline_result"):]
+    assert body.index("ensemble_coverage.annotate(") < body.index("_append_errors_to_log("), \
+        "annotate() must run before the error log is written"
 
 
 def test_meta_agent_save_does_not_reset_log():
