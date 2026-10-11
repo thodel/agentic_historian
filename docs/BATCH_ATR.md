@@ -106,10 +106,14 @@ flüssig erfundene; der strikte Prompt verweigert, wo der andere schrieb, und ob
 Verweigerung besser ist als Erfindung, entscheidet ein Blick aufs Bild oder eine
 Ground Truth, nicht diese Tabelle.
 
-**Und der Lauf trennt die Ursache nicht.** Zwischen den beiden Läufen haben sich
-*zwei* Dinge geändert, Prompt *und* Denkstufe. Die unterscheidende Messung ist
-billig und steht aus: dieselben Seiten, Original-Prompt, `--reasoning low`. Kommt
-Text zurück, war es der Prompt; bleibt es leer, war es die Denkstufe.
+Zwischen den beiden Läufen hatten sich *zwei* Dinge geändert, Prompt *und*
+Denkstufe, also trennte der Lauf die Ursache nicht. Das ist nachgemessen.
+
+### Die unterscheidende Messung: der Prompt war es, und er hatte meistens recht
+
+Lauf `gemini-strict-silence`, 11. Oktober: die 33 beanstandeten Seiten,
+**Original-Prompt `@092fb6b0`, Denkstufe konstant `low`** — die eine fehlende
+Zelle im 2×2.
 
 ```bash
 python3 -m agentic_historian report-run \
@@ -121,10 +125,53 @@ python3 -m agentic_historian atr-batch --source "dav:digitalisate" \
   --via external --prompt lassberg_atr.md --reasoning low
 ```
 
+**26 der 28 leeren Seiten kommen mit Text zurück.** Die Denkstufe war nicht die
+Ursache; der Prompt war es. Damit ist die Frage, ob das ein Verlust ist, erst
+gestellt — und sie lässt sich nur durch Hinsehen beantworten. Alle 28 Lesungen,
+einzeln gelesen:
+
+| was auf der Seite steht | Seiten |
+|---|---:|
+| **echte Transkription**, die der strikte Prompt verloren hat | **2** |
+| Stempel oder Registraturvermerk — Text, aber nicht die Briefhand | 3 |
+| **Kommentar über eine leere Seite** („Vakatseite", Durchschlag, Wasserzeichen) | 21 |
+| leer in beiden Läufen | 2 |
+
+Die 21 sind der eigentliche Befund, und er geht gegen den Original-Prompt, nicht
+gegen den strikten. Was dort im Transkriptionsfeld steht, ist Museumsprosa:
+
+```
+Marbach__HS00787953_150dpi_0094:  ### Transkription
+                                  *[Die Seite enthält keinen handschriftlichen
+                                  Text / vacat. In der Papiermitte ist schwach
+                                  ein Wasserzeichen erkennbar.]*
+UB Bern__Mss_h_h_XLIV_180_32_169: ### Befundbeschreibung
+                                  * **Rechte Seite:** Vollständig unbeschrieben.
+                                  * **Linke Seite:** … Durchschlagen …
+```
+
+Auf einer unbeschriebenen Seite ist **nichts** die richtige Transkription. Der
+strikte Prompt antwortet richtig, und `page_quality` zählt die Antwort des
+anderen als Text — darum sah die Spalte `empty` wie ein Ausfall aus. Umgekehrt
+heisst das: jeder Lauf mit `lassberg_atr.md` trägt für jede Leerseite einen
+erfundenen Befundtext im Transkriptionsfeld. Publiziert wäre das ausgewiesener
+Fremdtext.
+
+**Der echte Verlust sind 5 von 28 Seiten**, und er hat eine klare Form: der
+strikte Prompt schweigt auch dort, wo *etwas* steht, das nicht die Briefhand ist
+— zwei beschriebene Seiten (`Donaueschingen …0258__002`, 1143 Zeichen;
+`StATG …1339_00101`, ein Pupikofer-Brief, Bischofszell 25. Juli 1829) und drei
+Seiten mit Bibliotheksstempel oder Registraturvermerk. Das ist eine
+Prompt-Ergänzung, keine Modellfrage: der strikte Prompt sagt, was *nicht* zu
+schreiben ist, und nennt nie, dass Stempel, Foliierung und fremdhändige Vermerke
+zum Seitenbefund gehören.
+
 Eine leere Seite ist dabei **nicht** gleich einer leeren Seite: durch die Gateway
 heißt leer „der Segmentierer fand keine Zeilen", durch einen externen Leser gibt
 es keinen Segmentierer — das Modell wurde nach der Seite gefragt und antwortete
-mit nichts. Der Bericht sagt das inzwischen auch so.
+mit nichts. Der Bericht sagt das inzwischen auch so. Und was die Frage
+tatsächlich entschieden hat, war nicht der Blick ins Bild, sondern die Lesung
+desselben Korpus unter dem anderen Prompt: zwei Minuten und ein paar Cent.
 
 ## Der erste externe Lauf, 10. Oktober 2026 — und was er über den Prompt sagt
 
