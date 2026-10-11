@@ -130,6 +130,35 @@ MIN_LINES_FOR_DELIBERATION = 4
 #: A run of 34 letters is filler. A run of 34 spaces is a layout.
 _RUN_RE = re.compile(r"([^\s])\1*")
 
+#: ...and a run of 80 underscores is a rule (#623). The whitespace exclusion
+#: above fixed one false positive and left its sibling: on 2026-10-11 a DLA
+#: Marbach insert slip, correctly transcribed and marked
+#: `[fremde hand: …]`, was called `repetitive` because the slip's printed
+#: separator line came out as eighty underscores.
+#:
+#: Excluding `_` by name would be the third patch of the same shape, and the
+#: next form will use dots or dashes. What actually tells a rule from filler is
+#: not the character but how much of the page it is:
+#:
+#:     8 000 zeros in 8 824 characters   share 0.91   filler
+#:        80 underscores in 822          share 0.10   a line in a form
+#:
+#: But share alone would let a short burst through: twenty zeros glued to the
+#: end of a sentence are 14 % of a 142-character page and are plainly a glitch.
+#: What separates that from the Marbach rule is **where** the run sits. A
+#: printed rule is a line of its own; filler is extruded into the text.
+#:
+#:     ...umzusehen.00000000000000000000      share 0.14   inside a line → filler
+#:     ____________________________________   share 0.10   its own line  → a rule
+#:     ...10 bis 12 + 3 000 zeros             share 0.97   inside a line → filler
+#:     a line of 8 000 zeros                  share 0.99   own line, but 99 % → filler
+#:
+#: So a long run is a rule only when it is a line by itself *and* a small part
+#: of the page; anything else is filler. Both measures are stored with every
+#: reading, so moving either threshold stays arithmetic. One measured case per
+#: corner, which is thin — but each corner is a real page of this corpus.
+MAX_RUN_SHARE = 0.25
+
 
 #: Every verdict :func:`classify` can return, named once (#620).
 #:
@@ -162,6 +191,12 @@ class PageQuality:
     mean_line_chars: float = 0.0
     #: Share of lines that talk about the page instead of reproducing it (#619).
     deliberation_ratio: float = 0.0
+    #: `longest_char_run` as a share of the page: what tells a printed rule from
+    #: a model that lost control (#623).
+    run_share: float = 0.0
+    #: Whether the longest run is a line of its own. A rule is; filler extruded
+    #: into a line of prose is not.
+    run_on_own_line: bool = False
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -170,6 +205,18 @@ class PageQuality:
 def mean_line_chars(lines: list[str]) -> float:
     """Mean length of the non-empty lines, 0.0 when there are none."""
     return (sum(len(ln) for ln in lines) / len(lines)) if lines else 0.0
+
+
+def run_on_own_line(lines: list[str], run: int) -> bool:
+    """Whether some line is nothing but the longest run, repeated.
+
+    The structural half of the rule test (#623): a printed separator occupies a
+    line; a model's filler is extruded into one.
+    """
+    for line in lines:
+        if len(line) == run and line and line == line[0] * run:
+            return True
+    return False
 
 
 def longest_char_run(text: str) -> int:
@@ -239,6 +286,7 @@ def looks_deliberated(quality: "PageQuality", *,
 
 def looks_repetitive(quality: "PageQuality", *,
                      max_char_run: int = MAX_CHAR_RUN,
+                     max_run_share: float = MAX_RUN_SHARE,
                      max_repeat_ratio: float = MAX_REPEAT_RATIO,
                      repeat_ratio_short_lines: float = REPEAT_RATIO_SHORT_LINES,
                      short_line_chars: float = SHORT_LINE_CHARS) -> bool:
@@ -249,8 +297,10 @@ def looks_repetitive(quality: "PageQuality", *,
     Three paths, because there are three observed shapes and no single threshold
     covers them:
 
-    * **A run of one character.** The 8 000 zeros of 2026-10-01. Real prose does
-      not repeat a character twenty times.
+    * **A run of one character that is not a printed rule.** The 8 000 zeros of
+      2026-10-01. Real prose does not repeat a character twenty times — but a
+      form rules a line with eighty underscores, so a run is spared only when it
+      is a line of its own *and* under a quarter of the page (#623).
     * **Repeated short lines.** The `der / der / 1869 / der` filler, where the
       segmenter found lines that are not there. Repetition *and* lines too short
       to be lines of text: either alone has a legitimate counterpart — a word
@@ -264,7 +314,9 @@ def looks_repetitive(quality: "PageQuality", *,
     control.
     """
     if quality.longest_char_run >= max_char_run:
-        return True
+        rule = quality.run_on_own_line and quality.run_share < max_run_share
+        if not rule:
+            return True
     if quality.lines < MIN_LINES_FOR_REPEAT:
         return False
     if quality.repeat_ratio >= max_repeat_ratio:
@@ -278,7 +330,8 @@ def classify(text: str, *, short_chars: int = SHORT_CHARS,
              max_repeat_ratio: float = MAX_REPEAT_RATIO,
              repeat_ratio_short_lines: float = REPEAT_RATIO_SHORT_LINES,
              short_line_chars: float = SHORT_LINE_CHARS,
-             deliberation_share: float = DELIBERATION_SHARE) -> PageQuality:
+             deliberation_share: float = DELIBERATION_SHARE,
+             max_run_share: float = MAX_RUN_SHARE) -> PageQuality:
     """The verdict for one reading, and the measures behind it.
 
     Order: empty, then repetitive, then short. Shortness used to be checked
@@ -306,6 +359,9 @@ def classify(text: str, *, short_chars: int = SHORT_CHARS,
         mean_line_chars=round(mean_line_chars(lines), 2),
         deliberation_ratio=round(deliberation_ratio(lines), 4),
     )
+    quality.run_share = (round(quality.longest_char_run / quality.chars, 4)
+                         if quality.chars else 0.0)
+    quality.run_on_own_line = run_on_own_line(lines, quality.longest_char_run)
     if not stripped:
         quality.verdict = "empty"
     elif looks_deliberated(quality, deliberation_share=deliberation_share):
@@ -315,6 +371,7 @@ def classify(text: str, *, short_chars: int = SHORT_CHARS,
         # it. A page of "Wait, is it...?" is not a page the model padded.
         quality.verdict = "deliberation"
     elif looks_repetitive(quality, max_char_run=max_char_run,
+                          max_run_share=max_run_share,
                           max_repeat_ratio=max_repeat_ratio,
                           repeat_ratio_short_lines=repeat_ratio_short_lines,
                           short_line_chars=short_line_chars):

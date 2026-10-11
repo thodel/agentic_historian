@@ -562,6 +562,45 @@ nothing in a reply tells you so unless the reply says which source it came
 from. Any answer that is computed rather than read from a file should carry the
 version of the thing that computed it.
 
+## 15. I compared runs all day without measuring the noise floor
+
+Every claim I made on 11 October rests on a difference between two runs: the
+prompt silences pages, the variant recovers four of five, 22 of 22 blank pages
+stay blank, the median disagreement is 6.6 %. Not once did I ask what two
+*identical* runs differ by. The API is sampled, not deterministic. I knew that
+and did not act on it.
+
+Measured, finally, on the 25 flagged pages — same prompt, same thinking level,
+second attempt: **3 of them came back with text where the first run answered
+nothing.** One is a complete letter, 978 characters, Justizrat Zellweger from
+Trogen, 27 April 1831. That page had been empty in **four** previous runs,
+including one under a different prompt, and reads itself through on the fifth.
+
+So two things I said this morning were wrong, and in the direction that matters:
+
+- *"22 of 22 blank pages stay blank"* was the control of **one** attempt, and
+  `Winterthur__310-MsBRH_513-91-131` was among those 22 — filed as a blank
+  verso with a letter on it.
+- *"21 of 28 are blank versos"* counted the same page as blank.
+
+What survives: on ordinary pages the variance is small. The 6.6 % median across
+240 pages is a real result, because prose is stable. The noise lives exactly at
+the edge where a page flips between *I read this* and *I answer nothing*, which
+is the edge every interesting number today sat on.
+
+**The remedy is cheaper than the diagnosis.** The report's advice for `empty` is
+"look at the images", which scales to 28 pages and not to 2 800. Reading the
+same page a second time scales, costs 25 calls rather than 300, and gives a
+defensible definition: a page is blank when it is empty in *every* attempt.
+Resumability-by-presence actively prevents this — `is_complete` skips the page —
+so a second attempt needs a new run name, and the comparison of the two runs is
+the measurement.
+
+**The generalisation:** before attributing a difference to the thing you
+changed, measure what changes when you change nothing. With a sampled model that
+is not a formality; it is the denominator. I had the tool for it (`compare_readings`
+over two runs) on the first day and used it only across prompts.
+
 ## What held up
 
 Not everything needed fixing, and two decisions paid for themselves today.

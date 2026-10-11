@@ -93,7 +93,8 @@ def test_the_measures_are_kept_beside_the_verdict():
     assert q.chars > 3000 and q.lines == 2
     assert set(q.as_dict()) == {"verdict", "chars", "lines",
                                 "longest_char_run", "repeat_ratio",
-                                "mean_line_chars", "deliberation_ratio"}
+                                "mean_line_chars", "deliberation_ratio",
+                                "run_share", "run_on_own_line"}
 
 
 def test_a_lowered_threshold_reclassifies_without_rereading():
@@ -102,12 +103,37 @@ def test_a_lowered_threshold_reclassifies_without_rereading():
     assert pq.classify(LETTER, max_char_run=2).verdict == "repetitive"
 
 
+def test_the_rule_exemption_is_a_threshold_too():
+    """#623 spares a long run that is a line of its own and a small part of the
+    page. Both halves are stored, so both can be moved after the fact — here
+    the share bar drops to zero and the exemption disappears with it."""
+    slip = ("Diesen Zettel bitte nicht entfernen! deutsches literatur archiv\n"
+            + "_" * 80 + "\n"
+            "Bestandssignatur B: Laßberg, Joseph von\n"
+            "Ordnungsgattung Briefe an\n"
+            "Kurztitel Pfeiffer, Franz an Laßberg, Joseph von\n"
+            "Entstehungszeit 1840-1850\n"
+            "Umfang 21 e. Br.  40 Bl. 8°, 4°\n"
+            "Zugangsnummer .11497-11517  Standort *HS00848999*\n"
+            "Nummern Mappe: Kasten:  Bei / Auf / In  Bildobjekt Bibliothek\n"
+            "Einlegezettel-HS-v03-main-DA2024-")
+
+    assert pq.classify(slip).verdict == "ok"
+    assert pq.classify(slip, max_run_share=0.0).verdict == "repetitive"
+
+
 # ── the two signals, separately ──────────────────────────────────────────────
 
 def test_a_long_run_of_one_character_is_caught():
+    """Twenty zeros are 14 % of this page — caught not by share but by sitting
+    inside a line of prose, which a printed rule never does (#623)."""
     body = "Euer Hochwohlgeboren haben vor zwei Jahren den Auftrag ertheilt, " \
            "mich für ein vollständiges Exemplar des Blattes umzusehen."
-    assert pq.classify(body + "0" * 20).verdict == "repetitive"
+    q = pq.classify(body + "0" * 20)
+
+    assert q.verdict == "repetitive"
+    assert q.run_share < pq.MAX_RUN_SHARE
+    assert not q.run_on_own_line
 
 
 def test_a_round_number_is_not_a_run():
